@@ -2,93 +2,211 @@
     //attiva menu
     $('menu ul .publication').addClass('active');
 
-    impostaCategoria('#menuCategoriaPubblicazione', '#categoriePubblicazione');
-    $('#dropdownMenuPubblicazione').click(function () {
-        $('#categoriePubblicazione').toggle();
-    });
+    attivaMenuCategoriaPubblica();
     // attiva upload custom delle foto
-    $('#file').uploadifive({
-        'uploadScript': '/Pubblica/UploadFotoOggetto',
-        // Put your options here
-        'fileObjName': 'file',
-        'auto': true,
-        'multi': true,
-        //'uploadLimit': 4,
-        'fileSizeLimit': '20MB',
-        'queueID': 'listaFileAggiunti',
-        'queueSizeLimit': 4,
-        'buttonText': 'Carica foto',
-        'buttonClass': 'btnUpload',
-        'fileTypeExts': '*.gif; *.jpg; *.png; *.jpeg; *.tiff; *.bmp;',
-        'itemTemplate': '<div class="uploadifive-queue-item"><span class="filename"></span> | <span class="fileinfo" style></span><span class="chiudi" style="display:none;"></span></div>',
-        'formData': {
-            '__RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
-        },
-        'onProgress'   : function(file, e) {
-            if (e.lengthComputable) {
-                var percent = Math.round((e.loaded / e.total) * 100);
-            }
-            file.queueItem.find('.fileinfo').html(' - ' + percent + '%');
-            file.queueItem.find('.progress-bar').css('width', percent + '%');
-        },
-        'onAddQueueItem': function (file) {
-            $boxUploadFatti = $('#listaFileAggiunti');
-            if ($boxUploadFatti.find('.title').length <= 0)
-                $boxUploadFatti.prepend('<h4 class="title">Upload</h4>');
-        },
-        'onUploadComplete': function (file, data) {
-            $fileCreato = JSON.parse(data);
-            var idCodificato = encodeURI($fileCreato.responseText.replace('.jpg',''));
-            $foto = $('<input id="foto' + idCodificato + '" name="Foto" type="hidden" value="' + file.name + '" />')
-            //$('#Foto').val($('#Foto').val() + file.name + ';');
-            // setto il click per l'annullo sugli upload completati
-            $('#listaFileAggiunti').append($foto);
-            file.queueItem.find('.fileinfo').html(' - Completato');
-            file.queueItem.find('.chiudi').css('display','inline');
-            file.queueItem.find('.chiudi').click(function (event) {
-                event.preventDefault();
-                //alert($fileCreato.responseText);
-                annullaUploadFoto(idCodificato, this);
-            });
-            // tolgo il titolo della lista
-            if ($('#listaFileAggiunti .uploadifive-queue-item').length <= 0)
-                $('#listaFileAggiunti').html('');
-        },
-        'onFallback'   : function() {
-            alert('Oops!  You have to use the non-HTML5 file uploader.');
-        },
-        'onError': function (errorType) {
-            alert('Errore: ' + errorType);
-        }
-    });
+
+    enableUploadFoto('Foto', '#file', 'listaFileAggiunti', '/Pubblica/UploadFotoAnnuncio', 'file', "validazioneAggiuntiva('#formPubblica', '#Foto')");
 
     // inizializza scelta colore oggetto
     $('#Colore').ColorPicker();
     
     setAllCheckbox('input[name="Tutti"]', '#pubblicazione .day', true);
+
+    $('#CategoriaId').change(function () {
+        $('html').loader('show');
+        validazioneAggiuntiva('#formPubblica', '#CategoriaId');
+        // aggiornare form dati aggiuntivi
+        loadInfoAggiuntive();
+    });
+
+    if ($('#CategoriaId').val().trim() != '' && $('#CategoriaId').val() > 0) {
+        showInfoAggiuntive();
+    }
+
+    // blocco il tipo di spedizione a mano
+    //$('#TipoSpedizione option')[0].prop('disabled',true);
 });
 
-function annullaUploadFoto(nome, linkAnnullo) {
-    //$file = $(linkAnnullo).parents('.uploadifive-queue-item');
-    //if ($file.length > 0) {
-        //var id = $file.attr('id');
-        //var nome = $(linkAnnullo).prev('.filename').text();
-        //var indice = id.replace('uploadifive-file-file-', '');
-        //alert(indice);
-        $.ajax({
-            type: 'POST',
-            url: '/Pubblica/AnnullaUploadFoto',
-            dataType: "json",
-            data: {
-                nome: decodeURI(nome)
-            },
-            success: function (data) {
-                $(linkAnnullo).parents('.uploadifive-queue-item').remove();
-                //alert($('#foto' + nome).length);
-                $('#foto' + nome).remove();
-                if ($('#listaFileAggiunti').find('.uploadifive-queue-item').length <= 0)
-                    $('#listaFileAggiunti').html('');
+function attivaMenuCategoriaPubblica() {
+    $menuCategoriaPubblica = $('#menu').clone();
+    $menuCategoriaPubblica.attr('id', 'menu2');
+    $menuCategoriaPubblica.insertAfter('#menu');
+    $menuCategoriaPubblica.slicknav({
+        label: '',
+        duration: 1000,
+        easingOpen: "easeOutBounce",
+        prependTo: '#menuCategoriaPubblica',
+        closeOnClick: true,
+        init: function () {
+            $('#menuCategoriaPubblica').find('.slicknav_menutxt').text($('#categoriaAttuale').val());
+
+            impostaCategoria('#menuCategoriaPubblica', '#menu2', '#CategoriaId', '#CategoriaNome', 'pubblica');
+        },
+        beforeOpen: function (trigger) {
+            //alert('Test');
+            $('.slicknav_item').slicknav('close');
+        }
+    });
+    /*
+    $('#dropdownMenuPubblicazione').click(function () {
+        $('#categoriePubblicazione').toggle();
+    });*/
+}
+
+function annullaUploadFotoOld(nome, linkAnnullo)
+{
+    annullaUploadFoto('/Pubblica/AnnullaUploadFoto', '#Foto' + nome.replace('.jpg', '').replace('.jpeg', ''), 'Foto', 'listaFileAggiunti', nome, linkAnnullo);
+}
+
+function loadInfoAggiuntive() {
+    /*
+    $('#infoAggiuntive .content').load('/Pubblica/LoadInfoAggiuntive', { categoria: decodeURI($('#CategoriaId').val()) },
+        function (response, status, xhr)
+        {
+            if (status == "error")
+            {
+                alert("Ci scusiamo per il disagio, ma si è verificato un errore imprevisto. Vi preghiamo di segnalarlo ai pantofolai dell'assistenza. Grazie");
+            } else {
+                showInfoAggiuntive();
             }
-        });
-    //}
+            $('html').loader('hide');
+        }
+    );*/
+    $('#formPubblica .lastInfoBase').nextAll().not(".footer").remove();
+    $.ajax({
+        type: "POST",
+        url: "/Pubblica/LoadInfoAggiuntive",
+        data: { categoria: decodeURI($('#CategoriaId').val()) },
+        dataType: "html",
+        success: function (data) {
+            $(data).insertAfter('#formPubblica .lastInfoBase');
+            showInfoAggiuntive();
+        },
+        error: function (response, status, xhr) {
+            if (status == "error") {
+                alert("Ci scusiamo per il disagio, ma si è verificato un errore imprevisto. Vi preghiamo di segnalarlo ai pantofolai dell'assistenza. Grazie");
+            }
+        },
+        complete: function () {
+            $('html').loader('hide');
+        }
+    });
+}
+
+function showInfoAggiuntive() {
+    $('#formPubblica').attr('action', $('#ActionCategoria:last').val());
+    //$('#infoAggiuntive').show();
+    refreshValidatoreForm();
+    initAutocomplete();
+}
+
+function refreshValidatoreForm() {
+    $('form').removeData('validator');
+    $('form').removeData('unobtrusiveValidation');
+    $.validator.unobtrusive.parse('form');
+}
+
+function addMateriale(tag) {
+    var indiceTagDaClonare = $('.materials .form-control').length - 1;
+    $nuovoTag = $('.materials .form-control:last').clone();
+    $nuovoTag.attr('id', $nuovoTag.attr('id').replace(indiceTagDaClonare, indiceTagDaClonare + 1));
+    $nuovoTag.attr('name', $nuovoTag.attr('name').replace(indiceTagDaClonare, indiceTagDaClonare + 1));
+    $nuovoTag.val('');
+
+    $remove = '<a class="remove" href="javascript:void(0);" onclick="removeMateriale(this);"><img src="/Images/icone/remove.svg" /></a>';
+    $row = $('<div class="row"></div>');
+    $row.append($remove);
+    $row.append($nuovoTag);
+    $('.materials').append($row);
+}
+
+function removeMateriale(tag) {
+    $(tag).parent('.row').remove();
+    riordinaInput('Materiali');
+}
+
+function addComponente(tag) {
+    var indiceTagDaClonare = $('.components .form-control').length - 1;
+    $nuovoTag = $('.components .form-control:last').clone();
+    $nuovoTag.attr('id', $nuovoTag.attr('id').replace(indiceTagDaClonare, indiceTagDaClonare + 1));
+    $nuovoTag.attr('name', $nuovoTag.attr('name').replace(indiceTagDaClonare, indiceTagDaClonare + 1));
+    $nuovoTag.val('');
+
+    $remove = '<a class="remove" href="javascript:void(0);" onclick="removeComponente(this);"><img src="/Images/icone/remove.svg" /></a>';
+    $row = $('<div class="row"></div>');
+    $row.append($remove);
+    $row.append($nuovoTag);
+    $('.components').append($row);
+}
+
+function removeComponente(tag) {
+    $(tag).parent('.row').remove();
+    riordinaInput('Componenti');
+}
+
+function sceltaScambio(elemento, isSpedizione) {
+    $('.spedizione').addClass('hide');
+    $('.spedizioneOnline').addClass('hide');
+    isSpedizione = isSpedizione || false;
+    if (isSpedizione && $(elemento).is(':checked')) {
+        $('.spedizione').removeClass('hide');
+    }
+    sceltaSpedizione($('#TipoSpedizione'));
+}
+
+function sceltaSpedizione(elemento)
+{
+    $('.spedizioneOnline').addClass('hide');
+    //disabilitaPrezzoSpedizione();
+    if ($('#ScambioConSpedizione').is(':checked')) {
+        if ($(elemento).val() != 1) {
+            $('.spedizione.corrieri [label=Online]').removeProp('disabled');
+            $('.spedizione.corrieri [label=Online] option:first-child').prop('selected', true);
+            $('.spedizione.corrieri [label=Privata]').prop('disabled', true);
+            $('.spedizioneOnline').removeClass('hide');
+        } else {
+            $('.spedizione.corrieri [label=Privata]').removeProp('disabled');
+            $('.spedizione.corrieri [label=Privata] option:first-child').prop('selected', true);
+            $('.spedizione.corrieri [label=Online]').prop('disabled', true);
+        }
+    }
+
+    /*
+    if ($('#ScambioConSpedizione').is(':checked') && $(elemento).val() != 2)
+        abilitaPrezzoSpedizione();
+    */
+}
+
+function abilitaPrezzoSpedizione() {
+    $('.prezzoSpedizione .form-control').removeProp('disabled');
+    $('.prezzoSpedizione').show();
+}
+
+function disabilitaPrezzoSpedizione()
+{
+    $('.prezzoSpedizione .form-control').val(1);
+    $('.prezzoSpedizione .form-control').prop('disabled', true);
+    $('.prezzoSpedizione').hide();
+}
+
+function getPrezzoSpedizione(servizioCorriere) {
+    $.ajax({
+        type: 'POST',
+        url: '/Pubblica/GetPrezzoSpedizione',
+        dataType: "json",
+        data: {
+            servizioSpedizione: decodeURI($(servizioCorriere).val()),
+            altezza: $('#Altezza').val(),
+            larghezza: $('#Larghezza').val(),
+            lunghezza: $('#Lunghezza').val()
+        },
+        success: function (data) {
+            alert(data.Prezzo);
+            $('.prezzoSpedizione .form-control').val(data.Prezzo);
+        },
+        error: function (error, status, msg) {
+            //alert("Errore: " + msg);
+            $('.prezzoSpedizione .form-control').val(30);
+        }
+    });
 }

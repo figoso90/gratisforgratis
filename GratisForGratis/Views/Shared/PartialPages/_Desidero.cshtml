@@ -1,0 +1,27 @@
+﻿@model GratisForGratis.Models.AnnuncioViewModel
+
+@if (!this.Context.Request.IsAuthenticated || Model.Venditore.Id != (Session["utente"] as GratisForGratis.Models.PersonaModel).Persona.ID)
+{
+    string url = "javascript:void(0);";
+    string onClick = "desidero('" + Model.Token + "', this);";
+    string text = Language.LblWishIt;
+    string classTag = "wishIt";
+
+    if (Model.Desidero)
+    {
+        onClick = "nonDesidero('" + Model.Token + "',this);";
+        //text = Language.LblNotWishIt;
+        classTag += " selected";
+    }
+
+    if (!this.Context.Request.IsAuthenticated)
+    {
+        url = Url.Action("Login", "Utente", new { ReturnUrl = Request.Url.PathAndQuery });
+        onClick = "";
+    }
+    <a class="wish" href="@url" onclick="@onClick">
+        <div class="@classTag">
+            @text
+        </div>
+    </a>
+}

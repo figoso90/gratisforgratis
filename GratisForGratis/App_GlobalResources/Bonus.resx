@@ -117,8 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AdChannel" xml:space="preserve">
+    <value>Promozione da canale pubblicitario {0}</value>
+  </data>
   <data name="Feedback" xml:space="preserve">
     <value>Bonus feedback utente</value>
+  </data>
+  <data name="FullAnnouncement" xml:space="preserve">
+    <value>Annuncio completo</value>
   </data>
   <data name="InitialPubblication" xml:space="preserve">
     <value>Prime pubblicazioni</value>

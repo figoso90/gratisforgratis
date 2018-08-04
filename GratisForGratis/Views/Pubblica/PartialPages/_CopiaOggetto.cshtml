@@ -1,0 +1,72 @@
+﻿@model GratisForGratis.Models.PubblicaOggettoCopiaViewModel
+
+@using (Html.BeginForm("", "", FormMethod.Post, new { enctype = "multipart/form-data", role = "form", id = "formCopiaOggetto" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.TokenOK)
+
+    <hr />
+    @Html.ValidationMessage("Error", new { @class = "text-danger", id = "ErroreGenerico" })
+    @Html.ValidationMessage("Errore", new { @class = "text-danger", id = "ErroreGenerico" })
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.NoteAggiuntive, new { @class = "col-md-2 control-label" })
+        @Html.TextAreaFor(m => m.NoteAggiuntive, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.NoteAggiuntive, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        <div class="field col-md-10">
+            @Html.LabelFor(m => m.Soldi, new { @class = "col-md-2 control-label" })
+            @Html.TextBoxFor(m => m.Soldi, new { @class = "form-control number" })
+        </div>
+        <div class="field col-md-10">
+            @Html.LabelFor(m => m.Foto, new { @class = "col-md-2 control-label" })
+            @Html.TextBox("file", "", new { @class = "form-control", type = "file", data_url = "/Pubblicazione/UploadFotoOggetto", multiple = "" })
+            <div id="progress">
+                <div class="bar" style="width: 0%;"></div>
+            </div>
+        </div>
+        @Html.ValidationMessageFor(m => m.Soldi, "", new { @class = "text-danger" })
+        @Html.ValidationMessageFor(m => m.Foto, "", new { @class = "text-danger" })
+    </div>
+    <div id="listaFileDaCopiare" class="form-group">
+        @if (Model.Foto != null)
+        {
+            for (int i = 0; i < Model.Foto.Count; i++)
+            {
+                if (i == 0)
+                {
+                    <h4 class="title">Upload</h4>
+                }
+                @Html.HiddenFor(m => m.Foto[i], new { @class = "form-control", id = "Foto" + Model.Foto[i].Replace(".jpg", "").Replace(".jpeg", "") })
+                <div class="boxFoto uploadifive-queue-item2" style="background-image:url('@Url.Content("~/Uploads/Images/" + Model.Venditore.VenditoreToken + "/" + @Model.DataInserimento.Value.Year + "/" + "Normal/" + Model.Foto[i])')">
+                    <span class="chiudi" style="" onclick="rimuoviFotoDaCopia(encodeURI('@(Model.Foto[i])'), this);"></span>
+                </div>
+            }
+        }
+    </div>
+    if (Session["portaleweb"] != null)
+    {
+        <div class="form-group">
+            @Html.LabelFor(m => m.Partner, new { @class = "col-md-2 control-label" })
+            @Html.DropDownList("Partner", new SelectList(
+                (Session["portaleweb"] as List<GratisForGratis.Models.PortaleWebViewModel>).Select(p => new SelectListItem()
+                {
+                    Text = p.Nome,
+                    Value = p.Token.ToString()
+                }), "Value", "Text", Model.Partner), Language.Private, new { @class = "form-control" }
+            )
+            @Html.ValidationMessageFor(m => m.Partner, "", new { @class = "text-danger" })
+        </div>
+    }
+    
+    <div class="form-group">
+        @Html.LabelFor(m => m.Citta, new { @class = "col-md-2 control-label" })
+        @Html.TextBoxFor(m => m.Citta, new { @class = "form-control", data_autocomplete_url = "/Home/FindCitta", data_autocomplete_id = "IDCitta" })
+        @Html.HiddenFor(m => m.IDCitta)
+        @Html.ValidationMessageFor(m => m.IDCitta, "", new { @class = "text-danger" })
+    </div>
+    <div class="footer">
+        <div id="bottonePubblica" class="btn addOggetto" onclick="copiaAnnuncio('copiaOggetto', this);">@Language.Save</div>
+    </div>
+}

@@ -1,147 +1,186 @@
-﻿@model GratisForGratis.Models.PubblicaOggettoViewModel
-@using System.Web.Configuration
+﻿@using GratisForGratis.Models
+@model PubblicaOggettoViewModel
 
-@section Styles {
-    @Styles.Render("~/Scripts/ColorPicker/css/colorpicker.css")
-    @Styles.Render("~/Content/pubblica.css")
-}
+<div class="form-group">
+    @Html.Label("TipoScambio", ViewModel.ExchangeMode, new { @class = "col-md-2 control-label" })
+    @Html.CheckBoxFor(m => m.ScambioAMano, new { @class = "form-control", onchange = "sceltaScambio(this);" })
+    @Html.LabelFor(m => m.ScambioAMano, new { @class = "col-md-2 control-label" })
+    @Html.CheckBoxFor(m => m.ScambioConSpedizione, new { @class = "form-control", onchange = "sceltaScambio(this, true);" })
+    @Html.LabelFor(m => m.ScambioConSpedizione, new { @class = "col-md-2 control-label" })
+    @Html.ValidationMessageFor(m => m.ScambioAMano, "", new { @class = "text-danger" })
+    @Html.ValidationMessageFor(m => m.ScambioConSpedizione, "", new { @class = "text-danger" })
+</div>
 
-<section id="head">
-    <div class="content">
-        <h1 id="title">@Language.TitlePublicationObjects - @WebConfigurationManager.AppSettings["nomeSito"]</h1>
+<h5 class="title @((Model.ScambioConSpedizione)?"":"hide") spedizione">INFO SPEDIZIONE</h5>
+
+<!-- campi spedizione -->
+<div class="form-group @((Model.ScambioConSpedizione)?"":"hide") spedizione">
+    @Html.LabelFor(m => m.TipoSpedizione, new { @class = "col-md-2 control-label" })
+    @Html.DropDownListFor(m => m.TipoSpedizione, Model.ListaTipoSpedizione, new { @class = "form-control", onchange = "sceltaSpedizione(this);" })
+    @Html.ValidationMessageFor(m => m.TipoSpedizione, "", new { @class = "text-danger" })
+</div>
+<div class="form-group @((Model.ScambioConSpedizione)?"":"hide") spedizione">
+    @Html.LabelFor(m => m.TempoImballaggio, new { @class = "col-md-2 control-label" })
+    @Html.DropDownListFor(m => m.TempoImballaggio, Model.ListaTempoImballaggio, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.TempoImballaggio, "", new { @class = "text-danger" })
+</div>
+<div class="form-group @((Model.ScambioConSpedizione && Model.TipoSpedizione==(int)Spedizione.Online)?"":"hide") spedizione spedizioneOnline">
+    @Html.LabelFor(m => m.Altezza, new { @class = "col-md-2 control-label" })
+    @Html.TextBoxFor(m => m.Altezza, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Altezza, "", new { @class = "text-danger" })
+</div>
+<div class="form-group @((Model.ScambioConSpedizione && Model.TipoSpedizione==(int)Spedizione.Online)?"":"hide") spedizione spedizioneOnline">
+    @Html.LabelFor(m => m.Lunghezza, new { @class = "col-md-2 control-label" })
+    @Html.TextBoxFor(m => m.Lunghezza, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Lunghezza, "", new { @class = "text-danger" })
+</div>
+<div class="form-group @((Model.ScambioConSpedizione && Model.TipoSpedizione==(int)Spedizione.Online)?"":"hide") spedizione spedizioneOnline">
+    @Html.LabelFor(m => m.Larghezza, new { @class = "col-md-2 control-label" })
+    @Html.TextBoxFor(m => m.Larghezza, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Larghezza, "", new { @class = "text-danger" })
+</div>
+<div class="form-group @((Model.ScambioConSpedizione && Model.TipoSpedizione==(int)Spedizione.Online)?"":"hide") spedizione spedizioneOnline">
+    @Html.LabelFor(m => m.Peso, new { @class = "col-md-2 control-label" })
+    @Html.TextBoxFor(m => m.Peso, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Peso, "", new { @class = "text-danger" })
+</div>
+<div class="form-group @((Model.ScambioConSpedizione)?"":"hide") spedizione corrieri">
+    @Html.LabelFor(m => m.ServizioSpedizioneScelto, new { @class = "col-md-2 control-label" })
+    @Html.DropDownListFor(m => m.ServizioSpedizioneScelto, Model.ServiziSpedizione, new { @class = "form-control", onchange = "getPrezzoSpedizione(this)" })
+    @Html.ValidationMessageFor(m => m.ServizioSpedizioneScelto, "", new { @class = "text-danger" })
+</div>
+<div class="form-group @((Model.ScambioConSpedizione)?"":"hide") spedizione spedizioneOnline prezzoSpedizione">
+    @Html.LabelFor(m => m.PrezzoSpedizione, new { @class = "col-md-2 control-label" })
+    <div>
+        <div class="btn" onclick="getPrezzoSpedizione($('#ServizioSpedizioneScelto'))">
+            @ViewModel.UpdateShipmentPrice
+        </div>
+        <span class="valuta"></span>
+        @Html.TextBoxFor(m => m.PrezzoSpedizione, new { @class = "form-control number" })
     </div>
-</section>
-<section id="pubblicazione">
-    @using (Html.BeginForm("Oggetto", "Pubblica", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form", id = "formPubblica" }))
-    {
-        @Html.AntiForgeryToken()
-        @Html.HiddenFor(m => m.TokenOK)
+    @Html.ValidationMessageFor(m => m.PrezzoSpedizione, "", new { @class = "text-danger" })
+</div>
+<div class="form-group @((Model.ScambioConSpedizione && Model.TipoSpedizione==(int)Spedizione.Online)?"":"hide") spedizione spedizioneOnline">
+    @Html.LabelFor(m => m.GiorniSpedizioneScelti, new { @class = "col-md-2 control-label" })
+    @Html.ListBoxFor(m => m.GiorniSpedizioneScelti, Model.GiorniSpedizione, new { @class = "form-control", multiple = "" })
+    @Html.ValidationMessageFor(m => m.GiorniSpedizioneScelti, "", new { @class = "text-danger" })
+</div>
+<div class="form-group @((Model.ScambioConSpedizione && Model.TipoSpedizione==(int)Spedizione.Online)?"":"hide") spedizione spedizioneOnline">
+    @Html.LabelFor(m => m.OrariSpedizioneScelti, new { @class = "col-md-2 control-label" })
+    @Html.ListBoxFor(m => m.OrariSpedizioneScelti, Model.OrariSpedizione, new { @class = "form-control", multiple = "" })
+    @Html.ValidationMessageFor(m => m.OrariSpedizioneScelti, "", new { @class = "text-danger" })
+</div>
+<h5 class="title @((Model.ScambioConSpedizione && Model.TipoSpedizione==(int)Spedizione.Online)?"":"hide") spedizioneOnline">@ViewModel.DepartureInfo</h5>
+<div class="form-group departureInfo @((Model.ScambioConSpedizione && Model.TipoSpedizione==(int)Spedizione.Online)?"":"hide") spedizioneOnline">
+    <div class="form-group spedizioneOnline">
+        @Html.LabelFor(m => m.NominativoMittente, new { @class = "col-md-2 control-label" })
+        @Html.TextBoxFor(m => m.NominativoMittente, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.NominativoMittente, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group spedizioneOnline">
+        @Html.LabelFor(m => m.TelefonoMittente, new { @class = "col-md-2 control-label" })
+        @Html.TextBoxFor(m => m.TelefonoMittente, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.TelefonoMittente, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group spedizioneOnline">
+        @Html.LabelFor(m => m.CittaMittente, new { @class = "col-md-2 control-label" })
+        @Html.TextBoxFor(m => m.CittaMittente, new { @class = "form-control", data_autocomplete_url = "/Home/FindCitta", data_autocomplete_id = "IDCittaMittente" })
+        @Html.HiddenFor(m => m.IDCittaMittente)
+        @Html.ValidationMessageFor(m => m.CittaMittente, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group spedizioneOnline">
+        @Html.LabelFor(m => m.IndirizzoMittente, new { @class = "col-md-2 control-label" })
+        @Html.TextBoxFor(m => m.IndirizzoMittente, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.IndirizzoMittente, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group spedizioneOnline">
+        @Html.LabelFor(m => m.CivicoMittente, new { @class = "col-md-2 control-label" })
+        @Html.TextBoxFor(m => m.CivicoMittente, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.CivicoMittente, "", new { @class = "text-danger" })
+    </div>
+</div>
 
-        <h4 id="description">@Language.DescriptionPubblication</h4>
-        <hr />
-        @Html.ValidationMessage("Errore", new { @class = "text-danger", id = "ErroreGenerico" })
-        if (Session["portaleweb"] != null)
+<h5 class="title">INFO OGGETTO (Opzionali: utili per maggiore visibilità)</h5>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.NoteAggiuntive, new { @class = "col-md-2 control-label" })
+    @Html.TextAreaFor(m => m.NoteAggiuntive, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.NoteAggiuntive, "", new { @class = "text-danger" })
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.CondizioneOggetto, new { @class = "col-md-2 control-label" })
+    @Html.EnumDropDownListFor(m => m.CondizioneOggetto, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.CondizioneOggetto, "", new { @class = "text-danger" })
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Marca, new { @class = "col-md-2 control-label" })
+    @Html.TextBoxFor(m => m.Marca, new { @class = "form-control", data_autocomplete_url = "/Home/FindMarca", data_autocomplete_id = "MarcaID", data_autocomplete_filtro_extra = "#CategoriaMarca" })
+    @Html.Hidden("CategoriaMarca", -1)
+    @Html.HiddenFor(m => m.MarcaID)
+    @Html.ValidationMessageFor(m => m.Marca, "", new { @class = "text-danger" })
+</div>
+
+<div class="form-group">
+    <div class="field col-md-10 quantity">
+        @Html.LabelFor(m => m.Anno, new { @class = "col-md-2 control-label" })
+        @Html.TextBoxFor(m => m.Anno, new { @class = "form-control number" })
+    </div>
+    <div class="field col-md-10 quantity">
+        @Html.LabelFor(m => m.Quantità, new { @class = "col-md-2 control-label" })
+        @Html.TextBoxFor(m => m.Quantità, new { @class = "form-control number" })
+    </div>
+    @Html.ValidationMessageFor(m => m.Quantità, "", new { @class = "text-danger" })
+    @Html.ValidationMessageFor(m => m.Anno, "", new { @class = "text-danger" })
+</div>
+
+<div class="form-group">
+    <label class="col-md-2 control-label" for="Materiali">
+        @Language.LblMaterials
+        <a class="add" href="javascript:void(0);" onclick="addMateriale(this);">
+            <img src="~/Images/icone/add.svg" alt="@Language.AddMaterial" style="width:32px;" />
+        </a>
+    </label>
+    <div class="field materials">
+        @for (int i = 0; i < Model.Materiali.Count; i++)
         {
-        <div class="form-group">
-            @Html.LabelFor(m => m.Partner, new { @class = "col-md-2 control-label" })
-            @Html.DropDownList("Partner", new SelectList(            
-                (Session["portaleweb"] as List<GratisForGratis.Models.PortaleWebViewModel>).Select(p => new SelectListItem()
+            <div class="row">
+                @if (i > 0)
                 {
-                    Text = p.Nome,
-                    Value = p.Token.ToString()
-                }), "Value", "Text", Model.Partner), Language.Private, new { @class = "form-control" }
-            )
-            @Html.ValidationMessageFor(m => m.Partner, "", new { @class = "text-danger" })
-        </div>
-        }
-        <div class="form-group">
-            @Html.LabelFor(m => m.CategoriaId, new { @class = "col-md-2 control-label" })
-            <div id="menuCategoriaPubblicazione" class="dropdown menuCategoria">
-                <button class="btn dropdown-toggle categoria0" type="button" id="dropdownMenuPubblicazione" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    <span class="categoriaSelezionata">@(string.IsNullOrWhiteSpace(Model.CategoriaNome)?Language.ChooseCategory:Model.CategoriaNome)</span>
-                    <span class="caret"></span>
-                </button>
-                @{ List<GratisForGratis.Models.FINDSOTTOCATEGORIE_Result> categorie = (HttpContext.Current.Application["categorie"] as List<GratisForGratis.Models.FINDSOTTOCATEGORIE_Result>);
-                    <ul id="categoriePubblicazione" class="dropdown-menu" aria-labelledby="dropdownMenuPubblicazione">
-                        @foreach (GratisForGratis.Models.FINDSOTTOCATEGORIE_Result categoria in categorie.Where(c => c.TIPO_VENDITA == (int)GratisForGratis.Models.TipoAcquisto.Oggetto && c.LIVELLO == 0))
-                        {
-                            <li>
-                                <div class="trigger" title="@(Language.Buy + ' ' + categoria.NOME)">@categoria.NOME</div>
-                                @if (categoria.LIVELLO >= 0)
-                                {
-                                    <ul class="dropdown-menu sub-menu">
-                                        @foreach (GratisForGratis.Models.FINDSOTTOCATEGORIE_Result sottoCategoria in categorie.Where(c => c.ID_PADRE == categoria.ID))
-                                        {
-                                            <li>
-                                                @if (categorie.Count(item => item.ID_PADRE == sottoCategoria.ID) > 0)
-                                                {
-                                                    <div class="trigger" title="@(Language.Buy + ' ' + sottoCategoria.NOME)">@sottoCategoria.NOME</div>
-                                                    <ul class="dropdown-menu sub-menu">
-                                                        @foreach (GratisForGratis.Models.FINDSOTTOCATEGORIE_Result sottoCategoria2 in categorie.Where(c => c.ID_PADRE == sottoCategoria.ID))
-                                                        {
-                                                            <li><a class="trigger" data-value="@sottoCategoria2.ID" data-id="#CategoriaId" data-name="#menuCategoriaPubblicazione .categoriaSelezionata" title="@(Language.Buy + ' ' + sottoCategoria2.NOME)">@sottoCategoria2.NOME</a></li>
-                                                        }
-                                                    </ul>
-                                                }
-                                                else
-                                                {
-                                                    <a class="trigger" data-value="@sottoCategoria.ID" data-id="#CategoriaId" data-name="#menuCategoriaPubblicazione .categoriaSelezionata" title="@(Language.Buy + ' ' + sottoCategoria.NOME)">@sottoCategoria.NOME</a>
-                                                }
-                                            </li>
-                                        }
-                                    </ul>
-                                }
-                            </li>
-                        }
-                    </ul>
+                    <a class="remove" href="javascript:void(0);" onclick="removeMateriale(this);"><img src="/Images/icone/remove.svg" /></a>
                 }
+                @Html.TextBoxFor(m => m.Materiali[i], new { @class = "form-control" })
             </div>
-            @Html.HiddenFor(m => m.CategoriaId)
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Nome, new { @class = "col-md-2 control-label" })
-            @Html.TextBoxFor(m => m.Nome, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Nome, "", new { @class = "text-danger" })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.TipoPagamento, new { @class = "col-md-2 control-label" })
-            @Html.EnumDropDownListFor(m => m.TipoPagamento, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.TipoPagamento, "", new { @class = "text-danger" })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.CondizioneOggetto, new { @class = "col-md-2 control-label" })
-            @Html.EnumDropDownListFor(m => m.CondizioneOggetto, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.CondizioneOggetto, "", new { @class = "text-danger" })
-        </div>
-        <div class="form-group">
-            <div class="field col-md-10">
-                @Html.LabelFor(m => m.Punti, new { @class = "col-md-2 control-label" })
-                @Html.TextBoxFor(m => m.Punti, new { @class = "form-control number" })
-            </div>
+        }
+    </div>
+    @Html.ValidationMessageFor(m => m.Materiali, "", new { @class = "text-danger" })
+</div>
 
-            <div class="field col-md-10 quantity">
-                @Html.LabelFor(m => m.Anno, new { @class = "col-md-2 control-label" })
-                @Html.TextBoxFor(m => m.Anno, new { @class = "form-control number" })
+<div class="form-group">
+    <label class="col-md-2 control-label" for="Componenti">
+        @Language.LblComponents
+        <a class="add" href="javascript:void(0);" onclick="addComponente(this);">
+            <img src="~/Images/icone/add.svg" alt="@Language.AddComponent" />
+        </a>
+    </label>
+    <div class="field components">
+        @for (int i = 0; i < Model.Componenti.Count; i++)
+        {
+            <div class="row">
+                @if (i > 0)
+                {
+                    <a class="remove" href="javascript:void(0);" onclick="removeComponente(this);"><img src="/Images/icone/remove.svg" /></a>
+                }
+                @Html.TextBoxFor(m => m.Componenti[i], new { @class = "form-control" })
             </div>
-            <div class="field col-md-10">
-                @Html.LabelFor(m => m.Foto, new { @class = "col-md-2 control-label" })
-                @Html.TextBox("file", "", new { @class = "form-control", type = "file", data_url = "/Pubblicazione/UploadFotoOggetto", multiple = "" })
-                <div id="progress">
-                    <div class="bar" style="width: 0%;"></div>
-                </div>
-            </div>
-            @Html.ValidationMessageFor(m => m.Anno, "", new { @class = "text-danger" })
-            @Html.ValidationMessageFor(m => m.Punti, "", new { @class = "text-danger" })
-            @Html.ValidationMessageFor(m => m.Foto, "", new { @class = "text-danger" })
-        </div>
-        <div id="listaFileAggiunti"></div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Citta, new { @class = "col-md-2 control-label" })
-            @Html.TextBoxFor(m => m.Citta, new { @class = "form-control", data_autocomplete_url = "/Home/FindCitta", data_autocomplete_id = "IDCitta" })
-            @Html.HiddenFor(m => m.IDCitta)
-            @Html.ValidationMessageFor(m => m.IDCitta, "", new { @class = "text-danger" })
-        </div>
+        }
+    </div>
+    @Html.ValidationMessageFor(m => m.Materiali, "", new { @class = "text-danger" })
+</div>
 
-        <div class="form-group">
-            @Html.LabelFor(m => m.Marca, new { @class = "col-md-2 control-label" })
-            @Html.TextBoxFor(m => m.Marca, new { @class = "form-control", data_autocomplete_url = "/Home/FindMarca", data_autocomplete_id = "MarcaID", data_autocomplete_filtro_extra = "#CategoriaMarca" })
-            @Html.Hidden("CategoriaMarca", -1)
-            @Html.HiddenFor(m => m.MarcaID)
-            @Html.ValidationMessageFor(m => m.Marca, "", new { @class = "text-danger" })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.NoteAggiuntive, new { @class = "col-md-2 control-label" })
-            @Html.TextAreaFor(m => m.NoteAggiuntive, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.NoteAggiuntive, "", new { @class = "text-danger" })
-        </div>
-        <div class="footer">
-            <input id="bottonePubblica" type="submit" class="btn addOggetto" value="@Language.Public" />
-        </div>
-    }
-</section>
-
-@section Scripts {
-    @Scripts.Render("~/Scripts/jquery-ui-1.11.4.min.js")
-    @Scripts.Render("~/Scripts/ColorPicker/colorpicker.js")
-    @Scripts.Render("~/Scripts/pubblica.js")
+@if (ViewData["ActionTipologia"] != null)
+{
+    // serve in caso di categoria senza dettagli aggiuntivi (Es. Servizi)
+    @Html.Hidden("ActionCategoria", ViewData["ActionTipologia"])
 }

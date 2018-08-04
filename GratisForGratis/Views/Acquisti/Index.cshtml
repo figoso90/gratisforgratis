@@ -1,0 +1,23 @@
+﻿@using GratisForGratis.Models
+@model List<OffertaViewModel>
+
+@{
+    ViewBag.Title = Language.TitlePurchasesList;
+}
+
+@Styles.Render("~/Content/trattative.css")
+<section id="purchases">
+    <div id="grid" class="content">
+        @foreach (OffertaViewModel offerta in Model)
+        {
+            @Html.Partial("PartialPages/_OffertaAnnuncio", offerta)
+        }
+        @Html.Partial("PartialPages/_ElencoPagine", new ElencoPagine((int)ViewData["TotalePagine"],
+            (int)ViewData["Pagina"], (((int)ViewData["Pagina"] - 5) < 1 ? 1 : (int)ViewData["Pagina"] - 5), "Acquisti", "Index"))
+    </div>
+</section>
+
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/listaAcquisti.js")
+}

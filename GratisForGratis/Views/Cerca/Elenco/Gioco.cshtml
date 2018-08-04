@@ -1,38 +1,18 @@
 ﻿@model GratisForGratis.Models.ListaOggetti
 
+<div class="linkPubblicaCategoria">
+    @Html.ActionLink(Language.LnkGoToPublic, "", "Pubblica")
+</div>
 @if (Model.PageCount <= 0)
 {
-    <p id="alertNotFound">
-        <strong>Non hai trovato</strong> ciò che cercavi???
-        <br />
-        <strong>Salva la tua ricerca</strong> e verrai avvisato appena sarà <strong>pubblicato l'annuncio</strong>!
-    </p>
-    <p id="searchNotFound">
-        <a href="/Cerca/SaveRicerca" title="@Language.SearchSave">
-            @Language.MexSearchSave
-            <img src="@Url.Content("~/Images/icone/save.svg")" alt="@Language.SearchSave" />
-        </a>
-    </p>
+    @Html.Partial("PartialPages/_NotFound")
 }
 else
 {
     foreach (GratisForGratis.Models.ModelloViewModel oggetto in Model.List)
     {
-        <a href="/Oggetto/Acquista?nome=@HttpUtility.UrlEncode(oggetto.Nome)&token=@HttpUtility.UrlEncode(oggetto.Token)" title="@oggetto.Nome GRATIS">
-            <div id="Token+@oggetto.Token" class="object">
-                <h3 class="title">@oggetto.Nome</h3>
-                <div class="left" style="background-image:url('@Url.Content("~/Uploads/Images/" + oggetto.VenditoreToken + "/" + @oggetto.DataInserimento.Value.Year + "/" + "Normal/" + oggetto.Foto.FirstOrDefault())')">
-                </div>
-                <h5 class="state"><b>@Language.StateObject :</b> @oggetto.StatoOggetto</h5>
-                <h5 class="points"><b>@Language.Moneta2 :</b> @oggetto.Punti => € @oggetto.Soldi</h5>
-                <h5 class="place"><b>@Resources.Language.Place :</b> @oggetto.Citta</h5>
-                <h5 class="seller"><b>@Language.Seller :</b> <span class="evidence">@((string.IsNullOrWhiteSpace(oggetto.PartnerNominativo)) ? oggetto.VenditoreNominativo : oggetto.PartnerNominativo)</span></h5>
-                <h5 class="model"><b>@Language.Model :</b> @(oggetto.Marca + "(" + oggetto.modelloNome + ")")</h5>
-                <div class="feedback" title="@Language.FeedbackUser">
-                    @(oggetto.VenditoreFeedback > -1? string.Format(Language.FeedbackMessage, oggetto.VenditoreFeedback):Language.FeedbackNothing)
-                </div>
-            </div>
-        </a>
+        ViewData["Dettaglio"] = Html.Partial("Dettaglio/_Gioco", oggetto);
+        @Html.Partial("PartialPages/_Oggetto", oggetto)
     }
     @Html.Partial("PartialPages/_ElencoPagineRicerca", new GratisForGratis.Models.ElencoPagineRicerca(Model.PageCount,
             Model.PageNumber, ((Model.PageNumber - 5) < 1 ? 1 : Model.PageNumber - 5), "Oggetti",

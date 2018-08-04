@@ -1,0 +1,78 @@
+﻿@using GratisForGratis.Models
+@model List<OffertaViewModel>
+
+@Styles.Render("~/Content/offerteVendita.css")
+<section id="head">
+    <div class="content">
+        <h1 id="title">@ViewBag.Title</h1>
+    </div>
+</section>
+<section id="purchases">
+    <div id="grid" class="content">
+        @foreach (OffertaViewModel offerta in Model)
+        {
+        <div id="@HttpUtility.UrlEncode(GratisForGratis.Controllers.Utils.Encode(offerta.Id.ToString()))" class="purchase">
+            <h4 class="title plus">@offerta.Annuncio.Nome</h4>
+            <div class="preview">
+                <div class="cella table">
+                    <div class="cell">
+                        <img class="phote" src="@Url.Content("~/Uploads/Images/" + offerta.Annuncio.Venditore.VenditoreToken + "/" + offerta.Annuncio.Foto[0].DATA_INSERIMENTO.Year + "/" + "Little/" + offerta.Annuncio.Foto[0].ALLEGATO.NOME)" alt="@offerta.Annuncio.Nome" />
+                    </div>
+                </div>
+                <div class="cella noMandatory">
+                    @Html.Label("Compratore", Language.Buyer)
+                    @offerta.Compratore.Nominativo
+                </div>
+                <div class="cella">
+                    @Html.Label("Contatti", Language.Contacts)
+                    @offerta.Compratore.Email @(offerta.Compratore.Telefono.IsEmpty() ? "" : "- " + offerta.Compratore.Telefono)
+                </div>
+                <div class="cella">
+                    @Html.Label("Punti", Language.Moneta)
+                    @offerta.Punti
+                </div>
+                @if (offerta.TipoScambio == TipoScambio.Spedizione)
+        {
+            <div class="cella">
+                <!-- soldi spedizione -->
+                @Html.Label("Soldi", Language.Shipment)
+                @offerta.SoldiSpedizione (@offerta.NomeCorriere)
+            </div>
+}
+else
+{
+        <div class="cella">
+            <!-- soldi spedizione -->
+            @Html.Label("TipoScambio", "Tipo scambio")
+            @offerta.TipoScambio
+        </div>
+}
+
+                @if (offerta.Baratti.Count > 0)
+        {
+            <div class="cella">
+                @Html.Label("Baratti", Language.Barters)
+                <!-- lista link ad oggetti barattati -->
+                @foreach (AnnuncioViewModel baratto in offerta.Baratti)
+        {
+            @Html.ActionLink(baratto.Nome, "Barattato", (baratto.TipoAcquisto == TipoAcquisto.Servizio) ? TipoAcquisto.Servizio.ToString() : TipoAcquisto.Oggetto.ToString(), new { nome = HttpUtility.UrlEncode(baratto.Nome), token = HttpUtility.UrlEncode(baratto.Token) }, new { @class = "link" }) <br />
+}
+            </div>
+}
+                <div class="cella noMandatory">
+                    @Html.Label("DataOfferta", Language.InsertDate)
+                    @offerta.DataInserimento
+                </div>
+            </div>
+            @Html.Partial("PartialPages/_FunzioniOfferta", offerta)
+        </div>
+        }
+        @Html.Partial("PartialPages/_ElencoPagine", new ElencoPagine((int)ViewData["TotalePagine"],
+             (int)ViewData["Pagina"], (((int)ViewData["Pagina"] - 5) < 1 ? 1 : (int)ViewData["Pagina"] - 5), "Offerte", "OfferteVendita"))
+    </div>
+</section>
+
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/offerteVendita.js")
+}

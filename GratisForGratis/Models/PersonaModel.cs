@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
 using System.Reflection;
@@ -29,6 +30,10 @@ namespace GratisForGratis.Models
 
         public List<CONTO_CORRENTE_MONETA> ContoCorrente { get; set; }
 
+        public List<PERSONA_METODO_PAGAMENTO> MetodoPagamento { get; set; }
+
+        public string PaginaSelezionata { get; set; }
+
         #endregion
 
         #region COSTRUTTORI
@@ -56,13 +61,14 @@ namespace GratisForGratis.Models
             this.Indirizzo = new List<PERSONA_INDIRIZZO>();
             this.Attivita = new List<AttivitaModel>();
             this.ContoCorrente = new List<CONTO_CORRENTE_MONETA>();
+            this.MetodoPagamento = new List<PERSONA_METODO_PAGAMENTO>();
         }
 
         #endregion
 
         #region METODI PUBBLICI
 
-        public void SetEmail(DatabaseContext db, string email)
+        public void SetEmail(DatabaseContext db, string email, Stato stato = Stato.ATTIVO)
         {
             PERSONA_EMAIL model = this.Email.SingleOrDefault(m => m.TIPO == (int)TipoEmail.Registrazione);
             //this.Email.Remove(model);
@@ -74,7 +80,7 @@ namespace GratisForGratis.Models
                     model.ID_PERSONA = this.Persona.ID;
                     model.DATA_INSERIMENTO = DateTime.Now;
                     model.TIPO = (int)TipoEmail.Registrazione;
-                    model.STATO = (int)Stato.ATTIVO;
+                    model.STATO = (int)stato;
                     model.EMAIL = email;
                     db.PERSONA_EMAIL.Add(model);
                     this.Email.Add(model);
@@ -189,6 +195,60 @@ namespace GratisForGratis.Models
                 }
                 modificato = db.SaveChanges() > 0;
             }
+        }
+
+        public bool SetPrivacy(DatabaseContext db, bool accettaCondizioni)
+        {
+            PERSONA_PRIVACY personaPrivacy = db.PERSONA_PRIVACY.Create();
+            personaPrivacy.ID_PERSONA = this.Persona.ID;
+            personaPrivacy.ACCETTA_CONDIZIONE = accettaCondizioni;
+            personaPrivacy.DATA_INSERIMENTO = DateTime.Now;
+            personaPrivacy.STATO = (int)Stato.ATTIVO;
+            db.PERSONA_PRIVACY.Add(personaPrivacy);
+
+            return (db.SaveChanges() > 0);
+        }
+
+        public bool AddBonusCanalePubblicitario(DatabaseContext db, string promo)
+        {
+            int valorePromo = Convert.ToInt32(ConfigurationManager.AppSettings["bonusPromozione" + promo]);
+            this.Persona.DATA_ACCESSO = DateTime.Now;
+            db.Entry(this.Persona).State = EntityState.Modified;
+            if (db.SaveChanges() > 0)
+            {
+                Guid tokenPortale = Guid.Parse(ConfigurationManager.AppSettings["portaleweb"]);
+                TRANSAZIONE model = new TRANSAZIONE();
+                model.ID_CONTO_MITTENTE = db.ATTIVITA.Where(p => p.TOKEN == tokenPortale).SingleOrDefault().ID_CONTO_CORRENTE;
+                model.ID_CONTO_DESTINATARIO = this.Persona.ID_CONTO_CORRENTE;
+                model.TIPO = (int)TipoTransazione.BonusCanalePubblicitario;
+                model.NOME = string.Format(App_GlobalResources.Bonus.AdChannel, promo);
+                model.PUNTI = valorePromo;
+                model.DATA_INSERIMENTO = DateTime.Now;
+                model.STATO = (int)StatoPagamento.ACCETTATO;
+                db.TRANSAZIONE.Add(model);
+                db.SaveChanges();
+                // genero la moneta ogni volta che offro un bonus, in modo da mantenere la concorrenza dei dati
+                for (int i = 0; i < valorePromo; i++)
+                {
+                    MONETA moneta = db.MONETA.Create();
+                    moneta.VALORE = 1;
+                    moneta.TOKEN = Guid.NewGuid();
+                    moneta.DATA_INSERIMENTO = DateTime.Now;
+                    moneta.STATO = (int)Stato.ATTIVO;
+                    db.MONETA.Add(moneta);
+                    db.SaveChanges();
+                    CONTO_CORRENTE_MONETA conto = new CONTO_CORRENTE_MONETA();
+                    conto.ID_CONTO_CORRENTE = this.Persona.ID_CONTO_CORRENTE;
+                    conto.ID_MONETA = moneta.ID;
+                    conto.ID_TRANSAZIONE = model.ID;
+                    conto.DATA_INSERIMENTO = DateTime.Now;
+                    conto.STATO = (int)StatoMoneta.ASSEGNATA;
+                    db.CONTO_CORRENTE_MONETA.Add(conto);
+                    db.SaveChanges();
+                }
+                return true;
+            }
+            return false;
         }
 
         #endregion

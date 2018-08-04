@@ -1,0 +1,121 @@
+﻿@model GratisForGratis.Models.PubblicazioneViewModel
+@using System.Web.Configuration
+
+@section Styles {
+    @Styles.Render("~/Scripts/ColorPicker/css/colorpicker.css")
+    @Styles.Render("~/Content/pubblica.css")
+}
+
+
+
+<section id="pubblicazione">
+    @using (Html.BeginForm("", "Pubblica", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form", id = "formPubblica" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.TokenOK)
+
+        <h4 id="description">@Language.DescriptionPubblicationIndex</h4>
+        <hr />
+        @Html.ValidationMessage("Error", new { @class = "text-danger", id = "ErroreGenerico" })
+        @Html.ValidationMessage("Errore", new { @class = "text-danger", id = "ErroreGenerico2" })
+        @Html.ValidationMessage("", new { @class = "text-danger", id = "ErroreGenerico3" })
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Nome, new { @class = "col-md-2 control-label" })
+            @Html.TextBoxFor(m => m.Nome, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Nome, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.CategoriaId, new { @class = "col-md-2 control-label" })
+            <div id="menuCategoriaPubblica">
+                @Html.HiddenFor(m => m.CategoriaNome)
+                @Html.HiddenFor(m => m.CategoriaId)
+            </div>
+            @Html.ValidationMessageFor(m => m.CategoriaId, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(m => m.CategoriaNome, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.LabelFor(m => m.Foto, new { @class = "col-md-2 control-label" })
+                @Html.TextBox("file", "", new { @class = "form-control number", type = "file", data_url = "/Pubblicazione/UploadFotoOggetto", multiple = "" })
+                <div id="progress">
+                    <div class="bar" style="width: 0%;"></div>
+                </div>
+            </div>
+            <div class="col-md-10">
+                @Html.LabelFor(m => m.Soldi, new { @class = "col-md-2 control-label" })
+                <div>
+                    <span class="valuta" style=""></span>
+                    @Html.TextBoxFor(m => m.Soldi, new { @class = "form-control number" })
+                </div>
+            </div>
+            @Html.ValidationMessageFor(m => m.Foto, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(m => m.Soldi, "", new { @class = "text-danger" })
+        </div>
+        <div id="listaFileAggiunti" class="@((Model.Foto != null)?"":"hide")">
+            @if (Model.Foto != null)
+            {
+                for (int i = 0; i < Model.Foto.Count; i++)
+                {
+                    if (i == 0)
+                    {
+                    <h4 class="title">Upload</h4>
+                    }
+                    @Html.HiddenFor(m => m.Foto[i], new { @class = "form-control", id = "Foto" + Model.Foto[i].Replace(".jpg", "").Replace(".jpeg", "") })
+                <div class="uploadifive-queue-item2"  style="background-image:url('@Url.Content("~/Temp/Images/" + Session.SessionID + "/Normal/" + Model.Foto[i])')">
+                    <span class="chiudi" style="" onclick="annullaUploadFotoOld(encodeURI('@(Model.Foto[i])'), this);"></span>
+                </div>
+                }
+            }
+        </div>
+        if (Session["portaleweb"] != null)
+        {
+        <div class="form-group">
+            @Html.LabelFor(m => m.Partner, new { @class = "col-md-2 control-label" })
+            @Html.DropDownList("Partner", new SelectList(            
+                (Session["portaleweb"] as List<GratisForGratis.Models.PortaleWebViewModel>).Select(p => new SelectListItem()
+                {
+                    Text = p.Nome,
+                    Value = p.Token.ToString()
+                }), "Value", "Text", Model.Partner), Language.Private, new { @class = "form-control" }
+            )
+            @Html.ValidationMessageFor(m => m.Partner, "", new { @class = "text-danger" })
+        </div>
+        }
+        <!-- DA RIATTIVARE CON INTRODUZIONE AZIENDE E VENDITA IN MONETA REALE. ALLA SELEZIONE DELLA SCELTA, FAR SPARIRE CAMPO CREDITI E METTERE CAMPO MONETA REALE, SELEZIONANDO IN AUTOMATICO
+            IL CONIO DA SCEGLIERE, IN BASE AL DOMINIO DEL SITO
+        <div class="form-group">
+            @Html.LabelFor(m => m.TipoPagamento, new { @class = "col-md-2 control-label" })
+            @Html.EnumDropDownListFor(m => m.TipoPagamento, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.TipoPagamento, "", new { @class = "text-danger" })
+        </div>
+            -->
+        @Html.HiddenFor(m => m.TipoPagamento)
+        <div class="form-group">
+            @Html.LabelFor(m => m.Citta, new { @class = "col-md-2 control-label" })
+            @Html.TextBoxFor(m => m.Citta, new { @class = "form-control", data_autocomplete_url = "/Home/FindCitta", data_autocomplete_id = "IDCitta" })
+            @Html.HiddenFor(m => m.IDCitta)
+            @Html.ValidationMessageFor(m => m.IDCitta, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group lastInfoBase">
+            @Html.LabelFor(m => m.DurataInserzione, new { @class = "col-md-2 control-label" })
+            @Html.DropDownListFor(m => m.DurataInserzione, Model.ListaDurataInserzione, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.DurataInserzione, "", new { @class = "text-danger" })
+        </div>
+
+        if (ViewData["infoAggiuntive"] != null)
+        {
+            WriteLiteral(Html.Raw(ViewData["infoAggiuntive"].ToString()));
+        }
+
+        <div class="footer">
+            <input id="bottonePubblica" type="submit" class="btn addOggetto" value="@Language.Public" />
+        </div>
+    }
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/ColorPicker/colorpicker.js")
+    @Scripts.Render("~/Scripts/pubblica.js")
+}

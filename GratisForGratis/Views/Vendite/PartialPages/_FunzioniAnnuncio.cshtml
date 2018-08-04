@@ -1,0 +1,53 @@
+﻿@using GratisForGratis.Models
+@model AnnuncioViewModel
+
+@if (Model.StatoVendita == StatoVendita.INATTIVO && (Session["utente"] as PersonaModel).Persona.STATO == (int)Stato.ATTIVO && (Session["utente"] as PersonaModel).Email.SingleOrDefault(m => m.TIPO == (int)TipoEmail.Registrazione && m.STATO == (int)Stato.ATTIVO) != null)
+{
+    <div class="cella noMandatory">
+        <div class="btn enableSell">@Language.EnableAd</div>
+    </div>
+}
+
+@if ((Model.StatoVendita == StatoVendita.SOSPESO && DateTime.Now > Model.DataModifica.Value.AddDays(1)) || (Model.StatoVendita == StatoVendita.ATTIVO && Model.DataFine <= DateTime.Now))
+{
+    <div class="cella noMandatory">
+        <div class="btn unblock">@Language.Unblock</div>
+    </div>
+}
+else
+{
+    if (Model.Offerta != null && Model.StatoVendita == StatoVendita.ATTIVO)
+    {
+        <div class="cella noMandatory">
+            @Html.ActionLink(Language.Bid, "OfferteRicevute", "Vendite", new { vendita = Model.Token }, new { @Class = "btn" })
+        </div>
+        <div class="cella noMandatory">
+            <div class="btn deleteSell">@Language.DeleteSell</div>
+        </div>
+    }
+    else if (Model.StatoVendita != StatoVendita.BARATTATO
+           && Model.StatoVendita != StatoVendita.ELIMINATO && Model.StatoVendita != StatoVendita.VENDUTO)
+    {
+        if (Model.StatoVendita == StatoVendita.BARATTOINCORSO)
+        {
+            <div class="cella noMandatory">
+                @Html.ActionLink(Language.Barter, "Acquisto", "Acquisti", new { baratto = Model.Token }, new { @Class = "btn" })
+            </div>
+            @*<div class="cella noMandatory">
+                <div class="btn cancelBarter">@Language.CancelBarter</div>
+            </div>*@
+        }
+        else
+        {
+            <div class="cella noMandatory">
+                <div class="btn deleteSell">@Language.DeleteSell</div>
+            </div>
+        }
+    }
+    else if (Model.StatoVendita == StatoVendita.BARATTATO || Model.StatoVendita == StatoVendita.VENDUTO)
+    {
+        <div class="cella">
+        @Html.ActionLink(Language.Feedback, "Index", "Feedback", new { id = Model.Id, tipo = TipoFeedback.Venditore }, new { @Class = "btn" })
+        </div>
+    }
+}

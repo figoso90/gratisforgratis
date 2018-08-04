@@ -1,0 +1,8 @@
+﻿@model GratisForGratis.Models.OggettoViewModel
+
+@{ var oggetto = (GratisForGratis.Models.ModelloViewModel)Model; }
+
+@if (oggetto.modelloID != null)
+{
+<h5 class="model"><b>@Language.Model :</b> oggetto.modelloNome</h5>
+}

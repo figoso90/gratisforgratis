@@ -1,0 +1,12 @@
+﻿@model GratisForGratis.Models.OggettoViewModel
+
+@{ var oggetto = (GratisForGratis.Models.ComputerViewModel)Model; }
+
+@if (oggetto.modelloID != null)
+{
+<h5 class="model"><b>@Language.Model :</b> oggetto.modelloNome</h5>
+}
+@if (oggetto.sistemaOperativoID != null)
+{
+<h5 class="systemOperating"><b>@Language.SystemOperating :</b> @oggetto.sistemaOperativoNome</h5>
+}

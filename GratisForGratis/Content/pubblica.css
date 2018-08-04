@@ -14,30 +14,57 @@
     box-shadow: 0 0.05em 0.25em 0 rgba(0, 0, 0, 0.35), inset 0 0 0 2em rgba(0, 0, 0, 0.3);
 }
 
-#formPubblica{
-    width: 90%;
+#formPubblica, #datiBase{
+    width: 100%;
     margin: 0px auto;
     text-align:center;
+    max-width:1400px;
 }
 
 .form-horizontal .control-label{
     display:block;
+    max-width:280px;
 }
 
 .form-horizontal .form-group{
+    position:relative;
     width:24%;
     padding:12px 0px;
     min-width: 200px;
     margin-right: 4%;
 }
 
+    .form-horizontal .form-group.departureInfo {
+        width: auto;
+        text-align:center;
+        /*border: 2px solid #cecece;
+        margin: 0% 3%;*/
+    }
+
+.title {
+    font-weight: 900;
+    text-transform: uppercase;
+    text-decoration: underline;
+}
+
+#menuCategoriaPubblica .slicknav_menu
+{
+    border-radius:6px;
+    width: 100%;
+    max-width: 280px;
+}
+
+#menuCategoriaPubblica .slicknav_menu .slicknav_menutxt{
+    width:88%;
+}
+
+/*
 #menuCategoriaPubblicazione .dropdown-toggle{
     display:block;
 }
 
 #menuCategoriaPubblicazione .btn{
     width:256px;
-    /*box-shadow: 0 0.05em 0.25em 0 rgba(0, 0, 0, 0.35), inset 0 0 0 2em rgba(0, 0, 0, 0.3);*/  
     background-color:#a5c71b;
     border: 2px solid #337ab7;
 }
@@ -70,17 +97,13 @@
   padding: 3px 20px;
   white-space: nowrap;
 }
-
+*/
 .col-md-10{
     display: inline-block;
     vertical-align: top;
     width:auto;
     float:none;
-    padding:0px;
-}
-
-.col-md-10.field{
-    width:32%;
+    padding:0px 10px;
 }
 
 .quantity, .time{
@@ -106,26 +129,67 @@
     width: 300px;
 }
 
-.uploadifive-queue-item .chiudi{
-    background: rgba(0, 0, 0, 0) url("../Scripts/Uploadify/uploadifive-cancel.png") no-repeat scroll 0 0;
-    display: block;
-    float: right;
-    height: 16px;
-    text-indent: -9999px;
-    width: 16px;
-    color: #000;
-    font-size: 21px;
-    font-weight: bold;
-    line-height: 1;
-    opacity: 0.2;
-    text-shadow: 0 1px 0 #fff;
-    cursor:pointer;
-}
-
 #pubblicazione{
     text-align:left;
 }
 
 #ErroreGenerico{
     text-align:center;
+}
+
+#infoAggiuntive
+{
+    display:none;
+}
+
+.add, .remove{
+    width: 28px;
+    position:absolute;
+    right:3px;
+    bottom:10px;
+}
+
+.materials .row, .components .row
+{
+    position:relative;
+    margin:6px 0px;
+}
+
+.materials .form-control, .components .form-control {
+    display: inline-block;
+    vertical-align: middle;
+    padding-right:34px;
+}
+
+.form-horizontal .form-group.hide{
+    display:none;
+}
+
+.valuta
+{
+    display:inline-block;
+    width: 10px;
+    font-weight: 700;
+}
+
+@media only all and (max-width: 480px) {
+    .form-horizontal .form-group {
+        width:100%;
+        margin:0px;
+    }
+
+    .form-horizontal .form-group textarea{
+        width:100%;
+    }
+}
+
+@media only all and (max-width: 980px) {
+    .form-horizontal .form-group {
+        width:42%;
+        margin:0px;
+    }
+
+    .form-horizontal .form-group textarea{
+        width:100%;
+    }
 }

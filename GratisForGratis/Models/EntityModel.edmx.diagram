@@ -4,70 +4,126 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="8a8f8b92560047d0b2301e333d6f8b39" Name="Diagram1" ZoomLevel="59">
-        <EntityTypeShape EntityType="GratisForGratisModel.ABBONAMENTO" Width="1.5" PointX="10.5" PointY="63.5" />
-        <EntityTypeShape EntityType="GratisForGratisModel.ALIMENTAZIONE" Width="1.5" PointX="15.75" PointY="38.625" />
-        <EntityTypeShape EntityType="GratisForGratisModel.ANNUNCIO_CLICK" Width="1.5" PointX="20.25" PointY="59.125" />
-        <EntityTypeShape EntityType="GratisForGratisModel.ANNUNCIO_FEEDBACK" Width="1.5" PointX="23.25" PointY="55.5" />
-        <EntityTypeShape EntityType="GratisForGratisModel.ANNUNCIO_FOTO" Width="1.5" PointX="25.25" PointY="59.75" />
-        <EntityTypeShape EntityType="GratisForGratisModel.ANNUNCIO_TAG" Width="1.5" PointX="17.25" PointY="78.25" />
-        <EntityTypeShape EntityType="GratisForGratisModel.ANNUNCIO_VISUALIZZAZIONE" Width="1.5" PointX="25.25" PointY="47.125" />
-        <EntityTypeShape EntityType="GratisForGratisModel.ARTISTA" Width="1.5" PointX="17.75" PointY="68.375" />
-        <EntityTypeShape EntityType="GratisForGratisModel.ATTIVITA" Width="1.5" PointX="12.75" PointY="68.625" />
-        <EntityTypeShape EntityType="GratisForGratisModel.ATTIVITA_EMAIL" Width="1.5" PointX="15" PointY="83.5" />
-        <EntityTypeShape EntityType="GratisForGratisModel.ATTIVITA_FOTO" Width="1.5" PointX="25.25" PointY="68.875" />
-        <EntityTypeShape EntityType="GratisForGratisModel.ATTIVITA_INDIRIZZO" Width="1.5" PointX="15" PointY="42.5" />
-        <EntityTypeShape EntityType="GratisForGratisModel.ATTIVITA_TELEFONO" Width="1.5" PointX="15" PointY="61" />
-        <EntityTypeShape EntityType="GratisForGratisModel.AUTORE" Width="1.5" PointX="15.75" PointY="64.625" />
-        <EntityTypeShape EntityType="GratisForGratisModel.BROWSER" Width="1.5" PointX="15" PointY="34.625" />
-        <EntityTypeShape EntityType="GratisForGratisModel.BROWSER_MODELLO" Width="1.5" PointX="23" PointY="36.5" />
-        <EntityTypeShape EntityType="GratisForGratisModel.CATEGORIA" Width="1.5" PointX="12.75" PointY="36.25" />
-        <EntityTypeShape EntityType="GratisForGratisModel.COMUNE" Width="1.5" PointX="7.5" PointY="45.625" />
-        <EntityTypeShape EntityType="GratisForGratisModel.CONTO_CORRENTE" Width="1.5" PointX="10.5" PointY="69.125" />
-        <EntityTypeShape EntityType="GratisForGratisModel.CORRIERE" Width="1.5" PointX="0.75" PointY="41.375" />
-        <EntityTypeShape EntityType="GratisForGratisModel.CORRIERE_NAZIONE" Width="1.5" PointX="3" PointY="41.625" />
-        <EntityTypeShape EntityType="GratisForGratisModel.FORMATO" Width="1.5" PointX="17.75" PointY="27.75" />
-        <EntityTypeShape EntityType="GratisForGratisModel.FOTO" Width="1.5" PointX="23" PointY="67.625" />
-        <EntityTypeShape EntityType="GratisForGratisModel.GENERE" Width="1.5" PointX="18.75" PointY="23.75" />
-        <EntityTypeShape EntityType="GratisForGratisModel.INDIRIZZO" Width="1.5" PointX="9.75" PointY="42.125" />
+      <Diagram DiagramId="8a8f8b92560047d0b2301e333d6f8b39" Name="Diagram1" ZoomLevel="63">
         <EntityTypeShape EntityType="GratisForGratisModel.ID_MODELLO" Width="1.5" PointX="3" PointY="74.25" />
-        <EntityTypeShape EntityType="GratisForGratisModel.MONETA" Width="1.5" PointX="17.25" PointY="86.625" />
-        <EntityTypeShape EntityType="GratisForGratisModel.NAZIONE" Width="1.5" PointX="0.75" PointY="46" />
-        <EntityTypeShape EntityType="GratisForGratisModel.OFFERTA_BARATTO" Width="1.5" PointX="25.75" PointY="55.5" />
-        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_COMPUTER" Width="1.5" PointX="23" PointY="45.75" />
-        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_CONSOLE" Width="1.5" PointX="18" PointY="56" />
-        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_ELETTRODOMESTICO" Width="1.5" PointX="23" PointY="49" />
-        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_GIOCO" Width="1.5" PointX="21" PointY="56" />
-        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_LIBRO" Width="1.5" PointX="18" PointY="53" />
-        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_MUSICA" Width="1.5" PointX="20" PointY="44.625" />
-        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_SPORT" Width="1.5" PointX="24" PointY="43" />
-        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_STRUMENTO" Width="1.5" PointX="24" PointY="52" />
-        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_TECNOLOGIA" Width="1.5" PointX="15" PointY="58" />
-        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_TELEFONO" Width="1.5" PointX="21" PointY="40.75" />
-        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_VEICOLO" Width="1.5" PointX="18" PointY="40.75" />
-        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_VESTITO" Width="1.5" PointX="15" PointY="87.25" />
-        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_VIDEO" Width="1.5" PointX="20" PointY="48.75" />
-        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_VIDEOGAMES" Width="1.5" PointX="21" PointY="52.75" />
-        <EntityTypeShape EntityType="GratisForGratisModel.PERSONA_ATTIVITA" Width="1.5" PointX="20" PointY="68.75" />
-        <EntityTypeShape EntityType="GratisForGratisModel.PERSONA_EMAIL" Width="1.5" PointX="15" PointY="76.5" />
-        <EntityTypeShape EntityType="GratisForGratisModel.PERSONA_FOTO" Width="1.5" PointX="27.25" PointY="64.375" />
-        <EntityTypeShape EntityType="GratisForGratisModel.PERSONA_INDIRIZZO" Width="1.5" PointX="12" PointY="42.5" />
-        <EntityTypeShape EntityType="GratisForGratisModel.PERSONA_PRIVACY" Width="1.5" PointX="15" PointY="73.125" />
-        <EntityTypeShape EntityType="GratisForGratisModel.PERSONA_RICERCA" Width="1.5" PointX="27" PointY="51.625" />
-        <EntityTypeShape EntityType="GratisForGratisModel.PERSONA_SEGNALAZIONE" Width="1.5" PointX="15" PointY="68.75" />
-        <EntityTypeShape EntityType="GratisForGratisModel.PERSONA_TELEFONO" Width="1.5" PointX="15" PointY="79.75" />
-        <EntityTypeShape EntityType="GratisForGratisModel.PIATTAFORMA" Width="1.5" PointX="18.75" PointY="82.25" />
-        <EntityTypeShape EntityType="GratisForGratisModel.PROVINCIA" Width="1.5" PointX="5.25" PointY="45.75" />
-        <EntityTypeShape EntityType="GratisForGratisModel.REGIONE" Width="1.5" PointX="3" PointY="45.875" />
-        <EntityTypeShape EntityType="GratisForGratisModel.REGISTA" Width="1.5" PointX="17.75" PointY="72.625" />
-        <EntityTypeShape EntityType="GratisForGratisModel.SERVIZIO" Width="1.5" PointX="9.75" PointY="54.25" />
-        <EntityTypeShape EntityType="GratisForGratisModel.SISTEMA_OPERATIVO" Width="1.5" PointX="18.75" PointY="31.75" />
+        <EntityTypeShape EntityType="GratisForGratisModel.ABBONAMENTO" Width="1.5" PointX="0.75" PointY="60.625" />
+        <EntityTypeShape EntityType="GratisForGratisModel.ALIMENTAZIONE" Width="1.5" PointX="8.25" PointY="28.5" />
+        <EntityTypeShape EntityType="GratisForGratisModel.ANNUNCIO" Width="1.5" PointX="8.25" PointY="64.25" />
+        <EntityTypeShape EntityType="GratisForGratisModel.ANNUNCIO_CARRELLO" Width="1.5" PointX="10.5" PointY="74" />
+        <EntityTypeShape EntityType="GratisForGratisModel.ANNUNCIO_CLICK" Width="1.5" PointX="10.5" PointY="64.375" />
+        <EntityTypeShape EntityType="GratisForGratisModel.ANNUNCIO_DESIDERATO" Width="1.5" PointX="16.5" PointY="63.125" />
+        <EntityTypeShape EntityType="GratisForGratisModel.ANNUNCIO_FEEDBACK" Width="1.5" PointX="10.5" PointY="69.75" />
+        <EntityTypeShape EntityType="GratisForGratisModel.ANNUNCIO_FOTO" Width="1.5" PointX="16.5" PointY="70.125" />
+        <EntityTypeShape EntityType="GratisForGratisModel.ANNUNCIO_NOTIFICA" Width="1.5" PointX="16.5" PointY="66.5" />
+        <EntityTypeShape EntityType="GratisForGratisModel.ANNUNCIO_TAG" Width="1.5" PointX="10.5" PointY="101.5" />
+        <EntityTypeShape EntityType="GratisForGratisModel.ANNUNCIO_TIPO_SCAMBIO" Width="1.5" PointX="10.5" PointY="104.75" />
+        <EntityTypeShape EntityType="GratisForGratisModel.ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE" Width="1.5" PointX="12.75" PointY="104.25" />
+        <EntityTypeShape EntityType="GratisForGratisModel.ANNUNCIO_VISUALIZZAZIONE" Width="1.5" PointX="13.5" PointY="70.375" />
+        <EntityTypeShape EntityType="GratisForGratisModel.ARTISTA" Width="1.5" PointX="8.25" PointY="21.25" />
+        <EntityTypeShape EntityType="GratisForGratisModel.ATTIVITA" Width="1.5" PointX="3" PointY="75.5" />
+        <EntityTypeShape EntityType="GratisForGratisModel.ATTIVITA_EMAIL" Width="1.5" PointX="5.25" PointY="109.75" />
+        <EntityTypeShape EntityType="GratisForGratisModel.ATTIVITA_FOTO" Width="1.5" PointX="8.25" PointY="76.75" />
+        <EntityTypeShape EntityType="GratisForGratisModel.ATTIVITA_INDIRIZZO" Width="1.5" PointX="5.25" PointY="76.75" />
+        <EntityTypeShape EntityType="GratisForGratisModel.ATTIVITA_INDIRIZZO_SPEDIZIONE" Width="1.5" PointX="7.5" PointY="81.375" />
+        <EntityTypeShape EntityType="GratisForGratisModel.ATTIVITA_TELEFONO" Width="1.5" PointX="5.25" PointY="98.125" />
+        <EntityTypeShape EntityType="GratisForGratisModel.AUTORE" Width="1.5" PointX="8.25" PointY="39" />
+        <EntityTypeShape EntityType="GratisForGratisModel.BROWSER" Width="1.5" PointX="8.25" PointY="35.625" />
+        <EntityTypeShape EntityType="GratisForGratisModel.BROWSER_MODELLO" Width="1.5" PointX="8.25" PointY="46.75" />
+        <EntityTypeShape EntityType="GratisForGratisModel.CATEGORIA" Width="1.5" PointX="6" PointY="36" />
+        <EntityTypeShape EntityType="GratisForGratisModel.COMPONENTE" Width="1.5" PointX="9" PointY="122.875" />
+        <EntityTypeShape EntityType="GratisForGratisModel.COMUNE" Width="1.5" PointX="3.75" PointY="43.25" />
+        <EntityTypeShape EntityType="GratisForGratisModel.CONTO_CORRENTE" Width="1.5" PointX="0.75" PointY="56" />
+        <EntityTypeShape EntityType="GratisForGratisModel.CONTO_CORRENTE_MONETA" Width="1.5" PointX="5.25" PointY="54.25" />
+        <EntityTypeShape EntityType="GratisForGratisModel.CORRIERE" Width="1.5" PointX="6" PointY="113.75" />
+        <EntityTypeShape EntityType="GratisForGratisModel.CORRIERE_COMUNE" Width="1.5" PointX="13.25" PointY="83.25" />
+        <EntityTypeShape EntityType="GratisForGratisModel.CORRIERE_NAZIONE" Width="1.5" PointX="16.25" PointY="73.875" />
+        <EntityTypeShape EntityType="GratisForGratisModel.CORRIERE_PUNTO_SPEDIZIONE" Width="1.5" PointX="10.25" PointY="81.125" />
+        <EntityTypeShape EntityType="GratisForGratisModel.CORRIERE_SERVIZIO" Width="1.5" PointX="8.25" PointY="114.625" />
+        <EntityTypeShape EntityType="GratisForGratisModel.CORRIERE_SERVIZIO_SPEDIZIONE" Width="1.5" PointX="10.5" PointY="114.875" />
+        <EntityTypeShape EntityType="GratisForGratisModel.CORRIERE_TIPO_OGGETTO" Width="1.5" PointX="15.75" PointY="106.375" />
+        <EntityTypeShape EntityType="GratisForGratisModel.CORRIERE_TIPO_PACCO" Width="1.5" PointX="13.5" PointY="116.25" />
+        <EntityTypeShape EntityType="GratisForGratisModel.FORMATO" Width="1.5" PointX="8.25" PointY="32" />
+        <EntityTypeShape EntityType="GratisForGratisModel.GENERE" Width="1.5" PointX="8.25" PointY="17" />
+        <EntityTypeShape EntityType="GratisForGratisModel.INDIRIZZO" Width="1.5" PointX="6" PointY="42.625" />
+        <EntityTypeShape EntityType="GratisForGratisModel.MARCA" Width="1.5" PointX="3.75" PointY="90.125" />
+        <EntityTypeShape EntityType="GratisForGratisModel.MATERIALE" Width="1.5" PointX="6" PointY="124.875" />
+        <EntityTypeShape EntityType="GratisForGratisModel.MODELLO" Width="1.5" PointX="6" PointY="119.25" />
+        <EntityTypeShape EntityType="GratisForGratisModel.MONETA" Width="1.5" PointX="3" PointY="48.375" />
+        <EntityTypeShape EntityType="GratisForGratisModel.NAZIONE" Width="1.5" PointX="1.5" PointY="36.625" />
+        <EntityTypeShape EntityType="GratisForGratisModel.NOTIFICA" Width="1.5" PointX="5.25" PointY="62.5" />
+        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO" Width="1.5" PointX="6" PointY="88" />
+        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_APPARTENENZA" Width="1.5" PointX="5.25" PointY="68" />
+        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_COMPONENTE" Width="1.5" PointX="11.25" PointY="90.625" />
+        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_COMPUTER" Width="1.5" PointX="13.5" PointY="100.75" />
+        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_CONSOLE" Width="1.5" PointX="16.5" PointY="53" />
+        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_ELETTRODOMESTICO" Width="1.5" PointX="8.25" PointY="104.75" />
+        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_GIOCO" Width="1.5" PointX="8.25" PointY="107.75" />
+        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_LIBRO" Width="1.5" PointX="16.5" PointY="60.125" />
+        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_MATERIALE" Width="1.5" PointX="8.25" PointY="90.625" />
+        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_MUSICA" Width="1.5" PointX="13.5" PointY="53.875" />
+        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_SPORT" Width="1.5" PointX="8.25" PointY="110.75" />
+        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_STRUMENTO" Width="1.5" PointX="8.25" PointY="101.75" />
+        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_TECNOLOGIA" Width="1.5" PointX="13.25" PointY="108.75" />
+        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_TELEFONO" Width="1.5" PointX="10.5" PointY="108.75" />
+        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_VEICOLO" Width="1.5" PointX="10.5" PointY="77.75" />
+        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_VESTITO" Width="1.5" PointX="8.25" PointY="93.5" />
+        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_VIDEO" Width="1.5" PointX="16.5" PointY="56.375" />
+        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_VIDEOGAMES" Width="1.5" PointX="11.5" PointY="49.875" />
+        <EntityTypeShape EntityType="GratisForGratisModel.PERSONA" Width="1.5" PointX="3" PointY="57.875" />
+        <EntityTypeShape EntityType="GratisForGratisModel.PERSONA_ATTIVITA" Width="1.5" PointX="5.25" PointY="72" />
+        <EntityTypeShape EntityType="GratisForGratisModel.PERSONA_EMAIL" Width="1.5" PointX="5.25" PointY="59.125" />
+        <EntityTypeShape EntityType="GratisForGratisModel.PERSONA_FOTO" Width="1.5" PointX="11.25" PointY="60.25" />
+        <EntityTypeShape EntityType="GratisForGratisModel.PERSONA_INDIRIZZO" Width="1.5" PointX="8.25" PointY="56.125" />
+        <EntityTypeShape EntityType="GratisForGratisModel.PERSONA_INDIRIZZO_SPEDIZIONE" Width="1.5" PointX="10.5" PointY="54.875" />
+        <EntityTypeShape EntityType="GratisForGratisModel.PERSONA_PRIVACY" Width="1.5" PointX="5.25" PointY="80.875" />
+        <EntityTypeShape EntityType="GratisForGratisModel.PERSONA_RICERCA" Width="1.5" PointX="8.25" PointY="60.25" />
+        <EntityTypeShape EntityType="GratisForGratisModel.PERSONA_SEGNALAZIONE" Width="1.5" PointX="5.25" PointY="49.875" />
+        <EntityTypeShape EntityType="GratisForGratisModel.PERSONA_TELEFONO" Width="1.5" PointX="5.25" PointY="84.375" />
+        <EntityTypeShape EntityType="GratisForGratisModel.PIATTAFORMA" Width="1.5" PointX="8.25" PointY="24.75" />
+        <EntityTypeShape EntityType="GratisForGratisModel.PROVINCIA" Width="1.5" PointX="1.5" PointY="43.5" />
+        <EntityTypeShape EntityType="GratisForGratisModel.REGIONE" Width="1.5" PointX="1.5" PointY="39.625" />
+        <EntityTypeShape EntityType="GratisForGratisModel.REGISTA" Width="1.5" PointX="8.25" PointY="42.5" />
+        <EntityTypeShape EntityType="GratisForGratisModel.SERVIZIO" Width="1.5" PointX="6" PointY="102" />
+        <EntityTypeShape EntityType="GratisForGratisModel.SISTEMA_OPERATIVO" Width="1.5" PointX="8.25" PointY="86.375" />
+        <EntityTypeShape EntityType="GratisForGratisModel.TIPO_OGGETTO" Width="1.5" PointX="10.5" PointY="97.5" />
+        <EntityTypeShape EntityType="GratisForGratisModel.TIPO_PACCO" Width="1.5" PointX="8.25" PointY="119" />
+        <EntityTypeShape EntityType="GratisForGratisModel.TIPO_SPEDIZIONE" Width="1.5" PointX="3.75" PointY="114.875" />
+        <EntityTypeShape EntityType="GratisForGratisModel.TRANSAZIONE" Width="1.5" PointX="3" PointY="52.125" />
+        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_ABBONAMENTO" />
         <AssociationConnector Association="GratisForGratisModel.FK_ALIMENTAZIONE_CATEGORIA" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_VEICOLO_ALIMENTAZIONE" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_ANNUNCIO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_ANNUNCIO1" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_ANNUNCIO2" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_ATTIVITA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_CARRELLO_ANNUNCIO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_CATEGORIA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_CLICK_ANNUNCIO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_COMUNE" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_DESIDERATO_ANNUNCIO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_FEEDBACK_ANNUNCIO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_FOTO_ANNUNCIO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_NOTIFICA_ANNUNCIO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_OGGETTO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_PERSONA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_SERVIZIO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_TAG_ANNUNCIO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_TIPO_SCAMBIO_ANNUNCIO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_ANNUNCIO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_CARRELLO_ATTIVITA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_CARRELLO_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_CLICK_MODELLO_BROWSER" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_CLICK_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_CLICK_SISTEMA_OPERATIVO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_FOTO_FOTO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_DESIDERATO_ATTIVITA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_DESIDERATO_PERSONA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_FEEDBACK_PERSONA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_NOTIFICA_NOTIFICA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_SPEDIZIONE_ANNUNCIO_TIPO_SCAMBIO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE_CORRIERE_SERVIZIO_SPEDIZIONE" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE_TIPO_OGGETTO" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_MODELLO_BROWSER" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_SISTEMA_OPERATIVO" />
         <AssociationConnector Association="GratisForGratisModel.FK_ARTISTA_CATEGORIA" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_MUSICA_ARTISTA" />
@@ -76,49 +132,56 @@
         <AssociationConnector Association="GratisForGratisModel.FK_ATTIVITA_FOTO_ATTIVITA" />
         <AssociationConnector Association="GratisForGratisModel.FK_ATTIVITA_INDIRIZZO_ATTIVITA" />
         <AssociationConnector Association="GratisForGratisModel.FK_ATTIVITA_TELEFONO_ATTIVITA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_NOTIFICA_ATTIVITA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_NOTIFICA_ATTIVITA1" />
+        <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_APPARTENENZA_ATTIVITA" />
         <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_ATTIVITA_ATTIVITA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ATTIVITA_FOTO_FOTO" />
         <AssociationConnector Association="GratisForGratisModel.FK_ATTIVITA_INDIRIZZO_INDIRIZZO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ATTIVITA_INDIRIZZO_SPEDIZIONE_ATTIVITA_INDIRIZZO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ATTIVITA_INDIRIZZO_SPEDIZIONE_ATTIVITA_INDIRIZZO_SPEDIZIONE" />
         <AssociationConnector Association="GratisForGratisModel.FK_AUTORE_CATEGORIA" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_LIBRO_AUTORE" />
         <AssociationConnector Association="GratisForGratisModel.FK_BROWSER_CATEGORIA" />
         <AssociationConnector Association="GratisForGratisModel.FK_CATEGORIA_CATEGORIA" />
         <AssociationConnector Association="GratisForGratisModel.FK_FORMATO_CATEGORIA" />
         <AssociationConnector Association="GratisForGratisModel.FK_GENERE_CATEGORIA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_MARCA_CATEGORIA" />
         <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_RICERCA_CATEGORIA" />
         <AssociationConnector Association="GratisForGratisModel.FK_PIATTAFORMA_CATEGORIA" />
         <AssociationConnector Association="GratisForGratisModel.FK_REGISTA_CATEGORIA" />
         <AssociationConnector Association="GratisForGratisModel.FK_SISTEMA_OPERATIVO_CATEGORIA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_COMPONENTE_COMPONENTE" />
         <AssociationConnector Association="GratisForGratisModel.FK_COMUNE_PROVINCIA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_COMUNE_COMUNE" />
         <AssociationConnector Association="GratisForGratisModel.FK_INDIRIZZO_COMUNE" />
-        <AssociationConnector Association="GratisForGratisModel.FK_SERVIZIO_COMUNE" />
-        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_NAZIONE_CORRIERE" />
-        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_NAZIONE_NAZIONE" />
-        <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_MUSICA_OGGETTO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_VIDEO_FORMATO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_FOTO_FOTO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_VIDEOGAMES_GENERE" />
-        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_INDIRIZZO_INDIRIZZO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_CREDITO_VIRTUALE_CREDITO_VIRTUALE" />
-        <AssociationConnector Association="GratisForGratisModel.FK_REGIONE_NAZIONE" />
-        <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_BARATTO_OFFERTA_BARATTO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_COMPUTER_SISTEMA_OPERATIVO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_CONSOLE_PIATTAFORMA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_MUSICA_OGGETTO_MUSICA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_CELLULARE_SISTEMA_OPERATIVO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_VIDEO_REGISTA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_VIDEOGAMES_PIATTAFORMA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_PROVINCIA_REGIONE" />
-        <EntityTypeShape EntityType="GratisForGratisModel.TRANSAZIONE" Width="1.5" PointX="17.25" PointY="58.875" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CONTO_CORRENTE_MONETA_CONTO_CORRENTE" />
+        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_CONTO_CORRENTE" />
         <AssociationConnector Association="GratisForGratisModel.FK_TRANSAZIONE_CONTO_CORRENTE" />
         <AssociationConnector Association="GratisForGratisModel.FK_TRANSAZIONE_CONTO_CORRENTE1" />
-        <EntityTypeShape EntityType="GratisForGratisModel.MARCA" Width="1.5" PointX="10.5" PointY="48.5" />
-        <EntityTypeShape EntityType="GratisForGratisModel.MODELLO" Width="1.5" PointX="18.75" PointY="35.875" />
-        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO" Width="1.5" PointX="12.75" PointY="46.5" />
-        <AssociationConnector Association="GratisForGratisModel.FK_MARCA_CATEGORIA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_COMUNE" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CONTO_CORRENTE_MONETA_MONETA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CONTO_CORRENTE_MONETA_TRANSAZIONE" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_COMUNE_CORRIERE" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_NAZIONE_CORRIERE" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_PUNTO_SPEDIZIONE_CORRIERE" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_SERVIZIO_CORRIERE" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_TIPO_OGGETTO_CORRIERE" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_TIPO_PACCO_CORRIERE" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_TIPO_SPEDIZIONE" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_NAZIONE_NAZIONE" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_PUNTO_SPEDIZIONE_INDIRIZZO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_CORRIERE_SERVIZIO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_INDIRIZZO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_INDIRIZZO1" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_TIPO_PACCO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_TIPO_OGGETTO_TIPO_OGGETTO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_TIPO_PACCO_TIPO_PACCO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_MUSICA_OGGETTO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_VIDEO_FORMATO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_VIDEOGAMES_GENERE" />
+        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_INDIRIZZO_INDIRIZZO" />
         <AssociationConnector Association="GratisForGratisModel.FK_MODELLO_MARCA" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_MARCA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_MATERIALE_MATERIALE" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_CELLULARE_MODELLO" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_COMPUTER_MODELLO" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_ELETTRODOMESTICO_MODELLO" />
@@ -127,11 +190,18 @@
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_STRUMENTO_MODELLO" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_TECNOLOGIA_MODELLO" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_VEICOLO_MODELLO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CREDITO_VIRTUALE_CREDITO_VIRTUALE" />
+        <AssociationConnector Association="GratisForGratisModel.FK_REGIONE_NAZIONE" />
+        <AssociationConnector Association="GratisForGratisModel.FK_NOTIFICA_PERSONA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_NOTIFICA_PERSONA1" />
+        <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_APPARTENENZA_OGGETTO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_COMPONENTE_OGGETTO" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_COMPUTER_OGGETTO" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_CONSOLE_OGGETTO" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_ELETTRODOMESTICO_OGGETTO" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_GIOCO_OGGETTO" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_LIBRO_OGGETTO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_MATERIALE_OGGETTO" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_MUSICA_OGGETTO1" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_SPORT_OGGETTO" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_STRUMENTO_OGGETTO" />
@@ -141,50 +211,13 @@
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_VESTITO_OGGETTO" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_VIDEO_OGGETTO" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_VIDEOGAMES_OGGETTO" />
-        <EntityTypeShape EntityType="GratisForGratisModel.OFFERTA_CONTO_CORRENTE_MONETA" Width="1.5" PointX="24.75" PointY="63.375" />
-        <EntityTypeShape EntityType="GratisForGratisModel.CONTO_CORRENTE_MONETA" Width="1.5" PointX="19.5" PointY="64.375" />
-        <EntityTypeShape EntityType="GratisForGratisModel.OFFERTA" Width="1.5" PointX="22.5" PointY="59.75" />
-        <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_ATTIVITA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_CONTO_CORRENTE_MONETA_CONTO_CORRENTE" />
-        <AssociationConnector Association="GratisForGratisModel.FK_CONTO_CORRENTE_MONETA_MONETA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_CONTO_CORRENTE_MONETA_TRANSAZIONE" />
-        <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_CONTO_CORRENTE_MONETA_CONTO_CORRENTE_MONETA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_BARATTO_OFFERTA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_CONTO_CORRENTE_MONETA_OFFERTA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_TRANSAZIONE" />
-        <EntityTypeShape EntityType="GratisForGratisModel.ANNUNCIO" Width="1.5" PointX="15" PointY="49.25" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_ANNUNCIO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_ATTIVITA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_CATEGORIA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_CLICK_ANNUNCIO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_FEEDBACK_ANNUNCIO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_FOTO_ANNUNCIO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_OGGETTO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_SERVIZIO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_TAG_ANNUNCIO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_ANNUNCIO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_ANNUNCIO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_BARATTO_ANNUNCIO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_TRANSAZIONE_ANNUNCIO" />
-        <EntityTypeShape EntityType="GratisForGratisModel.ANNUNCIO_SPEDIZIONE" Width="1.5" PointX="17.25" PointY="48.5" />
-        <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_APPARTENENZA" Width="1.5" PointX="28" PointY="58.375" />
-        <EntityTypeShape EntityType="GratisForGratisModel.SPEDIZIONE" Width="1.5" PointX="15" PointY="28.75" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_SPEDIZIONE_ANNUNCIO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_SPEDIZIONE_SPEDIZIONE" />
-        <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_APPARTENENZA_ATTIVITA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_SPEDIZIONE_CORRIERE_NAZIONE" />
-        <AssociationConnector Association="GratisForGratisModel.FK_SPEDIZIONE_INDIRIZZO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_SPEDIZIONE_INDIRIZZO1" />
-        <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_APPARTENENZA_OGGETTO" />
-        <EntityTypeShape EntityType="GratisForGratisModel.PERSONA" Width="1.5" PointX="12.75" PointY="60.625" />
-        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_ABBONAMENTO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_PERSONA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_CLICK_PERSONA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_FEEDBACK_PERSONA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_PERSONA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_CONTO_CORRENTE" />
-        <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_APPARTENENZA_PERSONA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_COMPUTER_SISTEMA_OPERATIVO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_CONSOLE_PIATTAFORMA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_MUSICA_OGGETTO_MUSICA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_CELLULARE_SISTEMA_OPERATIVO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_VIDEO_REGISTA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_VIDEOGAMES_PIATTAFORMA" />
         <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_ATTIVITA_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_EMAIL_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_FOTO_PERSONA" />
@@ -193,6 +226,44 @@
         <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_RICERCA_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_SEGNALAZIONE_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_TELEFONO_PERSONA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_INDIRIZZO_SPEDIZIONE_PERSONA_INDIRIZZO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_INDIRIZZO_SPEDIZIONE_PERSONA_INDIRIZZO_SPEDIZIONE" />
+        <AssociationConnector Association="GratisForGratisModel.FK_PROVINCIA_REGIONE" />
+        <EntityTypeShape EntityType="GratisForGratisModel.TRANSAZIONE_ANNUNCIO_SPEDIZIONE" Width="1.5" PointX="15" PointY="78.5" />
+        <AssociationConnector Association="GratisForGratisModel.FK_TRANSAZIONE_ANNUNCIO_SPEDIZIONE_ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE" />
+        <AssociationConnector Association="GratisForGratisModel.FK_TRANSAZIONE_SPEDIZIONE_TRANSAZIONE" />
+        <EntityTypeShape EntityType="GratisForGratisModel.TRANSAZIONE_ANNUNCIO" Width="1.5" PointX="13.5" PointY="60.5" />
+        <AssociationConnector Association="GratisForGratisModel.FK_TRANSAZIONE_ANNUNCIO_ANNUNCIO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_TRANSAZIONE_ANNUNCIO_TRANSAZIONE" />
+        <EntityTypeShape EntityType="GratisForGratisModel.TIPO_VALUTA" Width="1.5" PointX="0.75" PointY="1" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_TIPO_VALUTA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_CORRIERE_SERVIZIO_SPEDIZIONE" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_TIPO_VALUTA" />
+        <EntityTypeShape EntityType="GratisForGratisModel.LOG_PAGAMENTO" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="GratisForGratisModel.PERSONA_METODO_PAGAMENTO" Width="1.5" PointX="14.25" PointY="48" />
+        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_METODO_PAGAMENTO_INDIRIZZO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_METODO_PAGAMENTO_PERSONA" />
+        <EntityTypeShape EntityType="GratisForGratisModel.CORRIERE_PROVINCIA" Width="1.5" PointX="16.25" PointY="82.375" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_PROVINCIA_CORRIERE" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_PROVINCIA_PROVINCIA" />
+        <EntityTypeShape EntityType="GratisForGratisModel.LOG_SBLOCCO_ANNUNCIO" Width="1.5" PointX="13.5" PointY="65" />
+        <AssociationConnector Association="GratisForGratisModel.FK_LOG_SBLOCCO_ANNUNCIO_ANNUNCIO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_LOG_SBLOCCO_ANNUNCIO_PERSONA" />
+        <EntityTypeShape EntityType="GratisForGratisModel.CORRIERE_SERVIZIO_PREZZO_STIMATO" Width="1.5" PointX="10.5" PointY="125.875" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_SERVIZIO_PREZZO_STIMATO_CORRIERE_SERVIZIO" />
+        <EntityTypeShape EntityType="GratisForGratisModel.OFFERTA_SPEDIZIONE" Width="1.5" PointX="11.25" PointY="22" />
+        <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_INDIRIZZO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_TIPO_VALUTA" />
+        <EntityTypeShape EntityType="GratisForGratisModel.SPEDIZIONE_INATTESA" Width="1.5" PointX="3.375" PointY="4.75" />
+        <EntityTypeShape EntityType="GratisForGratisModel.ALLEGATO" Width="1.5" PointX="5.375" PointY="1" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_FOTO_ALLEGATO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ATTIVITA_FOTO_ALLEGATO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_FOTO_ALLEGATO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_ALLEGATO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_PERSONA1" />
+        <EntityTypeShape EntityType="GratisForGratisModel.CHAT" Width="1.5" PointX="5.25" PointY="31.75" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CHAT_PERSONA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CHAT_PERSONA1" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

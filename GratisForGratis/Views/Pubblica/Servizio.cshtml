@@ -1,214 +1,101 @@
 ﻿@model GratisForGratis.Models.PubblicaServizioViewModel
 
-@section Styles {
-    @Styles.Render("~/Scripts/ColorPicker/css/colorpicker.css")
-    @Styles.Render("~/Content/pubblica.css")
-}
+<h5 class="title">INFO OPZIONALI (Per maggiore visibilità)</h5>
 
-<section id="head">
-    <div class="content">
-        <h1 id="title">@Language.TitlePublicationServices</h1>
+<div class="form-group">
+    @Html.LabelFor(m => m.NoteAggiuntive, new { @class = "col-md-2 control-label" })
+    @Html.TextAreaFor(m => m.NoteAggiuntive, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.NoteAggiuntive, "", new { @class = "text-danger" })
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.DurataInserzione, new { @class = "col-md-2 control-label" })
+    @Html.DropDownListFor(m => m.DurataInserzione, Model.ListaDurataInserzione, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.DurataInserzione, "", new { @class = "text-danger" })
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Tariffa, new { @class = "col-md-2 control-label" })
+    @Html.EnumDropDownListFor(m => m.Tariffa, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Tariffa, "", new { @class = "text-danger" })
+</div>
+<div class="form-group">
+    @Html.Label("Feriale", Language.BusinessHour, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.OraInizioFeriali, new { @class = "form-control time", placeholder = "09:00" })
     </div>
-</section>
-<section id="pubblicazione">
-    @using (Html.BeginForm("Servizio", "Pubblica", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form", id = "formPubblica" }))
-    {
-        @Html.AntiForgeryToken()
-        @Html.HiddenFor(m => m.TokenOK)
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.OraFineFeriali, new { @class = "form-control time", placeholder = "18:00" })
+    </div>
+    @Html.ValidationMessageFor(m => m.OraInizioFeriali, "", new { @class = "text-danger" })
+    @Html.ValidationMessageFor(m => m.OraFineFeriali, "", new { @class = "text-danger" })
+</div>
 
-        <h4 id="description">@Language.DescriptionPubblicationService</h4>
-        <hr />
-        @Html.ValidationMessage("Error", new { @class = "text-danger", id = "ErroreGenerico" })
-        @Html.ValidationMessage("Errore", new { @class = "text-danger", id = "ErroreGenerico" })
-        if (Session["portaleweb"] != null)
-        {
-            <div class="form-group">
-                @Html.LabelFor(m => m.Partner, new { @class = "col-md-2 control-label" })
-                @Html.DropDownList("Partner", new SelectList(
-                (Session["portaleweb"] as List<GratisForGratis.Models.PortaleWebViewModel>).Select(p => new SelectListItem()
-                {
-                    Text = p.Nome,
-                    Value = p.Token.ToString()
-                }), "Value", "Text", Model.Partner), Language.Private, new { @class = "form-control" }
-            )
-                @Html.ValidationMessageFor(m => m.Partner, "", new { @class = "text-danger" })
-            </div>
-        }
-        <div class="form-group">
-            @Html.LabelFor(m => m.CategoriaId, new { @class = "col-md-2 control-label" })
-            <div id="menuCategoriaPubblicazione" class="dropdown menuCategoria">
-                <button class="btn dropdown-toggle categoria0" type="button" id="dropdownMenuPubblicazione" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    <span class="categoriaSelezionata">@(string.IsNullOrWhiteSpace(Model.CategoriaNome) ? Language.ChooseCategory : Model.CategoriaNome)</span>
-                    <span class="caret"></span>
-                </button>
-                @{ List<GratisForGratis.Models.FINDSOTTOCATEGORIE_Result> categorie = (HttpContext.Current.Application["categorie"] as List<GratisForGratis.Models.FINDSOTTOCATEGORIE_Result>);
-                    <ul id="categoriePubblicazione" class="dropdown-menu" aria-labelledby="dropdownMenuPubblicazione">
-                        @foreach (GratisForGratis.Models.FINDSOTTOCATEGORIE_Result categoria in categorie.Where(c => c.TIPO_VENDITA == (int)GratisForGratis.Models.TipoAcquisto.Servizio && c.LIVELLO == 0))
-                        {
-                            <li>
-                                <div class="trigger" title="@(Language.Buy + ' ' + categoria.NOME)">@categoria.NOME</div>
-                                @if (categoria.LIVELLO >= 0)
-                                {
-                                    <ul class="dropdown-menu sub-menu">
-                                        @foreach (GratisForGratis.Models.FINDSOTTOCATEGORIE_Result sottoCategoria in categorie.Where(c => c.ID_PADRE == categoria.ID))
-                                        {
-                                            <li>
-                                                @if (categorie.Count(item => item.ID_PADRE == sottoCategoria.ID) > 0)
-                                                {
-                                                    <div class="trigger" title="@(Language.Buy + ' ' + sottoCategoria.NOME)">@sottoCategoria.NOME</div>
-                                                    <ul class="dropdown-menu sub-menu">
-                                                        @foreach (GratisForGratis.Models.FINDSOTTOCATEGORIE_Result sottoCategoria2 in categorie.Where(c => c.ID_PADRE == sottoCategoria.ID))
-                                                        {
-                                                            <li><a class="trigger" data-value="@sottoCategoria2.ID" data-id="#CategoriaId" data-name="#menuCategoriaPubblicazione .categoriaSelezionata" title="@(Language.Buy + ' ' + sottoCategoria2.NOME)">@sottoCategoria2.NOME</a></li>
-                                                        }
-                                                    </ul>
-                                                }
-                                                else
-                                                {
-                                                    <a class="trigger" data-value="@sottoCategoria.ID" data-id="#CategoriaId" data-name="#menuCategoriaPubblicazione .categoriaSelezionata" title="@(Language.Buy + ' ' + sottoCategoria.NOME)">@sottoCategoria.NOME</a>
-                                                }
-                                            </li>
-                                        }
-                                    </ul>
-                                }
-                            </li>
-                        }
-                    </ul>
-                }
-            </div>
-            @Html.HiddenFor(m => m.CategoriaId)
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Nome, new { @class = "col-md-2 control-label" })
-            @Html.TextBoxFor(m => m.Nome, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Nome, "", new { @class = "text-danger" })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.TipoPagamento, new { @class = "col-md-2 control-label" })
-            @Html.EnumDropDownListFor(m => m.TipoPagamento, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.TipoPagamento, "", new { @class = "text-danger" })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Citta, new { @class = "col-md-2 control-label" })
-            @Html.TextBoxFor(m => m.Citta, new { @class = "form-control", data_autocomplete_url = "/Home/FindCitta", data_autocomplete_id = "IDCitta" })
-            @Html.HiddenFor(m => m.IDCitta)
-            @Html.ValidationMessageFor(m => m.IDCitta, "", new { @class = "text-danger" })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Tariffa, new { @class = "col-md-2 control-label" })
-            @Html.EnumDropDownListFor(m => m.Tariffa, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Tariffa, "", new { @class = "text-danger" })
-        </div>
-        <div class="form-group">
-            <div class="field col-md-10">
-                @Html.LabelFor(m => m.Punti, new { @class = "col-md-2 control-label" })
-                @Html.TextBoxFor(m => m.Punti, new { @class = "form-control number" })
-                @Html.ValidationMessageFor(m => m.Punti, "", new { @class = "text-danger" })
-            </div>
-            <div class="field col-md-10">
-                @Html.LabelFor(m => m.Foto, new { @class = "col-md-2 control-label" })
-                @Html.TextBox("file", "", new { @class = "form-control", type = "file", data_url = "/Pubblicazione/UploadFotoOggetto", multiple = "" })
-                @Html.ValidationMessageFor(m => m.Foto, "", new { @class = "text-danger" })
-                <span id="listaFileAggiunti"></span>
-                <div id="progress">
-                    <div class="bar" style="width: 0%;"></div>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.Label("Feriale", Language.BusinessHour, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.LabelFor(m => m.OraInizioFeriali, new { @class = "col-md-2 control-label" })
-                @Html.TextBoxFor(m => m.OraInizioFeriali, new { @class = "form-control time" })
-            </div>
-            <div class="col-md-10">
-                @Html.LabelFor(m => m.OraFineFeriali, new { @class = "col-md-2 control-label" })
-                @Html.TextBoxFor(m => m.OraFineFeriali, new { @class = "form-control time" })
-            </div>
-            @Html.ValidationMessageFor(m => m.OraInizioFeriali, "", new { @class = "text-danger" })
-            @Html.ValidationMessageFor(m => m.OraFineFeriali, "", new { @class = "text-danger" })
-        </div>
+<div class="form-group">
+    @Html.Label("Festivo", Language.HolidaysHour, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.OraInizioFestivi, new { @class = "form-control time", placeholder = "09:00" })
+    </div>
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.OraFineFestivi, new { @class = "form-control time", placeholder = "18:00" })
+    </div>
+    @Html.ValidationMessageFor(m => m.OraInizioFestivi, "", new { @class = "text-danger" })
+    @Html.ValidationMessageFor(m => m.OraFineFestivi, "", new { @class = "text-danger" })
+</div>
+<div class="form-group">
 
-        <div class="form-group">
-            @Html.Label("Feriale", Language.HolidaysHour, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.LabelFor(m => m.OraInizioFestivi, new { @class = "col-md-2 control-label" })
-                @Html.TextBoxFor(m => m.OraInizioFestivi, new { @class = "form-control time" })
-            </div>
-            <div class="col-md-10">
-                @Html.LabelFor(m => m.OraFineFestivi, new { @class = "col-md-2 control-label" })
-                @Html.TextBoxFor(m => m.OraFineFestivi, new { @class = "form-control time" })
-            </div>
-            @Html.ValidationMessageFor(m => m.OraInizioFestivi, "", new { @class = "text-danger" })
-            @Html.ValidationMessageFor(m => m.OraFineFestivi, "", new { @class = "text-danger" })
-        </div>
-        <div class="form-group">
+    <div class="col-md-10">
+        @Html.CheckBoxFor(m => m.Lunedi, new { @class = "form-control day" })
+        @Html.LabelFor(m => m.Lunedi, new { @class = "col-md-2 control-label" })
+    </div>
 
-            <div class="col-md-10">
-                @Html.CheckBoxFor(m => m.Lunedi, new { @class = "form-control day" })
-                @Html.LabelFor(m => m.Lunedi, new { @class = "col-md-2 control-label" })
-            </div>
+    <div class="col-md-10">
+        @Html.CheckBoxFor(m => m.Martedi, new { @class = "form-control day" })
+        @Html.LabelFor(m => m.Martedi, new { @class = "col-md-2 control-label" })
+    </div>
 
-            <div class="col-md-10">
-                @Html.CheckBoxFor(m => m.Martedi, new { @class = "form-control day" })
-                @Html.LabelFor(m => m.Martedi, new { @class = "col-md-2 control-label" })
-            </div>
+    <div class="col-md-10">
+        @Html.CheckBoxFor(m => m.Mercoledi, new { @class = "form-control day" })
+        @Html.LabelFor(m => m.Mercoledi, new { @class = "col-md-2 control-label" })
+    </div>
 
-            <div class="col-md-10">
-                @Html.CheckBoxFor(m => m.Mercoledi, new { @class = "form-control day" })
-                @Html.LabelFor(m => m.Mercoledi, new { @class = "col-md-2 control-label" })
-            </div>
+    <div class="col-md-10">
+        @Html.CheckBoxFor(m => m.Giovedi, new { @class = "form-control day" })
+        @Html.LabelFor(m => m.Giovedi, new { @class = "col-md-2 control-label" })
+    </div>
 
-            <div class="col-md-10">
-                @Html.CheckBoxFor(m => m.Giovedi, new { @class = "form-control day" })
-                @Html.LabelFor(m => m.Giovedi, new { @class = "col-md-2 control-label" })
-            </div>
+    <div class="col-md-10">
+        @Html.CheckBoxFor(m => m.Venerdi, new { @class = "form-control day" })
+        @Html.LabelFor(m => m.Venerdi, new { @class = "col-md-2 control-label" })
+    </div>
 
-            <div class="col-md-10">
-                @Html.CheckBoxFor(m => m.Venerdi, new { @class = "form-control day" })
-                @Html.LabelFor(m => m.Venerdi, new { @class = "col-md-2 control-label" })
-            </div>
+    <div class="col-md-10">
+        @Html.CheckBoxFor(m => m.Sabato, new { @class = "form-control day" })
+        @Html.LabelFor(m => m.Sabato, new { @class = "col-md-2 control-label" })
+    </div>
 
-            <div class="col-md-10">
-                @Html.CheckBoxFor(m => m.Sabato, new { @class = "form-control day" })
-                @Html.LabelFor(m => m.Sabato, new { @class = "col-md-2 control-label" })
-            </div>
+    <div class="col-md-10">
+        @Html.CheckBoxFor(m => m.Domenica, new { @class = "form-control day" })
+        @Html.LabelFor(m => m.Domenica, new { @class = "col-md-2 control-label" })
+    </div>
 
-            <div class="col-md-10">
-                @Html.CheckBoxFor(m => m.Domenica, new { @class = "form-control day" })
-                @Html.LabelFor(m => m.Domenica, new { @class = "col-md-2 control-label" })
-            </div>
+    <div class="col-md-10">
+        @Html.CheckBoxFor(m => m.Tutti, new { @class = "form-control" })
+        @Html.LabelFor(m => m.Tutti, new { @class = "col-md-2 control-label" })
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.Offerta, new { @class = "col-md-2 control-label" })
+    @Html.TextAreaFor(m => m.Offerta, new { @class = "form-control" })            
+    @Html.ValidationMessageFor(m => m.Offerta, "", new { @class = "text-danger" })
+</div>
+<div class="form-group extra">
+    @Html.LabelFor(m => m.Risultati, new { @class = "col-md-2 control-label" })
+    @Html.TextAreaFor(m => m.Risultati, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Risultati, "", new { @class = "text-danger" })
+</div>
 
-            <div class="col-md-10">
-                @Html.CheckBoxFor(m => m.Tutti, new { @class = "form-control" })
-                @Html.LabelFor(m => m.Tutti, new { @class = "col-md-2 control-label" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Offerta, new { @class = "col-md-2 control-label" })
-            @Html.TextAreaFor(m => m.Offerta, new { @class = "form-control" })            
-            @Html.ValidationMessageFor(m => m.Offerta, "", new { @class = "text-danger" })
-        </div>
-        <div class="form-group extra">
-            @Html.LabelFor(m => m.Risultati, new { @class = "col-md-2 control-label" })
-            @Html.TextAreaFor(m => m.Risultati, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Risultati, "", new { @class = "text-danger" })
-        </div>
-       
-        <div class="form-group extra">
-            @Html.LabelFor(m => m.NoteAggiuntive, new { @class = "col-md-2 control-label" })
-            @Html.TextAreaFor(m => m.NoteAggiuntive, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.NoteAggiuntive, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="footer">
-            <input id="bottonePubblica" type="submit" class="btn addServizio" value="@Language.Public" /> 
-        </div>
-    }
-    </section>
-
-@section Scripts {
-    @Scripts.Render("~/Scripts/jquery-ui-1.11.4.min.js")
-    @Scripts.Render("~/Scripts/ColorPicker/colorpicker.js")
-    @Scripts.Render("~/Scripts/pubblica.js")
+@if (ViewData["ActionTipologia"] != null)
+{
+    // serve in caso di categoria senza dettagli aggiuntivi (Es. Servizi)
+    @Html.Hidden("ActionCategoria", ViewData["ActionTipologia"])
 }

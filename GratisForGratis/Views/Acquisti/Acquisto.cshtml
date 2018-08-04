@@ -1,0 +1,86 @@
+﻿@using GratisForGratis.Models
+@model OffertaViewModel
+
+@{
+    ViewBag.Title = Language.Purchase + " " + Model.Nome;
+}
+
+@Styles.Render("~/Content/acquisto.css")
+<section id="purchases">
+    <div id="@HttpUtility.UrlEncode(Model.Token)" class="purchase">
+        <h4 class="title plus">@Model.Annuncio.Nome</h4>
+        <div class="preview">
+            <div class="cella noMandatory">
+                <div class="cell">
+                    <img class="phote" src="@Url.Content("~/Uploads/Images/" + Model.VenditoreToken + "/" + Model.DataInserimento.Year + "/" + "Little/" + Model.Foto[0])" alt="@Model.Nome" />
+                </div>
+            </div>
+            <div class="cella">
+                @Html.Label("Categoria", Language.Category + ":")
+                @Model.Annuncio.Categoria
+            </div>
+            <div class="cella">
+                @Html.Label("Punti", Language.Moneta + ":")
+                <strong>@Model.Punti</strong>
+            </div>
+            <div class="cella noMandatory">
+                @Html.Label("TipoPagamento", Language.TypePayment + ":")
+                @Model.TipoPagamento
+            </div>
+            <div class="cella noMandatory">
+                @Html.Label("TipoModel", Language.TypeBid + ":")
+                <strong>@Model.TipoOfferta</strong>
+            </div>
+            <div class="cella noMandatory state">
+                @Html.Label("Stato", Language.StateBid + ":")
+                @if (Model.StatoVendita == StatoVendita.VENDUTO || Model.StatoVendita == StatoVendita.BARATTATO)
+                {
+                    <strong>@Language.CompletedPurchase</strong>
+                }
+                else if (Model.StatoOfferta == StatoOfferta.ACCETTATA)
+                {
+                    if (Model.StatoVendita == StatoVendita.SOSPESO)
+                    {
+                        <div class="cella payment">
+                            <a class="btn link ok" href="javascript:void(0);">Effettua pagamento</a>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <strong>@EnumHelper.GetSelectList(typeof(StatoOfferta), Model.StatoOfferta).Where(m => m.Selected).FirstOrDefault().Text</strong>
+                }
+            </div>
+            @if (Model.Baratti.Count > 0)
+            {
+                <div class="cella">
+                    @Html.Label("Baratti", Language.Barters + ":")
+                    <div class="barters">
+                        @foreach (VenditaViewModel baratto in Model.Baratti)
+                        {
+                            @Html.ActionLink(baratto.Nome, "Barattato", (baratto.TipoAcquisto == TipoAcquisto.Servizio) ? TipoAcquisto.Servizio.ToString() : TipoAcquisto.Oggetto.ToString(), new { nome = HttpUtility.UrlEncode(baratto.Nome), token = HttpUtility.UrlEncode(baratto.Token) }, new { @class = "link" }) <br />
+                        }
+                    </div>
+                </div>
+            }
+            @if (Model.StatoOfferta == StatoOfferta.ACCETTATA)
+            {
+                <div class="cella contacts">
+                    <label>@Language.Contacts: </label>
+                    <p class="name">@Model.Annuncio.Venditore.Nominativo</p>
+                    <p class="email">@Model.Annuncio.Venditore.Email</p>
+                    @if (!string.IsNullOrWhiteSpace(Model.Annuncio.Venditore.Telefono))
+                    {
+                    <p class="telephone">@Model.Annuncio.Venditore.Telefono</p>
+                    }
+                </div>
+            }
+                    
+        </div>
+    </div>
+</section>
+
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/listaAcquisti.js")
+}

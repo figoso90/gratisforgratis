@@ -1,0 +1,12 @@
+﻿@model GratisForGratis.Models.OggettoViewModel
+
+@{ var oggetto = (GratisForGratis.Models.VideoViewModel)Model; }
+
+@if (oggetto.formatoID != null)
+{
+<h5 class="model"><b>@Language.Format :</b> @oggetto.formatoNome</h5>
+}
+@if (oggetto.registaID != null)
+{
+<h5 class="systemOperating"><b>@Language.Director :</b> @oggetto.registaNome</h5>
+}

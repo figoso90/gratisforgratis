@@ -1,0 +1,91 @@
+﻿@model GratisForGratis.Models.OffertaViewModel
+
+@*using (Ajax.BeginForm("InviaOfferta", "Annuncio", new AjaxOptions { HttpMethod = "POST" }, new { id="formOfferta", @class = "formAnnuncio", style = "display:none;padding:13px;border:2px solid #bd1723;border-radius:6px;text-align:left;" }))*@
+@using (Ajax.BeginForm("InviaOfferta", "Annuncio", new AjaxOptions { HttpMethod = "POST" }, new { id = "formOfferta", @class = "formAnnuncio", style = "padding:13px;border:2px solid #bd1723;border-radius:6px;text-align:left;margin-bottom:22px;" }))
+{
+    <h4 style="text-transform:uppercase;font-size:12px;font-style:oblique;text-decoration:underline;font-weight:900;">
+        Vuoi proporre uno scambio differente?<br />Invia la tua offerta!
+    </h4>
+    @Html.AntiForgeryToken()
+    <!-- FORM READONLY -->
+    @Html.HiddenFor(m => m.Annuncio.Token, new { @readonly = "readonly" })
+    // Annuncio venduto per baratto
+    @Html.HiddenFor(m => m.TipoOfferta)
+    <div class="offerPoints">
+        @Html.LabelFor(m => m.Punti)
+        @Html.TextBoxFor(m => m.Punti, "0", new { @class = "form-control number" })
+    </div>
+    <!-- Ricerca annunci personali da poter barattare (ricerca filtrata per tipo di scambio) -->
+    <div class="barters">
+        <label>@ViewModel.BidYourAd</label> @Html.TextBox("CercaAnnuncio", "", new { @class = "form-control", data_url = "/Cerca/AnnunciBarattabili", data_value_id = "Baratti", data_autocomplete_filtro_extra = "TipoSpedizione" })
+        @if (Model.Baratti != null && Model.BarattiToken.Count > 0)
+        {
+            @Html.HiddenFor(m => m.BarattiToken)
+        }
+        @Html.ValidationMessageFor(m => m.BarattiToken, "", new { @class = "text-danger" })
+    </div>
+    <div id="previewBarter"></div>
+    <div id="priceShipmentBarter" style="display:none;"></div>
+    if (Model.Annuncio.TipoAcquisto == GratisForGratis.Models.TipoAcquisto.Oggetto)
+    {
+        var annuncioOggetto = (GratisForGratis.Models.OggettoViewModel)Model.Annuncio;
+        IEnumerable<SelectListItem> listaTipologia = null;
+        if (annuncioOggetto.TipoScambio.Length > 0)
+        {
+            listaTipologia = annuncioOggetto.TipoScambio.Select(m => new SelectListItem() { Text = m.ToString(), Value = ((int)m).ToString() });
+        }
+        else { 
+            var scambioMano = EnumHelper.GetSelectList(typeof(GratisForGratis.Models.TipoScambio), GratisForGratis.Models.TipoScambio.AMano).Where(m => m.Selected).FirstOrDefault();
+            listaTipologia = new List<SelectListItem>() {
+                    new SelectListItem() {
+                        Text = scambioMano.Text,
+                        Value = scambioMano.Value
+                    }
+                };
+        }
+    var listaAnni = new List<SelectListItem>();
+    for (int i = DateTime.Now.Year; i <= DateTime.Now.AddYears(20).Year; i++)
+    {
+        listaAnni.Add(new SelectListItem() { Text = i.ToString(), Value = i.ToString() });
+    }
+        <div class="exchange">
+            @Html.LabelFor(m => m.TipoScambio)
+            @Html.DropDownListFor(m => m.TipoScambio, listaTipologia, new { @class = "form-control changeTipoScambio", data_class = ".tipoScambio" })
+            @Html.ValidationMessageFor(m => m.TipoScambio, "", new { @class = "text-danger" })
+        </div>
+        <h4 class="exchange shipment hide">@ViewModel.Recipient</h4>
+        <div class="exchange shipment hide">
+            @Html.LabelFor(m => m.CapDestinatario)
+            @Html.TextBoxFor(m => m.CapDestinatario, new { @class = "form-control", data_class = ".capDestinatario" })
+            @Html.ValidationMessageFor(m => m.CapDestinatario, "", new { @class = "text-danger" })
+        </div>
+        <div class="exchange shipment hide">
+            @Html.LabelFor(m => m.IndirizzoDestinatario)
+            @Html.TextBoxFor(m => m.IndirizzoDestinatario, new { @class = "form-control", data_class = ".indirizzoDestinatario" })
+            @Html.ValidationMessageFor(m => m.IndirizzoDestinatario, "", new { @class = "text-danger" })
+        </div>
+        <div class="exchange shipment hide">
+            @Html.LabelFor(m => m.CivicoDestinatario)
+            @Html.TextBoxFor(m => m.CivicoDestinatario, new { @class = "form-control", data_class = ".civicoDestinatario" })
+            @Html.ValidationMessageFor(m => m.CivicoDestinatario, "", new { @class = "text-danger" })
+        </div>
+        <div class="exchange shipment hide">
+            @Html.LabelFor(m => m.NominativoDestinatario)
+            @Html.TextBoxFor(m => m.NominativoDestinatario, new { @class = "form-control", data_class = ".nominativoDestinatario" })
+            @Html.ValidationMessageFor(m => m.NominativoDestinatario, "", new { @class = "text-danger" })
+        </div>
+        <div class="exchange shipment hide">
+            @Html.LabelFor(m => m.TelefonoDestinatario)
+            @Html.TextBoxFor(m => m.TelefonoDestinatario, new { @class = "form-control", data_class = ".telefonoDestinatario" })
+            @Html.ValidationMessageFor(m => m.TelefonoDestinatario, "", new { @class = "text-danger" })
+        </div>
+        <div class="exchange shipment hide">
+            @Html.LabelFor(m => m.InfoExtraDestinatario)
+            @Html.TextAreaFor(m => m.InfoExtraDestinatario, new { @class = "form-control", data_class = ".infoExtraDestinatario" })
+            @Html.ValidationMessageFor(m => m.InfoExtraDestinatario, "", new { @class = "text-danger" })
+        </div>
+    }
+    <div class="footer">
+        <a href="javascript:void(0);" onclick="inviaOffertaAnnuncio(this);" class="btn buy">@Language.Send</a>
+    </div>
+}

@@ -1,0 +1,13 @@
+﻿#news .ico{
+    width: 38px;
+    padding:3px;
+}
+
+.news {
+    display: inline-block;
+    margin: 13px;
+    max-width: 200px;
+    border: 1px solid;
+    padding: 4px;
+    border-radius: 6px;
+}

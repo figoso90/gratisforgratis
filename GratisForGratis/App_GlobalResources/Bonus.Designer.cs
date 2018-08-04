@@ -61,11 +61,29 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Promozione da canale pubblicitario {0}.
+        /// </summary>
+        public static string AdChannel {
+            get {
+                return ResourceManager.GetString("AdChannel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Bonus feedback utente.
         /// </summary>
         public static string Feedback {
             get {
                 return ResourceManager.GetString("Feedback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Annuncio completo.
+        /// </summary>
+        public static string FullAnnouncement {
+            get {
+                return ResourceManager.GetString("FullAnnouncement", resourceCulture);
             }
         }
         

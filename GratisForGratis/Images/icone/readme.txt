@@ -1,0 +1,1 @@
+Alcune trovate sotto: flaticon.com/emoticon

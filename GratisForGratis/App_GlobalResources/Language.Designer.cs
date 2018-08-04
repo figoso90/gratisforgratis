@@ -19,7 +19,7 @@ namespace GratisForGratis.App_GlobalResources {
     // tramite uno strumento quale ResGen o Visual Studio.
     // Per aggiungere o rimuovere un membro, modificare il file con estensione ResX ed eseguire nuovamente ResGen
     // con l'opzione /str oppure ricompilare il progetto VS.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Language {
@@ -129,6 +129,24 @@ namespace GratisForGratis.App_GlobalResources {
         public static string AddBarter {
             get {
                 return ResourceManager.GetString("AddBarter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Aggiungi componente.
+        /// </summary>
+        public static string AddComponent {
+            get {
+                return ResourceManager.GetString("AddComponent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Aggiungi materiale.
+        /// </summary>
+        public static string AddMaterial {
+            get {
+                return ResourceManager.GetString("AddMaterial", resourceCulture);
             }
         }
         
@@ -372,6 +390,15 @@ namespace GratisForGratis.App_GlobalResources {
         public static string Bid {
             get {
                 return ResourceManager.GetString("Bid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Pagamento offerta.
+        /// </summary>
+        public static string BidPayment {
+            get {
+                return ResourceManager.GetString("BidPayment", resourceCulture);
             }
         }
         
@@ -772,6 +799,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Inserisci altre informazioni sull&apos;annuncio, avrai &lt;b&gt;maggiore visibilità e apprezzamento&lt;/b&gt; dagli altri utenti!!!.
+        /// </summary>
+        public static string DescriptionInfoExtraPublication {
+            get {
+                return ResourceManager.GetString("DescriptionInfoExtraPublication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Usa il tuo account personale per accedere e comprare..
         /// </summary>
         public static string DescriptionLogin {
@@ -813,6 +849,15 @@ namespace GratisForGratis.App_GlobalResources {
         public static string DescriptionPubblication {
             get {
                 return ResourceManager.GetString("DescriptionPubblication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Pubblica il tuo annuncio in modo semplice e veloce! Inserisci i dati base, aggiungi altre informazioni per maggiore visibilità e scegli il tipo di spedizione..
+        /// </summary>
+        public static string DescriptionPubblicationIndex {
+            get {
+                return ResourceManager.GetString("DescriptionPubblicationIndex", resourceCulture);
             }
         }
         
@@ -880,7 +925,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Il feedback all&apos;utente &lt;strong&gt;{0}&lt;/strong&gt; è stato inviato. &lt;br/&gt; Ti ringraziamo per la tua disponibilità nel valutare l&apos;utente e per questo ti abbiamo regalato &lt;strong&gt;{1}&lt;/strong&gt;..
+        ///   Cerca una stringa localizzata simile a Per questo feedback hai ricevuto &lt;strong&gt;{0}&lt;/strong&gt; in quanto ti siamo grati per la tua disponibilità..
         /// </summary>
         public static string DescriptionSendFeedback {
             get {
@@ -1087,6 +1132,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Categoria inserita errata.
+        /// </summary>
+        public static string ErrorCategory {
+            get {
+                return ResourceManager.GetString("ErrorCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Città obbligatoria (Selezionare città suggerita).
         /// </summary>
         public static string ErrorCity {
@@ -1110,6 +1164,15 @@ namespace GratisForGratis.App_GlobalResources {
         public static string ErrorDate {
             get {
                 return ResourceManager.GetString("ErrorDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a La descrizione dev&apos;essere tra i 5 ed i 2000 caratteri.
+        /// </summary>
+        public static string ErrorDescriptionPost {
+            get {
+                return ResourceManager.GetString("ErrorDescriptionPost", resourceCulture);
             }
         }
         
@@ -1227,6 +1290,15 @@ namespace GratisForGratis.App_GlobalResources {
         public static string ErrorLengthEmail {
             get {
                 return ResourceManager.GetString("ErrorLengthEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Caricamento campi categoria fallito, contattare l&apos;assistenza..
+        /// </summary>
+        public static string ErrorLoadInfoExtra {
+            get {
+                return ResourceManager.GetString("ErrorLoadInfoExtra", resourceCulture);
             }
         }
         
@@ -1519,7 +1591,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a L&apos;email già presente a database. Cambiare indirizzo di registrazione o richiedere il recupera password..
+        ///   Cerca una stringa localizzata simile a Errore durante la registrazione, prova a reinserire i dati. Se il problema persiste inviaci una segnalazione..
         /// </summary>
         public static string ErrorRegister {
             get {
@@ -1569,6 +1641,15 @@ namespace GratisForGratis.App_GlobalResources {
         public static string ErrorRequiredField {
             get {
                 return ResourceManager.GetString("ErrorRequiredField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Inserire almeno una foto.
+        /// </summary>
+        public static string ErrorRequiredPhote {
+            get {
+                return ResourceManager.GetString("ErrorRequiredPhote", resourceCulture);
             }
         }
         
@@ -1699,6 +1780,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a La cifra non è valida.
+        /// </summary>
+        public static string ErrorValueCoin {
+            get {
+                return ResourceManager.GetString("ErrorValueCoin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Formato peso errato (150 g).
         /// </summary>
         public static string ErrorWeight {
@@ -1740,6 +1830,15 @@ namespace GratisForGratis.App_GlobalResources {
         public static string ExchangeObject {
             get {
                 return ResourceManager.GetString("ExchangeObject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Data scadenza.
+        /// </summary>
+        public static string ExpireDate {
+            get {
+                return ResourceManager.GetString("ExpireDate", resourceCulture);
             }
         }
         
@@ -2095,6 +2194,24 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Annuncio comprato con successo!.
+        /// </summary>
+        public static string JsonBuyAd {
+            get {
+                return ResourceManager.GetString("JsonBuyAd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Offerta inviata con successo!.
+        /// </summary>
+        public static string JsonSendBid {
+            get {
+                return ResourceManager.GetString("JsonSendBid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Genere.
         /// </summary>
         public static string Kind {
@@ -2122,11 +2239,92 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Componenti.
+        /// </summary>
+        public static string LblComponents {
+            get {
+                return ResourceManager.GetString("LblComponents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Materiali.
+        /// </summary>
+        public static string LblMaterials {
+            get {
+                return ResourceManager.GetString("LblMaterials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Non ce l&apos;ho più.
+        /// </summary>
+        public static string LblNotOwn {
+            get {
+                return ResourceManager.GetString("LblNotOwn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Non mi manca più.
+        /// </summary>
+        public static string LblNotWishIt {
+            get {
+                return ResourceManager.GetString("LblNotWishIt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Ce l&apos;ho.
+        /// </summary>
+        public static string LblOwn {
+            get {
+                return ResourceManager.GetString("LblOwn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Prezzo.
+        /// </summary>
+        public static string LblRealCoin {
+            get {
+                return ResourceManager.GetString("LblRealCoin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Titolo.
+        /// </summary>
+        public static string LblTitleAd {
+            get {
+                return ResourceManager.GetString("LblTitleAd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Mi manca.
+        /// </summary>
+        public static string LblWishIt {
+            get {
+                return ResourceManager.GetString("LblWishIt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Lunghezza.
         /// </summary>
         public static string Length {
             get {
                 return ResourceManager.GetString("Length", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Hai un annuncio per questa categoria? Pubblicalo subito!!!.
+        /// </summary>
+        public static string LnkGoToPublic {
+            get {
+                return ResourceManager.GetString("LnkGoToPublic", resourceCulture);
             }
         }
         
@@ -2266,6 +2464,87 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Acquisti.
+        /// </summary>
+        public static string MenuPurchases {
+            get {
+                return ResourceManager.GetString("MenuPurchases", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Conclusi.
+        /// </summary>
+        public static string MenuPurchasesCompleted {
+            get {
+                return ResourceManager.GetString("MenuPurchasesCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a In corso.
+        /// </summary>
+        public static string MenuPurchasesCurrent {
+            get {
+                return ResourceManager.GetString("MenuPurchasesCurrent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Futuri.
+        /// </summary>
+        public static string MenuPurchasesFuture {
+            get {
+                return ResourceManager.GetString("MenuPurchasesFuture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Raccomandati.
+        /// </summary>
+        public static string MenuPurchasesRecommend {
+            get {
+                return ResourceManager.GetString("MenuPurchasesRecommend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Riepiloghi.
+        /// </summary>
+        public static string MenuRecaps {
+            get {
+                return ResourceManager.GetString("MenuRecaps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Hai.
+        /// </summary>
+        public static string MenuRecapsOwnerShip {
+            get {
+                return ResourceManager.GetString("MenuRecapsOwnerShip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Ricerche.
+        /// </summary>
+        public static string MenuRecapsSearch {
+            get {
+                return ResourceManager.GetString("MenuRecapsSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Desideri.
+        /// </summary>
+        public static string MenuRecapsWish {
+            get {
+                return ResourceManager.GetString("MenuRecapsWish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Ricerche salvate.
         /// </summary>
         public static string MenuSearchSaved {
@@ -2275,20 +2554,65 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Finisci la tua registrazione alla pagina {0} per poter acquistare e vendere. Riceverai ulteriori crediti omaggio!.
+        ///   Cerca una stringa localizzata simile a Vendite.
         /// </summary>
-        public static string MessaggioCompletaRegistrazione {
+        public static string MenuSells {
             get {
-                return ResourceManager.GetString("MessaggioCompletaRegistrazione", resourceCulture);
+                return ResourceManager.GetString("MenuSells", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Conferma l&apos;e-mail di registrazione. Clicca il seguente link per riceverla nuovamente!.
+        ///   Cerca una stringa localizzata simile a Offerte ricevute.
         /// </summary>
-        public static string MessaggioConfermaEmail {
+        public static string MenuSellsBid {
             get {
-                return ResourceManager.GetString("MessaggioConfermaEmail", resourceCulture);
+                return ResourceManager.GetString("MenuSellsBid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Concluse.
+        /// </summary>
+        public static string MenuSellsCompleted {
+            get {
+                return ResourceManager.GetString("MenuSellsCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a In corso.
+        /// </summary>
+        public static string MenuSellsCurrent {
+            get {
+                return ResourceManager.GetString("MenuSellsCurrent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Raccomandate.
+        /// </summary>
+        public static string MenuSellsRecommend {
+            get {
+                return ResourceManager.GetString("MenuSellsRecommend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Utente.
+        /// </summary>
+        public static string MenuUser {
+            get {
+                return ResourceManager.GetString("MenuUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Notifiche.
+        /// </summary>
+        public static string MenuUserNews {
+            get {
+                return ResourceManager.GetString("MenuUserNews", resourceCulture);
             }
         }
         
@@ -2455,6 +2779,33 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Attiva il tuo annuncio di {0} pubblicato il {1}.
+        /// </summary>
+        public static string NewsAdActive {
+            get {
+                return ResourceManager.GetString("NewsAdActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Data notifica:.
+        /// </summary>
+        public static string NewsDate {
+            get {
+                return ResourceManager.GetString("NewsDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Apri notifica.
+        /// </summary>
+        public static string NewsOpen {
+            get {
+                return ResourceManager.GetString("NewsOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Nominativo.
         /// </summary>
         public static string Nominative {
@@ -2572,7 +2923,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Note aggiuntive.
+        ///   Cerca una stringa localizzata simile a Descrizione.
         /// </summary>
         public static string OptionalNote {
             get {
@@ -2694,6 +3045,15 @@ namespace GratisForGratis.App_GlobalResources {
         public static string PaymentMethods {
             get {
                 return ResourceManager.GetString("PaymentMethods", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Metodo di pagamento accettato.
+        /// </summary>
+        public static string PaymentMethodsAccepted {
+            get {
+                return ResourceManager.GetString("PaymentMethodsAccepted", resourceCulture);
             }
         }
         
@@ -3166,6 +3526,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Tipo di spedizione.
+        /// </summary>
+        public static string ShipimentMethod {
+            get {
+                return ResourceManager.GetString("ShipimentMethod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Spedizione.
         /// </summary>
         public static string Shipment {
@@ -3274,7 +3643,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a &lt;strong&gt;L&apos;e-commerce che non vende, ma regala&lt;/strong&gt;!.
+        ///   Cerca una stringa localizzata simile a &lt;strong&gt;Il commercio circolare con moneta virtuale&lt;/strong&gt;!.
         /// </summary>
         public static string Slogan {
             get {
@@ -3472,6 +3841,51 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Non letta.
+        /// </summary>
+        public static string StateNewsActive {
+            get {
+                return ResourceManager.GetString("StateNewsActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Eliminata.
+        /// </summary>
+        public static string StateNewsDelete {
+            get {
+                return ResourceManager.GetString("StateNewsDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Inattiva.
+        /// </summary>
+        public static string StateNewsInactive {
+            get {
+                return ResourceManager.GetString("StateNewsInactive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Sospesa.
+        /// </summary>
+        public static string StateNewsPause {
+            get {
+                return ResourceManager.GetString("StateNewsPause", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Letta.
+        /// </summary>
+        public static string StateNewsRead {
+            get {
+                return ResourceManager.GetString("StateNewsRead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Stato oggetto.
         /// </summary>
         public static string StateObject {
@@ -3589,11 +4003,38 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Attiva annuncio.
+        ///   Cerca una stringa localizzata simile a Suggerisci attivazione!.
         /// </summary>
         public static string SuggestAdActivation {
             get {
                 return ResourceManager.GetString("SuggestAdActivation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Suggerimento già inviato!.
+        /// </summary>
+        public static string SuggestAdActivationError {
+            get {
+                return ResourceManager.GetString("SuggestAdActivationError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Suggerimento fallito. Contattare l&apos;assistenza..
+        /// </summary>
+        public static string SuggestAdActivationKO {
+            get {
+                return ResourceManager.GetString("SuggestAdActivationKO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Il tuo suggerimento è stato inviato!.
+        /// </summary>
+        public static string SuggestAdActivationOK {
+            get {
+                return ResourceManager.GetString("SuggestAdActivationOK", resourceCulture);
             }
         }
         
@@ -3850,6 +4291,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Maggiori informazioni.
+        /// </summary>
+        public static string TitleInfoExtraPublication {
+            get {
+                return ResourceManager.GetString("TitleInfoExtraPublication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Beni / Servizi - In vendita.
         /// </summary>
         public static string TitleOnSale {
@@ -4030,11 +4480,20 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Feedback Inviato.
+        ///   Cerca una stringa localizzata simile a Feedback per {0} è stato inviato.
         /// </summary>
         public static string TitleSendFeedback {
             get {
                 return ResourceManager.GetString("TitleSendFeedback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Feedback per {0}.
+        /// </summary>
+        public static string TitleSendFeedback2 {
+            get {
+                return ResourceManager.GetString("TitleSendFeedback2", resourceCulture);
             }
         }
         
@@ -4170,6 +4629,15 @@ namespace GratisForGratis.App_GlobalResources {
         public static string TypePurchase {
             get {
                 return ResourceManager.GetString("TypePurchase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Sblocca.
+        /// </summary>
+        public static string Unblock {
+            get {
+                return ResourceManager.GetString("Unblock", resourceCulture);
             }
         }
         

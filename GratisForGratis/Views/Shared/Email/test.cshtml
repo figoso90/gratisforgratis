@@ -1,0 +1,17 @@
+﻿@model GratisForGratis.Models.ViewModels.Email.PagamentoOffertaViewModel
+@using System.Web.Configuration
+
+@if (Model.Moneta > 0)
+{
+<tr>
+    <td style="width:50px;">&nbsp;</td>
+    <td align="center" style="padding:14px 0px 0px;line-height:12px;">
+        @string.Format(Email.BidPaymentTextMoneta, Model.Moneta)
+    </td>
+    <td style="width:50px;">&nbsp;</td>
+</tr>
+}
+<tr>
+    <td colspan="3">&nbsp;</td>
+</tr>
+

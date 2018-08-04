@@ -1,0 +1,8 @@
+﻿@model GratisForGratis.Models.OggettoViewModel
+
+@{ var oggetto = (GratisForGratis.Models.LibroViewModel)Model; }
+
+@if (oggetto.autoreID != null)
+{
+<h5 class="model"><b>@Language.Author :</b> @oggetto.autoreNome</h5>
+}

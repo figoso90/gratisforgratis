@@ -1,0 +1,64 @@
+﻿@using GratisForGratis.Models
+@model List<SchedaPagamentoViewModel>
+
+@{
+    ViewBag.Title = Language.TitleTransactionHistorical;
+}
+
+@Styles.Render("~/Content/trattative.css")
+<!--<section id="head">
+    <div class="content">
+        <h1 id="title">@ViewBag.Title</h1>
+    </div>
+</section>-->
+<section id="purchases">
+    <div id="grid" class="content">
+        @foreach (SchedaPagamentoViewModel pagamento in Model)
+        {
+            <div class="purchase">
+                <div class="preview">
+                    <h4 class="title plus">@pagamento.Nome</h4>
+                    <div class="cella noMandatory">
+                        <div class="cell">
+                            
+                        </div>
+                    </div>
+                    <div class="cella people">
+                        @Html.Label("Venditore", Language.Seller + ":")
+                        @pagamento.Venditore
+                    </div>
+                    <div class="cella people">
+                        @Html.Label("Compratore", Language.Buyer + ":")
+                        @pagamento.Compratore
+                    </div>
+                    <div class="cella points">
+                        @Html.Label("Punti", Language.Moneta + ":")
+                        @pagamento.Punti <span class="plus">(€ @pagamento.Soldi)</span>
+                    </div>
+                    @if (pagamento.Baratti.Count > 0)
+                    {
+                        <div class="cella">
+                            @Html.Label("Baratti", Language.Barters + ":")
+                            @foreach (VenditaViewModel baratto in pagamento.Baratti)
+                            {
+                                @Html.ActionLink(baratto.Nome, "Barattato", (baratto.TipoAcquisto == TipoAcquisto.Servizio) ? TipoAcquisto.Servizio.ToString() : TipoAcquisto.Oggetto.ToString(), new { nome = HttpUtility.UrlEncode(baratto.Nome), token = HttpUtility.UrlEncode(baratto.Token) }, new { @class = "link" }) <br />
+                            }
+                        </div>
+                    }
+                    <div class="cella noMandatory">
+                        @Html.Label("DataInserimento", Language.InsertDate + ":")
+                        @pagamento.Data
+                    </div>
+                    <!--
+                    <div class="cella">
+                        @Html.ActionLink(Language.GoToFeedback, "Feedback", "Pagamento", new { pagamento = pagamento.Token }, new { @class = "link btn" })
+                    </div>
+                    -->
+                </div>
+            </div>
+        }
+        @Html.Partial("PartialPages/_ElencoPagine", new ElencoPagine((int)ViewData["TotalePagine"],
+            (int)ViewData["Pagina"], (((int)ViewData["Pagina"] - 5) < 1 ? 1 : (int)ViewData["Pagina"] - 5), "Conclusi", "Acquisti"))
+    </div>
+</section>
+

@@ -11,7 +11,8 @@ namespace GratisForGratis.Models.ViewModels
     {
         [Required]
         [DataType(DataType.Text)]
-        public string AcquistoID { get; set; }
+        //public string AcquistoID { get; set; }
+        public int AcquistoID { get; set; }
 
         [DataType(DataType.Text)]
         [Display(Name = "PaymentName", ResourceType = typeof(App_GlobalResources.Language))]
@@ -28,7 +29,7 @@ namespace GratisForGratis.Models.ViewModels
         [MaxLength(8000, ErrorMessageResourceName = "ErrorRangeOpinion", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
         public string Opinione { get; set; }
 
-        public int TipoFeedback { get; set; }
+        public TipoFeedback Tipo { get; set; }
 
         public string Ricevente { get; set; }
 

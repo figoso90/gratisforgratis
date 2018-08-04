@@ -5,10 +5,12 @@
     });*/
 
     // inizializzo pulsanti di conferma acquisto
+    /*
     $('#grid .ok').one('click', function (event) {
         //alert("Id acquisto: " + $(this).parents('.purchase').attr('id'));
         confermaAcquisto(this, $(this).parents('.purchase').attr('id'));
     });
+    */
 });
 
 function confermaAcquisto(link,token) {

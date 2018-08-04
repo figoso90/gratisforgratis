@@ -1,0 +1,18 @@
+﻿@using GratisForGratis.Models
+@model List<AnnuncioViewModel>
+
+@{
+    ViewBag.Title = Language.TitlePurchasesList;
+}
+
+@Styles.Render("~/Content/vorrei.css")
+<section id="wish">
+    <div id="grid" class="content">
+        @foreach (AnnuncioViewModel annuncio in Model)
+        {
+            Html.RenderPartial("PartialPages/_Annuncio", annuncio);
+        }
+        @Html.Partial("PartialPages/_ElencoPagine", new ElencoPagine((int)ViewData["TotalePagine"],
+            (int)ViewData["Pagina"], (((int)ViewData["Pagina"] - 5) < 1 ? 1 : (int)ViewData["Pagina"] - 5), "Offerte", "StoricoPagamenti"))
+    </div>
+</section>

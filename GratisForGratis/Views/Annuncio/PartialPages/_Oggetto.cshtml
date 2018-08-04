@@ -1,0 +1,36 @@
+﻿@using GratisForGratis.Models
+@model OggettoViewModel
+
+@if (!string.IsNullOrWhiteSpace(Model.Marca))
+{
+    <h5 class="brand"><b>@Language.Brand :</b> @Model.Marca</h5>
+}
+<h5 class="state"><b>@Language.StateObject :</b> @EnumHelper.GetSelectList(typeof(CondizioneOggetto), Model.StatoOggetto).Where(m => m.Selected).FirstOrDefault().Text</h5>
+@if (Model.TipoScambio.Contains(TipoScambio.Spedizione))
+{
+    <h5 class="shipment"><b>@Language.Shipment :</b> <span class="evidence">@Model.SoldiSpedizione (@Model.NomeCorriere)</span></h5>
+}
+@if (Model.Materiali.Count(m => m.Trim() != string.Empty) > 0)
+{
+    <ul class="materials lista">
+        @Language.LblMaterials :
+        @foreach (string materiale in Model.Materiali)
+        {
+            <li class="voce">
+                @materiale
+            </li>
+        }
+    </ul>
+}
+@if (Model.Componenti.Count(m => m.Trim() != string.Empty) > 0)
+{
+    <ul class="components lista">
+        @Language.LblComponents :
+        @foreach (string componente in Model.Componenti)
+        {
+            <li class="voce">
+                @componente
+            </li>
+        }
+    </ul>
+}

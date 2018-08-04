@@ -36,11 +36,7 @@ namespace GratisForGratis.Models
             this.Dominio = model.DOMINIO;
             this.Token = model.TOKEN.ToString();
             this.Telefono = modelTelefono.Find(item => item.TIPO == (int)TipoTelefono.Privato).TELEFONO;
-            /*
-            this.Abbonamento = model.ABBONAMENTO.NOME;
-            this.BonusPerUtente = model.ABBONAMENTO.BONUS_PERUTENTE;
-            this.DurataAbbonamento = model.ABBONAMENTO.DURATA;
-            */
+            //this.Abbonamento = new AbbonamentoModel(model)
             this.Bonus = model.CONTO_CORRENTE.CONTO_CORRENTE_MONETA.Count;
             this.DataIscrizione = (DateTime)model.DATA_INSERIMENTO;
         }
@@ -76,7 +72,15 @@ namespace GratisForGratis.Models
 
         [Required]
         [Display(Name = "Subscription", ResourceType = typeof(App_GlobalResources.Language))]
-        public string Abbonamento { get; set; }
+        public AbbonamentoModel Abbonamento { get; set; }
+
+        //// annuale
+        //[Display(Name = "BonusForUser", ResourceType = typeof(App_GlobalResources.Language))]
+        //public int BonusPerUtente { get; set; }
+
+        ////mesi
+        //[Display(Name = "DurationSubscription", ResourceType = typeof(App_GlobalResources.Language))]
+        //public int DurataAbbonamento { get; set; }
 
         [Required]
         [Display(Name = "AcceptConditions", ResourceType = typeof(App_GlobalResources.Language))]
@@ -89,16 +93,8 @@ namespace GratisForGratis.Models
         public int Bonus { get; set; }
 
         // annuale
-        [Display(Name = "BonusForUser", ResourceType = typeof(App_GlobalResources.Language))]
-        public int BonusPerUtente { get; set; }
-
-        // annuale
         [Display(Name = "BonusUsed", ResourceType = typeof(App_GlobalResources.Language))]
         public int? BonusSpeso { get; set; }
-
-        //mesi
-        [Display(Name = "DurationSubscription", ResourceType = typeof(App_GlobalResources.Language))]
-        public int DurataAbbonamento { get; set; }
 
         [Display(Name = "DateSubscription", ResourceType = typeof(App_GlobalResources.Language))]
         public DateTime DataIscrizione { get; set; }

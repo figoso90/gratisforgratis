@@ -1,0 +1,22 @@
+﻿@model GratisForGratis.Models.ViewModels.ChatViewModel
+
+@using (Html.BeginForm("Invia", "Chat", FormMethod.Post, new AjaxOptions
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    OnFailure = "inviaChatFallito"
+    //UpdateTargetId = "target"
+}))
+{
+    <!-- form inserimento nuovo messaggio -->
+    @Html.AntiForgeryToken()
+<fieldset>
+    @Html.HiddenFor(m => m.DestinatarioId, new { @class = "form-control" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.Testo)
+        @Html.TextAreaFor(m => m.Testo, new { @class = "form-control", placeholder = "Messaggio..." })
+    </div>
+    <button type="submit" class="btn btn-default">Annulla Modifica</button>
+    <button type="submit" class="btn btn-default">@Language.Send</button>
+</fieldset>
+}

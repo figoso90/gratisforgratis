@@ -1,0 +1,34 @@
+﻿@model GratisForGratis.Models.OffertaViewModel
+
+@using (Html.BeginForm("Compra", "Annuncio", FormMethod.Post, new { @class = "object", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Annuncio.Token)
+
+    <h5 class="typeBid">@Language.TypeBid : </h5>
+    @Html.EnumDropDownListFor(m => m.TipoOfferta, new { @class = "form-control" })
+    <h5 class="offerPoints">@Language.OfferPoints :</h5>
+    @Html.TextBoxFor(m => m.Punti, "0", new { @class = "form-control number" })
+    <!--<h5 class="barters"> @Html.Label(Resources.Language.ExchangeObject) :</h5>-->
+    @Html.TextBox("CercaOggetto", "", new { @class = "form-control", data_url = "/Cerca/FindOggettiBarattabili", data_value_id = "Baratti" })
+    <div id="previewBarter">
+        @if (Model.Baratti != null && Model.Baratti.Count > 0)
+        {
+            for (int i = 0; i < Model.Baratti.Count; i++)
+            {
+                <div class="barter">@Model.Baratti[i].Nome</div>
+                @Html.HiddenFor(m => m.Baratti[i].Id)
+            }
+        }
+    </div>
+    @Html.ValidationMessageFor(m => m.Baratti, "", new { @class = "text-danger" })
+
+    if (Request.IsAuthenticated && Model.Annuncio.Venditore.Id != ((GratisForGratis.Models.PersonaModel)Session["utente"]).Persona.ID)
+    {
+        <input name="Compra" type="submit" class="btn buy" value="@Language.BuyNow" />
+    }
+    else if (!Request.IsAuthenticated)
+    {
+        @Html.ActionLink(Language.LoginAndBuy, "Login", "Utente", new { ReturnUrl = "~/Oggetto/Acquista?nome=" + HttpUtility.UrlEncode(Model.Annuncio.Nome) + "&token=" + HttpUtility.UrlEncode(Model.Annuncio.Token) }, new { @class = "btn buy" })
+    }
+}

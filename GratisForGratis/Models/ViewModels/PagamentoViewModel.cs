@@ -105,8 +105,12 @@ namespace GratisForGratis.Models
 
     }
 
-    public class SchedaPagamentoViewModel : EncoderViewModel
+    public class SchedaPagamentoViewModel /*: EncoderViewModel*/
     {
+
+        public int Id { get; set; }
+
+        public string Token { get; set; }
 
         [DataType(DataType.Text)]
         [Display(Name = "Name", ResourceType = typeof(App_GlobalResources.Language))]
@@ -140,7 +144,7 @@ namespace GratisForGratis.Models
         public int Soldi { get; set; }
 
         // offerti o ricevuti
-        public List<VenditaViewModel> Baratti { get; set; }
+        public List<AnnuncioViewModel> Baratti { get; set; }
 
         [DataType(DataType.Text)]
         [Display(Name = "Date", ResourceType = typeof(App_GlobalResources.Language))]

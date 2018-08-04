@@ -25,6 +25,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,6 +49,9 @@
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="BigMath, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TLSharp.0.1.0.355\lib\net45\BigMath.dll</HintPath>
+    </Reference>
     <Reference Include="DotNetOpenAuth.Clients, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DotNetOpenAuth.Clients.1.0.2\lib\DotNetOpenAuth.Clients.dll</HintPath>
       <Private>True</Private>
@@ -55,6 +59,9 @@
     <Reference Include="DotNetShipping, Version=0.9.4.36, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DotNetShipping.0.9.4.36\lib\net40\DotNetShipping.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="effts">
+      <HintPath>C:\Users\mildav\Downloads\effts-1.0.0\effts.dll</HintPath>
     </Reference>
     <Reference Include="Elmah, Version=1.2.13605.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\elmah.corelibrary.1.2\lib\Elmah.dll</HintPath>
@@ -64,6 +71,9 @@
       <HintPath>..\packages\Elmah.Mvc.2.1.2\lib\net40\Elmah.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Emotion">
+      <HintPath>..\..\..\..\ShippingNow\Emotion\Emotion\bin\Debug\Emotion.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=6847f3395fc61b47, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFrameworkWithHierarchyId.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -72,6 +82,12 @@
       <HintPath>..\packages\EntityFrameworkWithHierarchyId.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ExpressiveAnnotations, Version=2.7.4.0, Culture=neutral, PublicKeyToken=d3e372f3c1e83cec, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExpressiveAnnotations.2.9.6\lib\net45\ExpressiveAnnotations.dll</HintPath>
+    </Reference>
+    <Reference Include="ExpressiveAnnotations.MvcUnobtrusive, Version=2.5.4.0, Culture=neutral, PublicKeyToken=d3e372f3c1e83cec, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExpressiveAnnotations.2.9.6\lib\net45\ExpressiveAnnotations.MvcUnobtrusive.dll</HintPath>
+    </Reference>
     <Reference Include="Facebook, Version=6.0.10.0, Culture=neutral, PublicKeyToken=58cb4f2111d1e6de, processorArchitecture=MSIL">
       <HintPath>..\packages\Facebook.7.0.6\lib\net45\Facebook.dll</HintPath>
       <Private>True</Private>
@@ -79,6 +95,12 @@
     <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Ionic.Zip, Version=1.9.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetZip.1.9.3\lib\net20\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.ZLib, Version=2.0.0.14, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TLSharp.0.1.0.355\lib\net45\Ionic.ZLib.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
@@ -103,9 +125,8 @@
       <HintPath>..\packages\MvcContrib.Mvc5.5.0.0.0\lib\MvcContrib.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -119,6 +140,12 @@
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PayPal, Version=1.9.1.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PayPal.1.9.1\lib\net451\PayPal.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="SimpleCrypto, Version=26.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SimpleCrypto.0.3.30.26\lib\SimpleCrypto.dll</HintPath>
       <Private>True</Private>
@@ -131,11 +158,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http">
-      <HintPath>..\packages\Microsoft.Net.Http.2.0.20505.0\lib\net40\System.Net.Http.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\System.Net.Http.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest">
-      <HintPath>..\packages\Microsoft.Net.Http.2.0.20505.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\System.Net.Http.WebRequest.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime.Serialization">
@@ -197,9 +224,18 @@
     <Reference Include="System.EnterpriseServices">
       <Private>True</Private>
     </Reference>
+    <Reference Include="TeleSharp.TL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TLSharp.0.1.0.355\lib\net45\TeleSharp.TL.dll</HintPath>
+    </Reference>
+    <Reference Include="TLSharp.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TLSharp.0.1.0.355\lib\net45\TLSharp.Core.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="WhatsAppApi, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WhatsAppAPI.15.4.29\lib\net40\WhatsAppApi.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -227,15 +263,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\categoria.css" />
+    <Content Include="Content\chat.css" />
     <Content Include="Content\feedback.css" />
     <Content Include="Content\home.css" />
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Bootstrap\bootstrap-theme.css" />
+    <Content Include="Content\Bootstrap\bootstrap-theme.min.css" />
+    <Content Include="Content\Bootstrap\bootstrap.css" />
+    <Content Include="Content\Bootstrap\bootstrap.min.css" />
     <Content Include="Content\cosaFacciamo.css" />
     <Content Include="Content\homePartner.css" />
-    <Content Include="Content\oggetto.css" />
+    <Content Include="Content\notifiche.css" />
+    <Content Include="Content\annuncio.css" />
     <Content Include="Content\index.css" />
     <Content Include="Content\JqueryUI\images\ui-bg_glass_40_ffc73d_1x400.png" />
     <Content Include="Content\JqueryUI\images\ui-bg_highlight-hard_20_0972a5_1x100.png" />
@@ -261,6 +299,7 @@
     <Content Include="Content\saldoPunti.css" />
     <Content Include="Content\saveRicerca.css" />
     <Content Include="Content\acquisto.css" />
+    <Content Include="Content\offerteVendita.css" />
     <Content Include="Content\trattative.css" />
     <Content Include="Content\login.css" />
     <Content Include="Content\offertaSalvata.css" />
@@ -367,10 +406,15 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\Bootstrap\bootstrap.css.map" />
+    <Content Include="Content\Bootstrap\bootstrap-theme.css.map" />
     <Content Include="ClassDiagram1.cd" />
     <Content Include="Scripts\annuncio.js" />
+    <Content Include="Scripts\blueimp-gallery\.eslintrc.js" />
+    <Content Include="Scripts\blueimp-gallery\.gitignore" />
+    <Content Include="Scripts\blueimp-gallery\index.html" />
+    <Content Include="Scripts\blueimp-gallery\LICENSE.txt" />
+    <Content Include="Scripts\chat.js" />
     <Content Include="Scripts\ColorPicker\colorpicker.js" />
     <Content Include="Scripts\ColorPicker\css\colorpicker.css" />
     <Content Include="Scripts\ColorPicker\css\layout.css" />
@@ -406,14 +450,20 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Content Include="Scripts\expressive.annotations.validate.js" />
+    <Content Include="Scripts\expressive.annotations.validate.min.js" />
     <Content Include="Scripts\jgallery\fonts\fontawesome-webfont.eot" />
     <Content Include="Scripts\jgallery\fonts\fontawesome-webfont.ttf" />
     <Content Include="Scripts\jgallery\fonts\fontawesome-webfont.woff" />
     <Content Include="Scripts\jgallery\fonts\FontAwesome.otf" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\blueimp-gallery\.eslintignore" />
+    <Content Include="Scripts\blueimp-gallery\.npmignore" />
+    <Content Include="Scripts\blueimp-gallery\package.json" />
+    <Content Include="Scripts\blueimp-gallery\README.md" />
+    <None Include="Scripts\Jquery\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\baratto.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Bootstrap\bootstrap.js" />
+    <Content Include="Scripts\Bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\jgallery\css\font-awesome.min.css" />
     <Content Include="Scripts\jgallery\css\jgallery.css" />
     <Content Include="Scripts\jgallery\css\jgallery.min.css" />
@@ -436,24 +486,30 @@
     <Content Include="Scripts\jgallery\js\tinycolor-0.9.16.min.js" />
     <Content Include="Scripts\jgallery\js\touchswipe.js" />
     <Content Include="Scripts\jgallery\js\touchswipe.min.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery-ui-1.11.4.js" />
-    <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\Jquery\jquery-1.10.2.js" />
+    <Content Include="Scripts\Jquery\jquery-1.10.2.min.js" />
+    <None Include="Scripts\JqueryValidate\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\Jquery\jquery-ui-1.11.4.js" />
+    <Content Include="Scripts\Jquery\jquery-ui-1.11.4.min.js" />
+    <Content Include="Scripts\JqueryValidate\jquery.validate.js" />
+    <Content Include="Scripts\JqueryValidate\jquery.validate.min.js" />
+    <Content Include="Scripts\JqueryValidate\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\JqueryValidate\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\jssorSlider\jssor.slider.css" />
     <Content Include="Scripts\listaAcquisti.js" />
     <Content Include="Scripts\loader\images\ajax-loader.gif" />
     <Content Include="Scripts\loader\jquery.loader.min.css" />
     <Content Include="Scripts\loader\jquery.loader.min.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\mvcfoolproof.unobtrusive.min.js" />
-    <Content Include="Scripts\MvcFoolproofJQueryValidation.min.js" />
-    <Content Include="Scripts\MvcFoolproofValidation.min.js" />
+    <Content Include="Scripts\Microsoft\MicrosoftAjax.debug.js" />
+    <Content Include="Scripts\Microsoft\MicrosoftAjax.js" />
+    <Content Include="Scripts\Microsoft\MicrosoftMvcAjax.debug.js" />
+    <Content Include="Scripts\Microsoft\MicrosoftMvcAjax.js" />
+    <Content Include="Scripts\Microsoft\MicrosoftMvcValidation.debug.js" />
+    <Content Include="Scripts\Microsoft\MicrosoftMvcValidation.js" />
+    <Content Include="Scripts\Modernzr\modernizr-2.6.2.js" />
+    <Content Include="Scripts\Microsoft\mvcfoolproof.unobtrusive.min.js" />
+    <Content Include="Scripts\Microsoft\MvcFoolproofJQueryValidation.min.js" />
+    <Content Include="Scripts\Microsoft\MvcFoolproofValidation.min.js" />
     <Content Include="Scripts\offerteRicevute.js" />
     <Content Include="Scripts\offerteVendita.js" />
     <Content Include="Scripts\oggetto.js" />
@@ -473,6 +529,46 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_GlobalResources\MenuResource.designer.cs">
+      <DependentUpon>MenuResource.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="App_GlobalResources\Enum.designer.cs">
+      <DependentUpon>Enum.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="App_GlobalResources\ErrorResource.Designer.cs">
+      <DependentUpon>ErrorResource.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="App_GlobalResources\ExceptionMessage.Designer.cs">
+      <DependentUpon>ExceptionMessage.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="App_GlobalResources\Button.designer.cs">
+      <DependentUpon>Button.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="App_GlobalResources\ViewModel.designer.cs">
+      <DependentUpon>ViewModel.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="App_GlobalResources\MessageForUser.Designer.cs">
+      <DependentUpon>MessageForUser.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="App_GlobalResources\Tooltip.designer.cs">
+      <DependentUpon>Tooltip.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="App_GlobalResources\Bonus.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -500,18 +596,37 @@
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AnnuncioController.cs" />
+    <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\FeedbackController.cs" />
+    <Compile Include="Controllers\NotificaController.cs" />
+    <Compile Include="Controllers\PayPalController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\VenditeController.cs" />
+    <Compile Include="Controllers\AcquistiController.cs" />
     <Compile Include="Models\ABBONAMENTO.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AbbonamentoModel.cs" />
     <Compile Include="Models\ALIMENTAZIONE.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ALLEGATO.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ANNUNCIO.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AnnuncioFoto.cs" />
+    <Compile Include="Models\AnnuncioModel.cs" />
+    <Compile Include="Models\AnnuncioNotificaModel.cs" />
+    <Compile Include="Models\ANNUNCIO_CARRELLO.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ANNUNCIO_CLICK.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ANNUNCIO_DESIDERATO.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ANNUNCIO_FEEDBACK.cs">
@@ -520,10 +635,16 @@
     <Compile Include="Models\ANNUNCIO_FOTO.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ANNUNCIO_SPEDIZIONE.cs">
+    <Compile Include="Models\ANNUNCIO_NOTIFICA.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ANNUNCIO_TAG.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ANNUNCIO_TIPO_SCAMBIO.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ANNUNCIO_VISUALIZZAZIONE.cs">
@@ -545,6 +666,9 @@
     <Compile Include="Models\ATTIVITA_INDIRIZZO.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ATTIVITA_INDIRIZZO_SPEDIZIONE.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ATTIVITA_TELEFONO.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
@@ -561,20 +685,24 @@
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CercaModel.cs" />
+    <Compile Include="Models\CHAT.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\COMPONENTE.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Components\AutocompleteHelper.cs" />
     <Compile Include="Models\Components\EnumExtensions.cs" />
     <Compile Include="Controllers\AsyncHelpers.cs" />
     <Compile Include="Controllers\AuthenticateController.cs" />
     <Compile Include="Controllers\CercaController.cs" />
     <Compile Include="Controllers\EmailController.cs" />
-    <Compile Include="Controllers\OfferteController.cs" />
-    <Compile Include="Controllers\ServizioController.cs" />
+    <Compile Include="Controllers\OffertaController.cs" />
     <Compile Include="Controllers\ErroreController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PagamentoController.cs" />
     <Compile Include="Controllers\PortaleWebController.cs" />
     <Compile Include="Controllers\PubblicaController.cs" />
-    <Compile Include="Controllers\OggettoController.cs" />
     <Compile Include="Controllers\UtenteController.cs" />
     <Compile Include="Controllers\Utils.cs" />
     <Compile Include="Models\COMUNE.cs">
@@ -590,12 +718,46 @@
     <Compile Include="Models\CORRIERE.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CorriereModel.cs" />
+    <Compile Include="Models\CORRIERE_COMUNE.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CORRIERE_NAZIONE.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CORRIERE_PROVINCIA.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CORRIERE_PUNTO_SPEDIZIONE.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CORRIERE_SERVIZIO.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CORRIERE_SERVIZIO_PREZZO_STIMATO.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CORRIERE_SERVIZIO_SPEDIZIONE.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CORRIERE_TIPO_OGGETTO.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CORRIERE_TIPO_PACCO.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DataAnnotations\FileExtensions.cs" />
+    <Compile Include="Models\DataAnnotations\ListValidator.cs" />
     <Compile Include="Models\DataAnnotations\RangeAdvanced.cs" />
     <Compile Include="Models\DataAnnotations\RequiredIfNotNull.cs" />
     <Compile Include="Models\DataAnnotations\RequiredIf.cs" />
+    <Compile Include="Models\EntityModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Enumerators\VerificaAcquisto.cs" />
+    <Compile Include="Models\FileUploadifive.cs" />
     <Compile Include="Models\Filters\ActionFilter.cs" />
     <Compile Include="Models\Filters\OnlyAuthorize.cs" />
     <Compile Include="Models\Filters\LocalizationAttribute.cs" />
@@ -610,11 +772,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EntityModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\EntityModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EntityModel.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -652,20 +809,29 @@
     <Compile Include="Models\FORMATO.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\FOTO.cs">
-      <DependentUpon>EntityModel.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Models\PdfModel.cs" />
     <Compile Include="Models\FotoModel.cs" />
     <Compile Include="Models\GENERE.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\HomeModel.cs" />
+    <Compile Include="Models\HttpFile.cs" />
     <Compile Include="Models\INDIRIZZO.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LOG_PAGAMENTO.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LOG_SBLOCCO_ANNUNCIO.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MARCA.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\MATERIALE.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MetodoPagamento.cs" />
     <Compile Include="Models\MODELLO.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
@@ -675,6 +841,10 @@
     <Compile Include="Models\NAZIONE.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\NOTIFICA.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NotificaModel.cs" />
     <Compile Include="Models\OFFERTA.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
@@ -682,13 +852,16 @@
     <Compile Include="Models\OFFERTA_BARATTO.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\OFFERTA_CONTO_CORRENTE_MONETA.cs">
+    <Compile Include="Models\OFFERTA_SPEDIZIONE.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OGGETTO.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OGGETTO_APPARTENENZA.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OGGETTO_COMPONENTE.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OGGETTO_COMPUTER.cs">
@@ -704,6 +877,9 @@
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OGGETTO_LIBRO.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OGGETTO_MATERIALE.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OGGETTO_MUSICA.cs">
@@ -733,6 +909,7 @@
     <Compile Include="Models\OGGETTO_VIDEOGAMES.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PagamentoModel.cs" />
     <Compile Include="Models\PERSONA.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
@@ -747,6 +924,12 @@
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PERSONA_INDIRIZZO.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PERSONA_INDIRIZZO_SPEDIZIONE.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PERSONA_METODO_PAGAMENTO.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PERSONA_PRIVACY.cs">
@@ -779,23 +962,46 @@
     <Compile Include="Models\SISTEMA_OPERATIVO.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SPEDIZIONE.cs">
+    <Compile Include="Models\SPEDIZIONE_INATTESA.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TIPO_OGGETTO.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TIPO_PACCO.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TIPO_SPEDIZIONE.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TIPO_VALUTA.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TRANSAZIONE.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TRANSAZIONE_ANNUNCIO.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TRANSAZIONE_ANNUNCIO_SPEDIZIONE.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViewModels\ChatViewModel.cs" />
+    <Compile Include="Models\ViewModels\Email\BonusRicevutoViewModel.cs" />
+    <Compile Include="Models\ViewModels\Email\PagamentoOffertaViewModel.cs" />
     <Compile Include="Models\ViewModels\FeedbackViewModel.cs" />
     <Compile Include="Models\ViewModels\HomeViewModel.cs" />
     <Compile Include="Models\OffertaModel.cs" />
     <Compile Include="Models\PercentageRateAdjuster.cs" />
     <Compile Include="Models\ViewModels\AcquistoViewModel.cs" />
+    <Compile Include="Models\ViewModels\PayPalViewModel.cs" />
     <Compile Include="Models\ViewModels\PubblicaViewModel.cs" />
     <Compile Include="Models\ViewModels\PagamentoViewModel.cs" />
     <Compile Include="Models\ViewModels\PortaleWebViewModel.cs" />
     <Compile Include="Models\ViewModels\CercaViewModel.cs" />
     <Compile Include="Models\Enumerators\StatoModel.cs" />
     <Compile Include="Models\Enumerators\TipoModel.cs" />
+    <Compile Include="Models\ViewModels\SpedizioneViewModel.cs" />
     <Compile Include="Models\ViewModels\UtenteViewModel.cs" />
     <Compile Include="Models\ViewModels\VenditaViewModel.cs" />
     <Compile Include="Models\VerificaUpload.cs" />
@@ -805,6 +1011,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\PayPal\Configuration.cs" />
+    <Compile Include="Utilities\PayPal\Common.cs" />
     <Compile Include="Web References\ServizioADV\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -826,7 +1034,7 @@
     <Content Include="Views\Home\Partners.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Utente\Login.cshtml" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Scripts\Jquery\jquery-1.10.2.min.map" />
     <Content Include="Views\Utente\Registrazione.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Utente\PasswordDimenticata.cshtml" />
@@ -840,26 +1048,20 @@
     <Content Include="Views\Pubblica\Conferma.cshtml" />
     <Content Include="Views\Pubblica\Servizio.cshtml" />
     <Content Include="Views\Utente\Index.cshtml" />
-    <Content Include="Views\Oggetto\Telefoni-smartphone.cshtml" />
-    <Content Include="Views\Servizio\Servizi-legali.cshtml" />
-    <Content Include="Views\Servizio\Servizio.cshtml" />
     <Content Include="Views\Pubblica\Oggetto\Telefoni-smartphone.cshtml" />
     <Content Include="Views\Pubblica\Oggetto\Audio-Hi-Fi.cshtml" />
     <Content Include="Views\Pubblica\Oggetto\Pc.cshtml" />
     <Content Include="Views\Utente\Impostazioni.cshtml" />
-    <Content Include="Views\Offerte\Effettuate.cshtml" />
-    <Content Include="Views\Offerte\Ricevute.cshtml" />
-    <Content Include="Views\Offerte\OfferteVendita.cshtml" />
-    <Content Include="Views\Offerte\StoricoPagamenti.cshtml" />
+    <Content Include="Views\Offerte_14092017\Effettuate.cshtml" />
+    <Content Include="Views\Offerte_14092017\Ricevute.cshtml" />
+    <Content Include="Views\Offerte_14092017\OfferteVendita.cshtml" />
+    <Content Include="Views\Offerte_14092017\StoricoPagamenti.cshtml" />
     <Content Include="Views\Cerca\Elenco\Oggetti.cshtml" />
     <Content Include="Views\Cerca\Elenco\Telefoni-Smartphone.cshtml" />
     <Content Include="Views\Cerca\Filtri\Telefoni-Smartphone.cshtml" />
     <Content Include="Views\Cerca\Filtri\Oggetti.cshtml" />
     <Content Include="Views\Cerca\Telefoni-Smartphone.cshtml" />
     <Content Include="Views\Cerca\Oggetti.cshtml" />
-    <Content Include="Views\Oggetto\Index.cshtml" />
-    <Content Include="Views\Oggetto\Pc.cshtml" />
-    <Content Include="Views\Oggetto\Audio-Hi-Fi.cshtml" />
     <Content Include="Views\Utente\CambioPassword.cshtml" />
     <Content Include="Views\Home\ComeFunziona.cshtml" />
     <Content Include="Views\Cerca\Servizi.cshtml" />
@@ -993,95 +1195,6 @@
     <Content Include="Views\Cerca\Ingegneria-architettura.cshtml" />
     <Content Include="Views\Cerca\Corsi-ripetizioni.cshtml" />
     <Content Include="Views\Cerca\Estetica-salute.cshtml" />
-    <Content Include="Views\Oggetto\Cucina.cshtml" />
-    <Content Include="Views\Oggetto\Bagno.cshtml" />
-    <Content Include="Views\Oggetto\Camera-da-letto.cshtml" />
-    <Content Include="Views\Oggetto\Bambini-ragazzi.cshtml" />
-    <Content Include="Views\Oggetto\Pop.cshtml" />
-    <Content Include="Views\Oggetto\RnB.cshtml" />
-    <Content Include="Views\Oggetto\Raggae.cshtml" />
-    <Content Include="Views\Oggetto\Elettronica.cshtml" />
-    <Content Include="Views\Oggetto\Latina.cshtml" />
-    <Content Include="Views\Oggetto\Metal.cshtml" />
-    <Content Include="Views\Oggetto\Strumenti-accessori.cshtml" />
-    <Content Include="Views\Oggetto\Da-Tavolo.cshtml" />
-    <Content Include="Views\Oggetto\Sala.cshtml" />
-    <Content Include="Views\Oggetto\Ufficio.cshtml" />
-    <Content Include="Views\Oggetto\Cantina-box.cshtml" />
-    <Content Include="Views\Oggetto\Esterni.cshtml" />
-    <Content Include="Views\Oggetto\Elettrodomestici.cshtml" />
-    <Content Include="Views\Oggetto\Altro.cshtml" />
-    <Content Include="Views\Oggetto\Classica.cshtml" />
-    <Content Include="Views\Oggetto\Jazz.cshtml" />
-    <Content Include="Views\Oggetto\Punk-rock.cshtml" />
-    <Content Include="Views\Oggetto\Dance.cshtml" />
-    <Content Include="Views\Oggetto\Rap-hip-hop.cshtml" />
-    <Content Include="Views\Oggetto\Avventura-azione.cshtml" />
-    <Content Include="Views\Oggetto\Basket.cshtml" />
-    <Content Include="Views\Oggetto\Console.cshtml" />
-    <Content Include="Views\Oggetto\Horror-thriller.cshtml" />
-    <Content Include="Views\Oggetto\Lotta.cshtml" />
-    <Content Include="Views\Oggetto\Bowling.cshtml" />
-    <Content Include="Views\Oggetto\Golf.cshtml" />
-    <Content Include="Views\Oggetto\Montagna.cshtml" />
-    <Content Include="Views\Oggetto\Mare.cshtml" />
-    <Content Include="Views\Oggetto\Bambine-ragazze.cshtml" />
-    <Content Include="Views\Oggetto\Videogames.cshtml" />
-    <Content Include="Views\Oggetto\Magia.cshtml" />
-    <Content Include="Views\Oggetto\Mare-piscina.cshtml" />
-    <Content Include="Views\Oggetto\Oggetti-da-collezione.cshtml" />
-    <Content Include="Views\Oggetto\Calcio.cshtml" />
-    <Content Include="Views\Oggetto\Tennis.cshtml" />
-    <Content Include="Views\Oggetto\Pallavolo.cshtml" />
-    <Content Include="Views\Oggetto\Nuoto.cshtml" />
-    <Content Include="Views\Oggetto\Bici.cshtml" />
-    <Content Include="Views\Oggetto\Cura-della-persona.cshtml" />
-    <Content Include="Views\Oggetto\Commedia-romantico.cshtml" />
-    <Content Include="Views\Oggetto\Giallo-crimine.cshtml" />
-    <Content Include="Views\Oggetto\Fotocamere-videocamere.cshtml" />
-    <Content Include="Views\Oggetto\Tv.cshtml" />
-    <Content Include="Views\Oggetto\Decorazione.cshtml" />
-    <Content Include="Views\Oggetto\Libri-scolastici.cshtml" />
-    <Content Include="Views\Oggetto\Auto-furgoni.cshtml" />
-    <Content Include="Views\Oggetto\Moto-scooter-quad.cshtml" />
-    <Content Include="Views\Oggetto\Camper-roulottes.cshtml" />
-    <Content Include="Views\Oggetto\Barche-gommoni.cshtml" />
-    <Content Include="Views\Oggetto\Giardinaggio.cshtml" />
-    <Content Include="Views\Oggetto\Idraulica-bagno.cshtml" />
-    <Content Include="Views\Oggetto\Pavimenti-rivestimenti.cshtml" />
-    <Content Include="Views\Oggetto\Cult.cshtml" />
-    <Content Include="Views\Oggetto\Storico.cshtml" />
-    <Content Include="Views\Oggetto\Comico.cshtml" />
-    <Content Include="Views\Oggetto\Guerra.cshtml" />
-    <Content Include="Views\Oggetto\Documentari.cshtml" />
-    <Content Include="Views\Oggetto\Serie-tv.cshtml" />
-    <Content Include="Views\Oggetto\Libri-per-il-tempo-libero.cshtml" />
-    <Content Include="Views\Oggetto\Western.cshtml" />
-    <Content Include="Views\Oggetto\Musical.cshtml" />
-    <Content Include="Views\Oggetto\Fantascienza-fantasy.cshtml" />
-    <Content Include="Views\Oggetto\Dizionari.cshtml" />
-    <Content Include="Views\Oggetto\Riviste.cshtml" />
-    <Content Include="Views\Oggetto\Fumetti-manga.cshtml" />
-    <Content Include="Views\Oggetto\Scuola.cshtml" />
-    <Content Include="Views\Oggetto\Elettricità-domotica.cshtml" />
-    <Content Include="Views\Oggetto\Illuminazione.cshtml" />
-    <Content Include="Views\Oggetto\Utensileria-ferramenta.cshtml" />
-    <Content Include="Views\Servizio\Assistenza-anziani.cshtml" />
-    <Content Include="Views\Servizio\Babysitter.cshtml" />
-    <Content Include="Views\Servizio\Hostess-organizzatore-eventi.cshtml" />
-    <Content Include="Views\Servizio\Traduzioni.cshtml" />
-    <Content Include="Views\Servizio\Commerciale-vendite-marketing.cshtml" />
-    <Content Include="Views\Servizio\Editoria-grafica.cshtml" />
-    <Content Include="Views\Servizio\Consulente-informatico.cshtml" />
-    <Content Include="Views\Servizio\Contabilità-finanza.cshtml" />
-    <Content Include="Views\Servizio\Ingegneria-architettura.cshtml" />
-    <Content Include="Views\Servizio\Imbianchino.cshtml" />
-    <Content Include="Views\Servizio\Elettricista.cshtml" />
-    <Content Include="Views\Servizio\Idraulico.cshtml" />
-    <Content Include="Views\Servizio\Pulizie.cshtml" />
-    <Content Include="Views\Servizio\Traslochi-trasporti.cshtml" />
-    <Content Include="Views\Servizio\Corsi-ripetizioni.cshtml" />
-    <Content Include="Views\Servizio\Estetica-salute.cshtml" />
     <Content Include="Views\Pubblica\Oggetto\Bambini-ragazzi.cshtml" />
     <Content Include="Views\Pubblica\Oggetto\Jazz.cshtml" />
     <Content Include="Views\Pubblica\Oggetto\RnB.cshtml" />
@@ -1155,12 +1268,7 @@
     <Content Include="Views\Cerca\Gonne.cshtml" />
     <Content Include="Views\Cerca\Pantaloni-jeans.cshtml" />
     <Content Include="Views\Cerca\Accessori-borse.cshtml" />
-    <Content Include="Views\Pubblica\Oggetto\Categoria.cshtml" />
-    <Content Include="Views\Pubblica\Servizio\Categoria.cshtml" />
-    <Content Include="Views\Oggetto\OffertaInviata.cshtml" />
-    <Content Include="Views\Servizio\OffertaInviata.cshtml" />
     <Content Include="Views\Shared\_PaginaEmail.cshtml" />
-    <Content Include="Views\Pubblica\Oggetto\Accessori-borse.cshtml" />
     <Content Include="Views\Pubblica\Oggetto\Magliette-tshirt.cshtml" />
     <Content Include="Views\Pubblica\Oggetto\Abiti-cappotti.cshtml" />
     <Content Include="Views\Pubblica\Oggetto\Pantaloni-jeans.cshtml" />
@@ -1172,17 +1280,6 @@
     <Content Include="Views\Pubblica\Oggetto\Altro-vestito.cshtml" />
     <Content Include="Views\Pubblica\Oggetto\Gonne.cshtml" />
     <Content Include="Views\Cerca\Scarpe.cshtml" />
-    <Content Include="Views\Oggetto\Accessori-borse.cshtml" />
-    <Content Include="Views\Oggetto\Magliette-tshirt.cshtml" />
-    <Content Include="Views\Oggetto\Felpe-tute.cshtml" />
-    <Content Include="Views\Oggetto\Pantaloni-jeans.cshtml" />
-    <Content Include="Views\Oggetto\Abiti-cappotti.cshtml" />
-    <Content Include="Views\Oggetto\Scarpe.cshtml" />
-    <Content Include="Views\Oggetto\Intimo.cshtml" />
-    <Content Include="Views\Oggetto\Pigiami.cshtml" />
-    <Content Include="Views\Oggetto\Altro-vestito.cshtml" />
-    <Content Include="Views\Oggetto\Gonne.cshtml" />
-    <Content Include="Views\Oggetto\Maglioni-cardigan.cshtml" />
     <Content Include="Views\Home\Privacy.cshtml" />
     <Content Include="Views\Shared\_PaginaPrivata.cshtml" />
     <Content Include="Views\Shared\_PaginaPubblica.cshtml" />
@@ -1196,7 +1293,6 @@
     <Content Include="Views\Pagamento\Email\PagamentoPartners.cshtml" />
     <Content Include="Views\PortaleWeb\Email\PasswordDimenticata.cshtml" />
     <Content Include="Views\PortaleWeb\Email\RegistrazioneUtente.cshtml" />
-    <Content Include="Views\Oggetto\Email\Offerta.cshtml" />
     <Content Include="Views\Home\VenditaGratis.cshtml" />
     <Content Include="Views\Home\Baratto.cshtml" />
     <Content Include="Views\Home\Regalo.cshtml" />
@@ -1211,9 +1307,8 @@
     <Content Include="Views\Cerca\DeleteRicerca.cshtml" />
     <Content Include="Views\Cerca\Email\SalvataggioRicerca.cshtml" />
     <Content Include="Views\Pubblica\Email\NotificaRicerca.cshtml" />
-    <Content Include="Views\Oggetto\Orologi-lampade-Altro.cshtml" />
     <Content Include="Views\Home\Spedizioni.cshtml" />
-    <Content Include="Views\Offerte\Acquisto.cshtml" />
+    <Content Include="Views\Offerte_14092017\Acquisto.cshtml" />
     <Content Include="Views\Home\ServiziExtra.cshtml" />
     <Content Include="Views\Home\PercheRegistrarsi.cshtml" />
     <Content Include="Views\Home\GuidaSicura.cshtml" />
@@ -1225,7 +1320,6 @@
     <Content Include="Views\Cerca\Servizi-per-la-persona.cshtml" />
     <Content Include="Views\Cerca\Servizi-domestici.cshtml" />
     <Content Include="Views\Cerca\Servizi-aziendali.cshtml" />
-    <Content Include="Views\Servizio\Index.cshtml" />
     <Content Include="Scripts\Uploadify\check-exists.php" />
     <Content Include="Scripts\Uploadify\index.php" />
     <Content Include="Scripts\Uploadify\uploadifive-image-only.php" />
@@ -1240,6 +1334,86 @@
     <Content Include="Views\Home\BandiRicevuti.cshtml" />
     <Content Include="Views\Utente\LoginVeloce.cshtml" />
     <Content Include="Views\Utente\Email\RegistrazioneUtenteReinvio.cshtml" />
+    <Content Include="Views\Pubblica\Index.cshtml" />
+    <Content Include="Views\Pubblica\Completato_OLD.cshtml" />
+    <Content Include="Views\Cerca\Dettaglio\_Console.cshtml" />
+    <Content Include="Views\Cerca\Dettaglio\_Elettrodomestici.cshtml" />
+    <Content Include="Views\Cerca\Dettaglio\_Gioco.cshtml" />
+    <Content Include="Views\Cerca\Dettaglio\_Libro.cshtml" />
+    <Content Include="Views\Cerca\Dettaglio\_Musica.cshtml" />
+    <Content Include="Views\Cerca\Dettaglio\_Pc.cshtml" />
+    <Content Include="Views\Cerca\Dettaglio\_Sport.cshtml" />
+    <Content Include="Views\Cerca\Dettaglio\_Strumenti-e-accessori.cshtml" />
+    <Content Include="Views\Cerca\Dettaglio\_Tecnologia.cshtml" />
+    <Content Include="Views\Cerca\Dettaglio\_Telefoni-Smartphone.cshtml" />
+    <Content Include="Views\Cerca\Dettaglio\_Veicolo.cshtml" />
+    <Content Include="Views\Cerca\Dettaglio\_Vestito.cshtml" />
+    <Content Include="Views\Cerca\Dettaglio\_Video.cshtml" />
+    <Content Include="Views\Cerca\Dettaglio\_Videogames.cshtml" />
+    <Content Include="Views\Acquisti\Index.cshtml" />
+    <Content Include="Views\Vendite\Index.cshtml" />
+    <Content Include="Views\Vendite\Concluse_Old.cshtml" />
+    <Content Include="Views\Acquisti\Conclusi_Old.cshtml" />
+    <Content Include="Views\Vendite\OfferteRicevute.cshtml" />
+    <Content Include="Views\Acquisti\Acquisto.cshtml" />
+    <Content Include="Views\Utente\Notifiche.cshtml" />
+    <Content Include="Views\Notifica\Index.cshtml" />
+    <Content Include="Views\Annuncio\Index.cshtml" />
+    <Content Include="Views\Cerca\PartialPages\_NotFound.cshtml" />
+    <Content Include="Views\Annuncio\Desidero.cshtml" />
+    <Content Include="Views\Acquisti\Vorrei.cshtml" />
+    <Content Include="Views\Shared\PartialPages\_Desidero.cshtml" />
+    <Content Include="Views\Shared\PartialPages\_Possiedo.cshtml" />
+    <Content Include="Views\Shared\PartialPages\_Annuncio.cshtml" />
+    <Content Include="Views\Acquisti\PartialPages\_FunzioniAnnuncio.cshtml" />
+    <Content Include="Views\Annuncio\PartialPages\_FunzioniAnnuncio.cshtml" />
+    <Content Include="Views\Shared\PartialPages\_SuggerimentoAttivazioneAnnuncio.cshtml" />
+    <Content Include="Views\Pubblica\PartialPages\_CopiaOggetto.cshtml" />
+    <Content Include="Views\Pubblica\PartialPages\_CopiaServizio.cshtml" />
+    <Content Include="Views\Vendite\Concluse.cshtml" />
+    <Content Include="Views\Acquisti\Conclusi.cshtml" />
+    <Content Include="Views\Vendite\Suggerite.cshtml" />
+    <Content Include="Views\Acquisti\Suggeriti.cshtml" />
+    <Content Include="Views\Acquisti\Futuri.cshtml" />
+    <Content Include="Views\Shared\PartialPages\_FormAcquisto.cshtml" />
+    <Content Include="Views\Shared\PartialPages\_OffertaAnnuncio.cshtml" />
+    <Content Include="Views\Annuncio\PartialPages\Oggetto\Vestito.cshtml" />
+    <Content Include="Views\Annuncio\PartialPages\Oggetto\Modello.cshtml" />
+    <Content Include="Views\Annuncio\PartialPages\Oggetto\Veicolo.cshtml" />
+    <Content Include="Views\Annuncio\PartialPages\Oggetto\Video.cshtml" />
+    <Content Include="Views\Annuncio\PartialPages\Oggetto\Musica.cshtml" />
+    <Content Include="Views\Annuncio\PartialPages\Oggetto\Libro.cshtml" />
+    <Content Include="Views\Annuncio\PartialPages\Oggetto\Computer.cshtml" />
+    <Content Include="Views\Annuncio\PartialPages\Oggetto\Telefono.cshtml" />
+    <Content Include="Views\Annuncio\PartialPages\Oggetto\Videogames.cshtml" />
+    <Content Include="Views\Annuncio\PartialPages\Email\Offerta.cshtml" />
+    <Content Include="Views\Annuncio\PartialPages\_Servizio.cshtml" />
+    <Content Include="Views\Annuncio\PartialPages\_Oggetto.cshtml" />
+    <Content Include="Views\Annuncio\Index_14092017.cshtml" />
+    <Content Include="Views\Annuncio\PartialPages\Oggetto\Console.cshtml" />
+    <Content Include="Views\Annuncio\PartialPages\_FormOfferte.cshtml" />
+    <Content Include="Views\Vendite\PartialPages\_FunzioniAnnuncio.cshtml" />
+    <Content Include="Views\Acquisti\PartialPages\_FunzioniOfferta.cshtml" />
+    <Content Include="Views\Pubblica\Completato.cshtml" />
+    <Content Include="Views\Cerca\PartialPages\_Oggetto.cshtml" />
+    <Content Include="Views\Cerca\PartialPages\_Servizio.cshtml" />
+    <Content Include="Views\Annuncio\PartialPages\_FormAcquisto.cshtml" />
+    <Content Include="Views\PayPal\Fallito.cshtml" />
+    <Content Include="Views\Vendite\PartialPages\_FunzioniOfferta.cshtml" />
+    <Content Include="Views\Shared\Email\pagamentoOfferta.cshtml" />
+    <Content Include="Views\Test\Index.cshtml" />
+    <Content Include="Views\Shared\Email\test.cshtml" />
+    <Content Include="Views\Shared\Email\bonusRicevuto.cshtml" />
+    <Content Include="Views\Utente\Privacy.cshtml" />
+    <Content Include="Views\Test\RegistrazioneTelegram.cshtml" />
+    <Content Include="Views\Test\MessaggioTelegram.cshtml" />
+    <Content Include="Views\Acquisti\OfferteRifiutate.cshtml" />
+    <Content Include="Views\PortaleWeb\SpedizioniInAttesa.cshtml" />
+    <Content Include="Views\Utente\Profilo.cshtml" />
+    <Content Include="Views\Utente\PartialPages\_FunzioniAnnuncio.cshtml" />
+    <Content Include="Views\Chat\Index.cshtml" />
+    <Content Include="Views\Chat\Utente.cshtml" />
+    <Content Include="Views\Chat\PartialPages\_FormMessaggio.cshtml" />
     <None Include="Web References\ServizioADV\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -1254,17 +1428,57 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\Exceptions\" />
+    <Folder Include="Models\Interface\" />
+    <Folder Include="Scripts\blueimp-gallery\css\" />
+    <Folder Include="Scripts\blueimp-gallery\img\" />
+    <Folder Include="Scripts\blueimp-gallery\js\" />
     <Folder Include="Temp\" />
     <Folder Include="Uploads\Images\Little\" />
     <Folder Include="Uploads\Images\Normal\" />
     <Folder Include="Uploads\Images\Original\" />
-    <Folder Include="Views\Test\" />
+    <Folder Include="Views\Annuncio\PartialPages\Servizio\" />
+    <Folder Include="Views\Pubblica\Servizio\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="App_GlobalResources\MenuResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>MenuResource.designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App_GlobalResources\Enum.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Enum.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App_GlobalResources\ErrorResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ErrorResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App_GlobalResources\ExceptionMessage.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ExceptionMessage.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App_GlobalResources\Button.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Button.designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App_GlobalResources\ViewModel.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ViewModel.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App_GlobalResources\MessageForUser.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>MessageForUser.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App_GlobalResources\Tooltip.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Tooltip.designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="App_GlobalResources\Bonus.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Bonus.Designer.cs</LastGenOutput>

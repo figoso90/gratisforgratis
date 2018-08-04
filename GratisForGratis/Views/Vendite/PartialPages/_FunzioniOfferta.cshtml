@@ -1,0 +1,29 @@
+﻿@using GratisForGratis.Models
+@model OffertaViewModel
+
+<div class="cella stateText">
+
+    @Html.Label("StatoOfferta", Language.StateBid)
+    <strong class="stateText">@EnumHelper.GetSelectList(typeof(StatoOfferta), Model.StatoOfferta).Where(m => m.Selected).FirstOrDefault().Text</strong>
+    @if (Model.StatoOfferta == StatoOfferta.ATTIVA)
+    {
+        using (Html.BeginForm("AccettaOfferta", "Annuncio", FormMethod.Post, new { @class = "formOfferta" }))
+        {
+            Html.AntiForgeryToken();
+            @Html.HiddenFor(m => m.Token)
+            <a class="btn ok" href="javascript:void(0);">@Language.AcceptBid</a>
+            <a class="btn ko" href="javascript:void(0);">@Language.RefuseBid</a>
+        }
+    }
+    else if (Model.StatoOfferta == StatoOfferta.ACCETTATA_ATTESO_PAGAMENTO)
+    {
+        <div class="cella payment">
+            @using (Html.BeginForm("AccettaOfferta", "Annuncio", FormMethod.Post, new { id = "formPagamentoOfferta", @class = "formOfferta" }))
+            {
+                Html.AntiForgeryToken();
+                @Html.HiddenFor(m => m.Token)
+                <a class="btn link ok" href="javascript:void(0);" onclick="$('#formPagamentoOfferta').submit();">Effettua pagamento</a>
+            }
+        </div>
+    }
+</div>

@@ -1,0 +1,8 @@
+﻿@using (Html.BeginForm("RegistrazioneTelegram", "Test", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <input name="telefono" type="text" />
+    <input name="code" type="text" />
+    <input name="messaggio" type="text" />
+    <input name="conferma" type="submit" />
+}

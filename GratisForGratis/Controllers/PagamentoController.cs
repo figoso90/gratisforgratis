@@ -339,7 +339,7 @@ namespace GratisForGratis.Controllers
         // pagamento dal portale
         [HttpPost]
         [ValidateAjax]
-        public ActionResult Definitivo(List<string> acquisti)
+        public ActionResult Definitivo_OLD(List<string> acquisti)
         {
             try
             {
@@ -392,6 +392,53 @@ namespace GratisForGratis.Controllers
                 // log errore, invio mail
                 Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
                 return Json(ex.ToString());
+            }
+            Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+            return Json(Language.ErrorPayment);
+        }
+
+        // pagamento dal portale
+        [HttpPost]
+        [ValidateAjax]
+        public ActionResult Definitivo(List<string> acquisti)
+        {
+
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                try
+                {
+                    db.Database.Connection.Open();
+                    foreach (string acquisto in acquisti)
+                    {
+                        PagamentoModel model = new PagamentoModel();
+                        PersonaModel utente = Session["utente"] as PersonaModel;
+                        int? idPagamento = model.eseguiFromStoredProcedure(acquisto, utente);
+                        if (idPagamento != null)
+                        {
+                            TRANSAZIONE pagamento = db.TRANSAZIONE.Include("CONTO_CORRENTE.PERSONA.PERSONA_EMAIL").Where(p => p.ID == idPagamento).SingleOrDefault();
+                            // aggiorno punti attuali utente
+                            Session["utente"] = new PersonaModel(db.PERSONA.Where(u => u.ID == utente.Persona.ID).FirstOrDefault());
+                            model.SendEmail(ControllerContext, pagamento, utente);
+                            return Json(new { Messaggio = Language.CompletedPurchase });
+                        }
+                        else
+                        {
+                            return Json(model.Errore.ToString());
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                    // log errore, invio mail
+                    Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+                    return Json(ex.ToString());
+                }
+                finally
+                {
+                    if (db.Database.Connection.State != System.Data.ConnectionState.Closed)
+                        db.Database.Connection.Close();
+                }
             }
             Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
             return Json(Language.ErrorPayment);

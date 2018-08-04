@@ -1,0 +1,116 @@
+﻿@model GratisForGratis.Models.AcquistoViewModel
+
+@*using (Ajax.BeginForm("Compra", "Annuncio", new AjaxOptions { HttpMethod = "POST" }, new { @class = "formAnnuncio" }))*@
+@using (Html.BeginForm("Compra", "Annuncio", FormMethod.Post, new { @class = "formAnnuncio" }))
+{
+    Html.AntiForgeryToken();
+    Html.ValidationSummary();
+    <!-- FORM READONLY -->
+    @Html.HiddenFor(m => m.Token, new { @readonly = "readonly" })
+    if (Model.Annuncio.TipoAcquisto == GratisForGratis.Models.TipoAcquisto.Oggetto)
+    {
+        var annuncioOggetto = (GratisForGratis.Models.OggettoViewModel)Model.Annuncio;
+        IEnumerable<SelectListItem> listaTipologia = null;
+        if (annuncioOggetto.TipoScambio.Length > 0)
+        {
+            listaTipologia = annuncioOggetto.TipoScambio.Select(m => new SelectListItem() { Text = m.ToString(), Value = ((int)m).ToString() });
+        }
+        else
+        {
+            var scambioMano = EnumHelper.GetSelectList(typeof(GratisForGratis.Models.TipoScambio), GratisForGratis.Models.TipoScambio.AMano).Where(m => m.Selected).FirstOrDefault();
+            listaTipologia = new List<SelectListItem>() {
+                    new SelectListItem() {
+                        Text = scambioMano.Text,
+                        Value = scambioMano.Value
+                    }
+                };
+        }
+        var listaAnni = new List<SelectListItem>();
+        for (int i = DateTime.Now.Year; i <= DateTime.Now.AddYears(20).Year; i++)
+        {
+            listaAnni.Add(new SelectListItem() { Text = i.ToString(), Value = i.ToString() });
+        }
+        <div class="exchange">
+            @Html.LabelFor(m => m.TipoScambio)
+            @Html.DropDownListFor(m => m.TipoScambio, listaTipologia, new { @class = "form-control changeTipoScambio", data_class = ".tipoScambio" })
+            @Html.ValidationMessageFor(m => m.TipoScambio, "", new { @class = "text-danger" })
+        </div>
+        <h4 class="exchange shipment hide">@ViewModel.Recipient</h4>
+        <div class="exchange shipment hide">
+            @Html.LabelFor(m => m.CapDestinatario)
+            @Html.TextBoxFor(m => m.CapDestinatario, new { @class = "form-control", data_class = ".capDestinatario" })
+            @Html.ValidationMessageFor(m => m.CapDestinatario, "", new { @class = "text-danger" })
+        </div>
+        <div class="exchange shipment hide">
+            @Html.LabelFor(m => m.IndirizzoDestinatario)
+            @Html.TextBoxFor(m => m.IndirizzoDestinatario, new { @class = "form-control", data_class = ".indirizzoDestinatario" })
+            @Html.ValidationMessageFor(m => m.IndirizzoDestinatario, "", new { @class = "text-danger" })
+        </div>
+        <div class="exchange shipment hide">
+            @Html.LabelFor(m => m.CivicoDestinatario)
+            @Html.TextBoxFor(m => m.CivicoDestinatario, new { @class = "form-control", data_class = ".civicoDestinatario" })
+            @Html.ValidationMessageFor(m => m.CivicoDestinatario, "", new { @class = "text-danger" })
+        </div>
+        <div class="exchange shipment hide">
+            @Html.LabelFor(m => m.NominativoDestinatario)
+            @Html.TextBoxFor(m => m.NominativoDestinatario, new { @class = "form-control", data_class = ".nominativoDestinatario" })
+            @Html.ValidationMessageFor(m => m.NominativoDestinatario, "", new { @class = "text-danger" })
+        </div>
+        <div class="exchange shipment hide">
+            @Html.LabelFor(m => m.TelefonoDestinatario)
+            @Html.TextBoxFor(m => m.TelefonoDestinatario, new { @class = "form-control", data_class = ".telefonoDestinatario" })
+            @Html.ValidationMessageFor(m => m.TelefonoDestinatario, "", new { @class = "text-danger" })
+        </div>
+        <div class="exchange shipment hide">
+            @Html.LabelFor(m => m.InfoExtraDestinatario)
+            @Html.TextAreaFor(m => m.InfoExtraDestinatario, new { @class = "form-control", data_class = ".infoExtraDestinatario" })
+            @Html.ValidationMessageFor(m => m.InfoExtraDestinatario, "", new { @class = "text-danger" })
+        </div>
+
+        @Html.HiddenFor(m => m.TipoCarta, new { Value = GratisForGratis.Models.TipoCartaCredito.PayPal})
+
+        <!-- METODO DI PAGAMENTO 
+        <h4 class="exchange shipment hide">@ViewModel.DataPaymentCard</h4>
+        <div class="exchange shipment hide">
+            @Html.LabelFor(m => m.TipoCarta)
+            @Html.EnumDropDownListFor(m => m.TipoCarta, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.TipoCarta, "", new { @class = "text-danger" })
+        </div>
+        <div class="exchange shipment paymentCard hide">
+            @Html.LabelFor(m => m.NumeroCarta)
+            @Html.TextBoxFor(m => m.NumeroCarta, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.NumeroCarta, "", new { @class = "text-danger" })
+        </div>
+        <div class="exchange shipment paymentCard hide">
+            @Html.LabelFor(m => m.Cvv2)
+            @Html.TextBoxFor(m => m.Cvv2, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Cvv2, "", new { @class = "text-danger" })
+        </div>
+        <div class="exchange shipment paymentCard hide">
+            @Html.LabelFor(m => m.MeseScadenzaCarta)
+            @Html.EnumDropDownListFor(m => m.MeseScadenzaCarta, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.MeseScadenzaCarta, "", new { @class = "text-danger" })
+        </div>
+        <div class="exchange shipment paymentCard hide">
+            @Html.LabelFor(m => m.AnnoScadenzaCarta)
+            @Html.DropDownListFor(m => m.AnnoScadenzaCarta, listaAnni, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.AnnoScadenzaCarta, "", new { @class = "text-danger" })
+        </div>
+        <div class="exchange shipment paymentCard hide">
+            @Html.LabelFor(m => m.NomeTitolareCarta)
+            @Html.TextBoxFor(m => m.NomeTitolareCarta, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.NomeTitolareCarta, "", new { @class = "text-danger" })
+        </div>
+        <div class="exchange shipment paymentCard hide">
+            @Html.LabelFor(m => m.CognomeTitolareCarta)
+            @Html.TextBoxFor(m => m.CognomeTitolareCarta, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.CognomeTitolareCarta, "", new { @class = "text-danger" })
+        </div>
+            -->
+    }
+        <div class="footer">
+            <a class="btn buy" href="javascript:void(0);" onclick="compraAnnuncio(this)">@Language.BuyNow</a>
+            <!--<a href="javascript:void(0);" onclick="toggleOfferta(this, '#formOfferta');" class="btn buy linkOfferta">Fai un'offerta!</a>
+            <a href="javascript:void(0);" onclick="toggleOfferta(this, '#formOfferta');" class="btn buy linkOfferta hide">Annulla offerta!</a>-->
+        </div>
+}

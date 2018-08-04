@@ -1,0 +1,15 @@
+﻿@using GratisForGratis.Models
+@model AnnuncioViewModel
+
+@Html.Partial("PartialPages/_Desidero", Model)
+@Html.Partial("PartialPages/_Possiedo", Model)
+@if (Model.Venditore.VenditoreToken != (Session["utente"] as PersonaModel).Persona.TOKEN && Model.StatoVendita != StatoVendita.VENDUTO && Model.StatoVendita != StatoVendita.BARATTATO && Model.StatoVendita != StatoVendita.ELIMINATO)
+{
+    @Html.ActionLink(Language.BuyNow, "Index", "Annuncio", new { token = Model.Token }, new { @class = "btn" })
+}
+else if (Model.Venditore.VenditoreToken != (Session["utente"] as PersonaModel).Persona.TOKEN && (Model.StatoVendita == StatoVendita.BARATTATO || Model.StatoVendita == StatoVendita.VENDUTO))
+{
+    <div class="cella">
+        @Html.ActionLink(Language.Feedback, "Index", "Feedback", new { id = Model.Id, tipo = TipoFeedback.Acquirente }, new { @Class = "btn" })
+    </div>
+}

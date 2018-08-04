@@ -1,39 +1,18 @@
 ﻿@using GratisForGratis.Models
 @model ListaServizi
 
+<div class="linkPubblicaCategoria">
+    @Html.ActionLink(Language.LnkGoToPublic, "", "Pubblica")
+</div>
 @if (Model.PageCount <= 0)
 {
-    <p id="alertNotFound">
-        <strong>Non hai trovato</strong> ciò che cercavi???
-        <br />
-        <strong>Salva la tua ricerca</strong> e verrai avvisato appena sarà <strong>pubblicato l'annuncio</strong>!
-    </p>
-    <p id="searchNotFound">
-        <a href="/Cerca/SaveRicerca" title="@Language.SearchSave">
-            @Language.MexSearchSave
-            <img src="@Url.Content("~/Images/icone/save.svg")" alt="@Language.SearchSave" />
-        </a>
-    </p>
+    @Html.Partial("PartialPages/_NotFound")
 }
 else
 {
     foreach (ServizioViewModel servizio in Model.List)
     {
-        <a href="/Servizio/Acquista?nome=@HttpUtility.UrlEncode(servizio.Nome)&token=@HttpUtility.UrlEncode(servizio.Token)" title="@servizio.Nome GRATIS">
-            <div id="Token+@servizio.Token" class="object">
-                <h3 class="title">@servizio.Nome</h3>
-                <div class="left" style="background-image:url('@Url.Content("~/Uploads/Images/" + servizio.VenditoreToken + "/" + @servizio.DataInserimento.Value.Year + "/" + "Normal/" + servizio.Foto.FirstOrDefault())')">
-                </div>       
-                <h5 class="rate"><b>@Language.Rate :</b> @servizio.Tariffa</h5>     
-                <h5 class="points"><b>@Language.Moneta2 :</b> @servizio.Punti => € @servizio.Soldi</h5>
-                <h5 class="place"><b>@Resources.Language.Place :</b> @servizio.Citta</h5>
-                <h5 class="seller"><b>@Language.Seller :</b> <span class="evidence">@((string.IsNullOrWhiteSpace(servizio.PartnerNominativo)) ? servizio.VenditoreNominativo : servizio.PartnerNominativo)</span></h5>
-                <div class="feedback" title="@Language.FeedbackUser">
-                    @(oggetto.VenditoreFeedback > -1? string.Format(Language.FeedbackMessage, oggetto.VenditoreFeedback):Language.FeedbackNothing)
-                </div>
-            </div>
-        </a>
-
+        @Html.Partial("PartialPages/_Servizio", servizio)
     }
     @Html.Partial("PartialPages/_ElencoPagineRicerca", new ElencoPagineRicerca(Model.PageCount,
             Model.PageNumber, ((Model.PageNumber - 5) < 1 ? 1 : Model.PageNumber - 5), "Oggetti",

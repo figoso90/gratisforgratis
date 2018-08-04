@@ -1,0 +1,98 @@
+﻿@model GratisForGratis.Models.AnnuncioViewModel
+@section Styles {
+    @Styles.Render("~/Scripts/jgallery/css/font-awesome.min.css")
+    @Styles.Render("~/Scripts/blueimp-gallery/css/blueimp-gallery.min.css")
+    @Styles.Render("~/Scripts/blueimp-gallery/css/blueimp-gallery-indicator.css")
+    @Styles.Render("~/Content/annuncio.css")
+}
+<section id="page">
+    <section id="acquisto" class="content">
+        @if (ViewBag.Esito != null)
+        {
+        <h2 class="esito">@ViewBag.Esito</h2>
+        }
+        <div class="annuncio">
+            <div class="left">
+                <div id="blueimp-image-carousel" class="blueimp-gallery blueimp-gallery-carousel blueimp-gallery-display blueimp-gallery-playing  blueimp-gallery-controls">
+                    <div class="slides"></div>
+                    <!--<h3 class="title"></h3>-->
+                    <a class="prev">‹</a>
+                    <a class="next">›</a>
+                    <!--<a class="close">×</a>
+                    <a class="play-pause"></a>-->
+                    <ol class="indicator"></ol>
+                </div>
+                <div id="albumAnnuncio" class="album" style="display:none;">
+                    @foreach (GratisForGratis.Models.AnnuncioFoto foto in Model.Foto)
+                    {
+                        <a href="@Url.Content("~/Uploads/Images/" + Model.Venditore.VenditoreToken + "/" + @foto.DATA_INSERIMENTO.Year + "/Original/" + foto.ALLEGATO.NOME)">
+                            <img src="@Url.Content("~/Uploads/Images/" + Model.Venditore.VenditoreToken + "/" + @foto.DATA_INSERIMENTO.Year + "/Little/" + foto.ALLEGATO.NOME)" alt="@Model.Nome" />
+                        </a>
+                    }
+                </div>
+                <div class="user">
+                    <h5 class="seller"><img class="ico" src="@Url.Content("~/Images/icone/sellerMan.svg")" alt="@Language.Seller" /> <span>@Model.Venditore.Nominativo</span></h5>
+                    <h5 class="place"><img class="ico" src="@Url.Content("~/Images/icone/position.svg")" alt="@Language.Place" /> <span>@Model.Citta</span></h5>
+                </div>
+                <div class="feedback" title="@Language.FeedbackUser">
+                    @(Model.VenditoreFeedback > -1 ? string.Format(Language.FeedbackMessage, Model.VenditoreFeedback) : Language.FeedbackNothing)
+                </div>
+            </div>
+            <div class="right">
+                <h3 class="info title">@Model.Nome</h3>
+                <h4 class="info category">@Model.Categoria</h4>
+                <div class="info">
+                    <h5 class="points"><b>@Language.Moneta :</b> <span class="evidence">@Model.Punti</span> <img class="infoTooltip infoTooltipAnnuncio" src="~/Images/icone/infoTooltip.svg" alt="info" title="Equivalgono a @Model.Soldi" /></h5>
+                    @if (!string.IsNullOrWhiteSpace(Model.NoteAggiuntive))
+                    {
+                        <h5 class="note"><b>@Language.Note :</b> @Model.NoteAggiuntive</h5>
+                    }
+                    <!-- carica in base a se è un bene o servizio -->
+                    @Html.Partial("PartialPages/_" + Model.TipoAcquisto.ToString(), Model)
+                    <!-- carica le info di dettaglio dell'annuncio -->
+                    @if (!string.IsNullOrWhiteSpace(Model.NomeVistaDettaglio))
+                    {
+                        WriteLiteral(Html.Partial("PartialPages/_" + Model.NomeVistaDettaglio, Model));
+                    }
+                    @Html.Partial("PartialPages/_Desidero", Model)
+                    @Html.Partial("PartialPages/_Possiedo", Model)
+                    @Html.Partial("PartialPages/_SuggerimentoAttivazioneAnnuncio", Model)
+                </div>
+                <div class="buttons" style="text-align:left;margin-top:13px;">
+                    @if (Request.IsAuthenticated && Model.Venditore.Id != ((GratisForGratis.Models.PersonaModel)Session["utente"]).Persona.ID && Model.StatoVendita == GratisForGratis.Models.StatoVendita.ATTIVO)
+                    {
+                        if (Model.Azione.ToLower().Equals("offerta")) {
+                            WriteLiteral(Html.Partial("PartialPages/_FormOfferte", (ViewData["offertaViewModel"] != null) ? ViewData["offertaViewModel"] : new GratisForGratis.Models.OffertaViewModel(Model)));
+                            <div class="boxAcquisto">
+                                @Html.ActionLink(Language.Buy, "Index", "Annuncio", new { token = @HttpUtility.UrlEncode(Model.Token), azione = "compra" }, new { @class = "btn" })
+                            </div>
+                        } else {
+                            WriteLiteral(Html.Partial("PartialPages/_FormAcquisto", (ViewData["acquistoViewModel"] != null) ? ViewData["acquistoViewModel"] : new GratisForGratis.Models.AcquistoViewModel(Model)));
+                            <div class="boxAcquisto">
+                                @Html.ActionLink(Language.Bid, "Index", "Annuncio", new { token = @HttpUtility.UrlEncode(Model.Token), azione = "offerta" }, new { @class = "btn" })
+                            </div>
+                        }
+                    }
+                    else if (!Request.IsAuthenticated && Model.StatoVendita == GratisForGratis.Models.StatoVendita.ATTIVO)
+                    {
+                        @Html.ActionLink(Language.LoginAndBuy, "Login", "Utente", new { ReturnUrl = "~/Annuncio?token=" + HttpUtility.UrlEncode(Model.Token) }, new { @class = "btn buy" })
+                    }
+                </div>
+                <h4>
+                    @Html.ValidationMessage("", new { @class = "text-danger" })
+                    @Html.ValidationMessage("ErroreOfferta", new { @class = "text-danger" })
+                </h4>
+            </div>
+        </div>
+    </section>
+</section>
+
+@section Scripts {
+@Scripts.Render("~/Scripts/blueimp-gallery/js/blueimp-helper.js")
+    @Scripts.Render("~/Scripts/blueimp-gallery/js/blueimp-gallery.min.js")
+@Scripts.Render("~/Scripts/blueimp-gallery/js/blueimp-gallery-fullscreen.js")
+@Scripts.Render("~/Scripts/blueimp-gallery/js/blueimp-gallery-indicator.js")
+@Scripts.Render("~/Scripts/blueimp-gallery/js/jquery.blueimp-gallery.js")
+    @Scripts.Render("~/Scripts/annuncio.js")
+    @Scripts.Render("~/Scripts/baratto.js")
+}

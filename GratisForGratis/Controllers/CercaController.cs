@@ -6,6 +6,7 @@ using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.SqlServer;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Configuration;
@@ -671,44 +672,143 @@ namespace GratisForGratis.Controllers
         #endregion
 
         /**
-        ** term: inizio nome oggetto o categoria o marca o modello
+        ** term: inizio nome annuncio
+        **/
+        //[HttpGet]
+        //[Authorize]
+        //[Filters.ValidateAjax]
+        //public ActionResult AnnunciBarattabili(string term)
+        //{
+        //    List<AutocompleteGuid> lista;
+
+        //    using (DatabaseContext db = new DatabaseContext())
+        //    {
+        //        int utente = ((PersonaModel)Session["utente"]).Persona.ID;
+        //        string termineSenzaSpazi = term.Trim();
+        //        // aggiungere il contains e l'order by per rilevanza
+        //        lista = db.ANNUNCIO.Where(item => item.ID_PERSONA == utente && item.STATO == (int)StatoVendita.ATTIVO 
+        //            && item.NOME.Contains(termineSenzaSpazi))
+        //            .OrderByDescending(item => item.NOME.Contains(termineSenzaSpazi))
+        //            .Select(m => new AutocompleteGuid { Label = m.NOME, Value = (Guid)m.TOKEN }).ToList();
+        //    }
+        //    return Json(lista, JsonRequestBehavior.AllowGet);
+        //}
+
+        /**
+        ** term: inizio nome annuncio
+        ** spedizioneAMano: cerca annunci con spedizione a mano
+        ** spedizionePrivata: cerca annunci con spedizione privata
+        ** spedizioneOnline: cerca annunci con spedizione online
         **/
         [HttpGet]
         [Authorize]
         [Filters.ValidateAjax]
-        public ActionResult OggettiBarattabili(string term)
+        public ActionResult AnnunciBarattabili(string term, TipoScambio tipoScambio)
         {
-            List<AutocompleteGuid> lista;
+            List<AutocompleteBaratto> lista;
 
             using (DatabaseContext db = new DatabaseContext())
             {
                 int utente = ((PersonaModel)Session["utente"]).Persona.ID;
                 string termineSenzaSpazi = term.Trim();
                 // aggiungere il contains e l'order by per rilevanza
-                lista = db.ANNUNCIO.Where(item => item.ID_PERSONA == utente && item.STATO == (int)StatoVendita.ATTIVO && item.OGGETTO != null && (item.NOME.Contains(termineSenzaSpazi) || item.OGGETTO.MARCA.NOME.Contains(termineSenzaSpazi)))
-                    .OrderByDescending(item => item.NOME.Contains(termineSenzaSpazi))
-                    .Select(m => new AutocompleteGuid { Label = m.NOME, Value = (Guid)m.TOKEN }).ToList();
+                // aggiungere gestione spedizione
+                lista = db.ANNUNCIO.Where(item => item.ID_PERSONA == utente && item.STATO == (int)StatoVendita.ATTIVO && 
+                    item.NOME.Contains(termineSenzaSpazi) && 
+                    item.ANNUNCIO_TIPO_SCAMBIO.Count(m => m.TIPO_SCAMBIO == (int)tipoScambio) > 0
+                ).OrderByDescending(item => item.NOME.Contains(termineSenzaSpazi))
+                .Select(m => new AutocompleteBaratto { Annuncio = m }).ToList();
             }
             return Json(lista, JsonRequestBehavior.AllowGet);
         }
 
         /**
-        ** term: inizio nome servizio o categoria o marca o modello
+        ** term: inizio nome oggetto o categoria o marca
         **/
-        [HttpGet]
+        //[HttpGet]
+        //[Authorize]
+        //[Filters.ValidateAjax]
+        //public ActionResult OggettiBarattabili(string term)
+        //{
+        //    List<AutocompleteGuid> lista;
+
+        //    using (DatabaseContext db = new DatabaseContext())
+        //    {
+        //        int utente = ((PersonaModel)Session["utente"]).Persona.ID;
+        //        string termineSenzaSpazi = term.Trim();
+        //        // aggiungere il contains e l'order by per rilevanza
+        //        lista = db.ANNUNCIO.Where(item => item.ID_PERSONA == utente && item.STATO == (int)StatoVendita.ATTIVO && item.OGGETTO != null && (item.NOME.Contains(termineSenzaSpazi) || item.OGGETTO.MARCA.NOME.Contains(termineSenzaSpazi)))
+        //            .OrderByDescending(item => item.NOME.Contains(termineSenzaSpazi))
+        //            .Select(m => new AutocompleteGuid { Label = m.NOME, Value = (Guid)m.TOKEN }).ToList();
+        //    }
+        //    return Json(lista, JsonRequestBehavior.AllowGet);
+        //}
+
+        /**
+        ** term: inizio nome servizio o categoria
+        **/
+        //[HttpGet]
+        //[Authorize]
+        //[Filters.ValidateAjax]
+        //public ActionResult ServiziBarattabili(string term)
+        //{
+        //    List<AutocompleteGuid> lista;
+
+        //    using (DatabaseContext db = new DatabaseContext())
+        //    {
+        //        int utente = ((PersonaModel)Session["utente"]).Persona.ID;
+        //        lista = db.ANNUNCIO.Where(item => item.ID_PERSONA == utente && item.STATO == (int)StatoVendita.ATTIVO && item.SERVIZIO != null && (item.NOME.StartsWith(term.Trim()))).
+        //            Select(m => new AutocompleteGuid { Label = m.NOME, Value = (Guid)m.TOKEN }).ToList();
+        //    }
+        //    return Json(lista, JsonRequestBehavior.AllowGet);
+        //}
+
+        [HttpPost]
         [Authorize]
         [Filters.ValidateAjax]
-        public ActionResult ServiziBarattabili(string term)
+        public JsonResult SuggestAdActivation(string id, string idAttivita = null)
         {
-            List<AutocompleteGuid> lista;
-
             using (DatabaseContext db = new DatabaseContext())
             {
-                int utente = ((PersonaModel)Session["utente"]).Persona.ID;
-                lista = db.ANNUNCIO.Where(item => item.ID_PERSONA == utente && item.STATO == (int)StatoVendita.ATTIVO && item.SERVIZIO != null && (item.NOME.StartsWith(term.Trim()))).
-                    Select(m => new AutocompleteGuid { Label = m.NOME, Value = (Guid)m.TOKEN }).ToList();
+                //string tokenAnnuncio = id.Substring(3, id.Length - 6);
+                db.Database.Connection.Open();
+                ANNUNCIO annuncio = db.ANNUNCIO.Single(m => m.TOKEN.ToString() == id);
+                int idAnnuncio = annuncio.ID;
+                int idUtente = (Session["utente"] as PersonaModel).Persona.ID;
+                int? keyAttivita = null;
+                // se è stata selezionata una attività commerciale dell'utente
+                List<AttivitaModel> listaAttivita = (Session["utente"] as PersonaModel).Attivita;
+                if (listaAttivita != null && listaAttivita.Count > 0)
+                    keyAttivita = listaAttivita.SingleOrDefault(m => m.Attivita.TOKEN.ToString() == idAttivita).ID;
+                // notifica già inviata.
+                if (db.ANNUNCIO_NOTIFICA.Count(m => m.ID_ANNUNCIO == idAnnuncio && (m.NOTIFICA.ID_PERSONA == idUtente || (keyAttivita != null && m.NOTIFICA.ID_ATTIVITA == keyAttivita))) > 0)
+                {
+                    Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+                    return Json(App_GlobalResources.Language.SuggestAdActivationError);
+                }
+
+                NOTIFICA notifica = new NOTIFICA();
+                notifica.ID_PERSONA = idUtente;
+                notifica.ID_ATTIVITA = keyAttivita;
+                notifica.ID_PERSONA_DESTINATARIO = annuncio.ID_PERSONA;
+                notifica.ID_ATTIVITA_DESTINATARIO = annuncio.ID_ATTIVITA;
+                notifica.MESSAGGIO = (int)MessaggioNotifica.AttivaAnnuncio;
+                notifica.DATA_INSERIMENTO = DateTime.Now;
+                notifica.STATO = (int)Stato.ATTIVO;
+                db.NOTIFICA.Add(notifica);
+                if (db.SaveChanges() > 0)
+                {
+                    db.ANNUNCIO_NOTIFICA.Add(new ANNUNCIO_NOTIFICA()
+                    {
+                        ID_ANNUNCIO = idAnnuncio,
+                        ID_NOTIFICA = notifica.ID
+                    });
+                    if (db.SaveChanges() > 0)
+                        return Json(App_GlobalResources.Language.SuggestAdActivationOK);
+                }
             }
-            return Json(lista, JsonRequestBehavior.AllowGet);
+            Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+            return Json(App_GlobalResources.Language.SuggestAdActivationKO);
         }
 
         #endregion
@@ -716,9 +816,9 @@ namespace GratisForGratis.Controllers
         #region METODI PRIVATI
 
         // FUNZIONE IN PREPARAZIONE
-        private List<VenditaViewModel> FindVendite(HttpCookie ricerca, HttpCookie filtro, int pagina, ref int pagineTotali, ref int numeroRecord)
+        private List<AnnuncioViewModel> FindVendite(HttpCookie ricerca, HttpCookie filtro, int pagina, ref int pagineTotali, ref int numeroRecord)
         {
-            List<VenditaViewModel> lista = new List<VenditaViewModel>();
+            List<AnnuncioViewModel> lista = new List<AnnuncioViewModel>();
             using (DatabaseContext db = new DatabaseContext())
             {
                 int idUtente = 0;
@@ -729,44 +829,54 @@ namespace GratisForGratis.Controllers
                 {
                     connessione.Open();
                     DbCommand cmd = connessione.CreateCommand();
-                    string selectText = @"SELECT V.ID, U.ID AS PERSONA, U.NOME + ' ' + U.COGNOME AS UTENTE_NOMINATIVO, 
-                                U.TOKEN AS UTENTE_TOKEN, V.TOKEN, V.NOME, V.TIPO_PAGAMENTO,  
-                                V.PUNTI,V.SOLDI, V.DATA_INSERIMENTO, V.ID_CATEGORIA AS CATEGORIA_ID, 
+
+                    string selectFreeText = string.Empty;
+                    //selectFreeText += "LEFT JOIN OGGETTO AS O ON V.ID_OGGETTO=O.ID";
+                    bool attivaRicercaPerNome = SetRicercaPerNome(ricerca, cmd, ref selectFreeText);
+
+                    string selectText = string.Format(@"(SELECT V.ID, U.ID AS PERSONA, U.NOME + ' ' + U.COGNOME AS UTENTE_NOMINATIVO, 
+                                U.TOKEN AS UTENTE_TOKEN, V.TOKEN, V.NOME, V.TIPO_PAGAMENTO, V.NOTE_AGGIUNTIVE, V.ID_TIPO_VALUTA,
+                                V.PUNTI,V.SOLDI, V.DATA_INSERIMENTO, V.ID_CATEGORIA AS CATEGORIA_ID, COMUNE.ID AS CITTA_ID, COMUNE.NOME AS CITTA_NOME,
                                 CATEGORIA.NOME AS CATEGORIA_NOME, P.ID AS ID_ATTIVITA,
                                 CATEGORIA.TIPO_VENDITA AS TIPO_ACQUISTO,
-                                P.NOME AS PARTNER_NOME, P.TOKEN AS PARTNER_TOKEN 
-                                --COMUNE.NOME AS CITTA_NOME, COMUNE.ID AS CITTA_ID,
-                                ";
+                                P.NOME AS PARTNER_NOME, P.TOKEN AS PARTNER_TOKEN, V.STATO AS STATO_VENDITA,
+                                (SELECT COUNT(*) FROM ANNUNCIO_NOTIFICA AS AN INNER JOIN NOTIFICA AS N ON AN.ID_NOTIFICA=N.ID WHERE AN.ID_ANNUNCIO=V.ID
+                                    AND N.ID_PERSONA=@UTENTE) AS NOTIFICATO, V.ID_PADRE AS ID_ANNUNCIO_PADRE, V.ID_ORIGINE AS ID_ANNUNCIO_ORIGINALE
+                                {0} ", (attivaRicercaPerNome) ? selectFreeText : "");
+                    cmd.Parameters.Add(new SqlParameter("UTENTE", idUtente));
 
                     string schema = @"FROM ANNUNCIO AS V
                                 INNER JOIN CATEGORIA ON V.ID_CATEGORIA=CATEGORIA.ID 
-                                --INNER JOIN COMUNE ON O.CITTA=COMUNE.ID
+                                INNER JOIN COMUNE ON V.ID_COMUNE=COMUNE.ID
                                 INNER JOIN PERSONA AS U ON V.ID_PERSONA=U.ID
                                 LEFT JOIN ATTIVITA AS P ON V.ID_ATTIVITA=P.ID";
 
                     string condizione = @"
-                                WHERE V.STATO = 1 AND CATEGORIA.NODO.IsDescendantOf(
+                                WHERE V.STATO IN (1,0) AND (GETDATE() <= V.DATA_FINE OR V.DATA_FINE IS NULL)
+                                    AND CATEGORIA.NODO.IsDescendantOf(
                                         (SELECT C2.NODO FROM CATEGORIA AS C2 WHERE C2.ID=@CATEGORIA)
-                                    ) = 1 AND ((SELECT COUNT(*) FROM OFFERTA WHERE OFFERTA.ID_ANNUNCIO=V.ID AND ((TIPO_OFFERTA = 0 AND OFFERTA.STATO = 1) OR OFFERTA.STATO = 4)) <= 0)
-                                ";
+                                    ) = 1 ";
+                                /*AND ((SELECT COUNT(*) FROM OFFERTA WHERE OFFERTA.ID_ANNUNCIO=V.ID AND ((TIPO_OFFERTA = 0 AND OFFERTA.STATO = 1) OR OFFERTA.STATO = 4)) <= 0)
+                                ";*/
 
-                    if ((ricerca["Nome"] != null) && !String.IsNullOrEmpty(ricerca["Nome"]))
-                    {
-                        cmd.Parameters.Add(new SqlParameter("NOME", ricerca["Nome"]));
-                        condizione += " AND V.NOME LIKE @NOME + '%'";
-                    }
                     if (filtro != null)
                         AddFiltriRicerca(Convert.ToInt32(ricerca["IDCategoria"]), filtro, ref cmd, ref schema, ref condizione);
 
                     cmd.Parameters.Add(new SqlParameter("CATEGORIA", Convert.ToInt32(ricerca["IDCategoria"])));
 
-                    cmd.CommandText = "SELECT COUNT(*) " + schema + condizione;
+                    condizione += ") AS A" + ((attivaRicercaPerNome) ? " WHERE (V_FREETEXT_RANK IS NOT NULL OR V_CONTAINS_RANK IS NOT NULL OR OM_RANK IS NOT NULL OR OC_RANK IS NOT NULL) " : "");
+
+                    string query = selectText + schema + condizione;
+
+                    cmd.CommandText = "SELECT COUNT(*) FROM " + query;
                     numeroRecord = (int)cmd.ExecuteScalar();
 
                     pagineTotali = (int)Math.Ceiling((decimal)numeroRecord / Convert.ToDecimal(WebConfigurationManager.AppSettings["numeroAcquisti"]));
 
                     // impaginazione
-                    cmd.CommandText = selectText + schema + condizione + " ORDER BY DATA_INSERIMENTO DESC OFFSET @INIZIO ROWS FETCH NEXT @NUMERORECORD ROWS ONLY";
+                    cmd.CommandText = "SELECT * FROM " + query + " ORDER BY {0}DATA_INSERIMENTO DESC OFFSET @INIZIO ROWS FETCH NEXT @NUMERORECORD ROWS ONLY";
+                    cmd.CommandText = string.Format(cmd.CommandText, (attivaRicercaPerNome)? "V_FREETEXT_RANK DESC, V_CONTAINS_RANK DESC, OM_RANK DESC, OC_RANK DESC, " : "");
+
                     int inizio = (pagina <= 1) ? 0 : ((pagina - 1) * Convert.ToInt32(WebConfigurationManager.AppSettings["numeroAcquisti"]));
                     cmd.Parameters.Add(new SqlParameter("INIZIO", inizio));
                     cmd.Parameters.Add(new SqlParameter("NUMERORECORD", Convert.ToInt32(WebConfigurationManager.AppSettings["numeroAcquisti"])));
@@ -776,8 +886,8 @@ namespace GratisForGratis.Controllers
                         {
                             try
                             {
-                                VenditaViewModel viewModel = new VenditaViewModel();
-                                viewModel.Id = res["ID"].ToString();
+                                AnnuncioViewModel viewModel = new AnnuncioViewModel();
+                                viewModel.Id = Convert.ToInt32(res["ID"]);
                                 viewModel.Venditore = new UtenteVenditaViewModel();
                                 if (res["ID_ATTIVITA"].ToString().Trim().Length > 0)
                                 {
@@ -792,22 +902,72 @@ namespace GratisForGratis.Controllers
                                     SetFeedbackVenditore(db, viewModel, TipoVenditore.Persona);
                                 }
                                 viewModel.Venditore.VenditoreToken = (Guid)res["UTENTE_TOKEN"];
-                                viewModel.Token = Utils.RandomString(3) + res["TOKEN"].ToString() + Utils.RandomString(3);
+                                viewModel.Token = res["TOKEN"].ToString();
                                 viewModel.Nome = res["NOME"].ToString();
+                                viewModel.Citta = res["CITTA_NOME"].ToString();
+                                viewModel.NoteAggiuntive = res["NOTE_AGGIUNTIVE"].ToString();
                                 viewModel.TipoPagamento = (TipoPagamento)res["TIPO_PAGAMENTO"];
-                                //viewModel.Citta = res["CITTA_NOME"].ToString();
                                 viewModel.Punti = (int)res["PUNTI"];
-                                viewModel.Soldi = (int)res["SOLDI"];
+                                viewModel.IdTipoValuta = (int)res["ID_TIPO_VALUTA"];
+                                // QUANDO SARà INTERNAZIONALE, CALCOLERò IL CAMBIO IN BASE ALLA VALUTA
+                                viewModel.Soldi = Convert.ToDecimal(res["SOLDI"]).ToString("C");
                                 viewModel.DataInserimento = (DateTime)res["DATA_INSERIMENTO"];
                                 viewModel.CategoriaID = (int)res["CATEGORIA_ID"];
                                 viewModel.Categoria = res["CATEGORIA_NOME"].ToString();
                                 viewModel.TipoAcquisto = (TipoAcquisto)res["TIPO_ACQUISTO"];
-                                int venditaId = (int)res["ID"];
-                                viewModel.Foto = db.ANNUNCIO_FOTO.Where(f => f.ID_ANNUNCIO == venditaId).Select(f =>
-                                    f.FOTO.FOTO1
-                                ).ToList();
-                                
-                                lista.Add(viewModel);
+                                int Id = (int)res["ID"];
+                                viewModel.Foto = db.ANNUNCIO_FOTO.Where(f => f.ID_ANNUNCIO == viewModel.Id).Select(f => new AnnuncioFoto()
+                                {
+                                    ID_ANNUNCIO = f.ID_ANNUNCIO,
+                                    ALLEGATO = f.ALLEGATO,
+                                    DATA_INSERIMENTO = f.DATA_INSERIMENTO,
+                                    DATA_MODIFICA = f.DATA_MODIFICA
+                                }).ToList();
+                                viewModel.StatoVendita = (StatoVendita)res["STATO_VENDITA"];
+                                viewModel.Notificato = ((int)res["NOTIFICATO"] > 0) ? true : false;
+                                IQueryable<ANNUNCIO_DESIDERATO> listaInteressati = db.ANNUNCIO_DESIDERATO.Where(f => f.ID_ANNUNCIO == viewModel.Id);
+                                viewModel.NumeroInteressati = listaInteressati.Count();
+                                viewModel.Desidero = listaInteressati.FirstOrDefault(m => m.ID_PERSONA== idUtente) != null;
+                                // controllo se l'utente ha già proposto lo stesso annuncio
+                                int? idAnnuncioOriginale = null;
+                                if (res["ID_ANNUNCIO_ORIGINALE"] != DBNull.Value)
+                                {
+                                    idAnnuncioOriginale = (int)res["ID_ANNUNCIO_ORIGINALE"];
+                                }
+                                // verifica se è una prima copia o una copia di seconda mano
+                                ANNUNCIO copiaAnnuncio = db.ANNUNCIO.SingleOrDefault(m => m.ID_PERSONA == idUtente
+                                        && (m.STATO == (int)StatoVendita.ATTIVO || m.STATO == (int)StatoVendita.INATTIVO)
+                                        && ((idAnnuncioOriginale != null && (m.ID_ORIGINE == idAnnuncioOriginale || m.ID == idAnnuncioOriginale)) 
+                                            || m.ID_ORIGINE == viewModel.Id));
+                                if (copiaAnnuncio != null)
+                                    viewModel.TokenAnnuncioCopiato = Utils.RandomString(3) + copiaAnnuncio.TOKEN + Utils.RandomString(3);
+
+                                if (viewModel.TipoAcquisto == TipoAcquisto.Oggetto)
+                                {
+                                    OggettoViewModel oggetto = new OggettoViewModel(viewModel);
+                                    var listaTipoScambio = db.ANNUNCIO_TIPO_SCAMBIO.Where(m => m.ID_ANNUNCIO == oggetto.Id);
+                                    if (listaTipoScambio != null)
+                                    {
+                                        oggetto.TipoScambio = listaTipoScambio.Select(m => (TipoScambio)m.TIPO_SCAMBIO).ToArray();
+                                        if (oggetto.TipoScambio.Contains(TipoScambio.Spedizione))
+                                        {
+                                            ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE spedizione = db.ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE
+                                                .FirstOrDefault(m => m.ID_ANNUNCIO_TIPO_SCAMBIO == listaTipoScambio.FirstOrDefault(n => n.TIPO_SCAMBIO == (int)TipoScambio.Spedizione).ID);
+                                            if (spedizione != null)
+                                            {
+                                                oggetto.NomeCorriere = spedizione.CORRIERE_SERVIZIO_SPEDIZIONE.CORRIERE_SERVIZIO.CORRIERE.NOME;
+                                                oggetto.PuntiSpedizione = spedizione.PUNTI;
+                                                oggetto.SoldiSpedizione = spedizione.SOLDI.ToString("C");
+                                            }
+                                        }
+                                    }
+                                    lista.Add(oggetto);
+                                }
+                                else
+                                {
+                                    ServizioViewModel servizio = new ServizioViewModel(viewModel);
+                                    lista.Add(servizio);
+                                }
                             }
                             catch (Exception ex)
                             {
@@ -892,43 +1052,51 @@ namespace GratisForGratis.Controllers
                 {
                     connessione.Open();
                     DbCommand cmd = connessione.CreateCommand();
-                    string selectText = @"SELECT V.ID, O.ID AS OGGETTO_ID, U.ID AS PERSONA, U.NOME + ' ' + U.COGNOME AS UTENTE_NOMINATIVO, 
-                                U.TOKEN AS UTENTE_TOKEN, V.TOKEN, V.NOME, V.TIPO_PAGAMENTO, COMUNE.NOME AS CITTA_NOME, V.PUNTI,V.SOLDI,
+
+                    string selectFreeText = string.Empty;
+                    bool attivaRicercaPerNome = SetRicercaPerNome(ricerca, cmd, ref selectFreeText);
+
+                    string selectText = string.Format(@"(SELECT V.ID, O.ID AS OGGETTO_ID, U.ID AS PERSONA, U.NOME + ' ' + U.COGNOME AS UTENTE_NOMINATIVO, 
+                                U.TOKEN AS UTENTE_TOKEN, V.TOKEN, V.NOME, V.TIPO_PAGAMENTO, COMUNE.NOME AS CITTA_NOME, V.PUNTI,V.SOLDI, V.NOTE_AGGIUNTIVE,
                                 O.ANNO, M.ID AS MARCA_ID, M.NOME AS MARCA_NOME, O.CONDIZIONE, V.DATA_INSERIMENTO, O.NUMERO_PEZZI,
                                 V.ID_CATEGORIA AS CATEGORIA_ID, CATEGORIA.NOME AS CATEGORIA_NOME, COMUNE.ID AS CITTA_ID,
-                                P.ID AS ID_ATTIVITA, P.NOME AS PARTNER_NOME, P.TOKEN AS PARTNER_TOKEN, V.STATO AS STATO_VENDITA ";
+                                P.ID AS ID_ATTIVITA, P.NOME AS PARTNER_NOME, P.TOKEN AS PARTNER_TOKEN, V.STATO AS STATO_VENDITA, V.ID_TIPO_VALUTA,
+                                (SELECT COUNT(*) FROM ANNUNCIO_NOTIFICA AS AN INNER JOIN NOTIFICA AS N ON AN.ID_NOTIFICA=N.ID WHERE AN.ID_ANNUNCIO=V.ID
+                                    AND N.ID_PERSONA=@UTENTE) AS NOTIFICATO, V.ID_PADRE AS ID_ANNUNCIO_PADRE, V.ID_ORIGINE AS ID_ANNUNCIO_ORIGINALE 
+                                {0} ", (attivaRicercaPerNome) ? selectFreeText : "");
+                    cmd.Parameters.Add(new SqlParameter("UTENTE", idUtente));
 
-                    string schema = @"FROM ANNUNCIO AS V
+                    string schema = string.Format(@"FROM ANNUNCIO AS V
                                 INNER JOIN CATEGORIA ON V.ID_CATEGORIA=CATEGORIA.ID 
                                 INNER JOIN OGGETTO AS O ON V.ID_OGGETTO=O.ID
-                                INNER JOIN COMUNE ON O.ID_COMUNE=COMUNE.ID
-                                INNER JOIN MARCA AS M ON O.ID_MARCA=M.ID
+                                INNER JOIN COMUNE ON V.ID_COMUNE=COMUNE.ID
+                                LEFT JOIN MARCA AS M ON O.ID_MARCA=M.ID
                                 INNER JOIN PERSONA AS U ON V.ID_PERSONA=U.ID
-                                LEFT JOIN ATTIVITA AS P ON V.ID_ATTIVITA=P.ID";
+                                LEFT JOIN ATTIVITA AS P ON V.ID_ATTIVITA=P.ID", (attivaRicercaPerNome) ? selectFreeText : "");
 
                     string condizione = @"
-                                WHERE V.STATO = 1 AND CATEGORIA.NODO.IsDescendantOf(
+                                WHERE V.STATO IN (1,0) AND (GETDATE() <= V.DATA_FINE OR V.DATA_FINE IS NULL) 
+                                    AND CATEGORIA.NODO.IsDescendantOf(
                                         (SELECT C2.NODO FROM CATEGORIA AS C2 WHERE C2.ID=@CATEGORIA)
-                                    ) = 1 AND ((SELECT COUNT(*) FROM OFFERTA WHERE OFFERTA.ID_ANNUNCIO=V.ID AND ((TIPO_OFFERTA = 0 AND OFFERTA.STATO = 1) OR OFFERTA.STATO = 4)) <= 0)
-                                ";
-
-                    if ((ricerca["Nome"] != null) && !String.IsNullOrEmpty(ricerca["Nome"]))
-                    {
-                        cmd.Parameters.Add(new SqlParameter("NOME", ricerca["Nome"]));
-                        condizione += " AND V.NOME LIKE @NOME + '%'";
-                    }
-
+                                    ) = 1 ";/* AND ((SELECT COUNT(*) FROM OFFERTA WHERE OFFERTA.ID_ANNUNCIO=V.ID AND ((TIPO_OFFERTA = 0 AND OFFERTA.STATO = 1) OR OFFERTA.STATO = 4)) <= 0)
+                                ";*/
                     AddFiltriRicercaOggetti(Convert.ToInt32(ricerca["IDCategoria"]), filtro, ref cmd, ref schema,ref condizione);
 
                     cmd.Parameters.Add(new SqlParameter("CATEGORIA", Convert.ToInt32(ricerca["IDCategoria"])));
 
-                    cmd.CommandText = "SELECT COUNT(*) " + schema + condizione;
+                    condizione += ") AS A" + ((attivaRicercaPerNome) ? " WHERE (V_FREETEXT_RANK IS NOT NULL OR V_CONTAINS_RANK IS NOT NULL OR OM_RANK IS NOT NULL OR OC_RANK IS NOT NULL) " : "");
+
+                    string query = selectText + schema + condizione;
+
+                    cmd.CommandText = "SELECT COUNT(*) FROM " + query;
                     numeroRecord = (int)cmd.ExecuteScalar();
 
                     pagineTotali = (int)Math.Ceiling((decimal)numeroRecord / Convert.ToDecimal(WebConfigurationManager.AppSettings["numeroAcquisti"]));
 
                     // impaginazione
-                    cmd.CommandText = selectText + schema + condizione + " ORDER BY DATA_INSERIMENTO DESC OFFSET @INIZIO ROWS FETCH NEXT @NUMERORECORD ROWS ONLY";
+                    cmd.CommandText = "SELECT * FROM " + query + " ORDER BY {0}DATA_INSERIMENTO DESC OFFSET @INIZIO ROWS FETCH NEXT @NUMERORECORD ROWS ONLY";
+                    cmd.CommandText = string.Format(cmd.CommandText, (attivaRicercaPerNome) ? "V_FREETEXT_RANK DESC, V_CONTAINS_RANK DESC, OM_RANK DESC, OC_RANK DESC, " : "");
+
                     int inizio = (pagina <= 1) ? 0 : ((pagina - 1) * Convert.ToInt32(WebConfigurationManager.AppSettings["numeroAcquisti"]));
                     cmd.Parameters.Add(new SqlParameter("INIZIO", inizio));
                     cmd.Parameters.Add(new SqlParameter("NUMERORECORD", Convert.ToInt32(WebConfigurationManager.AppSettings["numeroAcquisti"])));
@@ -939,34 +1107,84 @@ namespace GratisForGratis.Controllers
                             try
                             {
                                 OggettoViewModel oggetto = new OggettoViewModel();
-                                oggetto.VenditaID = (int)res["ID"];
-                                oggetto.Id = (int)res["OGGETTO_ID"];
-                                oggetto.VenditoreID = (int)res["PERSONA"];
-                                oggetto.VenditoreNominativo = res["UTENTE_NOMINATIVO"].ToString();
+                                oggetto.Id = (int)res["ID"];
+                                oggetto.OggettoId = (int)res["OGGETTO_ID"];
+                                oggetto.Venditore = new UtenteVenditaViewModel();
                                 if (res["ID_ATTIVITA"].ToString().Trim().Length > 0)
                                 {
-                                    oggetto.PartnerId = (int)res["ID_ATTIVITA"];
-                                    oggetto.PartnerNominativo = res["PARTNER_NOME"].ToString();
+                                    oggetto.Venditore.Id = (int)res["ID_ATTIVITA"];
+                                    oggetto.Venditore.Nominativo = res["PARTNER_NOME"].ToString();
+                                    SetFeedbackVenditore(db, oggetto, TipoVenditore.Attivita);
                                 }
-                                SetFeedbackVenditoreOggetto(db, oggetto);
-                                oggetto.Token = Utils.RandomString(3) + res["TOKEN"].ToString() + Utils.RandomString(3);
+                                else
+                                {
+                                    oggetto.Venditore.Id = (int)res["PERSONA"];
+                                    oggetto.Venditore.Nominativo = res["UTENTE_NOMINATIVO"].ToString();
+                                    SetFeedbackVenditore(db, oggetto, TipoVenditore.Persona);
+                                }
+                                oggetto.Venditore.VenditoreToken = (Guid)res["UTENTE_TOKEN"];
+                                oggetto.Token = res["TOKEN"].ToString();
                                 oggetto.Nome = res["NOME"].ToString();
+                                oggetto.NoteAggiuntive = res["NOTE_AGGIUNTIVE"].ToString();
                                 oggetto.TipoPagamento = (TipoPagamento)res["TIPO_PAGAMENTO"];
                                 oggetto.Citta = res["CITTA_NOME"].ToString();
                                 oggetto.Punti = (int)res["PUNTI"];
-                                oggetto.Soldi = (int)res["SOLDI"];
-                                oggetto.Anno = (int)res["ANNO"];
-                                oggetto.Marca = res["MARCA_NOME"].ToString();
-                                oggetto.StatoOggetto = (CondizioneOggetto)res["CONDIZIONE"];
+                                oggetto.IdTipoValuta = (int)res["ID_TIPO_VALUTA"];
+                                oggetto.Soldi = Convert.ToDecimal(res["SOLDI"]).ToString("C");
                                 oggetto.DataInserimento = (DateTime)res["DATA_INSERIMENTO"];
-                                oggetto.VenditoreToken = (Guid)res["UTENTE_TOKEN"];
-                                oggetto.Quantità = (int)res["NUMERO_PEZZI"];
                                 oggetto.CategoriaID = (int)res["CATEGORIA_ID"];
                                 oggetto.Categoria = res["CATEGORIA_NOME"].ToString();
                                 oggetto.StatoVendita = (StatoVendita)res["STATO_VENDITA"];
-                                oggetto.Foto = db.ANNUNCIO_FOTO.Where(f => f.ID_ANNUNCIO == oggetto.VenditaID).Select(f =>
-                                    f.FOTO.FOTO1
-                                ).ToList();
+                                oggetto.Foto = db.ANNUNCIO_FOTO.Where(f => f.ID_ANNUNCIO == oggetto.Id).Select(f => new AnnuncioFoto()
+                                {
+                                    ID_ANNUNCIO = f.ID_ANNUNCIO,
+                                    ALLEGATO = f.ALLEGATO,
+                                    DATA_INSERIMENTO = f.DATA_INSERIMENTO,
+                                    DATA_MODIFICA = f.DATA_MODIFICA
+                                }).ToList();
+                                oggetto.Notificato = ((int)res["NOTIFICATO"] > 0) ? true : false;
+                                IQueryable<ANNUNCIO_DESIDERATO> listaInteressati = db.ANNUNCIO_DESIDERATO.Where(f => f.ID_ANNUNCIO == oggetto.Id);
+                                oggetto.NumeroInteressati = listaInteressati.Count();
+                                oggetto.Desidero = listaInteressati.FirstOrDefault(m => m.ID_PERSONA== idUtente) != null;
+                                // controllo se l'utente ha già proposto lo stesso annuncio
+                                int? idAnnuncioOriginale = null;
+                                if (res["ID_ANNUNCIO_ORIGINALE"] != DBNull.Value)
+                                {
+                                    idAnnuncioOriginale = (int)res["ID_ANNUNCIO_ORIGINALE"];
+                                }
+                                // verifica se è una prima copia o una copia di seconda mano
+                                ANNUNCIO copiaAnnuncio = db.ANNUNCIO.SingleOrDefault(m => m.ID_PERSONA == idUtente
+                                        && (m.STATO == (int)StatoVendita.ATTIVO || m.STATO == (int)StatoVendita.INATTIVO)
+                                        && ((m.ID_ORIGINE == idAnnuncioOriginale && idAnnuncioOriginale != null)
+                                            || m.ID_ORIGINE == oggetto.Id));
+                                if (copiaAnnuncio != null)
+                                    oggetto.TokenAnnuncioCopiato = Utils.RandomString(3) + copiaAnnuncio.TOKEN + Utils.RandomString(3);
+                                // DETTAGLI OGGETTO
+                                if (res["ANNO"] != DBNull.Value)
+                                    oggetto.Anno = (int)res["ANNO"];
+                                if (res["MARCA_NOME"] != DBNull.Value)
+                                    oggetto.Marca = res["MARCA_NOME"].ToString();
+                                if (res["CONDIZIONE"] != DBNull.Value)
+                                    oggetto.StatoOggetto = (CondizioneOggetto)res["CONDIZIONE"];
+                                if (res["NUMERO_PEZZI"] != DBNull.Value)
+                                    oggetto.Quantità = (int)res["NUMERO_PEZZI"];
+                                var listaTipoScambio = db.ANNUNCIO_TIPO_SCAMBIO.Where(m => m.ID_ANNUNCIO == oggetto.Id);
+                                if (listaTipoScambio != null)
+                                {
+                                    oggetto.TipoScambio = listaTipoScambio.Select(m => (TipoScambio)m.TIPO_SCAMBIO).ToArray();
+                                    if (oggetto.TipoScambio.Contains(TipoScambio.Spedizione))
+                                    {
+                                        ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE spedizione = db.ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE
+                                            .FirstOrDefault(m => m.ID_ANNUNCIO_TIPO_SCAMBIO == listaTipoScambio.FirstOrDefault(n => n.TIPO_SCAMBIO == (int)TipoScambio.Spedizione).ID);
+                                        if (spedizione != null)
+                                        {
+                                            oggetto.NomeCorriere = spedizione.CORRIERE_SERVIZIO_SPEDIZIONE.CORRIERE_SERVIZIO.CORRIERE.NOME;
+                                            oggetto.PuntiSpedizione = spedizione.PUNTI;
+                                            oggetto.SoldiSpedizione = spedizione.SOLDI.ToString("C");
+                                        }
+                                    }
+                                }
+
                                 lista.Add(SetOggettoViewModel(db, oggetto));
                             }
                             catch (Exception ex)
@@ -981,135 +1199,196 @@ namespace GratisForGratis.Controllers
             return lista;
         }
 
-        private OggettoViewModel SetOggettoViewModel(DatabaseContext db, OggettoViewModel oggetto)
+        private OggettoViewModel SetOggettoViewModel(DatabaseContext db, OggettoViewModel oggettoView)
         {
             // gestito cosi, perchè nel caso faccio macroricerche, recupero lo stesso i dati personalizzati
             // sulla specifica sottocategoria.
             // new List<int> { 14 }.IndexOf(oggetto.CategoriaID) != 1
-            if (oggetto.CategoriaID == 12)
+            if (oggettoView.CategoriaID == 12)
             {
-                TelefonoViewModel viewModel = new TelefonoViewModel(oggetto);
-                OGGETTO_TELEFONO model = db.OGGETTO_TELEFONO.Where(m => m.ID_OGGETTO == oggetto.Id).FirstOrDefault();
-                viewModel.modelloID = model.ID_MODELLO;
-                viewModel.modelloNome = model.MODELLO.NOME;
-                viewModel.sistemaOperativoID = model.ID_SISTEMA_OPERATIVO;
-                viewModel.sistemaOperativoNome = model.SISTEMA_OPERATIVO.NOME;
+                TelefonoViewModel viewModel = new TelefonoViewModel(oggettoView);
+                OGGETTO_TELEFONO model = db.OGGETTO_TELEFONO.Where(m => m.ID_OGGETTO == oggettoView.Id).FirstOrDefault();
+                if (model != null)
+                {
+                    viewModel.modelloID = model.ID_MODELLO;
+                    if (viewModel.modelloID != null)
+                        viewModel.modelloNome = model.MODELLO.NOME;
+                    viewModel.sistemaOperativoID = model.ID_SISTEMA_OPERATIVO;
+                    if (viewModel.sistemaOperativoID != null)
+                        viewModel.sistemaOperativoNome = model.SISTEMA_OPERATIVO.NOME;
+                }
                 return viewModel;
             }
-            else if (oggetto.CategoriaID == 64)
+            else if (oggettoView.CategoriaID == 64)
             {
-                ConsoleViewModel viewModel = new ConsoleViewModel(oggetto);
-                OGGETTO_CONSOLE model = db.OGGETTO_CONSOLE.Where(m => m.ID_OGGETTO == oggetto.Id).FirstOrDefault();
-                viewModel.piattaformaID = model.ID_PIATTAFORMA;
-                viewModel.piattaformaNome = model.PIATTAFORMA.NOME;
+                ConsoleViewModel viewModel = new ConsoleViewModel(oggettoView);
+                OGGETTO_CONSOLE model = db.OGGETTO_CONSOLE.Where(m => m.ID_OGGETTO == oggettoView.Id).FirstOrDefault();
+                if (model != null)
+                {
+                    viewModel.piattaformaID = model.ID_PIATTAFORMA;
+                    if (viewModel.piattaformaID != null)
+                        viewModel.piattaformaNome = model.PIATTAFORMA.NOME;
+                }
                 return viewModel;
             }
-            else if (oggetto.CategoriaID == 13 || (oggetto.CategoriaID >= 62 && oggetto.CategoriaID <= 63) || oggetto.CategoriaID == 65)
+            else if (oggettoView.CategoriaID == 13 || (oggettoView.CategoriaID >= 62 && oggettoView.CategoriaID <= 63) || oggettoView.CategoriaID == 65)
             {
-                ModelloViewModel viewModel = new ModelloViewModel(oggetto);
-                OGGETTO_TECNOLOGIA model = db.OGGETTO_TECNOLOGIA.Where(m => m.ID_OGGETTO == oggetto.Id).FirstOrDefault();
-                viewModel.modelloID = model.ID_MODELLO;
-                viewModel.modelloNome = model.MODELLO.NOME;
+                ModelloViewModel viewModel = new ModelloViewModel(oggettoView);
+                OGGETTO_TECNOLOGIA model = db.OGGETTO_TECNOLOGIA.Where(m => m.ID_OGGETTO == oggettoView.Id).FirstOrDefault();
+                if (model != null)
+                {
+                    viewModel.modelloID = model.ID_MODELLO;
+                    if (viewModel.modelloID != null)
+                        viewModel.modelloNome = model.MODELLO.NOME;
+                }
                 return viewModel;
             }
-            else if (oggetto.CategoriaID == 14)
+            else if (oggettoView.CategoriaID == 14)
             {
-                ComputerViewModel viewModel = new ComputerViewModel(oggetto);
-                OGGETTO_COMPUTER model = db.OGGETTO_COMPUTER.Where(m => m.ID_OGGETTO == oggetto.Id).FirstOrDefault();
-                viewModel.modelloID = model.ID_MODELLO;
-                viewModel.modelloNome = model.MODELLO.NOME;
-                viewModel.sistemaOperativoID = model.ID_SISTEMA_OPERATIVO;
-                viewModel.sistemaOperativoNome = model.SISTEMA_OPERATIVO.NOME;
+                ComputerViewModel viewModel = new ComputerViewModel(oggettoView);
+                OGGETTO_COMPUTER model = db.OGGETTO_COMPUTER.Where(m => m.ID_OGGETTO == oggettoView.Id).FirstOrDefault();
+                if (model != null)
+                {
+                    viewModel.modelloID = model.ID_MODELLO;
+                    if (viewModel.modelloID != null)
+                        viewModel.modelloNome = model.MODELLO.NOME;
+                    viewModel.sistemaOperativoID = model.ID_SISTEMA_OPERATIVO;
+                    if (viewModel.sistemaOperativoID != null)
+                        viewModel.sistemaOperativoNome = model.SISTEMA_OPERATIVO.NOME;
+                }
                 return viewModel;
             }
-            else if (oggetto.CategoriaID == 26)
+            else if (oggettoView.CategoriaID == 26)
             {
-                ModelloViewModel viewModel = new ModelloViewModel(oggetto);
-                OGGETTO_ELETTRODOMESTICO model = db.OGGETTO_ELETTRODOMESTICO.Where(m => m.ID_OGGETTO == oggetto.Id).FirstOrDefault();
-                viewModel.modelloID = model.ID_MODELLO;
-                viewModel.modelloNome = model.MODELLO.NOME;
+                ModelloViewModel viewModel = new ModelloViewModel(oggettoView);
+                OGGETTO_ELETTRODOMESTICO model = db.OGGETTO_ELETTRODOMESTICO.Where(m => m.ID_OGGETTO == oggettoView.Id).FirstOrDefault();
+                if (model != null)
+                {
+                    viewModel.modelloID = model.ID_MODELLO;
+                    if (viewModel.modelloID != null)
+                        viewModel.modelloNome = model.MODELLO.NOME;
+                }
                 return viewModel;
             }
-            else if ((oggetto.CategoriaID >= 28 && oggetto.CategoriaID <= 39) || oggetto.CategoriaID == 41)
+            else if ((oggettoView.CategoriaID >= 28 && oggettoView.CategoriaID <= 39) || oggettoView.CategoriaID == 41)
             {
-                MusicaViewModel viewModel = new MusicaViewModel(oggetto);
-                OGGETTO_MUSICA model = db.OGGETTO_MUSICA.Where(m => m.ID_OGGETTO == oggetto.Id).FirstOrDefault();
-                viewModel.formatoID = model.ID_FORMATO;
-                viewModel.formatoNome = model.FORMATO.NOME;
-                viewModel.artistaID = model.ID_ARTISTA;
-                viewModel.artistaNome = model.ARTISTA.NOME;
+                MusicaViewModel viewModel = new MusicaViewModel(oggettoView);
+                OGGETTO_MUSICA model = db.OGGETTO_MUSICA.Where(m => m.ID_OGGETTO == oggettoView.Id).FirstOrDefault();
+                if (model != null)
+                {
+                    viewModel.formatoID = model.ID_FORMATO;
+                    if (viewModel.formatoID != null)
+                        viewModel.formatoNome = model.FORMATO.NOME;
+                    viewModel.artistaID = model.ID_ARTISTA;
+                    if (viewModel.artistaID != null)
+                        viewModel.artistaNome = model.ARTISTA.NOME;
+                }
                 return viewModel;
             }
-            else if (oggetto.CategoriaID == 40)
+            else if (oggettoView.CategoriaID == 40)
             {
-                ModelloViewModel viewModel = new ModelloViewModel(oggetto);
-                OGGETTO_STRUMENTO model = db.OGGETTO_STRUMENTO.Where(m => m.ID_OGGETTO == oggetto.Id).FirstOrDefault();
-                viewModel.modelloID = model.ID_MODELLO;
-                viewModel.modelloNome = model.MODELLO.NOME;
+                ModelloViewModel viewModel = new ModelloViewModel(oggettoView);
+                OGGETTO_STRUMENTO model = db.OGGETTO_STRUMENTO.Where(m => m.ID_OGGETTO == oggettoView.Id).FirstOrDefault();
+                if (model != null)
+                {
+                    viewModel.modelloID = model.ID_MODELLO;
+                    if (viewModel.modelloID != null)
+                        viewModel.modelloNome = model.MODELLO.NOME;
+                }
                 return viewModel;
             }
-            else if (oggetto.CategoriaID == 45)
+            else if (oggettoView.CategoriaID == 45)
             {
-                VideogamesViewModel viewModel = new VideogamesViewModel(oggetto);
-                OGGETTO_VIDEOGAMES model = db.OGGETTO_VIDEOGAMES.Where(m => m.ID_OGGETTO == oggetto.Id).FirstOrDefault();
-                viewModel.piattaformaID = model.ID_PIATTAFORMA;
-                viewModel.piattaformaNome = model.PIATTAFORMA.NOME;
-                viewModel.genereID = model.ID_GENERE;
-                viewModel.genereNome = model.GENERE.NOME;
+                VideogamesViewModel viewModel = new VideogamesViewModel(oggettoView);
+                OGGETTO_VIDEOGAMES model = db.OGGETTO_VIDEOGAMES.Where(m => m.ID_OGGETTO == oggettoView.Id).FirstOrDefault();
+                if (model != null)
+                {
+                    viewModel.piattaformaID = model.ID_PIATTAFORMA;
+                    if (viewModel.piattaformaID != null)
+                        viewModel.piattaformaNome = model.PIATTAFORMA.NOME;
+                    viewModel.genereID = model.ID_GENERE;
+                    if (viewModel.genereID != null)
+                        viewModel.genereNome = model.GENERE.NOME;
+                }
                 return viewModel;
             }
-            else if (oggetto.CategoriaID >= 42 && oggetto.CategoriaID <= 47)
+            else if (oggettoView.CategoriaID >= 42 && oggettoView.CategoriaID <= 47)
             {
-                ModelloViewModel viewModel = new ModelloViewModel(oggetto);
-                OGGETTO_GIOCO model = db.OGGETTO_GIOCO.Where(m => m.ID_OGGETTO == oggetto.Id).FirstOrDefault();
-                viewModel.modelloID = model.ID_MODELLO;
-                viewModel.modelloNome = model.MODELLO.NOME;
+                ModelloViewModel viewModel = new ModelloViewModel(oggettoView);
+                OGGETTO_GIOCO model = db.OGGETTO_GIOCO.Where(m => m.ID_OGGETTO == oggettoView.Id).FirstOrDefault();
+                if (model != null)
+                {
+                    viewModel.modelloID = model.ID_MODELLO;
+                    if (viewModel.modelloID != null)
+                        viewModel.modelloNome = model.MODELLO.NOME;
+                }
                 return viewModel;
             }
-            else if (oggetto.CategoriaID >= 50 && oggetto.CategoriaID <= 61)
+            else if (oggettoView.CategoriaID >= 50 && oggettoView.CategoriaID <= 61)
             {
-                ModelloViewModel viewModel = new ModelloViewModel(oggetto);
-                OGGETTO_SPORT model = db.OGGETTO_SPORT.Where(m => m.ID_OGGETTO == oggetto.Id).FirstOrDefault();
-                viewModel.modelloID = model.ID_MODELLO;
-                viewModel.modelloNome = model.MODELLO.NOME;
+                ModelloViewModel viewModel = new ModelloViewModel(oggettoView);
+                OGGETTO_SPORT model = db.OGGETTO_SPORT.Where(m => m.ID_OGGETTO == oggettoView.Id).FirstOrDefault();
+                if (model != null)
+                {
+                    viewModel.modelloID = model.ID_MODELLO;
+                    if (viewModel.modelloID != null)
+                        viewModel.modelloNome = model.MODELLO.NOME;
+                }
                 return viewModel;
             }
-            else if (oggetto.CategoriaID >= 67 && oggetto.CategoriaID <= 80)
+            else if (oggettoView.CategoriaID >= 67 && oggettoView.CategoriaID <= 80)
             {
-                VideoViewModel viewModel = new VideoViewModel(oggetto);
-                OGGETTO_VIDEO model = db.OGGETTO_VIDEO.Where(m => m.ID_OGGETTO == oggetto.Id).FirstOrDefault();
-                viewModel.formatoID = model.ID_FORMATO;
-                viewModel.formatoNome = model.FORMATO.NOME;
-                viewModel.registaID = model.ID_REGISTA;
-                viewModel.registaNome = model.REGISTA.NOME;
+                VideoViewModel viewModel = new VideoViewModel(oggettoView);
+                OGGETTO_VIDEO model = db.OGGETTO_VIDEO.Where(m => m.ID_OGGETTO == oggettoView.Id).FirstOrDefault();
+                if (model != null)
+                {
+                    viewModel.formatoID = model.ID_FORMATO;
+                    if (viewModel.formatoID != null)
+                        viewModel.formatoNome = model.FORMATO.NOME;
+                    viewModel.registaID = model.ID_REGISTA;
+                    if (viewModel.registaID != null)
+                        viewModel.registaNome = model.REGISTA.NOME;
+                }
                 return viewModel;
             }
-            else if (oggetto.CategoriaID >= 81 && oggetto.CategoriaID <= 85)
+            else if (oggettoView.CategoriaID >= 81 && oggettoView.CategoriaID <= 85)
             {
-                LibroViewModel viewModel = new LibroViewModel(oggetto);
-                OGGETTO_LIBRO model = db.OGGETTO_LIBRO.Where(m => m.ID_OGGETTO == oggetto.Id).FirstOrDefault();
-                viewModel.autoreID = model.ID_AUTORE;
-                viewModel.autoreNome = model.AUTORE.NOME;
+                LibroViewModel viewModel = new LibroViewModel(oggettoView);
+                OGGETTO_LIBRO model = db.OGGETTO_LIBRO.Where(m => m.ID_OGGETTO == oggettoView.Id).FirstOrDefault();
+                if (model != null)
+                {
+                    viewModel.autoreID = model.ID_AUTORE;
+                    if (viewModel.autoreID != null)
+                        viewModel.autoreNome = model.AUTORE.NOME;
+                }
                 return viewModel;
             }
-            else if (oggetto.CategoriaID >= 89 && oggetto.CategoriaID <= 93)
+            else if (oggettoView.CategoriaID >= 89 && oggettoView.CategoriaID <= 93)
             {
-                VeicoloViewModel viewModel = new VeicoloViewModel(oggetto);
-                OGGETTO_VEICOLO model = db.OGGETTO_VEICOLO.Where(m => m.ID_OGGETTO == oggetto.Id).FirstOrDefault();
-                viewModel.modelloID = model.ID_MODELLO;
-                viewModel.modelloNome = model.MODELLO.NOME;
-                viewModel.alimentazioneID = model.ID_ALIMENTAZIONE;
-                viewModel.alimentazioneNome = model.ALIMENTAZIONE.NOME;
+                VeicoloViewModel viewModel = new VeicoloViewModel(oggettoView);
+                OGGETTO_VEICOLO model = db.OGGETTO_VEICOLO.Where(m => m.ID_OGGETTO == oggettoView.Id).FirstOrDefault();
+                if (model != null)
+                {
+                    viewModel.modelloID = model.ID_MODELLO;
+                    if (viewModel.modelloID != null)
+                        viewModel.modelloNome = model.MODELLO.NOME;
+                    viewModel.alimentazioneID = model.ID_ALIMENTAZIONE;
+                    if (viewModel.alimentazioneID != null)
+                        viewModel.alimentazioneNome = model.ALIMENTAZIONE.NOME;
+                }
                 return viewModel;
             }
-            else if (oggetto.CategoriaID >= 127 && oggetto.CategoriaID <= 170 && oggetto.CategoriaID != 161 && oggetto.CategoriaID != 152 && oggetto.CategoriaID != 141 && oggetto.CategoriaID != 127)
+            else if (oggettoView.CategoriaID >= 127 && oggettoView.CategoriaID <= 170 && oggettoView.CategoriaID != 161 && oggettoView.CategoriaID != 152 && oggettoView.CategoriaID != 141 && oggettoView.CategoriaID != 127)
             {
-                VestitoViewModel viewModel = new VestitoViewModel(oggetto);
-                OGGETTO_VESTITO model = db.OGGETTO_VESTITO.Where(m => m.ID_OGGETTO == oggetto.Id).FirstOrDefault();
-                viewModel.taglia = model.TAGLIA;
+                VestitoViewModel viewModel = new VestitoViewModel(oggettoView);
+                OGGETTO_VESTITO model = db.OGGETTO_VESTITO.Where(m => m.ID_OGGETTO == oggettoView.Id).FirstOrDefault();
+                if (model != null)
+                {
+                    viewModel.taglia = model.TAGLIA;
+                }
                 return viewModel;
             }
-            return oggetto;
+            return oggettoView;
         }
 
         private void AddFiltriRicercaOggetti(int categoriaID, HttpCookie filtro, ref DbCommand cmd, ref string schema, ref string condizione)
@@ -1342,29 +1621,29 @@ namespace GratisForGratis.Controllers
             }
         }
 
-    /**
-    Recupero i servizi ancora in vendita, della categoria selezionata o di una sua sottocategoria,
-    che non abbia ancora ricevuto un'offerta attiva di acquisto in punti o comunque accettata
-    **/
-    private ListaServizi GetListaServizi(int paginaAttuale, HttpCookie ricerca = null, HttpCookie filtro = null)
-    {
-        //recupero impaginazione e dati
-        ListaServizi lista = new ListaServizi();
-        int pagineTotali = 1;
-        int numeroRecord = 0;
-        if (ricerca == null)
-            ricerca = HttpContext.Request.Cookies.Get("ricerca");
-        if (filtro == null)
-            filtro = HttpContext.Request.Cookies.Get("filtro");
-        lista.List = FindServizi(ricerca, filtro, paginaAttuale, ref pagineTotali, ref numeroRecord);
+        /**
+        Recupero i servizi ancora in vendita, della categoria selezionata o di una sua sottocategoria,
+        che non abbia ancora ricevuto un'offerta attiva di acquisto in punti o comunque accettata
+        **/
+        private ListaServizi GetListaServizi(int paginaAttuale, HttpCookie ricerca = null, HttpCookie filtro = null)
+        {
+            //recupero impaginazione e dati
+            ListaServizi lista = new ListaServizi();
+            int pagineTotali = 1;
+            int numeroRecord = 0;
+            if (ricerca == null)
+                ricerca = HttpContext.Request.Cookies.Get("ricerca");
+            if (filtro == null)
+                filtro = HttpContext.Request.Cookies.Get("filtro");
+            lista.List = FindServizi(ricerca, filtro, paginaAttuale, ref pagineTotali, ref numeroRecord);
 
-        lista.PageNumber = paginaAttuale;
-        lista.PageCount = pagineTotali;
-        lista.TotalNumber = numeroRecord;
-        return lista;
-    }
+            lista.PageNumber = paginaAttuale;
+            lista.PageCount = pagineTotali;
+            lista.TotalNumber = numeroRecord;
+            return lista;
+        }
 
-    private List<ServizioViewModel> FindServizi(HttpCookie ricerca, HttpCookie filtro, int pagina, ref int pagineTotali, ref int numeroRecord)
+        private List<ServizioViewModel> FindServizi(HttpCookie ricerca, HttpCookie filtro, int pagina, ref int pagineTotali, ref int numeroRecord)
         {
             List<ServizioViewModel> lista = new List<ServizioViewModel>();
             using (DatabaseContext db = new DatabaseContext())
@@ -1377,45 +1656,51 @@ namespace GratisForGratis.Controllers
                 {
                     connessione.Open();
                     DbCommand cmd = connessione.CreateCommand();
-                    string selectText = @"SELECT V.ID, S.ID AS SERVIZIO_ID, S.LUNEDI, S.MARTEDI, S.MERCOLEDI, S.GIOVEDI, S.VENERDI, 
+
+                    string selectFreeText = string.Empty;
+                    bool attivaRicercaPerNome = SetRicercaPerNome(ricerca, cmd, ref selectFreeText);
+
+                    string selectText = string.Format(@"(SELECT V.ID, S.ID AS SERVIZIO_ID, S.LUNEDI, S.MARTEDI, S.MERCOLEDI, S.GIOVEDI, S.VENERDI, 
                                 S.SABATO AS SABATO, S.DOMENICA, ISNULL(S.TUTTI,0) AS TUTTI, S.ORA_INIZIO_FERIALI, S.ORA_FINE_FERIALI, 
                                 S.ORA_INIZIO_FESTIVI, S.ORA_FINE_FESTIVI, S.SERVIZI_OFFERTI, S.RISULTATI_FINALI, S.TARIFFA,
                                 U.ID AS PERSONA, U.NOME + ' ' + U.COGNOME AS UTENTE_NOMINATIVO, 
-                                U.TOKEN AS UTENTE_TOKEN, V.TOKEN, V.NOME, V.TIPO_PAGAMENTO, COMUNE.NOME AS CITTA_NOME, V.PUNTI,V.SOLDI,
+                                U.TOKEN AS UTENTE_TOKEN, V.TOKEN, V.NOME, V.TIPO_PAGAMENTO, COMUNE.NOME AS CITTA_NOME, V.PUNTI,V.SOLDI, V.NOTE_AGGIUNTIVE,
                                 V.DATA_INSERIMENTO, V.ID_CATEGORIA AS CATEGORIA_ID, CATEGORIA.NOME AS CATEGORIA_NOME, COMUNE.ID AS CITTA_ID,
-                                P.ID AS ID_ATTIVITA, P.NOME AS PARTNER_NOME, P.TOKEN AS PARTNER_TOKEN, V.STATO AS STATO_VENDITA ";
-
+                                P.ID AS ID_ATTIVITA, P.NOME AS PARTNER_NOME, P.TOKEN AS PARTNER_TOKEN, V.STATO AS STATO_VENDITA, V.ID_TIPO_VALUTA,
+                                (SELECT COUNT(*) FROM ANNUNCIO_NOTIFICA AS AN INNER JOIN NOTIFICA AS N ON AN.ID_NOTIFICA=N.ID WHERE AN.ID_ANNUNCIO=V.ID
+                                    AND N.ID_PERSONA=@UTENTE) AS NOTIFICATO, V.ID_PADRE AS ID_ANNUNCIO_PADRE, V.ID_ORIGINE AS ID_ANNUNCIO_ORIGINALE 
+                                {0} ", (attivaRicercaPerNome) ? selectFreeText : "");
+                    cmd.Parameters.Add(new SqlParameter("UTENTE", idUtente));
 
                     string schema = @"FROM ANNUNCIO AS V
                                 INNER JOIN CATEGORIA ON V.ID_CATEGORIA=CATEGORIA.ID 
                                 INNER JOIN SERVIZIO AS S ON V.ID_SERVIZIO=S.ID
-                                INNER JOIN COMUNE ON S.ID_COMUNE=COMUNE.ID
+                                INNER JOIN COMUNE ON V.ID_COMUNE=COMUNE.ID
                                 INNER JOIN PERSONA AS U ON V.ID_PERSONA=U.ID
                                 LEFT JOIN ATTIVITA AS P ON V.ID_ATTIVITA=P.ID";
 
                     string condizione = @"
-                                WHERE V.STATO=1 AND CATEGORIA.NODO.IsDescendantOf(
+                                    WHERE V.STATO IN (1,0) AND (GETDATE() <= V.DATA_FINE OR V.DATA_FINE IS NULL) 
+                                    AND CATEGORIA.NODO.IsDescendantOf(
                                         (SELECT C2.NODO FROM CATEGORIA AS C2 WHERE C2.ID=@CATEGORIA)
-                                    ) = 1 AND ((SELECT COUNT(*) FROM OFFERTA WHERE OFFERTA.ID_ANNUNCIO=V.ID AND ((TIPO_OFFERTA = 0 AND OFFERTA.STATO = 1) OR OFFERTA.STATO = 4)) <= 0)
-                                ";
-
-                    if (!(ricerca["Nome"] != null) && !String.IsNullOrEmpty(ricerca["Nome"]))
-                    {
-                        cmd.Parameters.Add(new SqlParameter("NOME", ricerca["Nome"]));
-                        condizione += " AND V.NOME LIKE @NOME + '%'";
-                    }
+                                    ) = 1 ";/* AND ((SELECT COUNT(*) FROM OFFERTA WHERE OFFERTA.ID_ANNUNCIO=V.ID AND ((TIPO_OFFERTA = 0 AND OFFERTA.STATO = 1) OR OFFERTA.STATO = 4)) <= 0)";*/
 
                     AddFiltriRicercaServizi(Convert.ToInt32(ricerca["IDCategoria"]), filtro, ref cmd, ref schema, ref condizione);
-
                     cmd.Parameters.Add(new SqlParameter("CATEGORIA", Convert.ToInt32(ricerca["IDCategoria"])));
 
-                    cmd.CommandText = "SELECT COUNT(*) " + schema + condizione;
+                    condizione += ") AS A" + ((attivaRicercaPerNome) ? " WHERE (V_FREETEXT_RANK IS NOT NULL OR V_CONTAINS_RANK IS NOT NULL) " : "");
+
+                    string query = selectText + schema + condizione;
+
+                    cmd.CommandText = "SELECT COUNT(*) FROM " + query;
                     numeroRecord = (int)cmd.ExecuteScalar();
 
                     pagineTotali = (int)Math.Ceiling((decimal)numeroRecord / Convert.ToDecimal(WebConfigurationManager.AppSettings["numeroAcquisti"]));
 
                     // impaginazione
-                    cmd.CommandText = selectText + schema + condizione + " ORDER BY DATA_INSERIMENTO DESC OFFSET @INIZIO ROWS FETCH NEXT @NUMERORECORD ROWS ONLY";
+                    cmd.CommandText = "SELECT * FROM " + query + " ORDER BY {0}DATA_INSERIMENTO DESC OFFSET @INIZIO ROWS FETCH NEXT @NUMERORECORD ROWS ONLY";
+                    cmd.CommandText = string.Format(cmd.CommandText, (attivaRicercaPerNome) ? "V_FREETEXT_RANK DESC, V_CONTAINS_RANK DESC, " : "");
+
                     int inizio = (pagina <= 1) ? 0 : ((pagina - 1) * Convert.ToInt32(WebConfigurationManager.AppSettings["numeroAcquisti"]));
                     cmd.Parameters.Add(new SqlParameter("INIZIO", inizio));
                     cmd.Parameters.Add(new SqlParameter("NUMERORECORD", Convert.ToInt32(WebConfigurationManager.AppSettings["numeroAcquisti"])));
@@ -1428,45 +1713,86 @@ namespace GratisForGratis.Controllers
                             try
                             {
                                 ServizioViewModel servizio = new ServizioViewModel();
-                                servizio.VenditaID = (int)res["ID"];
-                                servizio.Id = Convert.ToInt32(res["SERVIZIO_ID"]);
-                                servizio.VenditoreID = Convert.ToInt32(res["PERSONA"].ToString());
-                                servizio.VenditoreNominativo = res["UTENTE_NOMINATIVO"].ToString();
+                                servizio.Id = (int)res["ID"];
+                                servizio.ServizioId = Convert.ToInt32(res["SERVIZIO_ID"]);
+                                servizio.Venditore = new UtenteVenditaViewModel();
                                 if (res["ID_ATTIVITA"].ToString().Trim().Length > 0)
                                 {
-                                    servizio.PartnerId = (int)res["ID_ATTIVITA"];
-                                    servizio.PartnerNominativo = res["PARTNER_NOME"].ToString();
+                                    servizio.Venditore.Id = (int)res["ID_ATTIVITA"];
+                                    servizio.Venditore.Nominativo = res["PARTNER_NOME"].ToString();
+                                    SetFeedbackVenditore(db, servizio, TipoVenditore.Attivita);
                                 }
-                                SetFeedbackVenditoreServizio(db, servizio);
-                                servizio.Token = Utils.RandomString(3) + res["TOKEN"].ToString() + Utils.RandomString(3);
+                                else
+                                {
+                                    servizio.Venditore.Id = (int)res["PERSONA"];
+                                    servizio.Venditore.Nominativo = res["UTENTE_NOMINATIVO"].ToString();
+                                    SetFeedbackVenditore(db, servizio, TipoVenditore.Persona);
+                                }
+                                servizio.Token = res["TOKEN"].ToString();
                                 servizio.Nome = res["NOME"].ToString();
+                                servizio.NoteAggiuntive = res["NOTE_AGGIUNTIVE"].ToString();
                                 servizio.TipoPagamento = (TipoPagamento)res["TIPO_PAGAMENTO"];
                                 servizio.Citta = res["CITTA_NOME"].ToString();
                                 servizio.Punti = (int)res["PUNTI"];
-                                servizio.Soldi = (int)res["SOLDI"];
+                                servizio.IdTipoValuta = (int)res["ID_TIPO_VALUTA"];
+                                servizio.Soldi = Convert.ToDecimal(res["SOLDI"]).ToString("C");
                                 servizio.DataInserimento = (DateTime)res["DATA_INSERIMENTO"];
-                                servizio.VenditoreToken = (Guid)res["UTENTE_TOKEN"];
+                                servizio.Venditore.VenditoreToken = (Guid)res["UTENTE_TOKEN"];
                                 servizio.CategoriaID = (int)res["CATEGORIA_ID"];
                                 servizio.Categoria = res["CATEGORIA_NOME"].ToString();
-                                servizio.Lunedi = (bool)res["LUNEDI"];
-                                servizio.Martedi = (bool)res["MARTEDI"];
-                                servizio.Mercoledi = (bool)res["MERCOLEDI"];
-                                servizio.Giovedi = (bool)res["GIOVEDI"];
-                                servizio.Venerdi = (bool)res["VENERDI"];
-                                servizio.Sabato = (bool)res["SABATO"];
-                                servizio.Domenica = (bool)res["DOMENICA"];
-                                servizio.Tutti = (bool)res["TUTTI"];
-                                servizio.OraInizio = (TimeSpan)res["ORA_INIZIO_FERIALI"];
-                                servizio.OraFine = (TimeSpan)res["ORA_FINE_FERIALI"];
+                                servizio.StatoVendita = (StatoVendita)res["STATO_VENDITA"];
+                                servizio.Foto = db.ANNUNCIO_FOTO.Where(f => f.ID_ANNUNCIO == servizio.Id).Select(f => new AnnuncioFoto()
+                                {
+                                    ID_ANNUNCIO = f.ID_ANNUNCIO,
+                                    ALLEGATO = f.ALLEGATO,
+                                    DATA_INSERIMENTO = f.DATA_INSERIMENTO,
+                                    DATA_MODIFICA = f.DATA_MODIFICA
+                                }).ToList();
+                                servizio.Tariffa = (Tariffa)res["TARIFFA"];
+                                servizio.Notificato = ((int)res["NOTIFICATO"] > 0) ? true : false;
+                                IQueryable<ANNUNCIO_DESIDERATO> listaInteressati = db.ANNUNCIO_DESIDERATO.Where(f => f.ID_ANNUNCIO == servizio.Id);
+                                servizio.NumeroInteressati = listaInteressati.Count();
+                                servizio.Desidero = listaInteressati.FirstOrDefault(m => m.ID_PERSONA==idUtente) != null;
+                                // controllo se l'utente ha già proposto lo stesso annuncio
+                                int? idAnnuncioOriginale = null;
+                                if (res["ID_ANNUNCIO_ORIGINALE"] != DBNull.Value)
+                                {
+                                    idAnnuncioOriginale = (int)res["ID_ANNUNCIO_ORIGINALE"];
+                                }
+                                // verifica se è una prima copia o una copia di seconda mano
+                                ANNUNCIO copiaAnnuncio = db.ANNUNCIO.SingleOrDefault(m => m.ID_PERSONA == idUtente
+                                        && (m.STATO == (int)StatoVendita.ATTIVO || m.STATO == (int)StatoVendita.INATTIVO)
+                                        && ((m.ID_ORIGINE == idAnnuncioOriginale && idAnnuncioOriginale != null)
+                                            || m.ID_ORIGINE == servizio.Id));
+                                if (copiaAnnuncio != null)
+                                    servizio.TokenAnnuncioCopiato = Utils.RandomString(3) + copiaAnnuncio.TOKEN + Utils.RandomString(3);
+
+                                // DETTAGLIO SERVIZIO
+                                if (res["LUNEDI"] != DBNull.Value)
+                                    servizio.Lunedi = (bool?)res["LUNEDI"];
+                                if (res["MARTEDI"] != DBNull.Value)
+                                    servizio.Martedi = (bool?)res["MARTEDI"];
+                                if (res["MERCOLEDI"] != DBNull.Value)
+                                    servizio.Mercoledi = (bool?)res["MERCOLEDI"];
+                                if (res["GIOVEDI"] != DBNull.Value)
+                                    servizio.Giovedi = (bool?)res["GIOVEDI"];
+                                if (res["VENERDI"] != DBNull.Value)
+                                    servizio.Venerdi = (bool?)res["VENERDI"];
+                                if (res["SABATO"] != DBNull.Value)
+                                    servizio.Sabato = (bool?)res["SABATO"];
+                                if (res["DOMENICA"] != DBNull.Value)
+                                    servizio.Domenica = (bool?)res["DOMENICA"];
+                                if (res["TUTTI"] != DBNull.Value)
+                                    servizio.Tutti = (bool?)res["TUTTI"];
+                                servizio.OraInizio = (res.IsDBNull(res.GetOrdinal("ORA_INIZIO_FERIALI"))) ? null : (TimeSpan?)res["ORA_INIZIO_FERIALI"];
+                                servizio.OraFine = (res.IsDBNull(res.GetOrdinal("ORA_FINE_FERIALI"))) ? null : (TimeSpan?)res["ORA_FINE_FERIALI"];
                                 servizio.OraInizioFestivita = (res.IsDBNull(res.GetOrdinal("ORA_INIZIO_FESTIVI"))) ? null : (TimeSpan?)res["ORA_INIZIO_FESTIVI"];
                                 servizio.OraFineFestivita = (res.IsDBNull(res.GetOrdinal("ORA_FINE_FESTIVI"))) ? null : (TimeSpan?)res["ORA_FINE_FESTIVI"];
-                                servizio.RisultatiFinali = res["RISULTATI_FINALI"].ToString();
-                                servizio.ServiziOfferti = res["SERVIZI_OFFERTI"].ToString();
-                                servizio.StatoVendita = (StatoVendita)res["STATO_VENDITA"];
-                                servizio.Foto = db.ANNUNCIO_FOTO.Where(f => f.ID_ANNUNCIO == servizio.VenditaID).Select(f =>
-                                    f.FOTO.FOTO1
-                                ).ToList();
-                                servizio.Tariffa = (Tariffa)res["TARIFFA"];
+                                if (res["RISULTATI_FINALI"] != DBNull.Value)
+                                    servizio.RisultatiFinali = res["RISULTATI_FINALI"].ToString();
+                                if (res["SERVIZI_OFFERTI"] != DBNull.Value)
+                                    servizio.ServiziOfferti = res["SERVIZI_OFFERTI"].ToString();
+
                                 lista.Add(SetServizioViewModel(db, servizio));
                             }
                             catch (Exception ex)
@@ -1646,7 +1972,7 @@ namespace GratisForGratis.Controllers
             new EmailController().SendEmail(email);
         }
 
-        private void SetFeedbackVenditore(DatabaseContext db, VenditaViewModel viewModel, TipoVenditore tipoVenditore)
+        private void SetFeedbackVenditore(DatabaseContext db, AnnuncioViewModel viewModel, TipoVenditore tipoVenditore)
         {
             try
             {
@@ -1671,55 +1997,38 @@ namespace GratisForGratis.Controllers
                 viewModel.VenditoreFeedback = -1;
             }
         }
-        private void SetFeedbackVenditoreOggetto(DatabaseContext db, OggettoViewModel viewModel)
-        {
-            try
-            {
-                List<int> voti = db.ANNUNCIO_FEEDBACK
-                                .Where(item => (viewModel.PartnerId <= 0 && item.ANNUNCIO.ID_PERSONA == viewModel.VenditoreID) ||
-                                (viewModel.PartnerId > 0 && item.ANNUNCIO.ID_ATTIVITA == viewModel.PartnerId)).Select(item => item.VOTO).ToList();
 
-                int votoMassimo = voti.Count * 10;
-                if (voti.Count <= 0)
-                {
-                    viewModel.VenditoreFeedback = -1;
-                }
-                else
-                {
-                    int x = voti.Sum() / votoMassimo;
-                    viewModel.VenditoreFeedback = x * 100;
-                }
-            }
-            catch (Exception eccezione)
-            {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
-                viewModel.VenditoreFeedback = -1;
-            }
-        }
-        private void SetFeedbackVenditoreServizio(DatabaseContext db, ServizioViewModel viewModel)
+        private bool SetRicercaPerNome(HttpCookie ricerca, DbCommand cmd, ref string selectFreeText)
         {
-            try
+            if ((ricerca["Nome"] != null) && !String.IsNullOrEmpty(ricerca["Nome"]))
             {
-                List<int> voti = db.ANNUNCIO_FEEDBACK
-                                .Where(item => (viewModel.PartnerId <= 0 && item.ANNUNCIO.ID_PERSONA == viewModel.VenditoreID) ||
-                                (viewModel.PartnerId > 0 && item.ANNUNCIO.ID_ATTIVITA == viewModel.PartnerId)).Select(item => item.VOTO).ToList();
-
-                int votoMassimo = voti.Count * 10;
-                if (voti.Count <= 0)
-                {
-                    viewModel.VenditoreFeedback = -1;
-                }
-                else
-                {
-                    int x = voti.Sum() / votoMassimo;
-                    viewModel.VenditoreFeedback = x * 100;
-                }
+                cmd.Parameters.Add(new SqlParameter("NOME", ricerca["Nome"]));
+                cmd.Parameters.Add(new SqlParameter("NOME_INCOMPLETO", "\"*" + ricerca["Nome"] + "*\""));
+                /*
+                selectFreeText += @" LEFT JOIN FREETEXTTABLE(ANNUNCIO, *, @NOME) AS V_FREETEXT ON V.ID=V_FREETEXT.[KEY]
+                    LEFT JOIN CONTAINSTABLE(ANNUNCIO, *, @NOME_INCOMPLETO) AS V_CONTAINS ON V.ID=V_CONTAINS.[KEY]
+                    LEFT JOIN OGGETTO_MATERIALE AS OM ON O.ID=OM.ID_OGGETTO
+                    LEFT JOIN FREETEXTTABLE(MATERIALE, *, @NOME) AS OM_FREETEXT ON OM.ID_MATERIALE=OM_FREETEXT.[KEY]
+                    LEFT JOIN OGGETTO_COMPONENTE AS OC ON O.ID=OC.ID_OGGETTO
+                    LEFT JOIN FREETEXTTABLE(COMPONENTE, *, @NOME) AS OC_FREETEXT ON OC.ID_COMPONENTE=OC_FREETEXT.[KEY]";
+                */
+                selectFreeText += @" ,(SELECT SUM(V_FREETEXT.RANK) AS V_FREETEXT_RANK FROM FREETEXTTABLE(ANNUNCIO, *, @NOME) 
+                    AS V_FREETEXT WHERE V.ID=V_FREETEXT.[KEY]) AS V_FREETEXT_RANK, 
+                (SELECT SUM(V_CONTAINS.RANK) AS V_CONTAINS_RANK FROM CONTAINSTABLE(ANNUNCIO, *, @NOME_INCOMPLETO) 
+                    AS V_CONTAINS WHERE V.ID=V_CONTAINS.[KEY]) AS V_CONTAINS_RANK, 
+                (SELECT SUM(OM_FREETEXT.RANK) AS OM_RANK FROM OGGETTO AS O
+                    LEFT JOIN OGGETTO_MATERIALE AS OM ON O.ID=OM.ID_OGGETTO
+	                LEFT JOIN FREETEXTTABLE(MATERIALE, *, @NOME) AS OM_FREETEXT ON OM.ID_MATERIALE=OM_FREETEXT.[KEY]
+	                WHERE V.ID_OGGETTO IS NOT NULL AND V.ID_OGGETTO=O.ID
+                ) AS OM_RANK, 
+                (SELECT SUM(OC_FREETEXT.RANK) AS OC_RANK FROM OGGETTO AS O
+                    LEFT JOIN OGGETTO_COMPONENTE AS OC ON O.ID=OC.ID_OGGETTO
+	                LEFT JOIN FREETEXTTABLE(COMPONENTE, *, @NOME) AS OC_FREETEXT ON OC.ID_COMPONENTE=OC_FREETEXT.[KEY]
+	                WHERE V.ID_OGGETTO IS NOT NULL AND V.ID_OGGETTO=O.ID
+                ) AS OC_RANK";
+                return true;
             }
-            catch (Exception eccezione)
-            {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
-                viewModel.VenditoreFeedback = -1;
-            }
+            return false;
         }
 
         #endregion

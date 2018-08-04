@@ -1,0 +1,39 @@
+﻿@model GratisForGratis.Models.ViewModels.ChatUtenteViewModel
+
+@{
+    ViewBag.Title = string.Format(MetaTag.TitleChatUser, Model.Utente.Persona.NOME + " " + Model.Utente.Persona.COGNOME);
+}
+
+@section Styles{
+    @Styles.Render("~/Content/chat.css")
+}
+
+<section id="chatUtente">
+    <aside>
+        <div>
+            <span>@(Model.Utente.Persona.NOME + " " + Model.Utente.Persona.COGNOME)</span>
+        </div>
+    </aside>
+    <section>
+        @if (Model.listaChat.Count <= 0)
+        {
+            <div>@ViewModel.ChatEmpty</div>
+        }
+        else
+        {
+            foreach (GratisForGratis.Models.ViewModels.ChatViewModel chat in Model.listaChat)
+            {
+
+            }
+        }
+        <div id="boxNuovoMessaggio">
+            @Html.Partial("PartialPages/_FormMessaggio", new GratisForGratis.Models.ViewModels.ChatViewModel())
+        </div>
+    </section>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/chat.js")
+}
+

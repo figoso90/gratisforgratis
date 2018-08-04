@@ -1,0 +1,16 @@
+﻿@using GratisForGratis.Models
+@model AnnuncioViewModel
+
+@{
+    ViewBag.Title = Language.TitleSales;
+}
+
+@Styles.Render("~/Content/trattative.css")
+<section id="purchases">
+    <div id="grid" class="content">
+        @Html.Partial("PartialPages/_Annuncio", Model)
+    </div>
+</section>
+@section Scripts {
+    @Scripts.Render("~/Scripts/offerteRicevute.js")
+}

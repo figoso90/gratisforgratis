@@ -1,0 +1,78 @@
+﻿@using GratisForGratis.Models
+@model OffertaViewModel
+<div id="@HttpUtility.UrlEncode(Model.Annuncio.Token)" class="purchase">
+    <h4 class="title plus">@Model.Annuncio.Nome</h4>
+    <div class="preview">
+        <div class="cella table">
+            <div class="cell">
+                <img class="phote" src="@Url.Content("~/Uploads/Images/" + Model.Annuncio.Venditore.VenditoreToken + "/" + Model.Annuncio.Foto[0].DATA_INSERIMENTO.Year + "/" + "Little/" + Model.Annuncio.Foto[0].ALLEGATO.NOME)" alt="@Model.Annuncio.Nome" />
+            </div>
+        </div>
+        <div class="cella noMandatory">
+            @Html.Label("Categoria", Language.Category + ":")
+            @Model.Annuncio.Categoria
+        </div>
+        <div class="cella points">
+            @Html.Label("Punti", Language.Moneta + ":")
+            @((Model.Annuncio.Punti == null) ? 0 : Model.Annuncio.Punti)
+        </div>
+        @if (Model.Annuncio.TipoAcquisto == TipoAcquisto.Oggetto)
+        {
+            <div class="cella points">
+                @Html.Label("TipoScambio", Language.Exchange + ":")
+                @Model.TipoScambio
+            </div>
+            if (!string.IsNullOrWhiteSpace(Model.SoldiSpedizione))
+            {
+            <div class="cella points">
+                @Html.Label("SoldiSpedizione", Language.Shipment + ":")
+                @Model.SoldiSpedizione (@Model.NomeCorriere)
+            </div>
+            }
+        }
+        <div class="cella noMandatory">
+            @Html.Label("TipoPagamento", Language.TypePayment + ":")
+            @Model.Annuncio.TipoPagamento
+        </div>
+        <div class="cella">
+            @Html.Label("Stato", Language.StateSelling + ":")
+            <span class="stateText">
+                @EnumHelper.GetSelectList(typeof(GratisForGratis.Models.StatoVendita), Model.Annuncio.StatoVendita).Where(m => m.Selected).FirstOrDefault().Text
+            </span>
+        </div>
+        <div class="cella user">
+            @Html.Label("Venditore", Language.Seller + ":")
+            <b>@Model.Annuncio.Venditore.Nominativo</b>
+        </div>
+        @if (Model.Baratti.Count > 0)
+    {
+        <div class="cella">
+            @Html.Label("Baratti", Language.Barters + ":")
+            <div class="barters">
+                @foreach (AnnuncioViewModel baratto in Model.Baratti)
+                {
+                @Html.ActionLink(baratto.Nome, "", "Annuncio", new { token = HttpUtility.UrlEncode(baratto.Token) }, new { @class = "link" }) <br />
+                }
+            </div>
+        </div>
+}
+        @Html.Partial("PartialPages/_FunzioniOfferta", Model)
+        <div class="cella">
+            @Html.ActionLink(Language.MoreDetails, "Index", "Annuncio", new { token = HttpUtility.UrlEncode(Model.Annuncio.Token) }, new { @class = "btn" })
+        </div>
+    </div>
+    <!--
+    <div class="proposte">
+        @{
+            for (int i = 0; i < Model.Baratti.Count; i++)
+            {
+                WriteLiteral(Model.Baratti[i].Nome);
+                if (i > 0)
+                {
+                    WriteLiteral(" - ");
+                }
+            }
+        }
+    </div>
+        -->
+</div>

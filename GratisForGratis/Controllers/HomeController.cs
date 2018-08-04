@@ -17,10 +17,27 @@ namespace GratisForGratis.Controllers
         #region ACTION
 
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(string promo = null)
         {
             try
             {
+                // reset cookie
+                HttpCookie currentUserCookie = Request.Cookies["GXG_promo"];
+                if (currentUserCookie != null)
+                {
+                    Response.Cookies.Remove("GXG_promo");
+                    currentUserCookie.Expires = DateTime.Now.AddDays(-10);
+                    currentUserCookie.Value = null;
+                    Response.SetCookie(currentUserCookie);
+                }
+                // memorizza arrivo da canale pubblicitario
+                if (!string.IsNullOrWhiteSpace(promo) && !string.IsNullOrWhiteSpace(WebConfigurationManager.AppSettings["bonusPromozione" + promo]))
+                {
+                    HttpCookie cookiePromo = new HttpCookie("GXG_promo", promo);
+                    cookiePromo.Expires = DateTime.Now.AddMinutes(1);
+                    Response.SetCookie(cookiePromo);
+                }
+
                 ViewBag.Title = App_GlobalResources.MetaTag.TitleGeneric;
                 ViewBag.Description = App_GlobalResources.MetaTag.DescriptionHome;
                 ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsHome;

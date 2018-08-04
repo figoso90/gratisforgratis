@@ -1,0 +1,64 @@
+﻿@using GratisForGratis.Models
+@model List<OffertaViewModel>
+
+@{
+    ViewBag.Title = Language.TitleSales;
+}
+
+@Styles.Render("~/Content/trattative.css")
+<section id="purchases">
+    <div id="grid" class="content">
+        @foreach (OffertaViewModel offertaAutomatica in Model)
+        {
+            <div id="@HttpUtility.UrlEncode(offertaAutomatica.Annuncio.Token)" class="purchase">
+                <h4 class="title plus">@offertaAutomatica.Annuncio.Nome</h4>
+                <div class="preview">
+                    <div class="cella table">
+                        <div class="cell">
+                            <img class="phote" src="@Url.Content("~/Uploads/Images/" + offertaAutomatica.Annuncio.Venditore.VenditoreToken + "/" + offertaAutomatica.Annuncio.Foto[0].DATA_INSERIMENTO.Year + "/" + "Little/" + offertaAutomatica.Annuncio.Foto[0].ALLEGATO.NOME)" alt="@offertaAutomatica.Annuncio.Nome" />
+                        </div>
+                    </div>
+                    <div class="cella noMandatory">
+                        @Html.Label("Categoria", Language.Category + ":")
+                        @offertaAutomatica.Annuncio.Categoria
+                    </div>
+                    <div class="cella points">
+                        @Html.Label("Punti", Language.Moneta + ":")
+                        @offertaAutomatica.Annuncio.Punti
+                    </div>
+                    <div class="cella noMandatory">
+                        @Html.Label("TipoPagamento", Language.TypePayment + ":")
+                        @offertaAutomatica.Annuncio.TipoPagamento
+                    </div>
+                    <div class="cella">
+                        @Html.Label("Stato", Language.StateSelling + ":")
+                        <span class="stateText">
+                            @EnumHelper.GetSelectList(typeof(StatoVendita), offertaAutomatica.Annuncio.StatoVendita).Where(m => m.Selected).FirstOrDefault().Text
+                        </span>
+                    </div>
+                    <div class="cella user">
+                        @Html.Label("Venditore", Language.Seller + ":")
+                        <b>@offertaAutomatica.Annuncio.Venditore.Nominativo</b>
+                    </div>
+                    <div class="cella noMandatory">
+                        <a href="javascript:void(0);" onclick="openProposte(this);" class="btn">Visualizza proposte</a>
+                    </div>
+                </div>
+                <div class="proposte">
+                    @{
+                        for (int i = 0; i < offertaAutomatica.Baratti.Count; i++)
+                        {
+                            WriteLiteral(offertaAutomatica.Baratti[i].Nome);
+                            if (i > 0)
+                            {
+                                WriteLiteral(" - ");
+                            }
+                        }
+                    }
+                </div>
+            </div>
+                        }
+        @Html.Partial("PartialPages/_ElencoPagine", new ElencoPagine((int)ViewData["TotalePagine"],
+            (int)ViewData["Pagina"], (((int)ViewData["Pagina"] - 5) < 1 ? 1 : (int)ViewData["Pagina"] - 5), "Vendite", "Desiderate"))
+    </div>
+</section>

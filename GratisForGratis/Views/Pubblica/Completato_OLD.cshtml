@@ -1,0 +1,20 @@
+﻿@model GratisForGratis.Models.PubblicazioneViewModel
+@using GratisForGratis.Models
+
+@section Styles {
+    @Styles.Render("~/Content/pubblicazioneConfermata.css")
+}
+
+<section id="pubblicazione">
+    <h4 id="description">Pubblicazione conclusa</h4>
+    <p>La pubblicazione è terminata con successo. Riceverai una mail con l'annuncio appena pubblicato.</p>
+    <div style="">
+        <p>@Model.CategoriaNome</p>
+        <img src="@Url.Content("~/Uploads/Images/" + (Session["utente"] as PersonaModel).Persona.TOKEN.ToString() + "/" + DateTime.Now.Year + "/Normal/" + Model.Foto[0])" />
+        <p>@Model.NoteAggiuntive</p>
+        <p>@Model.TipoPagamento.ToString()</p>
+        <p>@Model.Punti</p>
+
+    </div>
+</section>
+

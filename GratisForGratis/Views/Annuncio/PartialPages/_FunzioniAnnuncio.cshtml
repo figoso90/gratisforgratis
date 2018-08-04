@@ -1,0 +1,34 @@
+﻿@using GratisForGratis.Models
+@model VenditaViewModel
+
+@if (Model.StatoVendita == StatoVendita.INATTIVO && (Session["utente"] as PersonaModel).Persona.STATO == (int)Stato.ATTIVO && (Session["utente"] as PersonaModel).Email.SingleOrDefault(m => m.TIPO == (int)TipoEmail.Registrazione && m.STATO == (int)Stato.ATTIVO) != null)
+{
+    <div class="cella noMandatory">
+        <div class="btn enableSell">@Language.EnableAd</div>
+    </div>
+}
+@if (Model.TipoPagamento != TipoPagamento.Vendita && Model.StatoVendita == StatoVendita.ATTIVO)
+{
+    <div class="cella noMandatory">
+        @Html.ActionLink(Language.Bid, "OfferteModel", "Offerte", new { Model = Model.Token }, new { @Class = "btn" })
+    </div>
+        <div class="cella noMandatory">
+            <div class="btn deleteSell">@Language.DeleteSell</div>
+        </div>
+}
+else if (Model.StatoVendita != StatoVendita.BARATTATO
+        && Model.StatoVendita != StatoVendita.ELIMINATO && Model.StatoVendita != StatoVendita.VENDUTO)
+{
+    if (Model.StatoVendita == StatoVendita.BARATTOINCORSO)
+    {
+        <div class="cella noMandatory">
+            @Html.ActionLink(Language.Barter, "Acquisto", "Offerte", new { baratto = Model.Token }, new { @Class = "btn" })
+        </div>
+            <div class="cella noMandatory">
+                <div class="btn cancelBarter">@Language.CancelBarter</div>
+            </div>
+    }
+    <div class="cella noMandatory">
+        <div class="btn deleteSell">@Language.DeleteSell</div>
+    </div>
+}

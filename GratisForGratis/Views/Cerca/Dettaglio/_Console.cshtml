@@ -1,0 +1,8 @@
+﻿@model GratisForGratis.Models.OggettoViewModel
+
+@{ var oggetto = (GratisForGratis.Models.ConsoleViewModel)Model; }
+
+@if (oggetto.piattaformaID != null)
+{
+<h5 class="model"><b>@Language.Platform :</b> @oggetto.piattaformaNome</h5>
+}

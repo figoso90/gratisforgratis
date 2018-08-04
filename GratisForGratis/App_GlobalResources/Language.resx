@@ -184,7 +184,7 @@
     <value>Puoi selezionare fino a 4 file</value>
   </data>
   <data name="OptionalNote" xml:space="preserve">
-    <value>Note aggiuntive</value>
+    <value>Descrizione</value>
   </data>
   <data name="Filter" xml:space="preserve">
     <value>Filtra</value>
@@ -385,7 +385,7 @@
     <value>Venditore</value>
   </data>
   <data name="Slogan" xml:space="preserve">
-    <value>&lt;strong&gt;L'e-commerce che non vende, ma regala&lt;/strong&gt;!</value>
+    <value>&lt;strong&gt;Il commercio circolare con moneta virtuale&lt;/strong&gt;!</value>
   </data>
   <data name="Public" xml:space="preserve">
     <value>Pubblica</value>
@@ -1255,7 +1255,7 @@
     <value>Feedback pagamento</value>
   </data>
   <data name="DescriptionSendFeedback" xml:space="preserve">
-    <value>Il feedback all'utente &lt;strong&gt;{0}&lt;/strong&gt; è stato inviato. &lt;br/&gt; Ti ringraziamo per la tua disponibilità nel valutare l'utente e per questo ti abbiamo regalato &lt;strong&gt;{1}&lt;/strong&gt;.</value>
+    <value>Per questo feedback hai ricevuto &lt;strong&gt;{0}&lt;/strong&gt; in quanto ti siamo grati per la tua disponibilità.</value>
   </data>
   <data name="FeedbackComment" xml:space="preserve">
     <value>Opinione aggiuntiva</value>
@@ -1273,7 +1273,7 @@
     <value>Pagamento</value>
   </data>
   <data name="TitleSendFeedback" xml:space="preserve">
-    <value>Feedback Inviato</value>
+    <value>Feedback per {0} è stato inviato</value>
   </data>
   <data name="Rate" xml:space="preserve">
     <value>Tariffa</value>
@@ -1348,7 +1348,7 @@
     <value>Ricerca salvata</value>
   </data>
   <data name="ErrorRegister" xml:space="preserve">
-    <value>L'email già presente a database. Cambiare indirizzo di registrazione o richiedere il recupera password.</value>
+    <value>Errore durante la registrazione, prova a reinserire i dati. Se il problema persiste inviaci una segnalazione.</value>
   </data>
   <data name="PagePrivacy" xml:space="preserve">
     <value>Privacy</value>
@@ -1500,12 +1500,6 @@
   <data name="PubblicaAnnuncioCompletaRegistrazione" xml:space="preserve">
     <value>Per poter attivare l'annuncio appena pubblicato, completa la tua registrazione!</value>
   </data>
-  <data name="MessaggioCompletaRegistrazione" xml:space="preserve">
-    <value>Finisci la tua registrazione alla pagina {0} per poter acquistare e vendere. Riceverai ulteriori crediti omaggio!</value>
-  </data>
-  <data name="MessaggioConfermaEmail" xml:space="preserve">
-    <value>Conferma l'e-mail di registrazione. Clicca il seguente link per riceverla nuovamente!</value>
-  </data>
   <data name="EnableAd" xml:space="preserve">
     <value>Attiva annuncio</value>
   </data>
@@ -1516,7 +1510,7 @@
     <value>C'è stato un errore nel salvataggio dell'utente, riprovare più tardi o chiamare l'assistenza.</value>
   </data>
   <data name="SuggestAdActivation" xml:space="preserve">
-    <value>Attiva annuncio</value>
+    <value>Suggerisci attivazione!</value>
   </data>
   <data name="AcquistaCompletaRegistrazione" xml:space="preserve">
     <value>Per poter continuare l'acquisto, completa la tua registrazione!</value>
@@ -1529,5 +1523,167 @@
   </data>
   <data name="PubblicaAnnuncioConfermaEmail" xml:space="preserve">
     <value>Per poter pubblicare l'annuncio conferma l'indirizzo email!</value>
+  </data>
+  <data name="DescriptionPubblicationIndex" xml:space="preserve">
+    <value>Pubblica il tuo annuncio in modo semplice e veloce! Inserisci i dati base, aggiungi altre informazioni per maggiore visibilità e scegli il tipo di spedizione.</value>
+  </data>
+  <data name="PaymentMethodsAccepted" xml:space="preserve">
+    <value>Metodo di pagamento accettato</value>
+  </data>
+  <data name="ErrorCategory" xml:space="preserve">
+    <value>Categoria inserita errata</value>
+  </data>
+  <data name="ErrorRequiredPhote" xml:space="preserve">
+    <value>Inserire almeno una foto</value>
+  </data>
+  <data name="DescriptionInfoExtraPublication" xml:space="preserve">
+    <value>Inserisci altre informazioni sull'annuncio, avrai &lt;b&gt;maggiore visibilità e apprezzamento&lt;/b&gt; dagli altri utenti!!!</value>
+  </data>
+  <data name="TitleInfoExtraPublication" xml:space="preserve">
+    <value>Maggiori informazioni</value>
+  </data>
+  <data name="ErrorLoadInfoExtra" xml:space="preserve">
+    <value>Caricamento campi categoria fallito, contattare l'assistenza.</value>
+  </data>
+  <data name="ErrorDescriptionPost" xml:space="preserve">
+    <value>La descrizione dev'essere tra i 5 ed i 2000 caratteri</value>
+  </data>
+  <data name="SuggestAdActivationError" xml:space="preserve">
+    <value>Suggerimento già inviato!</value>
+  </data>
+  <data name="SuggestAdActivationKO" xml:space="preserve">
+    <value>Suggerimento fallito. Contattare l'assistenza.</value>
+  </data>
+  <data name="SuggestAdActivationOK" xml:space="preserve">
+    <value>Il tuo suggerimento è stato inviato!</value>
+  </data>
+  <data name="MenuPurchases" xml:space="preserve">
+    <value>Acquisti</value>
+  </data>
+  <data name="MenuPurchasesCompleted" xml:space="preserve">
+    <value>Conclusi</value>
+  </data>
+  <data name="MenuPurchasesCurrent" xml:space="preserve">
+    <value>In corso</value>
+  </data>
+  <data name="MenuPurchasesRecommend" xml:space="preserve">
+    <value>Raccomandati</value>
+  </data>
+  <data name="MenuRecaps" xml:space="preserve">
+    <value>Riepiloghi</value>
+  </data>
+  <data name="MenuRecapsOwnerShip" xml:space="preserve">
+    <value>Hai</value>
+  </data>
+  <data name="MenuRecapsSearch" xml:space="preserve">
+    <value>Ricerche</value>
+  </data>
+  <data name="MenuRecapsWish" xml:space="preserve">
+    <value>Desideri</value>
+  </data>
+  <data name="MenuSells" xml:space="preserve">
+    <value>Vendite</value>
+  </data>
+  <data name="MenuSellsCompleted" xml:space="preserve">
+    <value>Concluse</value>
+  </data>
+  <data name="MenuSellsCurrent" xml:space="preserve">
+    <value>In corso</value>
+  </data>
+  <data name="MenuSellsRecommend" xml:space="preserve">
+    <value>Raccomandate</value>
+  </data>
+  <data name="MenuUser" xml:space="preserve">
+    <value>Utente</value>
+  </data>
+  <data name="MenuUserNews" xml:space="preserve">
+    <value>Notifiche</value>
+  </data>
+  <data name="StateNewsActive" xml:space="preserve">
+    <value>Non letta</value>
+  </data>
+  <data name="StateNewsDelete" xml:space="preserve">
+    <value>Eliminata</value>
+  </data>
+  <data name="StateNewsInactive" xml:space="preserve">
+    <value>Inattiva</value>
+  </data>
+  <data name="StateNewsPause" xml:space="preserve">
+    <value>Sospesa</value>
+  </data>
+  <data name="StateNewsRead" xml:space="preserve">
+    <value>Letta</value>
+  </data>
+  <data name="NewsAdActive" xml:space="preserve">
+    <value>Attiva il tuo annuncio di {0} pubblicato il {1}</value>
+  </data>
+  <data name="NewsDate" xml:space="preserve">
+    <value>Data notifica:</value>
+  </data>
+  <data name="NewsOpen" xml:space="preserve">
+    <value>Apri notifica</value>
+  </data>
+  <data name="LblComponents" xml:space="preserve">
+    <value>Componenti</value>
+  </data>
+  <data name="LblMaterials" xml:space="preserve">
+    <value>Materiali</value>
+  </data>
+  <data name="AddComponent" xml:space="preserve">
+    <value>Aggiungi componente</value>
+  </data>
+  <data name="AddMaterial" xml:space="preserve">
+    <value>Aggiungi materiale</value>
+  </data>
+  <data name="LblWishIt" xml:space="preserve">
+    <value>Mi manca</value>
+  </data>
+  <data name="LblNotWishIt" xml:space="preserve">
+    <value>Non mi manca più</value>
+  </data>
+  <data name="LblNotOwn" xml:space="preserve">
+    <value>Non ce l'ho più</value>
+  </data>
+  <data name="LblOwn" xml:space="preserve">
+    <value>Ce l'ho</value>
+  </data>
+  <data name="LblRealCoin" xml:space="preserve">
+    <value>Prezzo</value>
+  </data>
+  <data name="ErrorValueCoin" xml:space="preserve">
+    <value>La cifra non è valida</value>
+  </data>
+  <data name="LnkGoToPublic" xml:space="preserve">
+    <value>Hai un annuncio per questa categoria? Pubblicalo subito!!!</value>
+  </data>
+  <data name="LblTitleAd" xml:space="preserve">
+    <value>Titolo</value>
+  </data>
+  <data name="JsonBuyAd" xml:space="preserve">
+    <value>Annuncio comprato con successo!</value>
+  </data>
+  <data name="JsonSendBid" xml:space="preserve">
+    <value>Offerta inviata con successo!</value>
+  </data>
+  <data name="ShipimentMethod" xml:space="preserve">
+    <value>Tipo di spedizione</value>
+  </data>
+  <data name="Unblock" xml:space="preserve">
+    <value>Sblocca</value>
+  </data>
+  <data name="ExpireDate" xml:space="preserve">
+    <value>Data scadenza</value>
+  </data>
+  <data name="BidPayment" xml:space="preserve">
+    <value>Pagamento offerta</value>
+  </data>
+  <data name="MenuPurchasesFuture" xml:space="preserve">
+    <value>Futuri</value>
+  </data>
+  <data name="MenuSellsBid" xml:space="preserve">
+    <value>Offerte ricevute</value>
+  </data>
+  <data name="TitleSendFeedback2" xml:space="preserve">
+    <value>Feedback per {0}</value>
   </data>
 </root>

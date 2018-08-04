@@ -1,0 +1,12 @@
+﻿@model GratisForGratis.Models.OggettoViewModel
+
+@{ var oggetto = (GratisForGratis.Models.VideogamesViewModel)Model; }
+
+@if (oggetto.piattaformaID != null)
+{
+<h5 class="model"><b>@Language.Platform :</b> @oggetto.piattaformaNome</h5>
+}
+@if (oggetto.genereID != null)
+{
+<h5 class="systemOperating"><b>@Language.Kind :</b> @oggetto.genereNome</h5>
+}

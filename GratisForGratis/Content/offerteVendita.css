@@ -1,0 +1,131 @@
+﻿#grid{
+    width:100%;
+    text-align:center;
+}
+
+#grid header .cella {
+    padding:6px;
+}
+
+#grid .purchase{
+    /*border: 2px solid #337ab7;*/
+    border-radius: 6px;
+    display: inline-block;
+    margin-bottom: 12px;
+    text-align:center;
+    vertical-align: top;
+    min-width: 200px;
+    width:23%;
+    padding:1%;
+}
+
+#grid .purchase .title{
+    text-decoration:underline;
+    text-transform:uppercase;
+}
+
+#grid .purchase label{
+    background-color: #337ab7;
+    color: #fff;
+    display: block;
+    padding: 2px 0px;
+    text-transform: uppercase;
+}
+
+#grid .purchase .plus{
+    color: #337ab7;
+    font-style: italic;
+    height: 20px;
+    overflow: hidden;
+}
+
+#grid .table{
+    display: table;
+    height: 114px;
+}
+
+#grid .table .cell{
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#grid .preview{
+    min-height:244px;
+}
+
+#grid .cella{
+    padding:6px 0px;
+}
+
+#grid .purchase .barters{
+    max-height:70px;
+    overflow-y:scroll;
+}
+
+#grid .cella .ico{
+    max-width:20px;
+    margin-right:12px;
+}
+
+#grid .cella .phote{
+    max-width:100px;
+}
+
+#grid .cella p:last-child{
+    margin-bottom:0px;
+}
+
+#grid .cella .btn{
+    width:auto;
+    margin:10px 0px;
+}
+
+#grid .details{
+    display:none;
+    padding:12px;
+    text-align:left;
+}
+
+#grid footer{
+    background:none;
+    border:none;
+}
+
+#grid footer .btn{
+    margin-right:3%;
+}
+
+.payment{
+    /*background-color: #337ab7;
+    border-radius: 6px;
+    margin: 14px 12px;*/
+}
+
+.payment .btn-link{
+    color: #fff;
+}
+.people, .points, .stateText{
+    font-weight:bold;
+    text-transform:uppercase;
+}
+
+@media only all and (max-width: 480px) {
+    #grid .purchase{
+        width:136px;
+    }
+
+    #grid .purchase .phote{
+
+    }
+
+    #grid .noMandatory {
+        display: none;
+    }
+
+    #grid .cella .btn{
+        max-width: 100%;
+        overflow: hidden;
+        overflow-wrap: break-word;
+        word-break: break-all;
+    }
+}

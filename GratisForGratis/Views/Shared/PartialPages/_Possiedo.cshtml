@@ -1,0 +1,30 @@
+﻿@model GratisForGratis.Models.AnnuncioViewModel
+
+@{
+    string url = "javascript:void(0);";
+    string onClick = "possiedo('" + Model.Token + "', '" + Model.Nome + "');";
+    string text = Language.LblOwn;
+    string classTag = "own";
+
+    // se di questo annuncio o di uno da cui deriva questo annuncio, l'utente ha già fatto una copia,
+    // allora inserisco un tasto per eliminarne il possesso
+    if (Model.TokenAnnuncioCopiato != null || (this.Context.Request.IsAuthenticated && Model.Venditore.Id == (Session["utente"] as GratisForGratis.Models.PersonaModel).Persona.ID))
+    {
+        onClick = "nonPossiedo('" + Model.Token + "', '" + Model.TokenAnnuncioCopiato + "',this);";
+        //text = Language.LblNotOwn;
+        classTag += " selected";
+    }
+
+    // se non sono autenticato, metto il link alla login
+    if (!this.Context.Request.IsAuthenticated)
+    {
+        url = Url.Action("Login", "Utente", new { ReturnUrl = Request.Url.PathAndQuery });
+        onClick = "";
+    }
+
+    <a class="possession" href="@url" onclick="@onClick">
+        <div class="@classTag">
+            @text
+        </div>
+    </a>
+}

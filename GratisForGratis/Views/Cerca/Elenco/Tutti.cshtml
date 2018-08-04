@@ -1,44 +1,28 @@
 ﻿@using GratisForGratis.Models
 @model ListaVendite
 
+<div class="linkPubblicaCategoria">
+    @Html.ActionLink(Language.LnkGoToPublic, "", "Pubblica")
+</div>
 @if (Model.PageCount <= 0)
 {
-    <p id="alertNotFound">
-        <strong>Non hai trovato</strong> ciò che cercavi???
-        <br />
-        <strong>Salva la tua ricerca</strong> e verrai avvisato appena sarà <strong>pubblicato l'annuncio</strong>!
-    </p>
-    <p id="searchNotFound">
-        <a href="/Cerca/SaveRicerca" title="@Language.SearchSave">
-            @Language.MexSearchSave
-            <img src="@Url.Content("~/Images/icone/save.svg")" alt="@Language.SearchSave" />
-        </a>
-    </p>
+    @Html.Partial("PartialPages/_NotFound")
 }
 else
 {
-    foreach (VenditaViewModel vendita in Model.List)
+    foreach (AnnuncioViewModel vendita in Model.List)
     {
-        <a href="@((vendita.TipoAcquisto == TipoAcquisto.Oggetto) ? "/Oggetto" : "/Servizio")/Acquista?nome=@HttpUtility.UrlEncode(vendita.Nome)&token=@HttpUtility.UrlEncode(vendita.Token)" title="@vendita.Nome GRATIS">
-            <div id="Token+@vendita.Token" class="object">
-                <h3 class="title">@vendita.Nome</h3>
-                <div class="left" style="background-image:url('@Url.Content("~/Uploads/Images/" + vendita.Venditore.VenditoreToken + "/" + @vendita.DataInserimento.Value.Year + "/" + "Normal/" + vendita.Foto.FirstOrDefault())')">
-                    @if (vendita.TipoPagamento == TipoPagamento.Baratto)
-                    {
-                        <label class="lblBarter">@Language.LblBarter</label>
-                    }
-                </div>
-                <h5 class="points"><b>@Language.Moneta2 :</b> @vendita.Punti => € @vendita.Soldi</h5>
-                <!--<h5 class="place"><b>@Resources.Language.Place :</b> @vendita.Citta</h5>-->
-                <h5 class="seller"><b>@Language.Seller :</b> <span class="evidence">@vendita.Venditore.Nominativo</span></h5>
-                <div class="feedback" title="@Language.FeedbackUser">
-                    @(vendita.VenditoreFeedback > -1? string.Format(Language.FeedbackMessage, vendita.VenditoreFeedback):Language.FeedbackNothing)
-                </div>
-            </div>
-        </a>
+        if (vendita.TipoAcquisto == TipoAcquisto.Oggetto)
+        {
+            @Html.Partial("PartialPages/_Oggetto", vendita)
+        }
+        else
+        {
+            @Html.Partial("PartialPages/_Servizio", vendita)
+        }
     }
-    @Html.Partial("PartialPages/_ElencoPagineRicerca", new ElencoPagineRicerca(Model.PageCount,
-            Model.PageNumber, ((Model.PageNumber - 5) < 1 ? 1 : Model.PageNumber - 5), "Cerca",
-            "",
-            Response.Cookies["ricerca"]["IDCategoria"]))
+@Html.Partial("PartialPages/_ElencoPagineRicerca", new ElencoPagineRicerca(Model.PageCount,
+        Model.PageNumber, ((Model.PageNumber - 5) < 1 ? 1 : Model.PageNumber - 5), "Cerca",
+        "",
+        Response.Cookies["ricerca"]["IDCategoria"]))
 }

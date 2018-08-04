@@ -11,8 +11,16 @@ namespace GratisForGratis.Models
 {
     public class AnnuncioFoto : ANNUNCIO_FOTO
     {
+        #region COSTRUTTORI
+        public AnnuncioFoto() { }
+        #endregion
+
+        #region PROPRIETA
+        private new int ID { get; set; }
+        #endregion
+
         #region METODI PUBBLICI
-        public void Add(DatabaseContext db, HttpServerUtilityBase server, string sessione, Guid tokenUtente, int idAnnuncio, string nome)
+        public void Add(DatabaseContext db, Guid tokenUtente, int idAnnuncio, string nome)
         {
             ANNUNCIO_FOTO foto = new ANNUNCIO_FOTO();
             foto.ID_ANNUNCIO = idAnnuncio;
@@ -21,17 +29,18 @@ namespace GratisForGratis.Models
             foto.DATA_INSERIMENTO = DateTime.Now;
             foto.DATA_MODIFICA = foto.DATA_INSERIMENTO;
             foto.STATO = (int)Stato.ATTIVO;
-            string pathImgOriginale = server.MapPath("~/Uploads/Images/" + tokenUtente + "/" + DateTime.Now.Year.ToString() + "/Original/");
-            string pathImgMedia = server.MapPath("~/Uploads/Images/" + tokenUtente + "/" + DateTime.Now.Year.ToString() + "/Normal/");
-            string pathImgPiccola = server.MapPath("~/Uploads/Images/" + tokenUtente + "/" + DateTime.Now.Year.ToString() + "/Little/");
+            // cambiare anno inserimento in anno annuncio
+            string pathImgOriginale = HttpContext.Current.Server.MapPath("~/Uploads/Images/" + tokenUtente + "/" + DateTime.Now.Year.ToString() + "/Original/");
+            string pathImgMedia = HttpContext.Current.Server.MapPath("~/Uploads/Images/" + tokenUtente + "/" + DateTime.Now.Year.ToString() + "/Normal/");
+            string pathImgPiccola = HttpContext.Current.Server.MapPath("~/Uploads/Images/" + tokenUtente + "/" + DateTime.Now.Year.ToString() + "/Little/");
             Directory.CreateDirectory(pathImgOriginale);
             Directory.CreateDirectory(pathImgMedia);
             Directory.CreateDirectory(pathImgPiccola);
             try
             {
-                System.IO.File.Move(server.MapPath("~/Temp/Images/" + sessione + "/Original/" + nome), pathImgOriginale + nome);
-                System.IO.File.Move(server.MapPath("~/Temp/Images/" + sessione + "/Normal/" + nome), pathImgMedia + nome);
-                System.IO.File.Move(server.MapPath("~/Temp/Images/" + sessione + "/Little/" + nome), pathImgPiccola + nome);
+                System.IO.File.Move(HttpContext.Current.Server.MapPath("~/Temp/Images/" + HttpContext.Current.Session.SessionID + "/Original/" + nome), pathImgOriginale + nome);
+                System.IO.File.Move(HttpContext.Current.Server.MapPath("~/Temp/Images/" + HttpContext.Current.Session.SessionID + "/Normal/" + nome), pathImgMedia + nome);
+                System.IO.File.Move(HttpContext.Current.Server.MapPath("~/Temp/Images/" + HttpContext.Current.Session.SessionID + "/Little/" + nome), pathImgPiccola + nome);
             }
             catch (IOException fileEx)
             {

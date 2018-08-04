@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="BidsAdName" xml:space="preserve">
+    <value>Nome annuncio</value>
+  </data>
+  <data name="BidYourAd" xml:space="preserve">
+    <value>Proponi un tuo annuncio già in vendita</value>
+  </data>
+  <data name="CourierList" xml:space="preserve">
+    <value>Lista corrieri</value>
+  </data>
+  <data name="Cvv2" xml:space="preserve">
+    <value>Cvv2</value>
+  </data>
+  <data name="DataPaymentCard" xml:space="preserve">
+    <value>Dati carta prepagata</value>
+  </data>
+  <data name="DepartureAddress" xml:space="preserve">
+    <value>Via/Viale/Piazza...</value>
+  </data>
+  <data name="DepartureCity" xml:space="preserve">
+    <value>Comune</value>
+  </data>
+  <data name="DepartureCivic" xml:space="preserve">
+    <value>Civico</value>
+  </data>
+  <data name="DepartureInfo" xml:space="preserve">
+    <value>Info mittente (Referente, piano ecc...)</value>
+  </data>
+  <data name="ExchangeHand" xml:space="preserve">
+    <value>A mano</value>
+  </data>
+  <data name="ExchangeMode" xml:space="preserve">
+    <value>Tipo scambio</value>
+  </data>
+  <data name="ExchangeShip" xml:space="preserve">
+    <value>Con spedizione</value>
+  </data>
+  <data name="KidCard" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="LifeAdvertisment" xml:space="preserve">
+    <value>Durata annuncio</value>
+  </data>
+  <data name="MounthExpiredCard" xml:space="preserve">
+    <value>Mese scadenza</value>
+  </data>
+  <data name="NamePaymentCard" xml:space="preserve">
+    <value>Nome titolare</value>
+  </data>
+  <data name="NoBid" xml:space="preserve">
+    <value>Accetta offerte</value>
+  </data>
+  <data name="NumberCard" xml:space="preserve">
+    <value>Numero</value>
+  </data>
+  <data name="Recipient" xml:space="preserve">
+    <value>Dati spedizione</value>
+  </data>
+  <data name="RecipientAddress" xml:space="preserve">
+    <value>Via/Viale/Piazza...</value>
+  </data>
+  <data name="RecipientCap" xml:space="preserve">
+    <value>Cap</value>
+  </data>
+  <data name="RecipientCivic" xml:space="preserve">
+    <value>Civico</value>
+  </data>
+  <data name="RecipientInfo" xml:space="preserve">
+    <value>Info (Referente, piano ecc...)</value>
+  </data>
+  <data name="RecipientName" xml:space="preserve">
+    <value>Nominativo</value>
+  </data>
+  <data name="RecipientTelephone" xml:space="preserve">
+    <value>Telefono</value>
+  </data>
+  <data name="Resell" xml:space="preserve">
+    <value>Rimetti in vendita</value>
+  </data>
+  <data name="SellerName" xml:space="preserve">
+    <value>Nominativo</value>
+  </data>
+  <data name="SellerTelephone" xml:space="preserve">
+    <value>Telefono</value>
+  </data>
+  <data name="ShipDays" xml:space="preserve">
+    <value>Giorni per la spedizione</value>
+  </data>
+  <data name="ShipHours" xml:space="preserve">
+    <value>Ore per la spedizione</value>
+  </data>
+  <data name="ShipmentDescription" xml:space="preserve">
+    <value>Ulteriori info sulla spedizione</value>
+  </data>
+  <data name="ShipmentHand" xml:space="preserve">
+    <value>Spedizione a mano</value>
+  </data>
+  <data name="ShipmentMode" xml:space="preserve">
+    <value>Modalità di spedizione</value>
+  </data>
+  <data name="ShipmentOnline" xml:space="preserve">
+    <value>Spedizione da portale</value>
+  </data>
+  <data name="ShipmentPrice" xml:space="preserve">
+    <value>Prezzo spedizione</value>
+  </data>
+  <data name="ShipmentPrivate" xml:space="preserve">
+    <value>Spedizione privata</value>
+  </data>
+  <data name="ShippingService" xml:space="preserve">
+    <value>Servizio spedizione</value>
+  </data>
+  <data name="SurnamePaymentCard" xml:space="preserve">
+    <value>Cognome titolare</value>
+  </data>
+  <data name="TimePackage" xml:space="preserve">
+    <value>Tempo imballaggio</value>
+  </data>
+  <data name="UpdateShipmentPrice" xml:space="preserve">
+    <value>Aggiorna prezzo</value>
+  </data>
+  <data name="YearExpiredCard" xml:space="preserve">
+    <value>Anno scadenza</value>
+  </data>
+  <data name="AdNothingLDV" xml:space="preserve">
+    <value>Nessun LDV</value>
+  </data>
+  <data name="LayoutChat" xml:space="preserve">
+    <value>Messaggi</value>
+  </data>
+  <data name="ChatEmpty" xml:space="preserve">
+    <value>Nessun messaggio =( Inizia una nuova conversazione!</value>
+  </data>
+</root>

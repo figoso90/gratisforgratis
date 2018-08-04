@@ -120,6 +120,24 @@
   <data name="BidOf" xml:space="preserve">
     <value>Offerta di</value>
   </data>
+  <data name="BidPaymentFooter" xml:space="preserve">
+    <value>Se hai ricevuto questa mail per sbaglio o non vuoi più essere avvertito per questa ricerca, clicca il seguente link: {0}</value>
+  </data>
+  <data name="BidPaymentSubject" xml:space="preserve">
+    <value>Pagamento offerta!</value>
+  </data>
+  <data name="BidPaymentText" xml:space="preserve">
+    <value>Complimenti!!! La tua offerta per l'annuncio {0} è stata accettata!</value>
+  </data>
+  <data name="BidPaymentTextBarter" xml:space="preserve">
+    <value>Hai barattato i seguenti annunci:</value>
+  </data>
+  <data name="BidPaymentTextMoneta" xml:space="preserve">
+    <value>Hai versato {0} per questo acquisto.</value>
+  </data>
+  <data name="BidPaymentTextMoneyShipment" xml:space="preserve">
+    <value>&lt;b&gt;Ricorda di pagare {0}&lt;/b&gt; entro 3 giorni per la spedizione. Alla scadenza dei giorni indicati, se non sarà stato effettuato il pagamento, ti verrà assegnato un feedback negativo e verrà disabilitato l'account.</value>
+  </data>
   <data name="BidSubject" xml:space="preserve">
     <value>Offerta per la vendita</value>
   </data>

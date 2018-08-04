@@ -1,5 +1,5 @@
 ﻿@model GratisForGratis.Models.ElencoPagine
-<footer>
+<footer class="row">
     <div>
         @(Language.Page + " " + (Model.NumeroPagine < Model.PaginaAttuale ? 1 : Model.PaginaAttuale) + " " + Language.Of + " " + Model.NumeroPagine)
     </div>

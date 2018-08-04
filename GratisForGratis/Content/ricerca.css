@@ -23,6 +23,15 @@
     cursor:pointer;
 }
 
+#ricerca:hover .title.advancedSearch
+{
+    font-size:22px;
+}
+
+#ricerca:hover .advancedSearch{
+    font-size:16px;
+}
+
 #ricerca .advancedSearch .ico{
     width:20px;
     vertical-align:top;

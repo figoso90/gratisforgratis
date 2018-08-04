@@ -2,26 +2,30 @@
 
     // inizializzo pulsanti di accettazione dell' offerta
     $('#grid .ok').one('click', function (event) {
-        accettaOfferta(this, $(this).parents('.purchase').attr('id'));
+        //accettaOfferta(this, $(this).parents('.purchase').attr('id'));
+        $form = $(this).parents('form');
+        $form.submit();
     });
     $('#grid .ko').one('click', function (event) {
-        rifiutaOfferta(this, $(this).parents('.purchase').attr('id'));
+        $form = $(this).parents('form');
+        $form.attr('action', '/Annuncio/RifiutaOfferta');
+        $form.submit();
+        //rifiutaOfferta(this, $(this).parents('.purchase').attr('id'));
     });
 });
 
+/*
 function accettaOfferta(link, token) {
     $.ajax({
         type: "POST",
-        url: '/Offerte/AccettaOfferta',
+        url: '/Annuncio/AccettaOfferta',
         data: "token=" + token,
         //contentType: "application/json; charset=utf-8",
         dataType: "html",
         success: function (msg) {
             if (msg) {
-                //alert(msg);
-                $('.ok').remove();
-                $('.ko').remove();
-                $('.stateText').html(msg);
+                var risposta = JSON.parse(msg);
+                $(link).parent('.stateText').html(risposta.Messaggio);
             }
         },
         error: function (errore, stato, messaggio) {
@@ -36,16 +40,14 @@ function accettaOfferta(link, token) {
 function rifiutaOfferta(link, token) {
     $.ajax({
         type: "POST",
-        url: '/Offerte/RifiutaOfferta',
+        url: '/Annuncio/RifiutaOfferta',
         data: "token=" + token,
         //contentType: "application/json; charset=utf-8",
         dataType: "html",
         success: function (msg) {
             if (msg) {
-                //alert(msg);
-                $('.ok').remove();
-                $('.ko').remove();
-                $('.stateText').html(msg);
+                var risposta = JSON.parse(msg);
+                $(link).parent('.stateText').html(risposta.Messaggio);
             }
         },
         error: function (errore, stato, messaggio) {
@@ -56,3 +58,4 @@ function rifiutaOfferta(link, token) {
         }
     });
 }
+*/

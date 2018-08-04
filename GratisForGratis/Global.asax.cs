@@ -8,6 +8,7 @@ using System;
 using System.Web.Security;
 using System.Web;
 using GratisForGratis.Controllers;
+using System.Data.Entity;
 
 namespace GratisForGratis
 {
@@ -18,6 +19,11 @@ namespace GratisForGratis
             using (DatabaseContext db = new DatabaseContext())
             {
                 Application["categorie"] = db.FINDSOTTOCATEGORIE("Tutti", new int?(0)).ToList<FINDSOTTOCATEGORIE_Result>();
+                int idNazioneCorriere = Convert.ToInt16(System.Configuration.ConfigurationManager.AppSettings["nazioneCorriere"]);
+                Application["serviziSpedizione"] = db.CORRIERE_SERVIZIO.Include(m => m.CORRIERE)
+                    .Where(m => m.STATO == (int)Stato.ATTIVO).ToList();
+                Application["tipoSpedizione"] = db.TIPO_SPEDIZIONE.Where(m => m.STATO == (int)Stato.ATTIVO).ToList();
+                Application["tipoValuta"] = db.TIPO_VALUTA.Where(m => m.STATO == (int)Stato.ATTIVO).ToList();
             }
             //add the authentication filter for all controllers
             //GlobalFilters.Filters.Add(new AuthorizeAttribute());

@@ -1,4 +1,8 @@
-﻿#feedback .text{
+﻿#feedback{
+    max-width:500px;
+    margin:0px auto;
+}
+#feedback .text{
     max-width: 500px;
     margin:0px auto 25px;
     font-size:16px;
@@ -8,4 +12,5 @@
     overflow: hidden;
     word-wrap: break-word;
     font-size:18px;
+    text-align:left;
 }

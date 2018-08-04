@@ -1,0 +1,84 @@
+﻿@using GratisForGratis.Models
+@model List<AnnuncioViewModel>
+
+@{
+    ViewBag.Title = Language.TitleSales;
+}
+
+@Styles.Render("~/Content/trattative.css")
+<!--<section id="head">
+    <div class="content">
+        <h1 id="title">@Language.TitleSales</h1>
+    </div>
+</section>-->
+<section id="purchases">
+    <div id="grid" class="content">
+        @foreach (AnnuncioViewModel vendita in Model)
+        {
+            <div id="@HttpUtility.UrlEncode(vendita.Token)" class="purchase">
+                <h4 class="title plus">@vendita.Nome</h4>
+                <div class="preview">
+                    <div class="cella table">
+                        <div class="cell">
+                            <img class="phote" src="@Url.Content("~/Uploads/Images/" + (Session["utente"] as PersonaModel).Persona.TOKEN + "/" + (Convert.ToDateTime(vendita.DataInserimento)).Year + "/" + "Little/" + vendita.Foto[0].ALLEGATO.NOME)" alt="@vendita.Nome" />
+                        </div>
+                    </div>
+                    <div class="cella noMandatory">
+                        @Html.Label("Categoria", Language.Category+":")
+                        @vendita.Categoria
+                    </div>
+                    <div class="cella points">
+                        @Html.Label("Punti", Language.Moneta + ":")
+                        @vendita.Punti <span class="plus">(€ @vendita.Soldi)</span>
+                    </div>
+                    <div class="cella noMandatory">
+                        @Html.Label("TipoPagamento", Language.TypePayment + ":")
+                        @vendita.TipoPagamento
+                    </div>
+                    <div class="cella">
+                        @Html.Label("Stato", Language.StateSelling + ":")
+                        <span class="stateText">
+                            @EnumHelper.GetSelectList(typeof(StatoVendita), vendita.StatoVendita).Where(m => m.Selected).FirstOrDefault().Text
+                        </span>
+                    </div>
+                </div>
+                @if (vendita.StatoVendita == StatoVendita.INATTIVO && (Session["utente"] as PersonaModel).Persona.STATO == (int)Stato.ATTIVO && (Session["utente"] as PersonaModel).Email.SingleOrDefault(m => m.TIPO == (int)TipoEmail.Registrazione && m.STATO == (int)Stato.ATTIVO) != null)
+                {
+                    <div class="cella noMandatory">
+                        <div class="btn enableSell">@Language.EnableAd</div>
+                    </div>
+                }
+                @if (vendita.TipoPagamento != TipoPagamento.Vendita && vendita.StatoVendita == StatoVendita.ATTIVO)
+                {
+                <div class="cella noMandatory">
+                    @Html.ActionLink(Language.Bid, "OfferteVendita", "Offerte", new { vendita = vendita.Token }, new { @Class = "btn" })
+                </div>
+                <div class="cella noMandatory">
+                    <div class="btn deleteSell">@Language.DeleteSell</div>
+                </div>
+                }
+                else if (vendita.StatoVendita != StatoVendita.BARATTATO
+                       && vendita.StatoVendita != StatoVendita.ELIMINATO && vendita.StatoVendita != StatoVendita.VENDUTO)
+                {
+                    if (vendita.StatoVendita == StatoVendita.BARATTOINCORSO)
+                    {
+                    <div class="cella noMandatory">
+                        @Html.ActionLink(Language.Barter, "Acquisto", "Offerte", new { baratto = vendita.Token }, new { @Class = "btn" })
+                    </div>
+                    <div class="cella noMandatory">
+                        <div class="btn cancelBarter">@Language.CancelBarter</div>
+                    </div>
+                    }
+                    <div class="cella noMandatory">
+                        <div class="btn deleteSell">@Language.DeleteSell</div>
+                    </div>
+                }
+            </div>
+        }
+        @Html.Partial("PartialPages/_ElencoPagine", new ElencoPagine((int)ViewData["TotalePagine"],
+            (int)ViewData["Pagina"], (((int)ViewData["Pagina"] - 5) < 1 ? 1 : (int)ViewData["Pagina"] - 5), "Offerte", "Ricevute"))
+    </div>
+</section>
+@section Scripts {
+    @Scripts.Render("~/Scripts/offerteRicevute.js")
+}

@@ -27,6 +27,73 @@ namespace GratisForGratis.Controllers
             return base.View();
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Profilo(string token)
+        {
+            UtenteProfiloViewModel viewModel = new UtenteProfiloViewModel();
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                db.Database.Connection.Open();
+                PERSONA persona = db.PERSONA.FirstOrDefault(u => u.TOKEN.ToString() == token);
+                viewModel.Token = token;
+                viewModel.Email = persona.PERSONA_EMAIL.SingleOrDefault(item => item.TIPO == (int)TipoEmail.Registrazione).EMAIL;
+                viewModel.Nome = persona.NOME;
+                viewModel.Cognome = persona.COGNOME;
+                PERSONA_TELEFONO modelTelefono = persona.PERSONA_TELEFONO.SingleOrDefault(item => 
+                    item.TIPO == (int)TipoTelefono.Privato);
+                if (modelTelefono != null)
+                    viewModel.Telefono = modelTelefono.TELEFONO;
+                PERSONA_INDIRIZZO modelIndirizzo = persona.PERSONA_INDIRIZZO.SingleOrDefault(item =>
+                    item.TIPO == (int)TipoIndirizzo.Residenza);
+
+                if (modelIndirizzo != null && modelIndirizzo.INDIRIZZO != null)
+                {
+                    viewModel.Citta = modelIndirizzo.INDIRIZZO.COMUNE.NOME;
+                    viewModel.Indirizzo = modelIndirizzo.INDIRIZZO.INDIRIZZO1;
+                    viewModel.Civico = modelIndirizzo.INDIRIZZO.CIVICO;
+                }
+                // caricamento indirizzo di spedizione
+                PERSONA_INDIRIZZO modelIndirizzoSpedizione = persona.PERSONA_INDIRIZZO.SingleOrDefault(item =>
+                    item.TIPO == (int)TipoIndirizzo.Spedizione);
+
+                if (modelIndirizzoSpedizione != null && modelIndirizzoSpedizione.INDIRIZZO != null)
+                {
+                    viewModel.CittaSpedizione = modelIndirizzoSpedizione.INDIRIZZO.COMUNE.NOME;
+                    viewModel.IndirizzoSpedizione = modelIndirizzoSpedizione.INDIRIZZO.INDIRIZZO1;
+                    viewModel.CivicoSpedizione = modelIndirizzoSpedizione.INDIRIZZO.CIVICO;
+                }
+                viewModel.listaAcquisti = new List<AnnuncioViewModel>();
+                viewModel.listaDesideri = new List<AnnuncioViewModel>();
+                // far vedere top n acquisti con link
+                var query = db.ANNUNCIO.Where(item => item.ID_COMPRATORE != persona.ID && item.TRANSAZIONE_ANNUNCIO.Count(m => m.STATO == (int)Stato.ATTIVO) > 0
+                        && (item.STATO == (int)StatoVendita.VENDUTO || item.STATO == (int)StatoVendita.ELIMINATO || item.STATO == (int)StatoVendita.BARATTATO)
+                        && (item.ID_OGGETTO != null || item.ID_SERVIZIO != null));
+                string randomString = Utils.RandomString(3);
+                List<ANNUNCIO> lista = query
+                    .OrderByDescending(item => item.DATA_INSERIMENTO)
+                    .Take(5).ToList();
+                foreach (ANNUNCIO m in lista)
+                {
+                    AnnuncioModel annuncioModel = new AnnuncioModel();
+                    viewModel.listaAcquisti.Add(annuncioModel.GetViewModel(db, m));
+                }
+                // far vedere top n desideri con link
+                db.ANNUNCIO_DESIDERATO
+                    .OrderByDescending(item => item.ANNUNCIO.DATA_INSERIMENTO)
+                    .Take(5)
+                    .Where(item => item.ID_PERSONA == persona.ID && (item.ANNUNCIO.STATO == (int)StatoVendita.INATTIVO
+                        || item.ANNUNCIO.STATO == (int)StatoVendita.ATTIVO) && (item.ANNUNCIO.DATA_FINE == null ||
+                        item.ANNUNCIO.DATA_FINE >= DateTime.Now))
+                    .ToList().ForEach(m => viewModel.listaDesideri.Add(
+                            new AnnuncioViewModel(db, m.ANNUNCIO)
+                        )
+                    );
+            }
+            return base.View(viewModel);
+        }
+
+        #region LOGIN
         [AllowAnonymous]
         [OnlyAnonymous]
         [HttpGet]
@@ -45,6 +112,7 @@ namespace GratisForGratis.Controllers
         public ActionResult Login(UtenteLoginViewModel viewModel)
         {
             ViewBag.Title = Language.TitleAccess;
+            ViewBag.ReturnUrl = viewModel.ReturnUrl;
             if (ModelState.IsValid)
             {
                 try
@@ -74,11 +142,13 @@ namespace GratisForGratis.Controllers
                             }
                             else
                             {
+                                setSessioneUtente(base.Session, db, model.ID_PERSONA, viewModel.RicordaLogin);
+
                                 // login effettuata con successo
-                                if (model.PERSONA.DATA_ACCESSO == null || DateTime.Now.DayOfYear > model.PERSONA.DATA_ACCESSO.Value.DayOfYear)
+                                DateTime dataCorrente = DateTime.Now;
+                                if (model.PERSONA.DATA_ACCESSO == null || model.PERSONA.DATA_ACCESSO.Value.Year < dataCorrente.Year || (model.PERSONA.DATA_ACCESSO.Value.Year == dataCorrente.Year && dataCorrente.DayOfYear > model.PERSONA.DATA_ACCESSO.Value.DayOfYear))
                                     AddPuntiLogin(db, model.PERSONA);
 
-                                setSessioneUtente(base.Session, db, model.ID_PERSONA, viewModel.RicordaLogin);
                                 // sistemare il return, perchè va in conflitto con il allowonlyanonymous
                                 return Redirect((string.IsNullOrWhiteSpace(viewModel.ReturnUrl)) ? FormsAuthentication.DefaultUrl : viewModel.ReturnUrl);
                             }
@@ -99,6 +169,8 @@ namespace GratisForGratis.Controllers
         [HttpGet]
         public ActionResult LoginVeloce(string ReturnUrl)
         {
+            ViewBag.Title = Language.TitleAccess;
+            ViewBag.ReturnUrl = ReturnUrl;
             return View();
         }
 
@@ -109,6 +181,8 @@ namespace GratisForGratis.Controllers
         // recupera login di portaleweb
         public ActionResult LoginVeloce(UtenteLoginVeloceViewModel viewModel)
         {
+            ViewBag.Title = Language.TitleAccess;
+            ViewBag.ReturnUrl = viewModel.ReturnUrl;
             if (base.ModelState.IsValid)
             {
                 using (DatabaseContext db = new DatabaseContext())
@@ -149,11 +223,13 @@ namespace GratisForGratis.Controllers
                             }
                             else
                             {
+                                setSessioneUtente(base.Session, db, model.ID_PERSONA, viewModel.RicordaLogin);
+
                                 // login effettuata con successo, aggiungo i punti se ha il profilo attivo completamente e se è un nuovo accesso giornaliero
-                                if (model.PERSONA.STATO == (int)Stato.ATTIVO && model.STATO == (int)Stato.ATTIVO && (model.PERSONA.DATA_ACCESSO == null || DateTime.Now.DayOfYear > model.PERSONA.DATA_ACCESSO.Value.DayOfYear))
+                                DateTime dataCorrente = DateTime.Now;
+                                if (model.PERSONA.STATO == (int)Stato.ATTIVO && model.STATO == (int)Stato.ATTIVO && (model.PERSONA.DATA_ACCESSO == null || model.PERSONA.DATA_ACCESSO.Value.Year < dataCorrente.Year || (model.PERSONA.DATA_ACCESSO.Value.Year == dataCorrente.Year && dataCorrente.DayOfYear > model.PERSONA.DATA_ACCESSO.Value.DayOfYear)))
                                     AddPuntiLogin(db, model.PERSONA);
 
-                                setSessioneUtente(base.Session, db, model.ID_PERSONA, viewModel.RicordaLogin);
                                 // sistemare il return, perchè va in conflitto con il allowonlyanonymous
                                 return Redirect((string.IsNullOrWhiteSpace(viewModel.ReturnUrl)) ? FormsAuthentication.DefaultUrl : viewModel.ReturnUrl);
                             }
@@ -246,6 +322,7 @@ namespace GratisForGratis.Controllers
             //dynamic result2 = app.Post("/" + ConfigurationManager.AppSettings["FanPageID"] + "/feed", new Dictionary<string, object> { { "message", "This Post was made from my website" } });
             return Redirect((string.IsNullOrWhiteSpace(RedirectUri.AbsoluteUri)) ? FormsAuthentication.DefaultUrl : RedirectUri.AbsoluteUri);
         }
+        #endregion
 
         [HttpGet]
         public ActionResult CambioPassword()
@@ -285,9 +362,10 @@ namespace GratisForGratis.Controllers
         {
             PersonaModel utente = base.Session["utente"] as PersonaModel;
             UtenteImpostazioniViewModel model = new UtenteImpostazioniViewModel();
-            using (DatabaseContext db = new DatabaseContext())
-            {
-                utente.Persona = db.PERSONA.FirstOrDefault(u => u.ID == utente.Persona.ID);
+            //using (DatabaseContext db = new DatabaseContext())
+            //{
+            //    db.Database.Connection.Open();
+            //    utente.Persona = db.PERSONA.FirstOrDefault(u => u.ID == utente.Persona.ID);
                 model.Email = utente.Email.SingleOrDefault(item => 
                                     item.ID_PERSONA == utente.Persona.ID && item.TIPO == (int)TipoEmail.Registrazione)
                                     .EMAIL;
@@ -307,7 +385,18 @@ namespace GratisForGratis.Controllers
                     model.Indirizzo = modelIndirizzo.INDIRIZZO.INDIRIZZO1;
                     model.Civico = modelIndirizzo.INDIRIZZO.CIVICO;
                 }
-            }
+                // caricamento indirizzo di spedizione
+                PERSONA_INDIRIZZO modelIndirizzoSpedizione = utente.Indirizzo.SingleOrDefault(item =>
+                    item.ID_PERSONA == utente.Persona.ID && item.TIPO == (int)TipoIndirizzo.Spedizione);
+
+                if (modelIndirizzoSpedizione != null && modelIndirizzoSpedizione.INDIRIZZO != null)
+                {
+                    model.CittaSpedizione = modelIndirizzoSpedizione.INDIRIZZO.COMUNE.NOME;
+                    model.IDCittaSpedizione = modelIndirizzoSpedizione.INDIRIZZO.ID_COMUNE;
+                    model.IndirizzoSpedizione = modelIndirizzoSpedizione.INDIRIZZO.INDIRIZZO1;
+                    model.CivicoSpedizione = modelIndirizzoSpedizione.INDIRIZZO.CIVICO;
+                }
+            //}
             return base.View(model);
         }
 
@@ -319,6 +408,7 @@ namespace GratisForGratis.Controllers
             {
                 using (DatabaseContext db = new DatabaseContext())
                 {
+                    db.Database.Connection.Open();
                     using (DbContextTransaction transazione = db.Database.BeginTransaction())
                     {
                         try
@@ -328,52 +418,59 @@ namespace GratisForGratis.Controllers
                             utente.SetTelefono(db, model.Telefono);
                             utente.SetIndirizzo(db, model.IDCitta, model.Indirizzo, model.Civico, (int)TipoIndirizzo.Residenza);
                             utente.SetIndirizzo(db, model.IDCittaSpedizione, model.IndirizzoSpedizione, model.CivicoSpedizione, (int)TipoIndirizzo.Spedizione);
+
+                            bool primaVolta = utente.Persona.STATO == (int)Stato.INATTIVO;
+                            bool personaModificata = false;
+
+                            if (primaVolta)
+                            {
+                                utente.Persona.STATO = (int)Stato.ATTIVO;
+                                personaModificata = true;
+                            }
+
                             if (utente.Persona.NOME != model.Nome || utente.Persona.COGNOME != model.Cognome)
                             {
                                 utente.Persona.NOME = model.Nome;
                                 utente.Persona.COGNOME = model.Cognome;
-                                utente.Persona.DATA_MODIFICA = DateTime.Now;
-                                bool primaVolta = utente.Persona.STATO == (int)Stato.INATTIVO;
-                                if (primaVolta)
-                                    utente.Persona.STATO = (int)Stato.ATTIVO;
-                                db.Entry(utente.Persona).State = EntityState.Modified;
-                                if (db.SaveChanges() > 0)
-                                {
-                                    if (primaVolta)
-                                    {
-                                        // crediti omaggio registrazione completata
-                                        if (db.TRANSAZIONE.Count(item => item.ID_CONTO_DESTINATARIO == utente.Persona.ID_CONTO_CORRENTE && item.TIPO == (int)TipoTransazione.BonusIscrizione) <= 0)
-                                        {
-                                            Guid tokenPortale = Guid.Parse(ConfigurationManager.AppSettings["portaleweb"]);
-                                            int punti = Convert.ToInt32(ConfigurationManager.AppSettings["bonusIscrizione"]);
-                                            this.AddBonus(db, utente.Persona, tokenPortale, punti, TipoTransazione.BonusIscrizione, Bonus.Registration);
-                                            this.RefreshPunteggioUtente(db);
-                                        }
-
-                                        // attivo automaticamente annunci già pubblicati
-                                        db.ANNUNCIO.Where(m => m.ID_PERSONA == utente.Persona.ID && m.STATO == (int)StatoVendita.INATTIVO).ToList().ForEach(m =>
-                                        {
-                                            m.STATO = (int)StatoVendita.ATTIVO;
-                                            db.Entry(m).State = EntityState.Modified;
-                                            if (db.SaveChanges() <= 0)
-                                            {
-                                            // non blocco l'attivazione dell'account, abiliterà gli annunci manualmente
-                                            Exception eccezione = new Exception(Language.ImpostazioniErroreAttivaAnnunci);
-                                                ModelState.AddModelError("", eccezione.Message);
-                                                Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
-                                            }
-                                        });
-                                    }
-                                    transazione.Commit();
-                                    base.Session["utente"] = utente;
-                                    base.TempData["salvato"] = true;
-                                }
-                                else
-                                {
-                                    throw new Exception(Language.ImpostazioniErroreSalvaUtente);
-                                }
-                                base.TempData["salvato"] = false;
+                                personaModificata = true;
                             }
+
+                            if (personaModificata)
+                            {
+                                utente.Persona.DATA_MODIFICA = DateTime.Now;
+                                db.Entry(utente.Persona).State = EntityState.Modified;
+                                if (db.SaveChanges() <= 0)
+                                    throw new Exception(Language.ImpostazioniErroreSalvaUtente);
+                            }
+
+                            if (primaVolta)
+                            {
+                                // crediti omaggio registrazione completata
+                                if (db.TRANSAZIONE.Count(item => item.ID_CONTO_DESTINATARIO == utente.Persona.ID_CONTO_CORRENTE && item.TIPO == (int)TipoTransazione.BonusIscrizione) <= 0)
+                                {
+                                    Guid tokenPortale = Guid.Parse(ConfigurationManager.AppSettings["portaleweb"]);
+                                    int punti = Convert.ToInt32(ConfigurationManager.AppSettings["bonusIscrizione"]);
+                                    this.AddBonus(db, utente.Persona, tokenPortale, punti, TipoTransazione.BonusIscrizione, Bonus.Registration);
+                                    this.RefreshPunteggioUtente(db);
+                                }
+
+                                // attivo automaticamente annunci già pubblicati
+                                db.ANNUNCIO.Where(m => m.ID_PERSONA == utente.Persona.ID && m.STATO == (int)StatoVendita.INATTIVO).ToList().ForEach(m =>
+                                {
+                                    m.STATO = (int)StatoVendita.ATTIVO;
+                                    db.Entry(m).State = EntityState.Modified;
+                                    if (db.SaveChanges() <= 0)
+                                    {
+                                    // non blocco l'attivazione dell'account, abiliterà gli annunci manualmente
+                                    Exception eccezione = new Exception(Language.ImpostazioniErroreAttivaAnnunci);
+                                        ModelState.AddModelError("", eccezione.Message);
+                                        Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                                    }
+                                });
+                            }
+                            transazione.Commit();
+                            base.Session["utente"] = utente;
+                            base.TempData["salvato"] = true;
                         }
                         catch (Exception eccezione)
                         {
@@ -384,8 +481,84 @@ namespace GratisForGratis.Controllers
                     }
                 }
             }
-
+            base.TempData["salvato"] = false;
             return base.View(model);
+        }
+
+        [HttpGet]
+        public ActionResult Privacy()
+        {
+            PersonaModel utente = base.Session["utente"] as PersonaModel;
+            UtentePrivacyViewModel model = new UtentePrivacyViewModel(utente.Persona.PERSONA_PRIVACY.FirstOrDefault());
+            return base.View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Privacy(UtentePrivacyViewModel viewModel)
+        {
+            if (base.ModelState.IsValid)
+            {
+                using (DatabaseContext db = new DatabaseContext())
+                {
+                    try
+                    {
+                        db.Database.Connection.Open();
+                        PersonaModel utente = base.Session["utente"] as PersonaModel;
+                        PERSONA_PRIVACY model = utente.Persona.PERSONA_PRIVACY.FirstOrDefault();
+                        model.ACCETTA_CONDIZIONE = viewModel.AccettaCondizioni;
+                        model.COMUNICAZIONI = viewModel.Comunicazioni;
+                        model.NOTIFICA_EMAIL = viewModel.NotificaEmail;
+                        model.NOTIFICA_CHAT = viewModel.NotificaChat;
+                        model.CHAT = (int?)viewModel.Chat;
+                        model.DATA_MODIFICA = DateTime.Now;
+                        db.Entry(model).State = EntityState.Modified;
+                        if (db.SaveChanges() > 0)
+                        {
+                            RefreshUtente(db);
+                            base.TempData["salvato"] = true;
+                            return base.View(viewModel);
+                        }
+                    }
+                    catch (Exception eccezione)
+                    {
+                        ModelState.AddModelError("", eccezione.Message);
+                        Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                    }
+                }
+            }
+            base.TempData["salvato"] = false;
+            return base.View(viewModel);
+        }
+
+        [HttpGet]
+        public ActionResult Notifiche(int pagina = 1)
+        {
+            PersonaModel utente = base.Session["utente"] as PersonaModel;
+            List<UtenteNotificaViewModel> listModel = new List<UtenteNotificaViewModel>();
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                db.Database.Connection.Open();
+                IQueryable<NOTIFICA> listaNotifiche = db.NOTIFICA.Include(m => m.ANNUNCIO_NOTIFICA)
+                    .Where(m => m.ID_PERSONA_DESTINATARIO == utente.Persona.ID);
+                int numeroElementi = Convert.ToInt32(WebConfigurationManager.AppSettings["numeroNotifiche"]);
+                int numNotificheTotali = listaNotifiche.Count();
+
+                listaNotifiche = listaNotifiche.OrderByDescending(m => m.DATA_INSERIMENTO)
+                    .Skip((pagina - 1) * numeroElementi)
+                    .Take(numeroElementi);
+
+                listaNotifiche.ToList().ForEach(m => {
+                    UtenteNotificaViewModel utenteNotifica = new UtenteNotificaViewModel();
+                    utenteNotifica.getTipoNotifica(db, m);
+                    listModel.Add(utenteNotifica);
+                });
+
+                ViewData["TotalePagine"] = (int)Math.Ceiling((decimal)numNotificheTotali / (decimal)numeroElementi);
+                if (pagina == 0)
+                    pagina = 1;
+                ViewData["Pagina"] = pagina;
+            }
+            return View(listModel);
         }
 
         [HttpGet]
@@ -522,9 +695,17 @@ namespace GratisForGratis.Controllers
                             persona.ID_CONTO_CORRENTE = conto.ID;
                             persona.ID_ABBONAMENTO = db.ABBONAMENTO.SingleOrDefault(item => item.NOME == "BASE").ID;
                             persona.DATA_INSERIMENTO = DateTime.Now;
+                            persona.STATO = (int)Stato.ATTIVO;
                             db.PERSONA.Add(persona);
                             if (db.SaveChanges() > 0)
                             {
+                                PersonaModel utente = new PersonaModel(persona);
+                                utente.SetEmail(db, model.Email, Stato.INATTIVO);
+                                utente.SetTelefono(db, model.Telefono);
+                                utente.SetIndirizzo(db, model.IDCitta, model.Indirizzo, model.Civico, (int)TipoIndirizzo.Residenza);
+                                utente.SetIndirizzo(db, model.IDCittaSpedizione, model.IndirizzoSpedizione, model.CivicoSpedizione, (int)TipoIndirizzo.Spedizione);
+
+                                /*
                                 PERSONA_EMAIL personaEmail = db.PERSONA_EMAIL.Create();
                                 personaEmail.ID_PERSONA = persona.ID;
                                 personaEmail.EMAIL = model.Email.Trim();
@@ -543,19 +724,36 @@ namespace GratisForGratis.Controllers
                                     personaTelefono.STATO = (int)Stato.ATTIVO;
                                     db.PERSONA_TELEFONO.Add(personaTelefono);
                                 }
+                                */
 
-                                PERSONA_PRIVACY personaPrivacy = db.PERSONA_PRIVACY.Create();
-                                personaPrivacy.ID_PERSONA = persona.ID;
-                                personaPrivacy.ACCETTA_CONDIZIONE = model.AccettaCondizioni;
-                                personaPrivacy.DATA_INSERIMENTO = DateTime.Now;
-                                personaPrivacy.STATO = (int)Stato.ATTIVO;
-                                db.PERSONA_PRIVACY.Add(personaPrivacy);
+                                utente.SetPrivacy(db, model.AccettaCondizioni);
+                                //base.TempData["salvato"] = true;
+                                // crediti omaggio registrazione completata
+                                if (db.TRANSAZIONE.Count(item => item.ID_CONTO_DESTINATARIO == utente.Persona.ID_CONTO_CORRENTE && item.TIPO == (int)TipoTransazione.BonusIscrizione) <= 0)
+                                {
+                                    Guid tokenPortale = Guid.Parse(ConfigurationManager.AppSettings["portaleweb"]);
+                                    int punti = Convert.ToInt32(ConfigurationManager.AppSettings["bonusIscrizione"]);
+                                    this.AddBonus(db, utente.Persona, tokenPortale, punti, TipoTransazione.BonusIscrizione, Bonus.Registration);
+                                }
+                                // assegna bonus canale pubblicitario
+                                if (Request.Cookies.Get("GXG_promo") != null)
+                                {
+                                    string promo = Request.Cookies.Get("GXG_promo").Value;
+                                    utente.AddBonusCanalePubblicitario(db, promo);
+                                    // reset cookie
+                                    HttpCookie currentUserCookie = Request.Cookies["GXG_promo"];
+                                    if (currentUserCookie != null)
+                                    {
+                                        Response.Cookies.Remove("GXG_promo");
+                                        currentUserCookie.Expires = DateTime.Now.AddDays(-10);
+                                        currentUserCookie.Value = null;
+                                        Response.SetCookie(currentUserCookie);
+                                    }
+                                }
 
-                                db.SaveChanges();
-                                base.TempData["salvato"] = true;
                                 // invio email registrazione
                                 EmailModel email = new EmailModel(ControllerContext);
-                                email.To.Add(new System.Net.Mail.MailAddress(personaEmail.EMAIL, persona.NOME + " " + persona.COGNOME));
+                                email.To.Add(new System.Net.Mail.MailAddress(utente.Email.SingleOrDefault(m => m.TIPO == (int)TipoEmail.Registrazione).EMAIL, persona.NOME + " " + persona.COGNOME));
                                 email.Subject = Email.RegistrationSubject + " - " + WebConfigurationManager.AppSettings["nomeSito"];
                                 email.Body = "RegistrazioneUtente";
                                 email.DatiEmail = new RegistrazioneEmailModel(model)
@@ -563,8 +761,12 @@ namespace GratisForGratis.Controllers
                                     PasswordCodificata = persona.PASSWORD
                                 };
                                 new EmailController().SendEmail(email);
+
                                 transazione.Commit();
-                                return View();
+
+                                setSessioneUtente(base.Session, db, persona.ID, false);
+                                // sistemare il return, perchè va in conflitto con il allowonlyanonymous
+                                return Redirect((string.IsNullOrWhiteSpace(model.ReturnUrl)) ? FormsAuthentication.DefaultUrl : model.ReturnUrl);
                             }
 
                         }
@@ -729,7 +931,7 @@ namespace GratisForGratis.Controllers
                     .Take(numeroElementi)
                     .Select(item => new UtenteRicercaViewModel()
                     {
-                        Id = item.ID.ToString(),
+                        Id = item.ID,
                         Testo = item.NOME,
                         Categoria = item.CATEGORIA.NOME,
                         DataInserimento = item.DATA_INSERIMENTO,
@@ -786,46 +988,6 @@ namespace GratisForGratis.Controllers
         {
             // da fare solo se l'utente... boh
             // Aggiungo nel carrello dell'utente gli annunci in lista
-            return Json(true);
-        }
-
-        [HttpPost]
-        [ValidateAjax]
-        public JsonResult AddToPossiedo(int idAnnuncio)
-        {
-            // verifico esistenza annuncio
-            // salvo tra gli acquisti ma nello stato inattivo (poi andare a verificare procedura di acquisto immediato)
-            // lato client riporto nei cookie l'annuncio nel carrello (ogni )
-            return Json(true);
-        }
-
-        [HttpPost]
-        [ValidateAjax]
-        public JsonResult AddToDesidero(int idAnnuncio)
-        {
-            // verifico esistenza annuncio
-            // salvo tra gli acquisti ma nello stato inattivo (poi andare a verificare procedura di acquisto immediato)
-            // lato client riporto nei cookie l'annuncio nel carrello (ogni )
-            return Json(true);
-        }
-
-        [HttpDelete]
-        [ValidateAjax]
-        public JsonResult DeleteFromPossiedo(int idAnnuncio)
-        {
-            // verifico esistenza annuncio
-            // salvo tra gli acquisti ma nello stato inattivo (poi andare a verificare procedura di acquisto immediato)
-            // lato client riporto nei cookie l'annuncio nel carrello (ogni )
-            return Json(true);
-        }
-
-        [HttpDelete]
-        [ValidateAjax]
-        public JsonResult DeleteFromDesidero(int idAnnuncio)
-        {
-            // verifico esistenza annuncio
-            // salvo tra gli acquisti ma nello stato inattivo (poi andare a verificare procedura di acquisto immediato)
-            // lato client riporto nei cookie l'annuncio nel carrello (ogni )
             return Json(true);
         }
 

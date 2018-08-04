@@ -1,0 +1,73 @@
+﻿@model GratisForGratis.Models.UtentePrivacyViewModel
+
+@{
+    ViewBag.Title = Language.TitlePrivacy + " " + (Session["utente"] as GratisForGratis.Models.PersonaModel).Persona.NOME + " " + (Session["utente"] as GratisForGratis.Models.PersonaModel).Persona.COGNOME;
+}
+
+@section Styles{
+    @Styles.Render("~/Content/privacy.css")
+}
+
+<section id="head">
+    <div class="content">
+        <h1 id="title">@ViewBag.Title</h1>
+    </div>
+</section>
+<section id="privacy">
+    <div class="content">
+        @using (Html.BeginForm("Privacy", "Utente", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            if (TempData["salvato"] != null && (bool)TempData["salvato"])
+            {
+                <h4 class="message">@Language.SaveOK</h4>
+            }
+            <div class="form-group">
+                @Html.LabelFor(m => m.AccettaCondizioni, new { @class = "col-md-2 control-label" })
+                <div class="col-md">
+                    @Html.CheckBoxFor(m => m.AccettaCondizioni, new { @class = "form-control" })
+                </div>
+                @Html.ValidationMessageFor(m => m.AccettaCondizioni, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Comunicazioni, new { @class = "col-md-2 control-label" })
+                <div class="col-md">
+                    @Html.CheckBoxFor(m => m.Comunicazioni, new { @class = "form-control" })
+                </div>
+                @Html.ValidationMessageFor(m => m.Comunicazioni, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.NotificaEmail, new { @class = "col-md-2 control-label" })
+                <div class="col-md">
+                    @Html.CheckBoxFor(m => m.NotificaEmail, new { @class = "form-control" })
+                </div>
+                @Html.ValidationMessageFor(m => m.NotificaEmail, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.NotificaChat, new { @class = "col-md-2 control-label" })
+                <div class="col-md">
+                    @Html.CheckBoxFor(m => m.NotificaChat, new { @class = "form-control" })
+                </div>
+                @Html.ValidationMessageFor(m => m.NotificaChat, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Chat, new { @class = "col-md-2 control-label" })
+                <div class="col-md">
+                    @Html.EnumDropDownListFor(m => m.Chat, new { @class = "form-control" })
+                </div>
+                @Html.ValidationMessageFor(m => m.Chat, "", new { @class = "text-danger" })
+            </div>
+            <div class="footer">
+                <input type="submit" value="@Language.Save" class="btn" />
+            </div>
+        }
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

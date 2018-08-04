@@ -1,40 +1,12 @@
 ﻿@model GratisForGratis.Models.PubblicaConsoleViewModel
 
-@section Styles {
-    @Styles.Render("~/Content/pubblica.css")
-}
-
-<section id="head">
-    <div class="content">
-        <h1 id="title">@Language.TitlePublication</h1>
+@Html.Partial("Oggetto", (Model!=null)?Model:new GratisForGratis.Models.PubblicaOggettoViewModel())
+@Html.Hidden("ActionCategoria", "/Pubblica/Console")
+<div class="form-group">
+    @Html.LabelFor(m => m.Piattaforma, new { @class = "col-md-2 control-label" })
+    <div class="field">
+        @Html.TextBoxFor(m => m.Piattaforma, new { @class = "form-control", data_autocomplete_url = "/Home/FindPiattaforma", data_autocomplete_id = "PiattaformaID" })
+        @Html.Hidden("PiattaformaID")
     </div>
-</section>
-<section id="pubblicazione">
-    @using (Html.BeginForm("Console", "Pubblica", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form", id = "formPubblica" }))
-    {
-        @Html.AntiForgeryToken()
-
-        <h4 id="description">@Language.DescriptionPubblication</h4>
-        <hr />
-        @Html.ValidationMessage("Error", new { @class = "text-danger", id = "ErroreGenerico" })
-
-        <div class="form-group">
-            @Html.LabelFor(m => m.Piattaforma, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.Piattaforma, new { @class = "form-control", data_autocomplete_url = "/Home/FindPiattaforma", data_autocomplete_id = "PiattaformaID" })
-                @Html.Hidden("PiattaformaID", 0)
-            </div>
-            @Html.ValidationMessageFor(m => m.Piattaforma, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="footer">
-            
-            <input id="bottonePubblica" type="submit" class="btn addOggetto" value="@Language.Public" />
-        </div>
-    }
-</section>
-
-@section Scripts {
-    @Scripts.Render("~/Scripts/jquery-ui-1.11.4.min.js")
-    @Scripts.Render("~/Scripts/pubblica.js")
-}
+    @Html.ValidationMessageFor(m => m.Piattaforma, "", new { @class = "text-danger" })
+</div>

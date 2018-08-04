@@ -6,42 +6,96 @@
     text-decoration:none;
 }
 
-#home .object{
-    display: inline-block;
-    text-align: center;
-    vertical-align: top;
-    margin:16px 20px;
-}
+    #home .object {
+        display: inline-block;
+        text-align: left;
+        vertical-align: top;
+        margin: 16px 20px;
+        width: 220px;
+        /*height: 340px; commentato per la vetrina di ricerca, in caso di tasto suggerisci era troppo poca*/
+        /*
+        border: 2px solid #1899D2;*/
+        border-radius:6px;
+        padding:10px;
+    }
+
+    #home .object h5
+    {
+        color:#333;
+    }
 
 #home .object .title{
-    color:#1899D2;
+    /*color:#1899D2;*/
+    color:#bd1723;
+    font-weight:700;
     text-transform:uppercase;
     margin-bottom:18px;
     margin-top:0px;
     width:200px;
-    height: 48px;
+    height: 28px;
+    font-size:13px;
     word-wrap: break-word;
     overflow-y: hidden;
     word-break: break-word;
 }
 
-#home .object > div{
-    display:inline-block;
+#home .object .evidence
+{
+    color:#23527c;
+    font-weight:700;
+    font-style:italic;
+}
+
+        #home .object .suggestAdActivation {
+            display: inline-block;
+            vertical-align: bottom;
+            height: 24px;
+            background-size: cover;
+            background-size: 46px 46px;
+            background-image: url('../Images/icone/switch.svg');
+            background-repeat: no-repeat;
+            padding-left: 46px;
+            padding-top: 3px;
+        }
+
+            #home .object .suggestAdActivation.sended {
+                background-position: left bottom;
+            }
+
+#home .object > div
+{
     vertical-align:top;
 }
 
-#home .object .left{
+#home .object .openLink
+{
+    text-decoration:none;
+}
+
+#home .object .left
+{
     background-position: center center;
     background-repeat: no-repeat;
     background-size:contain;
-    height: 113px;
-    width: 200px;
+    height: 150px;
+    /*width: 200px;*/
+    width:100%;
     position:relative;
+    margin-bottom:17px;
 }
 
-#home .object .left .lblBarter{
-    background-color: red;
-    color: yellow;
+#home .object:hover .left
+{
+    /*
+    height:160px;
+    width:100%;
+    */
+    background-size:cover;
+}
+
+#home .object .left .lblNew{
+    background-color: blue;
+    color: #fff;
     padding: 4px;
     border-radius: 4px;
     font-size: 12px;
@@ -51,12 +105,42 @@
     right: 0px;
 }
 
-#home .object .feedback{
-    background-image: url("../Images/Icone/rating.svg");
-    background-repeat: no-repeat;
-    background-size: 24px 24px;
-    margin-top: 3px;
-    padding-bottom: 2px;
-    padding-left: 32px;
-    padding-top: 6px;
+    #home .object .left .lblGift {
+        background-color: red;
+        color: yellow;
+        padding: 4px;
+        border-radius: 4px;
+        font-size: 12px;
+        text-transform: uppercase;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+    }
+
+    #home .object .right
+    {
+        min-height:150px;
+    }
+
+    #home .object .boxAcquisto{
+        margin-bottom:13px;
+    } 
+        
+        #home .object .boxAcquisto .btn {
+            width: 49%;
+        }
+
+    #home .object .footer{
+        min-height:100px;
+    }
+
+#formCopiaOggetto .form-group 
+{
+    width:100%;
+}
+
+#formCopiaOggetto .form-group .field {
+    display: inline-block;
+    vertical-align: top;
+    width:50%;
 }

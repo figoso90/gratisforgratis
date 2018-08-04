@@ -1,0 +1,32 @@
+﻿@model GratisForGratis.Models.ViewModels.ChatIndexViewModel
+
+@{
+    ViewBag.Title = string.Format(MetaTag.TitleChatIndex);
+}
+
+@section Styles{
+    @Styles.Render("~/Content/chat.css")
+}
+
+<section id="chatIndex">
+    <section>
+        @if (Model.listaChat.Count <= 0)
+        {
+            <div>@ViewModel.ChatEmpty</div>
+        }
+        else
+        {
+            foreach (GratisForGratis.Models.PersonaModel utente in Model.listaChat)
+            {
+                <div>
+                    @Html.ActionLink(utente.Persona.NOME + " " + utente.Persona.COGNOME, "Utente", "Chat", new { token = utente.Persona.TOKEN })
+                </div>
+            }
+        }
+    </section>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/chat.js")
+}

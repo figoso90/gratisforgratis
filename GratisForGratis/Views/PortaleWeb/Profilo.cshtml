@@ -67,17 +67,9 @@
             <ul>
                 <li><span class="campo">@Language.Token:</span> @Model.Token</li>
                 <li><span class="campo">@Language.RoleUser:</span> @Model.Ruolo</li>
-                <li><span class="campo">@Language.BonusForUser:</span> @((Model.BonusPerUtente == -1) ? Language.Unlimited : Model.BonusPerUtente.ToString())</li>
                 <li><span class="campo">@Language.BonusNow:</span> @Model.Bonus</li>
                 <li><span class="campo">@Language.BonusUsed:</span> @((Model.BonusSpeso) == null ? 0 : Model.BonusSpeso)</li>
-                <li><span class="campo">@Language.DurationSubscription:</span> @((Model.DurataAbbonamento == -1) ? Language.Unlimited : Model.DurataAbbonamento.ToString())</li>
                 <li><span class="campo">@Language.DateSubscription:</span> @Model.DataIscrizione</li>
-                @if (Model.DurataAbbonamento != -1)
-                {
-                <li>
-                    <span class="campo">@Language.DateEndSubscription:</span> @Model.DataIscrizione.AddMonths(Model.DurataAbbonamento)
-                </li>
-                }
             </ul>
         </aside>
 </section>

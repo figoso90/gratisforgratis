@@ -7,9 +7,19 @@ using System.Threading.Tasks;
 
 namespace GratisForGratis.Models
 {
-    public enum TipoTrattativa
+    public enum Spedizione
     {
-        Privata = 0,
+        [Display(Name = "PrivateShipment", ResourceType = typeof(App_GlobalResources.Enum))]
+        Privata = 1,
+        [Display(Name = "OnLineShipment", ResourceType = typeof(App_GlobalResources.Enum))]
+        Online = 2
+    }
+    
+    public enum TipoScambio
+    {
+        [Display(Name = "HandleShipment", ResourceType = typeof(App_GlobalResources.Enum))]
+        AMano = 0,
+        [Display(Name = "Shipment", ResourceType = typeof(App_GlobalResources.Enum))]
         Spedizione = 1
     }
 
@@ -19,16 +29,7 @@ namespace GratisForGratis.Models
         Servizio = 1
     }
 
-    public enum TipoPagamento
-    {
-        [Display(Name = "Whatever", ResourceType = typeof(App_GlobalResources.Language))]
-        Qualunque = 0,
-        [Display(Name = "Points", ResourceType = typeof(App_GlobalResources.Language))]
-        Vendita = 1,
-        [Display(Name = "Barter", ResourceType = typeof(App_GlobalResources.Language))]
-        Baratto = 2,
-    }
-
+    /*
     public enum TipoOfferta
     {
         [Display(Name = "Points", ResourceType = typeof(App_GlobalResources.Language))]
@@ -36,7 +37,7 @@ namespace GratisForGratis.Models
         [Display(Name = "Barter", ResourceType = typeof(App_GlobalResources.Language))]
         Baratto = 1,
     }
-
+    */
     public enum TipoSegnalazione
     {
         [Display(Name = "Bug", ResourceType = typeof(App_GlobalResources.Language))]
@@ -51,7 +52,9 @@ namespace GratisForGratis.Models
         PubblicazioneIniziale = 1,
         IscrizionePartner = 2,
         BonusPartner = 3,
-        Login = 4
+        Login = 4,
+        AnnuncioCompleto = 5,
+        CanalePubblicitario = 6
     }
 
     public enum RuoloProfilo
@@ -71,7 +74,8 @@ namespace GratisForGratis.Models
         BonusIscrizionePartner = 5,
         BonusPartner = 6,
         BonusLogin = 7,
-        BonusFeedback = 8
+        BonusFeedback = 8,
+        BonusCanalePubblicitario = 9
     }
 
     public enum TipoEmail
@@ -97,5 +101,74 @@ namespace GratisForGratis.Models
     {
         Persona = 0,
         Attivita = 1
+    }
+
+    public enum TipoNotifica
+    {
+        Annuncio = 0
+    }
+    
+    /*
+    public enum TipoPagamento
+    {
+        [Display(Name = "All", ResourceType = typeof(App_GlobalResources.Language))]
+        Qualunque = 0,
+        [Display(Name = "Points", ResourceType = typeof(App_GlobalResources.Language))]
+        Vendita = 1,
+        [Display(Name = "Barter", ResourceType = typeof(App_GlobalResources.Language))]
+        Baratto = 2,
+    }
+    */
+    public enum TipoPagamento
+    {
+        [Display(Name = "Moneta", ResourceType = typeof(App_GlobalResources.Enum))]
+        HAPPY = 0,
+        [Display(Name = "Euro", ResourceType = typeof(App_GlobalResources.Enum))]
+        EUR = 1,
+        [Display(Name = "Dollar", ResourceType = typeof(App_GlobalResources.Enum))]
+        USD = 2,
+    }
+
+    public enum TipoValuta
+    {
+        EUR = 1,
+        USD = 2
+    }
+
+    public enum TipoCartaCredito
+    {
+        PayPal = -1,
+        Visa = 0,
+        Mastercard = 1,
+        Discover = 2,
+        Amex = 3,
+    }
+
+    public enum TipoSbloccoAnnuncio
+    {
+        SospensioneAnnuncio = 0,
+        FineVendita = 1,
+        DirittiAutore = 2,
+        Illegale = 3
+    }
+
+    public enum TipoFeedback
+    {
+        Venditore = 0,
+        Acquirente = 1
+    }
+
+    public enum TipoChat
+    {
+        WhatsApp = 0,
+        Telegram = 1
+    }
+
+    public enum TipoUpload
+    {
+        Pdf = 0,
+        Immagine = 1,
+        Video = 2,
+        Spedizioni = 3
     }
 }

@@ -28,13 +28,15 @@ namespace GratisForGratis.Models
         [Display(Name = "StateSellDelete", ResourceType = typeof(App_GlobalResources.Language))]
         ELIMINATO = 2, // annullata
         [Display(Name = "StateSellPause", ResourceType = typeof(App_GlobalResources.Language))]
-        SOSPESO = 3, // in attesa di pagamento
+        SOSPESO = 3, // in attesa di pagamento su vendita diretta
         [Display(Name = "StateSellSold", ResourceType = typeof(App_GlobalResources.Language))]
         VENDUTO = 4, // pagamento ricevuto
         [Display(Name = "StateSellProgressBarter", ResourceType = typeof(App_GlobalResources.Language))]
         BARATTOINCORSO = 5, // in corso un baratto
         [Display(Name = "StateSellBarter", ResourceType = typeof(App_GlobalResources.Language))]
-        BARATTATO = 6 // baratto effettuato
+        BARATTATO = 6, // baratto effettuato
+        [Display(Name = "StateSellPauseForBid", ResourceType = typeof(App_GlobalResources.Enum))]
+        SOSPESOPEROFFERTA = 6, // in attesa pagamento per offerta
     }
 
     public enum StatoOfferta
@@ -48,7 +50,10 @@ namespace GratisForGratis.Models
         [Display(Name = "StateBidPause", ResourceType = typeof(App_GlobalResources.Language))]
         SOSPESA = 3,
         [Display(Name = "StateBidAccepted", ResourceType = typeof(App_GlobalResources.Language))]
-        ACCETTATA = 4
+        ACCETTATA = 4,
+        [Display(Name = "StateWaitingPayment", ResourceType = typeof(App_GlobalResources.Enum))]
+        ACCETTATA_ATTESO_PAGAMENTO = 5
+
 }
     // NON PIù IN USO
     public enum StatoBaratto
@@ -92,5 +97,35 @@ namespace GratisForGratis.Models
         [Display(Name = "StateMoneyAssigned", ResourceType = typeof(App_GlobalResources.Language))]
         ASSEGNATA = 4,
         CEDUTA = 5
+    }
+
+    public enum StatoNotifica
+    {
+        [Display(Name = "StateNewsInactive", ResourceType = typeof(App_GlobalResources.Language))]
+        INATTIVA = 0,
+        [Display(Name = "StateNewsActive", ResourceType = typeof(App_GlobalResources.Language))]
+        ATTIVA = 1,
+        [Display(Name = "StateNewsDelete", ResourceType = typeof(App_GlobalResources.Language))]
+        ELIMINATA = 2,
+        [Display(Name = "StateNewsPause", ResourceType = typeof(App_GlobalResources.Language))]
+        SOSPESA = 3,
+        [Display(Name = "StateNewsRead", ResourceType = typeof(App_GlobalResources.Language))]
+        LETTA = 4
+    }
+
+    public enum StatoSpedizione
+    {
+        [Display(Name = "StateShipmentInactive", ResourceType = typeof(App_GlobalResources.Enum))]
+        INATTIVA = 0,
+        [Display(Name = "StateShipmentActive", ResourceType = typeof(App_GlobalResources.Enum))]
+        ATTIVA = 1,
+        [Display(Name = "StateShipmentDelete", ResourceType = typeof(App_GlobalResources.Enum))]
+        ELIMINATA = 2,
+        [Display(Name = "StateShipmentPause", ResourceType = typeof(App_GlobalResources.Enum))]
+        SOSPESA = 3,
+        [Display(Name = "StateShipmentLDV", ResourceType = typeof(App_GlobalResources.Enum))]
+        LDV = 4,
+        [Display(Name = "StateShipmentOK", ResourceType = typeof(App_GlobalResources.Enum))]
+        EFFETTUATA = 5
     }
 }

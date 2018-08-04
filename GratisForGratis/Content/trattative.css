@@ -6,9 +6,8 @@
 #grid header .cella {
     padding:6px;
 }
-
+/*
 #grid .purchase{
-    /*border: 2px solid #337ab7;*/
     border-radius: 6px;
     display: inline-block;
     margin-bottom: 12px;
@@ -18,6 +17,13 @@
     width:23%;
     padding:1%;
 }
+*/
+    #grid .purchase {
+        text-align: center;
+        float: none;
+        display: inline-block;
+        vertical-align: top;
+    }
 
 #grid .purchase .title{
     text-decoration:underline;
@@ -79,10 +85,14 @@
     margin-bottom:0px;
 }
 
-#grid .cella .btn{
-    width:auto;
-    margin:10px 0px;
-}
+    #grid .cella .btn {
+        width: 100%;
+        margin: 10px 0px;
+        background-color: #a2c642;
+        color: #fff;
+        border: 1px solid #23527c;
+        text-shadow: 0px 0px 2px #23527c;
+    }
 
 #grid .details{
     display:none;
@@ -113,10 +123,12 @@
     text-transform:uppercase;
 }
 
-@media only all and (max-width: 480px) {
+@media only all and (max-width: 768px) {
+    /*
     #grid .purchase{
         width:136px;
     }
+    */
 
     #grid .purchase .phote{
 

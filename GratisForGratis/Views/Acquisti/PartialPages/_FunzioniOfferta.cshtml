@@ -1,0 +1,42 @@
+﻿@using GratisForGratis.Models
+@model OffertaViewModel
+
+@if (Model.StatoOfferta == StatoOfferta.ACCETTATA)
+{
+    <div class="cella contacts">
+        <label>@Language.Contacts: </label>
+        <p class="name people">@Model.Annuncio.Venditore.Nominativo</p>
+        <p class="email">@Model.Annuncio.Venditore.Email</p>
+        @if (!string.IsNullOrWhiteSpace(Model.Annuncio.Venditore.Telefono))
+        {
+            <p class="telephone">@Model.Annuncio.Venditore.Telefono</p>
+        }
+    </div>
+}
+<div class="cella state">
+    @Html.Label("Stato", Language.StateBid + ":")
+    @if (Model.StatoOfferta == StatoOfferta.ACCETTATA && (Model.Annuncio.StatoVendita == StatoVendita.VENDUTO || Model.Annuncio.StatoVendita == StatoVendita.BARATTATO))
+    {
+        <strong class="stateText">@Language.CompletedPurchase</strong>
+        <div class="cella">
+            @Html.ActionLink(Language.GoToFeedback, "", "Feedback", new { acquisto = @HttpUtility.UrlEncode(Model.Token) }, new { @class = "link btn" })
+        </div>
+    }
+    else if (Model.StatoOfferta == StatoOfferta.ACCETTATA && (Model.Annuncio.StatoVendita == StatoVendita.SOSPESO || Model.Annuncio.StatoVendita == StatoVendita.BARATTOINCORSO))
+    {
+        <strong class="stateText">@Model.StatoOfferta</strong>
+        <div class="cella payment">
+            <!--<a class="btn link ok" href="javascript:void(0);">Effettua pagamento</a>-->
+            @using (Html.BeginForm("Index", "Acquisti", FormMethod.Post, new { @class = "formOfferta" }))
+            {
+                Html.AntiForgeryToken();
+                @Html.HiddenFor(m => m.Token, new { @readonly = "readonly" })
+                <a class="btn link ok" href="javascript:void(0);" onclick="$(this).parents('.formOfferta').submit();">Effettua pagamento</a>
+            }
+        </div>
+    }
+    else
+    {
+        <strong class="stateText">@EnumHelper.GetSelectList(typeof(StatoOfferta), Model.StatoOfferta).Where(m => m.Selected).FirstOrDefault().Text</strong>
+    }
+</div>

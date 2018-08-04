@@ -1,0 +1,23 @@
+﻿@using GratisForGratis.Models
+@model List<AnnuncioViewModel>
+
+@{
+    ViewBag.Title = Language.TitleSales;
+}
+
+@Styles.Render("~/Content/trattative.css")
+<!--<section id="head">
+    <div class="content">
+        <h1 id="title">@Language.TitleSales</h1>
+    </div>
+</section>-->
+<section id="purchases">
+    <div id="grid" class="content">
+        @foreach (AnnuncioViewModel vendita in Model)
+        {
+            @Html.Partial("PartialPages/_Annuncio", vendita)
+        }
+        @Html.Partial("PartialPages/_ElencoPagine", new ElencoPagine((int)ViewData["TotalePagine"],
+            (int)ViewData["Pagina"], (((int)ViewData["Pagina"] - 5) < 1 ? 1 : (int)ViewData["Pagina"] - 5), "Vendite", "Concluse"))
+    </div>
+</section>

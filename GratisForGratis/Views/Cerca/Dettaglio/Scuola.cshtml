@@ -1,0 +1,51 @@
+﻿@model GratisForGratis.Models.ListaOggetti
+
+@foreach (GratisForGratis.Models.TelefonoViewModel oggetto in Model.List)
+{
+    <div id="Token+@oggetto.Token" class="object">
+        <h3 class="title">@oggetto.Nome</h3>
+        <div class="left">
+            <img class="lazy phote" data-original="@Url.Content("~/Uploads/Images/" + oggetto.Email + "/" + @oggetto.DataInserimento.Value.Year + "/" + "Normal/" + oggetto.Foto.FirstOrDefault())" alt="@oggetto.Nome" />
+            <noscript>
+                <img class="phote" src="@Url.Content("~/Uploads/Images/" + oggetto.Email + "/" + @oggetto.DataInserimento.Value.Year + "/" + "Normal/" + oggetto.Foto.FirstOrDefault())" alt="@oggetto.Nome" />
+            </noscript>
+            <div class="feedback">
+                @Resources.Language.FeedbackMessage
+            </div>
+        </div>
+        <div class="right">
+            <div class="info">
+                <h5 class="category"><b>@Resources.Language.Category :</b> @oggetto.Categoria</h5>
+                <h5 class="brand"><b>@Resources.Language.Brand :</b> @oggetto.Marca</h5>
+                <h5 class="state"><b>@Resources.Language.StateObject :</b> @oggetto.StatoOggetto</h5>
+                <h5 class="points"><b>@Resources.Language.Points :</b> @oggetto.Punti = € @oggetto.Soldi</h5>
+                <h5 class="model"><b>@Language.Model :</b> @oggetto.modelloNome</h5>
+                <h5 class="systemOperating"><b>@Language.SystemOperating :</b> @oggetto.sistemaOperativoNome</h5>
+                <h5 class="place"><b>@Resources.Language.Place :</b> @oggetto.Citta</h5>
+                <h5 class="quantity"><b>@Language.Quantity :</b> @oggetto.Quantità</h5>
+                <h5 class="seller"><b>@Language.Seller :</b> <span class="evidence">@((string.IsNullOrWhiteSpace(oggetto.PartnerNominativo)) ? oggetto.VenditoreNominativo : oggetto.PartnerNominativo)</span></h5>
+            </div>
+            
+            <div class="buttons">
+                @Html.ActionLink(@Language.Detail, "Acquista", "Oggetto", new { nome = oggetto.Nome.Replace(" ", "-"), token = oggetto.Token }, new { @class = "btn buy" })
+            </div>
+        </div>
+    </div>
+
+}
+<div class="footer">
+    @Language.Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) @Language.Of @Model.PageCount
+    <ul class="pagination">
+        @for (int i = 1; i <= Model.PageCount; i++)
+        {
+            if (i == Model.PageNumber)
+            {
+                <li class="active"><a>@i</a></li>
+            }
+            else
+            {
+                <li>@Html.ActionLink(i.ToString(), Response.Cookies["ricerca"]["CategoriaPadre"] + "/" + Response.Cookies["ricerca"]["Categoria"], "Oggetti", new { pagina = i, categoria = Response.Cookies["ricerca"]["IDCategoria"] }, new { @class = "pagina" }) </li>
+            }
+        }
+    </ul>
+</div>

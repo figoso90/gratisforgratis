@@ -1,0 +1,12 @@
+﻿@model GratisForGratis.Models.OggettoViewModel
+
+@{ var oggetto = (GratisForGratis.Models.VeicoloViewModel)Model; }
+
+@if (oggetto.modelloID != null)
+{
+<h5 class="model"><b>@Language.Model :</b> oggetto.modelloNome</h5>
+}
+@if (oggetto.alimentazioneID != null)
+{
+<h5 class="systemOperating"><b>@Language.Feed :</b> @oggetto.alimentazioneNome</h5>
+}

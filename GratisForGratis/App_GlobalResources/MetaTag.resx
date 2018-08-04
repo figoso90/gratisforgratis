@@ -210,4 +210,16 @@
   <data name="TitleSearchSaved" xml:space="preserve">
     <value>Ricerche salvate</value>
   </data>
+  <data name="TitleRefusedBid" xml:space="preserve">
+    <value>Offerte rifiutate</value>
+  </data>
+  <data name="TitleProfile" xml:space="preserve">
+    <value>Profilo di {0}</value>
+  </data>
+  <data name="TitleChatIndex" xml:space="preserve">
+    <value>Chat personale</value>
+  </data>
+  <data name="TitleChatUser" xml:space="preserve">
+    <value>Chat con {0}</value>
+  </data>
 </root>

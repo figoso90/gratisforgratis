@@ -1,0 +1,45 @@
+﻿@model GratisForGratis.Models.AnnuncioViewModel
+
+@{ 
+    GratisForGratis.Models.ServizioViewModel servizio = null;
+    if (Model.TipoAcquisto == GratisForGratis.Models.TipoAcquisto.Servizio) {
+        servizio = (GratisForGratis.Models.ServizioViewModel)Model;
+    }
+}
+
+@if (servizio != null)
+{
+    <div id="@("Token"+servizio.Token)" class="object">
+        <div>
+            <a class="openLink" href="/Annuncio?token=@HttpUtility.UrlEncode(servizio.Token)" title="@servizio.Nome GRATIS">
+                <h3 class="title">@servizio.Nome</h3>
+                <div class="left" style="background-image:url('@Url.Content("~/Uploads/Images/" + servizio.Venditore.VenditoreToken + "/" + @servizio.Foto.FirstOrDefault().DATA_INSERIMENTO.Year + "/" + "Normal/" + servizio.Foto.FirstOrDefault().ALLEGATO.NOME)')">
+                    @if (servizio.Punti <= 0)
+                    {
+                        <label class="lblGift">@Language.Gift</label>
+                    }
+                </div>
+                <div class="right">
+                    <h5 class="category"><strong>@Language.Category :</strong> <span class="evidence">@servizio.Categoria</span></h5>
+                    <h5 class="points"><b>@Language.Moneta :</b> @servizio.Punti <img class="infoTooltip infoTooltipAnnuncio" src="~/Images/icone/infoTooltip.svg" alt="info" title="Equivalgono a @servizio.Soldi" /></h5>
+                    <h5 class="rate"><b>@Language.Rate :</b> @servizio.Tariffa</h5>
+                    <h5 class="place"><b>@Resources.Language.Place :</b> @servizio.Citta</h5>
+                    <h5 class="seller">
+                        <b>@Language.Seller :</b> 
+                        <span class="evidence">
+                            @Html.ActionLink(Model.Venditore.Nominativo, "Profilo", "Utente", new { token = Model.Venditore.VenditoreToken }, null)
+                        </span>
+                    </h5>
+                </div>
+            </a>
+            <div class="footer">
+                @Html.Partial("PartialPages/_Desidero", servizio)
+                @Html.Partial("PartialPages/_Possiedo", servizio)
+                <div class="feedback" title="@Language.FeedbackUser">
+                    @(servizio.VenditoreFeedback > -1 ? string.Format(Language.FeedbackMessage, servizio.VenditoreFeedback) : Language.FeedbackNothing)
+                </div>
+                @Html.Partial("PartialPages/_SuggerimentoAttivazioneAnnuncio", servizio)
+            </div>
+        </div>
+    </div>
+}

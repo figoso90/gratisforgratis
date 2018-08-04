@@ -3,7 +3,6 @@
 @Styles.Render("~/Content/saldoPunti.css")
 
 <section id="menuUser">
-    <h1 id="title">@Language.TitleIndex</h1>
     <div class="points">
         <h3>@Language.CurrentBalance: <a class="gpoints">@(((GratisForGratis.Models.PersonaModel)Session["utente"]).ContoCorrente.Count(m => m.STATO == (int)GratisForGratis.Models.StatoMoneta.ASSEGNATA)) @Language.Moneta</a></h3>
         <h3>@Language.Points @Language.InSuspense: <a class="gpointsSuspense">@(((GratisForGratis.Models.PersonaModel)Session["utente"]).ContoCorrente.Count(m => m.STATO == (int)GratisForGratis.Models.StatoMoneta.SOSPESA)) @Language.Moneta</a></h3>
@@ -15,13 +14,7 @@
         @Html.ActionLink(Language.OnSale, "Ricevute", "Offerte", null, new { @class = "link" })
     </div>
     <div class="btn publicationObject">
-        @Html.ActionLink(Language.PublicationObjects, "Oggetto", "Pubblica", null, new { @class = "link" })
-    </div>
-    <div class="btn publicationService">
-        @Html.ActionLink(Language.PublicationServices, "Servizio", "Pubblica", null, new { @class = "link" })
-    </div>
-    <div class="btn history">
-        @Html.ActionLink(Language.PaymentHistory, "StoricoPagamenti", "Offerte", null, new { @class = "link" })
+        @Html.ActionLink(Language.Public, "", "Pubblica", null, new { @class = "link" })
     </div>
     <div class="btn settings">
         @Html.ActionLink(Language.Settings, "Impostazioni", "Utente", null, new { @class = "link" })

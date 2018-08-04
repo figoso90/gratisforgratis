@@ -63,6 +63,7 @@ namespace GratisForGratis.Models
         [Display(Name = "Surname", ResourceType = typeof(App_GlobalResources.Language))]
         public string Cognome { get; set; }
 
+        [Required(ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
         [DataType(DataType.PhoneNumber)]
         [StringLength(12, MinimumLength = 9, ErrorMessageResourceName = "ErrorPhoneNumber", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessageResourceName = "ErrorPhoneNumber", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
@@ -73,6 +74,42 @@ namespace GratisForGratis.Models
         [Range(typeof(bool), "true", "true", ErrorMessageResourceName = "ErrorTermsAndConditions", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
         [Display(Name = "AcceptConditions", ResourceType = typeof(App_GlobalResources.Language))]
         public bool AccettaCondizioni { get; set; }
+
+        public string ReturnUrl { get; set; }
+
+        [Required(ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
+        [DataType(DataType.PostalCode, ErrorMessageResourceName = "ErrorCity", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
+        [Display(Name = "ResidenceCity", ResourceType = typeof(App_GlobalResources.Language))]
+        public string Citta { get; set; }
+
+        public int? IDCitta { get; set; }
+
+        [Required( ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
+        [DataType(DataType.Text)]
+        [StringLength(50, MinimumLength = 5)]
+        [Display(Name = "ResidenceAddress", ResourceType = typeof(App_GlobalResources.Language))]
+        public string Indirizzo { get; set; }
+
+        [Required(ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]     
+        [Display(Name = "Civic", ResourceType = typeof(App_GlobalResources.Language))]
+        public int? Civico { get; set; }
+
+        [Required(ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
+        [DataType(DataType.PostalCode, ErrorMessageResourceName = "ErrorCity", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
+        [Display(Name = "ShippingCity", ResourceType = typeof(App_GlobalResources.Language))]
+        public string CittaSpedizione { get; set; }
+
+        public int? IDCittaSpedizione { get; set; }
+
+        [Required(ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
+        [DataType(DataType.Text)]
+        [StringLength(50, MinimumLength = 5)]
+        [Display(Name = "ShippingAddress", ResourceType = typeof(App_GlobalResources.Language))]
+        public string IndirizzoSpedizione { get; set; }
+
+        [Required(ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
+        [Display(Name = "ShippingCivic", ResourceType = typeof(App_GlobalResources.Language))]
+        public int? CivicoSpedizione { get; set; }
 
     }
 
@@ -269,12 +306,20 @@ namespace GratisForGratis.Models
         public UtenteVenditaViewModel() { }
         public UtenteVenditaViewModel(PERSONA model)
         {
+            /*
             foreach (System.Reflection.PropertyInfo propertyInfo in model.GetType().GetProperties())
             {
                 // verifico l'esistenza della proprietà
                 if (this.GetType().GetProperty(propertyInfo.Name.First().ToString() + propertyInfo.Name.ToLower().Substring(1)) != null)
                     this.GetType().GetProperty(propertyInfo.Name.First().ToString() + propertyInfo.Name.ToLower().Substring(1)).SetValue(this, propertyInfo.GetValue(model));
-            }
+            }*/
+            Id = model.ID;
+            Nominativo = model.NOME + " " + model.COGNOME;
+            Email = model.PERSONA_EMAIL.FirstOrDefault(m => m.TIPO == (int)TipoEmail.Registrazione).EMAIL;
+            PERSONA_TELEFONO telefono = model.PERSONA_TELEFONO.FirstOrDefault(m => m.TIPO == (int)TipoTelefono.Privato);
+            if (telefono!=null)
+                Telefono = telefono.TELEFONO;
+            VenditoreToken = model.TOKEN;
         }
 
         //[DataType(DataType.Text)]
@@ -297,7 +342,7 @@ namespace GratisForGratis.Models
         public Guid VenditoreToken { get; set; }
     }
 
-    public class UtenteRicercaViewModel : EncoderViewModel
+    public class UtenteRicercaViewModel /*: EncoderViewModel*/
     {
         #region COSTRUTTORI
         public UtenteRicercaViewModel() { }
@@ -306,7 +351,7 @@ namespace GratisForGratis.Models
         {
             List<FINDSOTTOCATEGORIE_Result> categorie = (HttpContext.Current.Application["categorie"] as List<FINDSOTTOCATEGORIE_Result>);
             FINDSOTTOCATEGORIE_Result categoria = categorie.SingleOrDefault(item => item.ID == model.ID_CATEGORIA);
-            this.Id = model.ID.ToString();
+            this.Id = model.ID;
             this.Categoria = categoria.NOME;
             this.Testo = model.NOME;
             this.DataInserimento = model.DATA_INSERIMENTO;
@@ -316,6 +361,10 @@ namespace GratisForGratis.Models
         #endregion
 
         #region PROPRIETA
+        public int Id { get; set; }
+
+        public string Token { get; set; }
+
         public string Testo { get; set; }
 
         public string Categoria { get; set; }
@@ -326,6 +375,122 @@ namespace GratisForGratis.Models
 
         public Stato Stato { get; set; }
         #endregion
+    }
+
+    public class UtenteNotificaViewModel
+    {
+        #region PROPRIETA
+        public int Id { get; set; }
+
+        public string Persona { get; set; }
+
+        public string Attivita { get; set; }
+
+        public string Messaggio { get; set; }
+
+        public DateTime DataInserimento { get; set; }
+
+        public DateTime? DataModifica { get; set; }
+
+        public DateTime? DataLettura { get; set; }
+
+        public StatoNotifica Stato { get; set; }
+
+        public TipoNotifica Tipo { get; set; }
+
+        public AnnuncioNotificaModel AnnuncioNotifica { get; set; }
+        #endregion
+
+        #region METODI PUBBLICI
+        public void getTipoNotifica(DatabaseContext db, NOTIFICA model)
+        {
+            Id = model.ID;
+            Persona = model.PERSONA.NOME + " " + model.PERSONA.COGNOME;
+            if (model.ID_ATTIVITA != null)
+                Attivita = model.ATTIVITA.NOME;
+            Messaggio = Components.EnumHelper<MessaggioNotifica>.GetDisplayValue((MessaggioNotifica)model.MESSAGGIO);
+            DataInserimento = model.DATA_INSERIMENTO;
+            DataModifica = model.DATA_MODIFICA;
+            DataLettura = model.DATA_LETTURA;
+            Stato = (StatoNotifica)model.STATO;
+            if (model.ANNUNCIO_NOTIFICA.Count > 0)
+            {
+                this.Tipo = TipoNotifica.Annuncio;
+                this.AnnuncioNotifica = new AnnuncioNotificaModel();
+                this.AnnuncioNotifica.Annuncio = new AnnuncioViewModel(db, model.ANNUNCIO_NOTIFICA.SingleOrDefault().ANNUNCIO);
+            }
+        }
+        #endregion
+    }
+
+    public class UtentePrivacyViewModel
+    {
+        #region PROPRIETA
+        public bool AccettaCondizioni { get; set; }
+
+        public bool Comunicazioni { get; set; }
+
+        public bool? NotificaEmail { get; set; }
+
+        public bool? NotificaChat { get; set; }
+
+        public TipoChat? Chat { get; set; }
+        #endregion
+
+        #region COSTRUTTORI
+        public UtentePrivacyViewModel()
+        {
+
+        }
+
+        public UtentePrivacyViewModel(PERSONA_PRIVACY model)
+        {
+            AccettaCondizioni = model.ACCETTA_CONDIZIONE;
+            Comunicazioni = model.COMUNICAZIONI;
+            NotificaEmail = model.NOTIFICA_EMAIL;
+            NotificaChat = model.NOTIFICA_CHAT;
+            Chat = (TipoChat?)model.CHAT;
+        }
+        #endregion
+    }
+
+    public class UtenteProfiloViewModel
+    {
+        public string Token { get; set; }
+        
+        public string Email { get; set; }
+
+        [Display(Name = "Name", ResourceType = typeof(App_GlobalResources.Language))]
+        public string Nome { get; set; }
+
+        [Display(Name = "Surname", ResourceType = typeof(App_GlobalResources.Language))]
+        public string Cognome { get; set; }
+
+        [Display(Name = "Telephone", ResourceType = typeof(App_GlobalResources.Language))]
+        public string Telefono { get; set; }
+
+        [Display(Name = "ResidenceCity", ResourceType = typeof(App_GlobalResources.Language))]
+        public string Citta { get; set; }
+        
+        [Display(Name = "ResidenceAddress", ResourceType = typeof(App_GlobalResources.Language))]
+        public string Indirizzo { get; set; }
+
+        [Display(Name = "Civic", ResourceType = typeof(App_GlobalResources.Language))]
+        public int? Civico { get; set; }
+
+        [Display(Name = "ShippingCity", ResourceType = typeof(App_GlobalResources.Language))]
+        public string CittaSpedizione { get; set; }
+
+        [Display(Name = "ShippingAddress", ResourceType = typeof(App_GlobalResources.Language))]
+        public string IndirizzoSpedizione { get; set; }
+
+        [Display(Name = "ShippingCivic", ResourceType = typeof(App_GlobalResources.Language))]
+        public int? CivicoSpedizione { get; set; }
+
+        // AGGIUNGERE LISTA ACQUISTI UTENTE
+        public List<AnnuncioViewModel> listaAcquisti { get; set; }
+        // AGGIUNGERE LISTA DESIDERI UTENTE
+        public List<AnnuncioViewModel> listaDesideri { get; set; }
     }
 
 }

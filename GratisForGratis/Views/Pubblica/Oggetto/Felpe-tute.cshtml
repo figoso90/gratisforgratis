@@ -1,38 +1,11 @@
 ﻿@model GratisForGratis.Models.PubblicaVestitoViewModel
 
-@section Styles {
-    @Styles.Render("~/Content/pubblica.css")
-}
-
-<section id="head">
-    <div class="content">
-        <h1 id="title">@Language.TitlePublication</h1>
+@Html.Partial("Oggetto", (Model!=null)?Model:new GratisForGratis.Models.PubblicaOggettoViewModel())
+@Html.Hidden("ActionCategoria", "/Pubblica/Vestito")
+<div class="form-group">
+    @Html.LabelFor(m => m.Taglia, new { @class = "col-md-2 control-label" })
+    <div class="field">
+        @Html.TextBoxFor(m => m.Taglia, new { @class = "form-control" })
     </div>
-</section>
-<section id="pubblicazione">
-    @using (Html.BeginForm("Vestito", "Pubblica", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "formPubblica" }))
-    {
-        @Html.AntiForgeryToken()
-
-        <h4 id="description">@Language.DescriptionPubblication</h4>
-        <hr />
-        @Html.ValidationMessage("Error", new { @class = "text-danger", id = "ErroreGenerico" })
-
-        <div class="form-group">
-            @Html.LabelFor(m => m.Taglia, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.Taglia, new { @class = "form-control" })
-            </div>
-            @Html.ValidationMessageFor(m => m.Taglia, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="footer">
-            <input id="bottonePubblica" type="submit" class="btn addOggetto" value="@Language.Public" />
-        </div>
-    }
-</section>
-
-@section Scripts {
-    @Scripts.Render("~/Scripts/jquery-ui-1.11.4.min.js")
-    @Scripts.Render("~/Scripts/pubblica.js")
-}
+    @Html.ValidationMessageFor(m => m.Taglia, "", new { @class = "text-danger" })
+</div>

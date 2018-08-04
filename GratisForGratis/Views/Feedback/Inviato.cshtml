@@ -1,7 +1,4 @@
 ﻿@model GratisForGratis.Models.ViewModels.FeedbackViewModel
-@{
-    ViewBag.Title = Resources.Language.TitleSendFeedback + " " + Model.Nome;
-}
 @Styles.Render("~/Content/feedback.css")
 
 <section id="head">
@@ -10,9 +7,12 @@
     </div>
 </section>
 <section id="feedback">
+    @if (Model.PuntiBonus > 0)
+    {
     <h4 class="text">
-        @Html.Raw(string.Format(Language.DescriptionSendFeedback, Model.Ricevente, Model.PuntiBonus + " " + Language.Moneta))
+        @Html.Raw(string.Format(Language.DescriptionSendFeedback, Model.PuntiBonus + " " + Language.Moneta))
     </h4>
+    }
     <div class="details">
         <p><strong>@Language.FeedbackVote</strong>: @Model.Voto </p>
         <p><strong>@Language.FeedbackComment</strong>: @Model.Opinione </p>

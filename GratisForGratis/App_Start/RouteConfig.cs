@@ -35,6 +35,17 @@ namespace GratisForGratis
                 url: "Servizi/{nomeCategoria}/{sottocategoria}/{id}",
                 defaults: new { controller = "Cerca", action = "Servizi", nomeCategoria = "Tutti", sottocategoria = "", id = UrlParameter.Optional }
             );
+            routes.MapRoute(
+                name: "Oggetto",
+                url: "Oggetto/{nomeAnnuncio}/{id}",
+                defaults: new { controller = "Annuncio", action = "", nomeAnnuncio = UrlParameter.Optional, id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "Servizio",
+                url: "Servizio/{nomeAnnuncio}/{id}",
+                defaults: new { controller = "Annuncio", action = "", nomeAnnuncio = UrlParameter.Optional, id = UrlParameter.Optional }
+            );
 
             routes.MapRoute(
                 name: "Default",

@@ -1,0 +1,188 @@
+﻿#acquisto .ico{
+    width:24px;
+    margin-right:4px;
+}
+
+#acquisto .esito {
+    background-color: #a2c642;
+    color: #fff;
+    font-weight: 700;
+    font-style: italic;
+    padding: 7px;
+    border-radius: 6px;
+    max-width: 80%;
+    margin: 0px auto 13px;
+    text-decoration: underline;
+}
+
+#acquisto .phote{
+    background-color:#a5c71b;
+    border:1px solid #337ab7;
+    max-width:300px;
+}
+
+#acquisto .title{
+    text-transform:uppercase;
+    margin:0px;
+    color: #bd1723;
+    font-weight: bold;
+    text-align:left;
+}
+
+#acquisto .category {
+    font-size: 17px;
+    font-style: italic;
+    font-weight: 900;
+    color: #23527c;
+}
+
+#acquisto .annuncio > div{
+    display:inline-block;
+    vertical-align:top;
+    width:49%;
+}
+
+#acquisto .left{
+    text-align:center;
+}
+
+#acquisto .user{
+    text-align:left;
+}
+
+#acquisto .feedback{
+    background-image: url("../Images/Icone/rating.svg");
+    background-repeat: no-repeat;
+    background-size: 24px 24px;
+    padding-bottom: 2px;
+    padding-left: 32px;
+    padding-top: 6px;
+    max-width:148px;
+    text-align:left;
+}
+
+#acquisto .right{
+    max-width:400px;
+    margin-left:12px;
+}
+
+#acquisto .right .info{
+    text-align:left;
+}
+
+#acquisto .right .info h5{
+    margin:17px 0px;
+}
+
+#acquisto .annuncio .details{
+    display:none;
+}
+
+#acquisto .annuncio .footer {
+    margin: 13px 0px;
+}
+
+#acquisto .annuncio .suggestAdActivation {
+    display: inline-block;
+    vertical-align: bottom;
+    height: 24px;
+    background-size: cover;
+    background-size: 46px 46px;
+    background-image: url('../Images/icone/switch.svg');
+    background-repeat: no-repeat;
+    padding-left: 46px;
+    padding-top: 3px;
+}
+
+    #acquisto .annuncio .suggestAdActivation.sended {
+        background-position: left bottom;
+    }
+
+#acquisto .btn{
+    height: 30px;
+    padding: 4px;
+    width: 100px;
+    margin-bottom:10px;
+}
+
+#acquisto .btn.buy, #acquisto .btn.add{
+    width: 160px;
+}
+
+#boxBarter{
+    display:none;
+}
+
+#boxBarter.barter{
+    display:block;
+}
+
+#boxBarter .form-control
+{
+    display:inline-block;
+}
+
+#previewBarter{
+    background-color: #1899D2;
+    margin-bottom: 12px;
+}
+#previewBarter .barter, #previewBarter .barter a {
+    color: #fff;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0px;
+    padding: 6px;
+    border-bottom: 2px solid;
+}
+#previewBarter .barter a, #previewBarter .barter a:hover{
+    color: #fff;
+    font-weight:bold;
+    text-decoration:none;
+    border:none;
+}
+
+.annuncio .wish, .annuncio .possession{
+    max-width:90px;
+    display:block;
+}
+
+.annuncio .wishIt, .annuncio .notWishIt, .annuncio .own, .annuncio .notOwn {
+    color: #ff0000;
+    background-repeat: no-repeat;
+    background-size: 24px 24px;
+    margin-top: 3px;
+    padding-bottom: 5px;
+    padding-left: 32px;
+    padding-top: 6px;
+    text-transform: uppercase;
+    font-size: 10px;
+}
+
+.annuncio .wishIt {
+    background-image: url("../Images/Icone/wish.svg");
+}
+
+.annuncio .notWishIt {
+    background-image: url("../Images/Icone/notWish.svg");
+}
+
+.annuncio .own {
+    background-image: url("../Images/Icone/possess.svg");
+}
+
+.annuncio .notOwn {
+    background-image: url("../Images/Icone/notPossess.svg");
+}
+
+#blueimp-image-carousel{
+    background-color:transparent;
+    box-shadow:none;
+    margin:0px auto;
+    max-width:100%;
+}
+
+@media only all and (min-width: 0px) and (max-width: 480px) {
+	#acquisto .annuncio > div{
+        width:100%;
+	}
+}

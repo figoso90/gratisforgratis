@@ -10,6 +10,9 @@ using System.Web.UI;
 using System.Reflection;
 using GratisForGratis.Models.File;
 using System.Web.Configuration;
+using GratisForGratis.App_GlobalResources;
+using System.Linq;
+using GratisForGratis.Models;
 
 namespace GratisForGratis.Controllers
 {
@@ -114,10 +117,10 @@ namespace GratisForGratis.Controllers
             return MvcHtmlString.Create(LineEnding.Replace(encodedText, replacement));
         }
 
-        public static int cambioValuta(int? punti = 0, string valuta = "Euro")
+        public static int cambioValuta(int? punti = 0, string valuta = "EUR")
         {
             punti = (punti == null) ? 0 : punti;
-            return (int)punti * Convert.ToInt16(WebConfigurationManager.AppSettings[valuta].ToString());
+            return (int)punti * Convert.ToInt16(WebConfigurationManager.AppSettings["Conversione" + valuta.ToUpper()].ToString());
         }
 
         public static string RandomString(int size, bool lowerCase = false)
@@ -133,6 +136,27 @@ namespace GratisForGratis.Controllers
             if (lowerCase)
                 return builder.ToString().ToLower();
             return builder.ToString();
+        }
+
+        public static bool IsUtenteAttivo(int tipoAzione, TempDataDictionary tempData = null)
+        {
+            PersonaModel utente = (HttpContext.Current.Session["utente"] as PersonaModel);
+            bool reindirizza = true;
+            if (utente.Persona.STATO == (int)Stato.INATTIVO)
+            {
+                reindirizza = false;
+                if (tempData != null)
+                    tempData["completaRegistrazione"] = (tipoAzione == 0) ? Language.PubblicaAnnuncioCompletaRegistrazione : Language.AcquistaCompletaRegistrazione;
+            }
+
+            if (utente.Email.SingleOrDefault(m => m.TIPO == (int)TipoEmail.Registrazione).STATO == (int)Stato.INATTIVO)
+            {
+                reindirizza = false;
+                if (tempData != null)
+                    tempData["confermaEmail"] = (tipoAzione == 0) ? Language.PubblicaAnnuncioConfermaEmail : Language.AcquistaConfermaEmail;
+            }
+
+            return reindirizza;
         }
 
         /*

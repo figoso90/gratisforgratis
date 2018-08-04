@@ -1,40 +1,11 @@
-﻿@model GratisForGratis.Models.PubblicaModelloViewModel
+﻿@model GratisForGratis.Models.PubblicaStrumentoViewModel
 
-@section Styles {
-    @Styles.Render("~/Content/pubblica.css")
-}
-
-<section id="head">
-    <div class="content">
-        <h1 id="title">@Language.TitlePublication</h1>
-    </div>
-</section>
-<section id="pubblicazione">
-    @using (Html.BeginForm("Strumento", "Pubblica", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form", id = "formPubblica" }))
-    {
-        @Html.AntiForgeryToken()
-
-        <h4 id="description">@Language.DescriptionPubblication</h4>
-        <hr />
-        @Html.ValidationMessage("Error", new { @class = "text-danger", id = "ErroreGenerico" })
-
-        <div class="form-group">
-            @Html.LabelFor(m => m.Modello, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.Modello, new { @class = "form-control", data_autocomplete_url = "/Home/FindModello", data_autocomplete_id = "ModelloID", data_autocomplete_filtro_extra = "#MarcaID" })
-                @Html.Hidden("ModelloID", 0)
-            </div>
-            @Html.ValidationMessageFor(m => m.Modello, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="footer">
-            
-            <input id="bottonePubblica" type="submit" class="btn addOggetto" value="@Language.Public" />
-        </div>
-    }
-</section>
-
-@section Scripts {
-    @Scripts.Render("~/Scripts/jquery-ui-1.11.4.min.js")
-    @Scripts.Render("~/Scripts/pubblica.js")
-}
+@Html.Partial("Oggetto", (Model!=null)?Model:new GratisForGratis.Models.PubblicaOggettoViewModel())
+@Html.Hidden("ActionCategoria", "/Pubblica/Strumento")
+<div class="form-group">
+    @Html.LabelFor(m => m.Modello, new { @class = "col-md-2 control-label" })
+    @Html.TextBoxFor(m => m.Modello, new { @class = "form-control", data_autocomplete_url = "/Home/FindModello", data_autocomplete_id = "ModelloID", data_autocomplete_filtro_extra = "#CategoriaMarca" })
+    @Html.Hidden("CategoriaModello", -1)
+    @Html.HiddenFor(m => m.ModelloID)
+    @Html.ValidationMessageFor(m => m.Modello, "", new { @class = "text-danger" })
+</div>

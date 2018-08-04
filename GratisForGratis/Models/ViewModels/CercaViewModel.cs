@@ -550,7 +550,7 @@ namespace GratisForGratis.Models
             this.Categoria = categoria;
         }
 
-        public virtual List<VenditaViewModel> List { get; set; }
+        public virtual List<AnnuncioViewModel> List { get; set; }
 
         public int PageCount { get; set; }
 

@@ -1,0 +1,28 @@
+﻿@using GratisForGratis.Models
+@model UtenteNotificaViewModel
+@Styles.Render("~/Content/notifica.css")
+
+<section id="news">
+    <div id="@HttpUtility.UrlEncode(Model.Id.ToString())" class="news">
+        <div class="detail">
+            @{
+                switch (Model.Tipo)
+                {
+                    case TipoNotifica.Annuncio:
+                        @Html.Partial("PartialPages/_Annuncio", Model.AnnuncioNotifica.Annuncio)
+                        <div class="cella noMandatory">
+                            @if ((Session["utente"] as PersonaModel).Persona.STATO == (int)Stato.INATTIVO)
+                            {
+                                @Html.ActionLink(Language.Settings, "Impostazioni", "Utente", null, new { @class = "btn" })
+                            }
+                            else
+                            {
+                                @Html.ActionLink(Language.EnableAd, "", "Annuncio", new { id = Model.AnnuncioNotifica.Annuncio.Token }, new { @class = "btn" })
+                            }
+                        </div>
+                        break;
+                }
+            }
+        </div>
+    </div>
+</section>

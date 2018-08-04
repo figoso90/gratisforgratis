@@ -1,0 +1,8 @@
+﻿@model GratisForGratis.Models.OggettoViewModel
+
+@{ var oggetto = (GratisForGratis.Models.VestitoViewModel)Model; }
+
+@if (!string.IsNullOrWhiteSpace(oggetto.taglia))
+{
+<h5 class="model"><b>@Language.Size :</b> @oggetto.taglia</h5>
+}
