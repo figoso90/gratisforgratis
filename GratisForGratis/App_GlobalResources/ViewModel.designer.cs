@@ -97,6 +97,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Data ultima modifica.
+        /// </summary>
+        public static string ChatDateUpdate {
+            get {
+                return ResourceManager.GetString("ChatDateUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Nessun messaggio =( Inizia una nuova conversazione!.
         /// </summary>
         public static string ChatEmpty {

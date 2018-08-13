@@ -1,6 +1,5 @@
 ﻿$(document).ready(function ()
 {
-    $('.carousel').carousel();
     enableFunzioni();
     $('#chatUtente .boxMessaggi .content').scrollTop($('#chatUtente .boxMessaggi .content')[0].scrollHeight);
 });

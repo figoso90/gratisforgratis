@@ -1,7 +1,7 @@
 ﻿@model GratisForGratis.Models.UtenteProfiloViewModel
 
 @{
-    ViewBag.Title = string.Format(MetaTag.TitleProfile, (Session["utente"] as GratisForGratis.Models.PersonaModel).Persona.NOME + " " + (Session["utente"] as GratisForGratis.Models.PersonaModel).Persona.COGNOME);
+    ViewBag.Title = string.Format(MetaTag.TitleProfile, Model.Nome + " " + Model.Cognome);
 }
 
 @section Styles{

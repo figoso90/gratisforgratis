@@ -595,10 +595,14 @@ namespace GratisForGratis.Models
                             if (ldv != null)
                             {
                                 viewModel.LDVNome = ldv.NOME;
+                                
                                 PersonaModel utente = (HttpContext.Current.Session["utente"] as PersonaModel);
-                                viewModel.LDVFile = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) + 
-                                    "/Uploads/Text/" + utente.Persona.TOKEN.ToString() + "/" + DateTime.Now.Year.ToString() + 
-                                    "/Original/" + ldv.NOME;
+                                if (utente != null)
+                                {
+                                    viewModel.LDVFile = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) +
+                                        "/Uploads/Text/" + utente.Persona.TOKEN.ToString() + "/" + DateTime.Now.Year.ToString() +
+                                        "/Original/" + ldv.NOME;
+                                }
                             }
                         }
                     }

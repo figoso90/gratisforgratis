@@ -63,16 +63,21 @@ namespace GratisForGratis.Models
             Notificato = (model.ANNUNCIO_NOTIFICA.Count > 0) ? true : false;
             var listaInteressati = model.ANNUNCIO_DESIDERATO.Where(f => f.ID_ANNUNCIO == model.ID);
             NumeroInteressati = listaInteressati.Count();
-            int idUtente = (HttpContext.Current.Session["utente"] as PersonaModel).Persona.ID;
-            Desidero = listaInteressati.FirstOrDefault(m => m.ID_PERSONA == idUtente) != null;
-            // controllo se l'utente ha già proposto lo stesso annuncio
-            int? idAnnuncioOriginale = model.ID_ORIGINE;
-            ANNUNCIO copiaAnnuncio = db.ANNUNCIO.SingleOrDefault(m => m.ID_PERSONA == idUtente
-                && (m.STATO == (int)StatoVendita.ATTIVO || m.STATO == (int)StatoVendita.INATTIVO)
-                && ((m.ID_ORIGINE == idAnnuncioOriginale && idAnnuncioOriginale != null) ||
-                m.ID_ORIGINE == model.ID));
-            if (copiaAnnuncio != null)
-                TokenAnnuncioCopiato = Utils.RandomString(3) + copiaAnnuncio.TOKEN + Utils.RandomString(3);
+            PersonaModel utente = (HttpContext.Current.Session["utente"] as PersonaModel);
+            if (utente != null)
+            {
+                int idUtente = utente.Persona.ID;
+                Desidero = listaInteressati.FirstOrDefault(m => m.ID_PERSONA == idUtente) != null;
+                // controllo se l'utente ha già proposto lo stesso annuncio
+                int? idAnnuncioOriginale = model.ID_ORIGINE;
+                ANNUNCIO copiaAnnuncio = db.ANNUNCIO.SingleOrDefault(m => m.ID_PERSONA == idUtente
+                    && (m.STATO == (int)StatoVendita.ATTIVO || m.STATO == (int)StatoVendita.INATTIVO)
+                    && ((m.ID_ORIGINE == idAnnuncioOriginale && idAnnuncioOriginale != null) ||
+                    m.ID_ORIGINE == model.ID));
+                if (copiaAnnuncio != null)
+                    TokenAnnuncioCopiato = Utils.RandomString(3) + copiaAnnuncio.TOKEN + Utils.RandomString(3);
+            }
+            
         }
         public AnnuncioViewModel(AnnuncioViewModel model)
         {

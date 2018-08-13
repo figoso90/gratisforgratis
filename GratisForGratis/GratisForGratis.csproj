@@ -1471,6 +1471,7 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Chat\PartialPages\_ListaChat.cshtml" />
+    <Content Include="Views\Shared\PartialPages\_AnnuncioMedium.cshtml" />
     <None Include="Web References\ServizioADV\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

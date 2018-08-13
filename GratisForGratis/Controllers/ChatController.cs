@@ -2,13 +2,13 @@
 using GratisForGratis.Models.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace GratisForGratis.Controllers
 {
-    public class ChatController : Controller
+    public class ChatController : AdvancedController
     {
         #region ACTION
         // GET: Chat
@@ -19,26 +19,78 @@ namespace GratisForGratis.Controllers
             // riepilogo chat, con ultima chat per utente in evidenza
             using (DatabaseContext db = new DatabaseContext())
             {
-                List<CHAT> lista = db.CHAT
+                db.Database.Connection.Open();
+                var a = db.CHAT
                     .Where(m => m.STATO == (int)Stato.ATTIVO &&
-                        m.ID_MITTENTE == utente.Persona.ID || m.ID_DESTINATARIO == utente.Persona.ID)
-                    .OrderByDescending(m => m.DATA_MODIFICA)
-                    .OrderByDescending(m => m.DATA_INSERIMENTO)
-                    .GroupBy(m => new { m.ID_MITTENTE, m.ID_DESTINATARIO })
+                        m.ID_MITTENTE == utente.Persona.ID)
+                    .AsEnumerable()
+                    .Select(m => new ChatViewModel()
+                    {
+                        Id = m.ID
+                        ,MittenteId = m.ID_MITTENTE
+                        ,Mittente = new PersonaModel(m.PERSONA)
+                        ,DestinatarioId = m.ID_DESTINATARIO
+                        ,Destinatario= new PersonaModel(m.PERSONA1)
+                        ,Testo = m.TESTO
+                        ,DataInserimento = m.DATA_INSERIMENTO
+                        ,DataModifica = m.DATA_MODIFICA
+                        ,Stato = (Stato)m.STATO
+                    });
+                var b = db.CHAT
+                .Where(m => m.STATO == (int)Stato.ATTIVO &&
+                    m.ID_DESTINATARIO == utente.Persona.ID)
+                    .AsEnumerable()
+                    .Select(m => new ChatViewModel()
+                    {
+                        Id = m.ID
+                        ,MittenteId = m.ID_DESTINATARIO
+                        ,Mittente = new PersonaModel(m.PERSONA1)
+                        ,DestinatarioId = m.ID_MITTENTE
+                        ,Destinatario= new PersonaModel(m.PERSONA)
+                        ,Testo = m.TESTO
+                        ,DataInserimento = m.DATA_INSERIMENTO
+                        ,DataModifica = m.DATA_MODIFICA
+                        ,Stato = (Stato)m.STATO
+                    });
+                var lista = a.Concat(b)
+                    .OrderByDescending(m => m.DataModifica)
+                    .OrderByDescending(m => m.DataInserimento)
+                    .GroupBy(m => new { m.MittenteId, m.DestinatarioId })
                     .Select(m => m.FirstOrDefault())
                     .ToList();
-                for(int i = 0; i < lista.Count; i++)
+
+                for (int i = 0; i < lista.Count; i++)
                 {
-                    CHAT chat = lista[i];
-                    PERSONA personaChat = (chat.ID_MITTENTE == utente.Persona.ID) ? chat.PERSONA1 : chat.PERSONA;
+                    ChatViewModel chat = lista[i];
+                    PersonaModel personaChat = (chat.MittenteId == utente.Persona.ID) ? chat.Destinatario : chat.Mittente;
                     if (i == 0)
                     {
-                        viewModel.UltimaChat = new ChatViewModel(chat);
+                        viewModel.UltimaChat = chat;
                         viewModel.listaChat = new List<PersonaModel>();
                     }
-                    PersonaModel personaModel = new PersonaModel(personaChat);
-                    viewModel.listaChat.Add(personaModel);
+                    viewModel.listaChat.Add(personaChat);
                 }
+
+                //List<CHAT> lista = db.CHAT
+                //    .Where(m => m.STATO == (int)Stato.ATTIVO &&
+                //        m.ID_MITTENTE == utente.Persona.ID || m.ID_DESTINATARIO == utente.Persona.ID)
+                //    .OrderByDescending(m => m.DATA_MODIFICA)
+                //    .OrderByDescending(m => m.DATA_INSERIMENTO)
+                //    .GroupBy(m => new { m.ID_MITTENTE, m.ID_DESTINATARIO })
+                //    .Select(m => m.FirstOrDefault())
+                //    .ToList();
+                //for (int i = 0; i < lista.Count; i++)
+                //{
+                //    CHAT chat = lista[i];
+                //    PERSONA personaChat = (chat.ID_MITTENTE == utente.Persona.ID) ? chat.PERSONA1 : chat.PERSONA;
+                //    if (i == 0)
+                //    {
+                //        viewModel.UltimaChat = new ChatViewModel(chat);
+                //        viewModel.listaChat = new List<PersonaModel>();
+                //    }
+                //    PersonaModel personaModel = new PersonaModel(personaChat);
+                //    viewModel.listaChat.Add(personaModel);
+                //}
             }
             return View(viewModel);
         }
@@ -174,9 +226,12 @@ namespace GratisForGratis.Controllers
         {
             List<ChatViewModel> listaChat = new List<ChatViewModel>();
 
-            List<CHAT> lista = db.CHAT.Where(m => m.STATO == (int)Stato.ATTIVO &&
-            (m.ID_MITTENTE == idUtente && m.PERSONA1.ID == idUtente2) ||
-            (m.ID_DESTINATARIO == idUtente && m.PERSONA.ID == idUtente2))
+            List<CHAT> lista = db.CHAT
+                .Include(m => m.PERSONA)
+                .Include(m => m.PERSONA1)
+                .Where(m => m.STATO == (int)Stato.ATTIVO &&
+                (m.ID_MITTENTE == idUtente && m.PERSONA1.ID == idUtente2) ||
+                (m.ID_DESTINATARIO == idUtente && m.PERSONA.ID == idUtente2))
             .OrderByDescending(m => m.DATA_MODIFICA)
             .ToList();
 

@@ -31,6 +31,9 @@ namespace GratisForGratis.Models.ViewModels
         [Display(Name = "ChatDate", ResourceType = typeof(App_GlobalResources.ViewModel))]
         public DateTime DataInserimento { get; set; }
 
+        [Display(Name = "ChatDateUpdate", ResourceType = typeof(App_GlobalResources.ViewModel))]
+        public DateTime? DataModifica { get; set; }
+
         public Stato Stato { get; set; }
         #endregion
 

@@ -69,7 +69,6 @@ namespace GratisForGratis.Controllers
                 var query = db.ANNUNCIO.Where(item => item.ID_COMPRATORE != persona.ID && item.TRANSAZIONE_ANNUNCIO.Count(m => m.STATO == (int)Stato.ATTIVO) > 0
                         && (item.STATO == (int)StatoVendita.VENDUTO || item.STATO == (int)StatoVendita.ELIMINATO || item.STATO == (int)StatoVendita.BARATTATO)
                         && (item.ID_OGGETTO != null || item.ID_SERVIZIO != null));
-                string randomString = Utils.RandomString(3);
                 List<ANNUNCIO> lista = query
                     .OrderByDescending(item => item.DATA_INSERIMENTO)
                     .Take(4).ToList();
@@ -79,16 +78,18 @@ namespace GratisForGratis.Controllers
                     viewModel.listaAcquisti.Add(annuncioModel.GetViewModel(db, m));
                 }
                 // far vedere top n desideri con link
-                db.ANNUNCIO_DESIDERATO
-                    .OrderByDescending(item => item.ANNUNCIO.DATA_INSERIMENTO)
-                    .Take(4)
+                List<ANNUNCIO_DESIDERATO> listaDesideri = db.ANNUNCIO_DESIDERATO
                     .Where(item => item.ID_PERSONA == persona.ID && (item.ANNUNCIO.STATO == (int)StatoVendita.INATTIVO
                         || item.ANNUNCIO.STATO == (int)StatoVendita.ATTIVO) && (item.ANNUNCIO.DATA_FINE == null ||
                         item.ANNUNCIO.DATA_FINE >= DateTime.Now))
-                    .ToList().ForEach(m => viewModel.listaDesideri.Add(
-                            new AnnuncioViewModel(db, m.ANNUNCIO)
-                        )
-                    );
+                    .OrderByDescending(item => item.ANNUNCIO.DATA_INSERIMENTO)
+                    .Take(4)
+                    .ToList();
+                listaDesideri.ForEach(m => 
+                    viewModel.listaDesideri.Add(
+                        new AnnuncioViewModel(db, m.ANNUNCIO)
+                    )
+                );
             }
             return base.View(viewModel);
         }

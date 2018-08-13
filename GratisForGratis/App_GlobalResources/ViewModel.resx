@@ -273,4 +273,7 @@
   <data name="ProfileSendMessage" xml:space="preserve">
     <value>Invia messaggio</value>
   </data>
+  <data name="ChatDateUpdate" xml:space="preserve">
+    <value>Data ultima modifica</value>
+  </data>
 </root>
