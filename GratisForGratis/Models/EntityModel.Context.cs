@@ -124,6 +124,7 @@ namespace GratisForGratis.Models
         public virtual DbSet<SPEDIZIONE_INATTESA> SPEDIZIONE_INATTESA { get; set; }
         public virtual DbSet<ALLEGATO> ALLEGATO { get; set; }
         public virtual DbSet<CHAT> CHAT { get; set; }
+        public virtual DbSet<SPEDIZIONE_CONCLUSA> SPEDIZIONE_CONCLUSA { get; set; }
     
         public virtual int AGGIORNAMENTO_CATEGORIE()
         {

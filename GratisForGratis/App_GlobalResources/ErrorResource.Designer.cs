@@ -124,6 +124,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a La lunghezza del messaggio dev&apos;essere compreso tra 1 e 10000 caratteri.
+        /// </summary>
+        public static string ChatLengthMessage {
+            get {
+                return ResourceManager.GetString("ChatLengthMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Cvv2 obbligatorio.
         /// </summary>
         public static string Cvv2 {

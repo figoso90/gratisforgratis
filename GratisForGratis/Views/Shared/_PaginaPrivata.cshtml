@@ -26,18 +26,18 @@
 <body>
     <script>
 
-        window.fbAsyncInit = function() {
+        window.fbAsyncInit = function () {
             FB.init({
                 appId: '294838660866806',
                 xfbml: true,
                 cookie: true,  // enable cookies to allow the server to access
-                version    : 'v2.5'
+                version: 'v2.5'
             });
         };
 
-        (function(d, s, id){
+        (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {return;}
+            if (d.getElementById(id)) { return; }
             js = d.createElement(s); js.id = id;
             js.src = "//connect.facebook.net/it_IT/sdk.js";
             fjs.parentNode.insertBefore(js, fjs);
@@ -46,7 +46,7 @@
     </script>
     <div id="window">
         <div id="messaggioPerUtente">
-            
+
             @if ((Session["utente"] as PersonaModel).Persona.STATO == (int)Stato.INATTIVO)
             {
                 <div class="testo">
@@ -61,7 +61,7 @@
                     <a class="btn btnReinvio" href="javascript:void(0);" onclick="reinvioEmailRegistrazione();">@Language.BtnResubmission</a>
                 </div>
             }
-            
+
             @if (ViewBag.Message != null)
             {
                 <div class="testo">
@@ -133,6 +133,11 @@
                                 <li>
                                     @Html.ActionLink(portaleweb.Nome, "Profilo", "PortaleWeb", new { token = portaleweb.Token }, null)
                                 </li>
+                                if ((Session["utente"] as PersonaModel).Persona.ABBONAMENTO.DURATA == -1)
+                                {
+                                    <li>@Html.ActionLink("Spedizioni in attesa", "SpedizioniInAttesa", "PortaleWeb")</li>
+                                    <li>@Html.ActionLink("Spedizioni concluse", "SpedizioniConcluse", "PortaleWeb")</li>
+                                }
                             }
                         </ul>
                     </li>
@@ -239,13 +244,13 @@
                                 <li>@Html.ActionLink("Home", "Index", "PortaleWeb")</li>
                                 @foreach (PortaleWebViewModel portaleweb in (Session["portaleweb"] as List<PortaleWebViewModel>))
                                 {
-                                <li>
-                                @Html.ActionLink(portaleweb.Nome, "Profilo", "PortaleWeb", new { token = portaleweb.Token }, null)
-                                </li>
+                                    <li>
+                                        @Html.ActionLink(portaleweb.Nome, "Profilo", "PortaleWeb", new { token = portaleweb.Token }, null)
+                                    </li>
                                     if ((Session["utente"] as PersonaModel).Persona.ABBONAMENTO.DURATA == -1)
                                     {
-                                    <li>@Html.ActionLink("Spedizioni in attesa", "SpedizioniInAttesa", "PortaleWeb")</li>
-                                    <li>@Html.ActionLink("Spedizioni da chiudere", "SpedizioniInAttesa", "PortaleWeb")</li>
+                                        <li>@Html.ActionLink("Spedizioni in attesa", "SpedizioniInAttesa", "PortaleWeb")</li>
+                                        <li>@Html.ActionLink("Spedizioni concluse", "SpedizioniConcluse", "PortaleWeb")</li>
                                     }
                                 }
                             </ul>
@@ -368,8 +373,8 @@
             <h5>@Language.Footer</h5>
             <h6><a href="http://www.davidemilitano.net/SviluppatoreDotNet" title="WebMaster C#" target="_blank">WebMaster C# - Davide Militano</a></h6>
         </div>
-    </footer>    
-    
+    </footer>
+
     <!-- START POPUP -->
     <form id="boxSegnalazione" class="popup">
         @Html.AntiForgeryToken()
@@ -382,13 +387,12 @@
         <input type="email" name="EmailRisposta" placeholder="@Language.AnswerEmail" value="@((Session["utente"] as PersonaModel).Email.FirstOrDefault(m => m.TIPO == (int)TipoEmail.Registrazione).EMAIL)" />
         <input type="text" name="Oggetto" placeholder="@Language.Object" />
         <textarea name="Testo" placeholder="@Language.Text"></textarea>
-        <input id="AllegatoSegnalazione" type="file" name="Allegato" placeholder="@Language.Attachment"/>
+        <input id="AllegatoSegnalazione" type="file" name="Allegato" placeholder="@Language.Attachment" />
         <a class="button btn" href="javascript:void(0);">@Language.Send</a>
     </form>
     <div id="boxPossiedo" class="popup">
     </div>
     <!-- END POPUP -->
-
     <!-- HIDDEN ELEMENT -->
     <div id="menuCategorie" style="display:none;">
         <input id="categoriaAttuale" name="categoriaAttuale" value="@Response.Cookies["ricerca"]["Categoria"]" type="text" />
@@ -437,20 +441,22 @@
     @if (!this.Context.IsDebuggingEnabled)
     {
         <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+            (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-      ga('create', 'UA-82382944-1', 'auto');
-      ga('send', 'pageview');
+            ga('create', 'UA-82382944-1', 'auto');
+            ga('send', 'pageview');
 
         </script>
     }
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/Scripts/jquery.validate.unobtrusive.js")
+    @Scripts.Render("~/Scripts/JqueryValidate/jquery.validate.unobtrusive.js")
     <script type="text/javascript">
     $.validator.setDefaults({
         ignore: null

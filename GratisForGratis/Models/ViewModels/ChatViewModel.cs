@@ -9,18 +9,26 @@ namespace GratisForGratis.Models.ViewModels
     public class ChatViewModel
     {
         #region PROPRIETA
+
+        public int Id { get; set; }
+
+        [Display(Name = "ChatSender", ResourceType = typeof(App_GlobalResources.ViewModel))]
         public int MittenteId { get; set; }
 
         public PersonaModel Mittente { get; set; }
 
         [Required]
+        [Display(Name = "ChatRecipient", ResourceType = typeof(App_GlobalResources.ViewModel))]
         public int DestinatarioId { get; set; }
 
         public PersonaModel Destinatario { get; set; }
 
         [Required]
+        [Display(Name ="ChatMessage", ResourceType = typeof(App_GlobalResources.ViewModel))]
+        [StringLength(10000, MinimumLength = 1, ErrorMessageResourceName = "ChatLengthMessage", ErrorMessageResourceType = typeof(App_GlobalResources.ErrorResource))]
         public string Testo { get; set; }
 
+        [Display(Name = "ChatDate", ResourceType = typeof(App_GlobalResources.ViewModel))]
         public DateTime DataInserimento { get; set; }
 
         public Stato Stato { get; set; }
@@ -28,6 +36,11 @@ namespace GratisForGratis.Models.ViewModels
 
         #region COSTRUTTORI
         public ChatViewModel() { }
+
+        public ChatViewModel(int destinatarioId)
+        {
+            this.DestinatarioId = destinatarioId;
+        }
 
         public ChatViewModel(CHAT model)
         {
@@ -39,6 +52,7 @@ namespace GratisForGratis.Models.ViewModels
 
         public void SetModel(CHAT model)
         {
+            Id = model.ID;
             Mittente = new PersonaModel(model.PERSONA);
             MittenteId = model.PERSONA.ID;
             Destinatario = new PersonaModel(model.PERSONA1);
@@ -50,12 +64,13 @@ namespace GratisForGratis.Models.ViewModels
 
         public CHAT GetModel()
         {
-            PersonaModel utente = HttpContext.Current.Session["utente"] as PersonaModel;
             CHAT model = new CHAT();
-            model.ID_MITTENTE = utente.Persona.ID;
-            model.DATA_INSERIMENTO = DateTime.Now;
+            model.ID = this.Id;
+            model.ID_MITTENTE = this.MittenteId;
             model.ID_DESTINATARIO = this.DestinatarioId;
             model.TESTO = this.Testo;
+            model.DATA_INSERIMENTO = (DateTime)this.DataInserimento;
+            model.DATA_MODIFICA = null;
             model.STATO = (int)this.Stato;
             return model;
         }

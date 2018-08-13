@@ -1,0 +1,46 @@
+﻿@model List<GratisForGratis.Models.ViewModels.ChatViewModel>
+
+@if (Model.Count <= 0)
+{
+    @ViewModel.ChatEmpty
+}
+else
+{
+    foreach (GratisForGratis.Models.ViewModels.ChatViewModel chat in Model)
+    {
+<div id="messaggio@(chat.Id)" class="messaggio">
+    @if (chat.MittenteId == (Session["utente"] as GratisForGratis.Models.PersonaModel).Persona.ID)
+    {
+        <div class="col-xs-pull-6 data">
+            <div class="col-xs-8">
+                @chat.DataInserimento
+            </div>
+            <div class="col-xs-2">
+                <a class="edit" href="#" onclick="enableModifica(@chat.Id);" title="@Language.Edit">
+                    <span class="glyphicon glyphicon-edit"></span>
+                </a>
+            </div>
+            <div class="col-xs-2">
+                <a class="remove" href="#" onclick="elimina(@chat.Id);" title="@Language.Delete">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </a>
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <div class="col-xs-pull-6 data destinatario">
+            <div class="col-xs-8">
+                @chat.DataInserimento
+            </div>
+        </div>
+    }
+    <div class="col-xs-7 testo @(chat.MittenteId == (Session["utente"] as GratisForGratis.Models.PersonaModel).Persona.ID?"col-xs-push-5":"")">
+        <div>
+            @chat.Testo
+        </div>
+    </div>
+</div>
+    }
+}

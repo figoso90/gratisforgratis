@@ -9,6 +9,7 @@ namespace GratisForGratis
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
+                        //"~/Scripts/Jquery/jquery-{version}.js"));
                         "~/Scripts/Jquery/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(

@@ -1215,6 +1215,68 @@ avviso 6005: Tipo di dati 'hierarchyid' attualmente non supportato per la versio
           <Property Name="STATO" Type="int" Nullable="false" />
         </EntityType>
         <!--Errori trovati durante la generazione:
+avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gratisforgratis.dbo.SPEDIZIONE_CONCLUSA'. La chiave è stata dedotta e la definizione è stata creata come tabella/visualizzazione di sola lettura.-->
+        <EntityType Name="SPEDIZIONE_CONCLUSA">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="PREZZO" />
+            <PropertyRef Name="TITOLO" />
+            <PropertyRef Name="NOME" />
+            <PropertyRef Name="VIA" />
+            <PropertyRef Name="PIANOINTERNO" />
+            <PropertyRef Name="CAP" />
+            <PropertyRef Name="FRAZIONE" />
+            <PropertyRef Name="COMUNE" />
+            <PropertyRef Name="PROVINCIA" />
+            <PropertyRef Name="IMPORTOCONTRASSEGNO" />
+            <PropertyRef Name="MODALITACONTRASSEGNO" />
+            <PropertyRef Name="COLLI" />
+            <PropertyRef Name="CELLULARE" />
+            <PropertyRef Name="EMAIL" />
+            <PropertyRef Name="RIFERIMENTO_CLIENTE" />
+            <PropertyRef Name="CENTRO_COSTO" />
+            <PropertyRef Name="MITTENTE_NOME" />
+            <PropertyRef Name="MITTENTE_VIA" />
+            <PropertyRef Name="MITTENTE_CAP" />
+            <PropertyRef Name="MITTENTE_COMUNE" />
+            <PropertyRef Name="MITTENTE_PROVINCIA" />
+            <PropertyRef Name="IMPORTOASSICURATA" />
+            <PropertyRef Name="PRODOTTO" />
+            <PropertyRef Name="SERVIZIO_RESI_EASY" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="NOME_ANNUNCIO" Type="varchar" MaxLength="50" />
+          <Property Name="PREZZO" Type="money" Nullable="false" />
+          <Property Name="TITOLO" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="COGNOME_RAGSOC" Type="nvarchar" MaxLength="50" />
+          <Property Name="NOME" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="INFOUTILIXCONSEGNA" Type="nvarchar" MaxLength="2000" />
+          <Property Name="VIA" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PIANOINTERNO" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="CAP" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="FRAZIONE" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="COMUNE" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="PROVINCIA" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="IMPORTOCONTRASSEGNO" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="MODALITACONTRASSEGNO" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="COLLI" Type="int" Nullable="false" />
+          <Property Name="TAGLIA" Type="varchar" MaxLength="2" />
+          <Property Name="CELLULARE" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="TELEFONO" Type="nvarchar" MaxLength="20" />
+          <Property Name="EMAIL" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RIFERIMENTO_CLIENTE" Type="int" Nullable="false" />
+          <Property Name="CENTRO_COSTO" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="MITTENTE" Type="nvarchar" MaxLength="50" />
+          <Property Name="MITTENTE_NOME" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MITTENTE_VIA" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MITTENTE_CAP" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="MITTENTE_COMUNE" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="MITTENTE_PROVINCIA" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="IMPORTOASSICURATA" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="PRODOTTO" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="SERVIZIO_RESI_EASY" Type="varchar" MaxLength="2" Nullable="false" />
+        </EntityType>
+        <!--Errori trovati durante la generazione:
 avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gratisforgratis.dbo.SPEDIZIONE_INATTESA'. La chiave è stata dedotta e la definizione è stata creata come tabella/visualizzazione di sola lettura.-->
         <EntityType Name="SPEDIZIONE_INATTESA">
           <Key>
@@ -3461,6 +3523,41 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <EntitySet Name="TRANSAZIONE" EntityType="Self.TRANSAZIONE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TRANSAZIONE_ANNUNCIO" EntityType="Self.TRANSAZIONE_ANNUNCIO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TRANSAZIONE_ANNUNCIO_SPEDIZIONE" EntityType="Self.TRANSAZIONE_ANNUNCIO_SPEDIZIONE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SPEDIZIONE_CONCLUSA" EntityType="Self.SPEDIZIONE_CONCLUSA" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [SPEDIZIONE_CONCLUSA].[ID] AS [ID], 
+    [SPEDIZIONE_CONCLUSA].[NOME_ANNUNCIO] AS [NOME_ANNUNCIO], 
+    [SPEDIZIONE_CONCLUSA].[PREZZO] AS [PREZZO], 
+    [SPEDIZIONE_CONCLUSA].[TITOLO] AS [TITOLO], 
+    [SPEDIZIONE_CONCLUSA].[COGNOME_RAGSOC] AS [COGNOME_RAGSOC], 
+    [SPEDIZIONE_CONCLUSA].[NOME] AS [NOME], 
+    [SPEDIZIONE_CONCLUSA].[INFOUTILIXCONSEGNA] AS [INFOUTILIXCONSEGNA], 
+    [SPEDIZIONE_CONCLUSA].[VIA] AS [VIA], 
+    [SPEDIZIONE_CONCLUSA].[PIANOINTERNO] AS [PIANOINTERNO], 
+    [SPEDIZIONE_CONCLUSA].[CAP] AS [CAP], 
+    [SPEDIZIONE_CONCLUSA].[FRAZIONE] AS [FRAZIONE], 
+    [SPEDIZIONE_CONCLUSA].[COMUNE] AS [COMUNE], 
+    [SPEDIZIONE_CONCLUSA].[PROVINCIA] AS [PROVINCIA], 
+    [SPEDIZIONE_CONCLUSA].[IMPORTOCONTRASSEGNO] AS [IMPORTOCONTRASSEGNO], 
+    [SPEDIZIONE_CONCLUSA].[MODALITACONTRASSEGNO] AS [MODALITACONTRASSEGNO], 
+    [SPEDIZIONE_CONCLUSA].[COLLI] AS [COLLI], 
+    [SPEDIZIONE_CONCLUSA].[TAGLIA] AS [TAGLIA], 
+    [SPEDIZIONE_CONCLUSA].[CELLULARE] AS [CELLULARE], 
+    [SPEDIZIONE_CONCLUSA].[TELEFONO] AS [TELEFONO], 
+    [SPEDIZIONE_CONCLUSA].[EMAIL] AS [EMAIL], 
+    [SPEDIZIONE_CONCLUSA].[RIFERIMENTO_CLIENTE] AS [RIFERIMENTO_CLIENTE], 
+    [SPEDIZIONE_CONCLUSA].[CENTRO_COSTO] AS [CENTRO_COSTO], 
+    [SPEDIZIONE_CONCLUSA].[MITTENTE] AS [MITTENTE], 
+    [SPEDIZIONE_CONCLUSA].[MITTENTE_NOME] AS [MITTENTE_NOME], 
+    [SPEDIZIONE_CONCLUSA].[MITTENTE_VIA] AS [MITTENTE_VIA], 
+    [SPEDIZIONE_CONCLUSA].[MITTENTE_CAP] AS [MITTENTE_CAP], 
+    [SPEDIZIONE_CONCLUSA].[MITTENTE_COMUNE] AS [MITTENTE_COMUNE], 
+    [SPEDIZIONE_CONCLUSA].[MITTENTE_PROVINCIA] AS [MITTENTE_PROVINCIA], 
+    [SPEDIZIONE_CONCLUSA].[IMPORTOASSICURATA] AS [IMPORTOASSICURATA], 
+    [SPEDIZIONE_CONCLUSA].[PRODOTTO] AS [PRODOTTO], 
+    [SPEDIZIONE_CONCLUSA].[SERVIZIO_RESI_EASY] AS [SERVIZIO_RESI_EASY]
+    FROM [dbo].[SPEDIZIONE_CONCLUSA] AS [SPEDIZIONE_CONCLUSA]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="SPEDIZIONE_INATTESA" EntityType="Self.SPEDIZIONE_INATTESA" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [SPEDIZIONE_INATTESA].[ID] AS [ID], 
@@ -5021,6 +5118,7 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             <End Role="PERSONA" EntitySet="PERSONA" />
             <End Role="CHAT" EntitySet="CHAT" />
           </AssociationSet>
+          <EntitySet Name="SPEDIZIONE_CONCLUSA" EntityType="GratisForGratisModel.SPEDIZIONE_CONCLUSA" />
           </EntityContainer>
         <ComplexType Name="FINDSOTTOCATEGORIE_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -8702,6 +8800,66 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="SPEDIZIONE_CONCLUSA">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="PREZZO" />
+            <PropertyRef Name="TITOLO" />
+            <PropertyRef Name="NOME" />
+            <PropertyRef Name="VIA" />
+            <PropertyRef Name="PIANOINTERNO" />
+            <PropertyRef Name="CAP" />
+            <PropertyRef Name="FRAZIONE" />
+            <PropertyRef Name="COMUNE" />
+            <PropertyRef Name="PROVINCIA" />
+            <PropertyRef Name="IMPORTOCONTRASSEGNO" />
+            <PropertyRef Name="MODALITACONTRASSEGNO" />
+            <PropertyRef Name="COLLI" />
+            <PropertyRef Name="CELLULARE" />
+            <PropertyRef Name="EMAIL" />
+            <PropertyRef Name="RIFERIMENTO_CLIENTE" />
+            <PropertyRef Name="CENTRO_COSTO" />
+            <PropertyRef Name="MITTENTE_NOME" />
+            <PropertyRef Name="MITTENTE_VIA" />
+            <PropertyRef Name="MITTENTE_CAP" />
+            <PropertyRef Name="MITTENTE_COMUNE" />
+            <PropertyRef Name="MITTENTE_PROVINCIA" />
+            <PropertyRef Name="IMPORTOASSICURATA" />
+            <PropertyRef Name="PRODOTTO" />
+            <PropertyRef Name="SERVIZIO_RESI_EASY" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="NOME_ANNUNCIO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PREZZO" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="TITOLO" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="COGNOME_RAGSOC" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NOME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="INFOUTILIXCONSEGNA" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="VIA" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PIANOINTERNO" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CAP" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="FRAZIONE" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="COMUNE" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PROVINCIA" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="IMPORTOCONTRASSEGNO" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="MODALITACONTRASSEGNO" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="COLLI" Type="Int32" Nullable="false" />
+          <Property Name="TAGLIA" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="CELLULARE" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="TELEFONO" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="EMAIL" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RIFERIMENTO_CLIENTE" Type="Int32" Nullable="false" />
+          <Property Name="CENTRO_COSTO" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="MITTENTE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MITTENTE_NOME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MITTENTE_VIA" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MITTENTE_CAP" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="MITTENTE_COMUNE" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MITTENTE_PROVINCIA" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="IMPORTOASSICURATA" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="PRODOTTO" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="SERVIZIO_RESI_EASY" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10064,6 +10222,43 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
                 <ScalarProperty Name="TESTO" ColumnName="TESTO" />
                 <ScalarProperty Name="ID_DESTINATARIO" ColumnName="ID_DESTINATARIO" />
                 <ScalarProperty Name="ID_MITTENTE" ColumnName="ID_MITTENTE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SPEDIZIONE_CONCLUSA">
+            <EntityTypeMapping TypeName="GratisForGratisModel.SPEDIZIONE_CONCLUSA">
+              <MappingFragment StoreEntitySet="SPEDIZIONE_CONCLUSA">
+                <ScalarProperty Name="SERVIZIO_RESI_EASY" ColumnName="SERVIZIO_RESI_EASY" />
+                <ScalarProperty Name="PRODOTTO" ColumnName="PRODOTTO" />
+                <ScalarProperty Name="IMPORTOASSICURATA" ColumnName="IMPORTOASSICURATA" />
+                <ScalarProperty Name="MITTENTE_PROVINCIA" ColumnName="MITTENTE_PROVINCIA" />
+                <ScalarProperty Name="MITTENTE_COMUNE" ColumnName="MITTENTE_COMUNE" />
+                <ScalarProperty Name="MITTENTE_CAP" ColumnName="MITTENTE_CAP" />
+                <ScalarProperty Name="MITTENTE_VIA" ColumnName="MITTENTE_VIA" />
+                <ScalarProperty Name="MITTENTE_NOME" ColumnName="MITTENTE_NOME" />
+                <ScalarProperty Name="MITTENTE" ColumnName="MITTENTE" />
+                <ScalarProperty Name="CENTRO_COSTO" ColumnName="CENTRO_COSTO" />
+                <ScalarProperty Name="RIFERIMENTO_CLIENTE" ColumnName="RIFERIMENTO_CLIENTE" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
+                <ScalarProperty Name="CELLULARE" ColumnName="CELLULARE" />
+                <ScalarProperty Name="TAGLIA" ColumnName="TAGLIA" />
+                <ScalarProperty Name="COLLI" ColumnName="COLLI" />
+                <ScalarProperty Name="MODALITACONTRASSEGNO" ColumnName="MODALITACONTRASSEGNO" />
+                <ScalarProperty Name="IMPORTOCONTRASSEGNO" ColumnName="IMPORTOCONTRASSEGNO" />
+                <ScalarProperty Name="PROVINCIA" ColumnName="PROVINCIA" />
+                <ScalarProperty Name="COMUNE" ColumnName="COMUNE" />
+                <ScalarProperty Name="FRAZIONE" ColumnName="FRAZIONE" />
+                <ScalarProperty Name="CAP" ColumnName="CAP" />
+                <ScalarProperty Name="PIANOINTERNO" ColumnName="PIANOINTERNO" />
+                <ScalarProperty Name="VIA" ColumnName="VIA" />
+                <ScalarProperty Name="INFOUTILIXCONSEGNA" ColumnName="INFOUTILIXCONSEGNA" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="COGNOME_RAGSOC" ColumnName="COGNOME_RAGSOC" />
+                <ScalarProperty Name="TITOLO" ColumnName="TITOLO" />
+                <ScalarProperty Name="PREZZO" ColumnName="PREZZO" />
+                <ScalarProperty Name="NOME_ANNUNCIO" ColumnName="NOME_ANNUNCIO" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

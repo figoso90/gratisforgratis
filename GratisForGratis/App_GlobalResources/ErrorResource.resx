@@ -138,6 +138,9 @@
   <data name="BuyAd" xml:space="preserve">
     <value>Annuncio non acquistabile!</value>
   </data>
+  <data name="ChatLengthMessage" xml:space="preserve">
+    <value>La lunghezza del messaggio dev'essere compreso tra 1 e 10000 caratteri</value>
+  </data>
   <data name="Cvv2" xml:space="preserve">
     <value>Cvv2 obbligatorio</value>
   </data>

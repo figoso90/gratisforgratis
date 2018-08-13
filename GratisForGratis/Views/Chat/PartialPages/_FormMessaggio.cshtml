@@ -1,22 +1,23 @@
 ﻿@model GratisForGratis.Models.ViewModels.ChatViewModel
 
-@using (Html.BeginForm("Invia", "Chat", FormMethod.Post, new AjaxOptions
-{
-    HttpMethod = "POST",
-    InsertionMode = InsertionMode.Replace,
-    OnFailure = "inviaChatFallito"
-    //UpdateTargetId = "target"
-}))
+@using (Html.BeginForm("Invia", "Chat", FormMethod.Post, new { Id = "FormChat" }))
 {
     <!-- form inserimento nuovo messaggio -->
     @Html.AntiForgeryToken()
 <fieldset>
-    @Html.HiddenFor(m => m.DestinatarioId, new { @class = "form-control" })
+    @Html.HiddenFor(m => m.Id, new { @class = "form-control", id = "ChatNewId" })
+    @Html.HiddenFor(m => m.DestinatarioId, new { @class = "form-control", id = "ChatDestinatarioId" })
     <div class="form-group">
-        @Html.LabelFor(m => m.Testo)
-        @Html.TextAreaFor(m => m.Testo, new { @class = "form-control", placeholder = "Messaggio..." })
+        @Html.TextAreaFor(m => m.Testo, new { @class = "form-control", placeholder = "Digita un messaggio..." })
     </div>
-    <button type="submit" class="btn btn-default">Annulla Modifica</button>
-    <button type="submit" class="btn btn-default">@Language.Send</button>
+    @if (Model.Id > 0)
+    {
+        <a id="lnkAnnullaModifica" class="col-xs-2 btn btn-default">@ViewModel.ChatUpdateCancel</a>
+    }
+    else
+    {
+        <a class="col-xs-2"></a>
+    }
+    <a id="lnkInvia" class="col-xs-2 col-xs-push-8 btn btn-default">@Language.Send</a>
 </fieldset>
 }

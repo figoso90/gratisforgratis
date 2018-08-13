@@ -249,4 +249,28 @@
   <data name="ChatEmpty" xml:space="preserve">
     <value>Nessun messaggio =( Inizia una nuova conversazione!</value>
   </data>
+  <data name="ChatDate" xml:space="preserve">
+    <value>Data invio</value>
+  </data>
+  <data name="ChatMessage" xml:space="preserve">
+    <value>Messaggio</value>
+  </data>
+  <data name="ChatRecipient" xml:space="preserve">
+    <value>Destinatario</value>
+  </data>
+  <data name="ChatSender" xml:space="preserve">
+    <value>Mittente</value>
+  </data>
+  <data name="ChatUpdateCancel" xml:space="preserve">
+    <value>Annulla modifica</value>
+  </data>
+  <data name="ProfileTopPurchases" xml:space="preserve">
+    <value>Top acquisti</value>
+  </data>
+  <data name="ProfileTopWishes" xml:space="preserve">
+    <value>Top desideri</value>
+  </data>
+  <data name="ProfileSendMessage" xml:space="preserve">
+    <value>Invia messaggio</value>
+  </data>
 </root>

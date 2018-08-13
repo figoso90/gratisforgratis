@@ -72,7 +72,7 @@ namespace GratisForGratis.Controllers
                 string randomString = Utils.RandomString(3);
                 List<ANNUNCIO> lista = query
                     .OrderByDescending(item => item.DATA_INSERIMENTO)
-                    .Take(5).ToList();
+                    .Take(4).ToList();
                 foreach (ANNUNCIO m in lista)
                 {
                     AnnuncioModel annuncioModel = new AnnuncioModel();
@@ -81,7 +81,7 @@ namespace GratisForGratis.Controllers
                 // far vedere top n desideri con link
                 db.ANNUNCIO_DESIDERATO
                     .OrderByDescending(item => item.ANNUNCIO.DATA_INSERIMENTO)
-                    .Take(5)
+                    .Take(4)
                     .Where(item => item.ID_PERSONA == persona.ID && (item.ANNUNCIO.STATO == (int)StatoVendita.INATTIVO
                         || item.ANNUNCIO.STATO == (int)StatoVendita.ATTIVO) && (item.ANNUNCIO.DATA_FINE == null ||
                         item.ANNUNCIO.DATA_FINE >= DateTime.Now))

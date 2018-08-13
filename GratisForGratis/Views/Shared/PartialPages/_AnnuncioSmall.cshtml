@@ -1,0 +1,31 @@
+﻿@using GratisForGratis.Models
+@model AnnuncioViewModel
+
+<div id="@HttpUtility.UrlEncode(Model.Token)" class="col-xs-12 col-md-3 purchase">
+    <h4 class="title plus">@Model.Nome</h4>
+    <div class="preview">
+        <div class="cella table">
+            <div class="cell">
+                <img class="phote" src="@Url.Content("~/Uploads/Images/" + Model.Venditore.VenditoreToken + "/" + Model.Foto[0].DATA_INSERIMENTO.Year + "/" + "Little/" + Model.Foto[0].ALLEGATO.NOME)" alt="@Model.Nome" />
+            </div>
+        </div>
+        <div class="cella points">
+            @Html.Label("Punti", Language.Moneta + ":")
+            @Model.Punti
+        </div>
+        <div class="cella noMandatory">
+            @Html.Label("TipoPagamento", Language.TypePayment + ":")
+            @Model.TipoPagamento
+        </div>
+        <div class="cella">
+            @Html.Label("Stato", Language.StateSelling + ":")
+            <span class="stateText">
+                @EnumHelper.GetSelectList(typeof(StatoVendita), Model.StatoVendita).Where(m => m.Selected).FirstOrDefault().Text
+            </span>
+        </div>
+        <div class="cella user">
+            @Html.Label("Venditore", Language.Seller + ":")
+            <b>@Html.ActionLink(Model.Venditore.Nominativo, "Profilo", "Utente", new { token = Model.Venditore.VenditoreToken }, null)</b>
+        </div>
+    </div>
+</div>

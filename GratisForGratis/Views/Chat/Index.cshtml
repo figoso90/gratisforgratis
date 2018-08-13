@@ -19,7 +19,7 @@
             foreach (GratisForGratis.Models.PersonaModel utente in Model.listaChat)
             {
                 <div>
-                    @Html.ActionLink(utente.Persona.NOME + " " + utente.Persona.COGNOME, "Utente", "Chat", new { token = utente.Persona.TOKEN })
+                    @Html.ActionLink(utente.Persona.NOME + " " + utente.Persona.COGNOME, "Utente", "Chat", new { token = utente.Persona.TOKEN }, null)
                 </div>
             }
         }

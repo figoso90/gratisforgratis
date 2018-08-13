@@ -128,4 +128,18 @@ namespace GratisForGratis.Models
         [Display(Name = "StateShipmentOK", ResourceType = typeof(App_GlobalResources.Enum))]
         EFFETTUATA = 5
     }
+
+    public enum StatoChat
+    {
+        [Display(Name = "StateInactive", ResourceType = typeof(App_GlobalResources.Language))]
+        BOZZA = 0,
+        [Display(Name = "StateActive", ResourceType = typeof(App_GlobalResources.Language))]
+        INVIATO = 1,
+        [Display(Name = "StateDelete", ResourceType = typeof(App_GlobalResources.Language))]
+        ELIMINATO = 2,
+        [Display(Name = "StatePause", ResourceType = typeof(App_GlobalResources.Language))]
+        ELIMINATO_DESTINATARIO = 3,
+        [Display(Name = "StatePause", ResourceType = typeof(App_GlobalResources.Language))]
+        LETTO = 4
+    }
 }

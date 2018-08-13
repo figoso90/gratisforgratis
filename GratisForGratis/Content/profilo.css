@@ -1,0 +1,41 @@
+﻿#lnkChat {
+    float: none;
+    margin: 0px auto;
+    width: auto;
+    padding: 6px 24px;
+}
+
+    #lnkChat a
+    {
+        color:#fff;
+    }
+
+.row header {
+    font-weight: bold;
+    border: 1px solid blue;
+    background-color: #23527c;
+    color: #fff;
+    padding: 3px 0px 0px;
+    margin: 6px 0px;
+    border-radius: 6px;
+}
+
+#topAcquisti, #topDesideri {
+    margin-top:30px;
+}
+
+    #topAcquisti h5.title, #topDesideri h5.title {
+        text-transform: uppercase;
+        padding: 0px;
+        border: none;
+        font-weight: bold;
+        font-size: 24px;
+    }
+
+#topAcquisti h4, #topDesideri h4 {
+    color: #fff;
+    text-transform: uppercase;
+    background-color: #1899D2;
+    padding: 6px 0px;
+    border-radius: 6px;
+}

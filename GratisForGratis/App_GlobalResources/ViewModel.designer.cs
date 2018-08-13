@@ -88,11 +88,56 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Data invio.
+        /// </summary>
+        public static string ChatDate {
+            get {
+                return ResourceManager.GetString("ChatDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Nessun messaggio =( Inizia una nuova conversazione!.
         /// </summary>
         public static string ChatEmpty {
             get {
                 return ResourceManager.GetString("ChatEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Messaggio.
+        /// </summary>
+        public static string ChatMessage {
+            get {
+                return ResourceManager.GetString("ChatMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Destinatario.
+        /// </summary>
+        public static string ChatRecipient {
+            get {
+                return ResourceManager.GetString("ChatRecipient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Mittente.
+        /// </summary>
+        public static string ChatSender {
+            get {
+                return ResourceManager.GetString("ChatSender", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Annulla modifica.
+        /// </summary>
+        public static string ChatUpdateCancel {
+            get {
+                return ResourceManager.GetString("ChatUpdateCancel", resourceCulture);
             }
         }
         
@@ -246,6 +291,33 @@ namespace GratisForGratis.App_GlobalResources {
         public static string NumberCard {
             get {
                 return ResourceManager.GetString("NumberCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Invia messaggio.
+        /// </summary>
+        public static string ProfileSendMessage {
+            get {
+                return ResourceManager.GetString("ProfileSendMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Top acquisti.
+        /// </summary>
+        public static string ProfileTopPurchases {
+            get {
+                return ResourceManager.GetString("ProfileTopPurchases", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Top desideri.
+        /// </summary>
+        public static string ProfileTopWishes {
+            get {
+                return ResourceManager.GetString("ProfileTopWishes", resourceCulture);
             }
         }
         

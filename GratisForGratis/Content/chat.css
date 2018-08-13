@@ -1,1 +1,86 @@
-﻿
+﻿textarea.form-control
+{
+    min-width: 100%;
+}
+
+.carousel .item img
+{
+    max-height:298px;
+    margin:0px auto;
+}
+
+#chatUtente .boxMessaggi {
+    margin: 0px 0px;
+    border: 1px solid #cccccc;
+    border-bottom: 0px;
+    border-radius: 6px 6px 0px 0px;
+    border-bottom: 0px;
+}
+
+    #chatUtente .boxMessaggi .content {
+        overflow-y: scroll;
+        margin: 6px 0px 0px;
+        height: 280px;
+    }
+
+    .messaggio {
+        margin: 10px 0px;
+    }
+
+        .messaggio .data {
+            font-size: 12px;
+            font-weight: bold;
+            font-style: italic;
+            color: #fff;
+            float: none;
+            height: 21px;
+            background-color: #a2c642;
+            padding: 2px 0px;
+            margin: 0px 0px 12px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .messaggio .destinatario {
+            background-color: #0094ff;
+        }
+
+        .messaggio .edit, .messaggio .remove {
+            cursor: pointer;
+            color: #fff;
+        }
+    .messaggio .testo
+    {
+        float:none;
+        text-align:left;
+    }
+        .messaggio .testo.col-xs-push-5
+        {
+            text-align:right;
+        }
+
+        .messaggio .testo > div {
+            background-color: #0094ff;
+            color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 6px 6px 6px 0px;
+            padding: 3px;
+            display: inline-block;
+        }
+        /*
+.messaggio .testo.xs-offset-6 > div {
+    background-color: #00ff21;
+}*/
+
+        .messaggio .testo.col-xs-push-5 > div {
+            background-color: #a2c642;
+            border-radius: 6px 6px 0px 6px;
+        }
+
+#FormChat {
+    margin: 0px 0px 10px;
+}
+
+    #FormChat textarea {
+        border-radius: 0px 0px 6px 6px;
+        height:48px;
+    }

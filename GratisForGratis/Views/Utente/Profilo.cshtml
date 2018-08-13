@@ -9,95 +9,118 @@
     @Styles.Render("~/Content/profilo.css")
 }
 
-<section id="head">
-    <div class="content">
-        <h1 id="title">@ViewBag.Title</h1>
-    </div>
-</section>
 <section id="profilo">
+    <h1 id="title">@ViewBag.Title</h1>
     <section>
-        <div class="col-md-10">
-            @Html.ActionLink("Invia messaggio", "Utente", "Chat", new { token = Model.Token }, new { })
+        <div id="lnkChat" class="col-sm-10 btn">
+            <i class="glyphicon glyphicon-envelope"></i>
+            @Html.ActionLink(ViewModel.ProfileSendMessage, "Utente", "Chat", new { token = Model.Token }, new { @class = "" })
         </div>
     </section>
     <section class="content">
-        <div class="col-md-2">
-            @Html.LabelFor(m => m.Email, new { @class = "control-label" })
-            <div>
-                @Model.Email
+        <div class="row">
+            <div class="col-sm-3">
+                <header>
+                @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+                </header>
+                <div>
+                    @Model.Email
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <header>
+                    @Html.LabelFor(m => m.Nome, new { @class = "control-label" })
+                </header>
+                <div>
+                    @Model.Nome
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <header>
+                    @Html.LabelFor(m => m.Cognome, new { @class = "control-label" })
+                </header>
+                <div>
+                    @Model.Cognome
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <header>
+                    @Html.LabelFor(m => m.Telefono, new { @class = "control-label" })
+                </header>
+                <div>
+                    @Model.Telefono
+                </div>
             </div>
         </div>
-        <div class="col-md-2">
-            @Html.LabelFor(m => m.Nome, new { @class = "control-label" })
-            <div>
-                @Model.Nome
+        <div class="row">
+            <div class="col-sm-4">
+                <header>
+                    @Html.LabelFor(m => m.Citta, new { @class = "control-label" })
+                </header>
+                <div>
+                    @Model.Citta
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <header>
+                    @Html.LabelFor(m => m.Indirizzo, new { @class = "control-label" })
+                </header>
+                <div>
+                    @Model.Indirizzo
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <header>
+                    @Html.LabelFor(m => m.Civico, new { @class = "control-label" })
+                </header>
+                <div>
+                    @Model.Civico
+                </div>
             </div>
         </div>
-        <div class="col-md-2">
-            @Html.LabelFor(m => m.Cognome, new { @class = "control-label" })
-            <div>
-                @Model.Cognome
+        <div class="row">
+            <div class="col-sm-4">
+                <header>
+                    @Html.LabelFor(m => m.CittaSpedizione, new { @class = "control-label" })
+                </header>
+                <div>
+                    @Model.CittaSpedizione
+                </div>
             </div>
-        </div>
-        <div class="col-md-2">
-            @Html.LabelFor(m => m.Citta, new { @class = "control-label" })
-            <div>
-                @Model.Citta
+            <div class="col-sm-4">
+                <header>
+                    @Html.LabelFor(m => m.IndirizzoSpedizione, new { @class = "control-label" })
+                </header>
+                <div>
+                    @Model.IndirizzoSpedizione
+                </div>
             </div>
-        </div>
-        <div class="col-md-2">
-            @Html.LabelFor(m => m.Indirizzo, new { @class = "control-label" })
-            <div>
-                @Model.Indirizzo
-            </div>
-        </div>
-        <div class="col-md-2">
-            @Html.LabelFor(m => m.Civico, new { @class = "control-label" })
-            <div>
-                @Model.Civico
-            </div>
-        </div>
-        <div class="col-md-2">
-            @Html.LabelFor(m => m.Telefono, new { @class = "control-label" })
-            <div>
-                @Model.Telefono
-            </div>
-        </div>
-        <div class="col-md-2">
-            @Html.LabelFor(m => m.CittaSpedizione, new { @class = "control-label" })
-            <div>
-                @Model.CittaSpedizione
-            </div>
-        </div>
-        <div class="col-md-2">
-            @Html.LabelFor(m => m.IndirizzoSpedizione, new { @class = "control-label" })
-            <div>
-                @Model.IndirizzoSpedizione
-            </div>
-        </div>
-        <div class="col-md-2">
-            @Html.LabelFor(m => m.CivicoSpedizione, new { @class = "control-label" })
-            <div>
-                @Model.CivicoSpedizione
+            <div class="col-sm-4">
+                <header>
+                    @Html.LabelFor(m => m.CivicoSpedizione, new { @class = "control-label" })
+                </header>
+                <div>
+                    @Model.CivicoSpedizione
+                </div>
             </div>
         </div>
         @if (Model.listaAcquisti.Count > 0)
         {
-            <div id="topAcquisti" class="col-md-12">
-                <h2>Top acquisti</h2>
-                @foreach (GratisForGratis.Models.AnnuncioViewModel annuncio in Model.listaAcquisti)
+            <div id="topAcquisti" class="row hidden-xs">
+                <h5 class="title">@ViewModel.ProfileTopPurchases</h5>
+                @foreach (GratisForGratis.Models.AnnuncioViewModel annuncio in Model.listaAcquisti.Take(4))
                 {
-                    @Html.Partial("PartialPages/_Annuncio", annuncio)
+                    @Html.Partial("PartialPages/_AnnuncioSmall", annuncio)
                 }
             </div>
         }
         @if (Model.listaDesideri.Count > 0)
         {
-            <div id="topDesideri" class="col-md-12">
-                <h2>Top desideri</h2>
-                @foreach (GratisForGratis.Models.AnnuncioViewModel annuncio in Model.listaDesideri)
+            <div id="topDesideri" class="row hidden-xs">
+                <h5 class="title">@ViewModel.ProfileTopWishes</h5>
+                @foreach (GratisForGratis.Models.AnnuncioViewModel annuncio in Model.listaDesideri.Take(4))
                 {
-                    @Html.Partial("PartialPages/_Annuncio", annuncio)
+                    @Html.Partial("PartialPages/_AnnuncioSmall", annuncio)
                 }
             </div>
         }

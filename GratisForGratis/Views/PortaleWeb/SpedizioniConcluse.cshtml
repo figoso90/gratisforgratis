@@ -1,0 +1,40 @@
+﻿@model List<GratisForGratis.Models.ViewModels.SpedizioneViewModel>
+@using GratisForGratis.Models.ViewModels
+@{
+    ViewBag.Title = "SPEDIZIONI IN ATTESA...";
+}
+@Styles.Render("~/Content/spedizioni.css")
+<section id="head">
+    <div class="content">
+        <h1 id="title">@ViewBag.Title</h1>
+    </div>
+</section>
+<section id="partners">
+    @foreach (SpedizioneViewModel spedizione in Model)
+    {
+        using (Html.BeginForm("SpedizioniConcluse", "PortaleWeb", FormMethod.Post,
+            new { enctype = "multipart/form-data", @class = "form-horizontal row", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("Id", spedizione.Id)
+            <div class="col-md-1 col-sm-2 col-xs-2">
+                @spedizione.Id
+            </div>
+            <div class="col-md-3 hidden-sm hidden-xs">
+                @spedizione.NomeAnnuncio
+            </div>
+            <div class="col-md-1 col-sm-2 col-xs-2">
+                @spedizione.Prezzo
+            </div>
+            <div class="col-md-3 col-sm-2 hidden-xs">
+                @spedizione.Destinatario
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-6">
+                <input type="file" name="LDV" />
+            </div>
+            <div class="col-md-1 col-sm-2 col-xs-2">
+                <input type="submit" value="Save" />
+            </div>
+        }
+    }
+</section>

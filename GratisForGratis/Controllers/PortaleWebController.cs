@@ -166,5 +166,76 @@ namespace GratisForGratis.Controllers
             return View(lista);
         }
 
+        [HttpGet]
+        public ActionResult SpedizioniConcluse(int token = 0)
+        {
+            List<SpedizioneViewModel> lista = new List<SpedizioneViewModel>();
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                lista = db.SPEDIZIONE_CONCLUSA
+                    .Where(m => m.ID == token || token <= 0)
+                    .Select(m => new SpedizioneViewModel()
+                    {
+                        Id = m.ID,
+                        NomeAnnuncio = m.NOME_ANNUNCIO,
+                        Destinatario = m.NOME + " " + m.COGNOME_RAGSOC,
+                        Prezzo = m.PREZZO,
+                        Stato = Stato.ATTIVO
+                    }).ToList();
+            }
+            return View(lista);
+        }
+
+        [HttpPost]
+        public ActionResult SpedizioniConcluse(SpedizioneViewModel viewModel)
+        {
+            List<SpedizioneViewModel> lista = new List<SpedizioneViewModel>();
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                int token = viewModel.Id;
+                if (ModelState.IsValid)
+                {
+                    // effettuo modifica
+                    if (viewModel.LDV != null && Utils.CheckFormatoFile(viewModel.LDV, TipoMedia.TESTO))
+                    {
+                        CORRIERE_SERVIZIO_SPEDIZIONE spedizione = db.CORRIERE_SERVIZIO_SPEDIZIONE.SingleOrDefault(m => m.ID == viewModel.Id);
+                        if (spedizione != null)
+                        {
+                            string tokenMittente = spedizione.ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE.FirstOrDefault().ANNUNCIO_TIPO_SCAMBIO.ANNUNCIO.PERSONA.TOKEN.ToString();
+                            // cambiare percorso di salvataggio
+                            FileUploadifive allegatoPdf = UploadFile(viewModel.LDV, TipoUpload.Pdf, tokenMittente);
+                            PdfModel model = new PdfModel();
+                            spedizione.ID_LDV = model.Add(db, allegatoPdf.Nome);
+                            spedizione.DATA_MODIFICA = DateTime.Now;
+                            spedizione.STATO = (int)StatoSpedizione.LDV;
+                            // non modifica
+                            db.CORRIERE_SERVIZIO_SPEDIZIONE.Attach(spedizione);
+                            db.Entry<CORRIERE_SERVIZIO_SPEDIZIONE>(spedizione).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            ViewBag.Message = "Errore nel caricamento dell'LDV! Riprovare più tardi!";
+                        }
+                    }
+                }
+                else
+                {
+                    ViewBag.Message = "Inserire LDV da caricare.";
+                }
+                token = 0;
+                lista = db.SPEDIZIONE_CONCLUSA
+                    .Where(m => m.ID == token || token <= 0)
+                    .Select(m => new SpedizioneViewModel()
+                    {
+                        Id = m.ID,
+                        NomeAnnuncio = m.NOME,
+                        Prezzo = 0,
+                        Stato = Stato.ATTIVO
+                    }).ToList();
+            }
+            return View(lista);
+        }
+
     }
 }

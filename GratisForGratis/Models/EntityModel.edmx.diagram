@@ -264,6 +264,7 @@
         <EntityTypeShape EntityType="GratisForGratisModel.CHAT" Width="1.5" PointX="5.25" PointY="31.75" />
         <AssociationConnector Association="GratisForGratisModel.FK_CHAT_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_CHAT_PERSONA1" />
+        <EntityTypeShape EntityType="GratisForGratisModel.SPEDIZIONE_CONCLUSA" Width="1.5" PointX="0.75" PointY="5.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

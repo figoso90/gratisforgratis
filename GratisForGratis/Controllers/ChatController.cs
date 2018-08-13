@@ -19,16 +19,18 @@ namespace GratisForGratis.Controllers
             // riepilogo chat, con ultima chat per utente in evidenza
             using (DatabaseContext db = new DatabaseContext())
             {
-                List<CHAT> lista = db.CHAT.Where(m => m.STATO == (int)Stato.ATTIVO && 
-                    (m.ID_MITTENTE == utente.Persona.ID || m.ID_DESTINATARIO == utente.Persona.ID))
+                List<CHAT> lista = db.CHAT
+                    .Where(m => m.STATO == (int)Stato.ATTIVO &&
+                        m.ID_MITTENTE == utente.Persona.ID || m.ID_DESTINATARIO == utente.Persona.ID)
                     .OrderByDescending(m => m.DATA_MODIFICA)
+                    .OrderByDescending(m => m.DATA_INSERIMENTO)
                     .GroupBy(m => new { m.ID_MITTENTE, m.ID_DESTINATARIO })
                     .Select(m => m.FirstOrDefault())
                     .ToList();
                 for(int i = 0; i < lista.Count; i++)
                 {
                     CHAT chat = lista[i];
-                    PERSONA personaChat = (chat.ID_MITTENTE == utente.Persona.ID) ? chat.PERSONA : chat.PERSONA1;
+                    PERSONA personaChat = (chat.ID_MITTENTE == utente.Persona.ID) ? chat.PERSONA1 : chat.PERSONA;
                     if (i == 0)
                     {
                         viewModel.UltimaChat = new ChatViewModel(chat);
@@ -52,23 +54,7 @@ namespace GratisForGratis.Controllers
                     PERSONA personaChat = db.PERSONA.SingleOrDefault(m => m.TOKEN.ToString() == token
                         && m.STATO != (int)Stato.ELIMINATO);
                     viewModel.Utente = new PersonaModel(personaChat);
-
-                    List<CHAT> lista = db.CHAT.Where(m => m.STATO == (int)Stato.ATTIVO &&
-                    (m.ID_MITTENTE == utente.Persona.ID && m.PERSONA1.TOKEN.ToString() == token) || 
-                    (m.ID_DESTINATARIO == utente.Persona.ID && m.PERSONA.TOKEN.ToString() == token))
-                    .OrderByDescending(m => m.DATA_MODIFICA)
-                    .ToList();
-
-                    for (int i = 0; i < lista.Count; i++)
-                    {
-                        CHAT chat = lista[i];
-                        if (i == 0)
-                        {
-                            viewModel.listaChat = new List<ChatViewModel>();
-                        }
-                        ChatViewModel chatViewModel = new ChatViewModel(chat);
-                        viewModel.listaChat.Add(chatViewModel);
-                    }
+                    viewModel.listaChat = GetListaChat(db, utente.Persona.ID, personaChat.ID);
                 }
             }
             // apre gli ultimi 30 messaggi con l'utente se selezionato, altrimenti ti fa selezionare la persona
@@ -80,9 +66,11 @@ namespace GratisForGratis.Controllers
         
         [HttpGet]
         [Filters.ValidateAjax]
-        public ActionResult FormInserimento()
+        public ActionResult FormInserimento(int destinatarioId)
         {
-            return View("PartialPages/_FormMessaggio");
+            ChatViewModel viewModel = new ChatViewModel();
+            viewModel.DestinatarioId = destinatarioId;
+            return PartialView("PartialPages/_FormMessaggio", viewModel);
         }
 
         [HttpGet]
@@ -98,7 +86,7 @@ namespace GratisForGratis.Controllers
                     viewModel.SetModel(model);
                 }
             }
-            return View("PartialPages/_FormMessaggio", viewModel);
+            return PartialView("PartialPages/_FormMessaggio", viewModel);
         }
 
         [HttpPost]
@@ -109,18 +97,24 @@ namespace GratisForGratis.Controllers
             {
                 using (DatabaseContext db = new DatabaseContext())
                 {
-                    db.CHAT.Add(viewModel.GetModel());
+                    CHAT model = viewModel.GetModel();
+                    PersonaModel utente = Session["utente"] as PersonaModel;
+                    model.ID_MITTENTE = utente.Persona.ID;
+                    model.DATA_INSERIMENTO = DateTime.Now;
+                    model.STATO = (int)Stato.ATTIVO;
+                    db.CHAT.Add(model);
                     if (db.SaveChanges() > 0)
                     {
                         // aggiornare tramite javascript o lato server la pagina (return PartialView)
                         //return Json(true);
-                        return View("PartialPages/_FormMessaggio");
+                        //return PartialView("PartialPages/_FormMessaggio", new ChatViewModel());
+                        return PartialView("PartialPages/_ListaChat", GetListaChat(db, model.ID_MITTENTE, model.ID_DESTINATARIO));
                     }
                 }
             }
             Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
-            return View("PartialPages/_FormMessaggio", viewModel);
-            //return Json(false);
+            //return PartialView("PartialPages/_FormMessaggio", viewModel);
+            return null;
         }
 
         [HttpPost]
@@ -131,43 +125,68 @@ namespace GratisForGratis.Controllers
             {
                 using (DatabaseContext db = new DatabaseContext())
                 {
-                    CHAT model = viewModel.GetModel();
-                    db.Entry<CHAT>(model).State = System.Data.Entity.EntityState.Modified;
-                    db.CHAT.Attach(model);
-                    if (db.SaveChanges() > 0)
+                    PersonaModel utente = Session["utente"] as PersonaModel;
+                    CHAT model = db.CHAT.SingleOrDefault(m => m.ID == viewModel.Id && m.ID_MITTENTE == utente.Persona.ID);
+                    if (model != null)
                     {
-                        // aggiornare tramite javascript o lato server la pagina (return PartialView)
-                        //return Json(true);
-                        return View("PartialPages/_FormMessaggio");
+                        model.TESTO = viewModel.Testo;
+                        db.CHAT.Attach(model);
+                        var entry = db.Entry(model);
+                        entry.State = System.Data.Entity.EntityState.Modified;
+                        if (db.SaveChanges() > 0)
+                        {
+                            //return PartialView("PartialPages/_FormMessaggio", new ChatViewModel());
+                            return PartialView("PartialPages/_ListaChat", GetListaChat(db, model.ID_MITTENTE, model.ID_DESTINATARIO));
+                        }
                     }
                 }
             }
             Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
-            return View("PartialPages/_FormMessaggio",viewModel);
-            //return Json(false);
+            //return PartialView("PartialPages/_FormMessaggio",viewModel);
+            return null;
         }
 
         [HttpDelete]
         [Filters.ValidateAjax]
-        public JsonResult Elimina(int id)
+        public ActionResult Elimina(int id)
         {
             using (DatabaseContext db = new DatabaseContext())
             {
                 PersonaModel utente = Session["utente"] as PersonaModel;
-                CHAT chat = db.CHAT.SingleOrDefault(m => m.ID == id);
-                if (chat != null)
+                CHAT model = db.CHAT.SingleOrDefault(m => m.ID == id && m.ID_MITTENTE == utente.Persona.ID);
+                if (model != null)
                 {
-                    db.CHAT.Attach(chat);
-                    db.CHAT.Remove(chat);
+                    db.CHAT.Attach(model);
+                    db.CHAT.Remove(model);
                     if (db.SaveChanges() > 0)
                     {
-                        // aggiornare tramite javascript o lato server la pagina (return PartialView)
-                        return Json(true);
+                        return PartialView("PartialPages/_ListaChat", GetListaChat(db, model.ID_MITTENTE, model.ID_DESTINATARIO));
                     }
                 }
             }
             Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
-            return Json(false);
+            return null;
+        }
+        #endregion
+
+        #region METODI PRIVATI
+        private List<ChatViewModel> GetListaChat(DatabaseContext db, int idUtente, int idUtente2)
+        {
+            List<ChatViewModel> listaChat = new List<ChatViewModel>();
+
+            List<CHAT> lista = db.CHAT.Where(m => m.STATO == (int)Stato.ATTIVO &&
+            (m.ID_MITTENTE == idUtente && m.PERSONA1.ID == idUtente2) ||
+            (m.ID_DESTINATARIO == idUtente && m.PERSONA.ID == idUtente2))
+            .OrderByDescending(m => m.DATA_MODIFICA)
+            .ToList();
+
+            for (int i = 0; i < lista.Count; i++)
+            {
+                CHAT chat = lista[i];
+                ChatViewModel chatViewModel = new ChatViewModel(chat);
+                listaChat.Add(chatViewModel);
+            }
+            return listaChat;
         }
         #endregion
     }
