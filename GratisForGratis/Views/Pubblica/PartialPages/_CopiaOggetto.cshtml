@@ -5,9 +5,7 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.TokenOK)
 
-    <hr />
-    @Html.ValidationMessage("Error", new { @class = "text-danger", id = "ErroreGenerico" })
-    @Html.ValidationMessage("Errore", new { @class = "text-danger", id = "ErroreGenerico" })
+    <h4>Vuoi metterlo in vendita anche te?</h4>
 
     <div class="form-group">
         @Html.LabelFor(m => m.NoteAggiuntive, new { @class = "col-md-2 control-label" })
@@ -29,22 +27,22 @@
         @Html.ValidationMessageFor(m => m.Soldi, "", new { @class = "text-danger" })
         @Html.ValidationMessageFor(m => m.Foto, "", new { @class = "text-danger" })
     </div>
+
     <div id="listaFileDaCopiare" class="form-group">
-        @if (Model.Foto != null)
-        {
-            for (int i = 0; i < Model.Foto.Count; i++)
-            {
-                if (i == 0)
-                {
-                    <h4 class="title">Upload</h4>
-                }
-                @Html.HiddenFor(m => m.Foto[i], new { @class = "form-control", id = "Foto" + Model.Foto[i].Replace(".jpg", "").Replace(".jpeg", "") })
-                <div class="boxFoto uploadifive-queue-item2" style="background-image:url('@Url.Content("~/Uploads/Images/" + Model.Venditore.VenditoreToken + "/" + @Model.DataInserimento.Value.Year + "/" + "Normal/" + Model.Foto[i])')">
-                    <span class="chiudi" style="" onclick="rimuoviFotoDaCopia(encodeURI('@(Model.Foto[i])'), this);"></span>
-                </div>
-            }
-        }
+        <h4 class="title">Upload</h4>
     </div>
+    if (Model.Foto != null)
+    {
+        for (int i = 0; i < Model.Foto.Count; i++)
+        {
+            @Html.HiddenFor(m => m.Foto[i], new { @class = "form-control", id = "Foto" + Model.Foto[i].Replace(".jpg", "").Replace(".jpeg", "") })
+            <div class="boxFoto uploadifive-queue-item2 copia" style="background-image:url('@Url.Content("~/Uploads/Images/" + Model.Venditore.VenditoreToken + "/" + @Model.DataInserimento.Value.Year + "/" + "Normal/" + Model.Foto[i])')">
+                <span class="chiudi" style="" onclick="rimuoviFotoDaCopia(encodeURI('@(Model.Foto[i])'), this);"></span>
+            </div>
+        }
+    }
+    @Html.HiddenFor(m => m.TokenUploadFoto)
+
     if (Session["portaleweb"] != null)
     {
         <div class="form-group">
@@ -59,14 +57,20 @@
             @Html.ValidationMessageFor(m => m.Partner, "", new { @class = "text-danger" })
         </div>
     }
-    
-    <div class="form-group">
-        @Html.LabelFor(m => m.Citta, new { @class = "col-md-2 control-label" })
-        @Html.TextBoxFor(m => m.Citta, new { @class = "form-control", data_autocomplete_url = "/Home/FindCitta", data_autocomplete_id = "IDCitta" })
-        @Html.HiddenFor(m => m.IDCitta)
-        @Html.ValidationMessageFor(m => m.IDCitta, "", new { @class = "text-danger" })
-    </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Citta, new { @class = "col-md-2 control-label" })
+            @Html.TextBoxFor(m => m.Citta, new { @class = "form-control", data_autocomplete_url = "/Home/FindCitta", data_autocomplete_id = "IDCitta" })
+            @Html.HiddenFor(m => m.IDCitta)
+            @Html.LabelFor(m => m.DurataInserzione, new { @class = "col-md-2 control-label" })
+            @Html.TextBoxFor(m => m.DurataInserzione, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.IDCitta, "", new { @class = "text-danger" })
+        </div>
     <div class="footer">
         <div id="bottonePubblica" class="btn addOggetto" onclick="copiaAnnuncio('copiaOggetto', this);">@Language.Save</div>
     </div>
+
+    <hr />
+    @Html.ValidationMessage("Error", new { @class = "text-danger", id = "ErroreGenerico" })
+    @Html.ValidationMessage("Errore", new { @class = "text-danger", id = "ErroreGenerico" })
 }

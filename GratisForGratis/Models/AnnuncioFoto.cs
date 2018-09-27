@@ -20,7 +20,7 @@ namespace GratisForGratis.Models
         #endregion
 
         #region METODI PUBBLICI
-        public void Add(DatabaseContext db, Guid tokenUtente, int idAnnuncio, string nome)
+        public void Add(DatabaseContext db, Guid tokenUtente, int idAnnuncio, string nome, Guid tokenUploadFoto)
         {
             ANNUNCIO_FOTO foto = new ANNUNCIO_FOTO();
             foto.ID_ANNUNCIO = idAnnuncio;
@@ -38,9 +38,9 @@ namespace GratisForGratis.Models
             Directory.CreateDirectory(pathImgPiccola);
             try
             {
-                System.IO.File.Move(HttpContext.Current.Server.MapPath("~/Temp/Images/" + HttpContext.Current.Session.SessionID + "/Original/" + nome), pathImgOriginale + nome);
-                System.IO.File.Move(HttpContext.Current.Server.MapPath("~/Temp/Images/" + HttpContext.Current.Session.SessionID + "/Normal/" + nome), pathImgMedia + nome);
-                System.IO.File.Move(HttpContext.Current.Server.MapPath("~/Temp/Images/" + HttpContext.Current.Session.SessionID + "/Little/" + nome), pathImgPiccola + nome);
+                System.IO.File.Move(HttpContext.Current.Server.MapPath("~/Temp/Images/" + HttpContext.Current.Session.SessionID + "/" + tokenUploadFoto + "/Original/" + nome), pathImgOriginale + nome);
+                System.IO.File.Move(HttpContext.Current.Server.MapPath("~/Temp/Images/" + HttpContext.Current.Session.SessionID + "/" + tokenUploadFoto + "/Normal/" + nome), pathImgMedia + nome);
+                System.IO.File.Move(HttpContext.Current.Server.MapPath("~/Temp/Images/" + HttpContext.Current.Session.SessionID + "/" + tokenUploadFoto + "/Little/" + nome), pathImgPiccola + nome);
             }
             catch (IOException fileEx)
             {

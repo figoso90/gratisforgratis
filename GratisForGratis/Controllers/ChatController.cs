@@ -62,7 +62,13 @@ namespace GratisForGratis.Controllers
                 for (int i = 0; i < lista.Count; i++)
                 {
                     ChatViewModel chat = lista[i];
+
+                    chat.Mittente.Foto = chat.Mittente.Persona.PERSONA_FOTO.OrderByDescending(m => m.ORDINE).AsEnumerable()
+                        .Select(m => new FotoModel(m.ALLEGATO)).ToList();
+                    chat.Destinatario.Foto = chat.Destinatario.Persona.PERSONA_FOTO.OrderByDescending(m => m.ORDINE).AsEnumerable()
+                        .Select(m => new FotoModel(m.ALLEGATO)).ToList();
                     PersonaModel personaChat = (chat.MittenteId == utente.Persona.ID) ? chat.Destinatario : chat.Mittente;
+
                     if (i == 0)
                     {
                         viewModel.UltimaChat = chat;
@@ -106,6 +112,8 @@ namespace GratisForGratis.Controllers
                     PERSONA personaChat = db.PERSONA.SingleOrDefault(m => m.TOKEN.ToString() == token
                         && m.STATO != (int)Stato.ELIMINATO);
                     viewModel.Utente = new PersonaModel(personaChat);
+                    viewModel.Utente.Foto = personaChat.PERSONA_FOTO.OrderByDescending(m => m.ORDINE).AsEnumerable()
+                        .Select(m => new FotoModel(m.ALLEGATO)).ToList();
                     viewModel.listaChat = GetListaChat(db, utente.Persona.ID, personaChat.ID);
                 }
             }

@@ -516,6 +516,18 @@ textarea.form-control{
     width:80px;
 }
 
+.glyphicon {
+    width: 28px;
+    margin-right: 5px;
+    font-size: 28px;
+    vertical-align: middle;
+    color: #1899d2;
+}
+
+    .glyphicon.happyCoin {
+        width: 40px;
+    }
+
 .text-danger.field-validation-error{
     display: block;
     margin-top: 20px;

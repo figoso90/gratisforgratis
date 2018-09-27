@@ -25,6 +25,15 @@ namespace GratisForGratis.Models
             this.OGGETTO_STRUMENTO = new HashSet<OGGETTO_STRUMENTO>();
             this.OGGETTO_TECNOLOGIA = new HashSet<OGGETTO_TECNOLOGIA>();
             this.OGGETTO_VEICOLO = new HashSet<OGGETTO_VEICOLO>();
+            this.RICERCA_OGGETTO_ELETTRODOMESTICO = new HashSet<RICERCA_OGGETTO_ELETTRODOMESTICO>();
+            this.RICERCA_OGGETTO_GIOCO = new HashSet<RICERCA_OGGETTO_GIOCO>();
+            this.RICERCA_OGGETTO_MODELLO = new HashSet<RICERCA_OGGETTO_MODELLO>();
+            this.RICERCA_OGGETTO_PC = new HashSet<RICERCA_OGGETTO_PC>();
+            this.RICERCA_OGGETTO_SPORT = new HashSet<RICERCA_OGGETTO_SPORT>();
+            this.RICERCA_OGGETTO_STRUMENTI = new HashSet<RICERCA_OGGETTO_STRUMENTI>();
+            this.RICERCA_OGGETTO_TECNOLOGIA = new HashSet<RICERCA_OGGETTO_TECNOLOGIA>();
+            this.RICERCA_OGGETTO_TELEFONO = new HashSet<RICERCA_OGGETTO_TELEFONO>();
+            this.RICERCA_OGGETTO_VEICOLO = new HashSet<RICERCA_OGGETTO_VEICOLO>();
         }
     
         public int ID { get; set; }
@@ -52,5 +61,23 @@ namespace GratisForGratis.Models
         public virtual ICollection<OGGETTO_TECNOLOGIA> OGGETTO_TECNOLOGIA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OGGETTO_VEICOLO> OGGETTO_VEICOLO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RICERCA_OGGETTO_ELETTRODOMESTICO> RICERCA_OGGETTO_ELETTRODOMESTICO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RICERCA_OGGETTO_GIOCO> RICERCA_OGGETTO_GIOCO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RICERCA_OGGETTO_MODELLO> RICERCA_OGGETTO_MODELLO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RICERCA_OGGETTO_PC> RICERCA_OGGETTO_PC { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RICERCA_OGGETTO_SPORT> RICERCA_OGGETTO_SPORT { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RICERCA_OGGETTO_STRUMENTI> RICERCA_OGGETTO_STRUMENTI { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RICERCA_OGGETTO_TECNOLOGIA> RICERCA_OGGETTO_TECNOLOGIA { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RICERCA_OGGETTO_TELEFONO> RICERCA_OGGETTO_TELEFONO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RICERCA_OGGETTO_VEICOLO> RICERCA_OGGETTO_VEICOLO { get; set; }
     }
 }

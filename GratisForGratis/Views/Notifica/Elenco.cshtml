@@ -1,0 +1,50 @@
+﻿@model List<GratisForGratis.Models.UtenteNotificaViewModel>
+@Styles.Render("~/Content/notifiche.css")
+
+<section id="news">
+    <div id="grid" class="content">
+        @foreach (GratisForGratis.Models.UtenteNotificaViewModel news in Model)
+        {
+        <div id="@HttpUtility.UrlEncode(news.Id.ToString())" class="news">
+            <a href="@Url.Action("", "Notifica", new { id = news.Id })" title="@Language.NewsOpen">
+                <div class="detail">
+                    <div class="cella noMandatory">
+                        @{
+                            switch (news.Tipo)
+                            {
+                                case GratisForGratis.Models.TipoNotifica.AttivaAnnuncio:
+                                    if (news.AnnuncioNotifica != null)
+                                    {
+                                        WriteLiteral(Html.Raw(string.Format(news.Messaggio, news.AnnuncioNotifica.Annuncio.Nome, news.AnnuncioNotifica.Annuncio.DataInserimento)));
+                                    }
+                                    break;
+                                default:
+                                    WriteLiteral(Html.Raw(news.Messaggio));
+                                    break;
+                            }
+                        }
+                    </div>
+                    <div class="cella noMandatory">
+                        @news.DataInserimento
+                    </div>
+                    <div class="cella noMandatory">
+                        @news.DataLettura
+                    </div>
+                </div>
+            </a>
+            <div class="opzioni">
+                <a href="javascript:void(0);" onclick="deleteNews(@news.Id);" class="btn" title="@Language.Delete">
+                    @Language.Delete
+                </a>
+            </div>
+        </div>
+
+        }
+                        @Html.Partial("PartialPages/_ElencoPagine", new GratisForGratis.Models.ElencoPagine((int)ViewData["TotalePagine"],
+(int)ViewData["Pagina"], (((int)ViewData["Pagina"] - 5) < 1 ? 1 : (int)ViewData["Pagina"] - 5), "Notifica", "Elenco"))
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/notifica.js")
+}

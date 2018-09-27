@@ -4,25 +4,18 @@
 <div class="linkPubblicaCategoria">
     @Html.ActionLink(Language.LnkGoToPublic, "", "Pubblica")
 </div>
-@if (Model.PageCount <= 0)
+@foreach (AnnuncioViewModel vendita in Model.List)
 {
-    @Html.Partial("PartialPages/_NotFound")
-}
-else
-{
-    foreach (AnnuncioViewModel vendita in Model.List)
+    if (vendita.TipoAcquisto == TipoAcquisto.Oggetto)
     {
-        if (vendita.TipoAcquisto == TipoAcquisto.Oggetto)
-        {
-            @Html.Partial("PartialPages/_Oggetto", vendita)
-        }
-        else
-        {
-            @Html.Partial("PartialPages/_Servizio", vendita)
-        }
+        @Html.Partial("PartialPages/_Oggetto", vendita)
     }
-@Html.Partial("PartialPages/_ElencoPagineRicerca", new ElencoPagineRicerca(Model.PageCount,
-        Model.PageNumber, ((Model.PageNumber - 5) < 1 ? 1 : Model.PageNumber - 5), "Cerca",
-        "",
-        Response.Cookies["ricerca"]["IDCategoria"]))
+    else
+    {
+        @Html.Partial("PartialPages/_Servizio", vendita)
+    }
 }
+@Html.Partial("PartialPages/_ElencoPagineRicerca", new ElencoPagineRicerca(Model.PageCount,
+    Model.PageNumber, ((Model.PageNumber - 5) < 1 ? 1 : Model.PageNumber - 5), "Cerca",
+    "",
+    Response.Cookies["ricerca"]["IDCategoria"]))

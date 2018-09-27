@@ -25,13 +25,23 @@
                 </div>
                 <div class="right">
                     <!--<h5 class="state"><b>@Language.StateObject :</b> @oggetto.StatoOggetto.ToString()</h5>-->
-                    <h5 class="category"><strong>@Language.Category : </strong> <span class="evidence">@oggetto.Categoria</span></h5>
-                    <h5 class="points"><b>@Language.Moneta :</b> @oggetto.Punti <img class="infoTooltip infoTooltipAnnuncio" src="~/Images/icone/infoTooltip.svg" alt="info" title="Equivalgono a @oggetto.Soldi" /></h5>
+                    <h5 class="category">
+                        <!--<strong>@Language.Category : </strong> -->
+                        <img class="glyphicon category" src="@Url.Content("~/Images/Icone/category.svg")" alt="@Language.Category" />
+                        <span class="evidence">@oggetto.Categoria</span>
+                    </h5>
+                    <h5 class="points">
+                        <img class="glyphicon happyCoin" src="@Url.Content("~/Images/Icone/happyCoin.svg")" alt="@Language.Moneta" />
+                        @oggetto.Punti <img class="infoTooltip infoTooltipAnnuncio" src="~/Images/icone/infoTooltip.svg" alt="info" title="Equivalgono a @oggetto.Soldi" />
+                    </h5>
                     @if (oggetto.NomeCorriere != null)
                     {
                         <h5 class="shipment"><b>@Language.Shipment :</b> <span class="evidence">@oggetto.SoldiSpedizione</span></h5>
                     }
-                    <h5 class="place"><b>@Resources.Language.Place :</b> @oggetto.Citta</h5>
+                    <h5 class="place">
+                        <span class="glyphicon glyphicon-map-marker" aria-hidden="true" title="Language.Place"></span>
+                        @oggetto.Citta
+                    </h5>
                     <h5 class="seller">
                         <b>@Language.Seller :</b> 
                         <span class="evidence">

@@ -142,6 +142,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Potrai annullare la ricerca dal link presente nelle mail di notifica che riceverai oppure, se possiedi un profilo d&apos;accesso, direttamente dalla tua area privata..
+        /// </summary>
+        public static string DescriptionSearchSave {
+            get {
+                return ResourceManager.GetString("DescriptionSearchSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Compra gratuitamente {0} della categoria {1}. In vendita a {2} con {3} crediti o prova con il baratto..
         /// </summary>
         public static string DescriptionService {
@@ -327,6 +336,15 @@ namespace GratisForGratis.App_GlobalResources {
         public static string TitleRefusedBid {
             get {
                 return ResourceManager.GetString("TitleRefusedBid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Salvataggio fallito!.
+        /// </summary>
+        public static string TitleSaveSearchKO {
+            get {
+                return ResourceManager.GetString("TitleSaveSearchKO", resourceCulture);
             }
         }
         

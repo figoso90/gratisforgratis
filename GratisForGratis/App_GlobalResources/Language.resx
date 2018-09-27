@@ -1329,9 +1329,6 @@
   <data name="DescriptionSearchRegister" xml:space="preserve">
     <value>Inserendo la tua mail, avrai la possibilità di essere avvertito, quando il bene o il servizio da te cercato verrà messo in vendita.&lt;br /&gt;Approfitta di questa nuova funzionalità, che ti permetterà comodamente, di risparmiare tempo prezioso per la tua vita.</value>
   </data>
-  <data name="DescriptionSearchSave" xml:space="preserve">
-    <value>La tua ricerca è stata salvata con successo! Potrai annullare la ricerca dal link presente nelle mail di notifica che riceverai oppure, se possiedi un profilo d'accesso, direttamente dalla tua area privata.</value>
-  </data>
   <data name="ErrorSearchDelete" xml:space="preserve">
     <value>Eliminazione ricerca già avvenuta</value>
   </data>

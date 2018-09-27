@@ -8,7 +8,7 @@
             @{
                 switch (Model.Tipo)
                 {
-                    case TipoNotifica.Annuncio:
+                    case TipoNotifica.AttivaAnnuncio:
                         @Html.Partial("PartialPages/_Annuncio", Model.AnnuncioNotifica.Annuncio)
                         <div class="cella noMandatory">
                             @if ((Session["utente"] as PersonaModel).Persona.STATO == (int)Stato.INATTIVO)
@@ -21,8 +21,15 @@
                             }
                         </div>
                         break;
+                    default:
+                        WriteLiteral(Html.Raw(Model.Messaggio));
+                        break;
                 }
             }
         </div>
     </div>
 </section>
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/notifica.js")
+}

@@ -23,18 +23,26 @@ namespace GratisForGratis.Controllers
             PERSONA model = db.PERSONA
                 .Include("ABBONAMENTO")
                 .Include("PERSONA_PRIVACY")
+                .Include("PERSONA_EMAIL")
+                .Include("PERSONA_TELEFONO")
+                .Include("PERSONA_METODO_PAGAMENTO")
+                .Include("PERSONA_INDIRIZZO")
+                .Include("PERSONA_FOTO")
+                .Include("PERSONA_ATTIVITA")
                 .SingleOrDefault(m => m.ID == utente);
             PersonaModel persona = new PersonaModel(model);
-            persona.Email = db.PERSONA_EMAIL.Where(m => m.ID_PERSONA == utente).ToList();
-            persona.Telefono = db.PERSONA_TELEFONO.Where(m => m.ID_PERSONA == utente).ToList();
-            persona.MetodoPagamento = db.PERSONA_METODO_PAGAMENTO.Where(m => m.ID_PERSONA == utente).ToList();
+            persona.Email = model.PERSONA_EMAIL.Where(m => m.ID_PERSONA == utente).ToList();
+            persona.Telefono = model.PERSONA_TELEFONO.Where(m => m.ID_PERSONA == utente).ToList();
+            persona.MetodoPagamento = model.PERSONA_METODO_PAGAMENTO.Where(m => m.ID_PERSONA == utente).ToList();
             persona.Indirizzo = db.PERSONA_INDIRIZZO
                 .Include("INDIRIZZO")
                 .Include("INDIRIZZO.COMUNE")
                 .Include("PERSONA_INDIRIZZO_SPEDIZIONE")
                 .Where(m => m.ID_PERSONA == utente)
                 .ToList();
-            db.PERSONA_ATTIVITA.Where(m => m.ID_PERSONA == utente).ToList().ForEach(m => {
+            persona.Foto = model.PERSONA_FOTO.Where(m => m.ID_PERSONA == utente).OrderByDescending(m => m.ORDINE)
+                .AsEnumerable().Select(m => new FotoModel(m.ALLEGATO)).ToList();
+            model.PERSONA_ATTIVITA.Where(m => m.ID_PERSONA == utente).ToList().ForEach(m => {
                 persona.Attivita.Add(new AttivitaModel(m));
             });
             persona.ContoCorrente = db.CONTO_CORRENTE_MONETA.Where(m => m.ID_CONTO_CORRENTE == persona.Persona.ID_CONTO_CORRENTE).ToList();
@@ -58,6 +66,44 @@ namespace GratisForGratis.Controllers
 
             FormsAuthentication.SetAuthCookie(persona.Persona.CONTO_CORRENTE.TOKEN.ToString(), ricordaLogin);
             //FormsAuthentication.RedirectFromLoginPage(utente.EMAIL, ricordaLogin);
+        }
+
+        public int AddUtenteFacebook(string accessToken, string tokenPermanente, dynamic paramsFB, DatabaseContext db)
+        {
+            string email = paramsFB.email;
+            PERSONA persona = db.PERSONA.SingleOrDefault(m => m.PERSONA_EMAIL.FirstOrDefault(m2 => 
+                m2.EMAIL == email && m2.TIPO == (int)TipoEmail.Registrazione) != null
+            );
+            if (persona != null)
+            {
+                if (persona.FACEBOOK_TOKEN_SESSIONE != accessToken)
+                {
+                    persona.FACEBOOK_TOKEN_SESSIONE = accessToken;
+                    if (persona.FACEBOOK_TOKEN_PERMANENTE != tokenPermanente)
+                        persona.FACEBOOK_TOKEN_PERMANENTE = tokenPermanente;
+                    db.PERSONA.Attach(persona);
+                    var entry = db.Entry(persona);
+                    entry.Property(e => e.FACEBOOK_TOKEN_SESSIONE).IsModified = true;
+                    entry.Property(e => e.FACEBOOK_TOKEN_PERMANENTE).IsModified = true;
+                    db.SaveChanges();
+                }
+            }
+            else
+            {
+                UtenteLoginVeloceViewModel loginVeloce = new UtenteLoginVeloceViewModel();
+                loginVeloce.Email = email;
+                loginVeloce.Password = Utils.RandomString(20);
+                loginVeloce.Nome = paramsFB.first_name;
+                loginVeloce.Cognome = paramsFB.last_name;
+                loginVeloce.FacebookToken = accessToken;
+                loginVeloce.FacebookTokenPermanente = tokenPermanente;
+                loginVeloce.RicordaLogin = false;
+                loginVeloce.SalvaRegistrazione(ControllerContext, db);
+                persona = db.PERSONA.SingleOrDefault(m => m.PERSONA_EMAIL.FirstOrDefault(m2 => 
+                    m2.EMAIL == email && m2.TIPO == (int)TipoEmail.Registrazione) != null
+                );
+            }
+            return persona.ID;
         }
 
         public int CountOfferteNonConfermate(DatabaseContext db)
@@ -159,7 +205,7 @@ namespace GratisForGratis.Controllers
                 db.SaveChanges();
             }
 
-            SendNotifica(persona, MessaggioNotifica.Bonus, "bonusRicevuto", model, db);
+            SendNotifica(persona, TipoNotifica.Bonus, "bonusRicevuto", model, db);
             RefreshPunteggioUtente(db);
         }
         /*
@@ -213,7 +259,7 @@ namespace GratisForGratis.Controllers
             }
         }
 
-        public bool SendNotifica(PERSONA destinatario, MessaggioNotifica messaggio, string view, object datiNotifica, DatabaseContext db = null)
+        public bool SendNotifica(PERSONA destinatario, TipoNotifica messaggio, string view, object datiNotifica, DatabaseContext db = null)
         {
             bool nuovaConnessione = true;
             try
@@ -249,7 +295,7 @@ namespace GratisForGratis.Controllers
                     ControllerContext controller = new ControllerContext();
                     string indirizzoEmail = destinatario.PERSONA_EMAIL.SingleOrDefault(e => e.TIPO == (int)TipoEmail.Registrazione).EMAIL;
                     // modificare oggetto recuperando dal tipo notifica la stringa
-                    string oggetto = Components.EnumHelper<MessaggioNotifica>.GetDisplayValue(messaggio);
+                    string oggetto = Components.EnumHelper<TipoNotifica>.GetDisplayValue(messaggio);
                     SendEmail(indirizzoEmail, oggetto, controller, view, datiNotifica);
                     SendChat("",oggetto);
                 }
@@ -273,6 +319,8 @@ namespace GratisForGratis.Controllers
             EmailController emailer = new EmailController();
             return emailer.SendEmail(email);
         }
+
+        #region INVIO MESSAGGIO CHAT
 
         protected bool SendChat(string telefono, string oggetto)
         {
@@ -361,21 +409,24 @@ namespace GratisForGratis.Controllers
             };
         }
 
-        protected FileUploadifive UploadImmagine(HttpPostedFileBase file)
+        #endregion
+
+        protected FileUploadifive UploadImmagine(string path, HttpPostedFileBase file)
         {
             FileUploadifive fileUpload = new FileUploadifive();
             if (file != null && file.ContentLength > 0)
             {
-                string estensione = new FileInfo(Path.GetFileName(file.FileName)).Extension;
-                fileUpload.NomeOriginale = file.FileName;
+                FileInfo informazioniFile = new FileInfo(Path.GetFileName(file.FileName));
+                string estensione = informazioniFile.Extension;
+                fileUpload.NomeOriginale = informazioniFile.Name;
                 fileUpload.Nome = System.Guid.NewGuid().ToString() + estensione;
 
-                fileUpload.PathOriginale = Request.Url.GetLeftPart(UriPartial.Authority) + "/Temp/Images/" + Session.SessionID + "/Original";
-                fileUpload.PathMedia = Request.Url.GetLeftPart(UriPartial.Authority) + "/Temp/Images/" + Session.SessionID + "/Normal";
-                fileUpload.PathPiccola = Request.Url.GetLeftPart(UriPartial.Authority) + "/Temp/Images/" + Session.SessionID + "/Little";
-                string directoryOriginale = Server.MapPath("~/Temp/Images/" + Session.SessionID + "/Original");
-                string directoryMedia = Server.MapPath("~/Temp/Images/" + Session.SessionID + "/Normal");
-                string directoryPiccola = Server.MapPath("~/Temp/Images/" + Session.SessionID + "/Little");
+                fileUpload.PathOriginale = Request.Url.GetLeftPart(UriPartial.Authority) + path + "/Original";
+                fileUpload.PathMedia = Request.Url.GetLeftPart(UriPartial.Authority) + path + "/Normal";
+                fileUpload.PathPiccola = Request.Url.GetLeftPart(UriPartial.Authority) + path + "/Little";
+                string directoryOriginale = Server.MapPath("~" + path + "/Original");
+                string directoryMedia = Server.MapPath("~" + path + "/Normal");
+                string directoryPiccola = Server.MapPath("~" + path + "/Little");
 
                 Directory.CreateDirectory(directoryOriginale);
                 Directory.CreateDirectory(directoryMedia);

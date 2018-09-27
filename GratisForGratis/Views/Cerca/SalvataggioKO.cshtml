@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = MetaTag.TitleSaveSearchKO;
+}
+@Styles.Render("~/Content/saveRicerca.css")
+
+<section id="head">
+    <div class="content">
+        <h1 id="title">@ViewBag.Title</h1>
+    </div>
+</section>
+<section id="searchSave">
+    <p>
+        @Html.Raw(ViewModel.SaveSearchKO)
+    </p>
+</section>

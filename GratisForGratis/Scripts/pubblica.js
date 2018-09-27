@@ -1,11 +1,20 @@
-﻿$(document).ready(function () {
+﻿var parametro = new UploadImmagine();
+
+$(document).ready(function () {
     //attiva menu
     $('menu ul .publication').addClass('active');
 
     attivaMenuCategoriaPubblica();
     // attiva upload custom delle foto
-
-    enableUploadFoto('Foto', '#file', 'listaFileAggiunti', '/Pubblica/UploadFotoAnnuncio', 'file', "validazioneAggiuntiva('#formPubblica', '#Foto')");
+    parametro.nameInputOriginale = 'Foto';
+    parametro.inputNuovo = '#file';
+    parametro.idListaFile = 'listaFileAggiunti';
+    parametro.actionSalvataggio = '/Pubblica/UploadImmagine';
+    parametro.nomeParametro = 'file';
+    parametro.callbackComplete = "validazioneAggiuntiva('#formPubblica', '#Foto')";
+    parametro.actionEliminazione = '/Pubblica/AnnullaUploadImmagine';
+    parametro.galleriaFoto = '#listaFileAggiunti';
+    enableUploadFoto(parametro);
 
     // inizializza scelta colore oggetto
     $('#Colore').ColorPicker();
@@ -51,11 +60,6 @@ function attivaMenuCategoriaPubblica() {
     $('#dropdownMenuPubblicazione').click(function () {
         $('#categoriePubblicazione').toggle();
     });*/
-}
-
-function annullaUploadFotoOld(nome, linkAnnullo)
-{
-    annullaUploadFoto('/Pubblica/AnnullaUploadFoto', '#Foto' + nome.replace('.jpg', '').replace('.jpeg', ''), 'Foto', 'listaFileAggiunti', nome, linkAnnullo);
 }
 
 function loadInfoAggiuntive() {

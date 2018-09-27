@@ -64,7 +64,7 @@ namespace GratisForGratis.Controllers
                 ErrorSignal.FromCurrentContext().Raise(ex);
                 return RedirectToAction("Index", "Utente");
             }
-            if (!HttpContext.IsDebuggingEnabled)
+            //if (!HttpContext.IsDebuggingEnabled)
                 SendPostFacebook(viewModel.Nome + " GRATIS con " + viewModel.Punti + Language.Moneta, GetCurrentDomain() + "/Uploads/Images/" + (Session["utente"] as PersonaModel).Email.FirstOrDefault(item => item.TIPO == (int)TipoEmail.Registrazione) + "/" + DateTime.Now.Year + "/Normal/" + viewModel.Foto[0], GetCurrentDomain());
             return View(viewModel);
         }
@@ -213,22 +213,35 @@ namespace GratisForGratis.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult UploadFotoAnnuncio(HttpPostedFileBase file)
+        public JsonResult UploadImmagine(HttpPostedFileBase file)
         {
             if (file != null && Utils.CheckFormatoFile(file))
             {
-                FileUploadifive foto = UploadImmagine(file);
-                return Json(new { Success = true, responseText = foto });
+                string antiForgeryToken = Request.Form.Get("__TokenUploadFoto");
+                FileUploadifive foto = UploadImmagine("/Temp/Images/" + Session.SessionID + "/" + antiForgeryToken, file);
+                foto.Id = foto.Nome;
+                string pathBase = Path.Combine(Server.MapPath("~/Temp/Images/"), Session.SessionID, antiForgeryToken, "Little");
+                string[] listaFotoUpload = Directory.GetFiles(pathBase);
+                PubblicaListaFotoViewModel model = new PubblicaListaFotoViewModel();
+                model.TokenUploadFoto = antiForgeryToken;
+                if (listaFotoUpload != null && listaFotoUpload.Length > 0) {
+                    model.Foto = listaFotoUpload.Select(m => new FileInfo(m).Name).ToList();
+                }
+                string htmlGalleriaFotoAnnuncio = RenderRazorViewToString("PartialPages/_GalleriaFotoAnnuncio", model);
+                return Json(new { Success = true, responseText = htmlGalleriaFotoAnnuncio, Foto = foto });
+                //return Json(new { Success = true, responseText = foto });
             }
             //messaggio di errore
             return Json(new { Success = false, responseText = Language.ErrorFormatFile });
         }
 
         [HttpPost]
-        public JsonResult AnnullaUploadFoto(string nome)
+        public ActionResult AnnullaUploadImmagine(string nome)
         {
-            try {
-                string pathBase = Path.Combine(Server.MapPath("~/Temp/Images/"), Session.SessionID);
+            try
+            {
+                string antiForgeryToken = Request.Form.Get("__TokenUploadFoto");
+                string pathBase = Path.Combine(Server.MapPath("~/Temp/Images/"), Session.SessionID, antiForgeryToken);
                 string pathImgOriginale = Path.Combine(pathBase, "Original", nome);
                 string pathImgMedia = Path.Combine(pathBase, "Normal", nome);
                 string pathImgPiccola = Path.Combine(pathBase, "Little", nome);
@@ -236,13 +249,23 @@ namespace GratisForGratis.Controllers
                 System.IO.File.Delete(pathImgOriginale);
                 System.IO.File.Delete(pathImgMedia);
                 System.IO.File.Delete(pathImgPiccola);
-                return Json(new { Success = true });
+                //return Json(new { Success = true });
+                string[] listaFotoUpload = Directory.GetFiles(Path.Combine(pathBase, "Little"));
+                PubblicaListaFotoViewModel model = new PubblicaListaFotoViewModel();
+                model.TokenUploadFoto = antiForgeryToken;
+                if (listaFotoUpload != null && listaFotoUpload.Length > 0)
+                {
+                    model.Foto = listaFotoUpload.Select(m => new FileInfo(m).Name).ToList();
+                }
+                return PartialView("PartialPages/_GalleriaFotoAnnuncio", model);
             }
             catch (Exception ex)
             {
-                ErrorSignal.FromCurrentContext().Raise(ex);
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
             }
-            return Json(new { Success = false, responseText = Language.ErrorFormatFile });
+            //return Json(new { Success = false, responseText = Language.ErrorFormatFile });
+            Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+            return null;
         }
 
         // devi essere loggato
@@ -254,7 +277,7 @@ namespace GratisForGratis.Controllers
                 List<FileUploadifive> fotoBaratto = new List<FileUploadifive>();
                 foreach (HttpPostedFileBase file in model.File)
                 {
-                    fotoBaratto.Add(UploadImmagine(file));
+                    fotoBaratto.Add(UploadImmagine("/Temp/Images/" + Session.SessionID, file));
                 }
 
                 if (fotoBaratto.Count <= 0)
@@ -278,8 +301,9 @@ namespace GratisForGratis.Controllers
             {
                 int idUtente = (Session["utente"] as PersonaModel).Persona.ID;
                 string tokenDecodificato = Server.UrlDecode(token);
-                string tokenPulito = tokenDecodificato.Substring(3).Substring(0, tokenDecodificato.Length - 6);
-                Guid tokenGuid = Guid.Parse(tokenPulito);
+                //string tokenPulito = tokenDecodificato.Substring(3).Substring(0, tokenDecodificato.Length - 6);
+                //Guid tokenGuid = Guid.Parse(tokenPulito);
+                Guid tokenGuid = Guid.Parse(tokenDecodificato);
                 ANNUNCIO annuncio = db.ANNUNCIO.SingleOrDefault(m => m.TOKEN == tokenGuid && m.ID_PERSONA != idUtente);
                 if (annuncio != null)
                 {
@@ -338,10 +362,12 @@ namespace GratisForGratis.Controllers
                                     {
                                         string nomeFileOriginale = Server.MapPath("~/Uploads/Images/" + annuncio.PERSONA.TOKEN + "/" + annuncio.DATA_INSERIMENTO.Year + "/Original/" + fotoEsistenti[i]);
                                         HttpFile fileOriginale = new HttpFile(nomeFileOriginale);
-                                        FileUploadifive fileSalvatato = UploadImmagine(fileOriginale);
+                                        FileUploadifive fileSalvatato = UploadImmagine("/Temp/Images/" + Session.SessionID + "/" + viewModel.TokenUploadFoto, fileOriginale);
                                         if (fileSalvatato != null)
                                         {
-                                            viewModelAnnuncio.Foto[i] = fileSalvatato.Nome;
+                                            string[] array = viewModelAnnuncio.Foto.ToArray();
+                                            int indiceArray = Array.IndexOf(array, fileSalvatato.NomeOriginale);
+                                            viewModelAnnuncio.Foto[indiceArray] = fileSalvatato.Nome;
                                         }
                                     }
                                     viewModelAnnuncio.DbContext = db;
@@ -411,10 +437,12 @@ namespace GratisForGratis.Controllers
                                         {
                                             string nomeFileOriginale = Server.MapPath("~/Uploads/Images/" + annuncio.PERSONA.TOKEN + "/" + annuncioFoto.DATA_INSERIMENTO.Year + "/Original/" + annuncioFoto.ALLEGATO.NOME);
                                             HttpFile fileOriginale = new HttpFile(nomeFileOriginale);
-                                            FileUploadifive fileSalvatato = UploadImmagine(fileOriginale);
+                                            FileUploadifive fileSalvatato = UploadImmagine("/Temp/Images/" + Session.SessionID + "/" + viewModel.TokenUploadFoto, fileOriginale);
                                             if (fileSalvatato != null)
                                             {
-                                                viewModelAnnuncio.Foto[i] = fileSalvatato.Nome;
+                                                string[] array = viewModelAnnuncio.Foto.ToArray();
+                                                int indiceArray = Array.IndexOf(array, fileSalvatato.NomeOriginale);
+                                                viewModelAnnuncio.Foto[indiceArray] = fileSalvatato.Nome;
                                             }
                                         }
                                     }

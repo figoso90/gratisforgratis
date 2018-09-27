@@ -10,11 +10,11 @@
             </div>
         </div>
         <div class="cella noMandatory">
-            @Html.Label("Categoria", Language.Category + ":")
+            <img class="glyphicon category" src="@Url.Content("~/Images/Icone/category.svg")" alt="@Language.Category" />
             @Model.Categoria
         </div>
         <div class="cella points">
-            @Html.Label("Punti", Language.Moneta + ":")
+            <img class="glyphicon happyCoin" src="@Url.Content("~/Images/Icone/happyCoin.svg")" alt="@Language.Moneta" />
             @Model.Punti
         </div>
         @if (Model.TipoAcquisto == TipoAcquisto.Oggetto)
@@ -52,10 +52,6 @@
             @Model.Offerta.SoldiSpedizione (@Model.Offerta.NomeCorriere)
         </div>
         }
-        <div class="cella noMandatory">
-            @Html.Label("TipoPagamento", Language.TypePayment + ":")
-            @Model.TipoPagamento
-        </div>
         @if (Model.StatoVendita != StatoVendita.BARATTATO && Model.StatoVendita != StatoVendita.VENDUTO)
         {
         <div class="cella noMandatory">

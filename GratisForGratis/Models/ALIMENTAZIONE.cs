@@ -18,6 +18,7 @@ namespace GratisForGratis.Models
         public ALIMENTAZIONE()
         {
             this.OGGETTO_VEICOLO = new HashSet<OGGETTO_VEICOLO>();
+            this.RICERCA_OGGETTO_VEICOLO = new HashSet<RICERCA_OGGETTO_VEICOLO>();
         }
     
         public int ID { get; set; }
@@ -31,5 +32,7 @@ namespace GratisForGratis.Models
         public virtual CATEGORIA CATEGORIA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OGGETTO_VEICOLO> OGGETTO_VEICOLO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RICERCA_OGGETTO_VEICOLO> RICERCA_OGGETTO_VEICOLO { get; set; }
     }
 }

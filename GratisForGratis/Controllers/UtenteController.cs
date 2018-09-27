@@ -280,48 +280,63 @@ namespace GratisForGratis.Controllers
         [OnlyAnonymous]
         public ActionResult FacebookCallback(string code)
         {
-            var fb = new FacebookClient();
-            dynamic result = fb.Post("oauth/access_token", new
+            try
             {
-                client_id = ConfigurationManager.AppSettings["FacebookApiId"],
-                client_secret = ConfigurationManager.AppSettings["FacebookApiSecret"],
-                redirect_uri = RedirectUri.AbsoluteUri,
-                code = code
-            });
+                var fb = new FacebookClient();
+                dynamic result = fb.Post("oauth/access_token", new
+                {
+                    client_id = ConfigurationManager.AppSettings["FacebookApiId"],
+                    client_secret = ConfigurationManager.AppSettings["FacebookApiSecret"],
+                    redirect_uri = RedirectUri.AbsoluteUri,
+                    code = code
+                });
 
-            var accessToken = result.access_token;
+                var accessToken = result.access_token;
 
-            // Store the access token in the session
-            Session["AccessToken"] = accessToken;
+                // Store the access token in the session
+                Session["AccessToken"] = accessToken;
 
-            // update the facebook client with the access token so 
-            // we can make requests on behalf of the user
-            fb.AccessToken = accessToken;
+                // update the facebook client with the access token so 
+                // we can make requests on behalf of the user
+                fb.AccessToken = accessToken;
 
-            // Get the user's information
-            dynamic me = fb.Get("me?fields=first_name,last_name,id,email");
-            string email = me.email;
+                // Get the user's information
+                dynamic me = fb.Get("me?fields=first_name,last_name,id,email");
 
-            // Set the auth cookie
-            FormsAuthentication.SetAuthCookie(email, false);
-            FacebookClient app = new FacebookClient(accessToken);
+                // Set the auth cookie
+                //string email = me.email;
+                //FormsAuthentication.SetAuthCookie(email, false);
 
-            dynamic result2 = app.Post("https://graph.facebook.com/oauth/access_token", new {
-                grant_type = "fb_exchange_token",
-                client_id = ConfigurationManager.AppSettings["FacebookApiId"],
-                client_secret = ConfigurationManager.AppSettings["FacebookApiSecret"],
-                fb_exchange_token = accessToken
-            });
+                FacebookClient app = new FacebookClient(accessToken);
 
-            dynamic token = app.Get("https://graph.facebook.com/me/accounts", new
+                dynamic result2 = app.Post("https://graph.facebook.com/oauth/access_token", new
+                {
+                    grant_type = "fb_exchange_token",
+                    client_id = ConfigurationManager.AppSettings["FacebookApiId"],
+                    client_secret = ConfigurationManager.AppSettings["FacebookApiSecret"],
+                    fb_exchange_token = accessToken
+                });
+
+                dynamic token = app.Get("https://graph.facebook.com/me/accounts", new
+                {
+                    access_token = result2[0]
+                });
+
+                var logJson = Newtonsoft.Json.JsonConvert.SerializeObject(token);
+
+                using (DatabaseContext db = new DatabaseContext())
+                {
+                    int id = this.AddUtenteFacebook(accessToken, accessToken, me, db);
+                    this.setSessioneUtente(base.Session, db, id, false);
+                }
+                //dynamic result2 = app.Post("/" + ConfigurationManager.AppSettings["FanPageID"] + "/feed", new Dictionary<string, object> { { "message", "This Post was made from my website" } });
+                return Redirect((string.IsNullOrWhiteSpace(RedirectUri.AbsoluteUri)) ? FormsAuthentication.DefaultUrl : RedirectUri.AbsoluteUri);
+            }
+            catch (FacebookOAuthException eccezione)
             {
-                access_token = result2[0]
-            });
-
-            var logJson = Newtonsoft.Json.JsonConvert.SerializeObject(token);
-
-            //dynamic result2 = app.Post("/" + ConfigurationManager.AppSettings["FanPageID"] + "/feed", new Dictionary<string, object> { { "message", "This Post was made from my website" } });
-            return Redirect((string.IsNullOrWhiteSpace(RedirectUri.AbsoluteUri)) ? FormsAuthentication.DefaultUrl : RedirectUri.AbsoluteUri);
+                TempData["eccezione"] = eccezione;
+                return Redirect("LoginVeloce");
+            }
         }
         #endregion
 
@@ -532,37 +547,6 @@ namespace GratisForGratis.Controllers
         }
 
         [HttpGet]
-        public ActionResult Notifiche(int pagina = 1)
-        {
-            PersonaModel utente = base.Session["utente"] as PersonaModel;
-            List<UtenteNotificaViewModel> listModel = new List<UtenteNotificaViewModel>();
-            using (DatabaseContext db = new DatabaseContext())
-            {
-                db.Database.Connection.Open();
-                IQueryable<NOTIFICA> listaNotifiche = db.NOTIFICA.Include(m => m.ANNUNCIO_NOTIFICA)
-                    .Where(m => m.ID_PERSONA_DESTINATARIO == utente.Persona.ID);
-                int numeroElementi = Convert.ToInt32(WebConfigurationManager.AppSettings["numeroNotifiche"]);
-                int numNotificheTotali = listaNotifiche.Count();
-
-                listaNotifiche = listaNotifiche.OrderByDescending(m => m.DATA_INSERIMENTO)
-                    .Skip((pagina - 1) * numeroElementi)
-                    .Take(numeroElementi);
-
-                listaNotifiche.ToList().ForEach(m => {
-                    UtenteNotificaViewModel utenteNotifica = new UtenteNotificaViewModel();
-                    utenteNotifica.getTipoNotifica(db, m);
-                    listModel.Add(utenteNotifica);
-                });
-
-                ViewData["TotalePagine"] = (int)Math.Ceiling((decimal)numNotificheTotali / (decimal)numeroElementi);
-                if (pagina == 0)
-                    pagina = 1;
-                ViewData["Pagina"] = pagina;
-            }
-            return View(listModel);
-        }
-
-        [HttpGet]
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
@@ -679,6 +663,7 @@ namespace GratisForGratis.Controllers
                     {
                         try
                         {
+                            // verificare esistenza e-mail come nell'action Cerca/RegistrazioneEmail in versione POST
                             CONTO_CORRENTE conto = db.CONTO_CORRENTE.Create();
                             conto.ID = Guid.NewGuid();
                             conto.TOKEN = Guid.NewGuid();
@@ -922,22 +907,22 @@ namespace GratisForGratis.Controllers
                 int numeroElementi = Convert.ToInt32(WebConfigurationManager.AppSettings["numeroElementi"]);
 
                  var query = db.PERSONA_RICERCA
-                    .Where(item => item.ID_PERSONA == idUtente && item.STATO == (int)Stato.ATTIVO);
+                    .Where(item => item.ID_PERSONA == idUtente && item.RICERCA.STATO == (int)Stato.ATTIVO);
 
                 ViewData["TotalePagine"] = (int)Math.Ceiling((decimal)query.Count() / (decimal)numeroElementi);
 
                 List<UtenteRicercaViewModel> viewModel = query
-                    .OrderByDescending(item => item.DATA_INSERIMENTO)
+                    .OrderByDescending(item => item.RICERCA.DATA_INSERIMENTO)
                     .Skip((pagina-1) * numeroElementi)
                     .Take(numeroElementi)
                     .Select(item => new UtenteRicercaViewModel()
                     {
                         Id = item.ID,
-                        Testo = item.NOME,
-                        Categoria = item.CATEGORIA.NOME,
-                        DataInserimento = item.DATA_INSERIMENTO,
-                        DataModifica = (DateTime)item.DATA_MODIFICA,
-                        Stato = (Stato)item.STATO
+                        Testo = item.RICERCA.NOME,
+                        Categoria = item.RICERCA.CATEGORIA.NOME,
+                        DataInserimento = item.RICERCA.DATA_INSERIMENTO,
+                        DataModifica = (DateTime)item.RICERCA.DATA_MODIFICA,
+                        Stato = (Stato)item.RICERCA.STATO
                     })
                     .ToList();
                 return View(viewModel);
@@ -952,15 +937,67 @@ namespace GratisForGratis.Controllers
             {
                 ricerca.ForEach(item =>
                 {
-                    string id = Server.UrlDecode(item);
-                    string idPulito = id.Remove(id.Length - 3, 3).Remove(0, 3);
-                    int idRicerca = Utils.DecodeToInt(idPulito);
-                    PERSONA_RICERCA model = db.PERSONA_RICERCA.SingleOrDefault(m => m.ID == idRicerca);
+                    int id = Convert.ToInt32(Server.UrlDecode(item));
+                    PERSONA_RICERCA model = db.PERSONA_RICERCA.SingleOrDefault(m => m.ID == id);
                     db.PERSONA_RICERCA.Remove(model);
                 });
                 db.SaveChanges();
             }
             return Json(true);
+        }
+
+        #region SERVIZI
+        [HttpPost]
+        [ValidateAjax]
+        public JsonResult UploadImmagineProfilo(HttpPostedFileBase file)
+        {
+            PersonaModel utente = (Session["utente"] as PersonaModel);
+            FileUploadifive fileSalvato = UploadImmagine("/Uploads/Images/" + utente.Persona.TOKEN + "/" + DateTime.Now.Year.ToString(), file);
+            FotoModel model = new FotoModel();
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                db.Database.Connection.Open();
+                int idAllegato = model.Add(db, fileSalvato.Nome);
+                if (idAllegato > 0)
+                {
+                    // salvo allegato come immagine del profilo
+                    utente.SetImmagineProfilo(db, idAllegato);
+                    // aggiorna sessione utente
+                    bool ricordaLogin = (FormsAuthentication.CookieMode == HttpCookieMode.UseCookies);
+                    setSessioneUtente(base.Session, db, utente.Persona.ID, ricordaLogin);
+                    //fileSalvato.Id = idAllegato.ToString();
+                    //return Json(new { Success = true, responseText = fileSalvato });
+                    string htmlGalleriaFotoProfilo = RenderRazorViewToString("PartialPages/_GalleriaFotoProfilo", Session["utente"] as PersonaModel);
+                    return Json(new { Success = true, responseText = htmlGalleriaFotoProfilo });
+                }
+            }
+            //Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+            //return null;
+            return Json(new { Success = false, responseText = Language.ErrorFormatFile });
+        }
+
+        [HttpPost]
+        [ValidateAjax]
+        public ActionResult DeleteImmagineProfilo(int nome)
+        {
+            PersonaModel utente = (Session["utente"] as PersonaModel);
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                db.Database.Connection.Open();
+                if (nome > 0)
+                {
+                    // salvo allegato come immagine del profilo
+                    utente.RemoveImmagineProfilo(db, nome);
+                    // aggiorna sessione utente
+                    bool ricordaLogin = (FormsAuthentication.CookieMode == HttpCookieMode.UseCookies);
+                    setSessioneUtente(base.Session, db, utente.Persona.ID, ricordaLogin);
+                    //return Json(new { Success = true, responseText = true });
+                    return PartialView("PartialPages/_GalleriaFotoProfilo", Session["utente"] as PersonaModel);
+                }
+            }
+            Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+            return null;
+            //return Json(new { Success = false, responseText = Language.ErrorFormatFile });
         }
 
         [HttpPost]
@@ -991,6 +1028,7 @@ namespace GratisForGratis.Controllers
             // Aggiungo nel carrello dell'utente gli annunci in lista
             return Json(true);
         }
+        #endregion
 
         #region METODI PRIVATI
 

@@ -290,7 +290,7 @@ namespace GratisForGratis.Controllers
                                     pagamentoOfferta.Moneta = offerta.PUNTI;
                                     pagamentoOfferta.SoldiSpedizione = offerta.SOLDI;
                                     pagamentoOfferta.Baratti = offerta.OFFERTA_BARATTO.Select(m => m.ANNUNCIO.NOME).ToList();
-                                    this.SendNotifica(offerta.PERSONA, MessaggioNotifica.PagaOfferta, "pagamentoOfferta", pagamentoOfferta);
+                                    this.SendNotifica(offerta.PERSONA, TipoNotifica.PagaOfferta, "pagamentoOfferta", pagamentoOfferta);
                                 }
                                 transazioneDb.Commit();
                                 ViewBag.Message = Language.AcceptedBid;

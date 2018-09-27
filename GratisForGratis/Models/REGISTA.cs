@@ -18,6 +18,7 @@ namespace GratisForGratis.Models
         public REGISTA()
         {
             this.OGGETTO_VIDEO = new HashSet<OGGETTO_VIDEO>();
+            this.RICERCA_OGGETTO_VIDEO = new HashSet<RICERCA_OGGETTO_VIDEO>();
         }
     
         public int ID { get; set; }
@@ -31,5 +32,7 @@ namespace GratisForGratis.Models
         public virtual CATEGORIA CATEGORIA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OGGETTO_VIDEO> OGGETTO_VIDEO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RICERCA_OGGETTO_VIDEO> RICERCA_OGGETTO_VIDEO { get; set; }
     }
 }

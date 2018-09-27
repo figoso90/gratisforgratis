@@ -21,6 +21,8 @@ namespace GratisForGratis.Models
             this.ANNUNCIO_VISUALIZZAZIONE = new HashSet<ANNUNCIO_VISUALIZZAZIONE>();
             this.OGGETTO_COMPUTER = new HashSet<OGGETTO_COMPUTER>();
             this.OGGETTO_TELEFONO = new HashSet<OGGETTO_TELEFONO>();
+            this.RICERCA_OGGETTO_PC = new HashSet<RICERCA_OGGETTO_PC>();
+            this.RICERCA_OGGETTO_TELEFONO = new HashSet<RICERCA_OGGETTO_TELEFONO>();
         }
     
         public int ID { get; set; }
@@ -40,5 +42,9 @@ namespace GratisForGratis.Models
         public virtual ICollection<OGGETTO_COMPUTER> OGGETTO_COMPUTER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OGGETTO_TELEFONO> OGGETTO_TELEFONO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RICERCA_OGGETTO_PC> RICERCA_OGGETTO_PC { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RICERCA_OGGETTO_TELEFONO> RICERCA_OGGETTO_TELEFONO { get; set; }
     }
 }

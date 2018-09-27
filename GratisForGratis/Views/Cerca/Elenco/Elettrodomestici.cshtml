@@ -3,19 +3,12 @@
 <div class="linkPubblicaCategoria">
     @Html.ActionLink(Language.LnkGoToPublic, "", "Pubblica")
 </div>
-@if (Model.PageCount <= 0)
+@foreach (GratisForGratis.Models.ModelloViewModel oggetto in Model.List)
 {
-    @Html.Partial("PartialPages/_NotFound")
+    ViewData["Dettaglio"] = Html.Partial("Dettaglio/_Elettrodomestici", oggetto);
+    @Html.Partial("PartialPages/_Oggetto", oggetto)
 }
-else
-{
-    foreach (GratisForGratis.Models.ModelloViewModel oggetto in Model.List)
-    {
-        ViewData["Dettaglio"] = Html.Partial("Dettaglio/_Elettrodomestici", oggetto);
-        @Html.Partial("PartialPages/_Oggetto", oggetto)
-    }
-    @Html.Partial("PartialPages/_ElencoPagineRicerca", new GratisForGratis.Models.ElencoPagineRicerca(Model.PageCount,
-            Model.PageNumber, ((Model.PageNumber - 5) < 1 ? 1 : Model.PageNumber - 5), "Oggetti",
-            Response.Cookies["ricerca"]["CategoriaPadre"] + "/" + Response.Cookies["ricerca"]["Categoria"],
-            Response.Cookies["ricerca"]["IDCategoria"]))
-}
+@Html.Partial("PartialPages/_ElencoPagineRicerca", new GratisForGratis.Models.ElencoPagineRicerca(Model.PageCount,
+        Model.PageNumber, ((Model.PageNumber - 5) < 1 ? 1 : Model.PageNumber - 5), "Oggetti",
+        Response.Cookies["ricerca"]["CategoriaPadre"] + "/" + Response.Cookies["ricerca"]["Categoria"],
+        Response.Cookies["ricerca"]["IDCategoria"]))

@@ -107,6 +107,8 @@ namespace GratisForGratis.Models
         [Display(Name = "LifeAdvertisment", ResourceType = typeof(ViewModel))]
         [Required(ErrorMessageResourceName = "LifeAdvertismentRequired", ErrorMessageResourceType = typeof(App_GlobalResources.ErrorResource))]
         public DurataAnnuncio DurataInserzione { get; set; }
+
+        public Guid TokenUploadFoto { get; set; }
         #endregion
 
         #region COSTRUTTORI
@@ -212,6 +214,7 @@ namespace GratisForGratis.Models
                 this.Citta = indirizzo.INDIRIZZO.COMUNE.NOME;
                 this.IDCitta = persona.Indirizzo.Where(m => m.TIPO == (int)TipoIndirizzo.Residenza).SingleOrDefault().INDIRIZZO.ID_COMUNE;
             }
+            this.TokenUploadFoto = Guid.NewGuid();
         }
         #endregion
     }
@@ -293,7 +296,7 @@ namespace GratisForGratis.Models
                         // può avvenire bug inserimento senza foto, perchè non c'è controllo in caso di errore generico
                         // bisognerebbe portare il try e catch esternamente
                         AnnuncioFoto foto = new AnnuncioFoto();
-                        foto.Add(DbContext, utente.Persona.TOKEN, vendita.ID, nomeFoto);
+                        foto.Add(DbContext, utente.Persona.TOKEN, vendita.ID, nomeFoto, TokenUploadFoto);
                     }
                     return true;
                 }
@@ -354,8 +357,8 @@ namespace GratisForGratis.Models
                         );
                 string tokenVenditaCodificato = HttpUtility.UrlEncode(tokenVendita);
 
-                db2.PERSONA_RICERCA.Where(r => (r.ID_CATEGORIA == categoria || r.CATEGORIA.ID_PADRE == categoria || r.ID_CATEGORIA == 1) && (r.NOME.Contains(nomeVendita) || nomeVendita.Contains(r.NOME)) &&
-                    r.ID_PERSONA != idUtente && DbFunctions.DiffDays(DateTime.Now, r.DATA_INSERIMENTO) < maxGiorniRicerca)
+                db2.PERSONA_RICERCA.Where(r => (r.RICERCA.ID_CATEGORIA == categoria || r.RICERCA.CATEGORIA.ID_PADRE == categoria || r.RICERCA.ID_CATEGORIA == 1) && (r.RICERCA.NOME.Contains(nomeVendita) || nomeVendita.Contains(r.RICERCA.NOME)) &&
+                    r.ID_PERSONA != idUtente && DbFunctions.DiffDays(DateTime.Now, r.RICERCA.DATA_INSERIMENTO) < maxGiorniRicerca)
                     .ToList().ForEach(r =>
                     {
                         string tokenRicerca = Utils.RandomString(3) + Utils.Encode(r.ID.ToString()) + Utils.RandomString(3);
@@ -363,8 +366,8 @@ namespace GratisForGratis.Models
                         string indirizzoEmail = r.PERSONA.PERSONA_EMAIL.SingleOrDefault(item => item.TIPO == (int)TipoEmail.Registrazione).EMAIL;
                         string emailCodificata = HttpUtility.UrlEncode(indirizzoEmail);
                         email.To.Add(new System.Net.Mail.MailAddress(indirizzoEmail, r.PERSONA.NOME + ' ' + r.PERSONA.COGNOME));
-                        email.Subject = string.Format(Email.SearchNotifySubject, r.NOME) + " - " + WebConfigurationManager.AppSettings["nomeSito"];
-                        email.Body = string.Format(HttpUtility.UrlDecode(email.Body), r.NOME, tipologia, tokenVenditaCodificato, tokenRicercaCodificato, nomeVendita, emailCodificata);
+                        email.Subject = string.Format(Email.SearchNotifySubject, r.RICERCA.NOME) + " - " + WebConfigurationManager.AppSettings["nomeSito"];
+                        email.Body = string.Format(HttpUtility.UrlDecode(email.Body), r.RICERCA.NOME, tipologia, tokenVenditaCodificato, tokenRicercaCodificato, nomeVendita, emailCodificata);
                         new EmailController().SendEmailByThread(email);
                     });
             }
@@ -455,12 +458,30 @@ namespace GratisForGratis.Models
 
         [DataType(DataType.DateTime, ErrorMessageResourceName = "ErrorDate", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
         public DateTime? DataInserimento { get; set; }
+
+        public Guid TokenUploadFoto { get; set; }
+
+        [Display(Name = "NoBid", ResourceType = typeof(ViewModel))]
+        public bool NoOfferte { get; set; }
+
+        [Display(Name = "Resell", ResourceType = typeof(ViewModel))]
+        public bool RimettiInVendita { get; set; }
+
+        public IEnumerable<SelectListItem> ListaDurataInserzione { get; set; }
+
+        [Display(Name = "LifeAdvertisment", ResourceType = typeof(ViewModel))]
+        [Required(ErrorMessageResourceName = "LifeAdvertismentRequired", ErrorMessageResourceType = typeof(App_GlobalResources.ErrorResource))]
+        public DurataAnnuncio DurataInserzione { get; set; }
         #endregion
 
         #region COSTRUTTORI
-        public PubblicaCopiaViewModel() { }
+        public PubblicaCopiaViewModel()
+        {
+            this.TokenUploadFoto = Guid.NewGuid();
+        }
         public PubblicaCopiaViewModel(ANNUNCIO model)
         {
+            this.TokenUploadFoto = Guid.NewGuid();
             this.IDCitta = (int)model.ID_COMUNE;
             this.Citta = model.COMUNE.NOME;
             this.NoteAggiuntive = model.NOTE_AGGIUNTIVE;
@@ -672,11 +693,20 @@ namespace GratisForGratis.Models
             this.Anno = model.OGGETTO.ANNO;
             this.Colore = model.OGGETTO.COLORE;
             this.CondizioneOggetto = (CondizioneOggetto)model.OGGETTO.STATO;
-            this.Marca = model.OGGETTO.MARCA.NOME;
+            if (model.OGGETTO.MARCA != null)
+            {
+                this.Marca = model.OGGETTO.MARCA.NOME;
+            }
             this.MarcaID = model.OGGETTO.ID_MARCA;
             this.Quantità = model.OGGETTO.NUMERO_PEZZI;
-            this.Materiali = model.OGGETTO.OGGETTO_MATERIALE.Select(m => m.MATERIALE.NOME).ToList();
-            this.Componenti = model.OGGETTO.OGGETTO_COMPONENTE.Select(m => m.COMPONENTE.NOME).ToList();
+            if (model.OGGETTO.OGGETTO_MATERIALE != null && model.OGGETTO.OGGETTO_MATERIALE.Count() > 0)
+            {
+                this.Materiali = model.OGGETTO.OGGETTO_MATERIALE.Select(m => m.MATERIALE.NOME).ToList();
+            }
+            if (model.OGGETTO.OGGETTO_COMPONENTE != null && model.OGGETTO.OGGETTO_COMPONENTE.Count() > 0)
+            {
+                this.Componenti = model.OGGETTO.OGGETTO_COMPONENTE.Select(m => m.COMPONENTE.NOME).ToList();
+            }
             this.Altezza = Convert.ToInt32(model.OGGETTO.ALTEZZA);
             this.Lunghezza = Convert.ToInt32(model.OGGETTO.LUNGHEZZA);
             this.Larghezza = Convert.ToInt32(model.OGGETTO.LARGHEZZA);
@@ -1039,13 +1069,19 @@ namespace GratisForGratis.Models
             }
             PersonaModel utente = (HttpContext.Current.Session["utente"] as PersonaModel);
             NominativoMittente = utente.NomeVisibile;
-            TelefonoMittente = utente.Telefono.SingleOrDefault(m => m.TIPO == (int)TipoTelefono.Privato).TELEFONO;
-            INDIRIZZO indirizzo = utente.Indirizzo.SingleOrDefault(m => m.TIPO == (int)TipoIndirizzo.Spedizione).INDIRIZZO;
-            CittaMittente = indirizzo.COMUNE.NOME;
-            IDCittaMittente = indirizzo.ID_COMUNE;
-            IndirizzoMittente = indirizzo.INDIRIZZO1;
-            IdIndirizzoMittente = indirizzo.ID;
-            CivicoMittente = indirizzo.CIVICO;
+            PERSONA_TELEFONO telefono = utente.Telefono.SingleOrDefault(m => m.TIPO == (int)TipoTelefono.Privato);
+            if (telefono!=null)
+                TelefonoMittente = telefono.TELEFONO;
+            PERSONA_INDIRIZZO indirizzoSpedizione = utente.Indirizzo.SingleOrDefault(m => m.TIPO == (int)TipoIndirizzo.Spedizione);
+            if (indirizzoSpedizione != null)
+            {
+                INDIRIZZO indirizzo = indirizzoSpedizione.INDIRIZZO;
+                CittaMittente = indirizzo.COMUNE.NOME;
+                IDCittaMittente = indirizzo.ID_COMUNE;
+                IndirizzoMittente = indirizzo.INDIRIZZO1;
+                IdIndirizzoMittente = indirizzo.ID;
+                CivicoMittente = indirizzo.CIVICO;
+            }
 
         }
         private bool SaveMateriali(DatabaseContext db, int idOggetto, List<string> materiali)
@@ -1760,6 +1796,15 @@ namespace GratisForGratis.Models
         public decimal Prezzo { get; set; }
 
         public bool Visibile { get; set; }
+    }
+
+    public class PubblicaListaFotoViewModel
+    {
+        #region PROPRIETA
+        public List<string> Foto { get; set; }
+
+        public string TokenUploadFoto { get; set; }
+        #endregion
     }
 
     #region DETTAGLI

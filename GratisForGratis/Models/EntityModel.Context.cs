@@ -92,14 +92,12 @@ namespace GratisForGratis.Models
         public virtual DbSet<OGGETTO_VESTITO> OGGETTO_VESTITO { get; set; }
         public virtual DbSet<OGGETTO_VIDEO> OGGETTO_VIDEO { get; set; }
         public virtual DbSet<OGGETTO_VIDEOGAMES> OGGETTO_VIDEOGAMES { get; set; }
-        public virtual DbSet<PERSONA> PERSONA { get; set; }
         public virtual DbSet<PERSONA_ATTIVITA> PERSONA_ATTIVITA { get; set; }
         public virtual DbSet<PERSONA_EMAIL> PERSONA_EMAIL { get; set; }
         public virtual DbSet<PERSONA_FOTO> PERSONA_FOTO { get; set; }
         public virtual DbSet<PERSONA_INDIRIZZO> PERSONA_INDIRIZZO { get; set; }
         public virtual DbSet<PERSONA_INDIRIZZO_SPEDIZIONE> PERSONA_INDIRIZZO_SPEDIZIONE { get; set; }
         public virtual DbSet<PERSONA_PRIVACY> PERSONA_PRIVACY { get; set; }
-        public virtual DbSet<PERSONA_RICERCA> PERSONA_RICERCA { get; set; }
         public virtual DbSet<PERSONA_SEGNALAZIONE> PERSONA_SEGNALAZIONE { get; set; }
         public virtual DbSet<PERSONA_TELEFONO> PERSONA_TELEFONO { get; set; }
         public virtual DbSet<PIATTAFORMA> PIATTAFORMA { get; set; }
@@ -125,6 +123,26 @@ namespace GratisForGratis.Models
         public virtual DbSet<ALLEGATO> ALLEGATO { get; set; }
         public virtual DbSet<CHAT> CHAT { get; set; }
         public virtual DbSet<SPEDIZIONE_CONCLUSA> SPEDIZIONE_CONCLUSA { get; set; }
+        public virtual DbSet<RICERCA> RICERCA { get; set; }
+        public virtual DbSet<RICERCA_OGGETTO> RICERCA_OGGETTO { get; set; }
+        public virtual DbSet<RICERCA_OGGETTO_AUTORE> RICERCA_OGGETTO_AUTORE { get; set; }
+        public virtual DbSet<RICERCA_OGGETTO_CONSOLE> RICERCA_OGGETTO_CONSOLE { get; set; }
+        public virtual DbSet<RICERCA_OGGETTO_ELETTRODOMESTICO> RICERCA_OGGETTO_ELETTRODOMESTICO { get; set; }
+        public virtual DbSet<RICERCA_OGGETTO_GIOCO> RICERCA_OGGETTO_GIOCO { get; set; }
+        public virtual DbSet<RICERCA_OGGETTO_MODELLO> RICERCA_OGGETTO_MODELLO { get; set; }
+        public virtual DbSet<RICERCA_OGGETTO_MUSICA> RICERCA_OGGETTO_MUSICA { get; set; }
+        public virtual DbSet<RICERCA_OGGETTO_PC> RICERCA_OGGETTO_PC { get; set; }
+        public virtual DbSet<RICERCA_OGGETTO_SPORT> RICERCA_OGGETTO_SPORT { get; set; }
+        public virtual DbSet<RICERCA_OGGETTO_STRUMENTI> RICERCA_OGGETTO_STRUMENTI { get; set; }
+        public virtual DbSet<RICERCA_OGGETTO_TECNOLOGIA> RICERCA_OGGETTO_TECNOLOGIA { get; set; }
+        public virtual DbSet<RICERCA_OGGETTO_TELEFONO> RICERCA_OGGETTO_TELEFONO { get; set; }
+        public virtual DbSet<RICERCA_OGGETTO_VEICOLO> RICERCA_OGGETTO_VEICOLO { get; set; }
+        public virtual DbSet<RICERCA_OGGETTO_VESTITO> RICERCA_OGGETTO_VESTITO { get; set; }
+        public virtual DbSet<RICERCA_OGGETTO_VIDEO> RICERCA_OGGETTO_VIDEO { get; set; }
+        public virtual DbSet<RICERCA_OGGETTO_VIDEOGAMES> RICERCA_OGGETTO_VIDEOGAMES { get; set; }
+        public virtual DbSet<RICERCA_SERVIZIO> RICERCA_SERVIZIO { get; set; }
+        public virtual DbSet<PERSONA_RICERCA> PERSONA_RICERCA { get; set; }
+        public virtual DbSet<PERSONA> PERSONA { get; set; }
     
         public virtual int AGGIORNAMENTO_CATEGORIE()
         {

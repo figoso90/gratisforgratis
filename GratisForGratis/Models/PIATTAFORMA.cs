@@ -19,6 +19,8 @@ namespace GratisForGratis.Models
         {
             this.OGGETTO_CONSOLE = new HashSet<OGGETTO_CONSOLE>();
             this.OGGETTO_VIDEOGAMES = new HashSet<OGGETTO_VIDEOGAMES>();
+            this.RICERCA_OGGETTO_CONSOLE = new HashSet<RICERCA_OGGETTO_CONSOLE>();
+            this.RICERCA_OGGETTO_VIDEOGAMES = new HashSet<RICERCA_OGGETTO_VIDEOGAMES>();
         }
     
         public int ID { get; set; }
@@ -34,5 +36,9 @@ namespace GratisForGratis.Models
         public virtual ICollection<OGGETTO_CONSOLE> OGGETTO_CONSOLE { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OGGETTO_VIDEOGAMES> OGGETTO_VIDEOGAMES { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RICERCA_OGGETTO_CONSOLE> RICERCA_OGGETTO_CONSOLE { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RICERCA_OGGETTO_VIDEOGAMES> RICERCA_OGGETTO_VIDEOGAMES { get; set; }
     }
 }

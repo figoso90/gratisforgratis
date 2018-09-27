@@ -10,19 +10,19 @@
             </div>
         </div>
         <div class="cella noMandatory">
-            @Html.Label("Categoria", Language.Category + ":")
+            <img class="glyphicon category" src="@Url.Content("~/Images/Icone/category.svg")" alt="@Language.Category" />
             @Model.Categoria
         </div>
         <div class="cella points">
-            @Html.Label("Punti", Language.Moneta + ":")
+            <img class="glyphicon happyCoin" src="@Url.Content("~/Images/Icone/happyCoin.svg")" alt="@Language.Moneta" />
             @Model.Punti
         </div>
         @if (Model.Offerta.TipoScambio == TipoScambio.Spedizione)
         {
-        <div class="cella points">
-            @Html.Label("SoldiSpedizione", Language.Shipment + ":")
-            @Model.Offerta.SoldiSpedizione (@Model.Offerta.NomeCorriere)
-        </div>
+            <div class="cella points">
+                @Html.Label("SoldiSpedizione", Language.Shipment + ":")
+                @Model.Offerta.SoldiSpedizione (@Model.Offerta.NomeCorriere)
+            </div>
         }
         <div class="cella noMandatory">
             @Html.Label("TipoPagamento", Language.TypePayment + ":")
@@ -30,19 +30,19 @@
         </div>
         @if (Model.StatoVendita != StatoVendita.BARATTATO && Model.StatoVendita != StatoVendita.VENDUTO)
         {
-        <div class="cella">
-            @Html.Label("Stato", Language.StateSelling + ":")
-            <span class="stateText">
-                @EnumHelper.GetSelectList(typeof(StatoVendita), Model.StatoVendita).Where(m => m.Selected).FirstOrDefault().Text
-            </span>
-        </div>
+            <div class="cella">
+                @Html.Label("Stato", Language.StateSelling + ":")
+                <span class="stateText">
+                    @EnumHelper.GetSelectList(typeof(StatoVendita), Model.StatoVendita).Where(m => m.Selected).FirstOrDefault().Text
+                </span>
+            </div>
         }
         else
         {
-        <div class="cella noMandatory">
-            @Html.Label("DataVendita", "Data vendita:")
-            @Model.DataModifica
-        </div>
+            <div class="cella noMandatory">
+                @Html.Label("DataVendita", "Data vendita:")
+                @Model.DataModifica
+            </div>
         }
         <div class="cella user">
             @Html.Label("Venditore", Language.Seller + ":")

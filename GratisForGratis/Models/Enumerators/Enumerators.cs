@@ -38,16 +38,6 @@ namespace GratisForGratis.Models
         ServizioCompleto = 3
     }
 
-    public enum MessaggioNotifica
-    {
-        [Display(Name = "NewsAdActive", ResourceType = typeof(App_GlobalResources.Language))]
-        AttivaAnnuncio = 0,
-        [Display(Name = "BidPayment", ResourceType = typeof(App_GlobalResources.Language))]
-        PagaOfferta = 1,
-        [Display(Name = "Bonus", ResourceType = typeof(App_GlobalResources.Language))]
-        Bonus = 1,
-    }
-
     public enum DurataAnnuncio
     {
         [Display(Name = "LifeAdInfinity", ResourceType = typeof(App_GlobalResources.Enum))]

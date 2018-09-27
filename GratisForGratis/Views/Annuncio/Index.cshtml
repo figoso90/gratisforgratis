@@ -31,8 +31,8 @@
                     }
                 </div>
                 <div class="user">
-                    <h5 class="seller"><img class="ico" src="@Url.Content("~/Images/icone/sellerMan.svg")" alt="@Language.Seller" /> <span>@Model.Venditore.Nominativo</span></h5>
-                    <h5 class="place"><img class="ico" src="@Url.Content("~/Images/icone/position.svg")" alt="@Language.Place" /> <span>@Model.Citta</span></h5>
+                    <h5 class="seller"><img class="glyphicon" src="@Url.Content("~/Images/icone/sellerMan.svg")" alt="@Language.Seller" /> <span>@Model.Venditore.Nominativo</span></h5>
+                    <h5 class="place"><img class="glyphicon" src="@Url.Content("~/Images/icone/position.svg")" alt="@Language.Place" /> <span>@Model.Citta</span></h5>
                 </div>
                 <div class="feedback" title="@Language.FeedbackUser">
                     @(Model.VenditoreFeedback > -1 ? string.Format(Language.FeedbackMessage, Model.VenditoreFeedback) : Language.FeedbackNothing)
@@ -40,9 +40,15 @@
             </div>
             <div class="right">
                 <h3 class="info title">@Model.Nome</h3>
-                <h4 class="info category">@Model.Categoria</h4>
+                <h4 class="info category">
+                    <img class="glyphicon category" src="@Url.Content("~/Images/Icone/category.svg")" alt="@Language.Category" />
+                    @Model.Categoria
+                </h4>
                 <div class="info">
-                    <h5 class="points"><b>@Language.Moneta :</b> <span class="evidence">@Model.Punti</span> <img class="infoTooltip infoTooltipAnnuncio" src="~/Images/icone/infoTooltip.svg" alt="info" title="Equivalgono a @Model.Soldi" /></h5>
+                    <h5 class="points">
+                        <img class="glyphicon happyCoin" src="@Url.Content("~/Images/Icone/happyCoin.svg")" alt="@Language.Moneta" />
+                        <span class="evidence">@Model.Punti</span> <img class="infoTooltip infoTooltipAnnuncio" src="~/Images/icone/infoTooltip.svg" alt="info" title="Equivalgono a @Model.Soldi" />
+                    </h5>
                     @if (!string.IsNullOrWhiteSpace(Model.NoteAggiuntive))
                     {
                         <h5 class="note"><b>@Language.Note :</b> @Model.NoteAggiuntive</h5>

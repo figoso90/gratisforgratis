@@ -1,0 +1,16 @@
+﻿@model GratisForGratis.Models.PubblicaListaFotoViewModel
+
+@if (Model.Foto != null)
+{
+    for (int i = 0; i < Model.Foto.Count; i++)
+    {
+        if (i == 0)
+        {
+            <h4 class="title">Upload</h4>
+        }
+        @Html.HiddenFor(m => m.Foto[i], new { @class = "form-control", id = "Foto" + Model.Foto[i].Replace(".jpg", "").Replace(".jpeg", "") })
+        <div class="uploadifive-queue-item2" style="background-image:url('@Url.Content("~/Temp/Images/" + Session.SessionID + "/" + Model.TokenUploadFoto + "/Normal/" + Model.Foto[i])')">
+            <span class="chiudi" style="" data-nome="@Model.Foto[i]"></span>
+        </div>
+    }
+}

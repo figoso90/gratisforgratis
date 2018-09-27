@@ -125,6 +125,14 @@ namespace GratisForGratis.Models
         [StringLength(150, MinimumLength = 6)]
         public string Password { get; set; }
 
+        public string Nome { get; set; }
+
+        public string Cognome { get; set; }
+
+        public string FacebookToken { get; set; }
+
+        public string FacebookTokenPermanente { get; set; }
+
         [Required]
         [Display(Name = "StoresUser", ResourceType = typeof(App_GlobalResources.Language))]
         public bool RicordaLogin { get; set; }
@@ -147,12 +155,19 @@ namespace GratisForGratis.Models
             persona.TOKEN = Guid.NewGuid();
             persona.TOKEN_PASSWORD = crypto.GenerateSalt(1, 20);
             persona.PASSWORD = crypto.Compute(this.Password.Trim(), persona.TOKEN_PASSWORD);
-            //persona.NOME = this.Nome.Trim();
-            //persona.COGNOME = this.Cognome.Trim();
             persona.ID_CONTO_CORRENTE = conto.ID;
             persona.ID_ABBONAMENTO = db.ABBONAMENTO.SingleOrDefault(item => item.NOME == "BASE").ID;
             persona.DATA_INSERIMENTO = DateTime.Now;
             persona.STATO = (int)Stato.INATTIVO;
+
+            // solo in caso di accesso con FB
+            persona.FACEBOOK_TOKEN_SESSIONE = FacebookToken;
+            persona.FACEBOOK_TOKEN_PERMANENTE = FacebookTokenPermanente;
+            if (!string.IsNullOrWhiteSpace(this.Nome))
+                persona.NOME = this.Nome.Trim();
+            if (!string.IsNullOrWhiteSpace(this.Cognome))
+                persona.COGNOME = this.Cognome.Trim();
+
             db.PERSONA.Add(persona);
             if (db.SaveChanges() > 0)
             {
@@ -262,6 +277,8 @@ namespace GratisForGratis.Models
         [Required]
         [Display(Name = "AcceptConditions", ResourceType = typeof(App_GlobalResources.Language))]
         public bool AccettaCondizioni { get; set; }
+
+        public string ImmagineProfilo { get; set; }
     }
 
     public class UtenteCambioPasswordViewModel
@@ -349,14 +366,7 @@ namespace GratisForGratis.Models
 
         public UtenteRicercaViewModel(PERSONA_RICERCA model)
         {
-            List<FINDSOTTOCATEGORIE_Result> categorie = (HttpContext.Current.Application["categorie"] as List<FINDSOTTOCATEGORIE_Result>);
-            FINDSOTTOCATEGORIE_Result categoria = categorie.SingleOrDefault(item => item.ID == model.ID_CATEGORIA);
-            this.Id = model.ID;
-            this.Categoria = categoria.NOME;
-            this.Testo = model.NOME;
-            this.DataInserimento = model.DATA_INSERIMENTO;
-            this.DataModifica = (DateTime)model.DATA_MODIFICA;
-            this.Stato = (Stato)model.STATO;
+            LoadProprieta(model);
         }
         #endregion
 
@@ -374,6 +384,71 @@ namespace GratisForGratis.Models
         public DateTime DataModifica { get; set; }
 
         public Stato Stato { get; set; }
+        #endregion
+
+        #region METODI PUBBLICI
+        public bool SaveRicerca(DatabaseContext db, ControllerContext controller)
+        {
+            HttpCookie cookie = HttpContext.Current.Request.Cookies.Get("ricerca");
+            PersonaModel utente = (HttpContext.Current.Request.IsAuthenticated) ? (HttpContext.Current.Session["utente"] as PersonaModel) : (HttpContext.Current.Session["utenteRicerca"] as PersonaModel);
+            PERSONA_RICERCA personaRicerca = new PERSONA_RICERCA();
+            RICERCA ricerca = new RICERCA();
+            //model.UTENTE1 = utente;
+            personaRicerca.ID_PERSONA = utente.Persona.ID;
+            ricerca.ID_CATEGORIA = Convert.ToInt32(cookie["IDCategoria"]);
+            ricerca.NOME = cookie["Nome"];
+            ricerca.DATA_INSERIMENTO = DateTime.Now;
+            ricerca.DATA_MODIFICA = ricerca.DATA_INSERIMENTO;
+            ricerca.STATO = (int)Stato.ATTIVO;
+            db.RICERCA.Add(ricerca);
+            if (db.SaveChanges() > 0)
+            {
+                personaRicerca.ID_RICERCA = ricerca.ID;
+                db.PERSONA_RICERCA.Add(personaRicerca);
+                if (db.SaveChanges() > 0)
+                {
+                    ResetFiltriRicerca();
+                    LoadProprieta(personaRicerca);
+                    SendMailRicercaSalvata(utente, personaRicerca, controller);
+                }
+            }
+            return false;
+        }
+        #endregion
+
+        #region METODI PRIVATI
+        private void LoadProprieta(PERSONA_RICERCA model)
+        {
+            List<FINDSOTTOCATEGORIE_Result> categorie = (HttpContext.Current.Application["categorie"] as List<FINDSOTTOCATEGORIE_Result>);
+            FINDSOTTOCATEGORIE_Result categoria = categorie.SingleOrDefault(item => item.ID == model.RICERCA.ID_CATEGORIA);
+            this.Id = model.ID;
+            this.Categoria = categoria.NOME;
+            this.Testo = model.RICERCA.NOME;
+            this.DataInserimento = model.RICERCA.DATA_INSERIMENTO;
+            this.DataModifica = (DateTime)model.RICERCA.DATA_MODIFICA;
+            this.Stato = (Stato)model.RICERCA.STATO;
+        }
+
+        private void ResetFiltriRicerca()
+        {
+            HttpCookie ricerca = new HttpCookie("ricerca");
+            ricerca["IDCategoria"] = "1";
+            ricerca["Categoria"] = "Tutti";
+            HttpCookie filtro = new HttpCookie("filtro");
+            HttpContext.Current.Response.SetCookie(ricerca);
+            HttpContext.Current.Response.SetCookie(filtro);
+        }
+
+        private void SendMailRicercaSalvata(PersonaModel utente, PERSONA_RICERCA model, ControllerContext controller)
+        {
+            // invio email salvataggio ricerca
+            EmailModel email = new EmailModel(controller);
+            email.To.Add(new System.Net.Mail.MailAddress(utente.Email.FirstOrDefault(item => item.TIPO == (int)TipoEmail.Registrazione).EMAIL, utente.Persona.NOME + ' ' + utente.Persona.COGNOME));
+            email.Subject = string.Format(App_GlobalResources.Email.SearchSaveSubject, model.RICERCA.NOME) + " - " + WebConfigurationManager.AppSettings["nomeSito"];
+            email.Body = "SalvataggioRicerca";
+            email.DatiEmail = model;
+            new EmailController().SendEmail(email);
+        }
         #endregion
     }
 
@@ -408,14 +483,14 @@ namespace GratisForGratis.Models
             Persona = model.PERSONA.NOME + " " + model.PERSONA.COGNOME;
             if (model.ID_ATTIVITA != null)
                 Attivita = model.ATTIVITA.NOME;
-            Messaggio = Components.EnumHelper<MessaggioNotifica>.GetDisplayValue((MessaggioNotifica)model.MESSAGGIO);
+            Messaggio = Components.EnumHelper<TipoNotifica>.GetDisplayValue((TipoNotifica)model.MESSAGGIO);
             DataInserimento = model.DATA_INSERIMENTO;
             DataModifica = model.DATA_MODIFICA;
             DataLettura = model.DATA_LETTURA;
             Stato = (StatoNotifica)model.STATO;
+            Tipo = (TipoNotifica)model.MESSAGGIO;
             if (model.ANNUNCIO_NOTIFICA.Count > 0)
             {
-                this.Tipo = TipoNotifica.Annuncio;
                 this.AnnuncioNotifica = new AnnuncioNotificaModel();
                 this.AnnuncioNotifica.Annuncio = new AnnuncioViewModel(db, model.ANNUNCIO_NOTIFICA.SingleOrDefault().ANNUNCIO);
             }

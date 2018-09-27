@@ -18,6 +18,7 @@ namespace GratisForGratis.Models
         public AUTORE()
         {
             this.OGGETTO_LIBRO = new HashSet<OGGETTO_LIBRO>();
+            this.RICERCA_OGGETTO_AUTORE = new HashSet<RICERCA_OGGETTO_AUTORE>();
         }
     
         public int ID { get; set; }
@@ -31,5 +32,7 @@ namespace GratisForGratis.Models
         public virtual CATEGORIA CATEGORIA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OGGETTO_LIBRO> OGGETTO_LIBRO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RICERCA_OGGETTO_AUTORE> RICERCA_OGGETTO_AUTORE { get; set; }
     }
 }

@@ -114,10 +114,16 @@ namespace GratisForGratis.Models
             PersonaModel utente = (HttpContext.Current.Session["utente"] as PersonaModel);
             PERSONA_INDIRIZZO indirizzo = utente.Indirizzo.FirstOrDefault(m => m.TIPO == (int)TipoIndirizzo.Residenza);
             NominativoDestinatario = utente.NomeVisibile;
-            TelefonoDestinatario = utente.Telefono.FirstOrDefault(m => m.TIPO == (int)TipoTelefono.Privato).TELEFONO;
-            CapDestinatario = indirizzo.INDIRIZZO.COMUNE.CAP;
-            IndirizzoDestinatario = indirizzo.INDIRIZZO.INDIRIZZO1;
-            CivicoDestinatario = indirizzo.INDIRIZZO.CIVICO;
+            PERSONA_TELEFONO telefono = utente.Telefono.FirstOrDefault(m => m.TIPO == (int)TipoTelefono.Privato);
+            if (telefono != null) {
+                TelefonoDestinatario = telefono.TELEFONO;
+            }
+            if (indirizzo != null)
+            {
+                CapDestinatario = indirizzo.INDIRIZZO.COMUNE.CAP;
+                IndirizzoDestinatario = indirizzo.INDIRIZZO.INDIRIZZO1;
+                CivicoDestinatario = indirizzo.INDIRIZZO.CIVICO;
+            }
             PERSONA_INDIRIZZO indirizzoSpedizione = utente.Indirizzo.FirstOrDefault(m => m.TIPO == (int)TipoIndirizzo.Spedizione);
             if (indirizzoSpedizione != null && indirizzoSpedizione.PERSONA_INDIRIZZO_SPEDIZIONE != null && indirizzoSpedizione.PERSONA_INDIRIZZO_SPEDIZIONE.Count() > 0)
             {

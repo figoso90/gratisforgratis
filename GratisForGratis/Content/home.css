@@ -19,10 +19,9 @@
         padding:10px;
     }
 
-    #home .object h5
-    {
-        color:#333;
-    }
+        #home .object h5 {
+            color: #333;
+        }
 
 #home .object .title{
     /*color:#1899D2;*/
@@ -105,17 +104,20 @@
     right: 0px;
 }
 
-    #home .object .left .lblGift {
-        background-color: red;
-        color: yellow;
-        padding: 4px;
-        border-radius: 4px;
-        font-size: 12px;
-        text-transform: uppercase;
-        position: absolute;
-        top: 0px;
-        right: 0px;
-    }
+        #home .object .left .lblGift {
+            background-color: red;
+            color: yellow;
+            padding: 4px;
+            border-left: 2px solid yellow;
+            border-bottom: 2px solid yellow;
+            border-radius: 0px 0px 0px 6px;
+            font-size: 12px;
+            font-style: italic;
+            text-transform: uppercase;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+        }
 
     #home .object .right
     {

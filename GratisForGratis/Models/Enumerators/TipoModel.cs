@@ -105,7 +105,12 @@ namespace GratisForGratis.Models
 
     public enum TipoNotifica
     {
-        Annuncio = 0
+        [Display(Name = "NewsAdActive", ResourceType = typeof(App_GlobalResources.Language))]
+        AttivaAnnuncio = 0,
+        [Display(Name = "BidPayment", ResourceType = typeof(App_GlobalResources.Language))]
+        PagaOfferta = 1,
+        [Display(Name = "Bonus", ResourceType = typeof(App_GlobalResources.Language))]
+        Bonus = 1,
     }
     
     /*

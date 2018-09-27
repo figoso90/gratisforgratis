@@ -18,6 +18,7 @@ namespace GratisForGratis.Models
         public GENERE()
         {
             this.OGGETTO_VIDEOGAMES = new HashSet<OGGETTO_VIDEOGAMES>();
+            this.RICERCA_OGGETTO_VIDEOGAMES = new HashSet<RICERCA_OGGETTO_VIDEOGAMES>();
         }
     
         public int ID { get; set; }
@@ -31,5 +32,7 @@ namespace GratisForGratis.Models
         public virtual CATEGORIA CATEGORIA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OGGETTO_VIDEOGAMES> OGGETTO_VIDEOGAMES { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RICERCA_OGGETTO_VIDEOGAMES> RICERCA_OGGETTO_VIDEOGAMES { get; set; }
     }
 }

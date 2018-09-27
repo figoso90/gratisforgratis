@@ -7,7 +7,13 @@ namespace GratisForGratis.Filters
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
             if (filterContext.HttpContext.User.Identity.IsAuthenticated)
-                filterContext.Result = new RedirectResult(filterContext.HttpContext.Request.UrlReferrer.AbsolutePath);
+            {
+                if (filterContext.HttpContext.Request.UrlReferrer != null)
+                    filterContext.Result = new RedirectResult(filterContext.HttpContext.Request.UrlReferrer.AbsolutePath);
+                else
+                    filterContext.Result = new RedirectResult(System.Web.Security.FormsAuthentication.DefaultUrl);
+            }
+                
             //filterContext.Result = new RedirectResult(System.Web.Security.FormsAuthentication.DefaultUrl);
             base.OnAuthorization(filterContext);
         }

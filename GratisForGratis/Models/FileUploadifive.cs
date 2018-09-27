@@ -8,6 +8,8 @@ namespace GratisForGratis.Models
     public class FileUploadifive
     {
         #region PROPRIETA
+        public string Id { get; set; }
+
         public string PathOriginale { get; set; }
 
         public string PathMedia { get; set; }

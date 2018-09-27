@@ -4,6 +4,17 @@ $urlSegnalazione = '/Home/Segnalazione';
 /* VARIABILI GLOBALI */
 var CLICK_PULSANTE = 0;
 
+function UploadImmagine() { 
+    this.nameInputOriginale = "";
+    this.inputNuovo = "";
+    this.idListaFile = "";
+    this.actionSalvataggio = "";
+    this.nomeParametro = "";
+    this.actionEliminazione = "";
+    this.callbackComplete = "";
+    this.galleriaFoto = "";
+}
+
 $(document).ready(function () {
     initAutocomplete();
     attivaMenuCategoria();
@@ -468,69 +479,41 @@ function validazioneAggiuntiva(form, tagForm) {
     validator.element(tagForm);
 }
 
-function enableUploadFoto(nameInputOriginale, inputNuovo, idListaFile, actionSalvataggio, nomeParametro, callbackComplete)
+function enableUploadFoto(parametro)
 {
     // attiva upload custom delle foto
-    $(inputNuovo).uploadifive({
-        'uploadScript': actionSalvataggio,
+    $(parametro.inputNuovo).uploadifive({
+        'uploadScript': parametro.actionSalvataggio,
         // Put your options here
-        'fileObjName': nomeParametro,
+        'fileObjName': parametro.nomeParametro,
         'auto': true,
         'multi': true,
         'fileSizeLimit': '20MB',
-        'queueID': idListaFile,
+        'queueID': parametro.idListaFile,
         'buttonText': 'Carica foto',
         'buttonClass': 'btnUpload',
         'fileTypeExts': '*.gif; *.jpg; *.png; *.jpeg; *.tiff; *.bmp;',
         //'itemTemplate': '<div class="uploadifive-queue-item"><span class="filename"></span> | <span class="fileinfo" style></span><span class="chiudi" style="display:none;"></span></div>',
         'itemTemplate': '<div class="uploadifive-queue-item"><span class="chiudi" style="display:none;"></span></div>',
         'formData': {
-            '__RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
-        },
-        'onProgress': function (file, e) {
-
-            if (e.lengthComputable) {
-                var percent = Math.round((e.loaded / e.total) * 100);
-            }
-            /* visualizza percentuale avanzamento upload
-            file.queueItem.find('.fileinfo').html(' - ' + percent + '%');
-            */
-            file.queueItem.find('.progress-bar').css('width', percent + '%');
-            file.queueItem.find('.chiudi').css('display', 'inline');
-            file.queueItem.find('.chiudi').click(function (event) {
-                file.queueItem.remove();
-            });
-        },
-        'onAddQueueItem': function (file) {
-            $boxUploadFatti = $('#' + idListaFile);
-            if ($boxUploadFatti.find('.title').length <= 0)
-            {
-                $titolo = $('<h4 class="title">Upload</h4>');
-                $boxUploadFatti.prepend($titolo);
-                $boxUploadFatti.removeClass('hide');
-            }
+            '__RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val(),
+            '__TokenUploadFoto': $('input[name="TokenUploadFoto"]').val()
         },
         'onUploadComplete': function (file, data) {
+            
             $fileCreato = JSON.parse(data);
-            //alert($fileCreato.responseText.PathPiccola);
-            var idCodificato = encodeURI($fileCreato.responseText.Nome);
-            $foto = createInputFotoPerUploadifive(nameInputOriginale, idCodificato);
-            $('#' + idListaFile).append($foto);
-
-            file.queueItem.css('background-image', 'url("' + encodeURI($fileCreato.responseText.PathMedia + '\\') + idCodificato + '")');
-            //file.queueItem.find('.fileinfo').html(' - Completato');
-            //file.queueItem.find('.chiudi').css('display', 'inline');
+            var idCodificato = file.name;
+            $(parametro.galleriaFoto).html($fileCreato.responseText);
+            riordinaInput(parametro.nameInputOriginale);
             file.queueItem.find('.chiudi').click(function (event) {
                 event.preventDefault();
-                annullaUploadFoto('/Pubblica/AnnullaUploadFoto', '#Foto' + idCodificato.replace('.jpg', '').replace('.jpeg', ''), nameInputOriginale, idListaFile, idCodificato, this);
+                annullaUploadFoto(parametro.actionEliminazione, '#Foto' + idCodificato.replace('.jpg', '').replace('.jpeg', ''), parametro.nameInputOriginale, parametro.galleriaFoto, idCodificato, this, parametro);
             });
-            // tolgo il titolo della lista
-            if ($('#' + idListaFile + ' .uploadifive-queue-item').length <= 0)
-                $('#' + idListaFile).html('');
-
-            //validazioneAggiuntiva("#Foto");
-            if (callbackComplete != 'undefined' && callbackComplete != undefined)
-                eval(callbackComplete);
+            enableUploadFoto(parametro);
+            
+            $('.carousel').carousel();
+            if (parametro.callbackComplete != 'undefined' && parametro.callbackComplete != undefined)
+                eval(parametro.callbackComplete);
         },
         'onFallback': function () {
             alert('Oops!  You have to use the non-HTML5 file uploader.');
@@ -538,6 +521,22 @@ function enableUploadFoto(nameInputOriginale, inputNuovo, idListaFile, actionSal
         'onError': function (errorType) {
             alert('Errore: ' + errorType);
         }
+    });
+
+    $('.uploadifive-queue-item:not(.copia) .chiudi').each(function () {
+        var idCodificato = $(this).data("nome");
+        $(this).click(function (event) {
+            event.preventDefault();
+            annullaUploadFoto(parametro.actionEliminazione, '#Foto' + idCodificato.replace('.jpg', '').replace('.jpeg', ''), parametro.nameInputOriginale, parametro.galleriaFoto, idCodificato, this, parametro);
+        });
+    });
+
+    $('.uploadifive-queue-item2:not(.copia) .chiudi').each(function () {
+        var idCodificato = $(this).data("nome");
+        $(this).click(function (event) {
+            event.preventDefault();
+            annullaUploadFoto(parametro.actionEliminazione, '#Foto' + idCodificato.replace('.jpg', '').replace('.jpeg', ''), parametro.nameInputOriginale, parametro.galleriaFoto, idCodificato, this, parametro);
+        });
     });
 }
 
@@ -551,15 +550,17 @@ function createInputFotoPerUploadifive(nameInputOriginale, id)
     return $input;
 }
 
-function annullaUploadFoto(actionAnnullo, inputFoto, nameInputOriginale, idListaFile, nome, linkAnnullo) {
+function annullaUploadFoto(actionAnnullo, inputFoto, nameInputOriginale, idListaFile, nome, linkAnnullo, parametro) {
     var idPulito = nome.replace('.jpg', '').replace('.jpeg', '');
 
     $.ajax({
         type: 'POST',
         url: actionAnnullo,
-        dataType: "json",
+        //dataType: "json",
+        dataType: "html",
         data: {
-            nome: decodeURI(nome)
+            nome: decodeURI(nome),
+            '__TokenUploadFoto': $('input[name="TokenUploadFoto"]').val()
         },
         success: function (data) {
             $(linkAnnullo).parents('.uploadifive-queue-item').remove();
@@ -567,18 +568,28 @@ function annullaUploadFoto(actionAnnullo, inputFoto, nameInputOriginale, idLista
             //alert("Input da eliminare: " + inputFoto);
             $(inputFoto).remove();
             riordinaInput(nameInputOriginale);
+            /*
             if ($('#' + idListaFile).find('input').length <= 0) {
                 $('#' + idListaFile).addClass('hide');
                 $('#' + idListaFile).html('');
                 //alert("Finito");
                 $('#' + nameInputOriginale + idPulito).val('');
             }
+            */
+            $(parametro.galleriaFoto).html(data);
+            enableUploadFoto(parametro);
+            $('.carousel').carousel();
         },
         error: function (error, status, msg) {
             alert("Errore: " + msg);
         }
     });
 }
+/*
+function annullaUploadImmagine(nome, linkAnnullo, parametro) {
+    annullaUploadFoto('/Pubblica/AnnullaUploadImmagine', '#Foto' + nome.replace('.jpg', '').replace('.jpeg', ''), 'Foto', 'listaFileAggiunti', nome, linkAnnullo, parametro);
+}
+*/
 
 function rimuoviFotoDaCopia(nome, linkAnnullo)
 {
@@ -657,8 +668,16 @@ function initUploadPossiedo(token, testo)
         dataType: "html",
         success: function (msg) {
             $('#boxPossiedo').append(msg);
-            //alert($('#formCopiaOggetto').html());
-            enableUploadFoto('Foto', '#file', 'listaFileDaCopiare', '/Pubblica/UploadFotoAnnuncio', 'file', "validazioneAggiuntiva('#formCopiaOggetto', '#Foto')");
+            var parametriUploadPossiedo = new UploadImmagine();
+            parametriUploadPossiedo.nameInputOriginale = 'Foto';
+            parametriUploadPossiedo.inputNuovo = '#file';
+            parametriUploadPossiedo.idListaFile = 'listaFileDaCopiare';
+            parametriUploadPossiedo.actionSalvataggio = '/Pubblica/UploadImmagine';
+            parametriUploadPossiedo.nomeParametro = 'file';
+            parametriUploadPossiedo.callbackComplete = "validazioneAggiuntiva('#formCopiaOggetto', '#Foto')";
+            parametriUploadPossiedo.actionEliminazione = '/Pubblica/AnnullaUploadImmagine';
+            parametriUploadPossiedo.galleriaFoto = '#listaFileDaCopiare';
+            enableUploadFoto(parametriUploadPossiedo);
             $('#boxPossiedo').dialog({
                 title: testo,
                 width: 550,

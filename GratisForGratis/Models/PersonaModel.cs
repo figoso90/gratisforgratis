@@ -28,6 +28,8 @@ namespace GratisForGratis.Models
 
         public List<AttivitaModel> Attivita { get; set; }
 
+        public List<FotoModel> Foto { get; set; }
+
         public List<CONTO_CORRENTE_MONETA> ContoCorrente { get; set; }
 
         public List<PERSONA_METODO_PAGAMENTO> MetodoPagamento { get; set; }
@@ -60,6 +62,7 @@ namespace GratisForGratis.Models
             this.Telefono = new List<PERSONA_TELEFONO>();
             this.Indirizzo = new List<PERSONA_INDIRIZZO>();
             this.Attivita = new List<AttivitaModel>();
+            this.Foto = new List<FotoModel>();
             this.ContoCorrente = new List<CONTO_CORRENTE_MONETA>();
             this.MetodoPagamento = new List<PERSONA_METODO_PAGAMENTO>();
         }
@@ -249,6 +252,40 @@ namespace GratisForGratis.Models
                 return true;
             }
             return false;
+        }
+
+        public void SetImmagineProfilo(DatabaseContext db, int idAllegato)
+        {
+            PERSONA_FOTO foto = db.PERSONA_FOTO.Create();
+            foto.ID_FOTO = idAllegato;
+            foto.ID_PERSONA = this.Persona.ID;
+            foto.TIPO = (int)TipoMedia.FOTO;
+            int numeroFoto = db.PERSONA_FOTO.Count(m => m.ID_PERSONA == this.Persona.ID);
+            foto.ORDINE = numeroFoto + 1;
+            foto.DATA_INSERIMENTO = DateTime.Now;
+            foto.STATO = (int)Stato.ATTIVO;
+            db.PERSONA_FOTO.Add(foto);
+            db.SaveChanges();
+            //this.Foto.Add(foto);
+        }
+
+        public void RemoveImmagineProfilo(DatabaseContext db, int idAllegato)
+        {
+            PERSONA_FOTO foto = db.PERSONA_FOTO.SingleOrDefault(m => m.ID_PERSONA == this.Persona.ID && m.ID_FOTO == idAllegato);
+            if (foto != null)
+            {
+                string pathBase = System.Web.Hosting.HostingEnvironment.MapPath(System.IO.Path.Combine("/Uploads/Images/", this.Persona.TOKEN.ToString(), DateTime.Now.Year.ToString()));
+                string pathImgOriginale = System.IO.Path.Combine(pathBase, "Original", foto.ALLEGATO.NOME);
+                string pathImgMedia = System.IO.Path.Combine(pathBase, "Normal", foto.ALLEGATO.NOME);
+                string pathImgPiccola = System.IO.Path.Combine(pathBase, "Little", foto.ALLEGATO.NOME);
+
+                System.IO.File.Delete(pathImgOriginale);
+                System.IO.File.Delete(pathImgMedia);
+                System.IO.File.Delete(pathImgPiccola);
+                db.PERSONA_FOTO.Remove(foto);
+                db.SaveChanges();
+            }
+            //this.Foto.Add(foto);
         }
 
         #endregion

@@ -3,13 +3,8 @@
 <div class="linkPubblicaCategoria">
     @Html.ActionLink(Language.LnkGoToPublic, "", "Pubblica")
 </div>
-@if (Model.PageCount <= 0)
-{
-    @Html.Partial("PartialPages/_NotFound")
-}
-else
-{
-    foreach (GratisForGratis.Models.VideoViewModel oggetto in Model.List)
+
+    @foreach (GratisForGratis.Models.VideoViewModel oggetto in Model.List)
     {
         ViewData["Dettaglio"] = Html.Partial("Dettaglio/_Video", oggetto);
         @Html.Partial("PartialPages/_Oggetto", oggetto)
@@ -18,4 +13,4 @@ else
     Model.PageNumber, ((Model.PageNumber - 5) < 1 ? 1 : Model.PageNumber - 5), "Oggetti",
     Response.Cookies["ricerca"]["Categoria"],
     Response.Cookies["ricerca"]["IDCategoria"]))
-}
+

@@ -86,7 +86,6 @@ namespace GratisForGratis.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ANNUNCIO_NOTIFICA> ANNUNCIO_NOTIFICA { get; set; }
         public virtual OGGETTO OGGETTO { get; set; }
-        public virtual PERSONA PERSONA { get; set; }
         public virtual SERVIZIO SERVIZIO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ANNUNCIO_TAG> ANNUNCIO_TAG { get; set; }
@@ -103,6 +102,7 @@ namespace GratisForGratis.Models
         public virtual TIPO_VALUTA TIPO_VALUTA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LOG_SBLOCCO_ANNUNCIO> LOG_SBLOCCO_ANNUNCIO { get; set; }
+        public virtual PERSONA PERSONA { get; set; }
         public virtual PERSONA PERSONA1 { get; set; }
     }
 }

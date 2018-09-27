@@ -34,6 +34,11 @@ function ricercaAvanzata(metodo) {
     });
 }
 
+function saveVendita(metodo) {
+    //alert("save: " + metodo);
+    window.location.href = '/Cerca/' + metodo + '?' + $('#FormRicerca').serialize();
+}
+
 function changeSliderFromTextBox(slider, valoreMinimo, valoreMassimo) {
     $(valoreMinimo).change(function () {
         $(slider).slider("values", 0, $(this).val());

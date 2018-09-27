@@ -19,6 +19,7 @@ namespace GratisForGratis.Models
         {
             this.MODELLO = new HashSet<MODELLO>();
             this.OGGETTO = new HashSet<OGGETTO>();
+            this.RICERCA_OGGETTO = new HashSet<RICERCA_OGGETTO>();
         }
     
         public int ID { get; set; }
@@ -34,5 +35,7 @@ namespace GratisForGratis.Models
         public virtual ICollection<MODELLO> MODELLO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OGGETTO> OGGETTO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RICERCA_OGGETTO> RICERCA_OGGETTO { get; set; }
     }
 }

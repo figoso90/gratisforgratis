@@ -18,6 +18,7 @@ namespace GratisForGratis.Models
         public ARTISTA()
         {
             this.OGGETTO_MUSICA = new HashSet<OGGETTO_MUSICA>();
+            this.RICERCA_OGGETTO_MUSICA = new HashSet<RICERCA_OGGETTO_MUSICA>();
         }
     
         public int ID { get; set; }
@@ -31,5 +32,7 @@ namespace GratisForGratis.Models
         public virtual CATEGORIA CATEGORIA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OGGETTO_MUSICA> OGGETTO_MUSICA { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RICERCA_OGGETTO_MUSICA> RICERCA_OGGETTO_MUSICA { get; set; }
     }
 }

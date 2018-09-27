@@ -18,11 +18,15 @@ namespace GratisForGratis.Models
         public PERSONA()
         {
             this.ANNUNCIO = new HashSet<ANNUNCIO>();
+            this.ANNUNCIO1 = new HashSet<ANNUNCIO>();
             this.ANNUNCIO_CARRELLO = new HashSet<ANNUNCIO_CARRELLO>();
             this.ANNUNCIO_CLICK = new HashSet<ANNUNCIO_CLICK>();
             this.ANNUNCIO_DESIDERATO = new HashSet<ANNUNCIO_DESIDERATO>();
             this.ANNUNCIO_FEEDBACK = new HashSet<ANNUNCIO_FEEDBACK>();
             this.ANNUNCIO_VISUALIZZAZIONE = new HashSet<ANNUNCIO_VISUALIZZAZIONE>();
+            this.CHAT = new HashSet<CHAT>();
+            this.CHAT1 = new HashSet<CHAT>();
+            this.LOG_SBLOCCO_ANNUNCIO = new HashSet<LOG_SBLOCCO_ANNUNCIO>();
             this.NOTIFICA = new HashSet<NOTIFICA>();
             this.NOTIFICA1 = new HashSet<NOTIFICA>();
             this.OFFERTA = new HashSet<OFFERTA>();
@@ -31,15 +35,11 @@ namespace GratisForGratis.Models
             this.PERSONA_EMAIL = new HashSet<PERSONA_EMAIL>();
             this.PERSONA_FOTO = new HashSet<PERSONA_FOTO>();
             this.PERSONA_INDIRIZZO = new HashSet<PERSONA_INDIRIZZO>();
+            this.PERSONA_METODO_PAGAMENTO = new HashSet<PERSONA_METODO_PAGAMENTO>();
             this.PERSONA_PRIVACY = new HashSet<PERSONA_PRIVACY>();
             this.PERSONA_RICERCA = new HashSet<PERSONA_RICERCA>();
             this.PERSONA_SEGNALAZIONE = new HashSet<PERSONA_SEGNALAZIONE>();
             this.PERSONA_TELEFONO = new HashSet<PERSONA_TELEFONO>();
-            this.PERSONA_METODO_PAGAMENTO = new HashSet<PERSONA_METODO_PAGAMENTO>();
-            this.LOG_SBLOCCO_ANNUNCIO = new HashSet<LOG_SBLOCCO_ANNUNCIO>();
-            this.ANNUNCIO1 = new HashSet<ANNUNCIO>();
-            this.CHAT = new HashSet<CHAT>();
-            this.CHAT1 = new HashSet<CHAT>();
         }
     
         public int ID { get; set; }
@@ -61,6 +61,8 @@ namespace GratisForGratis.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ANNUNCIO> ANNUNCIO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ANNUNCIO> ANNUNCIO1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ANNUNCIO_CARRELLO> ANNUNCIO_CARRELLO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ANNUNCIO_CLICK> ANNUNCIO_CLICK { get; set; }
@@ -70,7 +72,13 @@ namespace GratisForGratis.Models
         public virtual ICollection<ANNUNCIO_FEEDBACK> ANNUNCIO_FEEDBACK { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ANNUNCIO_VISUALIZZAZIONE> ANNUNCIO_VISUALIZZAZIONE { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CHAT> CHAT { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CHAT> CHAT1 { get; set; }
         public virtual CONTO_CORRENTE CONTO_CORRENTE { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LOG_SBLOCCO_ANNUNCIO> LOG_SBLOCCO_ANNUNCIO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<NOTIFICA> NOTIFICA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -88,6 +96,8 @@ namespace GratisForGratis.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PERSONA_INDIRIZZO> PERSONA_INDIRIZZO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PERSONA_METODO_PAGAMENTO> PERSONA_METODO_PAGAMENTO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PERSONA_PRIVACY> PERSONA_PRIVACY { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PERSONA_RICERCA> PERSONA_RICERCA { get; set; }
@@ -95,15 +105,5 @@ namespace GratisForGratis.Models
         public virtual ICollection<PERSONA_SEGNALAZIONE> PERSONA_SEGNALAZIONE { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PERSONA_TELEFONO> PERSONA_TELEFONO { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PERSONA_METODO_PAGAMENTO> PERSONA_METODO_PAGAMENTO { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LOG_SBLOCCO_ANNUNCIO> LOG_SBLOCCO_ANNUNCIO { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ANNUNCIO> ANNUNCIO1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CHAT> CHAT { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CHAT> CHAT1 { get; set; }
     }
 }

@@ -14,7 +14,10 @@ namespace GratisForGratis.Filters
                 && !filterContext.ActionDescriptor.ControllerDescriptor.IsDefined(typeof(OnlyAnonymous), true)
                 )
             {
-                filterContext.Result = new RedirectResult(filterContext.HttpContext.Request.UrlReferrer.AbsolutePath);
+                if (filterContext.HttpContext.Request.UrlReferrer!=null)
+                    filterContext.Result = new RedirectResult(filterContext.HttpContext.Request.UrlReferrer.AbsolutePath);
+                else
+                    filterContext.Result = new RedirectResult(System.Web.Security.FormsAuthentication.LoginUrl);
             }/*
             else if (filterContext.ActionDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true)
                 || filterContext.ActionDescriptor.ControllerDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true)

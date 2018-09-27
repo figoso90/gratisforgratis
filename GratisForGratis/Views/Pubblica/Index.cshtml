@@ -37,7 +37,7 @@
         <div class="form-group">
             <div class="col-md-10">
                 @Html.LabelFor(m => m.Foto, new { @class = "col-md-2 control-label" })
-                @Html.TextBox("file", "", new { @class = "form-control number", type = "file", data_url = "/Pubblicazione/UploadFotoOggetto", multiple = "" })
+                @Html.TextBox("file", "", new { @class = "form-control number", type = "file", data_url = "/Pubblicazione/UploadImmagine", multiple = "" })
                 <div id="progress">
                     <div class="bar" style="width: 0%;"></div>
                 </div>
@@ -52,22 +52,11 @@
             @Html.ValidationMessageFor(m => m.Foto, "", new { @class = "text-danger" })
             @Html.ValidationMessageFor(m => m.Soldi, "", new { @class = "text-danger" })
         </div>
-        <div id="listaFileAggiunti" class="@((Model.Foto != null)?"":"hide")">
-            @if (Model.Foto != null)
-            {
-                for (int i = 0; i < Model.Foto.Count; i++)
-                {
-                    if (i == 0)
-                    {
-                    <h4 class="title">Upload</h4>
-                    }
-                    @Html.HiddenFor(m => m.Foto[i], new { @class = "form-control", id = "Foto" + Model.Foto[i].Replace(".jpg", "").Replace(".jpeg", "") })
-                <div class="uploadifive-queue-item2"  style="background-image:url('@Url.Content("~/Temp/Images/" + Session.SessionID + "/Normal/" + Model.Foto[i])')">
-                    <span class="chiudi" style="" onclick="annullaUploadFotoOld(encodeURI('@(Model.Foto[i])'), this);"></span>
-                </div>
-                }
-            }
+        <div id="listaFileAggiunti">
+            @Html.Partial("PartialPages/_GalleriaFotoAnnuncio", new GratisForGratis.Models.PubblicaListaFotoViewModel() { Foto = Model.Foto, TokenUploadFoto = Model.TokenUploadFoto.ToString() })
         </div>
+        @Html.HiddenFor(m => m.TokenUploadFoto)
+
         if (Session["portaleweb"] != null)
         {
         <div class="form-group">

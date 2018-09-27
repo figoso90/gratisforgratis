@@ -222,4 +222,10 @@
   <data name="TitleChatUser" xml:space="preserve">
     <value>Chat con {0}</value>
   </data>
+  <data name="TitleSaveSearchKO" xml:space="preserve">
+    <value>Salvataggio fallito!</value>
+  </data>
+  <data name="DescriptionSearchSave" xml:space="preserve">
+    <value>Potrai annullare la ricerca dal link presente nelle mail di notifica che riceverai oppure, se possiedi un profilo d'accesso, direttamente dalla tua area privata.</value>
+  </data>
 </root>

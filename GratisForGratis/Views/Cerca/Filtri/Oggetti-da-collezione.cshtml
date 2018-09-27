@@ -1,4 +1,4 @@
-﻿@model GratisForGratis.Models.RicercaStrumentiViewModel
+﻿@model GratisForGratis.Models.RicercaStrumentoViewModel
 @{
     Model.SetRicercaByCookie(Response.Cookies["filtro"]);
 }
@@ -77,3 +77,4 @@
         <a class="btn" href="javascript:void(0);" onclick="ricercaAvanzata('FiltroStrumenti');">@Language.Filter</a>
     </div>
 }
+@Html.Partial("PartialPages/_NotFound")

@@ -20,6 +20,7 @@ namespace GratisForGratis.Models
             this.ANNUNCIO = new HashSet<ANNUNCIO>();
             this.CORRIERE_COMUNE = new HashSet<CORRIERE_COMUNE>();
             this.INDIRIZZO = new HashSet<INDIRIZZO>();
+            this.RICERCA = new HashSet<RICERCA>();
         }
     
         public int ID { get; set; }
@@ -35,5 +36,7 @@ namespace GratisForGratis.Models
         public virtual ICollection<CORRIERE_COMUNE> CORRIERE_COMUNE { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<INDIRIZZO> INDIRIZZO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RICERCA> RICERCA { get; set; }
     }
 }

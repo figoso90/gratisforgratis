@@ -14,6 +14,7 @@
 
 #ricerca{
     padding:0% 3%;
+    text-align:center;
 }
 
 #ricerca .title, #ricerca .advancedSearch{
@@ -128,11 +129,15 @@
     text-transform: uppercase;
 }
 
-#searchNotFound a{
-    font-size:26px;
-    font-style:italic;
-    font-weight:900;
-    text-decoration:none;
+#searchNotFound{
+    text-align:center;
+}
+
+#searchNotFound a {
+    font-size: 26px;
+    font-style: italic;
+    font-weight: 900;
+    text-decoration: none;
 }
 
 #searchNotFound img{

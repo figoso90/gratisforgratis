@@ -301,6 +301,7 @@
     <Content Include="Content\JqueryUI\jquery-ui.theme.css" />
     <Content Include="Content\JqueryUI\jquery-ui.theme.min.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\impostazioni.css" />
     <Content Include="Content\profilo.css" />
     <Content Include="Content\profiloPartner.css" />
     <Content Include="Content\ricercheSalvate.css" />
@@ -476,6 +477,7 @@
     <Content Include="Scripts\esm\popper.min.js" />
     <Content Include="Scripts\expressive.annotations.validate.js" />
     <Content Include="Scripts\expressive.annotations.validate.min.js" />
+    <Content Include="Scripts\impostazioni.js" />
     <Content Include="Scripts\jgallery\fonts\fontawesome-webfont.eot" />
     <Content Include="Scripts\jgallery\fonts\fontawesome-webfont.ttf" />
     <Content Include="Scripts\jgallery\fonts\fontawesome-webfont.woff" />
@@ -544,6 +546,7 @@
     <Content Include="Scripts\Microsoft\mvcfoolproof.unobtrusive.min.js" />
     <Content Include="Scripts\Microsoft\MvcFoolproofJQueryValidation.min.js" />
     <Content Include="Scripts\Microsoft\MvcFoolproofValidation.min.js" />
+    <Content Include="Scripts\notifica.js" />
     <Content Include="Scripts\offerteRicevute.js" />
     <Content Include="Scripts\offerteVendita.js" />
     <Content Include="Scripts\oggetto.js" />
@@ -851,13 +854,9 @@
     <Compile Include="Models\FORMATO.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\PdfModel.cs" />
-    <Compile Include="Models\FotoModel.cs" />
     <Compile Include="Models\GENERE.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\HomeModel.cs" />
-    <Compile Include="Models\HttpFile.cs" />
     <Compile Include="Models\INDIRIZZO.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
@@ -873,7 +872,6 @@
     <Compile Include="Models\MATERIALE.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\MetodoPagamento.cs" />
     <Compile Include="Models\MODELLO.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
@@ -886,11 +884,9 @@
     <Compile Include="Models\NOTIFICA.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\NotificaModel.cs" />
     <Compile Include="Models\OFFERTA.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\OffertaContoCorrenteMoneta.cs" />
     <Compile Include="Models\OFFERTA_BARATTO.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
@@ -951,6 +947,13 @@
     <Compile Include="Models\OGGETTO_VIDEOGAMES.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PdfModel.cs" />
+    <Compile Include="Models\FotoModel.cs" />
+    <Compile Include="Models\HomeModel.cs" />
+    <Compile Include="Models\HttpFile.cs" />
+    <Compile Include="Models\MetodoPagamento.cs" />
+    <Compile Include="Models\NotificaModel.cs" />
+    <Compile Include="Models\OffertaContoCorrenteMoneta.cs" />
     <Compile Include="Models\PagamentoModel.cs" />
     <Compile Include="Models\PERSONA.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
@@ -996,6 +999,60 @@
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\REGISTA.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RICERCA.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RICERCA_OGGETTO.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RICERCA_OGGETTO_AUTORE.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RICERCA_OGGETTO_CONSOLE.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RICERCA_OGGETTO_ELETTRODOMESTICO.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RICERCA_OGGETTO_GIOCO.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RICERCA_OGGETTO_MODELLO.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RICERCA_OGGETTO_MUSICA.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RICERCA_OGGETTO_PC.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RICERCA_OGGETTO_SPORT.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RICERCA_OGGETTO_STRUMENTI.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RICERCA_OGGETTO_TECNOLOGIA.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RICERCA_OGGETTO_TELEFONO.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RICERCA_OGGETTO_VEICOLO.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RICERCA_OGGETTO_VESTITO.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RICERCA_OGGETTO_VIDEO.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RICERCA_OGGETTO_VIDEOGAMES.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RICERCA_SERVIZIO.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SERVIZIO.cs">
@@ -1348,7 +1405,7 @@
     <Content Include="Views\Feedback\Inviato.cshtml" />
     <Content Include="Views\Home\SitiUtili.cshtml" />
     <Content Include="Views\Cerca\SaveRicerca.cshtml" />
-    <Content Include="Views\Cerca\Registrazione.cshtml" />
+    <Content Include="Views\Cerca\RegistrazioneMail.cshtml" />
     <Content Include="Views\Cerca\DeleteRicerca.cshtml" />
     <Content Include="Views\Cerca\Email\SalvataggioRicerca.cshtml" />
     <Content Include="Views\Pubblica\Email\NotificaRicerca.cshtml" />
@@ -1380,7 +1437,6 @@
     <Content Include="Views\Utente\LoginVeloce.cshtml" />
     <Content Include="Views\Utente\Email\RegistrazioneUtenteReinvio.cshtml" />
     <Content Include="Views\Pubblica\Index.cshtml" />
-    <Content Include="Views\Pubblica\Completato_OLD.cshtml" />
     <Content Include="Views\Cerca\Dettaglio\_Console.cshtml" />
     <Content Include="Views\Cerca\Dettaglio\_Elettrodomestici.cshtml" />
     <Content Include="Views\Cerca\Dettaglio\_Gioco.cshtml" />
@@ -1401,7 +1457,7 @@
     <Content Include="Views\Acquisti\Conclusi_Old.cshtml" />
     <Content Include="Views\Vendite\OfferteRicevute.cshtml" />
     <Content Include="Views\Acquisti\Acquisto.cshtml" />
-    <Content Include="Views\Utente\Notifiche.cshtml" />
+    <Content Include="Views\Notifica\Elenco.cshtml" />
     <Content Include="Views\Notifica\Index.cshtml" />
     <Content Include="Views\Annuncio\Index.cshtml" />
     <Content Include="Views\Cerca\PartialPages\_NotFound.cshtml" />
@@ -1472,6 +1528,11 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Chat\PartialPages\_ListaChat.cshtml" />
     <Content Include="Views\Shared\PartialPages\_AnnuncioMedium.cshtml" />
+    <Content Include="Views\Utente\PartialPages\_GalleriaFotoProfilo.cshtml" />
+    <Content Include="Views\Pubblica\PartialPages\_GalleriaFotoAnnuncio.cshtml" />
+    <Content Include="Views\Cerca\SalvataggioOK.cshtml" />
+    <Content Include="Views\Cerca\SalvataggioKO.cshtml" />
+    <Content Include="Views\Chat\PartialPages\_GalleriaFotoProfilo.cshtml" />
     <None Include="Web References\ServizioADV\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

@@ -25,10 +25,10 @@ namespace GratisForGratis.Models
             this.FORMATO = new HashSet<FORMATO>();
             this.GENERE = new HashSet<GENERE>();
             this.MARCA = new HashSet<MARCA>();
-            this.PERSONA_RICERCA = new HashSet<PERSONA_RICERCA>();
             this.PIATTAFORMA = new HashSet<PIATTAFORMA>();
             this.REGISTA = new HashSet<REGISTA>();
             this.SISTEMA_OPERATIVO = new HashSet<SISTEMA_OPERATIVO>();
+            this.RICERCA = new HashSet<RICERCA>();
         }
     
         public int ID { get; set; }
@@ -59,12 +59,12 @@ namespace GratisForGratis.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MARCA> MARCA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PERSONA_RICERCA> PERSONA_RICERCA { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PIATTAFORMA> PIATTAFORMA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<REGISTA> REGISTA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SISTEMA_OPERATIVO> SISTEMA_OPERATIVO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RICERCA> RICERCA { get; set; }
     }
 }

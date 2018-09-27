@@ -8,6 +8,21 @@ namespace GratisForGratis.Models
 {
     public class FotoModel : ALLEGATO
     {
+        #region COSTRUTTORI
+        public FotoModel() { }
+
+        public FotoModel(ALLEGATO model)
+        {
+            this.ID = model.ID;
+            this.NOME = model.NOME;
+            this.ESTENSIONE = model.ESTENSIONE;
+            this.DATA_INSERIMENTO = model.DATA_INSERIMENTO;
+            this.DATA_MODIFICA = model.DATA_MODIFICA;
+            this.STATO = model.STATO;
+            this.TESTO = model.TESTO;
+        }
+        #endregion
+
         #region METODI PUBBLICI
         public int Add(DatabaseContext db, string nome)
         {

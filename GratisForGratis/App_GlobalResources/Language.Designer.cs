@@ -916,15 +916,6 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a La tua ricerca è stata salvata con successo! Potrai annullare la ricerca dal link presente nelle mail di notifica che riceverai oppure, se possiedi un profilo d&apos;accesso, direttamente dalla tua area privata..
-        /// </summary>
-        public static string DescriptionSearchSave {
-            get {
-                return ResourceManager.GetString("DescriptionSearchSave", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Cerca una stringa localizzata simile a Per questo feedback hai ricevuto &lt;strong&gt;{0}&lt;/strong&gt; in quanto ti siamo grati per la tua disponibilità..
         /// </summary>
         public static string DescriptionSendFeedback {

@@ -9,7 +9,7 @@
     <div id="grid" class="content">
         @foreach (GratisForGratis.Models.UtenteRicercaViewModel ricerca in Model)
         {
-            <div id="@Server.UrlEncode(ricerca.Id)" class="ricerca">
+            <div id="@ricerca.Id" class="ricerca">
                 <div class="detail">
                     <h4 class="title plus">@ricerca.Testo</h4>
                     <div class="cella noMandatory categoria">
@@ -32,7 +32,7 @@
 
         }
         @Html.Partial("PartialPages/_ElencoPagine", new GratisForGratis.Models.ElencoPagine((int)ViewData["TotalePagine"], 
-            (int)ViewData["Pagina"], (((int)ViewData["Pagina"] - 5) < 1 ? 1 : (int)ViewData["Pagina"] - 5), "Utente", "SaldoPunti"))
+            (int)ViewData["Pagina"], (((int)ViewData["Pagina"] - 5) < 1 ? 1 : (int)ViewData["Pagina"] - 5), "Utente", "RicercheSalvate"))
     </div>
 </section>
 @section Scripts{

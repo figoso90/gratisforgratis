@@ -170,45 +170,16 @@ namespace GratisForGratis.Controllers
         }
 
         [HttpGet]
-        public ActionResult SaveRicerca()
+        [AllowAnonymous]
+        public ActionResult RegistrazioneMail()
         {
-            UtenteRicercaViewModel viewModel = null;
-            try { 
-                if (!Request.IsAuthenticated && Session["utenteRicerca"] == null)
-                    return View("Registrazione");
-
-                HttpCookie cookie = HttpContext.Request.Cookies.Get("ricerca");
-                using (DatabaseContext db = new DatabaseContext())
-                {
-                    PersonaModel utente = (Request.IsAuthenticated) ? (Session["utente"] as PersonaModel) : (Session["utenteRicerca"] as PersonaModel);
-                    PERSONA_RICERCA model = new PERSONA_RICERCA();
-                    model.ID_CATEGORIA = Convert.ToInt32(cookie["IDCategoria"]);
-                    model.NOME = cookie["Nome"];
-                    //model.UTENTE1 = utente;
-                    model.ID_PERSONA = utente.Persona.ID;
-                    model.DATA_INSERIMENTO = DateTime.Now;
-                    model.DATA_MODIFICA = model.DATA_INSERIMENTO;
-                    model.STATO = (int)Stato.ATTIVO;
-                    db.PERSONA_RICERCA.Add(model);
-                    if (db.SaveChanges() > 0)
-                    {
-                        ResetFiltriRicerca();
-                        viewModel = new UtenteRicercaViewModel(model);
-                        SendMailRicercaSalvata(utente, model);
-                    }
-                }
-            }
-            catch(Exception ex)
-            {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
-            }
-            // ritorna vista per l'inserimento della mail
-            return View(viewModel);
+            return View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult SaveRicerca(RegistrazioneRicercaViewModel viewModel)
+        public ActionResult RegistrazioneMail(RegistrazioneRicercaViewModel viewModel)
         {
             try
             {
@@ -218,50 +189,64 @@ namespace GratisForGratis.Controllers
                 {
                     using (DatabaseContext db = new DatabaseContext())
                     {
-                        PERSONA_RICERCA model = new PERSONA_RICERCA();
-                        // se non ha già salvato una ricerca nella stessa sessione
-                        if (Session["utenteRicerca"] != null || Request.IsAuthenticated)
-                            return RedirectToAction("SaveRicerca");
+                        //PERSONA_RICERCA personaRicerca = new PERSONA_RICERCA();
+                        //RICERCA ricerca = new RICERCA();
+                        //// se non ha già salvato una ricerca nella stessa sessione
+                        //if (Session["utenteRicerca"] != null || Request.IsAuthenticated)
+                        //    return RedirectToAction("SaveRicerca");
 
                         PERSONA utente = db.PERSONA.Where(u => u.PERSONA_EMAIL.Count(item => item.EMAIL == viewModel.Email) > 0).SingleOrDefault();
                         PersonaModel persona = new PersonaModel();
                         if (utente == null)
                         {
+                            CONTO_CORRENTE conto = db.CONTO_CORRENTE.Create();
+                            conto.ID = Guid.NewGuid();
+                            conto.TOKEN = Guid.NewGuid();
+                            conto.DATA_INSERIMENTO = DateTime.Now;
+                            conto.STATO = (int)Stato.ATTIVO;
+                            db.CONTO_CORRENTE.Add(conto);
+                            db.SaveChanges();
                             utente = new PERSONA();
+                            utente.TOKEN = Guid.NewGuid();
+                            SimpleCrypto.PBKDF2 crypto = new SimpleCrypto.PBKDF2();
+                            utente.TOKEN_PASSWORD = crypto.GenerateSalt(1, 20);
+                            utente.ID_CONTO_CORRENTE = conto.ID;
+                            utente.ID_ABBONAMENTO = db.ABBONAMENTO.SingleOrDefault(item => item.NOME == "BASE").ID;
                             utente.NOME = "Non registrato";
                             utente.DATA_INSERIMENTO = DateTime.Now;
                             utente.DATA_MODIFICA = utente.DATA_INSERIMENTO;
                             utente.STATO = (int)Stato.INATTIVO;
                             db.PERSONA.Add(utente);
                             db.SaveChanges();
-                            PERSONA_EMAIL personaEmail = new PERSONA_EMAIL();
-                            personaEmail.ID_PERSONA = utente.ID;
-                            personaEmail.EMAIL = viewModel.Email;
-                            personaEmail.TIPO = (int)TipoEmail.Registrazione;
-                            personaEmail.DATA_INSERIMENTO = DateTime.Now;
-                            personaEmail.STATO = (int)Stato.ATTIVO;
-                            db.PERSONA_EMAIL.Add(personaEmail);
-                            db.SaveChanges();
-
-                            persona = new PersonaModel(utente);
-                            persona.Email.Add(personaEmail);
                         }
+                        persona = new PersonaModel(utente);
+                        persona.SetEmail(db, viewModel.Email, Stato.INATTIVO);
                         Session["utenteRicerca"] = persona;
-                        //model.UTENTE1 = utente;
-                        model.ID_PERSONA = utente.ID;
-                        model.ID_CATEGORIA = Convert.ToInt32(cookie["IDCategoria"]);
-                        model.NOME = cookie["Nome"];
-                        model.DATA_INSERIMENTO = DateTime.Now;
-                        model.DATA_MODIFICA = model.DATA_INSERIMENTO;
-                        model.STATO = (int)Stato.ATTIVO;
-                        db.PERSONA_RICERCA.Add(model);
-                        if (db.SaveChanges() > 0)
-                        {
-                            ResetFiltriRicerca();
-                            SendMailRicercaSalvata(persona,model);
-                            UtenteRicercaViewModel ricercaViewModel = new UtenteRicercaViewModel(model);
-                            return View(ricercaViewModel);
-                        }
+
+                        IRicercaViewModel ricerca = RicercaViewModel.GetViewModelByCookie();
+                        return SaveRicercaUtente(ricerca);
+                        ////model.UTENTE1 = utente;
+                        //personaRicerca.ID_PERSONA = utente.ID;
+                        //ricerca.ID_CATEGORIA = Convert.ToInt32(cookie["IDCategoria"]);
+                        //ricerca.NOME = cookie["Nome"];
+                        //ricerca.DATA_INSERIMENTO = DateTime.Now;
+                        //ricerca.DATA_MODIFICA = ricerca.DATA_INSERIMENTO;
+                        //ricerca.STATO = (int)Stato.ATTIVO;
+                        //db.RICERCA.Add(ricerca);
+                        //if (db.SaveChanges() > 0)
+                        //{
+                        //    personaRicerca.ID_RICERCA = ricerca.ID;
+                        //    db.PERSONA_RICERCA.Add(personaRicerca);
+                        //    if (db.SaveChanges() > 0)
+                        //    {
+                        //        /*
+                        //        ResetFiltriRicerca();
+                        //        SendMailRicercaSalvata(persona,model);
+                        //        */
+                        //        UtenteRicercaViewModel ricercaViewModel = new UtenteRicercaViewModel(personaRicerca);
+                        //        return View(ricercaViewModel);
+                        //    }
+                        //}
                     }
                 }
             }
@@ -271,7 +256,25 @@ namespace GratisForGratis.Controllers
             }
 
             // ritorna vista per l'inserimento della mail
-            return View("Registrazione");
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult SalvataggioOK(int idRicerca)
+        {
+            RicercaViewModel viewModel = new RicercaViewModel();
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                RICERCA model = db.RICERCA.SingleOrDefault(m => m.ID == idRicerca);
+                viewModel = RicercaViewModel.GetViewModelByModel(model);
+            }
+            return View(viewModel);
+        }
+
+        [HttpGet]
+        public ActionResult SalvataggioKO()
+        {
+            return View();
         }
 
         [HttpGet]
@@ -295,6 +298,124 @@ namespace GratisForGratis.Controllers
             }
             return View();
         }
+
+        #region SALVATAGGIO RICERCHE
+
+        [HttpGet]
+        public ActionResult SaveRicercaVendite(RicercaViewModel ricerca)
+        {
+            return SaveRicercaUtente(ricerca);
+        }
+        
+        [HttpGet]
+        public ActionResult SaveRicercaOggetto(RicercaOggettoViewModel ricerca)
+        {
+            return SaveRicercaUtente(ricerca);
+        }
+
+        [HttpGet]
+        public ActionResult SaveRicercaModello(RicercaModelloViewModel ricerca)
+        {
+            return SaveRicercaUtente(ricerca);
+        }
+
+        [HttpGet]
+        public ActionResult SaveRicercaTelefono(RicercaTelefonoViewModel ricerca)
+        {
+            return SaveRicercaUtente(ricerca);
+        }
+
+        [HttpGet]
+        public ActionResult SaveRicercaAudioHiFi(RicercaAudioHiFiViewModel ricerca)
+        {
+            return SaveRicercaUtente(ricerca);
+        }
+
+        [HttpGet]
+        public ActionResult SaveRicercaPc(RicercaPcViewModel ricerca)
+        {
+            return SaveRicercaUtente(ricerca);
+        }
+
+        [HttpGet]
+        public ActionResult SaveRicercaElettrodomestico(RicercaElettrodomesticoViewModel ricerca)
+        {
+            return SaveRicercaUtente(ricerca);
+        }
+
+        [HttpGet]
+        public ActionResult SaveRicercaStrumento(RicercaStrumentoViewModel ricerca)
+        {
+            return SaveRicercaUtente(ricerca);
+        }
+
+        [HttpGet]
+        public ActionResult SaveRicercaMusica(RicercaMusicaViewModel ricerca)
+        {
+            return SaveRicercaUtente(ricerca);
+        }
+
+        [HttpGet]
+        public ActionResult SaveRicercaGioco(RicercaGiocoViewModel ricerca)
+        {
+            return SaveRicercaUtente(ricerca);
+        }
+
+        [HttpGet]
+        public ActionResult SaveRicercaVideogames(RicercaVideogamesViewModel ricerca)
+        {
+            return SaveRicercaUtente(ricerca);
+        }
+
+        [HttpGet]
+        public ActionResult SaveRicercaSport(RicercaSportViewModel ricerca)
+        {
+            return SaveRicercaUtente(ricerca);
+        }
+
+        [HttpGet]
+        public ActionResult SaveRicercaTecnologia(RicercaTecnologiaViewModel ricerca)
+        {
+            return SaveRicercaUtente(ricerca);
+        }
+
+        [HttpGet]
+        public ActionResult SaveRicercaConsole(RicercaConsoleViewModel ricerca)
+        {
+            return SaveRicercaUtente(ricerca);
+        }
+
+        [HttpGet]
+        public ActionResult SaveRicercaVideo(RicercaVideoViewModel ricerca)
+        {
+            return SaveRicercaUtente(ricerca);
+        }
+
+        [HttpGet]
+        public ActionResult SaveRicercaLibro(RicercaLibroViewModel ricerca)
+        {
+            return SaveRicercaUtente(ricerca);
+        }
+
+        [HttpGet]
+        public ActionResult SaveRicercaVeicolo(RicercaVeicoloViewModel ricerca)
+        {
+            return SaveRicercaUtente(ricerca);
+        }
+
+        [HttpGet]
+        public ActionResult SaveRicercaVestito(RicercaVestitoViewModel ricerca)
+        {
+            return SaveRicercaUtente(ricerca);
+        }
+
+        [HttpGet]
+        public ActionResult SaveRicercaServizi(RicercaServizioViewModel ricerca)
+        {
+            return SaveRicercaUtente(ricerca);
+        }
+
+        #endregion
 
         #endregion
 
@@ -432,7 +553,7 @@ namespace GratisForGratis.Controllers
 
         [HttpGet]
         [Filters.ValidateAjax]
-        public ActionResult FiltroStrumenti(RicercaStrumentiViewModel ricerca)
+        public ActionResult FiltroStrumenti(RicercaStrumentoViewModel ricerca)
         {
             if (!ModelState.IsValid)
             {
@@ -673,29 +794,6 @@ namespace GratisForGratis.Controllers
 
         /**
         ** term: inizio nome annuncio
-        **/
-        //[HttpGet]
-        //[Authorize]
-        //[Filters.ValidateAjax]
-        //public ActionResult AnnunciBarattabili(string term)
-        //{
-        //    List<AutocompleteGuid> lista;
-
-        //    using (DatabaseContext db = new DatabaseContext())
-        //    {
-        //        int utente = ((PersonaModel)Session["utente"]).Persona.ID;
-        //        string termineSenzaSpazi = term.Trim();
-        //        // aggiungere il contains e l'order by per rilevanza
-        //        lista = db.ANNUNCIO.Where(item => item.ID_PERSONA == utente && item.STATO == (int)StatoVendita.ATTIVO 
-        //            && item.NOME.Contains(termineSenzaSpazi))
-        //            .OrderByDescending(item => item.NOME.Contains(termineSenzaSpazi))
-        //            .Select(m => new AutocompleteGuid { Label = m.NOME, Value = (Guid)m.TOKEN }).ToList();
-        //    }
-        //    return Json(lista, JsonRequestBehavior.AllowGet);
-        //}
-
-        /**
-        ** term: inizio nome annuncio
         ** spedizioneAMano: cerca annunci con spedizione a mano
         ** spedizionePrivata: cerca annunci con spedizione privata
         ** spedizioneOnline: cerca annunci con spedizione online
@@ -721,47 +819,6 @@ namespace GratisForGratis.Controllers
             }
             return Json(lista, JsonRequestBehavior.AllowGet);
         }
-
-        /**
-        ** term: inizio nome oggetto o categoria o marca
-        **/
-        //[HttpGet]
-        //[Authorize]
-        //[Filters.ValidateAjax]
-        //public ActionResult OggettiBarattabili(string term)
-        //{
-        //    List<AutocompleteGuid> lista;
-
-        //    using (DatabaseContext db = new DatabaseContext())
-        //    {
-        //        int utente = ((PersonaModel)Session["utente"]).Persona.ID;
-        //        string termineSenzaSpazi = term.Trim();
-        //        // aggiungere il contains e l'order by per rilevanza
-        //        lista = db.ANNUNCIO.Where(item => item.ID_PERSONA == utente && item.STATO == (int)StatoVendita.ATTIVO && item.OGGETTO != null && (item.NOME.Contains(termineSenzaSpazi) || item.OGGETTO.MARCA.NOME.Contains(termineSenzaSpazi)))
-        //            .OrderByDescending(item => item.NOME.Contains(termineSenzaSpazi))
-        //            .Select(m => new AutocompleteGuid { Label = m.NOME, Value = (Guid)m.TOKEN }).ToList();
-        //    }
-        //    return Json(lista, JsonRequestBehavior.AllowGet);
-        //}
-
-        /**
-        ** term: inizio nome servizio o categoria
-        **/
-        //[HttpGet]
-        //[Authorize]
-        //[Filters.ValidateAjax]
-        //public ActionResult ServiziBarattabili(string term)
-        //{
-        //    List<AutocompleteGuid> lista;
-
-        //    using (DatabaseContext db = new DatabaseContext())
-        //    {
-        //        int utente = ((PersonaModel)Session["utente"]).Persona.ID;
-        //        lista = db.ANNUNCIO.Where(item => item.ID_PERSONA == utente && item.STATO == (int)StatoVendita.ATTIVO && item.SERVIZIO != null && (item.NOME.StartsWith(term.Trim()))).
-        //            Select(m => new AutocompleteGuid { Label = m.NOME, Value = (Guid)m.TOKEN }).ToList();
-        //    }
-        //    return Json(lista, JsonRequestBehavior.AllowGet);
-        //}
 
         [HttpPost]
         [Authorize]
@@ -792,7 +849,7 @@ namespace GratisForGratis.Controllers
                 notifica.ID_ATTIVITA = keyAttivita;
                 notifica.ID_PERSONA_DESTINATARIO = annuncio.ID_PERSONA;
                 notifica.ID_ATTIVITA_DESTINATARIO = annuncio.ID_ATTIVITA;
-                notifica.MESSAGGIO = (int)MessaggioNotifica.AttivaAnnuncio;
+                notifica.MESSAGGIO = (int)TipoNotifica.AttivaAnnuncio;
                 notifica.DATA_INSERIMENTO = DateTime.Now;
                 notifica.STATO = (int)Stato.ATTIVO;
                 db.NOTIFICA.Add(notifica);
@@ -815,6 +872,7 @@ namespace GratisForGratis.Controllers
 
         #region METODI PRIVATI
 
+        #region FUNZIONI RICERCA
         // FUNZIONE IN PREPARAZIONE
         private List<AnnuncioViewModel> FindVendite(HttpCookie ricerca, HttpCookie filtro, int pagina, ref int pagineTotali, ref int numeroRecord)
         {
@@ -940,7 +998,7 @@ namespace GratisForGratis.Controllers
                                         && ((idAnnuncioOriginale != null && (m.ID_ORIGINE == idAnnuncioOriginale || m.ID == idAnnuncioOriginale)) 
                                             || m.ID_ORIGINE == viewModel.Id));
                                 if (copiaAnnuncio != null)
-                                    viewModel.TokenAnnuncioCopiato = Utils.RandomString(3) + copiaAnnuncio.TOKEN + Utils.RandomString(3);
+                                    viewModel.TokenAnnuncioCopiato = copiaAnnuncio.TOKEN.ToString();
 
                                 if (viewModel.TipoAcquisto == TipoAcquisto.Oggetto)
                                 {
@@ -1158,7 +1216,7 @@ namespace GratisForGratis.Controllers
                                         && ((m.ID_ORIGINE == idAnnuncioOriginale && idAnnuncioOriginale != null)
                                             || m.ID_ORIGINE == oggetto.Id));
                                 if (copiaAnnuncio != null)
-                                    oggetto.TokenAnnuncioCopiato = Utils.RandomString(3) + copiaAnnuncio.TOKEN + Utils.RandomString(3);
+                                    oggetto.TokenAnnuncioCopiato = copiaAnnuncio.TOKEN.ToString();
                                 // DETTAGLI OGGETTO
                                 if (res["ANNO"] != DBNull.Value)
                                     oggetto.Anno = (int)res["ANNO"];
@@ -1765,7 +1823,7 @@ namespace GratisForGratis.Controllers
                                         && ((m.ID_ORIGINE == idAnnuncioOriginale && idAnnuncioOriginale != null)
                                             || m.ID_ORIGINE == servizio.Id));
                                 if (copiaAnnuncio != null)
-                                    servizio.TokenAnnuncioCopiato = Utils.RandomString(3) + copiaAnnuncio.TOKEN + Utils.RandomString(3);
+                                    servizio.TokenAnnuncioCopiato = copiaAnnuncio.TOKEN.ToString();
 
                                 // DETTAGLIO SERVIZIO
                                 if (res["LUNEDI"] != DBNull.Value)
@@ -1951,53 +2009,6 @@ namespace GratisForGratis.Controllers
             }
         }
 
-        private void ResetFiltriRicerca()
-        {
-            HttpCookie ricerca = new HttpCookie("ricerca");
-            ricerca["IDCategoria"] = "1";
-            ricerca["Categoria"] = "Tutti";
-            HttpCookie filtro = new HttpCookie("filtro");
-            Response.SetCookie(ricerca);
-            Response.SetCookie(filtro);
-        }
-
-        private void SendMailRicercaSalvata(PersonaModel utente, PERSONA_RICERCA model)
-        {
-            // invio email salvataggio ricerca
-            EmailModel email = new EmailModel(ControllerContext);
-            email.To.Add(new System.Net.Mail.MailAddress(utente.Email.FirstOrDefault(item => item.TIPO == (int)TipoEmail.Registrazione).EMAIL, utente.Persona.NOME + ' ' + utente.Persona.COGNOME));
-            email.Subject = string.Format(App_GlobalResources.Email.SearchSaveSubject, model.NOME) + " - " + WebConfigurationManager.AppSettings["nomeSito"];
-            email.Body = "SalvataggioRicerca";
-            email.DatiEmail = model;
-            new EmailController().SendEmail(email);
-        }
-
-        private void SetFeedbackVenditore(DatabaseContext db, AnnuncioViewModel viewModel, TipoVenditore tipoVenditore)
-        {
-            try
-            {
-                List<int> voti = db.ANNUNCIO_FEEDBACK
-                                .Where(item => (tipoVenditore == TipoVenditore.Persona && item.ANNUNCIO.ID_PERSONA == viewModel.Venditore.Id) ||
-                                (tipoVenditore == TipoVenditore.Attivita && item.ANNUNCIO.ID_ATTIVITA == viewModel.Venditore.Id)).Select(item => item.VOTO).ToList();
-
-                int votoMassimo = voti.Count * 10;
-                if (voti.Count <= 0)
-                {
-                    viewModel.VenditoreFeedback = -1;
-                }
-                else
-                {
-                    int x = voti.Sum() / votoMassimo;
-                    viewModel.VenditoreFeedback = x * 100;
-                }
-            }
-            catch (Exception eccezione)
-            {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
-                viewModel.VenditoreFeedback = -1;
-            }
-        }
-
         private bool SetRicercaPerNome(HttpCookie ricerca, DbCommand cmd, ref string selectFreeText)
         {
             if ((ricerca["Nome"] != null) && !String.IsNullOrEmpty(ricerca["Nome"]))
@@ -2029,6 +2040,74 @@ namespace GratisForGratis.Controllers
                 return true;
             }
             return false;
+        }
+        #endregion
+
+        private void SetFeedbackVenditore(DatabaseContext db, AnnuncioViewModel viewModel, TipoVenditore tipoVenditore)
+        {
+            try
+            {
+                List<int> voti = db.ANNUNCIO_FEEDBACK
+                                .Where(item => (tipoVenditore == TipoVenditore.Persona && item.ANNUNCIO.ID_PERSONA == viewModel.Venditore.Id) ||
+                                (tipoVenditore == TipoVenditore.Attivita && item.ANNUNCIO.ID_ATTIVITA == viewModel.Venditore.Id)).Select(item => item.VOTO).ToList();
+
+                int votoMassimo = voti.Count * 10;
+                if (voti.Count <= 0)
+                {
+                    viewModel.VenditoreFeedback = -1;
+                }
+                else
+                {
+                    int x = voti.Sum() / votoMassimo;
+                    viewModel.VenditoreFeedback = x * 100;
+                }
+            }
+            catch (Exception eccezione)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                viewModel.VenditoreFeedback = -1;
+            }
+        }
+
+        private ActionResult SaveRicercaUtente(IRicercaViewModel ricerca)
+        {
+            if (!ModelState.IsValid)
+            {
+                throw new Exception(string.Join("; ", ModelState.Values
+                                        .SelectMany(x => x.Errors)
+                                        .Select(x => x.ErrorMessage)));
+            }
+            int idRicerca = 0;
+            try
+            {
+                // setta i filtri avanzati
+                HttpCookie filtro = ricerca.GetCookieRicerca(HttpContext.Request.Cookies.Get("filtro"));
+                HttpContext.Response.Cookies.Set(filtro);
+
+                HttpCookie cookieRicercaBase = HttpContext.Request.Cookies.Get("ricerca");
+
+                if (!Request.IsAuthenticated && (Session["utenteRicerca"] == null || Session["utenteRicerca"].GetType() != typeof(PersonaModel) || (Session["utenteRicerca"] as PersonaModel).Persona == null))
+                    return RedirectToAction("RegistrazioneMail");
+
+                using (DatabaseContext db = new DatabaseContext())
+                {
+                    //viewModel.SaveRicerca(db, ControllerContext);
+                    if (ricerca.Save(db, ControllerContext))
+                    {
+                        ricerca.ResetCookie();
+                        ricerca.SendMail(ControllerContext);
+                        idRicerca = ((RicercaViewModel)ricerca).Id;
+                        TempData["SaveRicerca"] = App_GlobalResources.Language.RegistrazioneOK;
+                        return RedirectToAction("SalvataggioOK", new { idRicerca });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+            }
+
+            return RedirectToAction("SalvataggioKO");
         }
 
         #endregion

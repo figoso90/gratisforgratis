@@ -403,6 +403,24 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Il &lt;b&gt;salvataggio&lt;/b&gt; della ricerca effettuata è &lt;b&gt;fallito&lt;/b&gt;. &lt;br /&gt;&lt;b&gt;Ritentare&lt;/b&gt; più tardi o contattare la nostra &lt;b&gt;assistenza&lt;/b&gt; tramite il popup apposito..
+        /// </summary>
+        public static string SaveSearchKO {
+            get {
+                return ResourceManager.GetString("SaveSearchKO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Non sei &lt;b&gt;soddisfatto&lt;/b&gt; della tua &lt;b&gt;ricerca&lt;/b&gt;?&lt;br/&gt;&lt;b&gt;Salvala&lt;/b&gt; e verrai avvisato sulle novità!.
+        /// </summary>
+        public static string SearchNotLike {
+            get {
+                return ResourceManager.GetString("SearchNotLike", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Nominativo.
         /// </summary>
         public static string SellerName {

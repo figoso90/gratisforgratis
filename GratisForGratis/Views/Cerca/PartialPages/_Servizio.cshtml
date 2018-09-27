@@ -20,10 +20,20 @@
                     }
                 </div>
                 <div class="right">
-                    <h5 class="category"><strong>@Language.Category :</strong> <span class="evidence">@servizio.Categoria</span></h5>
-                    <h5 class="points"><b>@Language.Moneta :</b> @servizio.Punti <img class="infoTooltip infoTooltipAnnuncio" src="~/Images/icone/infoTooltip.svg" alt="info" title="Equivalgono a @servizio.Soldi" /></h5>
+                    <h5 class="category">
+                        <!--<strong>@Language.Category : </strong> -->
+                        <img class="glyphicon category" src="@Url.Content("~/Images/Icone/category.svg")" alt="@Language.Category" />
+                        <span class="evidence">@servizio.Categoria</span>
+                    </h5>
+                    <h5 class="points">
+                        <img class="glyphicon happyCoin" src="@Url.Content("~/Images/Icone/happyCoin.svg")" alt="@Language.Moneta" />
+                        @servizio.Punti <img class="infoTooltip infoTooltipAnnuncio" src="~/Images/icone/infoTooltip.svg" alt="info" title="Equivalgono a @servizio.Soldi" />
+                    </h5>
                     <h5 class="rate"><b>@Language.Rate :</b> @servizio.Tariffa</h5>
-                    <h5 class="place"><b>@Resources.Language.Place :</b> @servizio.Citta</h5>
+                    <h5 class="place">
+                        <span class="glyphicon glyphicon-map-marker" aria-hidden="true" title="Language.Place"></span>
+                        @servizio.Citta
+                    </h5>
                     <h5 class="seller">
                         <b>@Language.Seller :</b> 
                         <span class="evidence">

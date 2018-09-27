@@ -1,9 +1,17 @@
-﻿<p id="alertNotFound">
+﻿@if (Model.NumeroRecordTrovati <= 0)
+{
+<p id="alertNotFound">
     @Html.Raw(MessageForUser.SalvaRicerca)
 </p>
+}
+else{ 
+    <p>
+        @Html.Raw(ViewModel.SearchNotLike)
+    </p>
+}
+
 <p id="searchNotFound">
-    <a href="/Cerca/SaveRicerca" title="@Language.SearchSave">
-        @Language.MexSearchSave
+    <a href="javascript:void(0);" onclick="saveVendita('@Model.ActionSalvataggio');" title="@Language.SearchSave">
         <img src="@Url.Content("~/Images/icone/save.svg")" alt="@Language.SearchSave" />
     </a>
 </p>
