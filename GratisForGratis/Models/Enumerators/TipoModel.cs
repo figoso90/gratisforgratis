@@ -75,7 +75,12 @@ namespace GratisForGratis.Models
         BonusPartner = 6,
         BonusLogin = 7,
         BonusFeedback = 8,
-        BonusCanalePubblicitario = 9
+        BonusCanalePubblicitario = 9,
+        BonusAnnuncioCompleto = 10,
+        BonusSegnalazioneErrore = 11,
+        BonusSuggerimentoAttivazioneAnnuncio = 12,
+        BonusInvitaAmicoFB = 13,
+        BonusAttivaHappyPage = 14
     }
 
     public enum TipoEmail
@@ -110,7 +115,7 @@ namespace GratisForGratis.Models
         [Display(Name = "BidPayment", ResourceType = typeof(App_GlobalResources.Language))]
         PagaOfferta = 1,
         [Display(Name = "Bonus", ResourceType = typeof(App_GlobalResources.Language))]
-        Bonus = 1,
+        Bonus = 2,
     }
     
     /*

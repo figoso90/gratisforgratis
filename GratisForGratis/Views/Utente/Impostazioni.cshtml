@@ -39,9 +39,9 @@
             {
                 <h4 class="message">@Language.SaveOK</h4>
             }
-                <div id="boxFotoProfilo">
-                    @Html.Partial("PartialPages/_GalleriaFotoProfilo", (Session["utente"] as PersonaModel))
-                </div>
+            <div id="boxFotoProfilo">
+                @Html.Partial("PartialPages/_GalleriaFotoProfilo", (Session["utente"] as PersonaModel))
+            </div>
             @Html.HiddenFor(m => m.ImmagineProfilo, new { @class = "form-control" })
             <div class="form-group">
                 @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
@@ -117,6 +117,10 @@
             </div>
             <div class="footer">
                 <input type="submit" value="@Language.Save" class="btn" />
+                @if (!Model.HasLoginFacebook)
+                {
+                    @Html.ActionLink(Button.JoinFacebook, "LoginFacebook", "Utente", null, new { @Class = "btn" })
+                }
             </div>
         }
     </div>

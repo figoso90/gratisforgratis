@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace GratisForGratis.Controllers
 {
+    [Authorize]
     public class OffertaController : AdvancedController
     {
         #region ACTION

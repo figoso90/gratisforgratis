@@ -64,12 +64,12 @@ namespace GratisForGratis.Controllers
         }
 
         [HttpGet]
+        //[Filters.HandleExceptionsAttribute]
         public ActionResult Contatti()
         {
             ViewBag.Title = App_GlobalResources.Language.Contacts;
             ViewBag.Description = App_GlobalResources.MetaTag.DescriptionContatti;
             ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsContatti;
-
             return View();
         }
 

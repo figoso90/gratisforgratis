@@ -129,10 +129,22 @@
   <data name="InitialPubblication" xml:space="preserve">
     <value>Prime pubblicazioni</value>
   </data>
+  <data name="InviteFriendsFB" xml:space="preserve">
+    <value>Invito amici FB</value>
+  </data>
   <data name="Login" xml:space="preserve">
     <value>Bonus accesso giornaliero</value>
   </data>
+  <data name="MessageError" xml:space="preserve">
+    <value>Segnalazione errore</value>
+  </data>
   <data name="Registration" xml:space="preserve">
     <value>Registrazione portale</value>
+  </data>
+  <data name="SuggestAdActivation" xml:space="preserve">
+    <value>Suggerimento attivazione annuncio</value>
+  </data>
+  <data name="YouWin" xml:space="preserve">
+    <value>Congratulazioni! Hai &lt;strong&gt;GUADAGNATO {0}&lt;/strong&gt; {1}!</value>
   </data>
 </root>

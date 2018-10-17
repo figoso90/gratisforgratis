@@ -143,6 +143,7 @@ namespace GratisForGratis.Models
         public virtual DbSet<RICERCA_SERVIZIO> RICERCA_SERVIZIO { get; set; }
         public virtual DbSet<PERSONA_RICERCA> PERSONA_RICERCA { get; set; }
         public virtual DbSet<PERSONA> PERSONA { get; set; }
+        public virtual DbSet<LOG_ERRORE> LOG_ERRORE { get; set; }
     
         public virtual int AGGIORNAMENTO_CATEGORIE()
         {

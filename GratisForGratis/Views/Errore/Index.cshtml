@@ -1,24 +1,34 @@
 ﻿@model System.Web.Mvc.HandleErrorInfo
 
 @{
-    Layout = "~/Views/Shared/_PaginaErrore.cshtml";
     ViewBag.Title = Language.TitleError;
 }
 
-<h2>@ViewBag.Title</h2>
-@if (Model != null && HttpContext.Current.IsDebuggingEnabled)
-{
+<section id="page">
+    <h2>@ViewBag.Title</h2>
     <div>
-        <p>
-            <b>Exception:</b> @Model.Exception.Message<br />
-            <b>Controller:</b> @Model.ControllerName<br />
-            <b>Action:</b> @Model.ActionName
-        </p>
-        <div style="overflow:scroll">
-            <pre>
+        @if (Model != null && HttpContext.Current.IsDebuggingEnabled)
+        {
+            <p>
+                <b>Exception:</b> @Model.Exception.Message<br />
+                <b>Controller:</b> @Model.ControllerName<br />
+                <b>Action:</b> @Model.ActionName
+            </p>
+            <div>
+                <pre>
                 @Model.Exception.StackTrace
             </pre>
-        </div>
+            </div>
+        }
+        else
+        {
+            <div>
+                <pre>
+                C'è stato un errore imprevisto. Se sei loggato al portale, ti verranno accreditati dei soldi come scuse per il disservizio.
+                Continua a divertirti sul nostro sito e a rivoluzionare il tuo modo di essere!
+            </pre>
+            </div>
+        }
     </div>
-}
+</section>
 

@@ -820,54 +820,6 @@ namespace GratisForGratis.Controllers
             return Json(lista, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        [Authorize]
-        [Filters.ValidateAjax]
-        public JsonResult SuggestAdActivation(string id, string idAttivita = null)
-        {
-            using (DatabaseContext db = new DatabaseContext())
-            {
-                //string tokenAnnuncio = id.Substring(3, id.Length - 6);
-                db.Database.Connection.Open();
-                ANNUNCIO annuncio = db.ANNUNCIO.Single(m => m.TOKEN.ToString() == id);
-                int idAnnuncio = annuncio.ID;
-                int idUtente = (Session["utente"] as PersonaModel).Persona.ID;
-                int? keyAttivita = null;
-                // se è stata selezionata una attività commerciale dell'utente
-                List<AttivitaModel> listaAttivita = (Session["utente"] as PersonaModel).Attivita;
-                if (listaAttivita != null && listaAttivita.Count > 0)
-                    keyAttivita = listaAttivita.SingleOrDefault(m => m.Attivita.TOKEN.ToString() == idAttivita).ID;
-                // notifica già inviata.
-                if (db.ANNUNCIO_NOTIFICA.Count(m => m.ID_ANNUNCIO == idAnnuncio && (m.NOTIFICA.ID_PERSONA == idUtente || (keyAttivita != null && m.NOTIFICA.ID_ATTIVITA == keyAttivita))) > 0)
-                {
-                    Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
-                    return Json(App_GlobalResources.Language.SuggestAdActivationError);
-                }
-
-                NOTIFICA notifica = new NOTIFICA();
-                notifica.ID_PERSONA = idUtente;
-                notifica.ID_ATTIVITA = keyAttivita;
-                notifica.ID_PERSONA_DESTINATARIO = annuncio.ID_PERSONA;
-                notifica.ID_ATTIVITA_DESTINATARIO = annuncio.ID_ATTIVITA;
-                notifica.MESSAGGIO = (int)TipoNotifica.AttivaAnnuncio;
-                notifica.DATA_INSERIMENTO = DateTime.Now;
-                notifica.STATO = (int)Stato.ATTIVO;
-                db.NOTIFICA.Add(notifica);
-                if (db.SaveChanges() > 0)
-                {
-                    db.ANNUNCIO_NOTIFICA.Add(new ANNUNCIO_NOTIFICA()
-                    {
-                        ID_ANNUNCIO = idAnnuncio,
-                        ID_NOTIFICA = notifica.ID
-                    });
-                    if (db.SaveChanges() > 0)
-                        return Json(App_GlobalResources.Language.SuggestAdActivationOK);
-                }
-            }
-            Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
-            return Json(App_GlobalResources.Language.SuggestAdActivationKO);
-        }
-
         #endregion
 
         #region METODI PRIVATI

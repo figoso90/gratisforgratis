@@ -1,9 +1,33 @@
 ﻿@model System.Web.Mvc.HandleErrorInfo
 
 @{
-    ViewBag.Title = "Error";
+    ViewBag.Title = "Errore inatteso";
 }
 
-<h1 class="text-danger">Error. Prova</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
-
+<section id="page">
+    <h2>@ViewBag.Title</h2>
+    <div>
+        @if (Model != null && HttpContext.Current.IsDebuggingEnabled)
+        {
+            <p>
+                <b>Exception:</b> @Model.Exception.Message<br />
+                <b>Controller:</b> @Model.ControllerName<br />
+                <b>Action:</b> @Model.ActionName
+            </p>
+            <div>
+                <pre>
+                @Model.Exception.StackTrace
+            </pre>
+            </div>
+        }
+        else
+        {
+            <div>
+                <pre>
+                C'è stato un errore imprevisto. Se sei loggato al portale, ti verranno accreditati dei soldi come scuse per il disservizio.
+                Continua a divertirti sul nostro sito e a rivoluzionare il tuo modo di essere!
+            </pre>
+            </div>
+        }
+    </div>
+</section>

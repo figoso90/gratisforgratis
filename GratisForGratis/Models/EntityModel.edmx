@@ -579,6 +579,24 @@ avviso 6005: Tipo di dati 'hierarchyid' attualmente non supportato per la versio
           <Property Name="DATA_MODIFICA" Type="datetime" />
           <Property Name="STATO" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="LOG_ERRORE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RICHIESTA" Type="text" />
+          <Property Name="RISPOSTA" Type="text" />
+          <Property Name="PARAMETRI" Type="nvarchar" MaxLength="4000" />
+          <Property Name="ID_PERSONA" Type="int" />
+          <Property Name="ID_ATTIVITA" Type="int" />
+          <Property Name="CONTROLLER" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ACTION" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SESSIONE" Type="nvarchar" MaxLength="500" />
+          <Property Name="IP" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ALIAS" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MAC_ADDRESS" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DATA_INSERIMENTO" Type="datetime" />
+        </EntityType>
         <EntityType Name="LOG_PAGAMENTO">
           <Key>
             <PropertyRef Name="ID" />
@@ -4112,6 +4130,7 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <EntitySet Name="FORMATO" EntityType="Self.FORMATO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GENERE" EntityType="Self.GENERE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="INDIRIZZO" EntityType="Self.INDIRIZZO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LOG_ERRORE" EntityType="Self.LOG_ERRORE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LOG_PAGAMENTO" EntityType="Self.LOG_PAGAMENTO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LOG_SBLOCCO_ANNUNCIO" EntityType="Self.LOG_SBLOCCO_ANNUNCIO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MARCA" EntityType="Self.MARCA" Schema="dbo" store:Type="Tables" />
@@ -6117,6 +6136,7 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             <End Role="PERSONA" EntitySet="PERSONA" />
             <End Role="PERSONA_TELEFONO" EntitySet="PERSONA_TELEFONO" />
           </AssociationSet>
+          <EntitySet Name="LOG_ERRORE" EntityType="GratisForGratisModel.LOG_ERRORE" />
           </EntityContainer>
         <ComplexType Name="FINDSOTTOCATEGORIE_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -10580,6 +10600,24 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="LOG_ERRORE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RICHIESTA" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="RISPOSTA" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PARAMETRI" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="ID_PERSONA" Type="Int32" />
+          <Property Name="ID_ATTIVITA" Type="Int32" />
+          <Property Name="CONTROLLER" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ACTION" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SESSIONE" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IP" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ALIAS" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MAC_ADDRESS" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DATA_INSERIMENTO" Type="DateTime" Precision="3" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -12161,6 +12199,25 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
                 <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
                 <ScalarProperty Name="ID_CONTO_CORRENTE" ColumnName="ID_CONTO_CORRENTE" />
                 <ScalarProperty Name="TOKEN" ColumnName="TOKEN" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LOG_ERRORE">
+            <EntityTypeMapping TypeName="GratisForGratisModel.LOG_ERRORE">
+              <MappingFragment StoreEntitySet="LOG_ERRORE">
+                <ScalarProperty Name="DATA_INSERIMENTO" ColumnName="DATA_INSERIMENTO" />
+                <ScalarProperty Name="MAC_ADDRESS" ColumnName="MAC_ADDRESS" />
+                <ScalarProperty Name="ALIAS" ColumnName="ALIAS" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="SESSIONE" ColumnName="SESSIONE" />
+                <ScalarProperty Name="ACTION" ColumnName="ACTION" />
+                <ScalarProperty Name="CONTROLLER" ColumnName="CONTROLLER" />
+                <ScalarProperty Name="ID_ATTIVITA" ColumnName="ID_ATTIVITA" />
+                <ScalarProperty Name="ID_PERSONA" ColumnName="ID_PERSONA" />
+                <ScalarProperty Name="PARAMETRI" ColumnName="PARAMETRI" />
+                <ScalarProperty Name="RISPOSTA" ColumnName="RISPOSTA" />
+                <ScalarProperty Name="RICHIESTA" ColumnName="RICHIESTA" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

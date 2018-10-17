@@ -323,6 +323,7 @@
         <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_RICERCA_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_SEGNALAZIONE_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_TELEFONO_PERSONA" />
+        <EntityTypeShape EntityType="GratisForGratisModel.LOG_ERRORE" Width="1.5" PointX="5.375" PointY="5.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

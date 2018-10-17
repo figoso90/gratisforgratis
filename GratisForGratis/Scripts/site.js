@@ -635,11 +635,13 @@ function nonDesidero(token, elemento) {
     });
 }
 
-function suggestAdActivation(elemento, idAd) {
+// DEPRECATED E DISATTIVATA
+function suggestAdActivation(elemento, chiave1) {
+    /*
     $.ajax({
         type: "POST",
         url: '/Cerca/SuggestAdActivation',
-        data: "{ 'id': '" + idAd + "', 'idAttivita': '" + $('#BusinessSuggestAd').val() + "' }",
+        data: "{ 'chiave1': '" + chiave1 + "', 'idAttivita': '" + $('#BusinessSuggestAd').val() + "' }",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (msg) {
@@ -651,6 +653,33 @@ function suggestAdActivation(elemento, idAd) {
             alert("Errore: " + msg);
         }
     });
+    */
+
+    /*
+    $.post("/Utente/SuggestAdActivation", { 'id': idAd, 'idAttivita': $('#BusinessSuggestAd').val() }, function (data) {
+        alert(data);
+    });
+    */
+
+    var newForm = jQuery('<form>', {
+        'action': '/Utente/SuggestAdActivation',
+        'method': 'post',
+        'style': "display:none;"
+    });
+
+    newForm.append(jQuery('<input>', {
+        'name': 'chiave1',
+        'value': chiave1,
+        'type': 'hidden'
+        }))
+        .append(jQuery('<input>', {
+            'name': 'idAttivita',
+            'value': $('#BusinessSuggestAd').val(),
+            'type': 'hidden'
+        }));
+    $(document.body).append(newForm);
+    
+    newForm.submit();
 }
 
 function possiedo(token, testo)

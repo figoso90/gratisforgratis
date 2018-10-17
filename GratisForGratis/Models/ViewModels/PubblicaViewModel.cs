@@ -30,6 +30,7 @@ namespace GratisForGratis.Models
         [Display(Name = "Category", ResourceType = typeof(Language))]
         [Range(1, 2147483647, ErrorMessageResourceName = "ErrorCategory", ErrorMessageResourceType = typeof(Language))]
         [Required(ErrorMessageResourceName = "ErrorRequiredCategory", ErrorMessageResourceType = typeof(Language))]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public int CategoriaId { get; set; }
 
         public string CategoriaNome { get; set; }
@@ -41,22 +42,26 @@ namespace GratisForGratis.Models
         [DataType(DataType.Text)]
         //[ListValidator(ErrorMessageResourceName = "ErrorRequiredPhote", ErrorMessageResourceType = typeof(Language))]
         [Required(ErrorMessageResourceName = "ErrorRequiredPhote", ErrorMessageResourceType = typeof(Language))]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public List<string> Foto { get; set; }
 
         [Range(1, 2147483647, ErrorMessageResourceName = "ErrorCity", ErrorMessageResourceType = typeof(Language))]
         [Required(ErrorMessageResourceName = "ErrorCity", ErrorMessageResourceType = typeof(Language))]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public int IDCitta { get; set; }
 
         [DataType(DataType.Text)]
         [Display(Name = "LblTitleAd", ResourceType = typeof(Language))]
         [Required]
         [StringLength(50, MinimumLength = 3, ErrorMessageResourceName = "TextTooLong", ErrorMessageResourceType = typeof(Language))]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public virtual string Nome { get; set; }
 
         //[Required]
         [DataType(DataType.MultilineText)]
         [Display(Name = "OptionalNote", ResourceType = typeof(Language))]
         [StringLength(2000, MinimumLength = 5, ErrorMessageResourceName = "ErrorDescriptionPost", ErrorMessageResourceType = typeof(Language))]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public string NoteAggiuntive { get; set; }
 
         [Range(0, 2147483647, ErrorMessageResourceName = "ErrorPoints", ErrorMessageResourceType = typeof(Language))]
@@ -71,16 +76,20 @@ namespace GratisForGratis.Models
         [DataType(DataType.Currency, ErrorMessageResourceName = "ErrorMoney", ErrorMessageResourceType = typeof(Language))]
         [Range(0, 2147483647, ErrorMessageResourceName = "ErrorValueCoin", ErrorMessageResourceType = typeof(Language))]
         [Required]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public int Soldi { get; set; }
 
         [Display(Name = "PaymentMethodsAccepted", ResourceType = typeof(Language))]
         [Range(0, 2147483647, ErrorMessageResourceName = "ErrorTypePayment", ErrorMessageResourceType = typeof(Language))]
         [Required]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public TipoPagamento TipoPagamento { get; set; }
 
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public int IdTipoValuta { get; set; }
 
         [Required]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public TipoAcquisto TipoPubblicazione { get; set; }
 
         [DataType(DataType.Text)]
@@ -106,6 +115,7 @@ namespace GratisForGratis.Models
 
         [Display(Name = "LifeAdvertisment", ResourceType = typeof(ViewModel))]
         [Required(ErrorMessageResourceName = "LifeAdvertismentRequired", ErrorMessageResourceType = typeof(App_GlobalResources.ErrorResource))]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public DurataAnnuncio DurataInserzione { get; set; }
 
         public Guid TokenUploadFoto { get; set; }
@@ -288,9 +298,6 @@ namespace GratisForGratis.Models
             {
                 if (SalvaDettaglioPerTipologiaAnnuncio(DbContext, vendita) && SalvaDettaglioPerCategoriaAnnuncio(DbContext, vendita))
                 {
-                    this.InviaEmail(controller, vendita, utente);
-                    this.SaveBonus(DbContext, utente);
-
                     foreach (string nomeFoto in this.Foto)
                     {
                         // può avvenire bug inserimento senza foto, perchè non c'è controllo in caso di errore generico
@@ -324,7 +331,10 @@ namespace GratisForGratis.Models
         }
         public bool IsAnnuncioCompleto()
         {
-            PropertyInfo[] properties = this.GetType().GetProperties();
+            PropertyInfo[] properties = this.GetType().GetProperties()
+                .Where(m => m.CustomAttributes.Count(m2 => 
+                    m2.AttributeType == typeof(GratisForGratis.DataAnnotations.AnnuncioCompletoAttribute)) > 0
+                ).ToArray();
             for (int i = 0; i < (int)properties.Length; i++)
             {
                 PropertyInfo propertyInfo = properties[i];
@@ -332,6 +342,15 @@ namespace GratisForGratis.Models
                     return false;
             }
             return true;
+        }
+        public void CancelUploadFoto(ANNUNCIO vendita)
+        {
+            PersonaModel utente = ((PersonaModel)HttpContext.Current.Session["utente"]);
+            foreach (string nomeFoto in this.Foto)
+            {
+                AnnuncioFoto foto = new AnnuncioFoto();
+                foto.Cancel(DbContext, utente.Persona.TOKEN, vendita.ID, nomeFoto, TokenUploadFoto);
+            }
         }
         #endregion
 
@@ -373,18 +392,25 @@ namespace GratisForGratis.Models
             }
         }
 
-        private bool SaveBonus(DatabaseContext db, PersonaModel utente)
+        /*DEPRECATED*/
+        private int SaveBonus(DatabaseContext db, PersonaModel utente)
         {
+            bool risultato = false;
+            TRANSAZIONE bonusAnnuncioCompleto = null;
+            int numeroPuntiGuadagnati = 0;
+
             // verifico se dare un bonus dopo un certo numero di pubblicazioni
             Guid portale = Guid.Parse(ConfigurationManager.AppSettings["portaleweb"]);
             Guid idContoCorrente = db.ATTIVITA.SingleOrDefault(p => p.TOKEN == portale).ID_CONTO_CORRENTE;
             int numeroVendite = db.ANNUNCIO.Where(v => v.ID_PERSONA == utente.Persona.ID).GroupBy(v => v.ID_CATEGORIA).Count();
+
+            // aggiunge il bonus sui primi tot. annunci iniziali
             TRANSAZIONE bonus = db.TRANSAZIONE.Where(b => b.ID_CONTO_MITTENTE == idContoCorrente
                 && b.ID_CONTO_DESTINATARIO == utente.Persona.ID_CONTO_CORRENTE && b.TIPO == (int)TipoTransazione.BonusPubblicazioneIniziale).FirstOrDefault();
             if (numeroVendite == Convert.ToInt32(ConfigurationManager.AppSettings["numeroPubblicazioniBonus"])
                 && bonus == null)
             {
-                db.TRANSAZIONE.Add(new TRANSAZIONE()
+                bonus = new TRANSAZIONE()
                 {
                     ID_CONTO_MITTENTE = idContoCorrente,
                     ID_CONTO_DESTINATARIO = utente.Persona.ID_CONTO_CORRENTE,
@@ -393,27 +419,39 @@ namespace GratisForGratis.Models
                     PUNTI = Convert.ToInt32(ConfigurationManager.AppSettings["bonusPubblicazioniIniziali"]),
                     DATA_INSERIMENTO = DateTime.Now,
                     STATO = (int)Stato.ATTIVO,
-                });
+                };
+                db.TRANSAZIONE.Add(bonus);
                 if (db.SaveChanges() > 0)
                 {
-
-                    if (this.IsAnnuncioCompleto())
-                    {
-                        db.TRANSAZIONE.Add(new TRANSAZIONE()
-                        {
-                            ID_CONTO_MITTENTE = idContoCorrente,
-                            ID_CONTO_DESTINATARIO = utente.Persona.ID_CONTO_CORRENTE,
-                            TIPO = (int)TipoBonus.AnnuncioCompleto,
-                            NOME = Bonus.FullAnnouncement,
-                            PUNTI = Convert.ToInt32(ConfigurationManager.AppSettings["bonusAnnuncioCompleto"]),
-                            DATA_INSERIMENTO = DateTime.Now,
-                            STATO = (int)Stato.ATTIVO,
-                        });
-                        return (db.SaveChanges() > 0);
-                    }
+                    numeroPuntiGuadagnati += (int)bonus.PUNTI;
+                    risultato = risultato | true;                    
                 }
             }
-            return false;
+
+            // aggiunge bonus se l'annuncio è completo di tutti i dati
+            if (this.IsAnnuncioCompleto())
+            {
+                bonusAnnuncioCompleto = new TRANSAZIONE()
+                {
+                    ID_CONTO_MITTENTE = idContoCorrente,
+                    ID_CONTO_DESTINATARIO = utente.Persona.ID_CONTO_CORRENTE,
+                    TIPO = (int)TipoBonus.AnnuncioCompleto,
+                    NOME = Bonus.FullAnnouncement,
+                    PUNTI = Convert.ToInt32(ConfigurationManager.AppSettings["bonusAnnuncioCompleto"]),
+                    DATA_INSERIMENTO = DateTime.Now,
+                    STATO = (int)Stato.ATTIVO,
+                };
+                db.TRANSAZIONE.Add(bonusAnnuncioCompleto);
+                //return (db.SaveChanges() > 0);
+                if (db.SaveChanges() > 0)
+                {
+                    numeroPuntiGuadagnati += (int)bonusAnnuncioCompleto.PUNTI;
+                    risultato = risultato | true;
+                }
+            }
+
+            return ((risultato)? numeroPuntiGuadagnati : 0);
+            //return ((risultato) ? (int)bonus.PUNTI : 0);
         }
         #endregion
     }
@@ -518,6 +556,7 @@ namespace GratisForGratis.Models
 
         #region PROPRIETA
         [Range(0, 2147483647, ErrorMessageResourceName = "ErrorRange", ErrorMessageResourceType = typeof(Language))]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public int? Anno { get; set; }
 
         [Range(0, 2147483647, ErrorMessageResourceName = "ErrorRange", ErrorMessageResourceType = typeof(Language))]
@@ -536,18 +575,22 @@ namespace GratisForGratis.Models
 
         [Display(Name = "StateObject", ResourceType = typeof(Language))]
         [Required]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public CondizioneOggetto CondizioneOggetto { get; set; }
 
         //[Required]
         public virtual string Marca { get; set; }
 
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public int? MarcaID { get; set; }
 
         [Display(Name = "Quantity", ResourceType = typeof(Language))]
         [Range(1, 2147483647, ErrorMessageResourceName = "ErrorQuantity", ErrorMessageResourceType = typeof(Language))]
         [Required]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public int Quantità { get; set; }
 
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public List<string> Materiali
         {
             get
@@ -560,6 +603,7 @@ namespace GratisForGratis.Models
             }
         }
 
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public List<string> Componenti
         {
             get
@@ -575,10 +619,12 @@ namespace GratisForGratis.Models
         // nuovi campi
         [Display(Name = "ExchangeHand", ResourceType = typeof(ViewModel))]
         [Required(ErrorMessageResourceName = "ExchangeModeRequired", ErrorMessageResourceType = typeof(App_GlobalResources.ErrorResource))]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public bool ScambioAMano { get; set; }
 
         [Display(Name = "ExchangeShip", ResourceType = typeof(ViewModel))]
         [Required(ErrorMessageResourceName = "ExchangeModeRequired", ErrorMessageResourceType = typeof(App_GlobalResources.ErrorResource))]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public bool ScambioConSpedizione { get; set; }
 
         public List<SelectListItem> ListaTipoSpedizione { get; set; }
@@ -1628,68 +1674,83 @@ namespace GratisForGratis.Models
         #region PROPRIETA
         [Required]
         [Display(Name = "Sunday", ResourceType = typeof(Language))]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public bool Domenica { get; set; }
 
         [Required]
         [Display(Name = "Thursday", ResourceType = typeof(Language))]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public bool Giovedi { get; set; }
 
         [Required]
         [Display(Name = "Monday", ResourceType = typeof(Language))]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public bool Lunedi { get; set; }
 
         [Required]
         [Display(Name = "Tuesday", ResourceType = typeof(Language))]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public bool Martedi { get; set; }
 
         [Required]
         [Display(Name = "Wednesday", ResourceType = typeof(Language))]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public bool Mercoledi { get; set; }
 
         [Display(Name = "Bid", ResourceType = typeof(Language))]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public string Offerta { get; set; }
 
         [DataType(DataType.Time, ErrorMessageResourceName = "ErrorEndTime", ErrorMessageResourceType = typeof(Language))]
         [GratisForGratis.DataAnnotations.RangeTime(ErrorMessageResourceName = "ErrorFormat", ErrorMessageResourceType = typeof(Language))]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:HH:mm}")]
         [Display(Name = "EndTime", ResourceType = typeof(Language))]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public DateTime? OraFineFeriali { get; set; }
 
         [DataType(DataType.Time, ErrorMessageResourceName = "ErrorEndTime", ErrorMessageResourceType = typeof(Language))]
         [GratisForGratis.DataAnnotations.RangeTime(ErrorMessageResourceName = "ErrorFormat", ErrorMessageResourceType = typeof(Language))]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:HH:mm}")]
         [Display(Name = "EndTime", ResourceType = typeof(Language))]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public DateTime? OraFineFestivi { get; set; }
 
         [DataType(DataType.Time, ErrorMessageResourceName = "ErrorStartTime", ErrorMessageResourceType = typeof(Language))]
         [GratisForGratis.DataAnnotations.RangeTime(ErrorMessageResourceName = "ErrorFormat", ErrorMessageResourceType = typeof(Language))]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:HH:mm}")]
         [Display(Name = "StartTime", ResourceType = typeof(Language))]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public DateTime? OraInizioFeriali { get; set; }
 
         [DataType(DataType.Time, ErrorMessageResourceName = "ErrorStartTime", ErrorMessageResourceType = typeof(Language))]
         [GratisForGratis.DataAnnotations.RangeTime(ErrorMessageResourceName = "ErrorFormat", ErrorMessageResourceType = typeof(Language))]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:HH:mm}")]
         [Display(Name = "StartTime", ResourceType = typeof(Language))]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public DateTime? OraInizioFestivi { get; set; }
 
         [Display(Name = "Results", ResourceType = typeof(Language))]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public string Risultati { get; set; }
 
         [Required]
         [Display(Name = "Saturday", ResourceType = typeof(Language))]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public bool Sabato { get; set; }
 
         [Required]
         [Display(Name = "AllDays", ResourceType = typeof(Language))]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public bool Tutti { get; set; }
 
         [Required]
         [Display(Name = "Friday", ResourceType = typeof(Language))]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public bool Venerdi { get; set; }
 
         [Required]
         [Display(Name = "Rate", ResourceType = typeof(Language))]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public Tariffa Tariffa { get; set; }
         #endregion    
 

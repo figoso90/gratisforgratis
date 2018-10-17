@@ -36,6 +36,7 @@
     word-wrap: break-word;
     overflow-y: hidden;
     word-break: break-word;
+    text-align:center;
 }
 
 #home .object .evidence

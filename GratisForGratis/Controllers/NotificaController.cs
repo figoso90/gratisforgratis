@@ -1,4 +1,5 @@
 ﻿using GratisForGratis.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -6,7 +7,8 @@ using System.Web.Mvc;
 
 namespace GratisForGratis.Controllers
 {
-    public class NotificaController : Controller
+    [Authorize]
+    public class NotificaController : AdvancedController
     {
 
         [HttpGet]
@@ -26,7 +28,15 @@ namespace GratisForGratis.Controllers
                     .Skip((pagina - 1) * numeroElementi)
                     .Take(numeroElementi);
 
-                listaNotifiche.ToList().ForEach(m => {
+                listaNotifiche.ToList().ForEach(m => {                    
+                    m.DATA_LETTURA = DateTime.Now;
+                    m.DATA_MODIFICA = DateTime.Now;
+                    m.STATO = (int)StatoNotifica.LETTA;
+                    db.NOTIFICA.Attach(m);
+                    var entry = db.Entry(m);
+                    entry.State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+
                     UtenteNotificaViewModel utenteNotifica = new UtenteNotificaViewModel();
                     utenteNotifica.getTipoNotifica(db, m);
                     listModel.Add(utenteNotifica);
@@ -36,6 +46,7 @@ namespace GratisForGratis.Controllers
                 if (pagina == 0)
                     pagina = 1;
                 ViewData["Pagina"] = pagina;
+                RefreshPunteggioUtente(db);
             }
             return View(listModel);
         }
@@ -53,6 +64,7 @@ namespace GratisForGratis.Controllers
                     RedirectToAction("", "Home");
                 
                 utenteNotifica.getTipoNotifica(db, model);
+                RefreshPunteggioUtente(db);
             }
             return View(utenteNotifica);
         }

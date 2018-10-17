@@ -72,7 +72,12 @@
     #menuUser .points h3 a{
         display:block;
     }
-
+    #index .category {
+        width: 85%;
+        margin-left:0%;
+        margin-right:0%;
+    }
+    /*
     #index .category {
         min-width: 118px;
     }
@@ -84,7 +89,7 @@
         #index .category .box .text{
             font-size:12px;
         }
-
+    */
     ins, iframe{
         max-width:220px;
     }

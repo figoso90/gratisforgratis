@@ -15,7 +15,118 @@ namespace GratisForGratis.Controllers
     [HandleError]
     public class AdvancedController : Controller
     {
-        #region METODI
+        #region ACTION
+        [HttpPost]
+        [Authorize]
+        public ActionResult SuggestAdActivation(string chiave1, string idAttivita = null)
+        {
+            string backUrl = Request.UrlReferrer.PathAndQuery;
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                //string tokenAnnuncio = id.Substring(3, id.Length - 6);
+                db.Database.Connection.Open();
+                ANNUNCIO annuncio = db.ANNUNCIO.Single(m => m.TOKEN.ToString() == chiave1);
+                int idAnnuncio = annuncio.ID;
+                PERSONA persona = (Session["utente"] as PersonaModel).Persona;
+                int idUtente = persona.ID;
+                int? keyAttivita = null;
+                // se è stata selezionata una attività commerciale dell'utente
+                List<AttivitaModel> listaAttivita = (Session["utente"] as PersonaModel).Attivita;
+                if (listaAttivita != null && listaAttivita.Count > 0)
+                    keyAttivita = listaAttivita.SingleOrDefault(m => m.Attivita.TOKEN.ToString() == idAttivita).ID;
+                // notifica già inviata.
+                if (db.ANNUNCIO_NOTIFICA.Count(m => m.ID_ANNUNCIO == idAnnuncio && (m.NOTIFICA.ID_PERSONA == idUtente || (keyAttivita != null && m.NOTIFICA.ID_ATTIVITA == keyAttivita))) > 0)
+                {
+                    TempData["MESSAGGIO"] = Language.SuggestAdActivationError;
+                    //return RedirectToAction("", "Cerca");
+                    return Redirect(backUrl);
+                }
+                Guid portale = Guid.Parse(System.Configuration.ConfigurationManager.AppSettings["portaleweb"]);
+                int bonus = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["bonusSuggerimentoAttivazioneAnnuncio"]);
+                this.AddBonus(db, persona, portale, bonus, TipoTransazione.BonusSuggerimentoAttivazioneAnnuncio, Bonus.SuggestAdActivation);
+
+                NOTIFICA notifica = new NOTIFICA();
+                notifica.ID_PERSONA = idUtente;
+                notifica.ID_ATTIVITA = keyAttivita;
+                notifica.ID_PERSONA_DESTINATARIO = annuncio.ID_PERSONA;
+                notifica.ID_ATTIVITA_DESTINATARIO = annuncio.ID_ATTIVITA;
+                notifica.MESSAGGIO = (int)TipoNotifica.AttivaAnnuncio;
+                notifica.DATA_INSERIMENTO = DateTime.Now;
+                notifica.STATO = (int)Stato.ATTIVO;
+                db.NOTIFICA.Add(notifica);
+                if (db.SaveChanges() > 0)
+                {
+                    db.ANNUNCIO_NOTIFICA.Add(new ANNUNCIO_NOTIFICA()
+                    {
+                        ID_ANNUNCIO = idAnnuncio,
+                        ID_NOTIFICA = notifica.ID
+                    });
+                    if (db.SaveChanges() > 0)
+                    {
+                        TempData["MESSAGGIO"] = Language.SuggestAdActivationOK;
+                        //return RedirectToAction("", "Cerca");
+                        return Redirect(backUrl);
+                    }
+                }
+            }
+            TempData["MESSAGGIO"] = Language.SuggestAdActivationKO;
+            //return RedirectToAction("", "Cerca");
+            return Redirect(backUrl);
+        }
+        /*
+        [HttpPost]
+        [Authorize]
+        [Filters.ValidateAjax]
+        public JsonResult SuggestAdActivation(string id, string idAttivita = null)
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                //string tokenAnnuncio = id.Substring(3, id.Length - 6);
+                db.Database.Connection.Open();
+                ANNUNCIO annuncio = db.ANNUNCIO.Single(m => m.TOKEN.ToString() == id);
+                int idAnnuncio = annuncio.ID;
+                int idUtente = (Session["utente"] as PersonaModel).Persona.ID;
+                int? keyAttivita = null;
+                // se è stata selezionata una attività commerciale dell'utente
+                List<AttivitaModel> listaAttivita = (Session["utente"] as PersonaModel).Attivita;
+                if (listaAttivita != null && listaAttivita.Count > 0)
+                    keyAttivita = listaAttivita.SingleOrDefault(m => m.Attivita.TOKEN.ToString() == idAttivita).ID;
+                // notifica già inviata.
+                if (db.ANNUNCIO_NOTIFICA.Count(m => m.ID_ANNUNCIO == idAnnuncio && (m.NOTIFICA.ID_PERSONA == idUtente || (keyAttivita != null && m.NOTIFICA.ID_ATTIVITA == keyAttivita))) > 0)
+                {
+                    Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+                    return Json(App_GlobalResources.Language.SuggestAdActivationError);
+                }
+
+                NOTIFICA notifica = new NOTIFICA();
+                notifica.ID_PERSONA = idUtente;
+                notifica.ID_ATTIVITA = keyAttivita;
+                notifica.ID_PERSONA_DESTINATARIO = annuncio.ID_PERSONA;
+                notifica.ID_ATTIVITA_DESTINATARIO = annuncio.ID_ATTIVITA;
+                notifica.MESSAGGIO = (int)TipoNotifica.AttivaAnnuncio;
+                notifica.DATA_INSERIMENTO = DateTime.Now;
+                notifica.STATO = (int)Stato.ATTIVO;
+                db.NOTIFICA.Add(notifica);
+                if (db.SaveChanges() > 0)
+                {
+                    db.ANNUNCIO_NOTIFICA.Add(new ANNUNCIO_NOTIFICA()
+                    {
+                        ID_ANNUNCIO = idAnnuncio,
+                        ID_NOTIFICA = notifica.ID
+                    });
+                    if (db.SaveChanges() > 0)
+                    {
+                        return Json(App_GlobalResources.Language.SuggestAdActivationOK);
+                    }
+                }
+            }
+            Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+            return Json(App_GlobalResources.Language.SuggestAdActivationKO);
+        }
+        */
+        #endregion
+
+        #region METODI PUBBLICI
 
         [AllowAnonymous]
         public void setSessioneUtente(HttpSessionStateBase sessione, DatabaseContext db, int utente, bool ricordaLogin)
@@ -30,6 +141,12 @@ namespace GratisForGratis.Controllers
                 .Include("PERSONA_FOTO")
                 .Include("PERSONA_ATTIVITA")
                 .SingleOrDefault(m => m.ID == utente);
+            
+            // login effettuata con successo, aggiungo i punti se ha il profilo attivo completamente e se è un nuovo accesso giornaliero
+            DateTime dataCorrente = DateTime.Now;
+            if (model.STATO == (int)Stato.ATTIVO && model.STATO == (int)Stato.ATTIVO && (model.DATA_ACCESSO == null || model.DATA_ACCESSO.Value.Year < dataCorrente.Year || (model.DATA_ACCESSO.Value.Year == dataCorrente.Year && dataCorrente.DayOfYear > model.DATA_ACCESSO.Value.DayOfYear)))
+                AddPuntiLogin(db, model);
+
             PersonaModel persona = new PersonaModel(model);
             persona.Email = model.PERSONA_EMAIL.Where(m => m.ID_PERSONA == utente).ToList();
             persona.Telefono = model.PERSONA_TELEFONO.Where(m => m.ID_PERSONA == utente).ToList();
@@ -48,6 +165,8 @@ namespace GratisForGratis.Controllers
             persona.ContoCorrente = db.CONTO_CORRENTE_MONETA.Where(m => m.ID_CONTO_CORRENTE == persona.Persona.ID_CONTO_CORRENTE).ToList();
             persona.NomeVisibile = (string.IsNullOrWhiteSpace(persona.Persona.NOME + persona.Persona.COGNOME) ? persona.Email
                 .Where(m => m.TIPO == (int)TipoEmail.Registrazione).SingleOrDefault().EMAIL: string.Concat(persona.Persona.NOME, " ", persona.Persona.COGNOME));
+            persona.NumeroMessaggiDaLeggere = db.CHAT.Count(m => m.ID_DESTINATARIO == utente && m.STATO == (int)StatoChat.INVIATO);
+            persona.NumeroNotificheDaLeggere = db.NOTIFICA.Count(m => m.ID_PERSONA_DESTINATARIO == utente && m.STATO == (int)StatoNotifica.ATTIVA);
 
             sessione["utente"] = persona;
             if (persona.Attivita != null && persona.Attivita.Count > 0)
@@ -112,8 +231,7 @@ namespace GratisForGratis.Controllers
             return db.OFFERTA.Where(item => item.ID_PERSONA == utente.Persona.ID && item.STATO == (int)StatoOfferta.ATTIVA).Count();
         }
 
-        // su tutte le vendite
-        
+        // su tutte le vendite 
         public int CountOfferteRicevute(DatabaseContext db)
         {
             PersonaModel utente = Session["utente"] as PersonaModel;
@@ -121,7 +239,6 @@ namespace GratisForGratis.Controllers
         }
 
         // sulla vendita singola
-        
         public int CountOfferteRicevute(DatabaseContext db, int vendita)
         {
             PersonaModel utente = Session["utente"] as PersonaModel;
@@ -138,18 +255,16 @@ namespace GratisForGratis.Controllers
 
         public void RefreshPunteggioUtente(DatabaseContext db)
         {
-            PersonaModel utente = Session["utente"] as PersonaModel;
-            utente.ContoCorrente = db.CONTO_CORRENTE_MONETA.Where(m => m.ID_CONTO_CORRENTE == utente.Persona.ID_CONTO_CORRENTE).ToList();
-            Session["utente"] = utente;
+            // VERIFICARLA
+            if (Session != null)
+            {
+                PersonaModel utente = Session["utente"] as PersonaModel;
+                utente.ContoCorrente = db.CONTO_CORRENTE_MONETA.Where(m => m.ID_CONTO_CORRENTE == utente.Persona.ID_CONTO_CORRENTE).ToList();
+                utente.NumeroMessaggiDaLeggere = db.CHAT.Count(m => m.ID_DESTINATARIO == utente.Persona.ID && m.STATO == (int)StatoChat.INVIATO);
+                utente.NumeroNotificheDaLeggere = db.NOTIFICA.Count(m => m.ID_PERSONA_DESTINATARIO == utente.Persona.ID && m.STATO == (int)StatoNotifica.ATTIVA);
+                Session["utente"] = utente;
+            }
         }
-        /*
-        public void RefreshPunteggioUtente(int punti, int puntiSospesi)
-        {
-            PersonaModel utente = Session["utente"] as PersonaModel;
-            utente.Punti = punti;
-            utente.PuntiSospesi = puntiSospesi;
-            Session["utente"] = utente;
-        }*/
 
         [AllowAnonymous]
         public string GetCurrentDomain()
@@ -160,7 +275,7 @@ namespace GratisForGratis.Controllers
 
         // VERIFICARE CHE L'ASSEGNAZIONE DELLA MONETA VADA A BUON FINE E CHE QUINDI LA TRANSAZIONE
         // ABBIA EFFETTO
-        protected void AddBonus(DatabaseContext db, PERSONA persona, Guid tokenPortale, int punti, TipoTransazione tipo, string nomeTransazione, int? idAnnuncio = null)
+        public void AddBonus(DatabaseContext db, PERSONA persona, Guid tokenPortale, int punti, TipoTransazione tipo, string nomeTransazione, int? idAnnuncio = null)
         {
             TRANSAZIONE model = new TRANSAZIONE();
             model.ID_CONTO_MITTENTE = db.ATTIVITA.Where(p => p.TOKEN == tokenPortale).SingleOrDefault().ID_CONTO_CORRENTE;
@@ -206,43 +321,12 @@ namespace GratisForGratis.Controllers
             }
 
             SendNotifica(persona, TipoNotifica.Bonus, "bonusRicevuto", model, db);
-            RefreshPunteggioUtente(db);
-        }
-        /*
-        protected bool CheckUtenteAttivo(int tipoAzione)
-        {
-            PersonaModel utente = (Session["utente"] as PersonaModel);
-            bool reindirizza = false;
-            if (utente.Persona.STATO == (int)Stato.INATTIVO)
-            {
-                reindirizza = true;
-                TempData["completaRegistrazione"] = (tipoAzione==0)?Language.PubblicaAnnuncioCompletaRegistrazione: Language.AcquistaCompletaRegistrazione;
-            }
+            TempData["BONUS"] = string.Format(Bonus.YouWin, punti, Language.Moneta);
 
-            if (utente.Email.SingleOrDefault(m => m.TIPO == (int)TipoEmail.Registrazione).STATO == (int)Stato.INATTIVO)
-            {
-                reindirizza = true;
-                TempData["confermaEmail"] = (tipoAzione==0)? Language.PubblicaAnnuncioConfermaEmail: Language.AcquistaConfermaEmail;
-            }
-
-            return reindirizza;
+            if (tipo != TipoTransazione.BonusLogin)
+                RefreshPunteggioUtente(db);
         }
-        */
-        // MVC2 .ascx
-        protected string RenderViewToString<T>(string viewPath, T model)
-        {
-            ViewData.Model = model;
-            using (var writer = new System.IO.StringWriter())
-            {
-                var view = new WebFormView(ControllerContext, viewPath);
-                var vdd = new ViewDataDictionary<T>(model);
-                var viewCxt = new ViewContext(ControllerContext, view, vdd,
-                                            new TempDataDictionary(), writer);
-                viewCxt.View.Render(viewCxt, writer);
-                return writer.ToString();
-            }
-        }
-
+        
         // RAZOR
         public string RenderRazorViewToString(string viewName, object model)
         {
@@ -273,7 +357,7 @@ namespace GratisForGratis.Controllers
                 notifica.ID_PERSONA = utente.Persona.ID;
                 notifica.ID_PERSONA_DESTINATARIO = destinatario.ID;
                 notifica.MESSAGGIO = (int)messaggio;
-                notifica.STATO = (int)Stato.ATTIVO;
+                notifica.STATO = (int)StatoNotifica.ATTIVA;
                 notifica.DATA_INSERIMENTO = DateTime.Now;
                 if (nuovaConnessione)
                     db = new DatabaseContext();
@@ -308,6 +392,22 @@ namespace GratisForGratis.Controllers
         }
 
         #endregion
+
+        #region METODI PROTETTI
+        // MVC2 .ascx
+        protected string RenderViewToString<T>(string viewPath, T model)
+        {
+            ViewData.Model = model;
+            using (var writer = new System.IO.StringWriter())
+            {
+                var view = new WebFormView(ControllerContext, viewPath);
+                var vdd = new ViewDataDictionary<T>(model);
+                var viewCxt = new ViewContext(ControllerContext, view, vdd,
+                                            new TempDataDictionary(), writer);
+                viewCxt.View.Render(viewCxt, writer);
+                return writer.ToString();
+            }
+        }
 
         protected bool SendEmail(string indirizzoEmail, string oggetto, ControllerContext controller, string nomeView, object datiEmail)
         {
@@ -496,5 +596,21 @@ namespace GratisForGratis.Controllers
             }
             return null;
         }
+        #endregion
+
+        #region METODI PRIVATI
+        private void AddPuntiLogin(DatabaseContext db, PERSONA utente)
+        {
+            int puntiAccesso = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["bonusAccesso"]);
+            utente.DATA_ACCESSO = DateTime.Now;
+            db.Entry(utente).State = System.Data.Entity.EntityState.Modified;
+            if (db.SaveChanges() > 0)
+            {
+                Guid tokenPortale = Guid.Parse(System.Configuration.ConfigurationManager.AppSettings["portaleweb"]);
+                this.AddBonus(db, utente, tokenPortale, puntiAccesso, TipoTransazione.BonusLogin, Bonus.Login);
+                //db.SaveChanges();
+            }
+        }
+        #endregion
     }
 }

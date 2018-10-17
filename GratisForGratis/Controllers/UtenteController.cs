@@ -145,11 +145,6 @@ namespace GratisForGratis.Controllers
                             {
                                 setSessioneUtente(base.Session, db, model.ID_PERSONA, viewModel.RicordaLogin);
 
-                                // login effettuata con successo
-                                DateTime dataCorrente = DateTime.Now;
-                                if (model.PERSONA.DATA_ACCESSO == null || model.PERSONA.DATA_ACCESSO.Value.Year < dataCorrente.Year || (model.PERSONA.DATA_ACCESSO.Value.Year == dataCorrente.Year && dataCorrente.DayOfYear > model.PERSONA.DATA_ACCESSO.Value.DayOfYear))
-                                    AddPuntiLogin(db, model.PERSONA);
-
                                 // sistemare il return, perchè va in conflitto con il allowonlyanonymous
                                 return Redirect((string.IsNullOrWhiteSpace(viewModel.ReturnUrl)) ? FormsAuthentication.DefaultUrl : viewModel.ReturnUrl);
                             }
@@ -225,11 +220,6 @@ namespace GratisForGratis.Controllers
                             else
                             {
                                 setSessioneUtente(base.Session, db, model.ID_PERSONA, viewModel.RicordaLogin);
-
-                                // login effettuata con successo, aggiungo i punti se ha il profilo attivo completamente e se è un nuovo accesso giornaliero
-                                DateTime dataCorrente = DateTime.Now;
-                                if (model.PERSONA.STATO == (int)Stato.ATTIVO && model.STATO == (int)Stato.ATTIVO && (model.PERSONA.DATA_ACCESSO == null || model.PERSONA.DATA_ACCESSO.Value.Year < dataCorrente.Year || (model.PERSONA.DATA_ACCESSO.Value.Year == dataCorrente.Year && dataCorrente.DayOfYear > model.PERSONA.DATA_ACCESSO.Value.DayOfYear)))
-                                    AddPuntiLogin(db, model.PERSONA);
 
                                 // sistemare il return, perchè va in conflitto con il allowonlyanonymous
                                 return Redirect((string.IsNullOrWhiteSpace(viewModel.ReturnUrl)) ? FormsAuthentication.DefaultUrl : viewModel.ReturnUrl);
@@ -412,6 +402,8 @@ namespace GratisForGratis.Controllers
                     model.IndirizzoSpedizione = modelIndirizzoSpedizione.INDIRIZZO.INDIRIZZO1;
                     model.CivicoSpedizione = modelIndirizzoSpedizione.INDIRIZZO.CIVICO;
                 }
+
+            model.HasLoginFacebook = utente.Persona.FACEBOOK_TOKEN_PERMANENTE != null;
             //}
             return base.View(model);
         }
@@ -1070,19 +1062,6 @@ namespace GratisForGratis.Controllers
             }
         }
 
-        private void AddPuntiLogin(DatabaseContext db, PERSONA utente)
-        {
-            int puntiAccesso = Convert.ToInt32(ConfigurationManager.AppSettings["bonusAccesso"]);
-            utente.DATA_ACCESSO = DateTime.Now;
-            db.Entry(utente).State = EntityState.Modified;
-            if (db.SaveChanges() > 0)
-            {
-                Guid tokenPortale = Guid.Parse(ConfigurationManager.AppSettings["portaleweb"]);
-                this.AddBonus(db, utente, tokenPortale, puntiAccesso, TipoTransazione.BonusLogin, Bonus.Login);
-                //db.SaveChanges();
-            }
-        }
-
         private List<TRANSAZIONE> GetListaBonus(int pagina)
         {
             List<TRANSAZIONE> model = new List<TRANSAZIONE>();
@@ -1102,7 +1081,12 @@ namespace GratisForGratis.Controllers
                     item.TIPO == (int)TipoTransazione.BonusLogin ||
                     item.TIPO == (int)TipoTransazione.BonusPartner ||
                     item.TIPO == (int)TipoTransazione.BonusPubblicazioneIniziale ||
-                    item.TIPO == (int)TipoTransazione.BonusFeedback)
+                    item.TIPO == (int)TipoTransazione.BonusCanalePubblicitario ||
+                    item.TIPO == (int)TipoTransazione.BonusAnnuncioCompleto ||
+                    item.TIPO == (int)TipoTransazione.BonusSuggerimentoAttivazioneAnnuncio ||
+                    item.TIPO == (int)TipoTransazione.BonusSegnalazioneErrore ||
+                    item.TIPO == (int)TipoTransazione.BonusInvitaAmicoFB ||
+                    item.TIPO == (int)TipoTransazione.BonusAttivaHappyPage)
                     && 
                     item.STATO == (int)StatoPagamento.ACCETTATO);
                 int numeroElementi = Convert.ToInt32(WebConfigurationManager.AppSettings["numeroElementi"]);

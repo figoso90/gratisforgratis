@@ -279,6 +279,8 @@ namespace GratisForGratis.Models
         public bool AccettaCondizioni { get; set; }
 
         public string ImmagineProfilo { get; set; }
+
+        public bool HasLoginFacebook { get; set; }
     }
 
     public class UtenteCambioPasswordViewModel

@@ -49,6 +49,23 @@ namespace GratisForGratis.Models
             db.ANNUNCIO_FOTO.Add(foto);
             db.SaveChanges();
         }
+
+        public void Cancel(DatabaseContext db, Guid tokenUtente, int idAnnuncio, string nome, Guid tokenUploadFoto)
+        {
+            string pathImgOriginale = HttpContext.Current.Server.MapPath("~/Uploads/Images/" + tokenUtente + "/" + DateTime.Now.Year.ToString() + "/Original/");
+            string pathImgMedia = HttpContext.Current.Server.MapPath("~/Uploads/Images/" + tokenUtente + "/" + DateTime.Now.Year.ToString() + "/Normal/");
+            string pathImgPiccola = HttpContext.Current.Server.MapPath("~/Uploads/Images/" + tokenUtente + "/" + DateTime.Now.Year.ToString() + "/Little/");
+            try
+            {
+                System.IO.File.Move(pathImgOriginale + nome, HttpContext.Current.Server.MapPath("~/Temp/Images/" + HttpContext.Current.Session.SessionID + "/" + tokenUploadFoto + "/Original/" + nome));
+                System.IO.File.Move(pathImgMedia + nome, HttpContext.Current.Server.MapPath("~/Temp/Images/" + HttpContext.Current.Session.SessionID + "/" + tokenUploadFoto + "/Normal/" + nome));
+                System.IO.File.Move(pathImgPiccola + nome, HttpContext.Current.Server.MapPath("~/Temp/Images/" + HttpContext.Current.Session.SessionID + "/" + tokenUploadFoto + "/Little/" + nome));
+            }
+            catch (IOException fileEx)
+            {
+                ErrorSignal.FromCurrentContext().Raise(fileEx);
+            }
+        }
         #endregion
     }
 }

@@ -9,6 +9,7 @@ using System.Web.Security;
 using System.Web;
 using GratisForGratis.Controllers;
 using System.Data.Entity;
+using System.Web.Helpers;
 
 namespace GratisForGratis
 {
@@ -33,8 +34,16 @@ namespace GratisForGratis
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             GlobalFilters.Filters.Add(new ActionFilter());
+            GlobalFilters.Filters.Add(new HandleExceptionsAttribute());
         }
-
+        /*
+        public static void RegisterGlobalFilters(GlobalFilterCollection filters)
+        {
+            //filters.Add(new HandleErrorAttribute(), 2); //by default added
+            
+            filters.Add(new HandleExceptionsAttribute());
+        }
+        */
         protected void Session_Start(object sender, EventArgs e)
         {
             HttpRequest richiesta = HttpContext.Current.Request;
@@ -65,6 +74,11 @@ namespace GratisForGratis
                     }
                 }
             }
+        }
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            // gestione totalmente imprevisto
         }
     }
 }

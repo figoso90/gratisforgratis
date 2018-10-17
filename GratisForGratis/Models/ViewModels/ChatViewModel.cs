@@ -34,7 +34,7 @@ namespace GratisForGratis.Models.ViewModels
         [Display(Name = "ChatDateUpdate", ResourceType = typeof(App_GlobalResources.ViewModel))]
         public DateTime? DataModifica { get; set; }
 
-        public Stato Stato { get; set; }
+        public StatoChat Stato { get; set; }
         #endregion
 
         #region COSTRUTTORI
@@ -62,7 +62,7 @@ namespace GratisForGratis.Models.ViewModels
             DestinatarioId = model.PERSONA1.ID;
             Testo = model.TESTO;
             DataInserimento = model.DATA_INSERIMENTO;
-            Stato = (Stato)model.STATO;
+            Stato = (StatoChat)model.STATO;
         }
 
         public CHAT GetModel()

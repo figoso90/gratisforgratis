@@ -19,7 +19,7 @@ namespace GratisForGratis.App_GlobalResources {
     // tramite uno strumento quale ResGen o Visual Studio.
     // Per aggiungere o rimuovere un membro, modificare il file con estensione ResX ed eseguire nuovamente ResGen
     // con l'opzione /str oppure ricompilare il progetto VS.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Bonus {
@@ -97,6 +97,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Invito amici FB.
+        /// </summary>
+        public static string InviteFriendsFB {
+            get {
+                return ResourceManager.GetString("InviteFriendsFB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Bonus accesso giornaliero.
         /// </summary>
         public static string Login {
@@ -106,11 +115,38 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Segnalazione errore.
+        /// </summary>
+        public static string MessageError {
+            get {
+                return ResourceManager.GetString("MessageError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Registrazione portale.
         /// </summary>
         public static string Registration {
             get {
                 return ResourceManager.GetString("Registration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Suggerimento attivazione annuncio.
+        /// </summary>
+        public static string SuggestAdActivation {
+            get {
+                return ResourceManager.GetString("SuggestAdActivation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Congratulazioni! Hai &lt;strong&gt;GUADAGNATO {0}&lt;/strong&gt; {1}!.
+        /// </summary>
+        public static string YouWin {
+            get {
+                return ResourceManager.GetString("YouWin", resourceCulture);
             }
         }
     }

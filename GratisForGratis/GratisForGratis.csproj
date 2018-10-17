@@ -794,6 +794,7 @@
     <Compile Include="Models\DataAnnotations\FileExtensions.cs" />
     <Compile Include="Models\DataAnnotations\ListValidator.cs" />
     <Compile Include="Models\DataAnnotations\RangeAdvanced.cs" />
+    <Compile Include="Models\DataAnnotations\AnnuncioCompleto.cs" />
     <Compile Include="Models\DataAnnotations\RequiredIfNotNull.cs" />
     <Compile Include="Models\DataAnnotations\RequiredIf.cs" />
     <Compile Include="Models\EntityModel.cs">
@@ -803,6 +804,7 @@
     </Compile>
     <Compile Include="Models\Enumerators\VerificaAcquisto.cs" />
     <Compile Include="Models\FileUploadifive.cs" />
+    <Compile Include="Models\Filters\HandleExceptionsAttribute.cs" />
     <Compile Include="Models\Filters\ActionFilter.cs" />
     <Compile Include="Models\Filters\OnlyAuthorize.cs" />
     <Compile Include="Models\Filters\LocalizationAttribute.cs" />
@@ -858,6 +860,9 @@
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\INDIRIZZO.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LOG_ERRORE.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\LOG_PAGAMENTO.cs">

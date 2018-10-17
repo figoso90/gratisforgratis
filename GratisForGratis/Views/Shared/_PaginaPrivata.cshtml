@@ -62,10 +62,24 @@
                 </div>
             }
 
+            @if (TempData["BONUS"] != null)
+            {
+                <div class="testo">
+                    @Html.Raw(TempData["BONUS"])
+                </div>
+            }
+
+            @if (TempData["MESSAGGIO"] != null)
+            {
+                <div class="testo">
+                    @Html.Raw(TempData["MESSAGGIO"])
+                </div>
+            }
+
             @if (ViewBag.Message != null)
             {
                 <div class="testo">
-                    ViewBag.Message
+                    @Html.Raw(ViewBag.Message)
                 </div>
             }
         </div>
@@ -146,10 +160,10 @@
                             @Html.ActionLink(Language.UserPoints, "SaldoPunti", "Utente")
                         </li>
                         <li>
-                            @Html.ActionLink(ViewModel.LayoutChat, "", "Chat")
+                            @Html.ActionLink(ViewModel.LayoutChat + string.Format(" ({0})", ((PersonaModel)Session["utente"]).NumeroMessaggiDaLeggere), "", "Chat")
                         </li>
                         <li>
-                            @Html.ActionLink(Language.MenuUserNews, "Elenco", "Notifica")
+                            @Html.ActionLink(Language.MenuUserNews + string.Format(" ({0})", ((PersonaModel)Session["utente"]).NumeroNotificheDaLeggere), "Elenco", "Notifica")
                         </li>
                         <li>
                             @Html.ActionLink(Language.Settings, "Impostazioni", "Utente")
@@ -254,10 +268,10 @@
                                 @Html.ActionLink(Language.UserPoints, "SaldoPunti", "Utente")
                             </li>
                             <li>
-                                @Html.ActionLink(ViewModel.LayoutChat, "", "Chat")
+                                @Html.ActionLink(ViewModel.LayoutChat + string.Format(" ({0})", ((PersonaModel)Session["utente"]).NumeroMessaggiDaLeggere), "", "Chat")
                             </li>
                             <li>
-                                @Html.ActionLink(Language.MenuUserNews, "Elenco", "Notifica")
+                                @Html.ActionLink(Language.MenuUserNews + string.Format(" ({0})", ((PersonaModel)Session["utente"]).NumeroNotificheDaLeggere), "Elenco", "Notifica")
                             </li>
                             <li>
                                 @Html.ActionLink(Language.Settings, "Impostazioni", "Utente")

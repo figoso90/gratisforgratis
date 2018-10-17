@@ -36,6 +36,14 @@ namespace GratisForGratis.Models
 
         public string PaginaSelezionata { get; set; }
 
+        public int NumeroMessaggi { get; set; }
+
+        public int NumeroMessaggiDaLeggere { get; set; }
+
+        public int NumeroNotifiche { get; set; }
+
+        public int NumeroNotificheDaLeggere { get; set; }
+
         #endregion
 
         #region COSTRUTTORI
