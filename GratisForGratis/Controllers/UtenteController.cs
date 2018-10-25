@@ -250,7 +250,7 @@ namespace GratisForGratis.Controllers
         }
 
         [AllowAnonymous]
-        [OnlyAnonymous]
+        //[OnlyAnonymous]
         [HttpGet]
         public ActionResult LoginFacebook()
         {
@@ -267,7 +267,7 @@ namespace GratisForGratis.Controllers
         }
 
         [AllowAnonymous]
-        [OnlyAnonymous]
+        //[OnlyAnonymous]
         public ActionResult FacebookCallback(string code)
         {
             try
