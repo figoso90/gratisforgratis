@@ -282,4 +282,7 @@
   <data name="SaveSearchKO" xml:space="preserve">
     <value>Il &lt;b&gt;salvataggio&lt;/b&gt; della ricerca effettuata è &lt;b&gt;fallito&lt;/b&gt;. &lt;br /&gt;&lt;b&gt;Ritentare&lt;/b&gt; più tardi o contattare la nostra &lt;b&gt;assistenza&lt;/b&gt; tramite il popup apposito.</value>
   </data>
+  <data name="BidsAd" xml:space="preserve">
+    <value>Offerte ricevute</value>
+  </data>
 </root>

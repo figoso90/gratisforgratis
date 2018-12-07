@@ -27,8 +27,8 @@ namespace GratisForGratis.Models
             this.MARCA = new HashSet<MARCA>();
             this.PIATTAFORMA = new HashSet<PIATTAFORMA>();
             this.REGISTA = new HashSet<REGISTA>();
-            this.SISTEMA_OPERATIVO = new HashSet<SISTEMA_OPERATIVO>();
             this.RICERCA = new HashSet<RICERCA>();
+            this.SISTEMA_OPERATIVO = new HashSet<SISTEMA_OPERATIVO>();
         }
     
         public int ID { get; set; }
@@ -63,8 +63,8 @@ namespace GratisForGratis.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<REGISTA> REGISTA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SISTEMA_OPERATIVO> SISTEMA_OPERATIVO { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RICERCA> RICERCA { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SISTEMA_OPERATIVO> SISTEMA_OPERATIVO { get; set; }
     }
 }

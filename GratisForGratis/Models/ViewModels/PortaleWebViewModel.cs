@@ -90,11 +90,11 @@ namespace GratisForGratis.Models
         public RuoloProfilo Ruolo { get; set; }
 
         [Display(Name = "BonusNow", ResourceType = typeof(App_GlobalResources.Language))]
-        public int Bonus { get; set; }
+        public decimal Bonus { get; set; }
 
         // annuale
         [Display(Name = "BonusUsed", ResourceType = typeof(App_GlobalResources.Language))]
-        public int? BonusSpeso { get; set; }
+        public decimal? BonusSpeso { get; set; }
 
         [Display(Name = "DateSubscription", ResourceType = typeof(App_GlobalResources.Language))]
         public DateTime DataIscrizione { get; set; }

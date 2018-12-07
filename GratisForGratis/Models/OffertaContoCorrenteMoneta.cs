@@ -34,28 +34,38 @@ namespace GratisForGratis.Models
             //}
         }
 
-        public void RemoveCrediti(DatabaseContext db, int punti, PersonaModel persona)
+        public void RemoveCrediti(DatabaseContext db, int idOfferta, int punti, PersonaModel persona)
         {
-            // usato sull'annullo dell'offerta! 28-04-2018
-            for (int i=0;i<punti;i++)
+            var listaCrediti = db.CONTO_CORRENTE_CREDITO.Where(m => m.ID_CONTO_CORRENTE == persona.Persona.ID_CONTO_CORRENTE &&
+                    m.ID_OFFERTA_USCITA == idOfferta && m.STATO == (int)StatoMoneta.SOSPESA).ToList();
+            listaCrediti.ForEach(m =>
             {
-                CONTO_CORRENTE_MONETA conto = db.CONTO_CORRENTE_MONETA.FirstOrDefault(m => m.ID_CONTO_CORRENTE == persona.Persona.ID_CONTO_CORRENTE && m.STATO == (int)StatoMoneta.SOSPESA);
-                if (conto != null)
-                {
-                    conto.STATO = (int)StatoMoneta.ASSEGNATA;
-                    db.CONTO_CORRENTE_MONETA.Attach(conto);
-                    var entry = db.Entry(conto);
-                    entry.Property(e => e.STATO).IsModified = true;
-                    if (db.SaveChanges() <= 0)
-                    {
-                        throw new Exception(App_GlobalResources.Language.ErrorRecoveryPoints);
-                    }
-                }
-                else
-                {
-                    throw new Exception(App_GlobalResources.Language.ErrorRecoveryPoints);
-                }
-            }
+                m.ID_OFFERTA_USCITA = null;
+                m.DATA_MODIFICA = DateTime.Now;
+                m.STATO = (int)StatoCredito.ASSEGNATO;
+            });
+            if (db.SaveChanges() <= 0)
+                throw new Exception(App_GlobalResources.Language.ErrorRecoveryPoints);
+            // usato sull'annullo dell'offerta! 28-04-2018
+            //for (int i=0;i<punti;i++)
+            //{
+            //    CONTO_CORRENTE_MONETA conto = db.CONTO_CORRENTE_MONETA.FirstOrDefault(m => m.ID_CONTO_CORRENTE == persona.Persona.ID_CONTO_CORRENTE && m.STATO == (int)StatoMoneta.SOSPESA);
+            //    if (conto != null)
+            //    {
+            //        conto.STATO = (int)StatoMoneta.ASSEGNATA;
+            //        db.CONTO_CORRENTE_MONETA.Attach(conto);
+            //        var entry = db.Entry(conto);
+            //        entry.Property(e => e.STATO).IsModified = true;
+            //        if (db.SaveChanges() <= 0)
+            //        {
+            //            throw new Exception(App_GlobalResources.Language.ErrorRecoveryPoints);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        throw new Exception(App_GlobalResources.Language.ErrorRecoveryPoints);
+            //    }
+            //}
         }
         #endregion
     }

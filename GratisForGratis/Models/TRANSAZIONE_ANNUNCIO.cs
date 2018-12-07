@@ -18,9 +18,9 @@ namespace GratisForGratis.Models
         public int ID_TRANSAZIONE { get; set; }
         public int ID_ANNUNCIO { get; set; }
         public Nullable<int> ID_COUPON { get; set; }
-        public int PUNTI { get; set; }
+        public decimal PUNTI { get; set; }
         public decimal SOLDI { get; set; }
-        public Nullable<int> PUNTI_SPEDIZIONE { get; set; }
+        public Nullable<decimal> PUNTI_SPEDIZIONE { get; set; }
         public Nullable<decimal> SOLDI_SPEDIZIONE { get; set; }
         public System.DateTime DATA_INSERIMENTO { get; set; }
         public Nullable<System.DateTime> DATA_MODIFICA { get; set; }

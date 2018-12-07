@@ -19,7 +19,7 @@ else
     if (Model.Offerta != null && Model.StatoVendita == StatoVendita.ATTIVO)
     {
         <div class="cella noMandatory">
-            @Html.ActionLink(Language.Bid, "OfferteRicevute", "Vendite", new { vendita = Model.Token }, new { @Class = "btn" })
+            @Html.ActionLink(ViewModel.BidsAd, "OfferteRicevute", "Vendite", new { vendita = Model.Token }, new { @Class = "btn" })
         </div>
         <div class="cella noMandatory">
             <div class="btn deleteSell">@Language.DeleteSell</div>
@@ -34,8 +34,8 @@ else
                 @Html.ActionLink(Language.Barter, "Acquisto", "Acquisti", new { baratto = Model.Token }, new { @Class = "btn" })
             </div>
             @*<div class="cella noMandatory">
-                <div class="btn cancelBarter">@Language.CancelBarter</div>
-            </div>*@
+                    <div class="btn cancelBarter">@Language.CancelBarter</div>
+                </div>*@
         }
         else
         {
@@ -47,7 +47,19 @@ else
     else if (Model.StatoVendita == StatoVendita.BARATTATO || Model.StatoVendita == StatoVendita.VENDUTO)
     {
         <div class="cella">
-        @Html.ActionLink(Language.Feedback, "Index", "Feedback", new { id = Model.Id, tipo = TipoFeedback.Venditore }, new { @Class = "btn" })
+            @Html.Label("Compratore")
+            @if (Model.Compratore != null)
+            {
+
+                @Model.Compratore.Nominativo
+            }
+        </div>
+        <div class="cella">
+            @Html.Label("Data acquisto")
+            @Model.DataVendita
+        </div>
+        <div class="cella">
+            @Html.ActionLink(Language.Feedback, "Index", "Feedback", new { id = Model.Id, tipo = TipoFeedback.Venditore }, new { @Class = "btn" })
         </div>
     }
 }

@@ -22,7 +22,7 @@ namespace GratisForGratis.Models
     
         public int ID { get; set; }
         public System.Guid TOKEN { get; set; }
-        public double VALORE { get; set; }
+        public decimal VALORE { get; set; }
         public System.DateTime DATA_INSERIMENTO { get; set; }
         public Nullable<System.DateTime> DATA_MODIFICA { get; set; }
         public int STATO { get; set; }

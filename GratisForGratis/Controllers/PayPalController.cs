@@ -5,6 +5,7 @@ using PayPal.Api;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -499,16 +500,19 @@ namespace GratisForGratis.Controllers
             TIPO_VALUTA tipoValuta = (HttpContext.Application["tipoValuta"] as List<TIPO_VALUTA>)
                 .SingleOrDefault(m => m.SIMBOLO == NumberFormatInfo.CurrentInfo.CurrencySymbol);
 
-            if (offerta.SOLDI > 0)
+            if (offerta.ANNUNCIO.TIPO_PAGAMENTO != (int)TipoPagamento.HAPPY)
             {
-                itemList.items.Add(new Item()
+                if (offerta.SOLDI > 0)
                 {
-                    name = "Pagamento offerta per annuncio: " + offerta.ANNUNCIO.NOME,
-                    currency = tipoValuta.CODICE,
-                    price = ConvertDecimalToString(offerta.SOLDI),
-                    quantity = "1",
-                    sku = "sku"
-                });
+                    itemList.items.Add(new Item()
+                    {
+                        name = "Pagamento offerta per annuncio: " + offerta.ANNUNCIO.NOME,
+                        currency = tipoValuta.CODICE,
+                        price = ConvertDecimalToString(offerta.SOLDI),
+                        quantity = "1",
+                        sku = "sku"
+                    });
+                }
             }
 
             OFFERTA_SPEDIZIONE spedizione = offerta.OFFERTA_SPEDIZIONE.FirstOrDefault();
@@ -738,9 +742,12 @@ namespace GratisForGratis.Controllers
             OffertaModel offerta = Session["PayPalOfferta"] as OffertaModel;
             using (DatabaseContext db = new DatabaseContext())
             {
+                db.Database.Connection.Open();
                 // AGGIUNGERE TRANSAZIONE NELLA TABELLA LOG_PAGAMENTO
                 LOG_PAGAMENTO log = new LOG_PAGAMENTO();
-                OFFERTA model = db.OFFERTA.SingleOrDefault(m => m.ID == offerta.ID);
+                OFFERTA model = db.OFFERTA.Include(m => m.PERSONA)
+                    .Include(m => m.ANNUNCIO.ANNUNCIO_TIPO_SCAMBIO)
+                    .SingleOrDefault(m => m.ID == offerta.ID);
                 log.ID_ANNUNCIO = model.ID_ANNUNCIO;
                 log.ID_COMPRATORE = model.ID_PERSONA;
                 log.ID_PAGAMENTO = model.ID.ToString();
@@ -749,15 +756,21 @@ namespace GratisForGratis.Controllers
                 log.DATA_INSERIMENTO = DateTime.Now;
                 db.LOG_PAGAMENTO.Add(log);
                 db.SaveChanges();
-                using (System.Data.Entity.DbContextTransaction transaction = db.Database.BeginTransaction())
+                using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
                     try
                     {
                         var utente = (Session["utente"] as PersonaModel);
                         string messaggio = string.Empty;
-                        offerta.OffertaOriginale = db.OFFERTA.SingleOrDefault(m => m.ID == offerta.ID);
-                        offerta.ANNUNCIO = offerta.OffertaOriginale.ANNUNCIO;
-                        if (offerta.Accetta(db, utente, ref messaggio))
+                        offerta.OffertaOriginale = model;
+                        offerta.ANNUNCIO.ANNUNCIO_TIPO_SCAMBIO = db.ANNUNCIO_TIPO_SCAMBIO
+                            .Include(m => m.ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE)
+                            .Where(m => m.ID_ANNUNCIO == offerta.ID_ANNUNCIO).ToList();
+                        offerta.AnnuncioModel.ANNUNCIO_TIPO_SCAMBIO = offerta.ANNUNCIO.ANNUNCIO_TIPO_SCAMBIO;
+                        //offerta.ANNUNCIO = offerta.OffertaOriginale.ANNUNCIO; => non funziona nel passare tipo_scambio_spedizione nell'offerta
+                        //if (offerta.Accetta(db, utente.Persona, utente.Credito, ref messaggio)) => non passa compratore nell'offerta
+                        if (offerta.Accetta(db, model.PERSONA, 
+                            model.PERSONA.CONTO_CORRENTE.CONTO_CORRENTE_CREDITO.ToList(), ref messaggio))
                         {
                             transaction.Commit();
                             System.Web.Routing.RouteValueDictionary data = new System.Web.Routing.RouteValueDictionary(new { token = offerta.ID });

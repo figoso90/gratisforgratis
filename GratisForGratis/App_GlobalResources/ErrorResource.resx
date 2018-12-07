@@ -132,8 +132,14 @@
   <data name="BidFailed" xml:space="preserve">
     <value>L'offerta non è più valida!</value>
   </data>
+  <data name="BidInProgress" xml:space="preserve">
+    <value>Esiste già un'offerta per questo annuncio</value>
+  </data>
   <data name="BidNotCorrect" xml:space="preserve">
     <value>Inserire dei crediti o almeno un baratto</value>
+  </data>
+  <data name="BidPointsRequired" xml:space="preserve">
+    <value>Inserire crediti o annunci da barattare</value>
   </data>
   <data name="BuyAd" xml:space="preserve">
     <value>Annuncio non acquistabile!</value>

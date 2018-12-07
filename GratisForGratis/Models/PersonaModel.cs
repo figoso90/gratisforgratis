@@ -30,7 +30,9 @@ namespace GratisForGratis.Models
 
         public List<FotoModel> Foto { get; set; }
 
-        public List<CONTO_CORRENTE_MONETA> ContoCorrente { get; set; }
+        //public List<CONTO_CORRENTE_MONETA> ContoCorrente { get; set; }
+
+        public List<CONTO_CORRENTE_CREDITO> Credito { get; set; }
 
         public List<PERSONA_METODO_PAGAMENTO> MetodoPagamento { get; set; }
 
@@ -71,7 +73,8 @@ namespace GratisForGratis.Models
             this.Indirizzo = new List<PERSONA_INDIRIZZO>();
             this.Attivita = new List<AttivitaModel>();
             this.Foto = new List<FotoModel>();
-            this.ContoCorrente = new List<CONTO_CORRENTE_MONETA>();
+            //this.ContoCorrente = new List<CONTO_CORRENTE_MONETA>();
+            this.Credito = new List<CONTO_CORRENTE_CREDITO>();
             this.MetodoPagamento = new List<PERSONA_METODO_PAGAMENTO>();
         }
 
@@ -238,7 +241,20 @@ namespace GratisForGratis.Models
                 model.STATO = (int)StatoPagamento.ACCETTATO;
                 db.TRANSAZIONE.Add(model);
                 db.SaveChanges();
+
+                CONTO_CORRENTE_CREDITO creditoRimasto = new CONTO_CORRENTE_CREDITO();
+                creditoRimasto.ID_CONTO_CORRENTE = this.Persona.ID_CONTO_CORRENTE;
+                creditoRimasto.ID_TRANSAZIONE_ENTRATA = model.ID;
+                creditoRimasto.PUNTI = (decimal)model.PUNTI;
+                creditoRimasto.SOLDI = Controllers.Utils.cambioValuta(creditoRimasto.PUNTI);
+                creditoRimasto.GIORNI_SCADENZA = Convert.ToInt32(ConfigurationManager.AppSettings["GiorniScadenzaCredito"]);
+                creditoRimasto.DATA_SCADENZA = DateTime.Now.AddDays(creditoRimasto.GIORNI_SCADENZA);
+                creditoRimasto.DATA_INSERIMENTO = DateTime.Now;
+                creditoRimasto.STATO = (int)StatoCredito.ASSEGNATO;
+                db.CONTO_CORRENTE_CREDITO.Add(creditoRimasto);
+                db.SaveChanges();
                 // genero la moneta ogni volta che offro un bonus, in modo da mantenere la concorrenza dei dati
+                /*
                 for (int i = 0; i < valorePromo; i++)
                 {
                     MONETA moneta = db.MONETA.Create();
@@ -257,6 +273,7 @@ namespace GratisForGratis.Models
                     db.CONTO_CORRENTE_MONETA.Add(conto);
                     db.SaveChanges();
                 }
+                */
                 return true;
             }
             return false;

@@ -1,4 +1,5 @@
 ﻿@using GratisForGratis.Models
+@using GratisForGratis.Models.ExtensionMethods;
 @model AnnuncioViewModel
 
 <div id="@HttpUtility.UrlEncode(Model.Token)" class="col-xs-12 col-md-3 purchase">
@@ -19,58 +20,65 @@
         </div>
         @if (Model.TipoAcquisto == TipoAcquisto.Oggetto)
         {
-        OggettoViewModel oggetto = (OggettoViewModel)Model;
-        <div class="cella points">
-            @Html.Label("TipoScambio", Language.Exchange + ":")
-            @foreach (TipoScambio tipo in oggetto.TipoScambio)
+            OggettoViewModel oggetto = (OggettoViewModel)Model;
+            <div class="cella points">
+                @Html.Label("TipoScambio", Language.Exchange + ":")
+                @foreach (TipoScambio tipo in oggetto.TipoScambio)
+                {
+                    <div>@tipo.ToString()</div>
+                }
+            </div>
+            if (oggetto.TipoScambio.Contains(TipoScambio.Spedizione))
             {
-            <div>@tipo.ToString()</div>
+                <div class="cella points">
+                    @Html.Label("SoldiSpedizione", Language.Shipment + ":")
+                    @oggetto.SoldiSpedizione (@oggetto.NomeCorriere)
+                </div>
+                <div class="cella points">
+                    @if (string.IsNullOrWhiteSpace(@oggetto.LDVFile))
+                    {
+                        @ViewModel.AdNothingLDV
+                    }
+                    else
+                    {
+                        <a href="@oggetto.LDVFile" target="_blank">@oggetto.Nome</a>
+                    }
+                </div>
             }
-        </div>
-        if (oggetto.TipoScambio.Contains(TipoScambio.Spedizione))
-        {
-        <div class="cella points">
-            @Html.Label("SoldiSpedizione", Language.Shipment + ":")
-            @oggetto.SoldiSpedizione (@oggetto.NomeCorriere)
-        </div>
-        <div class="cella points">
-            @if (string.IsNullOrWhiteSpace(@oggetto.LDVFile))
-            {
-                @ViewModel.AdNothingLDV
-            }
-            else
-            {
-                <a href="@oggetto.LDVFile" target="_blank">@oggetto.Nome</a>
-            }
-        </div>
         }
+        @if (Model.Offerta != null && !string.IsNullOrWhiteSpace(Model.Offerta.Punti))
+        {
+            <div class="cella points">
+                @Html.Label("Offerta", Language.Bid + ":")
+                @Model.Offerta.Punti
+            </div>
         }
         @if (Model.Offerta.TipoScambio == TipoScambio.Spedizione)
         {
-        <div class="cella points">
-            @Html.Label("SoldiSpedizione", Language.Shipment + ":")
-            @Model.Offerta.SoldiSpedizione (@Model.Offerta.NomeCorriere)
-        </div>
+            <div class="cella points">
+                @Html.Label("SoldiSpedizione", Language.Shipment + ":")
+                @Model.Offerta.SoldiSpedizione (@Model.Offerta.NomeCorriere)
+            </div>
         }
         @if (Model.StatoVendita != StatoVendita.BARATTATO && Model.StatoVendita != StatoVendita.VENDUTO)
         {
-        <div class="cella noMandatory">
-            @Html.Label("Durata", Language.ExpireDate + ":")
-            @Model.DataFine
-        </div>
-        <div class="cella">
-            @Html.Label("Stato", Language.StateSelling + ":")
-            <span class="stateText">
-                @EnumHelper.GetSelectList(typeof(StatoVendita), Model.StatoVendita).Where(m => m.Selected).FirstOrDefault().Text
-            </span>
-        </div>
+            <div class="cella noMandatory">
+                @Html.Label("Durata", Language.ExpireDate + ":")
+                @Model.DataFine
+            </div>
+            <div class="cella">
+                @Html.Label("Stato", Language.StateSelling + ":")
+                <span class="stateText">
+                    @EnumHelper.GetSelectList(typeof(StatoVendita), Model.StatoVendita).Where(m => m.Selected).FirstOrDefault().Text
+                </span>
+            </div>
         }
         else
         {
-        <div class="cella noMandatory">
-            @Html.Label("DataVendita", "Data vendita:")
-            @Model.DataModifica
-        </div>
+            <div class="cella noMandatory">
+                @Html.Label("DataVendita", "Data vendita:")
+                @Model.DataModifica
+            </div>
         }
         <div class="cella user">
             @Html.Label("Venditore", Language.Seller + ":")

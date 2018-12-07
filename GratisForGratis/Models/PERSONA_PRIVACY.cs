@@ -18,12 +18,12 @@ namespace GratisForGratis.Models
         public int ID_PERSONA { get; set; }
         public bool ACCETTA_CONDIZIONE { get; set; }
         public bool COMUNICAZIONI { get; set; }
-        public System.DateTime DATA_INSERIMENTO { get; set; }
-        public Nullable<System.DateTime> DATA_MODIFICA { get; set; }
-        public int STATO { get; set; }
         public Nullable<bool> NOTIFICA_EMAIL { get; set; }
         public Nullable<bool> NOTIFICA_CHAT { get; set; }
         public Nullable<int> CHAT { get; set; }
+        public System.DateTime DATA_INSERIMENTO { get; set; }
+        public Nullable<System.DateTime> DATA_MODIFICA { get; set; }
+        public int STATO { get; set; }
     
         public virtual PERSONA PERSONA { get; set; }
     }

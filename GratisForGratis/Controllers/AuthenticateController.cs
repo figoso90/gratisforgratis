@@ -2,6 +2,7 @@
 using GratisForGratis.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -162,7 +163,8 @@ namespace GratisForGratis.Controllers
             model.PERSONA_ATTIVITA.Where(m => m.ID_PERSONA == utente).ToList().ForEach(m => {
                 persona.Attivita.Add(new AttivitaModel(m));
             });
-            persona.ContoCorrente = db.CONTO_CORRENTE_MONETA.Where(m => m.ID_CONTO_CORRENTE == persona.Persona.ID_CONTO_CORRENTE).ToList();
+            //persona.ContoCorrente = db.CONTO_CORRENTE_MONETA.Where(m => m.ID_CONTO_CORRENTE == persona.Persona.ID_CONTO_CORRENTE).ToList();
+            persona.Credito = db.CONTO_CORRENTE_CREDITO.Where(m => m.ID_CONTO_CORRENTE == persona.Persona.ID_CONTO_CORRENTE).ToList();
             persona.NomeVisibile = (string.IsNullOrWhiteSpace(persona.Persona.NOME + persona.Persona.COGNOME) ? persona.Email
                 .Where(m => m.TIPO == (int)TipoEmail.Registrazione).SingleOrDefault().EMAIL: string.Concat(persona.Persona.NOME, " ", persona.Persona.COGNOME));
             persona.NumeroMessaggiDaLeggere = db.CHAT.Count(m => m.ID_DESTINATARIO == utente && m.STATO == (int)StatoChat.INVIATO);
@@ -259,7 +261,8 @@ namespace GratisForGratis.Controllers
             if (Session != null)
             {
                 PersonaModel utente = Session["utente"] as PersonaModel;
-                utente.ContoCorrente = db.CONTO_CORRENTE_MONETA.Where(m => m.ID_CONTO_CORRENTE == utente.Persona.ID_CONTO_CORRENTE).ToList();
+                //utente.ContoCorrente = db.CONTO_CORRENTE_MONETA.Where(m => m.ID_CONTO_CORRENTE == utente.Persona.ID_CONTO_CORRENTE).ToList();
+                utente.Credito = db.CONTO_CORRENTE_CREDITO.Where(m => m.ID_CONTO_CORRENTE == utente.Persona.ID_CONTO_CORRENTE).ToList();
                 utente.NumeroMessaggiDaLeggere = db.CHAT.Count(m => m.ID_DESTINATARIO == utente.Persona.ID && m.STATO == (int)StatoChat.INVIATO);
                 utente.NumeroNotificheDaLeggere = db.NOTIFICA.Count(m => m.ID_PERSONA_DESTINATARIO == utente.Persona.ID && m.STATO == (int)StatoNotifica.ATTIVA);
                 Session["utente"] = utente;
@@ -275,10 +278,15 @@ namespace GratisForGratis.Controllers
 
         // VERIFICARE CHE L'ASSEGNAZIONE DELLA MONETA VADA A BUON FINE E CHE QUINDI LA TRANSAZIONE
         // ABBIA EFFETTO
-        public void AddBonus(DatabaseContext db, PERSONA persona, Guid tokenPortale, int punti, TipoTransazione tipo, string nomeTransazione, int? idAnnuncio = null)
+        public void AddBonus(DatabaseContext db, PERSONA persona, Guid tokenPortale, decimal punti, TipoTransazione tipo, string nomeTransazione, int? idAnnuncio = null)
         {
+            ATTIVITA attivita = db.ATTIVITA.Where(p => p.TOKEN == tokenPortale).SingleOrDefault();
+            PERSONA_ATTIVITA proprietario = attivita.PERSONA_ATTIVITA.SingleOrDefault(m => m.RUOLO == (int)RuoloProfilo.Proprietario && m.STATO == (int)Stato.ATTIVO);
+            PERSONA mittente = null;
+            if (proprietario != null)
+                mittente = proprietario.PERSONA;
             TRANSAZIONE model = new TRANSAZIONE();
-            model.ID_CONTO_MITTENTE = db.ATTIVITA.Where(p => p.TOKEN == tokenPortale).SingleOrDefault().ID_CONTO_CORRENTE;
+            model.ID_CONTO_MITTENTE = attivita.ID_CONTO_CORRENTE;
             model.ID_CONTO_DESTINATARIO = persona.ID_CONTO_CORRENTE;
             model.TIPO = (int)tipo;
             model.NOME = nomeTransazione;
@@ -293,34 +301,45 @@ namespace GratisForGratis.Controllers
                 transazioneAnnuncio.ID_TRANSAZIONE = model.ID;
                 transazioneAnnuncio.ID_ANNUNCIO = (int)idAnnuncio;
                 transazioneAnnuncio.PUNTI = punti;
-                transazioneAnnuncio.SOLDI = 0;
+                transazioneAnnuncio.SOLDI = Utils.cambioValuta(transazioneAnnuncio.PUNTI);
                 transazioneAnnuncio.DATA_INSERIMENTO = DateTime.Now;
                 transazioneAnnuncio.STATO = (int)StatoPagamento.ACCETTATO;
                 db.TRANSAZIONE_ANNUNCIO.Add(transazioneAnnuncio);
                 db.SaveChanges();
             }
 
-            // genero la moneta ogni volta che offro un bonus, in modo da mantenere la concorrenza dei dati
-            for (int i = 0; i < punti; i++)
-            {
-                MONETA moneta = db.MONETA.Create();
-                moneta.VALORE = 1;
-                moneta.TOKEN = Guid.NewGuid();
-                moneta.DATA_INSERIMENTO = DateTime.Now;
-                moneta.STATO = (int)Stato.ATTIVO;
-                db.MONETA.Add(moneta);
-                db.SaveChanges();
-                CONTO_CORRENTE_MONETA conto = new CONTO_CORRENTE_MONETA();
-                conto.ID_CONTO_CORRENTE = persona.ID_CONTO_CORRENTE;
-                conto.ID_MONETA = moneta.ID;
-                conto.ID_TRANSAZIONE = model.ID;
-                conto.DATA_INSERIMENTO = DateTime.Now;
-                conto.STATO = (int)StatoMoneta.ASSEGNATA;
-                db.CONTO_CORRENTE_MONETA.Add(conto);
-                db.SaveChanges();
-            }
+            CONTO_CORRENTE_CREDITO contoCorrenteCredito = new CONTO_CORRENTE_CREDITO();
+            contoCorrenteCredito.ID_CONTO_CORRENTE = persona.ID_CONTO_CORRENTE;
+            contoCorrenteCredito.ID_TRANSAZIONE_ENTRATA = model.ID;
+            contoCorrenteCredito.PUNTI = punti;
+            contoCorrenteCredito.SOLDI = Utils.cambioValuta(contoCorrenteCredito.PUNTI);
+            contoCorrenteCredito.GIORNI_SCADENZA = Convert.ToInt32(ConfigurationManager.AppSettings["GiorniScadenzaCredito"]);
+            contoCorrenteCredito.DATA_SCADENZA = DateTime.Now.AddDays(contoCorrenteCredito.GIORNI_SCADENZA);
+            contoCorrenteCredito.DATA_INSERIMENTO = DateTime.Now;
+            contoCorrenteCredito.STATO = (int)StatoCredito.ASSEGNATO;
+            db.CONTO_CORRENTE_CREDITO.Add(contoCorrenteCredito);
+            db.SaveChanges();
+            //// genero la moneta ogni volta che offro un bonus, in modo da mantenere la concorrenza dei dati
+            //for (int i = 0; i < punti; i++)
+            //{
+            //    MONETA moneta = db.MONETA.Create();
+            //    moneta.VALORE = 1;
+            //    moneta.TOKEN = Guid.NewGuid();
+            //    moneta.DATA_INSERIMENTO = DateTime.Now;
+            //    moneta.STATO = (int)Stato.ATTIVO;
+            //    db.MONETA.Add(moneta);
+            //    db.SaveChanges();
+            //    CONTO_CORRENTE_MONETA conto = new CONTO_CORRENTE_MONETA();
+            //    conto.ID_CONTO_CORRENTE = persona.ID_CONTO_CORRENTE;
+            //    conto.ID_MONETA = moneta.ID;
+            //    conto.ID_TRANSAZIONE = model.ID;
+            //    conto.DATA_INSERIMENTO = DateTime.Now;
+            //    conto.STATO = (int)StatoMoneta.ASSEGNATA;
+            //    db.CONTO_CORRENTE_MONETA.Add(conto);
+            //    db.SaveChanges();
+            //}
 
-            SendNotifica(persona, TipoNotifica.Bonus, "bonusRicevuto", model, db);
+            SendNotifica(mittente, persona, TipoNotifica.Bonus, "bonusRicevuto", model, attivita, db);
             TempData["BONUS"] = string.Format(Bonus.YouWin, punti, Language.Moneta);
 
             if (tipo != TipoTransazione.BonusLogin)
@@ -343,7 +362,7 @@ namespace GratisForGratis.Controllers
             }
         }
 
-        public bool SendNotifica(PERSONA destinatario, TipoNotifica messaggio, string view, object datiNotifica, DatabaseContext db = null)
+        public bool SendNotifica(PERSONA mittente, PERSONA destinatario, TipoNotifica messaggio, string view, object datiNotifica, ATTIVITA attivitaMittente = null, DatabaseContext db = null)
         {
             bool nuovaConnessione = true;
             try
@@ -351,10 +370,10 @@ namespace GratisForGratis.Controllers
                 if (db != null && db.Database.Connection.State == System.Data.ConnectionState.Open)
                     nuovaConnessione = false;
 
-                PersonaModel utente = Session["utente"] as PersonaModel;
-
                 NOTIFICA notifica = new NOTIFICA();
-                notifica.ID_PERSONA = utente.Persona.ID;
+                notifica.ID_PERSONA = mittente.ID;
+                if (attivitaMittente!=null)
+                    notifica.ID_ATTIVITA = attivitaMittente.ID;
                 notifica.ID_PERSONA_DESTINATARIO = destinatario.ID;
                 notifica.MESSAGGIO = (int)messaggio;
                 notifica.STATO = (int)StatoNotifica.ATTIVA;
@@ -367,7 +386,7 @@ namespace GratisForGratis.Controllers
             }
             catch(Exception eccezione)
             {
-
+                Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
             }
             finally
             {
@@ -383,9 +402,9 @@ namespace GratisForGratis.Controllers
                     SendEmail(indirizzoEmail, oggetto, controller, view, datiNotifica);
                     SendChat("",oggetto);
                 }
-                catch
+                catch(Exception eccezione)
                 {
-
+                    Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
                 }
             }
             return false;
@@ -601,7 +620,7 @@ namespace GratisForGratis.Controllers
         #region METODI PRIVATI
         private void AddPuntiLogin(DatabaseContext db, PERSONA utente)
         {
-            int puntiAccesso = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["bonusAccesso"]);
+            decimal puntiAccesso = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["bonusAccesso"]);
             utente.DATA_ACCESSO = DateTime.Now;
             db.Entry(utente).State = System.Data.Entity.EntityState.Modified;
             if (db.SaveChanges() > 0)

@@ -64,9 +64,9 @@ namespace GratisForGratis.Models
         [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public string NoteAggiuntive { get; set; }
 
-        [Range(0, 2147483647, ErrorMessageResourceName = "ErrorPoints", ErrorMessageResourceType = typeof(Language))]
+        [Range(0, double.MaxValue, ErrorMessageResourceName = "ErrorPoints", ErrorMessageResourceType = typeof(Language))]
         //[Required]
-        public int? Punti { get; set; }
+        public decimal? Punti { get; set; }
 
         [Display(Name = "WebAddress", ResourceType = typeof(Language))]
         [Url(ErrorMessageResourceName = "ErrorAddress", ErrorMessageResourceType = typeof(Language))]
@@ -74,10 +74,10 @@ namespace GratisForGratis.Models
 
         [Display(Name = "LblRealCoin", ResourceType = typeof(Language))]
         [DataType(DataType.Currency, ErrorMessageResourceName = "ErrorMoney", ErrorMessageResourceType = typeof(Language))]
-        [Range(0, 2147483647, ErrorMessageResourceName = "ErrorValueCoin", ErrorMessageResourceType = typeof(Language))]
+        [Range(0, double.MaxValue, ErrorMessageResourceName = "ErrorValueCoin", ErrorMessageResourceType = typeof(Language))]
         [Required]
         [GratisForGratis.DataAnnotations.AnnuncioCompleto]
-        public int Soldi { get; set; }
+        public decimal Soldi { get; set; }
 
         [Display(Name = "PaymentMethodsAccepted", ResourceType = typeof(Language))]
         [Range(0, 2147483647, ErrorMessageResourceName = "ErrorTypePayment", ErrorMessageResourceType = typeof(Language))]
@@ -269,9 +269,9 @@ namespace GratisForGratis.Models
             vendita.ID_COMUNE = this.IDCitta;
             vendita.NOTE_AGGIUNTIVE = this.NoteAggiuntive;
             // se ho inserito il campo soldi, uso quello con la conversione attuale
-            int creditoInserito = this.Soldi;
+            decimal creditoInserito = this.Soldi;
             if (this.Soldi>1)
-                creditoInserito = this.Soldi / Convert.ToInt32(ConfigurationManager.AppSettings["Conversione" + tipoValuta.CODICE.ToUpper()]);
+                creditoInserito = Decimal.Divide(this.Soldi, Convert.ToInt32(ConfigurationManager.AppSettings["Conversione" + tipoValuta.CODICE.ToUpper()]));
             vendita.PUNTI = creditoInserito;
             vendita.TIPO_PAGAMENTO = (int)this.TipoPagamento;
             vendita.SOLDI = Utils.cambioValuta(vendita.PUNTI, tipoValuta.CODICE.ToUpper());
@@ -481,7 +481,7 @@ namespace GratisForGratis.Models
         [DataType(DataType.Currency, ErrorMessageResourceName = "ErrorMoney", ErrorMessageResourceType = typeof(Language))]
         [Range(0, 2147483647, ErrorMessageResourceName = "ErrorValueCoin", ErrorMessageResourceType = typeof(Language))]
         [Required]
-        public int Soldi { get; set; }
+        public decimal Soldi { get; set; }
 
         [DataType(DataType.Text)]
         [Display(Name = "Token", ResourceType = typeof(Language))]
@@ -515,10 +515,20 @@ namespace GratisForGratis.Models
         #region COSTRUTTORI
         public PubblicaCopiaViewModel()
         {
+            ListaDurataInserzione = System.Enum.GetValues(typeof(DurataAnnuncio)).Cast<DurataAnnuncio>().Select(v => new SelectListItem
+            {
+                Text = Components.EnumHelper<DurataAnnuncio>.GetDisplayValue(v),
+                Value = ((int)v).ToString()
+            }).ToList();
             this.TokenUploadFoto = Guid.NewGuid();
         }
         public PubblicaCopiaViewModel(ANNUNCIO model)
         {
+            ListaDurataInserzione = System.Enum.GetValues(typeof(DurataAnnuncio)).Cast<DurataAnnuncio>().Select(v => new SelectListItem
+            {
+                Text = Components.EnumHelper<DurataAnnuncio>.GetDisplayValue(v),
+                Value = ((int)v).ToString()
+            }).ToList();
             this.TokenUploadFoto = Guid.NewGuid();
             this.IDCitta = (int)model.ID_COMUNE;
             this.Citta = model.COMUNE.NOME;
@@ -649,7 +659,7 @@ namespace GratisForGratis.Models
         [DataType(DataType.Currency)]
         [DisplayFormat(NullDisplayText = "n/a", ApplyFormatInEditMode = true, DataFormatString = "{0:c}")]
         [RequiredIf("ScambioConSpedizione", Operator.EqualTo, true, ErrorMessageResourceName = "ShipmentPriceRequired", ErrorMessageResourceType = typeof(App_GlobalResources.ErrorResource))]
-        [Range(0, 2147483647, ErrorMessageResourceName = "ShipmentPriceNotValid", ErrorMessageResourceType = typeof(App_GlobalResources.ErrorResource))]
+        [Range(0, double.MaxValue, ErrorMessageResourceName = "ShipmentPriceNotValid", ErrorMessageResourceType = typeof(App_GlobalResources.ErrorResource))]
         public decimal? PrezzoSpedizione { get; set; }
 
         public IEnumerable<SelectListItem> ListaTempoImballaggio { get; set; }

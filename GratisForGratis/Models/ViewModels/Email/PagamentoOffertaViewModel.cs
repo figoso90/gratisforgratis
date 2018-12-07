@@ -12,7 +12,7 @@ namespace GratisForGratis.Models.ViewModels.Email
 
         public string NomeAnnuncio { get; set; }
 
-        public int? Moneta { get; set; }
+        public decimal? Moneta { get; set; }
 
         public List<string> Baratti { get; set; }
 

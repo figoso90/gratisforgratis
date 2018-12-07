@@ -17,8 +17,8 @@ namespace GratisForGratis.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CORRIERE_SERVIZIO()
         {
-            this.CORRIERE_SERVIZIO_SPEDIZIONE = new HashSet<CORRIERE_SERVIZIO_SPEDIZIONE>();
             this.CORRIERE_SERVIZIO_PREZZO_STIMATO = new HashSet<CORRIERE_SERVIZIO_PREZZO_STIMATO>();
+            this.CORRIERE_SERVIZIO_SPEDIZIONE = new HashSet<CORRIERE_SERVIZIO_SPEDIZIONE>();
         }
     
         public int ID { get; set; }
@@ -32,8 +32,8 @@ namespace GratisForGratis.Models
     
         public virtual CORRIERE CORRIERE { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CORRIERE_SERVIZIO_SPEDIZIONE> CORRIERE_SERVIZIO_SPEDIZIONE { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CORRIERE_SERVIZIO_PREZZO_STIMATO> CORRIERE_SERVIZIO_PREZZO_STIMATO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CORRIERE_SERVIZIO_SPEDIZIONE> CORRIERE_SERVIZIO_SPEDIZIONE { get; set; }
     }
 }

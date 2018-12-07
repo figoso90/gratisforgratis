@@ -1,4 +1,5 @@
 ﻿using GratisForGratis.Controllers;
+using GratisForGratis.Models.ExtensionMethods;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -45,7 +46,7 @@ namespace GratisForGratis.Models
             Token = model.TOKEN.ToString();
             Nome = model.NOME;
             TipoPagamento = (TipoPagamento)model.TIPO_PAGAMENTO;
-            Punti = model.PUNTI;
+            Punti = model.PUNTI.ToHappyCoin();
             Soldi = Convert.ToDecimal(model.SOLDI).ToString("C");
             DataInserimento = (DateTime)model.DATA_INSERIMENTO;
             CategoriaID = model.ID_CATEGORIA;
@@ -128,7 +129,7 @@ namespace GratisForGratis.Models
 
         [Range(0, int.MaxValue)]
         [Display(Name = "Points", ResourceType = typeof(App_GlobalResources.Language))]
-        public int? Punti { get; set; }
+        public string Punti { get; set; }
 
         [Range(0, int.MaxValue)]
         [Display(Name = "Money", ResourceType = typeof(App_GlobalResources.Language))]
@@ -170,6 +171,9 @@ namespace GratisForGratis.Models
 
         [DataType(DataType.DateTime, ErrorMessageResourceName = "ErrorDate", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
         public DateTime? DataFine { get; set; }
+
+        [DataType(DataType.DateTime, ErrorMessageResourceName = "ErrorDate", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
+        public DateTime? DataVendita { get; set; }
 
         public bool NoOfferte { get; set; }
 
@@ -284,7 +288,7 @@ namespace GratisForGratis.Models
 
         public string NomeCorriere { get; set; }
 
-        public int PuntiSpedizione { get; set; }
+        public string PuntiSpedizione { get; set; }
 
         public string SoldiSpedizione { get; set; }
 

@@ -14,8 +14,24 @@
         </div>
         <div class="cella points">
             @Html.Label("Punti", Language.Moneta + ":")
-            @((Model.Annuncio.Punti == null) ? 0 : Model.Annuncio.Punti)
+            @((Model.Annuncio.Punti == null) ? "0" : Model.Annuncio.Punti)
         </div>
+        <div class="cella points">
+            @Html.Label("Offerta", Language.Bid + ":")
+            @((Model.Punti == null) ? "0" : Model.Punti)
+        </div>
+        @if (Model.Baratti.Count > 0)
+        {
+            <div class="cella">
+                @Html.Label("Baratti", Language.Barters + ":")
+                <div class="barters">
+                    @foreach (AnnuncioViewModel baratto in Model.Baratti)
+                    {
+                        @Html.ActionLink(baratto.Nome, "Index", "Annuncio", new { token = HttpUtility.UrlEncode(baratto.Token) }, new { @class = "link" }) <br />
+                    }
+                </div>
+            </div>
+        }
         @if (Model.Annuncio.TipoAcquisto == TipoAcquisto.Oggetto)
         {
             <div class="cella points">
@@ -24,10 +40,10 @@
             </div>
             if (!string.IsNullOrWhiteSpace(Model.SoldiSpedizione))
             {
-            <div class="cella points">
-                @Html.Label("SoldiSpedizione", Language.Shipment + ":")
-                @Model.SoldiSpedizione (@Model.NomeCorriere)
-            </div>
+                <div class="cella points">
+                    @Html.Label("SoldiSpedizione", Language.Shipment + ":")
+                    @Model.SoldiSpedizione (@Model.NomeCorriere)
+                </div>
             }
         }
         <div class="cella noMandatory">
@@ -44,18 +60,6 @@
             @Html.Label("Venditore", Language.Seller + ":")
             <b>@Model.Annuncio.Venditore.Nominativo</b>
         </div>
-        @if (Model.Baratti.Count > 0)
-    {
-        <div class="cella">
-            @Html.Label("Baratti", Language.Barters + ":")
-            <div class="barters">
-                @foreach (AnnuncioViewModel baratto in Model.Baratti)
-                {
-                @Html.ActionLink(baratto.Nome, "", "Annuncio", new { token = HttpUtility.UrlEncode(baratto.Token) }, new { @class = "link" }) <br />
-                }
-            </div>
-        </div>
-}
         @Html.Partial("PartialPages/_FunzioniOfferta", Model)
         <div class="cella">
             @Html.ActionLink(Language.MoreDetails, "Index", "Annuncio", new { token = HttpUtility.UrlEncode(Model.Annuncio.Token) }, new { @class = "btn" })

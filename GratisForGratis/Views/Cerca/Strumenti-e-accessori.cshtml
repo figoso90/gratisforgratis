@@ -5,11 +5,11 @@
     @Styles.Render("~/Content/ricerca.css")
 }
 <aside id="ricerca">
-    @Html.Partial("Filtri/Strumenti-Accessori", new GratisForGratis.Models.RicercaStrumentiViewModel(Model.TotalNumber))
+    @Html.Partial("Filtri/Strumenti-e-accessori", new GratisForGratis.Models.RicercaModelloViewModel(Model.TotalNumber))
 </aside>
 <section id="page">
     <section id="home" class="content">
-        @Html.Partial("Elenco/Strumenti-Accessori", Model)
+        @Html.Partial("Elenco/Strumenti-e-accessori", Model)
     </section>
 </section>
 

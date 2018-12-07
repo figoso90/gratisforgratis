@@ -14,6 +14,9 @@ namespace GratisForGratis.Models
     
     public partial class SPEDIZIONE_INATTESA
     {
+        public int ID { get; set; }
+        public string NOME_ANNUNCIO { get; set; }
+        public decimal PREZZO { get; set; }
         public string TITOLO { get; set; }
         public string COGNOME_RAGSOC { get; set; }
         public string NOME { get; set; }
@@ -42,8 +45,5 @@ namespace GratisForGratis.Models
         public string IMPORTOASSICURATA { get; set; }
         public string PRODOTTO { get; set; }
         public string SERVIZIO_RESI_EASY { get; set; }
-        public int ID { get; set; }
-        public string NOME_ANNUNCIO { get; set; }
-        public decimal PREZZO { get; set; }
     }
 }

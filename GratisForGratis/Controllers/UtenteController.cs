@@ -66,7 +66,7 @@ namespace GratisForGratis.Controllers
                 viewModel.listaAcquisti = new List<AnnuncioViewModel>();
                 viewModel.listaDesideri = new List<AnnuncioViewModel>();
                 // far vedere top n acquisti con link
-                var query = db.ANNUNCIO.Where(item => item.ID_COMPRATORE != persona.ID && item.TRANSAZIONE_ANNUNCIO.Count(m => m.STATO == (int)Stato.ATTIVO) > 0
+                var query = db.ANNUNCIO.Where(item => item.ID_COMPRATORE != persona.ID && item.TRANSAZIONE_ANNUNCIO.Count(m => m.STATO == (int)StatoPagamento.ATTIVO || m.STATO == (int)StatoPagamento.ACCETTATO) > 0
                         && (item.STATO == (int)StatoVendita.VENDUTO || item.STATO == (int)StatoVendita.ELIMINATO || item.STATO == (int)StatoVendita.BARATTATO)
                         && (item.ID_OGGETTO != null || item.ID_SERVIZIO != null));
                 List<ANNUNCIO> lista = query

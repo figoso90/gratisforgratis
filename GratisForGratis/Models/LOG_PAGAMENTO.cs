@@ -18,9 +18,9 @@ namespace GratisForGratis.Models
         public Nullable<int> ID_ANNUNCIO { get; set; }
         public string NOME_ANNUNCIO { get; set; }
         public Nullable<int> ID_COMPRATORE { get; set; }
+        public string SESSIONE_COMPRATORE { get; set; }
         public string ID_PAGAMENTO { get; set; }
         public string ISTITUTO_PAGAMENTO { get; set; }
         public Nullable<System.DateTime> DATA_INSERIMENTO { get; set; }
-        public string SESSIONE_COMPRATORE { get; set; }
     }
 }

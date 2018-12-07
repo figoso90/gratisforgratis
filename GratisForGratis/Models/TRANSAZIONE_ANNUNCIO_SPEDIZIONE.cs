@@ -17,7 +17,7 @@ namespace GratisForGratis.Models
         public int ID { get; set; }
         public int ID_TRANSAZIONE { get; set; }
         public int ID_ANNUNCIO_SPEDIZIONE { get; set; }
-        public int PUNTI { get; set; }
+        public decimal PUNTI { get; set; }
         public decimal SOLDI { get; set; }
         public System.DateTime DATA_INSERIMENTO { get; set; }
         public Nullable<System.DateTime> DATA_MODIFICA { get; set; }

@@ -18,7 +18,7 @@
     <!-- Ricerca annunci personali da poter barattare (ricerca filtrata per tipo di scambio) -->
     <div class="barters">
         <label>@ViewModel.BidYourAd</label> @Html.TextBox("CercaAnnuncio", "", new { @class = "form-control", data_url = "/Cerca/AnnunciBarattabili", data_value_id = "Baratti", data_autocomplete_filtro_extra = "TipoSpedizione" })
-        @if (Model.Baratti != null && Model.BarattiToken.Count > 0)
+        @if (Model.BarattiToken != null && Model.BarattiToken.Count > 0)
         {
             @Html.HiddenFor(m => m.BarattiToken)
         }

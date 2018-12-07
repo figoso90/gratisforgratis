@@ -246,7 +246,8 @@ namespace GratisForGratis.Controllers
                 using (DatabaseContext db = new DatabaseContext())
                 {
                     int utente = ((PersonaModel)Session["utente"]).Persona.ID;
-                    var query = db.ANNUNCIO.Where(item => item.ID_COMPRATORE != utente && item.TRANSAZIONE_ANNUNCIO.Count(m => m.STATO == (int)Stato.ATTIVO) > 0
+                    var query = db.ANNUNCIO.Where(item => item.ID_PERSONA != utente && item.ID_COMPRATORE == utente 
+                        && item.TRANSAZIONE_ANNUNCIO.Count(m => m.STATO == (int)StatoPagamento.ATTIVO || m.STATO == (int)StatoPagamento.ACCETTATO) > 0
                         && (item.STATO == (int)StatoVendita.VENDUTO || item.STATO == (int)StatoVendita.ELIMINATO || item.STATO == (int)StatoVendita.BARATTATO)
                         && (item.ID_OGGETTO != null || item.ID_SERVIZIO != null));
                     int numeroElementi = Convert.ToInt32(WebConfigurationManager.AppSettings["numeroElementi"]);
@@ -255,7 +256,7 @@ namespace GratisForGratis.Controllers
                     pagina -= 1;
                     string randomString = Utils.RandomString(3);
                     List<ANNUNCIO> lista = query
-                        .OrderByDescending(item => item.DATA_INSERIMENTO)
+                        .OrderByDescending(item => item.DATA_VENDITA)
                         .Skip(pagina * numeroElementi)
                         .Take(numeroElementi).ToList();
                     foreach (ANNUNCIO m in lista)

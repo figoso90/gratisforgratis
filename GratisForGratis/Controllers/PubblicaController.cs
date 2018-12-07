@@ -218,17 +218,21 @@ namespace GratisForGratis.Controllers
             if (file != null && Utils.CheckFormatoFile(file))
             {
                 string antiForgeryToken = Request.Form.Get("__TokenUploadFoto");
-                FileUploadifive foto = UploadImmagine("/Temp/Images/" + Session.SessionID + "/" + antiForgeryToken, file);
-                foto.Id = foto.Nome;
-                string pathBase = Path.Combine(Server.MapPath("~/Temp/Images/"), Session.SessionID, antiForgeryToken, "Little");
-                string[] listaFotoUpload = Directory.GetFiles(pathBase);
-                PubblicaListaFotoViewModel model = new PubblicaListaFotoViewModel();
-                model.TokenUploadFoto = antiForgeryToken;
-                if (listaFotoUpload != null && listaFotoUpload.Length > 0) {
-                    model.Foto = listaFotoUpload.Select(m => new FileInfo(m).Name).ToList();
+                if (!string.IsNullOrWhiteSpace(antiForgeryToken) && !antiForgeryToken.ToLower().Equals("undefined"))
+                {
+                    FileUploadifive foto = UploadImmagine("/Temp/Images/" + Session.SessionID + "/" + antiForgeryToken, file);
+                    foto.Id = foto.Nome;
+                    string pathBase = Path.Combine(Server.MapPath("~/Temp/Images/"), Session.SessionID, antiForgeryToken, "Little");
+                    string[] listaFotoUpload = Directory.GetFiles(pathBase);
+                    PubblicaListaFotoViewModel model = new PubblicaListaFotoViewModel();
+                    model.TokenUploadFoto = antiForgeryToken;
+                    if (listaFotoUpload != null && listaFotoUpload.Length > 0)
+                    {
+                        model.Foto = listaFotoUpload.Select(m => new FileInfo(m).Name).ToList();
+                    }
+                    string htmlGalleriaFotoAnnuncio = RenderRazorViewToString("PartialPages/_GalleriaFotoAnnuncio", model);
+                    return Json(new { Success = true, responseText = htmlGalleriaFotoAnnuncio, Foto = foto });
                 }
-                string htmlGalleriaFotoAnnuncio = RenderRazorViewToString("PartialPages/_GalleriaFotoAnnuncio", model);
-                return Json(new { Success = true, responseText = htmlGalleriaFotoAnnuncio, Foto = foto });
                 //return Json(new { Success = true, responseText = foto });
             }
             //messaggio di errore
@@ -241,23 +245,26 @@ namespace GratisForGratis.Controllers
             try
             {
                 string antiForgeryToken = Request.Form.Get("__TokenUploadFoto");
-                string pathBase = Path.Combine(Server.MapPath("~/Temp/Images/"), Session.SessionID, antiForgeryToken);
-                string pathImgOriginale = Path.Combine(pathBase, "Original", nome);
-                string pathImgMedia = Path.Combine(pathBase, "Normal", nome);
-                string pathImgPiccola = Path.Combine(pathBase, "Little", nome);
-
-                System.IO.File.Delete(pathImgOriginale);
-                System.IO.File.Delete(pathImgMedia);
-                System.IO.File.Delete(pathImgPiccola);
-                //return Json(new { Success = true });
-                string[] listaFotoUpload = Directory.GetFiles(Path.Combine(pathBase, "Little"));
-                PubblicaListaFotoViewModel model = new PubblicaListaFotoViewModel();
-                model.TokenUploadFoto = antiForgeryToken;
-                if (listaFotoUpload != null && listaFotoUpload.Length > 0)
+                if (!string.IsNullOrWhiteSpace(antiForgeryToken) && !antiForgeryToken.ToLower().Equals("undefined"))
                 {
-                    model.Foto = listaFotoUpload.Select(m => new FileInfo(m).Name).ToList();
+                    string pathBase = Path.Combine(Server.MapPath("~/Temp/Images/"), Session.SessionID, antiForgeryToken);
+                    string pathImgOriginale = Path.Combine(pathBase, "Original", nome);
+                    string pathImgMedia = Path.Combine(pathBase, "Normal", nome);
+                    string pathImgPiccola = Path.Combine(pathBase, "Little", nome);
+
+                    System.IO.File.Delete(pathImgOriginale);
+                    System.IO.File.Delete(pathImgMedia);
+                    System.IO.File.Delete(pathImgPiccola);
+                    //return Json(new { Success = true });
+                    string[] listaFotoUpload = Directory.GetFiles(Path.Combine(pathBase, "Little"));
+                    PubblicaListaFotoViewModel model = new PubblicaListaFotoViewModel();
+                    model.TokenUploadFoto = antiForgeryToken;
+                    if (listaFotoUpload != null && listaFotoUpload.Length > 0)
+                    {
+                        model.Foto = listaFotoUpload.Select(m => new FileInfo(m).Name).ToList();
+                    }
+                    return PartialView("PartialPages/_GalleriaFotoAnnuncio", model);
                 }
-                return PartialView("PartialPages/_GalleriaFotoAnnuncio", model);
             }
             catch (Exception ex)
             {
@@ -380,7 +387,7 @@ namespace GratisForGratis.Controllers
                                             // ASSEGNAZIONE CREDITI
                                             PersonaModel utente = ((PersonaModel)Session["utente"]);
                                             viewModelAnnuncio.InviaEmail(ControllerContext, annuncio, utente);
-                                            int numeroCreditiBonus = AddBonus(db, utente, viewModelAnnuncio);
+                                            decimal numeroCreditiBonus = AddBonus(db, utente, viewModelAnnuncio);
                                             TempData["BONUS"] = string.Format(Bonus.YouWin, numeroCreditiBonus, Language.Moneta);
 
                                             annuncioInPossesso.PERSONA = persona; // perchè sennò non riesce a recuperare l'associazione
@@ -436,20 +443,19 @@ namespace GratisForGratis.Controllers
                                     // copiare e salvare annuncio
                                     PubblicazioneViewModel viewModelAnnuncio = UpdateServizio(annuncio, viewModel);
                                     // copia foto
-                                    for (int i=0; i<viewModelAnnuncio.Foto.Count; i++)
+                                    List<string> fotoEsistenti = annuncio.ANNUNCIO_FOTO
+                                        .Where(m => viewModelAnnuncio.Foto.Contains(m.ALLEGATO.NOME) == true)
+                                        .Select(m => m.ALLEGATO.NOME).ToList();
+                                    for (int i = 0; i < fotoEsistenti.Count; i++)
                                     {
-                                        ANNUNCIO_FOTO annuncioFoto = annuncio.ANNUNCIO_FOTO.SingleOrDefault(f => f.ALLEGATO.NOME == viewModelAnnuncio.Foto[i]);
-                                        if (annuncioFoto != null)
+                                        string nomeFileOriginale = Server.MapPath("~/Uploads/Images/" + annuncio.PERSONA.TOKEN + "/" + annuncio.DATA_INSERIMENTO.Year + "/Original/" + fotoEsistenti[i]);
+                                        HttpFile fileOriginale = new HttpFile(nomeFileOriginale);
+                                        FileUploadifive fileSalvatato = UploadImmagine("/Temp/Images/" + Session.SessionID + "/" + viewModel.TokenUploadFoto, fileOriginale);
+                                        if (fileSalvatato != null)
                                         {
-                                            string nomeFileOriginale = Server.MapPath("~/Uploads/Images/" + annuncio.PERSONA.TOKEN + "/" + annuncioFoto.DATA_INSERIMENTO.Year + "/Original/" + annuncioFoto.ALLEGATO.NOME);
-                                            HttpFile fileOriginale = new HttpFile(nomeFileOriginale);
-                                            FileUploadifive fileSalvatato = UploadImmagine("/Temp/Images/" + Session.SessionID + "/" + viewModel.TokenUploadFoto, fileOriginale);
-                                            if (fileSalvatato != null)
-                                            {
-                                                string[] array = viewModelAnnuncio.Foto.ToArray();
-                                                int indiceArray = Array.IndexOf(array, fileSalvatato.NomeOriginale);
-                                                viewModelAnnuncio.Foto[indiceArray] = fileSalvatato.Nome;
-                                            }
+                                            string[] array = viewModelAnnuncio.Foto.ToArray();
+                                            int indiceArray = Array.IndexOf(array, fileSalvatato.NomeOriginale);
+                                            viewModelAnnuncio.Foto[indiceArray] = fileSalvatato.Nome;
                                         }
                                     }
                                     viewModelAnnuncio.DbContext = db;
@@ -462,7 +468,7 @@ namespace GratisForGratis.Controllers
                                             // ASSEGNAZIONE CREDITI
                                             PersonaModel utente = ((PersonaModel)Session["utente"]);
                                             viewModelAnnuncio.InviaEmail(ControllerContext, annuncio, utente);
-                                            int numeroCreditiBonus = AddBonus(db, utente, viewModelAnnuncio);
+                                            decimal numeroCreditiBonus = AddBonus(db, utente, viewModelAnnuncio);
                                             TempData["BONUS"] = string.Format(Bonus.YouWin, numeroCreditiBonus, Language.Moneta);
 
                                             annuncioInPossesso.PERSONA = persona; // perchè sennò non riesce a recuperare l'associazione
@@ -534,7 +540,7 @@ namespace GratisForGratis.Controllers
                                 PersonaModel utente = ((PersonaModel)Session["utente"]);
                                 viewModel.InviaEmail(ControllerContext, annuncio, utente);
                                 
-                                int numeroCreditiBonus = AddBonus(db, utente, viewModel);
+                                decimal numeroCreditiBonus = AddBonus(db, utente, viewModel);
                                 if (numeroCreditiBonus > 0)
                                     TempData["BONUS"] = string.Format(Bonus.YouWin, numeroCreditiBonus, Language.Moneta);
 
@@ -687,6 +693,10 @@ namespace GratisForGratis.Controllers
             {
                 viewModel = new PubblicaVestitoViewModel(model);
             }
+            else
+            {
+                viewModel = new PubblicaOggettoViewModel(model);
+            }
             // se è stato copiato l'annuncio, allora riporto le modifiche
             if (viewModel != null)
                 viewModel.Update(viewModelCopia);
@@ -705,10 +715,10 @@ namespace GratisForGratis.Controllers
             return viewModel;
         }
 
-        private int AddBonus(DatabaseContext db, PersonaModel utente, PubblicazioneViewModel viewModel)
+        private decimal AddBonus(DatabaseContext db, PersonaModel utente, PubblicazioneViewModel viewModel)
         {
             bool risultato = false;
-            int numeroPuntiGuadagnati = 0;
+            decimal numeroPuntiGuadagnati = 0;
 
             // verifico se dare un bonus dopo un certo numero di pubblicazioni
             Guid portale = Guid.Parse(ConfigurationManager.AppSettings["portaleweb"]);
@@ -721,17 +731,17 @@ namespace GratisForGratis.Controllers
             if (numeroVendite == Convert.ToInt32(ConfigurationManager.AppSettings["numeroPubblicazioniBonus"])
                 && bonus == null)
             {
-                int puntiBonusIniziali = Convert.ToInt32(ConfigurationManager.AppSettings["bonusPubblicazioniIniziali"]);
+                decimal puntiBonusIniziali = Convert.ToInt32(ConfigurationManager.AppSettings["bonusPubblicazioniIniziali"]);
                 this.AddBonus(db, utente.Persona, portale, puntiBonusIniziali, 
                     TipoTransazione.BonusPubblicazioneIniziale, Bonus.InitialPubblication);
-                numeroPuntiGuadagnati += (int)puntiBonusIniziali;
+                numeroPuntiGuadagnati += (decimal)puntiBonusIniziali;
                 risultato = risultato | true;
             }
 
             // aggiunge bonus se l'annuncio è completo di tutti i dati
             if (viewModel.IsAnnuncioCompleto())
             {
-                int puntiAnnuncioCompleto = Convert.ToInt32(ConfigurationManager.AppSettings["bonusAnnuncioCompleto"]);
+                decimal puntiAnnuncioCompleto = Convert.ToInt32(ConfigurationManager.AppSettings["bonusAnnuncioCompleto"]);
                 this.AddBonus(db, utente.Persona, portale, puntiAnnuncioCompleto,
                     TipoTransazione.BonusAnnuncioCompleto, Bonus.FullAnnouncement);
                 numeroPuntiGuadagnati += puntiAnnuncioCompleto;

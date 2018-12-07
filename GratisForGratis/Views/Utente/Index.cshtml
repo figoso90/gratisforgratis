@@ -1,11 +1,12 @@
 ﻿@using GratisForGratis.App_GlobalResources
+@using GratisForGratis.Models.ExtensionMethods
 @Styles.Render("~/Content/Index.css")
 @Styles.Render("~/Content/saldoPunti.css")
 
 <section id="menuUser">
     <div class="points">
-        <h3>@Language.CurrentBalance: <a class="gpoints">@(((GratisForGratis.Models.PersonaModel)Session["utente"]).ContoCorrente.Count(m => m.STATO == (int)GratisForGratis.Models.StatoMoneta.ASSEGNATA)) @Language.Moneta</a></h3>
-        <h3>@Language.Points @Language.InSuspense: <a class="gpointsSuspense">@(((GratisForGratis.Models.PersonaModel)Session["utente"]).ContoCorrente.Count(m => m.STATO == (int)GratisForGratis.Models.StatoMoneta.SOSPESA)) @Language.Moneta</a></h3>
+        <h3>@Language.CurrentBalance: <a class="gpoints">@(((GratisForGratis.Models.PersonaModel)Session["utente"]).Credito.Where(m => m.STATO == (int)GratisForGratis.Models.StatoCredito.ASSEGNATO).Sum(m => m.PUNTI).ToHappyCoin())</a></h3>
+        <h3>@Language.Points @Language.InSuspense: <a class="gpointsSuspense">@(((GratisForGratis.Models.PersonaModel)Session["utente"]).Credito.Where(m => m.STATO == (int)GratisForGratis.Models.StatoCredito.SOSPESO).Sum(m => m.PUNTI).ToHappyCoin())</a></h3>
     </div>
     <div class="btn confirm">
         @Html.ActionLink(Language.ConfirmPurchase, "Effettuate", "Offerte", null, new { @class = "link" })

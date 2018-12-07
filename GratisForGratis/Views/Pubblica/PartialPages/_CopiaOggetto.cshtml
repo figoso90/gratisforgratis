@@ -63,7 +63,11 @@
             @Html.TextBoxFor(m => m.Citta, new { @class = "form-control", data_autocomplete_url = "/Home/FindCitta", data_autocomplete_id = "IDCitta" })
             @Html.HiddenFor(m => m.IDCitta)
             @Html.LabelFor(m => m.DurataInserzione, new { @class = "col-md-2 control-label" })
-            @Html.TextBoxFor(m => m.DurataInserzione, new { @class = "form-control" })
+            <div class="form-group lastInfoBase">
+                @Html.LabelFor(m => m.DurataInserzione, new { @class = "col-md-2 control-label" })
+                @Html.DropDownListFor(m => m.DurataInserzione, Model.ListaDurataInserzione, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.DurataInserzione, "", new { @class = "text-danger" })
+            </div>
             @Html.ValidationMessageFor(m => m.IDCitta, "", new { @class = "text-danger" })
         </div>
     <div class="footer">

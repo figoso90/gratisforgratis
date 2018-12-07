@@ -19,11 +19,11 @@ namespace GratisForGratis.Models
         {
             this.CORRIERE_COMUNE = new HashSet<CORRIERE_COMUNE>();
             this.CORRIERE_NAZIONE = new HashSet<CORRIERE_NAZIONE>();
+            this.CORRIERE_PROVINCIA = new HashSet<CORRIERE_PROVINCIA>();
             this.CORRIERE_PUNTO_SPEDIZIONE = new HashSet<CORRIERE_PUNTO_SPEDIZIONE>();
             this.CORRIERE_SERVIZIO = new HashSet<CORRIERE_SERVIZIO>();
             this.CORRIERE_TIPO_OGGETTO = new HashSet<CORRIERE_TIPO_OGGETTO>();
             this.CORRIERE_TIPO_PACCO = new HashSet<CORRIERE_TIPO_PACCO>();
-            this.CORRIERE_PROVINCIA = new HashSet<CORRIERE_PROVINCIA>();
         }
     
         public int ID { get; set; }
@@ -43,6 +43,8 @@ namespace GratisForGratis.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CORRIERE_NAZIONE> CORRIERE_NAZIONE { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CORRIERE_PROVINCIA> CORRIERE_PROVINCIA { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CORRIERE_PUNTO_SPEDIZIONE> CORRIERE_PUNTO_SPEDIZIONE { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CORRIERE_SERVIZIO> CORRIERE_SERVIZIO { get; set; }
@@ -51,7 +53,5 @@ namespace GratisForGratis.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CORRIERE_TIPO_PACCO> CORRIERE_TIPO_PACCO { get; set; }
         public virtual TIPO_SPEDIZIONE TIPO_SPEDIZIONE { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CORRIERE_PROVINCIA> CORRIERE_PROVINCIA { get; set; }
     }
 }

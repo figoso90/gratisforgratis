@@ -28,10 +28,10 @@ namespace GratisForGratis.Models
             this.ANNUNCIO_TAG = new HashSet<ANNUNCIO_TAG>();
             this.ANNUNCIO_TIPO_SCAMBIO = new HashSet<ANNUNCIO_TIPO_SCAMBIO>();
             this.ANNUNCIO_VISUALIZZAZIONE = new HashSet<ANNUNCIO_VISUALIZZAZIONE>();
-            this.OFFERTA = new HashSet<OFFERTA>();
+            this.LOG_SBLOCCO_ANNUNCIO = new HashSet<LOG_SBLOCCO_ANNUNCIO>();
             this.OFFERTA_BARATTO = new HashSet<OFFERTA_BARATTO>();
             this.TRANSAZIONE_ANNUNCIO = new HashSet<TRANSAZIONE_ANNUNCIO>();
-            this.LOG_SBLOCCO_ANNUNCIO = new HashSet<LOG_SBLOCCO_ANNUNCIO>();
+            this.OFFERTA = new HashSet<OFFERTA>();
         }
     
         public int ID { get; set; }
@@ -43,8 +43,9 @@ namespace GratisForGratis.Models
         public Nullable<int> ID_ATTIVITA { get; set; }
         public int TIPO_PAGAMENTO { get; set; }
         public string NOME { get; set; }
-        public int PUNTI { get; set; }
-        public Nullable<int> SOLDI { get; set; }
+        public decimal PUNTI { get; set; }
+        public Nullable<decimal> SOLDI { get; set; }
+        public Nullable<int> ID_TIPO_VALUTA { get; set; }
         public string URL_SCHEDA { get; set; }
         public string NOTE_AGGIUNTIVE { get; set; }
         public Nullable<int> ID_COMUNE { get; set; }
@@ -54,13 +55,12 @@ namespace GratisForGratis.Models
         public int RIMETTI_IN_VENDITA { get; set; }
         public System.DateTime DATA_AVVIO { get; set; }
         public Nullable<System.DateTime> DATA_FINE { get; set; }
-        public System.DateTime DATA_INSERIMENTO { get; set; }
-        public Nullable<System.DateTime> DATA_MODIFICA { get; set; }
-        public int STATO { get; set; }
-        public Nullable<int> ID_TIPO_VALUTA { get; set; }
         public string SESSIONE_COMPRATORE { get; set; }
         public Nullable<int> ID_COMPRATORE { get; set; }
         public Nullable<System.DateTime> DATA_VENDITA { get; set; }
+        public System.DateTime DATA_INSERIMENTO { get; set; }
+        public Nullable<System.DateTime> DATA_MODIFICA { get; set; }
+        public int STATO { get; set; }
     
         public virtual ANNUNCIO ANNUNCIO1 { get; set; }
         public virtual ANNUNCIO ANNUNCIO2 { get; set; }
@@ -86,23 +86,23 @@ namespace GratisForGratis.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ANNUNCIO_NOTIFICA> ANNUNCIO_NOTIFICA { get; set; }
         public virtual OGGETTO OGGETTO { get; set; }
+        public virtual PERSONA PERSONA { get; set; }
+        public virtual PERSONA PERSONA1 { get; set; }
         public virtual SERVIZIO SERVIZIO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ANNUNCIO_TAG> ANNUNCIO_TAG { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ANNUNCIO_TIPO_SCAMBIO> ANNUNCIO_TIPO_SCAMBIO { get; set; }
+        public virtual TIPO_VALUTA TIPO_VALUTA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ANNUNCIO_VISUALIZZAZIONE> ANNUNCIO_VISUALIZZAZIONE { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OFFERTA> OFFERTA { get; set; }
+        public virtual ICollection<LOG_SBLOCCO_ANNUNCIO> LOG_SBLOCCO_ANNUNCIO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OFFERTA_BARATTO> OFFERTA_BARATTO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TRANSAZIONE_ANNUNCIO> TRANSAZIONE_ANNUNCIO { get; set; }
-        public virtual TIPO_VALUTA TIPO_VALUTA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LOG_SBLOCCO_ANNUNCIO> LOG_SBLOCCO_ANNUNCIO { get; set; }
-        public virtual PERSONA PERSONA { get; set; }
-        public virtual PERSONA PERSONA1 { get; set; }
+        public virtual ICollection<OFFERTA> OFFERTA { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿@model GratisForGratis.Models.AnnuncioViewModel
+﻿@using GratisForGratis.Models.ExtensionMethods
+
+@model GratisForGratis.Models.AnnuncioViewModel
 
 @{ 
     GratisForGratis.Models.OggettoViewModel oggetto = null;
@@ -18,7 +20,7 @@
                     {
                         <label class="lblBarter">@Language.New</label>
                     }
-                    @if (oggetto.Punti <= 0)
+                    @if (oggetto.Punti.ParseFromHappyCoin() <= 0)
                     {
                         <label class="lblGift">@Language.Gift</label>
                     }

@@ -19,8 +19,8 @@ namespace GratisForGratis.Models
         {
             this.ANNUNCIO_FOTO = new HashSet<ANNUNCIO_FOTO>();
             this.ATTIVITA_FOTO = new HashSet<ATTIVITA_FOTO>();
-            this.PERSONA_FOTO = new HashSet<PERSONA_FOTO>();
             this.CORRIERE_SERVIZIO_SPEDIZIONE = new HashSet<CORRIERE_SERVIZIO_SPEDIZIONE>();
+            this.PERSONA_FOTO = new HashSet<PERSONA_FOTO>();
         }
     
         public int ID { get; set; }
@@ -36,8 +36,8 @@ namespace GratisForGratis.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ATTIVITA_FOTO> ATTIVITA_FOTO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PERSONA_FOTO> PERSONA_FOTO { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CORRIERE_SERVIZIO_SPEDIZIONE> CORRIERE_SERVIZIO_SPEDIZIONE { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PERSONA_FOTO> PERSONA_FOTO { get; set; }
     }
 }

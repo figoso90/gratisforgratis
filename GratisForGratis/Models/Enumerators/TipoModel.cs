@@ -59,8 +59,9 @@ namespace GratisForGratis.Models
 
     public enum RuoloProfilo
     {
-        Amministratore = 0,
-        Operatore = 1
+        Proprietario = 0,
+        Amministratore = 1,
+        Operatore = 2
     }
 
     // usato nella tabella TRANSAZIONE

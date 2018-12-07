@@ -26,9 +26,9 @@ namespace GratisForGratis.Models
             this.ATTIVITA_TELEFONO = new HashSet<ATTIVITA_TELEFONO>();
             this.NOTIFICA = new HashSet<NOTIFICA>();
             this.NOTIFICA1 = new HashSet<NOTIFICA>();
-            this.OFFERTA = new HashSet<OFFERTA>();
             this.OGGETTO_APPARTENENZA = new HashSet<OGGETTO_APPARTENENZA>();
             this.PERSONA_ATTIVITA = new HashSet<PERSONA_ATTIVITA>();
+            this.OFFERTA = new HashSet<OFFERTA>();
         }
     
         public int ID { get; set; }
@@ -62,10 +62,10 @@ namespace GratisForGratis.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<NOTIFICA> NOTIFICA1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OFFERTA> OFFERTA { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OGGETTO_APPARTENENZA> OGGETTO_APPARTENENZA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PERSONA_ATTIVITA> PERSONA_ATTIVITA { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OFFERTA> OFFERTA { get; set; }
     }
 }

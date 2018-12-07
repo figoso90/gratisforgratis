@@ -21,9 +21,9 @@ namespace GratisForGratis.Models
             this.CORRIERE_PUNTO_SPEDIZIONE = new HashSet<CORRIERE_PUNTO_SPEDIZIONE>();
             this.CORRIERE_SERVIZIO_SPEDIZIONE = new HashSet<CORRIERE_SERVIZIO_SPEDIZIONE>();
             this.CORRIERE_SERVIZIO_SPEDIZIONE1 = new HashSet<CORRIERE_SERVIZIO_SPEDIZIONE>();
+            this.OFFERTA_SPEDIZIONE = new HashSet<OFFERTA_SPEDIZIONE>();
             this.PERSONA_INDIRIZZO = new HashSet<PERSONA_INDIRIZZO>();
             this.PERSONA_METODO_PAGAMENTO = new HashSet<PERSONA_METODO_PAGAMENTO>();
-            this.OFFERTA_SPEDIZIONE = new HashSet<OFFERTA_SPEDIZIONE>();
         }
     
         public int ID { get; set; }
@@ -46,10 +46,10 @@ namespace GratisForGratis.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CORRIERE_SERVIZIO_SPEDIZIONE> CORRIERE_SERVIZIO_SPEDIZIONE1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OFFERTA_SPEDIZIONE> OFFERTA_SPEDIZIONE { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PERSONA_INDIRIZZO> PERSONA_INDIRIZZO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PERSONA_METODO_PAGAMENTO> PERSONA_METODO_PAGAMENTO { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OFFERTA_SPEDIZIONE> OFFERTA_SPEDIZIONE { get; set; }
     }
 }

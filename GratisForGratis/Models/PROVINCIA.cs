@@ -29,8 +29,8 @@ namespace GratisForGratis.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<COMUNE> COMUNE { get; set; }
-        public virtual REGIONE REGIONE { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CORRIERE_PROVINCIA> CORRIERE_PROVINCIA { get; set; }
+        public virtual REGIONE REGIONE { get; set; }
     }
 }

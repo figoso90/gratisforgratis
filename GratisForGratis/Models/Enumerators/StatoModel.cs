@@ -142,4 +142,22 @@ namespace GratisForGratis.Models
         [Display(Name = "StatePause", ResourceType = typeof(App_GlobalResources.Language))]
         LETTO = 4
     }
+
+    public enum StatoCredito
+    {
+        [Display(Name = "StateCreditInactive", ResourceType = typeof(App_GlobalResources.Language))]
+        INATTIVO = 0,
+        [Display(Name = "StateCreditActive", ResourceType = typeof(App_GlobalResources.Language))]
+        ATTIVO = 1,
+        [Display(Name = "StateCreditDelete", ResourceType = typeof(App_GlobalResources.Language))]
+        ELIMINATO = 2,
+        [Display(Name = "StateCreditPause", ResourceType = typeof(App_GlobalResources.Language))]
+        SOSPESO = 3,
+        [Display(Name = "StateCreditAssigned", ResourceType = typeof(App_GlobalResources.Language))]
+        ASSEGNATO = 4,
+        [Display(Name = "StateCreditLost", ResourceType = typeof(App_GlobalResources.Language))]
+        CEDUTO = 5,
+        [Display(Name = "StateCreditExpire", ResourceType = typeof(App_GlobalResources.Language))]
+        SCADUTO = 6
+    }
 }

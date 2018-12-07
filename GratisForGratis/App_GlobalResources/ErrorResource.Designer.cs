@@ -106,11 +106,29 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Esiste già un&apos;offerta per questo annuncio.
+        /// </summary>
+        public static string BidInProgress {
+            get {
+                return ResourceManager.GetString("BidInProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Inserire dei crediti o almeno un baratto.
         /// </summary>
         public static string BidNotCorrect {
             get {
                 return ResourceManager.GetString("BidNotCorrect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Inserire crediti o annunci da barattare.
+        /// </summary>
+        public static string BidPointsRequired {
+            get {
+                return ResourceManager.GetString("BidPointsRequired", resourceCulture);
             }
         }
         

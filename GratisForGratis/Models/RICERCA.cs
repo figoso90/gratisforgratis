@@ -17,28 +17,28 @@ namespace GratisForGratis.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public RICERCA()
         {
+            this.PERSONA_RICERCA = new HashSet<PERSONA_RICERCA>();
             this.RICERCA_OGGETTO = new HashSet<RICERCA_OGGETTO>();
             this.RICERCA_SERVIZIO = new HashSet<RICERCA_SERVIZIO>();
-            this.PERSONA_RICERCA = new HashSet<PERSONA_RICERCA>();
         }
     
         public int ID { get; set; }
         public int ID_CATEGORIA { get; set; }
         public string NOME { get; set; }
-        public System.DateTime DATA_INSERIMENTO { get; set; }
-        public Nullable<System.DateTime> DATA_MODIFICA { get; set; }
-        public int STATO { get; set; }
         public Nullable<int> ID_CITTA { get; set; }
         public Nullable<int> PUNTI_MIN { get; set; }
         public Nullable<int> PUNTI_MAX { get; set; }
+        public System.DateTime DATA_INSERIMENTO { get; set; }
+        public Nullable<System.DateTime> DATA_MODIFICA { get; set; }
+        public int STATO { get; set; }
     
         public virtual CATEGORIA CATEGORIA { get; set; }
+        public virtual COMUNE COMUNE { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PERSONA_RICERCA> PERSONA_RICERCA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RICERCA_OGGETTO> RICERCA_OGGETTO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RICERCA_SERVIZIO> RICERCA_SERVIZIO { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PERSONA_RICERCA> PERSONA_RICERCA { get; set; }
-        public virtual COMUNE COMUNE { get; set; }
     }
 }

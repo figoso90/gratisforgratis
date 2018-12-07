@@ -10,6 +10,7 @@ using System.Web;
 using GratisForGratis.Controllers;
 using System.Data.Entity;
 using System.Web.Helpers;
+using System.Globalization;
 
 namespace GratisForGratis
 {
@@ -17,6 +18,11 @@ namespace GratisForGratis
     {
         protected void Application_Start()
         {
+            CultureInfo cultureInfoHappyCoin = new CultureInfo(System.Threading.Thread.CurrentThread.CurrentCulture.Name);
+            var numberFormatHappyCoin = cultureInfoHappyCoin.NumberFormat;
+            numberFormatHappyCoin.CurrencySymbol = "H";
+            Application["numberFormatHappyCoin"] = numberFormatHappyCoin;
+
             using (DatabaseContext db = new DatabaseContext())
             {
                 Application["categorie"] = db.FINDSOTTOCATEGORIE("Tutti", new int?(0)).ToList<FINDSOTTOCATEGORIE_Result>();

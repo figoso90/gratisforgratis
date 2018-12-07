@@ -70,6 +70,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Offerte ricevute.
+        /// </summary>
+        public static string BidsAd {
+            get {
+                return ResourceManager.GetString("BidsAd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Nome annuncio.
         /// </summary>
         public static string BidsAdName {

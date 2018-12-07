@@ -1,4 +1,5 @@
 ﻿using GratisForGratis.Models;
+using GratisForGratis.Models.ExtensionMethods;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -811,7 +812,8 @@ namespace GratisForGratis.Controllers
                 string termineSenzaSpazi = term.Trim();
                 // aggiungere il contains e l'order by per rilevanza
                 // aggiungere gestione spedizione
-                lista = db.ANNUNCIO.Where(item => item.ID_PERSONA == utente && item.STATO == (int)StatoVendita.ATTIVO && 
+                lista = db.ANNUNCIO.Where(item => item.ID_PERSONA == utente && 
+                    item.STATO == (int)StatoVendita.ATTIVO && (item.DATA_FINE >= DateTime.Now || item.DATA_FINE == null ) &&
                     item.NOME.Contains(termineSenzaSpazi) && 
                     item.ANNUNCIO_TIPO_SCAMBIO.Count(m => m.TIPO_SCAMBIO == (int)tipoScambio) > 0
                 ).OrderByDescending(item => item.NOME.Contains(termineSenzaSpazi))
@@ -917,7 +919,7 @@ namespace GratisForGratis.Controllers
                                 viewModel.Citta = res["CITTA_NOME"].ToString();
                                 viewModel.NoteAggiuntive = res["NOTE_AGGIUNTIVE"].ToString();
                                 viewModel.TipoPagamento = (TipoPagamento)res["TIPO_PAGAMENTO"];
-                                viewModel.Punti = (int)res["PUNTI"];
+                                viewModel.Punti = ((decimal)res["PUNTI"]).ToHappyCoin();
                                 viewModel.IdTipoValuta = (int)res["ID_TIPO_VALUTA"];
                                 // QUANDO SARà INTERNAZIONALE, CALCOLERò IL CAMBIO IN BASE ALLA VALUTA
                                 viewModel.Soldi = Convert.ToDecimal(res["SOLDI"]).ToString("C");
@@ -966,7 +968,7 @@ namespace GratisForGratis.Controllers
                                             if (spedizione != null)
                                             {
                                                 oggetto.NomeCorriere = spedizione.CORRIERE_SERVIZIO_SPEDIZIONE.CORRIERE_SERVIZIO.CORRIERE.NOME;
-                                                oggetto.PuntiSpedizione = spedizione.PUNTI;
+                                                oggetto.PuntiSpedizione = spedizione.PUNTI.ToHappyCoin();
                                                 oggetto.SoldiSpedizione = spedizione.SOLDI.ToString("C");
                                             }
                                         }
@@ -1005,14 +1007,14 @@ namespace GratisForGratis.Controllers
                 cmd.Parameters.Add(new SqlParameter("TIPOPAGAMENTO", (int)(TipoPagamento)Enum.Parse(typeof(TipoPagamento), filtro["TipoPagamento"])));
                 condizione += " AND (V.TIPO_PAGAMENTO = @TIPOPAGAMENTO OR V.TIPO_PAGAMENTO = 0)";
             }
-            if ((filtro["PuntiMin"] != null) && Convert.ToInt32(filtro["PuntiMin"]) > 0)
+            if ((filtro["PuntiMin"] != null) && Convert.ToDecimal(filtro["PuntiMin"]) > 0)
             {
-                cmd.Parameters.Add(new SqlParameter("PUNTIMIN", Convert.ToInt32(filtro["PuntiMin"])));
+                cmd.Parameters.Add(new SqlParameter("PUNTIMIN", Convert.ToDecimal(filtro["PuntiMin"])));
                 condizione += " AND V.PUNTI >= @PUNTIMIN";
             }
-            if ((filtro["PuntiMax"] != null) && Convert.ToInt32(filtro["PuntiMax"]) > 0)
+            if ((filtro["PuntiMax"] != null) && Convert.ToDecimal(filtro["PuntiMax"]) > 0)
             {
-                cmd.Parameters.Add(new SqlParameter("PUNTIMAX", Convert.ToInt32(filtro["PuntiMax"])));
+                cmd.Parameters.Add(new SqlParameter("PUNTIMAX", Convert.ToDecimal(filtro["PuntiMax"])));
                 condizione += " AND V.PUNTI <= @PUNTIMAX";
             }
             /*
@@ -1138,7 +1140,7 @@ namespace GratisForGratis.Controllers
                                 oggetto.NoteAggiuntive = res["NOTE_AGGIUNTIVE"].ToString();
                                 oggetto.TipoPagamento = (TipoPagamento)res["TIPO_PAGAMENTO"];
                                 oggetto.Citta = res["CITTA_NOME"].ToString();
-                                oggetto.Punti = (int)res["PUNTI"];
+                                oggetto.Punti = ((decimal)res["PUNTI"]).ToHappyCoin();
                                 oggetto.IdTipoValuta = (int)res["ID_TIPO_VALUTA"];
                                 oggetto.Soldi = Convert.ToDecimal(res["SOLDI"]).ToString("C");
                                 oggetto.DataInserimento = (DateTime)res["DATA_INSERIMENTO"];
@@ -1189,7 +1191,7 @@ namespace GratisForGratis.Controllers
                                         if (spedizione != null)
                                         {
                                             oggetto.NomeCorriere = spedizione.CORRIERE_SERVIZIO_SPEDIZIONE.CORRIERE_SERVIZIO.CORRIERE.NOME;
-                                            oggetto.PuntiSpedizione = spedizione.PUNTI;
+                                            oggetto.PuntiSpedizione = spedizione.PUNTI.ToHappyCoin();
                                             oggetto.SoldiSpedizione = spedizione.SOLDI.ToString("C");
                                         }
                                     }
@@ -1427,14 +1429,14 @@ namespace GratisForGratis.Controllers
                     cmd.Parameters.Add(new SqlParameter("CONDIZIONE", (int)(CondizioneOggetto)Enum.Parse(typeof(CondizioneOggetto), filtro["StatoOggetto"])));
                     condizione += " AND O.CONDIZIONE = @CONDIZIONE";
                 }
-                if ((filtro["PuntiMin"] != null) && Convert.ToInt32(filtro["PuntiMin"]) > 0)
+                if ((filtro["PuntiMin"] != null) && Convert.ToDecimal(filtro["PuntiMin"]) > 0)
                 {
-                    cmd.Parameters.Add(new SqlParameter("PUNTIMIN", Convert.ToInt32(filtro["PuntiMin"])));
+                    cmd.Parameters.Add(new SqlParameter("PUNTIMIN", Convert.ToDecimal(filtro["PuntiMin"])));
                     condizione += " AND V.PUNTI >= @PUNTIMIN";
                 }
-                if ((filtro["PuntiMax"] != null) && Convert.ToInt32(filtro["PuntiMax"]) > 0)
+                if ((filtro["PuntiMax"] != null) && Convert.ToDecimal(filtro["PuntiMax"]) > 0)
                 {
-                    cmd.Parameters.Add(new SqlParameter("PUNTIMAX", Convert.ToInt32(filtro["PuntiMax"])));
+                    cmd.Parameters.Add(new SqlParameter("PUNTIMAX", Convert.ToDecimal(filtro["PuntiMax"])));
                     condizione += " AND V.PUNTI <= @PUNTIMAX";
                 }
                 if ((filtro["AnnoMin"] != null) && Convert.ToInt32(filtro["AnnoMin"]) > 0)
@@ -1743,7 +1745,7 @@ namespace GratisForGratis.Controllers
                                 servizio.NoteAggiuntive = res["NOTE_AGGIUNTIVE"].ToString();
                                 servizio.TipoPagamento = (TipoPagamento)res["TIPO_PAGAMENTO"];
                                 servizio.Citta = res["CITTA_NOME"].ToString();
-                                servizio.Punti = (int)res["PUNTI"];
+                                servizio.Punti = ((decimal)res["PUNTI"]).ToHappyCoin();
                                 servizio.IdTipoValuta = (int)res["ID_TIPO_VALUTA"];
                                 servizio.Soldi = Convert.ToDecimal(res["SOLDI"]).ToString("C");
                                 servizio.DataInserimento = (DateTime)res["DATA_INSERIMENTO"];
@@ -1846,14 +1848,14 @@ namespace GratisForGratis.Controllers
                     cmd.Parameters.Add(new SqlParameter("TIPOPAGAMENTO", (int)(TipoPagamento)Enum.Parse(typeof(TipoPagamento), filtro["TipoPagamento"])));
                     condizione += " AND (V.TIPO_PAGAMENTO = @TIPOPAGAMENTO OR V.TIPO_PAGAMENTO = 0)";
                 }
-                if ((filtro["PuntiMin"] != null) && Convert.ToInt32(filtro["PuntiMin"]) > 0)
+                if ((filtro["PuntiMin"] != null) && Convert.ToDecimal(filtro["PuntiMin"]) > 0)
                 {
-                    cmd.Parameters.Add(new SqlParameter("PUNTIMIN", Convert.ToInt32(filtro["PuntiMin"])));
+                    cmd.Parameters.Add(new SqlParameter("PUNTIMIN", Convert.ToDecimal(filtro["PuntiMin"])));
                     condizione += " AND V.PUNTI >= @PUNTIMIN";
                 }
-                if ((filtro["PuntiMax"] != null) && Convert.ToInt32(filtro["PuntiMax"]) > 0)
+                if ((filtro["PuntiMax"] != null) && Convert.ToDecimal(filtro["PuntiMax"]) > 0)
                 {
-                    cmd.Parameters.Add(new SqlParameter("PUNTIMAX", Convert.ToInt32(filtro["PuntiMax"])));
+                    cmd.Parameters.Add(new SqlParameter("PUNTIMAX", Convert.ToDecimal(filtro["PuntiMax"])));
                     condizione += " AND V.PUNTI <= @PUNTIMAX";
                 }
 

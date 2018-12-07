@@ -19,99 +19,99 @@ namespace GratisForGratis.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult Index(BonificoViewModel viewModel)
-        {
-            PersonaModel sessioneUtente = Session["utente"] as PersonaModel;
+        //[HttpPost]
+        //public ActionResult Index(BonificoViewModel viewModel)
+        //{
+        //    PersonaModel sessioneUtente = Session["utente"] as PersonaModel;
 
-            try
-            {
-                using (DatabaseContext db = new DatabaseContext())
-                {
-                    // se esiste una sessione pagamento aperta e la mail ricevente dei soldi corrisponde a quella della login, 
-                    // allora blocco la login e scatta l'errore
-                    CONTO_CORRENTE conto = db.CONTO_CORRENTE.Include("Persona").Include("Attivita").SingleOrDefault(m => m.TOKEN.ToString() == viewModel.Destinatario);
+        //    try
+        //    {
+        //        using (DatabaseContext db = new DatabaseContext())
+        //        {
+        //            // se esiste una sessione pagamento aperta e la mail ricevente dei soldi corrisponde a quella della login, 
+        //            // allora blocco la login e scatta l'errore
+        //            CONTO_CORRENTE conto = db.CONTO_CORRENTE.Include("Persona").Include("Attivita").SingleOrDefault(m => m.TOKEN.ToString() == viewModel.Destinatario);
 
-                    if (conto == null)
-                    {
-                        ModelState.AddModelError("Error", string.Format(Language.ErrorPaymentUser, viewModel.Destinatario));
-                        return View(viewModel);
-                    }
+        //            if (conto == null)
+        //            {
+        //                ModelState.AddModelError("Error", string.Format(Language.ErrorPaymentUser, viewModel.Destinatario));
+        //                return View(viewModel);
+        //            }
 
-                    ContoCorrenteMonetaModel model = new ContoCorrenteMonetaModel();
-                    TRANSAZIONE pagamento = model.Pay(db, sessioneUtente.Persona.ID_CONTO_CORRENTE, conto.ID, viewModel.DescrizionePagamento, viewModel.TipoTransazione, (int)viewModel.Punti);
+        //            ContoCorrenteMonetaModel model = new ContoCorrenteMonetaModel();
+        //            TRANSAZIONE pagamento = model.Pay(db, sessioneUtente.Persona.ID_CONTO_CORRENTE, conto.ID, viewModel.DescrizionePagamento, viewModel.TipoTransazione, (int)viewModel.Punti);
                     
-                    this.RefreshPunteggioUtente(db);
+        //            this.RefreshPunteggioUtente(db);
 
-                    // impostare invio email pagamento effettuato
-                    try {
-                        EmailModel email = new EmailModel(ControllerContext);
-                        string indirizzoMail = string.Empty;
-                        string nominativo = string.Empty;
-                        // verifico se il destinatario è una persona o attività
-                        if (conto.PERSONA.Count > 0)
-                        {
-                            PERSONA persona = conto.PERSONA.SingleOrDefault(p => p.ID_CONTO_CORRENTE == conto.ID);
-                            if (persona != null)
-                            {
-                                indirizzoMail = db.PERSONA_EMAIL
-                                    .SingleOrDefault(m => m.ID_PERSONA == persona.ID &&
-                                        m.TIPO == (int)TipoEmail.Registrazione).EMAIL;
-                            }
-                        } else
-                        {
-                            ATTIVITA attivita = conto.ATTIVITA.SingleOrDefault(p => p.ID_CONTO_CORRENTE == conto.ID);
-                            if (attivita != null)
-                            {
-                                indirizzoMail = db.ATTIVITA_EMAIL
-                                    .SingleOrDefault(m => m.ID_ATTIVITA == attivita.ID &&
-                                        m.TIPO == (int)TipoEmail.Registrazione).EMAIL;
-                            }
-                        }
-                        // se ho trovato l'indirizzo mail
-                        if (!string.IsNullOrWhiteSpace(indirizzoMail))
-                        {
-                            email.To.Add(new System.Net.Mail.MailAddress(indirizzoMail, nominativo));
-                            email.Subject = string.Format(Email.PaymentFromPartnersSubject, pagamento.NOME, (Session["utente"] as PersonaModel).Persona.NOME + ' ' + (Session["utente"] as PersonaModel).Persona.COGNOME, nominativo) + " - " + WebConfigurationManager.AppSettings["nomeSito"];
-                            email.Body = "PagamentoDaPartners";
-                            email.DatiEmail = new SchedaPagamentoViewModel()
-                            {
-                                Nome = pagamento.NOME,
-                                Compratore = (Session["utente"] as PersonaModel).Persona.NOME + ' ' + (Session["utente"] as PersonaModel).Persona.COGNOME,
-                                Venditore = pagamento.CONTO_CORRENTE1.PERSONA.Select(item => item.NOME + ' ' + item.COGNOME).SingleOrDefault(),
-                                Punti = (int)pagamento.PUNTI,
-                                //Soldi = (int)pagamento.SOLDI,
-                                Data = pagamento.DATA_INSERIMENTO,
-                                Portale = nominativo,
-                            };
-                            new EmailController().SendEmail(email);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
-                    }
-                    //RemoveSessionPayment();
-                    if (!String.IsNullOrEmpty(viewModel.UrlOk))
-                    {
-                        return Redirect(Request.Url.PathAndQuery);
-                    }
-                    else if (!String.IsNullOrEmpty(viewModel.UrlKo))
-                    {
-                        return Redirect(viewModel.UrlKo);
-                    }
-                    ViewData["messaggio"] = Language.TransactionOK;
-                    return View(new BonificoViewModel());
-                }
-            }
-            catch (Exception ex)
-            {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
-                ModelState.AddModelError("Error", ex);
-            }
+        //            // impostare invio email pagamento effettuato
+        //            try {
+        //                EmailModel email = new EmailModel(ControllerContext);
+        //                string indirizzoMail = string.Empty;
+        //                string nominativo = string.Empty;
+        //                // verifico se il destinatario è una persona o attività
+        //                if (conto.PERSONA.Count > 0)
+        //                {
+        //                    PERSONA persona = conto.PERSONA.SingleOrDefault(p => p.ID_CONTO_CORRENTE == conto.ID);
+        //                    if (persona != null)
+        //                    {
+        //                        indirizzoMail = db.PERSONA_EMAIL
+        //                            .SingleOrDefault(m => m.ID_PERSONA == persona.ID &&
+        //                                m.TIPO == (int)TipoEmail.Registrazione).EMAIL;
+        //                    }
+        //                } else
+        //                {
+        //                    ATTIVITA attivita = conto.ATTIVITA.SingleOrDefault(p => p.ID_CONTO_CORRENTE == conto.ID);
+        //                    if (attivita != null)
+        //                    {
+        //                        indirizzoMail = db.ATTIVITA_EMAIL
+        //                            .SingleOrDefault(m => m.ID_ATTIVITA == attivita.ID &&
+        //                                m.TIPO == (int)TipoEmail.Registrazione).EMAIL;
+        //                    }
+        //                }
+        //                // se ho trovato l'indirizzo mail
+        //                if (!string.IsNullOrWhiteSpace(indirizzoMail))
+        //                {
+        //                    email.To.Add(new System.Net.Mail.MailAddress(indirizzoMail, nominativo));
+        //                    email.Subject = string.Format(Email.PaymentFromPartnersSubject, pagamento.NOME, (Session["utente"] as PersonaModel).Persona.NOME + ' ' + (Session["utente"] as PersonaModel).Persona.COGNOME, nominativo) + " - " + WebConfigurationManager.AppSettings["nomeSito"];
+        //                    email.Body = "PagamentoDaPartners";
+        //                    email.DatiEmail = new SchedaPagamentoViewModel()
+        //                    {
+        //                        Nome = pagamento.NOME,
+        //                        Compratore = (Session["utente"] as PersonaModel).Persona.NOME + ' ' + (Session["utente"] as PersonaModel).Persona.COGNOME,
+        //                        Venditore = pagamento.CONTO_CORRENTE1.PERSONA.Select(item => item.NOME + ' ' + item.COGNOME).SingleOrDefault(),
+        //                        Punti = (int)pagamento.PUNTI,
+        //                        //Soldi = (int)pagamento.SOLDI,
+        //                        Data = pagamento.DATA_INSERIMENTO,
+        //                        Portale = nominativo,
+        //                    };
+        //                    new EmailController().SendEmail(email);
+        //                }
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+        //            }
+        //            //RemoveSessionPayment();
+        //            if (!String.IsNullOrEmpty(viewModel.UrlOk))
+        //            {
+        //                return Redirect(Request.Url.PathAndQuery);
+        //            }
+        //            else if (!String.IsNullOrEmpty(viewModel.UrlKo))
+        //            {
+        //                return Redirect(viewModel.UrlKo);
+        //            }
+        //            ViewData["messaggio"] = Language.TransactionOK;
+        //            return View(new BonificoViewModel());
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+        //        ModelState.AddModelError("Error", ex);
+        //    }
 
-            return View(viewModel);
-        }
+        //    return View(viewModel);
+        //}
 
         [HttpGet]
         [AllowAnonymous]

@@ -3769,6 +3769,69 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Attivo.
+        /// </summary>
+        public static string StateCreditActive {
+            get {
+                return ResourceManager.GetString("StateCreditActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Assegnato.
+        /// </summary>
+        public static string StateCreditAssigned {
+            get {
+                return ResourceManager.GetString("StateCreditAssigned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Eliminato.
+        /// </summary>
+        public static string StateCreditDelete {
+            get {
+                return ResourceManager.GetString("StateCreditDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Scaduto.
+        /// </summary>
+        public static string StateCreditExpire {
+            get {
+                return ResourceManager.GetString("StateCreditExpire", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Inattivo.
+        /// </summary>
+        public static string StateCreditInactive {
+            get {
+                return ResourceManager.GetString("StateCreditInactive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Ceduto.
+        /// </summary>
+        public static string StateCreditLost {
+            get {
+                return ResourceManager.GetString("StateCreditLost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Sospeso.
+        /// </summary>
+        public static string StateCreditPause {
+            get {
+                return ResourceManager.GetString("StateCreditPause", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Eliminato.
         /// </summary>
         public static string StateDelete {

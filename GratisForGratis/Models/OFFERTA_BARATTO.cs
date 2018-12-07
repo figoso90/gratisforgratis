@@ -22,8 +22,8 @@ namespace GratisForGratis.Models
         public int STATO { get; set; }
     
         public virtual ANNUNCIO ANNUNCIO { get; set; }
-        public virtual OFFERTA OFFERTA { get; set; }
         public virtual OFFERTA_BARATTO OFFERTA_BARATTO1 { get; set; }
         public virtual OFFERTA_BARATTO OFFERTA_BARATTO2 { get; set; }
+        public virtual OFFERTA OFFERTA { get; set; }
     }
 }

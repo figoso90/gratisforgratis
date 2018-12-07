@@ -1,6 +1,7 @@
 ﻿using GratisForGratis.App_GlobalResources;
 using GratisForGratis.Filters;
 using GratisForGratis.Models;
+using GratisForGratis.Models.ExtensionMethods;
 using System;
 using PayPal.Api;
 using System.Data.Entity;
@@ -183,6 +184,7 @@ namespace GratisForGratis.Controllers
         public ActionResult InviaOfferta(OffertaViewModel viewModel)
         {
             AnnuncioModel model = new AnnuncioModel();
+            string messaggio = ErrorResource.BidAd;
             if (ModelState.IsValid)
             {
                 if (!Utils.IsUtenteAttivo(1, TempData))
@@ -191,31 +193,20 @@ namespace GratisForGratis.Controllers
                     return Json(ErrorResource.UserEnabled);
                 }
 
-                if (viewModel.BarattiToken != null && viewModel.BarattiToken.Count > 4)
-                {
-                    Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
-                    return Json(Language.ErrorNothingBarter);
-                }
-
-                if (viewModel.BarattiToken.Count <= 0 && viewModel.Punti <= 0)
-                {
-                    Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
-                    return Json(ErrorResource.BidNotCorrect);
-                }
-
                 using (DatabaseContext db = new DatabaseContext())
                 {
                     using (DbContextTransaction transaction = db.Database.BeginTransaction())
                     {
                         try
                         {
-                            if (viewModel.Save(db))
+                            if (viewModel.Save(db, ref messaggio))
                             {
                                 // aggiungere nella lista dei desideri
                                 string tokenDecodificato = HttpContext.Server.UrlDecode(viewModel.Annuncio.Token);
                                 Guid tokenGuid = Guid.Parse(tokenDecodificato);
                                 PersonaModel utente = (PersonaModel)HttpContext.Session["utente"];
-                                addDesiderio(db, tokenGuid, utente.Persona.ID);
+                                ANNUNCIO annuncio = null;
+                                addDesiderio(db, tokenGuid, utente.Persona.ID, ref annuncio);
                                 // salvare transazione
                                 transaction.Commit();
                                 this.RefreshPunteggioUtente(db);
@@ -236,7 +227,7 @@ namespace GratisForGratis.Controllers
             }
             // acquisto generico
             Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
-            return Json(ErrorResource.BidAd);
+            return Json(messaggio);
         }
 
         [HttpPost]
@@ -252,45 +243,49 @@ namespace GratisForGratis.Controllers
                     try
                     {
                         PersonaModel utente = ((PersonaModel)System.Web.HttpContext.Current.Session["utente"]);
-                        OffertaModel offerta = new OffertaModel(db.OFFERTA.Where(o => o.ID == idOfferta 
-                            && o.ANNUNCIO.ID_PERSONA == utente.Persona.ID 
-                            && (o.STATO == (int)StatoOfferta.ATTIVA || o.STATO == (int)StatoOfferta.ACCETTATA_ATTESO_PAGAMENTO)).SingleOrDefault());
-                        Models.Enumerators.VerificaAcquisto verifica = offerta.CheckOfferta(utente, offerta);
-                        if (verifica == Models.Enumerators.VerificaAcquisto.VerificaCartaCredito)
+                        OFFERTA offerta = db.OFFERTA.Include(m => m.PERSONA)
+                            .Where(o => o.ID == idOfferta && o.ANNUNCIO.ID_PERSONA == utente.Persona.ID
+                            && (o.STATO == (int)StatoOfferta.ATTIVA || 
+                                o.STATO == (int)StatoOfferta.ACCETTATA_ATTESO_PAGAMENTO)).SingleOrDefault();
+
+                        OffertaModel offertaModel = new OffertaModel(offerta);
+                        Models.Enumerators.VerificaOfferta verifica = offertaModel.CheckOfferta(utente, offerta);
+                        if (verifica == Models.Enumerators.VerificaOfferta.VerificaCartaDiCredito)
                         {
-                            offerta.OffertaOriginale.STATO = (int)StatoOfferta.ACCETTATA_ATTESO_PAGAMENTO;
-                            offerta.OffertaOriginale.SESSIONE_COMPRATORE = HttpContext.Session.SessionID + "§" + Guid.NewGuid().ToString();
-                            db.OFFERTA.Attach(offerta.OffertaOriginale);
-                            db.Entry(offerta.OffertaOriginale).State = EntityState.Modified;
+                            offertaModel.OffertaOriginale.STATO = (int)StatoOfferta.ACCETTATA_ATTESO_PAGAMENTO;
+                            offertaModel.OffertaOriginale.SESSIONE_COMPRATORE = HttpContext.Session.SessionID + "§" + Guid.NewGuid().ToString();
+                            db.OFFERTA.Attach(offertaModel.OffertaOriginale);
+                            db.Entry(offertaModel.OffertaOriginale).State = EntityState.Modified;
                             if (db.SaveChanges() > 0)
                             {
-                                offerta.ANNUNCIO.STATO = (int)StatoVendita.BARATTOINCORSO;
-                                db.ANNUNCIO.Attach(offerta.ANNUNCIO);
-                                db.Entry(offerta.ANNUNCIO).State = EntityState.Modified;
+                                offertaModel.ANNUNCIO.STATO = (int)StatoVendita.BARATTOINCORSO;
+                                db.ANNUNCIO.Attach(offertaModel.ANNUNCIO);
+                                db.Entry(offertaModel.ANNUNCIO).State = EntityState.Modified;
                                 if (db.SaveChanges() > 0)
                                 {
                                     transazioneDb.Commit();
                                     //Session["PayPalCompra"] = viewModel;
-                                    Session["PayPalOfferta"] = new OffertaModel(offerta.OffertaOriginale);
+                                    Session["PayPalOfferta"] = new OffertaModel(offertaModel.OffertaOriginale);
                                     return RedirectToAction("Payment", "PayPal", new { Token = token, Azione = AzionePayPal.Offerta });
                                 }
                             }
                         }
-                        else if (verifica == Models.Enumerators.VerificaAcquisto.Ok)
+                        else if (verifica == Models.Enumerators.VerificaOfferta.Ok)
                         {
-                            if (offerta.Accetta(db, utente, ref messaggio))
+                            if (offertaModel.Accetta(db, offerta.PERSONA, offerta.PERSONA.CONTO_CORRENTE.CONTO_CORRENTE_CREDITO.ToList(), 
+                                ref messaggio))
                             {
                                 // se offerta dev'essere pagata, invio notifica e reindirizzo a pagina pagamento
                                 // se venditore annulla pagamento, potrà sempre pagare più avanti, sennò feedback negativo e annullo transazioni
-                                if (offerta.ANNUNCIO.STATO == (int)StatoVendita.BARATTOINCORSO)
+                                if (offertaModel.ANNUNCIO.STATO == (int)StatoVendita.BARATTOINCORSO)
                                 {
                                     Models.ViewModels.Email.PagamentoOffertaViewModel pagamentoOfferta = new Models.ViewModels.Email.PagamentoOffertaViewModel();
-                                    pagamentoOfferta.NominativoDestinatario = offerta.PERSONA.NOME + " " + offerta.PERSONA.COGNOME;
-                                    pagamentoOfferta.NomeAnnuncio = offerta.ANNUNCIO.NOME;
-                                    pagamentoOfferta.Moneta = offerta.PUNTI;
-                                    pagamentoOfferta.SoldiSpedizione = offerta.SOLDI;
-                                    pagamentoOfferta.Baratti = offerta.OFFERTA_BARATTO.Select(m => m.ANNUNCIO.NOME).ToList();
-                                    this.SendNotifica(offerta.PERSONA, TipoNotifica.PagaOfferta, "pagamentoOfferta", pagamentoOfferta);
+                                    pagamentoOfferta.NominativoDestinatario = offertaModel.PERSONA.NOME + " " + offertaModel.PERSONA.COGNOME;
+                                    pagamentoOfferta.NomeAnnuncio = offertaModel.ANNUNCIO.NOME;
+                                    pagamentoOfferta.Moneta = offertaModel.PUNTI;
+                                    pagamentoOfferta.SoldiSpedizione = offertaModel.SOLDI;
+                                    pagamentoOfferta.Baratti = offertaModel.OFFERTA_BARATTO.Select(m => m.ANNUNCIO.NOME).ToList();
+                                    this.SendNotifica(utente.Persona,offertaModel.PERSONA, TipoNotifica.PagaOfferta, "pagamentoOfferta", pagamentoOfferta);
                                 }
                                 transazioneDb.Commit();
                                 ViewBag.Message = Language.AcceptedBid;
@@ -384,7 +379,7 @@ namespace GratisForGratis.Controllers
                         model.OFFERTA.STATO = (int)StatoOfferta.ANNULLATA;
                         // restituisco eventuali punti sospesi
                         OffertaContoCorrenteMoneta offertaMoneta = new OffertaContoCorrenteMoneta();
-                        offertaMoneta.RemoveCrediti(db, (int)model.OFFERTA.PUNTI, utente);
+                        offertaMoneta.RemoveCrediti(db, model.OFFERTA.ID, (int)model.OFFERTA.PUNTI, utente);
 
                         int numeroRecordModificati = db.SaveChanges();
                         if (numeroRecordModificati > 2)
@@ -515,7 +510,7 @@ namespace GratisForGratis.Controllers
                 db.Database.Connection.Open();
                 Guid tokenGuid = getTokenDecodificato(token);
                 ANNUNCIO annuncio = null;
-                if (addDesiderio(db, tokenGuid, idUtente))
+                if (addDesiderio(db, tokenGuid, idUtente, ref annuncio))
                 {
                     AnnuncioViewModel viewModelAnnuncio = new AnnuncioViewModel(db, annuncio);
                     viewModelAnnuncio.Desidero = true;
@@ -606,7 +601,7 @@ namespace GratisForGratis.Controllers
             //return Guid.Parse(Utils.DecodeToString(tokenDecode.Substring(3).Substring(0, tokenDecode.Length - 6)));
         }
 
-        private bool addDesiderio(DatabaseContext db, Guid tokenGuid, int idUtente, ANNUNCIO annuncio = null)
+        private bool addDesiderio(DatabaseContext db, Guid tokenGuid, int idUtente, ref ANNUNCIO annuncio)
         {
             ANNUNCIO_DESIDERATO model = db.ANNUNCIO_DESIDERATO.Where(m => m.ANNUNCIO.TOKEN == tokenGuid && m.ID_PERSONA == idUtente)
                     .FirstOrDefault();

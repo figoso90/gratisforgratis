@@ -1,5 +1,6 @@
 ﻿@using System.Web.Configuration
 @using GratisForGratis.Models
+@using GratisForGratis.Models.ExtensionMethods
 <!DOCTYPE html>
 <html>
 <head>
@@ -182,7 +183,7 @@
             <li id="cart" class="dropdown profilo">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                     @(Language.Welcome + " " + ((PersonaModel)Session["utente"]).NomeVisibile) -
-                    <span id="userPoints">@( (Session["utente"] as PersonaModel).ContoCorrente.Count(m => m.STATO == (int)StatoMoneta.ASSEGNATA) + " " + @Language.Points) </span>
+                    <span id="userPoints">@( (Session["utente"] as PersonaModel).Credito.Where(m => m.STATO == (int)StatoCredito.ASSEGNATO).Sum(m => m.PUNTI).ToHappyCoin()) </span>
                     <img class="ico" src="@Url.Content("~/Images/icone/cart.svg")" alt="@Resources.Language.Cart" title="@Resources.Language.Cart" />
                     <div class="preview"></div>
                 </a>

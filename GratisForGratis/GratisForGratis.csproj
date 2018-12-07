@@ -753,8 +753,12 @@
     <Compile Include="Models\COMUNE.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ContoCorrenteCreditoModel.cs" />
     <Compile Include="Models\ContoCorrenteMonetaModel.cs" />
     <Compile Include="Models\CONTO_CORRENTE.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CONTO_CORRENTE_CREDITO.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CONTO_CORRENTE_MONETA.cs">
@@ -803,6 +807,10 @@
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Enumerators\VerificaAcquisto.cs" />
+    <Compile Include="Models\Enumerators\VerificaOfferta.cs" />
+    <Compile Include="Models\ExtensionMethods\DecimalExtension.cs" />
+    <Compile Include="Models\ExtensionMethods\ObjectExtension.cs" />
+    <Compile Include="Models\ExtensionMethods\StringExtension.cs" />
     <Compile Include="Models\FileUploadifive.cs" />
     <Compile Include="Models\Filters\HandleExceptionsAttribute.cs" />
     <Compile Include="Models\Filters\ActionFilter.cs" />
@@ -1087,6 +1095,8 @@
     <Compile Include="Models\TRANSAZIONE.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TransazioneAnnuncioModel.cs" />
+    <Compile Include="Models\TransazioneModel.cs" />
     <Compile Include="Models\TRANSAZIONE_ANNUNCIO.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
@@ -1309,7 +1319,7 @@
     <Content Include="Views\Pubblica\Oggetto\Latina.cshtml" />
     <Content Include="Views\Pubblica\Oggetto\Elettronica.cshtml" />
     <Content Include="Views\Pubblica\Oggetto\Metal.cshtml" />
-    <Content Include="Views\Pubblica\Oggetto\Strumenti-accessori.cshtml" />
+    <Content Include="Views\Pubblica\Oggetto\Strumenti-e-accessori.cshtml" />
     <Content Include="Views\Pubblica\Oggetto\Da-tavolo.cshtml" />
     <Content Include="Views\Pubblica\Oggetto\Elettrodomestici.cshtml" />
     <Content Include="Views\Pubblica\Oggetto\Altro.cshtml" />

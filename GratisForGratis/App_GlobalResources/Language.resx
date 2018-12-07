@@ -1683,4 +1683,25 @@
   <data name="TitleSendFeedback2" xml:space="preserve">
     <value>Feedback per {0}</value>
   </data>
+  <data name="StateCreditActive" xml:space="preserve">
+    <value>Attivo</value>
+  </data>
+  <data name="StateCreditAssigned" xml:space="preserve">
+    <value>Assegnato</value>
+  </data>
+  <data name="StateCreditDelete" xml:space="preserve">
+    <value>Eliminato</value>
+  </data>
+  <data name="StateCreditExpire" xml:space="preserve">
+    <value>Scaduto</value>
+  </data>
+  <data name="StateCreditInactive" xml:space="preserve">
+    <value>Inattivo</value>
+  </data>
+  <data name="StateCreditPause" xml:space="preserve">
+    <value>Sospeso</value>
+  </data>
+  <data name="StateCreditLost" xml:space="preserve">
+    <value>Ceduto</value>
+  </data>
 </root>

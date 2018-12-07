@@ -117,10 +117,14 @@ namespace GratisForGratis.Controllers
             return MvcHtmlString.Create(LineEnding.Replace(encodedText, replacement));
         }
 
-        public static int cambioValuta(int? punti = 0, string valuta = "EUR")
+        public static decimal cambioValuta(decimal? punti = 0, string valuta = null)
         {
+            TIPO_VALUTA tipoValuta = (HttpContext.Current.Application["tipoValuta"] as List<TIPO_VALUTA>).SingleOrDefault(m => m.SIMBOLO == System.Globalization.NumberFormatInfo.CurrentInfo.CurrencySymbol);
+            valuta = tipoValuta.CODICE.ToUpper();
+            if (string.IsNullOrWhiteSpace(valuta))
+                valuta = "EUR";
             punti = (punti == null) ? 0 : punti;
-            return (int)punti * Convert.ToInt16(WebConfigurationManager.AppSettings["Conversione" + valuta.ToUpper()].ToString());
+            return (decimal)punti * Convert.ToDecimal(WebConfigurationManager.AppSettings["Conversione" + valuta.ToUpper()].ToString());
         }
 
         public static string RandomString(int size, bool lowerCase = false)

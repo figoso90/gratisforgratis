@@ -29,6 +29,7 @@ namespace GratisForGratis.Models
     
         public virtual DbSet<ABBONAMENTO> ABBONAMENTO { get; set; }
         public virtual DbSet<ALIMENTAZIONE> ALIMENTAZIONE { get; set; }
+        public virtual DbSet<ALLEGATO> ALLEGATO { get; set; }
         public virtual DbSet<ANNUNCIO> ANNUNCIO { get; set; }
         public virtual DbSet<ANNUNCIO_CARRELLO> ANNUNCIO_CARRELLO { get; set; }
         public virtual DbSet<ANNUNCIO_CLICK> ANNUNCIO_CLICK { get; set; }
@@ -51,6 +52,7 @@ namespace GratisForGratis.Models
         public virtual DbSet<BROWSER> BROWSER { get; set; }
         public virtual DbSet<BROWSER_MODELLO> BROWSER_MODELLO { get; set; }
         public virtual DbSet<CATEGORIA> CATEGORIA { get; set; }
+        public virtual DbSet<CHAT> CHAT { get; set; }
         public virtual DbSet<COMPONENTE> COMPONENTE { get; set; }
         public virtual DbSet<COMUNE> COMUNE { get; set; }
         public virtual DbSet<CONTO_CORRENTE> CONTO_CORRENTE { get; set; }
@@ -58,22 +60,27 @@ namespace GratisForGratis.Models
         public virtual DbSet<CORRIERE> CORRIERE { get; set; }
         public virtual DbSet<CORRIERE_COMUNE> CORRIERE_COMUNE { get; set; }
         public virtual DbSet<CORRIERE_NAZIONE> CORRIERE_NAZIONE { get; set; }
+        public virtual DbSet<CORRIERE_PROVINCIA> CORRIERE_PROVINCIA { get; set; }
         public virtual DbSet<CORRIERE_PUNTO_SPEDIZIONE> CORRIERE_PUNTO_SPEDIZIONE { get; set; }
         public virtual DbSet<CORRIERE_SERVIZIO> CORRIERE_SERVIZIO { get; set; }
+        public virtual DbSet<CORRIERE_SERVIZIO_PREZZO_STIMATO> CORRIERE_SERVIZIO_PREZZO_STIMATO { get; set; }
         public virtual DbSet<CORRIERE_SERVIZIO_SPEDIZIONE> CORRIERE_SERVIZIO_SPEDIZIONE { get; set; }
         public virtual DbSet<CORRIERE_TIPO_OGGETTO> CORRIERE_TIPO_OGGETTO { get; set; }
         public virtual DbSet<CORRIERE_TIPO_PACCO> CORRIERE_TIPO_PACCO { get; set; }
         public virtual DbSet<FORMATO> FORMATO { get; set; }
         public virtual DbSet<GENERE> GENERE { get; set; }
         public virtual DbSet<INDIRIZZO> INDIRIZZO { get; set; }
+        public virtual DbSet<LOG_ERRORE> LOG_ERRORE { get; set; }
+        public virtual DbSet<LOG_PAGAMENTO> LOG_PAGAMENTO { get; set; }
+        public virtual DbSet<LOG_SBLOCCO_ANNUNCIO> LOG_SBLOCCO_ANNUNCIO { get; set; }
         public virtual DbSet<MARCA> MARCA { get; set; }
         public virtual DbSet<MATERIALE> MATERIALE { get; set; }
         public virtual DbSet<MODELLO> MODELLO { get; set; }
         public virtual DbSet<MONETA> MONETA { get; set; }
         public virtual DbSet<NAZIONE> NAZIONE { get; set; }
         public virtual DbSet<NOTIFICA> NOTIFICA { get; set; }
-        public virtual DbSet<OFFERTA> OFFERTA { get; set; }
         public virtual DbSet<OFFERTA_BARATTO> OFFERTA_BARATTO { get; set; }
+        public virtual DbSet<OFFERTA_SPEDIZIONE> OFFERTA_SPEDIZIONE { get; set; }
         public virtual DbSet<OGGETTO> OGGETTO { get; set; }
         public virtual DbSet<OGGETTO_APPARTENENZA> OGGETTO_APPARTENENZA { get; set; }
         public virtual DbSet<OGGETTO_COMPONENTE> OGGETTO_COMPONENTE { get; set; }
@@ -92,37 +99,21 @@ namespace GratisForGratis.Models
         public virtual DbSet<OGGETTO_VESTITO> OGGETTO_VESTITO { get; set; }
         public virtual DbSet<OGGETTO_VIDEO> OGGETTO_VIDEO { get; set; }
         public virtual DbSet<OGGETTO_VIDEOGAMES> OGGETTO_VIDEOGAMES { get; set; }
+        public virtual DbSet<PERSONA> PERSONA { get; set; }
         public virtual DbSet<PERSONA_ATTIVITA> PERSONA_ATTIVITA { get; set; }
         public virtual DbSet<PERSONA_EMAIL> PERSONA_EMAIL { get; set; }
         public virtual DbSet<PERSONA_FOTO> PERSONA_FOTO { get; set; }
         public virtual DbSet<PERSONA_INDIRIZZO> PERSONA_INDIRIZZO { get; set; }
         public virtual DbSet<PERSONA_INDIRIZZO_SPEDIZIONE> PERSONA_INDIRIZZO_SPEDIZIONE { get; set; }
+        public virtual DbSet<PERSONA_METODO_PAGAMENTO> PERSONA_METODO_PAGAMENTO { get; set; }
         public virtual DbSet<PERSONA_PRIVACY> PERSONA_PRIVACY { get; set; }
+        public virtual DbSet<PERSONA_RICERCA> PERSONA_RICERCA { get; set; }
         public virtual DbSet<PERSONA_SEGNALAZIONE> PERSONA_SEGNALAZIONE { get; set; }
         public virtual DbSet<PERSONA_TELEFONO> PERSONA_TELEFONO { get; set; }
         public virtual DbSet<PIATTAFORMA> PIATTAFORMA { get; set; }
         public virtual DbSet<PROVINCIA> PROVINCIA { get; set; }
         public virtual DbSet<REGIONE> REGIONE { get; set; }
         public virtual DbSet<REGISTA> REGISTA { get; set; }
-        public virtual DbSet<SERVIZIO> SERVIZIO { get; set; }
-        public virtual DbSet<SISTEMA_OPERATIVO> SISTEMA_OPERATIVO { get; set; }
-        public virtual DbSet<TIPO_OGGETTO> TIPO_OGGETTO { get; set; }
-        public virtual DbSet<TIPO_PACCO> TIPO_PACCO { get; set; }
-        public virtual DbSet<TIPO_SPEDIZIONE> TIPO_SPEDIZIONE { get; set; }
-        public virtual DbSet<TRANSAZIONE> TRANSAZIONE { get; set; }
-        public virtual DbSet<TRANSAZIONE_ANNUNCIO_SPEDIZIONE> TRANSAZIONE_ANNUNCIO_SPEDIZIONE { get; set; }
-        public virtual DbSet<TRANSAZIONE_ANNUNCIO> TRANSAZIONE_ANNUNCIO { get; set; }
-        public virtual DbSet<TIPO_VALUTA> TIPO_VALUTA { get; set; }
-        public virtual DbSet<LOG_PAGAMENTO> LOG_PAGAMENTO { get; set; }
-        public virtual DbSet<PERSONA_METODO_PAGAMENTO> PERSONA_METODO_PAGAMENTO { get; set; }
-        public virtual DbSet<CORRIERE_PROVINCIA> CORRIERE_PROVINCIA { get; set; }
-        public virtual DbSet<LOG_SBLOCCO_ANNUNCIO> LOG_SBLOCCO_ANNUNCIO { get; set; }
-        public virtual DbSet<CORRIERE_SERVIZIO_PREZZO_STIMATO> CORRIERE_SERVIZIO_PREZZO_STIMATO { get; set; }
-        public virtual DbSet<OFFERTA_SPEDIZIONE> OFFERTA_SPEDIZIONE { get; set; }
-        public virtual DbSet<SPEDIZIONE_INATTESA> SPEDIZIONE_INATTESA { get; set; }
-        public virtual DbSet<ALLEGATO> ALLEGATO { get; set; }
-        public virtual DbSet<CHAT> CHAT { get; set; }
-        public virtual DbSet<SPEDIZIONE_CONCLUSA> SPEDIZIONE_CONCLUSA { get; set; }
         public virtual DbSet<RICERCA> RICERCA { get; set; }
         public virtual DbSet<RICERCA_OGGETTO> RICERCA_OGGETTO { get; set; }
         public virtual DbSet<RICERCA_OGGETTO_AUTORE> RICERCA_OGGETTO_AUTORE { get; set; }
@@ -141,9 +132,19 @@ namespace GratisForGratis.Models
         public virtual DbSet<RICERCA_OGGETTO_VIDEO> RICERCA_OGGETTO_VIDEO { get; set; }
         public virtual DbSet<RICERCA_OGGETTO_VIDEOGAMES> RICERCA_OGGETTO_VIDEOGAMES { get; set; }
         public virtual DbSet<RICERCA_SERVIZIO> RICERCA_SERVIZIO { get; set; }
-        public virtual DbSet<PERSONA_RICERCA> PERSONA_RICERCA { get; set; }
-        public virtual DbSet<PERSONA> PERSONA { get; set; }
-        public virtual DbSet<LOG_ERRORE> LOG_ERRORE { get; set; }
+        public virtual DbSet<SERVIZIO> SERVIZIO { get; set; }
+        public virtual DbSet<SISTEMA_OPERATIVO> SISTEMA_OPERATIVO { get; set; }
+        public virtual DbSet<TIPO_OGGETTO> TIPO_OGGETTO { get; set; }
+        public virtual DbSet<TIPO_PACCO> TIPO_PACCO { get; set; }
+        public virtual DbSet<TIPO_SPEDIZIONE> TIPO_SPEDIZIONE { get; set; }
+        public virtual DbSet<TIPO_VALUTA> TIPO_VALUTA { get; set; }
+        public virtual DbSet<TRANSAZIONE_ANNUNCIO> TRANSAZIONE_ANNUNCIO { get; set; }
+        public virtual DbSet<TRANSAZIONE_ANNUNCIO_SPEDIZIONE> TRANSAZIONE_ANNUNCIO_SPEDIZIONE { get; set; }
+        public virtual DbSet<SPEDIZIONE_CONCLUSA> SPEDIZIONE_CONCLUSA { get; set; }
+        public virtual DbSet<SPEDIZIONE_INATTESA> SPEDIZIONE_INATTESA { get; set; }
+        public virtual DbSet<CONTO_CORRENTE_CREDITO> CONTO_CORRENTE_CREDITO { get; set; }
+        public virtual DbSet<OFFERTA> OFFERTA { get; set; }
+        public virtual DbSet<TRANSAZIONE> TRANSAZIONE { get; set; }
     
         public virtual int AGGIORNAMENTO_CATEGORIE()
         {
