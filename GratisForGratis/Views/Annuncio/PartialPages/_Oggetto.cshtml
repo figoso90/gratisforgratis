@@ -9,6 +9,19 @@
 @if (Model.TipoScambio.Contains(TipoScambio.Spedizione))
 {
     <h5 class="shipment"><b>@Language.Shipment :</b> <span class="evidence">@Model.SoldiSpedizione (@Model.NomeCorriere)</span></h5>
+    <h5><b>Disponibilità per la spedizione</b></h5>
+    <h5 class="giorniSpedizione">
+        <b>Giorni</b>
+        INSERIRE GIORNI E ORARI PER LA SPEDIZIONE....
+    </h5>
+    <h5 class="orariSpedizione">
+        <b>orari</b>
+        INSERIRE GIORNI E ORARI PER LA SPEDIZIONE....
+    </h5>
+    <h5 class="TempoImballaggio">
+        <b>Tempo imballaggio</b>
+        INSERIRE GIORNI E ORARI PER LA SPEDIZIONE....
+    </h5>
 }
 @if (Model.Materiali.Count(m => m.Trim() != string.Empty) > 0)
 {

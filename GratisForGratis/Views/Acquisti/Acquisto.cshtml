@@ -2,7 +2,7 @@
 @model OffertaViewModel
 
 @{
-    ViewBag.Title = Language.Purchase + " " + Model.Nome;
+    ViewBag.Title = Language.Purchase + " " + Model.Annuncio.Nome;
 }
 
 @Styles.Render("~/Content/acquisto.css")
@@ -12,7 +12,7 @@
         <div class="preview">
             <div class="cella noMandatory">
                 <div class="cell">
-                    <img class="phote" src="@Url.Content("~/Uploads/Images/" + Model.VenditoreToken + "/" + Model.DataInserimento.Year + "/" + "Little/" + Model.Foto[0])" alt="@Model.Nome" />
+                    <img class="phote" src="@Url.Content("~/Uploads/Images/" + Model.Annuncio.Venditore.VenditoreToken + "/" + Model.Annuncio.DataInserimento.Value.Year + "/" + "Little/" + Model.Annuncio.Foto[0])" alt="@Model.Annuncio.Nome" />
                 </div>
             </div>
             <div class="cella">
@@ -33,13 +33,13 @@
             </div>
             <div class="cella noMandatory state">
                 @Html.Label("Stato", Language.StateBid + ":")
-                @if (Model.StatoVendita == StatoVendita.VENDUTO || Model.StatoVendita == StatoVendita.BARATTATO)
+                @if (Model.Annuncio.StatoVendita == StatoVendita.VENDUTO || Model.Annuncio.StatoVendita == StatoVendita.BARATTATO)
                 {
                     <strong>@Language.CompletedPurchase</strong>
                 }
                 else if (Model.StatoOfferta == StatoOfferta.ACCETTATA)
                 {
-                    if (Model.StatoVendita == StatoVendita.SOSPESO)
+                    if (Model.Annuncio.StatoVendita == StatoVendita.SOSPESO)
                     {
                         <div class="cella payment">
                             <a class="btn link ok" href="javascript:void(0);">Effettua pagamento</a>
@@ -56,7 +56,7 @@
                 <div class="cella">
                     @Html.Label("Baratti", Language.Barters + ":")
                     <div class="barters">
-                        @foreach (VenditaViewModel baratto in Model.Baratti)
+                        @foreach (AnnuncioViewModel baratto in Model.Baratti)
                         {
                             @Html.ActionLink(baratto.Nome, "Barattato", (baratto.TipoAcquisto == TipoAcquisto.Servizio) ? TipoAcquisto.Servizio.ToString() : TipoAcquisto.Oggetto.ToString(), new { nome = HttpUtility.UrlEncode(baratto.Nome), token = HttpUtility.UrlEncode(baratto.Token) }, new { @class = "link" }) <br />
                         }

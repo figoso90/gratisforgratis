@@ -132,44 +132,13 @@ namespace GratisForGratis.Controllers
         [AllowAnonymous]
         public void setSessioneUtente(HttpSessionStateBase sessione, DatabaseContext db, int utente, bool ricordaLogin)
         {
-            PERSONA model = db.PERSONA
-                .Include("ABBONAMENTO")
-                .Include("PERSONA_PRIVACY")
-                .Include("PERSONA_EMAIL")
-                .Include("PERSONA_TELEFONO")
-                .Include("PERSONA_METODO_PAGAMENTO")
-                .Include("PERSONA_INDIRIZZO")
-                .Include("PERSONA_FOTO")
-                .Include("PERSONA_ATTIVITA")
-                .SingleOrDefault(m => m.ID == utente);
+            PersonaModel persona = new PersonaModel(db, utente);
             
             // login effettuata con successo, aggiungo i punti se ha il profilo attivo completamente e se è un nuovo accesso giornaliero
             DateTime dataCorrente = DateTime.Now;
-            if (model.STATO == (int)Stato.ATTIVO && model.STATO == (int)Stato.ATTIVO && (model.DATA_ACCESSO == null || model.DATA_ACCESSO.Value.Year < dataCorrente.Year || (model.DATA_ACCESSO.Value.Year == dataCorrente.Year && dataCorrente.DayOfYear > model.DATA_ACCESSO.Value.DayOfYear)))
-                AddPuntiLogin(db, model);
-
-            PersonaModel persona = new PersonaModel(model);
-            persona.Email = model.PERSONA_EMAIL.Where(m => m.ID_PERSONA == utente).ToList();
-            persona.Telefono = model.PERSONA_TELEFONO.Where(m => m.ID_PERSONA == utente).ToList();
-            persona.MetodoPagamento = model.PERSONA_METODO_PAGAMENTO.Where(m => m.ID_PERSONA == utente).ToList();
-            persona.Indirizzo = db.PERSONA_INDIRIZZO
-                .Include("INDIRIZZO")
-                .Include("INDIRIZZO.COMUNE")
-                .Include("PERSONA_INDIRIZZO_SPEDIZIONE")
-                .Where(m => m.ID_PERSONA == utente)
-                .ToList();
-            persona.Foto = model.PERSONA_FOTO.Where(m => m.ID_PERSONA == utente).OrderByDescending(m => m.ORDINE)
-                .AsEnumerable().Select(m => new FotoModel(m.ALLEGATO)).ToList();
-            model.PERSONA_ATTIVITA.Where(m => m.ID_PERSONA == utente).ToList().ForEach(m => {
-                persona.Attivita.Add(new AttivitaModel(m));
-            });
-            //persona.ContoCorrente = db.CONTO_CORRENTE_MONETA.Where(m => m.ID_CONTO_CORRENTE == persona.Persona.ID_CONTO_CORRENTE).ToList();
-            persona.Credito = db.CONTO_CORRENTE_CREDITO.Where(m => m.ID_CONTO_CORRENTE == persona.Persona.ID_CONTO_CORRENTE).ToList();
-            persona.NomeVisibile = (string.IsNullOrWhiteSpace(persona.Persona.NOME + persona.Persona.COGNOME) ? persona.Email
-                .Where(m => m.TIPO == (int)TipoEmail.Registrazione).SingleOrDefault().EMAIL: string.Concat(persona.Persona.NOME, " ", persona.Persona.COGNOME));
-            persona.NumeroMessaggiDaLeggere = db.CHAT.Count(m => m.ID_DESTINATARIO == utente && m.STATO == (int)StatoChat.INVIATO);
-            persona.NumeroNotificheDaLeggere = db.NOTIFICA.Count(m => m.ID_PERSONA_DESTINATARIO == utente && m.STATO == (int)StatoNotifica.ATTIVA);
-
+            if (persona.Persona.STATO == (int)Stato.ATTIVO && persona.Persona.STATO == (int)Stato.ATTIVO && (persona.Persona.DATA_ACCESSO == null || persona.Persona.DATA_ACCESSO.Value.Year < dataCorrente.Year || (persona.Persona.DATA_ACCESSO.Value.Year == dataCorrente.Year && dataCorrente.DayOfYear > persona.Persona.DATA_ACCESSO.Value.DayOfYear)))
+                AddPuntiLogin(db, persona.Persona);
+            
             sessione["utente"] = persona;
             if (persona.Attivita != null && persona.Attivita.Count > 0)
                 sessione["portaleweb"] = persona.Attivita.Select(item =>
@@ -177,17 +146,59 @@ namespace GratisForGratis.Controllers
                     item.ATTIVITA.ATTIVITA_EMAIL.Where(e => e.ID_ATTIVITA == item.ID_ATTIVITA).ToList(),
                     item.ATTIVITA.ATTIVITA_TELEFONO.Where(t => t.ID_ATTIVITA == item.ID_ATTIVITA).ToList()
                 )).ToList();
-            /*
-            sessione["portaleweb"] = persona.Attivita.Select(item => 
-                new PortaleWebViewModel(item, 
-                item.Attivita.ATTIVITA_EMAIL.Where(e => e.ID_ATTIVITA==item.ID_ATTIVITA).ToList(), 
-                item.Attivita.ATTIVITA_TELEFONO.Where(t => t.ID_ATTIVITA == item.ID_ATTIVITA).ToList()
-            )).ToList();
-            */
 
             FormsAuthentication.SetAuthCookie(persona.Persona.CONTO_CORRENTE.TOKEN.ToString(), ricordaLogin);
-            //FormsAuthentication.RedirectFromLoginPage(utente.EMAIL, ricordaLogin);
         }
+        //public void setSessioneUtente(HttpSessionStateBase sessione, DatabaseContext db, int utente, bool ricordaLogin)
+        //{
+        //    PERSONA model = db.PERSONA
+        //        .Include("ABBONAMENTO")
+        //        .Include("PERSONA_PRIVACY")
+        //        .Include("PERSONA_EMAIL")
+        //        .Include("PERSONA_TELEFONO")
+        //        .Include("PERSONA_METODO_PAGAMENTO")
+        //        .Include("PERSONA_INDIRIZZO")
+        //        .Include("PERSONA_FOTO")
+        //        .Include("PERSONA_ATTIVITA")
+        //        .SingleOrDefault(m => m.ID == utente);
+
+        //    // login effettuata con successo, aggiungo i punti se ha il profilo attivo completamente e se è un nuovo accesso giornaliero
+        //    DateTime dataCorrente = DateTime.Now;
+        //    if (model.STATO == (int)Stato.ATTIVO && model.STATO == (int)Stato.ATTIVO && (model.DATA_ACCESSO == null || model.DATA_ACCESSO.Value.Year < dataCorrente.Year || (model.DATA_ACCESSO.Value.Year == dataCorrente.Year && dataCorrente.DayOfYear > model.DATA_ACCESSO.Value.DayOfYear)))
+        //        AddPuntiLogin(db, model);
+
+        //    PersonaModel persona = new PersonaModel(model);
+        //    persona.Email = model.PERSONA_EMAIL.Where(m => m.ID_PERSONA == utente).ToList();
+        //    persona.Telefono = model.PERSONA_TELEFONO.Where(m => m.ID_PERSONA == utente).ToList();
+        //    persona.MetodoPagamento = model.PERSONA_METODO_PAGAMENTO.Where(m => m.ID_PERSONA == utente).ToList();
+        //    persona.Indirizzo = db.PERSONA_INDIRIZZO
+        //        .Include("INDIRIZZO")
+        //        .Include("INDIRIZZO.COMUNE")
+        //        .Include("PERSONA_INDIRIZZO_SPEDIZIONE")
+        //        .Where(m => m.ID_PERSONA == utente)
+        //        .ToList();
+        //    persona.Foto = model.PERSONA_FOTO.Where(m => m.ID_PERSONA == utente).OrderByDescending(m => m.ORDINE)
+        //        .AsEnumerable().Select(m => new FotoModel(m.ALLEGATO)).ToList();
+        //    model.PERSONA_ATTIVITA.Where(m => m.ID_PERSONA == utente).ToList().ForEach(m => {
+        //        persona.Attivita.Add(new AttivitaModel(m));
+        //    });
+        //    //persona.ContoCorrente = db.CONTO_CORRENTE_MONETA.Where(m => m.ID_CONTO_CORRENTE == persona.Persona.ID_CONTO_CORRENTE).ToList();
+        //    persona.Credito = db.CONTO_CORRENTE_CREDITO.Where(m => m.ID_CONTO_CORRENTE == persona.Persona.ID_CONTO_CORRENTE).ToList();
+        //    persona.NomeVisibile = (string.IsNullOrWhiteSpace(persona.Persona.NOME + persona.Persona.COGNOME) ? persona.Email
+        //        .Where(m => m.TIPO == (int)TipoEmail.Registrazione).SingleOrDefault().EMAIL: string.Concat(persona.Persona.NOME, " ", persona.Persona.COGNOME));
+        //    persona.NumeroMessaggiDaLeggere = db.CHAT.Count(m => m.ID_DESTINATARIO == utente && m.STATO == (int)StatoChat.INVIATO);
+        //    persona.NumeroNotificheDaLeggere = db.NOTIFICA.Count(m => m.ID_PERSONA_DESTINATARIO == utente && m.STATO == (int)StatoNotifica.ATTIVA);
+
+        //    sessione["utente"] = persona;
+        //    if (persona.Attivita != null && persona.Attivita.Count > 0)
+        //        sessione["portaleweb"] = persona.Attivita.Select(item =>
+        //            new PortaleWebViewModel(item,
+        //            item.ATTIVITA.ATTIVITA_EMAIL.Where(e => e.ID_ATTIVITA == item.ID_ATTIVITA).ToList(),
+        //            item.ATTIVITA.ATTIVITA_TELEFONO.Where(t => t.ID_ATTIVITA == item.ID_ATTIVITA).ToList()
+        //        )).ToList();
+
+        //    FormsAuthentication.SetAuthCookie(persona.Persona.CONTO_CORRENTE.TOKEN.ToString(), ricordaLogin);
+        //}
 
         public int AddUtenteFacebook(string accessToken, string tokenPermanente, dynamic paramsFB, DatabaseContext db)
         {
@@ -249,10 +260,10 @@ namespace GratisForGratis.Controllers
 
         public void RefreshUtente(DatabaseContext db)
         {
-            PersonaModel utente = Session["utente"] as PersonaModel;
-            utente.Persona = db.PERSONA.Where(u => u.ID == utente.Persona.ID).SingleOrDefault();
+            int idPersona = (Session["utente"] as PersonaModel).Persona.ID;
+            Session["utente"] = null;
+            PersonaModel utente = new PersonaModel(db, idPersona);
             Session["utente"] = utente;
-            //setSessioneUtente(Session, db, utente.Persona.ID, FormsAuthentication.)
         }
 
         public void RefreshPunteggioUtente(DatabaseContext db)
@@ -308,36 +319,9 @@ namespace GratisForGratis.Controllers
                 db.SaveChanges();
             }
 
-            CONTO_CORRENTE_CREDITO contoCorrenteCredito = new CONTO_CORRENTE_CREDITO();
-            contoCorrenteCredito.ID_CONTO_CORRENTE = persona.ID_CONTO_CORRENTE;
-            contoCorrenteCredito.ID_TRANSAZIONE_ENTRATA = model.ID;
-            contoCorrenteCredito.PUNTI = punti;
-            contoCorrenteCredito.SOLDI = Utils.cambioValuta(contoCorrenteCredito.PUNTI);
-            contoCorrenteCredito.GIORNI_SCADENZA = Convert.ToInt32(ConfigurationManager.AppSettings["GiorniScadenzaCredito"]);
-            contoCorrenteCredito.DATA_SCADENZA = DateTime.Now.AddDays(contoCorrenteCredito.GIORNI_SCADENZA);
-            contoCorrenteCredito.DATA_INSERIMENTO = DateTime.Now;
-            contoCorrenteCredito.STATO = (int)StatoCredito.ASSEGNATO;
-            db.CONTO_CORRENTE_CREDITO.Add(contoCorrenteCredito);
-            db.SaveChanges();
-            //// genero la moneta ogni volta che offro un bonus, in modo da mantenere la concorrenza dei dati
-            //for (int i = 0; i < punti; i++)
-            //{
-            //    MONETA moneta = db.MONETA.Create();
-            //    moneta.VALORE = 1;
-            //    moneta.TOKEN = Guid.NewGuid();
-            //    moneta.DATA_INSERIMENTO = DateTime.Now;
-            //    moneta.STATO = (int)Stato.ATTIVO;
-            //    db.MONETA.Add(moneta);
-            //    db.SaveChanges();
-            //    CONTO_CORRENTE_MONETA conto = new CONTO_CORRENTE_MONETA();
-            //    conto.ID_CONTO_CORRENTE = persona.ID_CONTO_CORRENTE;
-            //    conto.ID_MONETA = moneta.ID;
-            //    conto.ID_TRANSAZIONE = model.ID;
-            //    conto.DATA_INSERIMENTO = DateTime.Now;
-            //    conto.STATO = (int)StatoMoneta.ASSEGNATA;
-            //    db.CONTO_CORRENTE_MONETA.Add(conto);
-            //    db.SaveChanges();
-            //}
+            // aggiunta credito
+            ContoCorrenteCreditoModel credito = new ContoCorrenteCreditoModel(db, persona.ID_CONTO_CORRENTE);
+            credito.Earn(model.ID, punti);
 
             SendNotifica(mittente, persona, TipoNotifica.Bonus, "bonusRicevuto", model, attivita, db);
             TempData["BONUS"] = string.Format(Bonus.YouWin, punti, Language.Moneta);

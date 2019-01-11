@@ -21,11 +21,28 @@
                             }
                         </div>
                         break;
+                    case TipoNotifica.PagaOfferta:
+                        <div class="cella noMandatory">
+                            @Html.ActionLink(Model.Messaggio, "", "Acquisti", null, new { @class = "btn" })
+                        </div>
+                        break;
                     default:
                         WriteLiteral(Html.Raw(Model.Messaggio));
                         break;
                 }
             }
+            <div class="cella nome">
+                @ViewModel.NewsInsertDate
+            </div>
+            <div class="cella noMandatory">
+                @Model.DataInserimento
+            </div>
+            <div class="cella nome">
+                @ViewModel.NewsReadDate
+            </div>
+            <div class="cella noMandatory">
+                @Model.DataLettura
+            </div>
         </div>
     </div>
 </section>

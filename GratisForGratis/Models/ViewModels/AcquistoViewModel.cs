@@ -384,52 +384,13 @@ namespace GratisForGratis.Models
 
                 if (db.SaveChanges() > 0)
                 {
-                    // Inserimento dei crediti associati all'offerta
+                    // Sospensione crediti associati all'offerta
                     if (offerta.PUNTI > 0)
                     {
-                        decimal puntiRimanenti = 0;
-                        decimal punti = (decimal)offerta.PUNTI;
-                        while (punti > 0)
-                        {
-                            CONTO_CORRENTE_CREDITO credito = db.CONTO_CORRENTE_CREDITO
-                                .Where(m => m.ID_CONTO_CORRENTE == utente.Persona.ID_CONTO_CORRENTE
-                                    && m.STATO == (int)StatoCredito.ASSEGNATO && m.DATA_SCADENZA > DateTime.Now)
-                                .OrderBy(m => m.DATA_SCADENZA)
-                                .FirstOrDefault();
-                            if ((punti - credito.PUNTI) < 0)
-                            {
-                                puntiRimanenti = credito.PUNTI - punti;
-                                punti = 0;
-                            }
-                            else
-                            {
-                                punti = punti - credito.PUNTI;
-                            }
-
-                            if (punti <= 0 && puntiRimanenti > 0)
-                            {
-                                credito.PUNTI -= puntiRimanenti;
-                            }
-                            credito.ID_OFFERTA_USCITA = offerta.ID;
-                            credito.STATO = (int)StatoCredito.SOSPESO;
-                            db.SaveChanges();
-
-                            if (punti <= 0 && puntiRimanenti > 0)
-                            {
-                                CONTO_CORRENTE_CREDITO creditoCompratore = new CONTO_CORRENTE_CREDITO();
-                                creditoCompratore.ID_CONTO_CORRENTE = utente.Persona.ID_CONTO_CORRENTE;
-                                creditoCompratore.ID_TRANSAZIONE_ENTRATA = credito.ID_TRANSAZIONE_ENTRATA;
-                                creditoCompratore.PUNTI = puntiRimanenti;
-                                creditoCompratore.SOLDI = Controllers.Utils.cambioValuta(creditoCompratore.PUNTI);
-                                creditoCompratore.GIORNI_SCADENZA = credito.GIORNI_SCADENZA;
-                                creditoCompratore.DATA_SCADENZA = credito.DATA_SCADENZA;
-                                creditoCompratore.DATA_INSERIMENTO = DateTime.Now;
-                                creditoCompratore.STATO = (int)StatoCredito.ASSEGNATO;
-                                db.CONTO_CORRENTE_CREDITO.Add(creditoCompratore);
-                                db.SaveChanges();
-                            }
-                        }
+                        ContoCorrenteCreditoModel credito = new ContoCorrenteCreditoModel(db, utente.Persona.ID_CONTO_CORRENTE);
+                        credito.Suspend(offerta.ID, (decimal)offerta.PUNTI);
                     }
+                    decimal soldiSpedizione = 0;
                     if (baratto)
                     {
                         // se sto offrendo un baratto, inserisco gli oggetti barattati
@@ -437,13 +398,24 @@ namespace GratisForGratis.Models
                         {
                             OFFERTA_BARATTO offertaBaratto = new OFFERTA_BARATTO();
                             offertaBaratto.ID_OFFERTA = offerta.ID;
-                            offertaBaratto.ID_ANNUNCIO = db.ANNUNCIO.SingleOrDefault(m => m.TOKEN.ToString() == annuncioDiScambio
-                                && m.STATO == (int)StatoVendita.ATTIVO).ID;
+                            var annuncioBaratto = db.ANNUNCIO.SingleOrDefault(m => m.TOKEN.ToString() == annuncioDiScambio
+                                && m.STATO == (int)StatoVendita.ATTIVO);
+                            offertaBaratto.ID_ANNUNCIO = annuncioBaratto.ID;
                             offertaBaratto.DATA_INSERIMENTO = DateTime.Now;
                             offertaBaratto.STATO = (int)Stato.ATTIVO;
                             db.OFFERTA_BARATTO.Add(offertaBaratto);
                             if (db.SaveChanges() <= 0)
+                            {
                                 return false;
+                            }
+
+                            if (this.TipoScambio == TipoScambio.Spedizione)
+                            {
+                                var annuncioBarattoSpedizione = annuncioBaratto.ANNUNCIO_TIPO_SCAMBIO
+                                    .FirstOrDefault(m => m.TIPO_SCAMBIO == (int)TipoScambio.Spedizione);
+                                soldiSpedizione += db.ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE
+                                    .SingleOrDefault(m => m.ID_ANNUNCIO_TIPO_SCAMBIO == annuncioBarattoSpedizione.ID).SOLDI;
+                            }
                         }
                     }
 
@@ -465,12 +437,7 @@ namespace GratisForGratis.Models
                             db.INDIRIZZO.Add(indirizzo);
                             db.SaveChanges();
                         }
-
-                        var annuncioSpedizione = db.ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE.SingleOrDefault(m => m.ANNUNCIO_TIPO_SCAMBIO.ID_ANNUNCIO == annuncio.ID && m.ANNUNCIO_TIPO_SCAMBIO.TIPO_SCAMBIO == (int)TipoScambio.Spedizione);
-                        if (annuncioSpedizione != null)
-                        {
-                            offertaSpedizione.SOLDI = annuncioSpedizione.SOLDI;
-                        }
+                        offertaSpedizione.SOLDI = soldiSpedizione;
                         offertaSpedizione.ID_INDIRIZZO_DESTINATARIO = indirizzo.ID;
                         offertaSpedizione.NOMINATIVO_DESTINATARIO = this.NominativoDestinatario;
                         offertaSpedizione.TELEFONO_DESTINATARIO = this.TelefonoDestinatario;

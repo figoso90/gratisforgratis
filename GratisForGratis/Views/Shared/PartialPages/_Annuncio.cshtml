@@ -44,33 +44,51 @@
                         <a href="@oggetto.LDVFile" target="_blank">@oggetto.Nome</a>
                     }
                 </div>
+                <div class="cella info">
+                    INSERIRE GIORNI, ORARI E TEMPO IMBALLAGGIO PER LA SPEDIZIONE....
+                </div>
             }
         }
-        @if (Model.Offerta != null && !string.IsNullOrWhiteSpace(Model.Offerta.Punti))
+        @if (Model.Offerta != null)
         {
-            <div class="cella points">
-                @Html.Label("Offerta", Language.Bid + ":")
-                @Model.Offerta.Punti
-            </div>
+            if (!string.IsNullOrWhiteSpace(Model.Offerta.Punti))
+            {
+                <div class="cella points">
+                    @Html.Label("Offerta", Language.Bid + ":")
+                    @Model.Offerta.Punti
+                </div>
+            }
+            if (Model.Offerta.Baratti != null && Model.Offerta.Baratti.Count > 0)
+            {
+                <div class="cella barters">
+                    @Html.Label("Baratti", Language.Barters + ":")
+                    @foreach (AnnuncioViewModel baratto in Model.Offerta.Baratti)
+                    {
+                        <div class="link">
+                            @Html.ActionLink(baratto.Nome, "Index", "Annuncio", new { token = baratto.Token }, null)
+                        </div>
+                    }
+                </div>
+            }
+            if (Model.Offerta.TipoScambio == TipoScambio.Spedizione)
+            {
+                <div class="cella points">
+                    @Html.Label("SoldiSpedizione", Language.Shipment + ":")
+                    @Model.Offerta.SoldiSpedizione (@Model.Offerta.NomeCorriere)
+                </div>
+            }
         }
-        @if (Model.Offerta.TipoScambio == TipoScambio.Spedizione)
-        {
-            <div class="cella points">
-                @Html.Label("SoldiSpedizione", Language.Shipment + ":")
-                @Model.Offerta.SoldiSpedizione (@Model.Offerta.NomeCorriere)
-            </div>
-        }
+        <div class="cella">
+            @Html.Label("Stato", Language.StateSelling + ":")
+            <span class="stateText">
+                @EnumHelper.GetSelectList(typeof(StatoVendita), Model.StatoVendita).Where(m => m.Selected).FirstOrDefault().Text
+            </span>
+        </div>
         @if (Model.StatoVendita != StatoVendita.BARATTATO && Model.StatoVendita != StatoVendita.VENDUTO)
         {
             <div class="cella noMandatory">
                 @Html.Label("Durata", Language.ExpireDate + ":")
                 @Model.DataFine
-            </div>
-            <div class="cella">
-                @Html.Label("Stato", Language.StateSelling + ":")
-                <span class="stateText">
-                    @EnumHelper.GetSelectList(typeof(StatoVendita), Model.StatoVendita).Where(m => m.Selected).FirstOrDefault().Text
-                </span>
             </div>
         }
         else

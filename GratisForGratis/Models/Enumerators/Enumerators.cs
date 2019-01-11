@@ -142,6 +142,7 @@ namespace GratisForGratis.Models
     {
         Acquisto = 0,
         Offerta = 1,
+        OffertaOK = 2
     }
 
     public enum EstensioneFile

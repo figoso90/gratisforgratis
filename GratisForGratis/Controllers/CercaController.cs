@@ -810,12 +810,14 @@ namespace GratisForGratis.Controllers
             {
                 int utente = ((PersonaModel)Session["utente"]).Persona.ID;
                 string termineSenzaSpazi = term.Trim();
-                // aggiungere il contains e l'order by per rilevanza
-                // aggiungere gestione spedizione
                 lista = db.ANNUNCIO.Where(item => item.ID_PERSONA == utente && 
+                    // annuncio ancora attivo
                     item.STATO == (int)StatoVendita.ATTIVO && (item.DATA_FINE >= DateTime.Now || item.DATA_FINE == null ) &&
                     item.NOME.Contains(termineSenzaSpazi) && 
-                    item.ANNUNCIO_TIPO_SCAMBIO.Count(m => m.TIPO_SCAMBIO == (int)tipoScambio) > 0
+                    // tipo di scambio coerente con quello dell'annuncio da barattare
+                    item.ANNUNCIO_TIPO_SCAMBIO.Count(m => m.TIPO_SCAMBIO == (int)tipoScambio) > 0 &&
+                    // annuncio che non è stato barattato con nessuno
+                    item.OFFERTA_BARATTO.Count(m => m.STATO == (int)StatoBaratto.ACCETTATO || m.STATO == (int)StatoBaratto.SOSPESO) <= 0
                 ).OrderByDescending(item => item.NOME.Contains(termineSenzaSpazi))
                 .Select(m => new AutocompleteBaratto { Annuncio = m }).ToList();
             }

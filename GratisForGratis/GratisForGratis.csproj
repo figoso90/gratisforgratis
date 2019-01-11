@@ -1150,7 +1150,6 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Partners.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Utente\Login.cshtml" />
     <Content Include="Scripts\Jquery\jquery-1.10.2.min.map" />
     <Content Include="Views\Utente\Registrazione.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -1449,7 +1448,7 @@
     <Content Include="Views\Pubblica\Spedizione.cshtml" />
     <Content Include="Views\Home\Team.cshtml" />
     <Content Include="Views\Home\BandiRicevuti.cshtml" />
-    <Content Include="Views\Utente\LoginVeloce.cshtml" />
+    <Content Include="Views\Utente\Login.cshtml" />
     <Content Include="Views\Utente\Email\RegistrazioneUtenteReinvio.cshtml" />
     <Content Include="Views\Pubblica\Index.cshtml" />
     <Content Include="Views\Cerca\Dettaglio\_Console.cshtml" />

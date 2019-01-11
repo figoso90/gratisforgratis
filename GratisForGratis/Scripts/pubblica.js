@@ -194,12 +194,20 @@ function disabilitaPrezzoSpedizione()
 }
 
 function getPrezzoSpedizione(servizioCorriere) {
+    // verifica se spedizione privata o meno
+    $corriere = $(servizioCorriere).val();
+    $gruppo = $(servizioCorriere).find('option[value="' + $corriere + '"]').parent('optgroup');
+    if ($gruppo.attr('label').toLowerCase() == 'privata')
+    {
+        return false;
+    }
+
     $.ajax({
         type: 'POST',
         url: '/Pubblica/GetPrezzoSpedizione',
         dataType: "json",
         data: {
-            servizioSpedizione: decodeURI($(servizioCorriere).val()),
+            servizioSpedizione: decodeURI($corriere),
             altezza: $('#Altezza').val(),
             larghezza: $('#Larghezza').val(),
             lunghezza: $('#Lunghezza').val()

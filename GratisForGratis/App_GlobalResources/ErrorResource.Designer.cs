@@ -97,6 +97,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Errore imprevisto.
+        /// </summary>
+        public static string BidComplete {
+            get {
+                return ResourceManager.GetString("BidComplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a L&apos;offerta non è più valida!.
         /// </summary>
         public static string BidFailed {

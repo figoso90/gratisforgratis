@@ -35,7 +35,7 @@ namespace GratisForGratis.Models
 
         #region METODI PUBBLICI
 
-        public VerificaOfferta CheckOfferta(PersonaModel utente, OFFERTA model)
+        public VerificaOfferta CheckAccettaOfferta(PersonaModel utente, OFFERTA model)
         {
             decimal credito = model.PERSONA.CONTO_CORRENTE.CONTO_CORRENTE_CREDITO
                 .Where(m => m.STATO == (int)StatoCredito.SOSPESO).Sum(m => m.PUNTI);
@@ -60,7 +60,7 @@ namespace GratisForGratis.Models
 
             if (model.OFFERTA_SPEDIZIONE.Count() > 0)
             {
-                OFFERTA_SPEDIZIONE spedizione = model.OFFERTA_SPEDIZIONE.FirstOrDefault();
+                OFFERTA_SPEDIZIONE spedizione = model.OFFERTA_SPEDIZIONE.FirstOrDefault(m => m.STATO != (int)StatoSpedizione.PAGATA);
 
                 if (spedizione != null && spedizione.SOLDI > 0)
                 {
@@ -74,7 +74,7 @@ namespace GratisForGratis.Models
             return VerificaOfferta.Ok;
         }
 
-        public bool Accetta(DatabaseContext db, PERSONA compratore, List<CONTO_CORRENTE_CREDITO> listaCreditoCompratore, ref string messaggio)
+        public bool Accetta(DatabaseContext db, PERSONA venditore, ref string messaggio)
         {            
             DateTime dataModifica = DateTime.Now;
 
@@ -82,117 +82,114 @@ namespace GratisForGratis.Models
             if (this.OFFERTA_SPEDIZIONE.Count() > 0)
                 tipoScambio = TipoScambio.Spedizione;
 
-            VerificaAcquisto statoAcquisto = AnnuncioModel.CheckAcquisto(compratore, listaCreditoCompratore, tipoScambio, false, true);
+            // verifico la possibilità di acquisto del compratore
+            VerificaAcquisto statoAcquisto = AnnuncioModel.CheckAcquisto(this.PERSONA, this.PERSONA.CONTO_CORRENTE.CONTO_CORRENTE_CREDITO.ToList(), tipoScambio, false, true);
 
-            // SE VIENE ACCETTA L'OFFERTA E NON C'è DA PAGARE LA SPEDIZIONE
-            // PER IL PROPRIO ANNUNCIO, ALLORA CAMBIO STATO ALL'ANNUNCIO,
-            // ALTRIMENTI LASCIO IN STATO SOSPESO L'ANNUNCIO
             if (statoAcquisto == VerificaAcquisto.Ok)
             {
-                if (this.OFFERTA_BARATTO.Count() > 0)
-                    this.ANNUNCIO.STATO = (int)StatoVendita.BARATTATO;
-                else
-                    this.ANNUNCIO.STATO = (int)StatoVendita.VENDUTO;
+                this.ANNUNCIO.DATA_VENDITA = dataModifica;
+                this.ANNUNCIO.STATO = (int)StatoVendita.VENDUTO;
+            }
+            else if (statoAcquisto == VerificaAcquisto.VerificaCartaCredito)
+            {
+                this.ANNUNCIO.DATA_VENDITA = dataModifica;
+                this.ANNUNCIO.STATO = (int)StatoVendita.BARATTOINCORSO;
             }
             else if (statoAcquisto != VerificaAcquisto.VerificaCartaCredito && statoAcquisto != VerificaAcquisto.SpedizioneDaPagare)
             {
-                // se non deve farsi pagare la spedizione ma c'è un errore differente
-                // allora non accetto l'offerta
+                // se il compratore non può acquistare annuncio
                 return false;
             }
 
             this.ANNUNCIO.DATA_MODIFICA = dataModifica;
-            this.ANNUNCIO.ID_COMPRATORE = compratore.ID;
-            this.ANNUNCIO.DATA_VENDITA = dataModifica;
+            this.ANNUNCIO.ID_COMPRATORE = this.PERSONA.ID;
+            db.ANNUNCIO.Attach(this.OffertaOriginale.ANNUNCIO);
+            db.Entry(this.OffertaOriginale.ANNUNCIO).State = System.Data.Entity.EntityState.Modified;
+
+            // salvataggio offerta
             this.DATA_MODIFICA = dataModifica;
             this.STATO = (int)StatoOfferta.ACCETTATA;
-
-            // salvataggio dati su db
             this.OffertaOriginale.STATO = this.STATO;
             this.OffertaOriginale.DATA_MODIFICA = this.DATA_MODIFICA;
+            db.OFFERTA.Attach(this.OffertaOriginale);
+            db.Entry(this.OffertaOriginale).State = System.Data.Entity.EntityState.Modified;
 
-            // SALVATAGGIO MODIFICHE RECUPERANDO OFFERTA DA DB O PROVANDO A SETTARE COME MODIFICABILE L'ATTUALE OGGETTO
             int salvataggi = db.SaveChanges();
             if (salvataggi > 1)
             {
-                TRANSAZIONE transazione = new TRANSAZIONE();
-                transazione.ID_CONTO_DESTINATARIO = this.ANNUNCIO.PERSONA.ID_CONTO_CORRENTE;
-                transazione.ID_CONTO_MITTENTE = compratore.ID_CONTO_CORRENTE;
-                transazione.NOME = this.ANNUNCIO.NOME;
-                transazione.PUNTI = this.PUNTI;
-                transazione.SOLDI = Controllers.Utils.cambioValuta(this.PUNTI);
-                transazione.TIPO = (int)TipoPagamento.HAPPY;
-                transazione.DATA_INSERIMENTO = DateTime.Now;
-                transazione.TEST = 0;
-                transazione.STATO = (int)Stato.ATTIVO;
-                db.TRANSAZIONE.Add(transazione);
-                if (db.SaveChanges() <= 0)
-                    throw new Exception(string.Format(ExceptionMessage.NotSavedBidTransaction, this.ID));
-
-                TRANSAZIONE_ANNUNCIO transazioneAnnuncio = new Models.TRANSAZIONE_ANNUNCIO();
-                transazioneAnnuncio.ID_TRANSAZIONE = transazione.ID;
-                transazioneAnnuncio.ID_ANNUNCIO = this.ID_ANNUNCIO;
-                transazioneAnnuncio.PUNTI = (decimal)transazione.PUNTI;
-                transazioneAnnuncio.SOLDI = (decimal)transazione.SOLDI;
-                transazioneAnnuncio.DATA_INSERIMENTO = DateTime.Now;
-                transazioneAnnuncio.STATO = (int)StatoPagamento.ACCETTATO;
-                db.TRANSAZIONE_ANNUNCIO.Add(transazioneAnnuncio);
-                if (db.SaveChanges() <= 0)
-                    throw new Exception(string.Format(ExceptionMessage.NotSavedBidTransaction, this.ID));
-
-                // tolgo i punti al mittente                
-                if (transazione.PUNTI != null && transazione.PUNTI > 0)
+                CORRIERE_SERVIZIO_SPEDIZIONE spedizioneVenditore = null;
+                // salvataggio spedizione
+                if (tipoScambio == TipoScambio.Spedizione)
                 {
-                    var listaCrediti = db.CONTO_CORRENTE_CREDITO.Where(m => m.ID_CONTO_CORRENTE == transazione.ID_CONTO_MITTENTE &&
-                    m.ID_OFFERTA_USCITA == this.ID && m.STATO == (int)StatoMoneta.SOSPESA).ToList();
-                    listaCrediti.ForEach(m =>
-                    {
-                        m.ID_TRANSAZIONE_USCITA = transazione.ID;
-                        m.DATA_SCADENZA = DateTime.Now;
-                        m.STATO = (int)StatoCredito.CEDUTO;
-                    });
-                    if (db.SaveChanges() <= 0)
-                        throw new Exception(string.Format(ExceptionMessage.NotSavedMoney, this.ID, String.Join(", ", listaCrediti.Select(m => m.ID))));
+                    var tipoScambioVenditore = this.ANNUNCIO.ANNUNCIO_TIPO_SCAMBIO
+                        .FirstOrDefault(m => m.TIPO_SCAMBIO == (int)TipoScambio.Spedizione)
+                        .ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE.FirstOrDefault();
 
-                    // passo i punti al destinatario
-                    CONTO_CORRENTE_CREDITO creditoDestinatario = new CONTO_CORRENTE_CREDITO();
-                    creditoDestinatario.ID_CONTO_CORRENTE = transazione.ID_CONTO_DESTINATARIO;
-                    creditoDestinatario.ID_TRANSAZIONE_ENTRATA = transazione.ID;
-                    creditoDestinatario.PUNTI = (decimal)transazione.PUNTI;
-                    creditoDestinatario.SOLDI = Controllers.Utils.cambioValuta(transazione.PUNTI);
-                    creditoDestinatario.GIORNI_SCADENZA = Convert.ToInt32(ConfigurationManager.AppSettings["GiorniScadenzaCredito"]);
-                    creditoDestinatario.DATA_SCADENZA = DateTime.Now.AddDays(creditoDestinatario.GIORNI_SCADENZA);
-                    creditoDestinatario.DATA_INSERIMENTO = DateTime.Now;
-                    creditoDestinatario.STATO = (int)StatoCredito.ASSEGNATO;
-                    db.CONTO_CORRENTE_CREDITO.Add(creditoDestinatario);
-                    if (db.SaveChanges() <= 0)
-                        throw new Exception(string.Format(ExceptionMessage.NotSavedMoneyForSeller, this.ID, creditoDestinatario.ID));
+                    spedizioneVenditore = db.CORRIERE_SERVIZIO_SPEDIZIONE.FirstOrDefault(m => m.ID == tipoScambioVenditore.ID_CORRIERE_SERVIZIO_SPEDIZIONE);
+                    var offertaSpedizione = this.OFFERTA_SPEDIZIONE.FirstOrDefault();
+                    spedizioneVenditore.ID_INDIRIZZO_DESTINATARIO = offertaSpedizione.ID_INDIRIZZO_DESTINATARIO;
+                    spedizioneVenditore.NOMINATIVO_DESTINATARIO = offertaSpedizione.NOMINATIVO_DESTINATARIO;
+                    spedizioneVenditore.TELEFONO_DESTINATARIO = offertaSpedizione.TELEFONO_DESTINATARIO;
+                    spedizioneVenditore.INFO_EXTRA_DESTINATARIO = offertaSpedizione.INFO_EXTRA;
+                    spedizioneVenditore.STATO = (int)StatoSpedizione.SOSPESA;
+                    //db.CORRIERE_SERVIZIO_SPEDIZIONE.Attach(spedizioneVenditore);
+                    db.SaveChanges();
                 }
-                
+
+                TRANSAZIONE transazione = CreateTransazione(db, venditore, spedizioneVenditore);
+                // tolgo i punti al mittente
+                DoPagamento(db, transazione);
                 // cambio stato dei baratti offerti
-                foreach (OFFERTA_BARATTO baratto in this.OFFERTA_BARATTO.ToList())
+                for (int i=0; i < this.OffertaOriginale.OFFERTA_BARATTO.Count(); i++)
                 {
-                    baratto.DATA_MODIFICA = DateTime.Now;
-                    baratto.STATO = (int)StatoOfferta.ACCETTATA;
-                    db.Entry(baratto).State = System.Data.Entity.EntityState.Modified;
-                    if (db.SaveChanges() <= 0)
-                        throw new Exception(string.Format(ExceptionMessage.NotSavedBidBarter, this.ID, baratto.ID));
-
-                    baratto.ANNUNCIO.STATO = (int)StatoVendita.BARATTATO;
-                    baratto.ANNUNCIO.DATA_MODIFICA = dataModifica;
-                    baratto.ANNUNCIO.ID_COMPRATORE = this.ANNUNCIO.ID_PERSONA;
-                    baratto.ANNUNCIO.DATA_VENDITA = dataModifica;
-                    db.Entry(baratto.ANNUNCIO).State = System.Data.Entity.EntityState.Modified;
-                    if (db.SaveChanges() <= 0)
-                        throw new Exception(string.Format(ExceptionMessage.NotSavedBidBarter, this.ID, baratto.ID));
+                    var baratto = this.OffertaOriginale.OFFERTA_BARATTO.ToList()[i];
+                    DoBaratto(db, ref baratto, dataModifica);
                 }
-
                 AnnullaOfferteEffettuate(db, this.ID_ANNUNCIO);
-
                 AnnullaOfferteRicevute(db, this.ID_ANNUNCIO, this.ID);
 
                 this.STATO = this.STATO;
                 return true;
+            }
+            return false;
+        }
+
+        // NON USATO - 25-12-2018   
+        public bool Completa(DatabaseContext db)
+        {
+            // ESEGUE SPEDIZIONE BARATTO
+            if (this.OFFERTA_BARATTO.Count > 0)
+            {
+                foreach (OFFERTA_BARATTO baratto in this.OFFERTA_BARATTO.ToList())
+                {
+                    var tipoScambioSpedizioneVenditore = this.ANNUNCIO.ANNUNCIO_TIPO_SCAMBIO
+                                .FirstOrDefault(m => m.TIPO_SCAMBIO == (int)TipoScambio.Spedizione)
+                                .ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE.FirstOrDefault();
+                    var spedizioneVenditore = db.CORRIERE_SERVIZIO_SPEDIZIONE.FirstOrDefault(m => m.ID == tipoScambioSpedizioneVenditore.ID_CORRIERE_SERVIZIO_SPEDIZIONE);
+
+                    var tipoScambioSpedizioneOfferente = baratto.ANNUNCIO.ANNUNCIO_TIPO_SCAMBIO
+                        .FirstOrDefault(m => m.TIPO_SCAMBIO == (int)TipoScambio.Spedizione)
+                        .ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE.FirstOrDefault();
+                    var spedizioneOfferente = db.CORRIERE_SERVIZIO_SPEDIZIONE.FirstOrDefault(m => m.ID == tipoScambioSpedizioneOfferente.ID_CORRIERE_SERVIZIO_SPEDIZIONE);
+                    var offertaSpedizione = this.OFFERTA_SPEDIZIONE.FirstOrDefault();
+                    spedizioneOfferente.ID_INDIRIZZO_DESTINATARIO = spedizioneVenditore.ID_INDIRIZZO_MITTENTE;
+                    spedizioneOfferente.NOMINATIVO_DESTINATARIO = spedizioneVenditore.NOMINATIVO_MITTENTE;
+                    spedizioneOfferente.TELEFONO_DESTINATARIO = spedizioneVenditore.TELEFONO_MITTENTE;
+                    spedizioneOfferente.INFO_EXTRA_DESTINATARIO = spedizioneVenditore.INFO_EXTRA_MITTENTE;
+                    spedizioneOfferente.STATO = (int)StatoSpedizione.SOSPESA;
+                    db.CORRIERE_SERVIZIO_SPEDIZIONE.Attach(spedizioneOfferente);
+                    if (db.SaveChanges() <= 0)
+                    {
+                        return false;
+                    }
+                }
+                this.ANNUNCIO.DATA_MODIFICA = DateTime.Now;
+                this.ANNUNCIO.STATO = (int)StatoVendita.BARATTATO;
+                db.ANNUNCIO.Attach(this.ANNUNCIO);
+                if (db.SaveChanges() > 0)
+                {
+                    return true;
+                }
             }
             return false;
         }
@@ -282,6 +279,94 @@ namespace GratisForGratis.Models
                 PropertyInfo propertyInfo = properties[i];
                 this.GetType().GetProperty(propertyInfo.Name).SetValue(this, propertyInfo.GetValue(model));
             }
+        }
+
+        private TRANSAZIONE CreateTransazione(DatabaseContext db, PERSONA venditore, CORRIERE_SERVIZIO_SPEDIZIONE spedizione)
+        {
+            // compratore paga venditore
+            TRANSAZIONE transazione = new TRANSAZIONE();
+            transazione.ID_CONTO_MITTENTE = this.PERSONA.ID_CONTO_CORRENTE;
+            transazione.ID_CONTO_DESTINATARIO = venditore.ID_CONTO_CORRENTE;
+            transazione.NOME = this.ANNUNCIO.NOME;
+            transazione.PUNTI = this.PUNTI;
+            transazione.SOLDI = Controllers.Utils.cambioValuta(this.PUNTI);
+            transazione.TIPO = (int)TipoPagamento.HAPPY;
+            transazione.DATA_INSERIMENTO = DateTime.Now;
+            transazione.TEST = 0;
+            transazione.STATO = (int)StatoPagamento.ACCETTATO;
+            db.TRANSAZIONE.Add(transazione);
+            if (db.SaveChanges() <= 0)
+                throw new Exception(string.Format(ExceptionMessage.NotSavedBidTransaction, this.ID));
+
+            TRANSAZIONE_ANNUNCIO transazioneAnnuncio = new Models.TRANSAZIONE_ANNUNCIO();
+            transazioneAnnuncio.ID_TRANSAZIONE = transazione.ID;
+            transazioneAnnuncio.ID_ANNUNCIO = this.ID_ANNUNCIO;
+            transazioneAnnuncio.PUNTI = (decimal)transazione.PUNTI;
+            transazioneAnnuncio.SOLDI = (decimal)transazione.SOLDI;
+            if (spedizione != null)
+            {
+                transazioneAnnuncio.PUNTI_SPEDIZIONE = (decimal)spedizione.PUNTI;
+                transazioneAnnuncio.SOLDI_SPEDIZIONE = (decimal)spedizione.SOLDI;
+            }
+            transazioneAnnuncio.DATA_INSERIMENTO = DateTime.Now;
+            transazioneAnnuncio.STATO = (int)StatoPagamento.ACCETTATO;
+            db.TRANSAZIONE_ANNUNCIO.Add(transazioneAnnuncio);
+            if (db.SaveChanges() <= 0)
+                throw new Exception(string.Format(ExceptionMessage.NotSavedBidTransaction, this.ID));
+
+            return transazione;
+        }
+
+        private void DoPagamento(DatabaseContext db, TRANSAZIONE transazione)
+        {
+            if (transazione.PUNTI != null && transazione.PUNTI > 0)
+            {
+                ContoCorrenteCreditoModel credito = new ContoCorrenteCreditoModel(db, transazione.ID_CONTO_MITTENTE);
+                credito.PayUserForBid(transazione.ID_CONTO_DESTINATARIO, this.ID, transazione.ID);
+                //var listaCrediti = db.CONTO_CORRENTE_CREDITO.Where(m => m.ID_CONTO_CORRENTE == transazione.ID_CONTO_MITTENTE &&
+                //    m.ID_OFFERTA_USCITA == this.ID && m.STATO == (int)StatoMoneta.SOSPESA).ToList();
+                //listaCrediti.ForEach(m =>
+                //{
+                //    m.ID_TRANSAZIONE_USCITA = transazione.ID;
+                //    m.DATA_SCADENZA = DateTime.Now;
+                //    m.STATO = (int)StatoCredito.CEDUTO;
+                //});
+                //if (db.SaveChanges() <= 0)
+                //    throw new Exception(string.Format(ExceptionMessage.NotSavedMoney, this.ID, String.Join(", ", listaCrediti.Select(m => m.ID))));
+
+                //// passo i punti al destinatario
+                //CONTO_CORRENTE_CREDITO creditoDestinatario = new CONTO_CORRENTE_CREDITO();
+                //creditoDestinatario.ID_CONTO_CORRENTE = transazione.ID_CONTO_DESTINATARIO;
+                //creditoDestinatario.ID_TRANSAZIONE_ENTRATA = transazione.ID;
+                //creditoDestinatario.PUNTI = (decimal)transazione.PUNTI;
+                //creditoDestinatario.SOLDI = Controllers.Utils.cambioValuta(transazione.PUNTI);
+                //creditoDestinatario.GIORNI_SCADENZA = Convert.ToInt32(ConfigurationManager.AppSettings["GiorniScadenzaCredito"]);
+                //creditoDestinatario.DATA_SCADENZA = DateTime.Now.AddDays(creditoDestinatario.GIORNI_SCADENZA);
+                //creditoDestinatario.DATA_INSERIMENTO = DateTime.Now;
+                //creditoDestinatario.STATO = (int)StatoCredito.ASSEGNATO;
+                //db.CONTO_CORRENTE_CREDITO.Add(creditoDestinatario);
+                //if (db.SaveChanges() <= 0)
+                //    throw new Exception(string.Format(ExceptionMessage.NotSavedMoneyForSeller, this.ID, creditoDestinatario.ID));
+            }
+        }
+
+        private void DoBaratto(DatabaseContext db,ref OFFERTA_BARATTO baratto, DateTime dataModifica)
+        {
+            baratto.DATA_MODIFICA = DateTime.Now;
+            baratto.STATO = (int)StatoOfferta.ACCETTATA;
+            db.OFFERTA_BARATTO.Attach(baratto);
+            db.Entry(baratto).State = System.Data.Entity.EntityState.Modified;
+            if (db.SaveChanges() <= 0)
+                throw new Exception(string.Format(ExceptionMessage.NotSavedBidBarter, this.ID, baratto.ID));
+
+            baratto.ANNUNCIO.STATO = (int)StatoVendita.BARATTATO;
+            baratto.ANNUNCIO.DATA_MODIFICA = dataModifica;
+            baratto.ANNUNCIO.ID_COMPRATORE = this.ANNUNCIO.ID_PERSONA;
+            baratto.ANNUNCIO.DATA_VENDITA = dataModifica;
+            db.ANNUNCIO.Attach(baratto.ANNUNCIO);
+            db.Entry(baratto.ANNUNCIO).State = System.Data.Entity.EntityState.Modified;
+            if (db.SaveChanges() <= 0)
+                throw new Exception(string.Format(ExceptionMessage.NotSavedBidBarter, this.ID, baratto.ID));
         }
         #endregion
 

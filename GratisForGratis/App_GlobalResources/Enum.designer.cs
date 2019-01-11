@@ -520,6 +520,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Pagata.
+        /// </summary>
+        public static string StateShipmentPay {
+            get {
+                return ResourceManager.GetString("StateShipmentPay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Attesa pagamento.
         /// </summary>
         public static string StateWaitingPayment {

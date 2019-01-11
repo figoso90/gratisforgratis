@@ -270,6 +270,9 @@
   <data name="StateShipmentPause" xml:space="preserve">
     <value>Sospesa</value>
   </data>
+  <data name="StateShipmentPay" xml:space="preserve">
+    <value>Pagata</value>
+  </data>
   <data name="StateWaitingPayment" xml:space="preserve">
     <value>Attesa pagamento</value>
   </data>

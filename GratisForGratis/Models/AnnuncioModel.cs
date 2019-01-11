@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
+using System.Data.Entity.SqlServer;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -45,6 +46,15 @@ namespace GratisForGratis.Models
         #endregion
 
         #region METODI PUBBLICI
+
+        public static bool IsAnnuncioBarattabile(ANNUNCIO model)
+        {
+            if (model.STATO == (int)StatoVendita.ATTIVO && (model.DATA_FINE >= DateTime.Now || model.DATA_FINE == null))
+            {
+                return true;
+            }
+            return false;
+        }
 
         public AnnuncioViewModel GetViewModel(DatabaseContext db)
         {
@@ -378,6 +388,59 @@ namespace GratisForGratis.Models
             return false;
         }
 
+        public bool CompletaAcquistoOfferta(DatabaseContext db, OFFERTA offerta)
+        {
+            PersonaModel utente = (PersonaModel)HttpContext.Current.Session["utente"];
+            if (offerta.OFFERTA_SPEDIZIONE.Count() > 0)
+            {
+                // se è stata fatta un'offerta con spedizione setto i dati del destinatario (cioè venditore annuncio)
+                ANNUNCIO_TIPO_SCAMBIO tipoScambioDestinatario = this.ANNUNCIO_TIPO_SCAMBIO.FirstOrDefault(m => m.TIPO_SCAMBIO == (int)TipoScambio.Spedizione);
+                if (this.ID_OGGETTO != null && tipoScambioDestinatario != null)
+                {
+                    var spedizioneDestinatario = tipoScambioDestinatario.ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE.FirstOrDefault();
+                    if (spedizioneDestinatario != null)
+                    {
+                        var datiSpedizioneDestinatario = db.CORRIERE_SERVIZIO_SPEDIZIONE.SingleOrDefault(m => m.ID == spedizioneDestinatario.ID_CORRIERE_SERVIZIO_SPEDIZIONE);
+
+                        offerta.OFFERTA_BARATTO.ToList().ForEach(m =>
+                        {
+                            ANNUNCIO_TIPO_SCAMBIO tipoScambioMittente = m.ANNUNCIO.ANNUNCIO_TIPO_SCAMBIO.FirstOrDefault(o => o.TIPO_SCAMBIO == (int)TipoScambio.Spedizione);
+                            if (m.ANNUNCIO.ID_OGGETTO != null && tipoScambioMittente != null)
+                            {
+                                var spedizioneMittente = tipoScambioMittente
+                                    .ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE.FirstOrDefault();
+                                if (spedizioneMittente != null)
+                                {
+                                    var datiSpedizioneMittente = db.CORRIERE_SERVIZIO_SPEDIZIONE.SingleOrDefault(n => n.ID == spedizioneMittente.ID_CORRIERE_SERVIZIO_SPEDIZIONE);
+                                    datiSpedizioneMittente.ID_INDIRIZZO_DESTINATARIO = datiSpedizioneDestinatario.ID_INDIRIZZO_MITTENTE;
+                                    datiSpedizioneMittente.NOMINATIVO_DESTINATARIO = datiSpedizioneDestinatario.NOMINATIVO_MITTENTE;
+                                    datiSpedizioneMittente.TELEFONO_DESTINATARIO = datiSpedizioneDestinatario.TELEFONO_MITTENTE;
+                                    datiSpedizioneMittente.INFO_EXTRA_DESTINATARIO = datiSpedizioneDestinatario.INFO_EXTRA_MITTENTE;
+                                    db.SaveChanges();
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+
+            ANNUNCIO annuncioAcquistato = db.ANNUNCIO.SingleOrDefault(m => m.ID == this.ID);
+            annuncioAcquistato.DATA_MODIFICA = DateTime.Now;
+            annuncioAcquistato.STATO = (int)StatoVendita.BARATTATO;
+            annuncioAcquistato.ID_COMPRATORE = utente.Persona.ID;
+            annuncioAcquistato.DATA_VENDITA = DateTime.Now;
+            db.ANNUNCIO.Attach(annuncioAcquistato);
+            db.Entry(annuncioAcquistato).State = EntityState.Modified;
+            if (db.SaveChanges() > 0)
+            {
+                OffertaModel.AnnullaOfferteEffettuate(db, this.ID);
+                OffertaModel.AnnullaOfferteRicevute(db, this.ID);
+                _AnnuncioOriginale = annuncioAcquistato;
+                return true;
+            }
+            return false;
+        }
+
         public void AnnullaAcquisto(DatabaseContext db)
         {
             _AnnuncioOriginale.DATA_MODIFICA = DateTime.Now;
@@ -403,6 +466,26 @@ namespace GratisForGratis.Models
                 this.GetType().GetProperty(propertyInfo.Name).SetValue(this, propertyInfo.GetValue(model));
             }
             _AnnuncioOriginale = (ANNUNCIO)model;
+        }
+
+        // NON ANCORA USATO
+        public bool Elimina(DatabaseContext db)
+        {
+            ANNUNCIO model = db.ANNUNCIO.Where(v => v.TOKEN == this.TOKEN && v.ID_PERSONA == this.ID_PERSONA && v.STATO != (int)StatoVendita.BARATTATO
+                && v.STATO != (int)StatoVendita.ELIMINATO && v.STATO != (int)StatoVendita.VENDUTO).SingleOrDefault();
+            if (model != null)
+            {
+                model.STATO = (int)StatoVendita.ELIMINATO;
+                model.DATA_MODIFICA = DateTime.Now;
+                if (db.SaveChanges() > 0)
+                {
+                    OffertaModel.AnnullaOfferteEffettuate(db, model.ID);
+                    OffertaModel.AnnullaOfferteRicevute(db, model.ID);
+                    this.AnnullaPremioAnnuncioCompleto(db, model.PERSONA.ID_CONTO_CORRENTE);
+                    return true;
+                }
+            }
+            return false;
         }
         /*
         public bool Compra(DatabaseContext db, AcquistoViewModel viewModel, ref string messaggio)
@@ -612,6 +695,7 @@ namespace GratisForGratis.Models
             annuncio.DataAvvio = vendita.DATA_AVVIO;
             annuncio.DataFine = vendita.DATA_FINE;
             annuncio.DataVendita = vendita.DATA_VENDITA;
+            SetOffertaAccettata(db, vendita, ref annuncio);
         }
 
         private AnnuncioViewModel SetOggettoViewModel(DatabaseContext db, AnnuncioViewModel oggetto, ANNUNCIO vendita)
@@ -647,6 +731,17 @@ namespace GratisForGratis.Models
                             viewModel.NomeCorriere = corriereSpedizione.CORRIERE_SERVIZIO.CORRIERE.NOME;
                             viewModel.PuntiSpedizione = spedizione.PUNTI.ToHappyCoin();
                             viewModel.SoldiSpedizione = spedizione.SOLDI.ToString("C");
+                            viewModel.TempoImballaggio = corriereSpedizione.TEMPO_IMBALLAGGIO;
+                            if (corriereSpedizione.GIORNI_DISPONIBILITA_SPEDIZIONE != null)
+                            {
+                                viewModel.GiorniSpedizione = corriereSpedizione.GIORNI_DISPONIBILITA_SPEDIZIONE.Split(';')
+                                    .ToList().Select(m => Convert.ToInt32(m)).ToList();
+                            }
+                            if (corriereSpedizione.ORARI_DISPONIBILITA_SPEDIZIONE != null)
+                            {
+                                viewModel.OrariSpedizione = corriereSpedizione.ORARI_DISPONIBILITA_SPEDIZIONE.Split(';')
+                                    .ToList().Select(m => Convert.ToInt32(m)).ToList();
+                            }
                             // se è stato generato LDV e caricato su G4G
                             ALLEGATO ldv = corriereSpedizione.ALLEGATO;
                             if (ldv != null)
@@ -1091,6 +1186,39 @@ namespace GratisForGratis.Models
                     return comune2.ISO;
             }
             return string.Empty;
+        }
+
+        private void SetOffertaAccettata(DatabaseContext db, ANNUNCIO vendita, ref AnnuncioViewModel annuncio)
+        {
+            var offerta = vendita.OFFERTA
+                .Where(m => m.STATO == (int)StatoOfferta.ACCETTATA || m.STATO == (int)StatoOfferta.ACCETTATA_ATTESO_PAGAMENTO)
+                .SingleOrDefault();
+            if (offerta != null)
+            {
+                annuncio.Offerta = new OffertaViewModel(db, offerta);
+            }
+        }
+        
+        private void AnnullaPremioAnnuncioCompleto(DatabaseContext db, Guid idContoCorrente)
+        {
+            PubblicazioneViewModel viewModel = new PubblicazioneViewModel(this);
+            if (viewModel.IsAnnuncioCompleto())
+            {
+                Guid tokenPortale = Guid.Parse(ConfigurationManager.AppSettings["portaleweb"]);
+                ATTIVITA attivita = db.ATTIVITA.Where(p => p.TOKEN == tokenPortale).SingleOrDefault();
+                TRANSAZIONE transazione = new TRANSAZIONE();
+                transazione.ID_CONTO_MITTENTE = idContoCorrente;
+                transazione.ID_CONTO_DESTINATARIO = attivita.ID_CONTO_CORRENTE;
+                transazione.NOME = App_GlobalResources.Bonus.FullAnnouncementCancel;
+                transazione.PUNTI = Convert.ToInt32(ConfigurationManager.AppSettings["bonusAnnuncioCompleto"]);
+                transazione.SOLDI = Utils.cambioValuta(transazione.PUNTI);
+                transazione.TIPO = (int)TipoTransazione.BonusAnnuncioCompleto;
+                transazione.STATO = (int)StatoPagamento.ACCETTATO;
+                db.TRANSAZIONE.Add(transazione);
+                db.SaveChanges();
+                ContoCorrenteCreditoModel credito = new ContoCorrenteCreditoModel(db, idContoCorrente);
+                credito.PaySystem(transazione.ID, (decimal)transazione.PUNTI);
+            }
         }
         #endregion
     }

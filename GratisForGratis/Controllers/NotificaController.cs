@@ -28,14 +28,17 @@ namespace GratisForGratis.Controllers
                     .Skip((pagina - 1) * numeroElementi)
                     .Take(numeroElementi);
 
-                listaNotifiche.ToList().ForEach(m => {                    
-                    m.DATA_LETTURA = DateTime.Now;
-                    m.DATA_MODIFICA = DateTime.Now;
-                    m.STATO = (int)StatoNotifica.LETTA;
-                    db.NOTIFICA.Attach(m);
-                    var entry = db.Entry(m);
-                    entry.State = System.Data.Entity.EntityState.Modified;
-                    db.SaveChanges();
+                listaNotifiche.ToList().ForEach(m => { 
+                    if (m.DATA_LETTURA == null)
+                    {
+                        m.DATA_LETTURA = DateTime.Now;
+                        m.DATA_MODIFICA = DateTime.Now;
+                        m.STATO = (int)StatoNotifica.LETTA;
+                        db.NOTIFICA.Attach(m);
+                        var entry = db.Entry(m);
+                        entry.State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+                    }
 
                     UtenteNotificaViewModel utenteNotifica = new UtenteNotificaViewModel();
                     utenteNotifica.getTipoNotifica(db, m);

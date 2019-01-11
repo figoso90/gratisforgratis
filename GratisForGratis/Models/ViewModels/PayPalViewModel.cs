@@ -12,6 +12,8 @@ namespace GratisForGratis.Models.ViewModels
     public class PayPalIndexViewModel/* : AcquistoViewModel*/
     {
         #region PROPRIETA
+        public int Id { get; set; }
+
         [Required]
         public string Token { get; set; }
 

@@ -295,6 +295,12 @@ namespace GratisForGratis.Models
         public string LDVNome { get; set; }
 
         public string LDVFile { get; set; }
+
+        public int? TempoImballaggio { get; set; }
+
+        public List<int> GiorniSpedizione { get; set; }
+
+        public List<int> OrariSpedizione { get; set; }
         #endregion
     }
 

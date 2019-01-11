@@ -8,6 +8,9 @@
         <div id="@HttpUtility.UrlEncode(news.Id.ToString())" class="news">
             <a href="@Url.Action("", "Notifica", new { id = news.Id })" title="@Language.NewsOpen">
                 <div class="detail">
+                    <div class="cella nome">
+                        @ViewModel.NewsName
+                    </div>
                     <div class="cella noMandatory">
                         @{
                             switch (news.Tipo)
@@ -24,8 +27,14 @@
                             }
                         }
                     </div>
+                    <div class="cella nome">
+                        @ViewModel.NewsInsertDate
+                    </div>
                     <div class="cella noMandatory">
                         @news.DataInserimento
+                    </div>
+                    <div class="cella nome">
+                        @ViewModel.NewsReadDate
                     </div>
                     <div class="cella noMandatory">
                         @news.DataLettura

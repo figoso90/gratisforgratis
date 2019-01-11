@@ -25,24 +25,11 @@ else
             <div class="btn deleteSell">@Language.DeleteSell</div>
         </div>
     }
-    else if (Model.StatoVendita != StatoVendita.BARATTATO
-           && Model.StatoVendita != StatoVendita.ELIMINATO && Model.StatoVendita != StatoVendita.VENDUTO)
+    else if (Model.StatoVendita == StatoVendita.SOSPESO || Model.StatoVendita == StatoVendita.SOSPESOPEROFFERTA)
     {
-        if (Model.StatoVendita == StatoVendita.BARATTOINCORSO)
-        {
-            <div class="cella noMandatory">
-                @Html.ActionLink(Language.Barter, "Acquisto", "Acquisti", new { baratto = Model.Token }, new { @Class = "btn" })
-            </div>
-            @*<div class="cella noMandatory">
-                    <div class="btn cancelBarter">@Language.CancelBarter</div>
-                </div>*@
-        }
-        else
-        {
-            <div class="cella noMandatory">
-                <div class="btn deleteSell">@Language.DeleteSell</div>
-            </div>
-        }
+        <div class="cella noMandatory">
+            <div class="btn deleteSell">@Language.DeleteSell</div>
+        </div>
     }
     else if (Model.StatoVendita == StatoVendita.BARATTATO || Model.StatoVendita == StatoVendita.VENDUTO)
     {

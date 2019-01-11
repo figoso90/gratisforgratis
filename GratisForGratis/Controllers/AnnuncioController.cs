@@ -86,7 +86,7 @@ namespace GratisForGratis.Controllers
                                     transaction.Commit();
                                     Session["PayPalCompra"] = viewModel;
                                     Session["PayPalAnnuncio"] = model;
-                                    return RedirectToAction(actionPagamento, "PayPal", new { Token = viewModel.Token, Azione = AzionePayPal.Acquisto });
+                                    return RedirectToAction(actionPagamento, "PayPal", new { Id = model.ID, Token = viewModel.Token, Azione = AzionePayPal.Acquisto });
                                 }
                                 else
                                 {
@@ -120,65 +120,6 @@ namespace GratisForGratis.Controllers
             ViewData["acquistoViewModel"] = viewModel;
             return View("Index", viewModel.Annuncio);
         }
-
-        //[HttpGet]
-        //public ActionResult Errore(AcquistoViewModel viewModel)
-        //{
-        //    AnnuncioModel model = null;
-        //    if (ModelState.IsValid)
-        //    {
-        //        using (DatabaseContext db = new DatabaseContext())
-        //        {
-        //            using (DbContextTransaction transaction = db.Database.BeginTransaction())
-        //            {
-        //                try
-        //                {
-        //                    Guid token = getTokenDecodificato(viewModel.Token);
-        //                    model = new AnnuncioModel(token, db);
-        //                    if (model.TOKEN == null)
-        //                    {
-        //                        throw new System.Web.HttpException(404, ExceptionMessage.AdNotFound);
-        //                    }
-        //                    if (TempData["primaVolta"] != null && Convert.ToBoolean(TempData["primaVolta"]))
-        //                    {
-        //                        if (!Utils.IsUtenteAttivo(1, TempData))
-        //                        {
-        //                            ModelState.AddModelError("", ErrorResource.UserEnabled);
-        //                        }
-        //                        else
-        //                        {
-        //                            model.AnnullaAcquisto(db);
-        //                            transaction.Commit();
-        //                            //ModelState.AddModelError("", viewModel.Messaggio);
-        //                            ModelState.AddModelError("", TempData["errore"] as string);
-        //                            TempData["primaVolta"] = null;
-        //                        }
-        //                    }
-        //                }
-        //                catch (System.Web.HttpException eccezione)
-        //                {
-        //                    Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
-        //                    throw new System.Web.HttpException(404, eccezione.Message);
-        //                }
-        //                catch (Exception eccezione)
-        //                {
-        //                    ModelState.AddModelError("", eccezione.Message);
-        //                    Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
-        //                }
-        //                finally
-        //                {
-        //                    if (db.Database.CurrentTransaction != null)
-        //                        transaction.Rollback();
-        //                }
-        //                viewModel.Annuncio = model.GetViewModel(db);
-        //                viewModel.Annuncio.Azione = "compra";
-        //            }
-        //        }
-        //    }
-
-        //    ViewData["acquistoViewModel"] = viewModel;
-        //    return View("Index", viewModel.Annuncio);
-        //}
 
         [HttpPost]
         public ActionResult InviaOfferta(OffertaViewModel viewModel)
@@ -249,15 +190,18 @@ namespace GratisForGratis.Controllers
                                 o.STATO == (int)StatoOfferta.ACCETTATA_ATTESO_PAGAMENTO)).SingleOrDefault();
 
                         OffertaModel offertaModel = new OffertaModel(offerta);
-                        Models.Enumerators.VerificaOfferta verifica = offertaModel.CheckOfferta(utente, offerta);
+                        Models.Enumerators.VerificaOfferta verifica = offertaModel.CheckAccettaOfferta(utente, offerta);
+                        // se bisogna pagare la spedizione reindirizzo su paypal
                         if (verifica == Models.Enumerators.VerificaOfferta.VerificaCartaDiCredito)
                         {
-                            offertaModel.OffertaOriginale.STATO = (int)StatoOfferta.ACCETTATA_ATTESO_PAGAMENTO;
-                            offertaModel.OffertaOriginale.SESSIONE_COMPRATORE = HttpContext.Session.SessionID + "§" + Guid.NewGuid().ToString();
-                            db.OFFERTA.Attach(offertaModel.OffertaOriginale);
-                            db.Entry(offertaModel.OffertaOriginale).State = EntityState.Modified;
+                            // prima setto la sessione per il pagamento
+                            offerta.STATO = (int)StatoOfferta.ACCETTATA_ATTESO_PAGAMENTO;
+                            offerta.SESSIONE_COMPRATORE = HttpContext.Session.SessionID + "§" + Guid.NewGuid().ToString();
+                            db.OFFERTA.Attach(offerta);
+                            db.Entry(offerta).State = EntityState.Modified;
                             if (db.SaveChanges() > 0)
                             {
+                                // metto l'annuncio dell'offerta come baratto in corso
                                 offertaModel.ANNUNCIO.STATO = (int)StatoVendita.BARATTOINCORSO;
                                 db.ANNUNCIO.Attach(offertaModel.ANNUNCIO);
                                 db.Entry(offertaModel.ANNUNCIO).State = EntityState.Modified;
@@ -266,14 +210,13 @@ namespace GratisForGratis.Controllers
                                     transazioneDb.Commit();
                                     //Session["PayPalCompra"] = viewModel;
                                     Session["PayPalOfferta"] = new OffertaModel(offertaModel.OffertaOriginale);
-                                    return RedirectToAction("Payment", "PayPal", new { Token = token, Azione = AzionePayPal.Offerta });
+                                    return RedirectToAction("Payment", "PayPal", new { Id = offerta.ID, Token = token, Azione = AzionePayPal.Offerta });
                                 }
                             }
                         }
                         else if (verifica == Models.Enumerators.VerificaOfferta.Ok)
                         {
-                            if (offertaModel.Accetta(db, offerta.PERSONA, offerta.PERSONA.CONTO_CORRENTE.CONTO_CORRENTE_CREDITO.ToList(), 
-                                ref messaggio))
+                            if (offertaModel.Accetta(db, utente.Persona, ref messaggio))
                             {
                                 // se offerta dev'essere pagata, invio notifica e reindirizzo a pagina pagamento
                                 // se venditore annulla pagamento, potrà sempre pagare più avanti, sennò feedback negativo e annullo transazioni
@@ -301,7 +244,42 @@ namespace GratisForGratis.Controllers
                 }
             }
 
-            ViewBag.Message = Language.ErrorAcceptBid;
+            TempData["MESSAGGIO"] = Language.ErrorAcceptBid;
+            return Redirect(System.Web.HttpContext.Current.Request.UrlReferrer.ToString());
+        }
+
+        [HttpPost]
+        public ActionResult CompletaOfferta(string token)
+        {
+            int idOfferta = Utils.DecodeToInt(token);
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                db.Database.Connection.Open();
+                PersonaModel compratore = ((PersonaModel)System.Web.HttpContext.Current.Session["utente"]);
+                // verifico: 
+                // se è stata accettata l'offerta 
+                // se l'offerta è stata fatta dall'utente in sessione
+                // se l'annuncio sta aspettando il pagamento
+                OFFERTA offerta = db.OFFERTA.Include(m => m.PERSONA)
+                            .Where(o => o.ID == idOfferta && o.ID_PERSONA == compratore.Persona.ID
+                            && (o.STATO == (int)StatoOfferta.ACCETTATA) 
+                            && o.ANNUNCIO.STATO == (int)StatoVendita.BARATTOINCORSO).SingleOrDefault();
+
+                if (offerta!=null)
+                {
+                    offerta.ANNUNCIO.DATA_MODIFICA = DateTime.Now;
+                    offerta.ANNUNCIO.STATO = (int)StatoVendita.SOSPESOPEROFFERTA;
+                    offerta.ANNUNCIO.SESSIONE_COMPRATORE = Session.SessionID + "§" + Guid.NewGuid().ToString();
+                    db.ANNUNCIO.Attach(offerta.ANNUNCIO);
+                    db.Entry(offerta.ANNUNCIO).State = EntityState.Modified;
+                    if (db.SaveChanges() <= 0)
+                    {
+                        Session["PayPalOfferta"] = new OffertaModel(offerta);
+                        return RedirectToAction("Payment", "PayPal", new { Id = offerta.ID, Token = token, Azione = AzionePayPal.OffertaOK });
+                    }
+                }
+            }
+            ViewBag.Message = ErrorResource.BidComplete;
             return Redirect(System.Web.HttpContext.Current.Request.UrlReferrer.ToString());
         }
 
@@ -577,21 +555,23 @@ namespace GratisForGratis.Controllers
         private bool annullaVenditaSuDatabase(DatabaseContext db, string token)
         {
             Guid tokenDecriptato = getTokenDecodificato(token);
-            int idUtente = (Session["utente"] as PersonaModel).Persona.ID;
-            ANNUNCIO model = db.ANNUNCIO.Where(v => v.TOKEN == tokenDecriptato && v.ID_PERSONA == idUtente && v.STATO != (int)StatoVendita.BARATTATO
-                && v.STATO != (int)StatoVendita.ELIMINATO && v.STATO != (int)StatoVendita.VENDUTO).SingleOrDefault();
-            if (model != null)
-            {
-                model.STATO = (int)StatoVendita.ELIMINATO;
-                model.DATA_MODIFICA = DateTime.Now;
-                if (db.SaveChanges() > 0)
-                {
-                    OffertaModel.AnnullaOfferteEffettuate(db, model.ID);
-                    OffertaModel.AnnullaOfferteRicevute(db, model.ID);
-                    return true;
-                }
-            }
-            return false;
+            AnnuncioModel model = new AnnuncioModel(tokenDecriptato, db);
+            return model.Elimina(db);
+            //int idUtente = (Session["utente"] as PersonaModel).Persona.ID;
+            //ANNUNCIO model = db.ANNUNCIO.Where(v => v.TOKEN == tokenDecriptato && v.ID_PERSONA == idUtente && v.STATO != (int)StatoVendita.BARATTATO
+            //    && v.STATO != (int)StatoVendita.ELIMINATO && v.STATO != (int)StatoVendita.VENDUTO).SingleOrDefault();
+            //if (model != null)
+            //{
+            //    model.STATO = (int)StatoVendita.ELIMINATO;
+            //    model.DATA_MODIFICA = DateTime.Now;
+            //    if (db.SaveChanges() > 0)
+            //    {
+            //        OffertaModel.AnnullaOfferteEffettuate(db, model.ID);
+            //        OffertaModel.AnnullaOfferteRicevute(db, model.ID);
+            //        return true;
+            //    }
+            //}
+            //return false;
         }
 
         private Guid getTokenDecodificato(string token)

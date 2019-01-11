@@ -55,6 +55,42 @@ namespace GratisForGratis.Models
             this.SetValoriBase();
         }
 
+        public PersonaModel(DatabaseContext db, int idPersona)
+        {
+            this.Persona = db.PERSONA
+                .Include("ABBONAMENTO")
+                .Include("PERSONA_PRIVACY")
+                .Include("PERSONA_EMAIL")
+                .Include("PERSONA_TELEFONO")
+                .Include("PERSONA_METODO_PAGAMENTO")
+                .Include("PERSONA_INDIRIZZO")
+                .Include("PERSONA_FOTO")
+                .Include("PERSONA_ATTIVITA")
+                .SingleOrDefault(m => m.ID == idPersona);
+            this.SetValoriBase();
+            
+            this.Email = this.Persona.PERSONA_EMAIL.Where(m => m.ID_PERSONA == idPersona).ToList();
+            this.Telefono = this.Persona.PERSONA_TELEFONO.Where(m => m.ID_PERSONA == idPersona).ToList();
+            this.MetodoPagamento = this.Persona.PERSONA_METODO_PAGAMENTO.Where(m => m.ID_PERSONA == idPersona).ToList();
+            this.Indirizzo = db.PERSONA_INDIRIZZO
+                .Include("INDIRIZZO")
+                .Include("INDIRIZZO.COMUNE")
+                .Include("PERSONA_INDIRIZZO_SPEDIZIONE")
+                .Where(m => m.ID_PERSONA == idPersona)
+                .ToList();
+            this.Foto = this.Persona.PERSONA_FOTO.Where(m => m.ID_PERSONA == idPersona).OrderByDescending(m => m.ORDINE)
+                .AsEnumerable().Select(m => new FotoModel(m.ALLEGATO)).ToList();
+            this.Persona.PERSONA_ATTIVITA.Where(m => m.ID_PERSONA == idPersona).ToList().ForEach(m => {
+                this.Attivita.Add(new AttivitaModel(m));
+            });
+            this.Credito = db.CONTO_CORRENTE_CREDITO.Where(m => m.ID_CONTO_CORRENTE == this.Persona.ID_CONTO_CORRENTE).ToList();
+            this.NomeVisibile = (string.IsNullOrWhiteSpace(this.Persona.NOME + this.Persona.COGNOME) ? this.Email
+                .Where(m => m.TIPO == (int)TipoEmail.Registrazione).SingleOrDefault().EMAIL : string.Concat(this.Persona.NOME, " ", this.Persona.COGNOME));
+            this.NumeroMessaggiDaLeggere = db.CHAT.Count(m => m.ID_DESTINATARIO == idPersona && m.STATO == (int)StatoChat.INVIATO);
+            this.NumeroNotificheDaLeggere = db.NOTIFICA.Count(m => m.ID_PERSONA_DESTINATARIO == idPersona && m.STATO == (int)StatoNotifica.ATTIVA);
+            
+        }
+
         public PersonaModel(PERSONA model)
         {
             this.Persona = model;
@@ -156,10 +192,12 @@ namespace GratisForGratis.Models
 
         public void SetIndirizzo(DatabaseContext db, int? comune, string indirizzo, int? civico, int tipoIndirizzo)
         {
-            PERSONA_INDIRIZZO model = this.Indirizzo.SingleOrDefault(m => m.TIPO == tipoIndirizzo);
+            PERSONA_INDIRIZZO model = this.Indirizzo.SingleOrDefault(m => m.TIPO == tipoIndirizzo
+                && m.STATO == (int)Stato.ATTIVO);
             bool modificato = false;
             if (model == null)
             {
+                // se l'utente non aveva un indirizzo e ne ha inserito uno
                 if (!string.IsNullOrWhiteSpace(indirizzo))
                 {
                     model = new PERSONA_INDIRIZZO();
@@ -170,6 +208,7 @@ namespace GratisForGratis.Models
                     model.INDIRIZZO = db.INDIRIZZO.Include("Comune").SingleOrDefault(m => m.INDIRIZZO1 == indirizzo && m.ID_COMUNE == comune && m.CIVICO == civico);
                     if (model.INDIRIZZO == null)
                     {
+                        // se l'indirizzo inserito non è stato trovato a db
                         model.INDIRIZZO = new INDIRIZZO();
                         model.INDIRIZZO.DATA_INSERIMENTO = DateTime.Now;
                         model.INDIRIZZO.STATO = (int)Stato.ATTIVO;
@@ -178,6 +217,7 @@ namespace GratisForGratis.Models
                         model.INDIRIZZO.CIVICO = (int)civico;
                         db.INDIRIZZO.Add(model.INDIRIZZO);
                     }
+                    // aggiungo l'indirizzo all'utente
                     model.ID_INDIRIZZO = model.INDIRIZZO.ID;
                     db.PERSONA_INDIRIZZO.Add(model);
                     this.Indirizzo.Add(model);
@@ -186,26 +226,35 @@ namespace GratisForGratis.Models
             }
             else if (model.INDIRIZZO != null && model.INDIRIZZO.ID_COMUNE != comune || model.INDIRIZZO.INDIRIZZO1 != indirizzo || model.INDIRIZZO.CIVICO != civico)
             {
-                if (string.IsNullOrWhiteSpace(indirizzo))
+                // se l'utente aveva un indirizzo ed è stato modificato o cancellato
+                db.Entry(model).State = EntityState.Deleted;
+                this.Indirizzo.Remove(model);
+                db.PERSONA_INDIRIZZO.Remove(model);
+                
+                if (!string.IsNullOrWhiteSpace(indirizzo))
                 {
-                    db.Entry(model).State = EntityState.Deleted;
-                    this.Indirizzo.Remove(model);
-                }
-                else
-                {
-                    model.INDIRIZZO = db.INDIRIZZO.Include("Comune").SingleOrDefault(m => m.INDIRIZZO1 == indirizzo && m.ID_COMUNE == comune && m.CIVICO == civico);
-                    if (model.INDIRIZZO == null)
+                    PERSONA_INDIRIZZO nuovoIndirizzo = new PERSONA_INDIRIZZO();
+                    nuovoIndirizzo.ID_PERSONA = model.ID_PERSONA;
+                    nuovoIndirizzo.ORDINE = model.ORDINE;
+                    nuovoIndirizzo.TIPO = model.TIPO;
+                    nuovoIndirizzo.DATA_INSERIMENTO = DateTime.Now;
+                    nuovoIndirizzo.STATO = (int)Stato.ATTIVO;
+                    // se l'indirizzo è stato modificato allora associo il nuovo
+                    nuovoIndirizzo.INDIRIZZO = db.INDIRIZZO.Include("Comune").SingleOrDefault(m => m.INDIRIZZO1 == indirizzo && m.ID_COMUNE == comune && m.CIVICO == civico);
+                    if (nuovoIndirizzo.INDIRIZZO == null)
                     {
-                        model.INDIRIZZO = new INDIRIZZO();
-                        model.INDIRIZZO.DATA_INSERIMENTO = DateTime.Now;
-                        model.INDIRIZZO.STATO = (int)Stato.ATTIVO;
-                        model.INDIRIZZO.ID_COMUNE = (int)comune;
-                        model.INDIRIZZO.INDIRIZZO1 = indirizzo;
-                        model.INDIRIZZO.CIVICO = (int)civico;
-                        db.INDIRIZZO.Add(model.INDIRIZZO);
+                        // se non trovo l'indirizzo nuovo su db lo inserisco
+                        nuovoIndirizzo.INDIRIZZO = new INDIRIZZO();
+                        nuovoIndirizzo.INDIRIZZO.DATA_INSERIMENTO = DateTime.Now;
+                        nuovoIndirizzo.INDIRIZZO.STATO = (int)Stato.ATTIVO;
+                        nuovoIndirizzo.INDIRIZZO.ID_COMUNE = (int)comune;
+                        nuovoIndirizzo.INDIRIZZO.INDIRIZZO1 = indirizzo;
+                        nuovoIndirizzo.INDIRIZZO.CIVICO = (int)civico;
+                        db.INDIRIZZO.Add(nuovoIndirizzo.INDIRIZZO);
+                        db.SaveChanges();
                     }
-                    model.ID_INDIRIZZO = model.INDIRIZZO.ID;
-                    db.Entry(model).State = EntityState.Modified;
+                    nuovoIndirizzo.ID_INDIRIZZO = nuovoIndirizzo.INDIRIZZO.ID;
+                    db.PERSONA_INDIRIZZO.Add(nuovoIndirizzo);
                 }
                 modificato = db.SaveChanges() > 0;
             }
@@ -241,39 +290,11 @@ namespace GratisForGratis.Models
                 model.STATO = (int)StatoPagamento.ACCETTATO;
                 db.TRANSAZIONE.Add(model);
                 db.SaveChanges();
-
-                CONTO_CORRENTE_CREDITO creditoRimasto = new CONTO_CORRENTE_CREDITO();
-                creditoRimasto.ID_CONTO_CORRENTE = this.Persona.ID_CONTO_CORRENTE;
-                creditoRimasto.ID_TRANSAZIONE_ENTRATA = model.ID;
-                creditoRimasto.PUNTI = (decimal)model.PUNTI;
-                creditoRimasto.SOLDI = Controllers.Utils.cambioValuta(creditoRimasto.PUNTI);
-                creditoRimasto.GIORNI_SCADENZA = Convert.ToInt32(ConfigurationManager.AppSettings["GiorniScadenzaCredito"]);
-                creditoRimasto.DATA_SCADENZA = DateTime.Now.AddDays(creditoRimasto.GIORNI_SCADENZA);
-                creditoRimasto.DATA_INSERIMENTO = DateTime.Now;
-                creditoRimasto.STATO = (int)StatoCredito.ASSEGNATO;
-                db.CONTO_CORRENTE_CREDITO.Add(creditoRimasto);
-                db.SaveChanges();
-                // genero la moneta ogni volta che offro un bonus, in modo da mantenere la concorrenza dei dati
-                /*
-                for (int i = 0; i < valorePromo; i++)
+                if (model.PUNTI != null && model.PUNTI > 0)
                 {
-                    MONETA moneta = db.MONETA.Create();
-                    moneta.VALORE = 1;
-                    moneta.TOKEN = Guid.NewGuid();
-                    moneta.DATA_INSERIMENTO = DateTime.Now;
-                    moneta.STATO = (int)Stato.ATTIVO;
-                    db.MONETA.Add(moneta);
-                    db.SaveChanges();
-                    CONTO_CORRENTE_MONETA conto = new CONTO_CORRENTE_MONETA();
-                    conto.ID_CONTO_CORRENTE = this.Persona.ID_CONTO_CORRENTE;
-                    conto.ID_MONETA = moneta.ID;
-                    conto.ID_TRANSAZIONE = model.ID;
-                    conto.DATA_INSERIMENTO = DateTime.Now;
-                    conto.STATO = (int)StatoMoneta.ASSEGNATA;
-                    db.CONTO_CORRENTE_MONETA.Add(conto);
-                    db.SaveChanges();
+                    ContoCorrenteCreditoModel credito = new ContoCorrenteCreditoModel(db, this.Persona.ID_CONTO_CORRENTE);
+                    credito.Earn(model.ID, (decimal)model.PUNTI);
                 }
-                */
                 return true;
             }
             return false;

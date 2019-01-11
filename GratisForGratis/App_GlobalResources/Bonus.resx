@@ -126,6 +126,9 @@
   <data name="FullAnnouncement" xml:space="preserve">
     <value>Annuncio completo</value>
   </data>
+  <data name="FullAnnouncementCancel" xml:space="preserve">
+    <value>Eliminazione annuncio completo</value>
+  </data>
   <data name="InitialPubblication" xml:space="preserve">
     <value>Prime pubblicazioni</value>
   </data>

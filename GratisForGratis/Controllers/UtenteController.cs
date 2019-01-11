@@ -110,72 +110,7 @@ namespace GratisForGratis.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         // recupera login di portaleweb
-        public ActionResult Login(UtenteLoginViewModel viewModel)
-        {
-            ViewBag.Title = Language.TitleAccess;
-            ViewBag.ReturnUrl = viewModel.ReturnUrl;
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    if ((Session["pagamento"] == null ? false : (new PagamentoViewModel((PagamentoAbstractModel)Session["pagamento"])).EmailReceivent.Equals(viewModel.Email)))
-                    {
-                        // non puoi accedere con la stessa mail a cui devi effetturare il pagamento
-                        ModelState.AddModelError("Error", string.Concat(Language.ErrorPaymentLogin + viewModel.Email));
-                    }
-                    else
-                    {
-                        // ricerca e validazione utente
-                        PBKDF2 crypto = new PBKDF2();
-                        using (DatabaseContext db = new DatabaseContext())
-                        {
-                            PERSONA_EMAIL model = db.PERSONA_EMAIL.SingleOrDefault(
-                                    item =>
-                                    item.EMAIL == viewModel.Email
-                                    && item.TIPO == (int)TipoEmail.Registrazione && item.PERSONA.STATO == (int)Stato.ATTIVO);
-                            if (model == null)
-                            {
-                                ModelState.AddModelError("Error", Language.EmailNotExist);
-                            }
-                            else if (!model.PERSONA.PASSWORD.Equals(crypto.Compute(viewModel.Password, model.PERSONA.TOKEN_PASSWORD)))
-                            {
-                                ModelState.AddModelError("Error", Language.ErrorPassword);
-                            }
-                            else
-                            {
-                                setSessioneUtente(base.Session, db, model.ID_PERSONA, viewModel.RicordaLogin);
-
-                                // sistemare il return, perchè va in conflitto con il allowonlyanonymous
-                                return Redirect((string.IsNullOrWhiteSpace(viewModel.ReturnUrl)) ? FormsAuthentication.DefaultUrl : viewModel.ReturnUrl);
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
-                    ModelState.AddModelError("Error", ex.Message);
-                }
-            }
-            return View(viewModel);
-        }
-
-        [AllowAnonymous]
-        [OnlyAnonymous]
-        [HttpGet]
-        public ActionResult LoginVeloce(string ReturnUrl)
-        {
-            ViewBag.Title = Language.TitleAccess;
-            ViewBag.ReturnUrl = ReturnUrl;
-            return View();
-        }
-
-        [AllowAnonymous]
-        [OnlyAnonymous]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        // recupera login di portaleweb
-        public ActionResult LoginVeloce(UtenteLoginVeloceViewModel viewModel)
+        public ActionResult Login(UtenteLoginVeloceViewModel viewModel)
         {
             ViewBag.Title = Language.TitleAccess;
             ViewBag.ReturnUrl = viewModel.ReturnUrl;
@@ -250,9 +185,9 @@ namespace GratisForGratis.Controllers
         }
 
         [AllowAnonymous]
-        //[OnlyAnonymous]
+        [OnlyAnonymous]
         [HttpGet]
-        public ActionResult LoginFacebook()
+        public ActionResult LoginFacebook(string ReturnUrl)
         {
             var fb = new FacebookClient();
             var loginUrl = fb.GetLoginUrl(new
@@ -267,7 +202,7 @@ namespace GratisForGratis.Controllers
         }
 
         [AllowAnonymous]
-        //[OnlyAnonymous]
+        [OnlyAnonymous]
         public ActionResult FacebookCallback(string code)
         {
             try
@@ -320,12 +255,13 @@ namespace GratisForGratis.Controllers
                     this.setSessioneUtente(base.Session, db, id, false);
                 }
                 //dynamic result2 = app.Post("/" + ConfigurationManager.AppSettings["FanPageID"] + "/feed", new Dictionary<string, object> { { "message", "This Post was made from my website" } });
-                return Redirect((string.IsNullOrWhiteSpace(RedirectUri.AbsoluteUri)) ? FormsAuthentication.DefaultUrl : RedirectUri.AbsoluteUri);
+                //return Redirect((string.IsNullOrWhiteSpace(RedirectUri.AbsoluteUri)) ? FormsAuthentication.DefaultUrl : RedirectUri.AbsoluteUri);
+                return RedirectToAction("Index");
             }
             catch (FacebookOAuthException eccezione)
             {
                 TempData["eccezione"] = eccezione;
-                return Redirect("LoginVeloce");
+                return Redirect("Login");
             }
         }
         #endregion
@@ -368,43 +304,7 @@ namespace GratisForGratis.Controllers
         {
             PersonaModel utente = base.Session["utente"] as PersonaModel;
             UtenteImpostazioniViewModel model = new UtenteImpostazioniViewModel();
-            //using (DatabaseContext db = new DatabaseContext())
-            //{
-            //    db.Database.Connection.Open();
-            //    utente.Persona = db.PERSONA.FirstOrDefault(u => u.ID == utente.Persona.ID);
-                model.Email = utente.Email.SingleOrDefault(item => 
-                                    item.ID_PERSONA == utente.Persona.ID && item.TIPO == (int)TipoEmail.Registrazione)
-                                    .EMAIL;
-                model.Nome = utente.Persona.NOME;
-                model.Cognome = utente.Persona.COGNOME;
-                PERSONA_TELEFONO modelTelefono = utente.Telefono.SingleOrDefault(item =>
-                    item.ID_PERSONA == utente.Persona.ID && item.TIPO == (int)TipoTelefono.Privato);
-                if (modelTelefono != null)
-                    model.Telefono = modelTelefono.TELEFONO;
-                PERSONA_INDIRIZZO modelIndirizzo = utente.Indirizzo.SingleOrDefault(item =>
-                    item.ID_PERSONA == utente.Persona.ID && item.TIPO == (int)TipoIndirizzo.Residenza);
-
-                if (modelIndirizzo != null && modelIndirizzo.INDIRIZZO != null)
-                {
-                    model.Citta = modelIndirizzo.INDIRIZZO.COMUNE.NOME;
-                    model.IDCitta = modelIndirizzo.INDIRIZZO.ID_COMUNE;
-                    model.Indirizzo = modelIndirizzo.INDIRIZZO.INDIRIZZO1;
-                    model.Civico = modelIndirizzo.INDIRIZZO.CIVICO;
-                }
-                // caricamento indirizzo di spedizione
-                PERSONA_INDIRIZZO modelIndirizzoSpedizione = utente.Indirizzo.SingleOrDefault(item =>
-                    item.ID_PERSONA == utente.Persona.ID && item.TIPO == (int)TipoIndirizzo.Spedizione);
-
-                if (modelIndirizzoSpedizione != null && modelIndirizzoSpedizione.INDIRIZZO != null)
-                {
-                    model.CittaSpedizione = modelIndirizzoSpedizione.INDIRIZZO.COMUNE.NOME;
-                    model.IDCittaSpedizione = modelIndirizzoSpedizione.INDIRIZZO.ID_COMUNE;
-                    model.IndirizzoSpedizione = modelIndirizzoSpedizione.INDIRIZZO.INDIRIZZO1;
-                    model.CivicoSpedizione = modelIndirizzoSpedizione.INDIRIZZO.CIVICO;
-                }
-
-            model.HasLoginFacebook = utente.Persona.FACEBOOK_TOKEN_PERMANENTE != null;
-            //}
+            model.Load(utente);
             return base.View(model);
         }
 
@@ -419,9 +319,9 @@ namespace GratisForGratis.Controllers
                     db.Database.Connection.Open();
                     using (DbContextTransaction transazione = db.Database.BeginTransaction())
                     {
+                        PersonaModel utente = base.Session["utente"] as PersonaModel;
                         try
                         {
-                            PersonaModel utente = base.Session["utente"] as PersonaModel;
                             utente.SetEmail(db, model.Email);
                             utente.SetTelefono(db, model.Telefono);
                             utente.SetIndirizzo(db, model.IDCitta, model.Indirizzo, model.Civico, (int)TipoIndirizzo.Residenza);
@@ -469,15 +369,15 @@ namespace GratisForGratis.Controllers
                                     db.Entry(m).State = EntityState.Modified;
                                     if (db.SaveChanges() <= 0)
                                     {
-                                    // non blocco l'attivazione dell'account, abiliterà gli annunci manualmente
-                                    Exception eccezione = new Exception(Language.ImpostazioniErroreAttivaAnnunci);
+                                        // non blocco l'attivazione dell'account, abiliterà gli annunci manualmente
+                                        Exception eccezione = new Exception(Language.ImpostazioniErroreAttivaAnnunci);
                                         ModelState.AddModelError("", eccezione.Message);
                                         Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
                                     }
                                 });
                             }
                             transazione.Commit();
-                            base.Session["utente"] = utente;
+                            //base.Session["utente"] = utente;
                             base.TempData["salvato"] = true;
                         }
                         catch (Exception eccezione)
@@ -485,6 +385,13 @@ namespace GratisForGratis.Controllers
                             transazione.Rollback();
                             ModelState.AddModelError("", eccezione.Message);
                             Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                        }
+                        finally
+                        {
+                            this.RefreshUtente(db);
+                            utente = base.Session["utente"] as PersonaModel;
+                            model.HasLoginFacebook = utente.Persona.FACEBOOK_TOKEN_PERMANENTE != null;
+                            model.Load(utente);
                         }
                     }
                 }

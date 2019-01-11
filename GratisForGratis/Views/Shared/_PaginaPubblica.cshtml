@@ -76,9 +76,6 @@
                 <li role="presentation" class="register">
                     @Html.ActionLink(Language.Register, "Registrazione", "Utente")
                 </li>
-                <li role="presentation" class="reporting">
-                    <a id="reportingMobile" href="javascript:void(0);">@Language.Reporting</a>
-                </li>
                 <li role="presentation" class="whatido">
                     @Html.ActionLink(Language.TitleHowWork, "ComeFunziona", "Home")
                 </li>
@@ -100,9 +97,9 @@
             <li role="presentation" class="register">
                 @Html.ActionLink(Language.Register, "Registrazione", "Utente")
             </li>
-            <!--<li role="presentation" class="register loginFacebook">
+            <li role="presentation" class="register loginFacebook">
                 @Html.ActionLink(Language.Login + " Facebook", "LoginFacebook", "Utente")
-            </li>-->
+            </li>
         </ul>
         <header>
             <a id="logo" class="brand" href='@Url.Action("Index", "Home")'>
@@ -111,9 +108,6 @@
             </a>
             <menu>
                 <ul class="nav-pills">
-                    <li role="presentation" class="reporting">
-                        <a id="reporting" href="javascript:void(0);">@Language.Reporting</a>
-                    </li>
                     <li role="presentation" class="whatido">
                         @Html.ActionLink(Language.TitleHowWork, "ComeFunziona", "Home")
                     </li>

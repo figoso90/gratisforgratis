@@ -22,7 +22,7 @@
             @Html.ActionLink(Language.GoToFeedback, "", "Feedback", new { acquisto = @HttpUtility.UrlEncode(Model.Token) }, new { @class = "link btn" })
         </div>
     }
-    else if (Model.StatoOfferta == StatoOfferta.ACCETTATA && (Model.Annuncio.StatoVendita == StatoVendita.SOSPESO || Model.Annuncio.StatoVendita == StatoVendita.BARATTOINCORSO))
+    else if (Model.StatoOfferta == StatoOfferta.ACCETTATA && (Model.Annuncio.StatoVendita == StatoVendita.SOSPESO || Model.Annuncio.StatoVendita == StatoVendita.BARATTOINCORSO || Model.Annuncio.StatoVendita == StatoVendita.SOSPESOPEROFFERTA))
     {
         <strong class="stateText">@Model.StatoOfferta</strong>
         <div class="cella payment">

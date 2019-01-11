@@ -223,6 +223,7 @@ namespace GratisForGratis.Controllers
 
         #region SERVIZI
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Filters.ValidateAjax]

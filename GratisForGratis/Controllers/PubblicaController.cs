@@ -497,7 +497,7 @@ namespace GratisForGratis.Controllers
         public JsonResult GetPrezzoSpedizione(int servizioSpedizione, decimal altezza, decimal larghezza, decimal lunghezza)
         {
             PrezzoSpedizioneViewModel prezzoViewModel = new PrezzoSpedizioneViewModel();
-            prezzoViewModel.Prezzo = Convert.ToInt32(ConfigurationManager.AppSettings["spedizionePrezzoMax"]);
+            prezzoViewModel.Prezzo = Convert.ToDecimal(ConfigurationManager.AppSettings["spedizionePrezzoMax"]).ToString("C");
             prezzoViewModel.Visibile = true;
             decimal pesoVolumetrico = 0;
             // calcolo peso volumetrico! (lunghezza x altezza x larghezza) / 5000
@@ -510,7 +510,7 @@ namespace GratisForGratis.Controllers
                 // settaggio prezzo servizio
                 if (prezzoStimato != null)
                 {
-                    prezzoViewModel.Prezzo = prezzoStimato.PREZZO_STIMATO;
+                    prezzoViewModel.Prezzo = prezzoStimato.PREZZO_STIMATO.ToString("F");
                     prezzoViewModel.Visibile = true;
                 }
             }

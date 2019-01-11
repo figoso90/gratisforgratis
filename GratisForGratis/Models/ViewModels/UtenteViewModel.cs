@@ -216,6 +216,7 @@ namespace GratisForGratis.Models
 
     public class UtenteImpostazioniViewModel
     {
+        #region PROPRIETA
         [Required]
         [DataType(DataType.EmailAddress, ErrorMessageResourceName = "ErrorFormatEmail", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
         [StringLength(200, ErrorMessageResourceName =  "ErrorLengthEmail", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
@@ -281,6 +282,47 @@ namespace GratisForGratis.Models
         public string ImmagineProfilo { get; set; }
 
         public bool HasLoginFacebook { get; set; }
+        #endregion
+
+        #region METODI PUBBLICI
+        public void Load(PersonaModel utente)
+        {
+            this.Email = utente.Email.SingleOrDefault(item =>
+                                    item.ID_PERSONA == utente.Persona.ID && item.TIPO == (int)TipoEmail.Registrazione)
+                                    .EMAIL;
+            this.Nome = utente.Persona.NOME;
+            this.Cognome = utente.Persona.COGNOME;
+            PERSONA_TELEFONO modelTelefono = utente.Telefono.SingleOrDefault(item =>
+                item.ID_PERSONA == utente.Persona.ID && item.TIPO == (int)TipoTelefono.Privato);
+            if (modelTelefono != null)
+                this.Telefono = modelTelefono.TELEFONO;
+            PERSONA_INDIRIZZO modelIndirizzo = utente.Indirizzo.SingleOrDefault(item =>
+                item.ID_PERSONA == utente.Persona.ID && item.TIPO == (int)TipoIndirizzo.Residenza
+                && item.STATO == (int)Stato.ATTIVO);
+
+            if (modelIndirizzo != null && modelIndirizzo.INDIRIZZO != null)
+            {
+                this.Citta = modelIndirizzo.INDIRIZZO.COMUNE.NOME;
+                this.IDCitta = modelIndirizzo.INDIRIZZO.ID_COMUNE;
+                this.Indirizzo = modelIndirizzo.INDIRIZZO.INDIRIZZO1;
+                this.Civico = modelIndirizzo.INDIRIZZO.CIVICO;
+            }
+            // caricamento indirizzo di spedizione
+            PERSONA_INDIRIZZO modelIndirizzoSpedizione = utente.Indirizzo.SingleOrDefault(item =>
+                item.ID_PERSONA == utente.Persona.ID && item.TIPO == (int)TipoIndirizzo.Spedizione
+                && item.STATO == (int)Stato.ATTIVO);
+
+            if (modelIndirizzoSpedizione != null && modelIndirizzoSpedizione.INDIRIZZO != null)
+            {
+                this.CittaSpedizione = modelIndirizzoSpedizione.INDIRIZZO.COMUNE.NOME;
+                this.IDCittaSpedizione = modelIndirizzoSpedizione.INDIRIZZO.ID_COMUNE;
+                this.IndirizzoSpedizione = modelIndirizzoSpedizione.INDIRIZZO.INDIRIZZO1;
+                this.CivicoSpedizione = modelIndirizzoSpedizione.INDIRIZZO.CIVICO;
+            }
+
+            this.HasLoginFacebook = utente.Persona.FACEBOOK_TOKEN_PERMANENTE != null;
+        }
+        #endregion
     }
 
     public class UtenteCambioPasswordViewModel

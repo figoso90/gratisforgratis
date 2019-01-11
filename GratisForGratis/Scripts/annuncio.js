@@ -56,7 +56,13 @@
 });
 
 function attivazioneInfoSpedizione(valore) {
-    //alert(valore);
+    //alert($('#CercaAnnuncio').length);
+    if ($('#CercaAnnuncio').length > 0) {
+        $('#previewBarter .barter').each(function () {
+            rimuoviBaratto($(this).data('id'), '#CercaAnnuncio');
+        });
+    }
+
     if (valore == 0) {
         $('.formAnnuncio .shipment').addClass('hide');
     } else {

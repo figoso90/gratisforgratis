@@ -36,7 +36,7 @@ namespace GratisForGratis.Models
         [Display(Name = "StateSellBarter", ResourceType = typeof(App_GlobalResources.Language))]
         BARATTATO = 6, // baratto effettuato
         [Display(Name = "StateSellPauseForBid", ResourceType = typeof(App_GlobalResources.Enum))]
-        SOSPESOPEROFFERTA = 6, // in attesa pagamento per offerta
+        SOSPESOPEROFFERTA = 7, // in attesa pagamento per offerta
     }
 
     public enum StatoOfferta
@@ -52,7 +52,7 @@ namespace GratisForGratis.Models
         [Display(Name = "StateBidAccepted", ResourceType = typeof(App_GlobalResources.Language))]
         ACCETTATA = 4,
         [Display(Name = "StateWaitingPayment", ResourceType = typeof(App_GlobalResources.Enum))]
-        ACCETTATA_ATTESO_PAGAMENTO = 5
+        ACCETTATA_ATTESO_PAGAMENTO = 5 // quando sto eseguendo pagamento paypal per offerta e ho una sessione stabilita
 
 }
     // NON PIù IN USO
@@ -126,7 +126,9 @@ namespace GratisForGratis.Models
         [Display(Name = "StateShipmentLDV", ResourceType = typeof(App_GlobalResources.Enum))]
         LDV = 4,
         [Display(Name = "StateShipmentOK", ResourceType = typeof(App_GlobalResources.Enum))]
-        EFFETTUATA = 5
+        EFFETTUATA = 5,
+        [Display(Name = "StateShipmentPay", ResourceType = typeof(App_GlobalResources.Enum))]
+        PAGATA = 6
     }
 
     public enum StatoChat

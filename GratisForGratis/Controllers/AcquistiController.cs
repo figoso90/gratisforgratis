@@ -66,7 +66,9 @@ namespace GratisForGratis.Controllers
                                 Models.Enumerators.VerificaAcquisto verifica = model.Acquisto(db, viewModel);
                                 if (verifica == Models.Enumerators.VerificaAcquisto.Ok)
                                 {
-                                    if (model.CompletaAcquisto(db, viewModel))
+                                    // PENSO CHE QUESTA ACTION SIA USATA SOLO PER OFFERTA E QUINDI CAMBIO CHIAMATA
+                                    //if (model.CompletaAcquisto(db, viewModel))
+                                    if (model.CompletaAcquistoOfferta(db, offerta))
                                     {
                                         TempData["Esito"] = Language.JsonBuyAd;
                                         TempData["pagamentoEffettuato"] = true;
@@ -84,7 +86,7 @@ namespace GratisForGratis.Controllers
                                     transaction.Commit();
                                     Session["PayPalCompra"] = viewModel;
                                     Session["PayPalAnnuncio"] = model;
-                                    return RedirectToAction(actionPagamento, "PayPal", new { Token = viewModel.Token, Azione = AzionePayPal.Acquisto });
+                                    return RedirectToAction(actionPagamento, "PayPal", new { Id = offerta.ID, Token = viewModel.Token, Azione = AzionePayPal.OffertaOK });
                                 }
                                 else
                                 {

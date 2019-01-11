@@ -277,6 +277,42 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Accedi / Registra.
+        /// </summary>
+        public static string Login {
+            get {
+                return ResourceManager.GetString("Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a FaceBook.
+        /// </summary>
+        public static string LoginFacebook {
+            get {
+                return ResourceManager.GetString("LoginFacebook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Password dimenticata?.
+        /// </summary>
+        public static string LoginPasswordForgot {
+            get {
+                return ResourceManager.GetString("LoginPasswordForgot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Registrazione completa.
+        /// </summary>
+        public static string LoginRegistration {
+            get {
+                return ResourceManager.GetString("LoginRegistration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Mese scadenza.
         /// </summary>
         public static string MounthExpiredCard {
@@ -291,6 +327,33 @@ namespace GratisForGratis.App_GlobalResources {
         public static string NamePaymentCard {
             get {
                 return ResourceManager.GetString("NamePaymentCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Data notifica.
+        /// </summary>
+        public static string NewsInsertDate {
+            get {
+                return ResourceManager.GetString("NewsInsertDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Tipo notifica.
+        /// </summary>
+        public static string NewsName {
+            get {
+                return ResourceManager.GetString("NewsName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Data lettura.
+        /// </summary>
+        public static string NewsReadDate {
+            get {
+                return ResourceManager.GetString("NewsReadDate", resourceCulture);
             }
         }
         

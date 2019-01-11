@@ -1240,20 +1240,24 @@ namespace GratisForGratis.Models
                     spedizione.DATA_INSERIMENTO = DateTime.Now;
                     spedizione.STATO = (int)Stato.SOSPESO;
 
-                    // 25-04-2018 Aggiunto gestione di prezzo fisso in base al tipo di servizio
-                    decimal pesoVolumetrico = 0;
-                    // calcolo peso volumetrico! (lunghezza x altezza x larghezza) / 5000
-                    pesoVolumetrico = (decimal)(this.Lunghezza * this.Altezza * this.Larghezza) / 5000;
-                    var prezzoStimato = db.CORRIERE_SERVIZIO_PREZZO_STIMATO.SingleOrDefault(m => m.ID_CORRIERE_SERVIZIO == spedizione.ID_CORRIERE_SERVIZIO
-                    && (m.PESO_MINIMO <= pesoVolumetrico && (m.PESO_MASSIMO > pesoVolumetrico || m.PESO_MASSIMO == null)) && m.STATO == (int)Stato.ATTIVO);
-                    // settaggio prezzo servizio
-                    if (prezzoStimato != null)
+                    // 25-04-2018 Aggiunto gestione di prezzo fisso in base al tipo di servizio se si sceglie ONLINE!
+                    if (this.TipoSpedizione == (int)Spedizione.Online)
                     {
-                        spedizione.SOLDI = prezzoStimato.PREZZO_STIMATO;
+                        decimal pesoVolumetrico = 0;
+                        // calcolo peso volumetrico! (lunghezza x altezza x larghezza) / 5000
+                        pesoVolumetrico = (decimal)(this.Lunghezza * this.Altezza * this.Larghezza) / 5000;
+                        var prezzoStimato = db.CORRIERE_SERVIZIO_PREZZO_STIMATO.SingleOrDefault(m => m.ID_CORRIERE_SERVIZIO == spedizione.ID_CORRIERE_SERVIZIO
+                        && (m.PESO_MINIMO <= pesoVolumetrico && (m.PESO_MASSIMO > pesoVolumetrico || m.PESO_MASSIMO == null)) && m.STATO == (int)Stato.ATTIVO);
+                        // settaggio prezzo servizio
+                        if (prezzoStimato != null)
+                        {
+                            spedizione.SOLDI = prezzoStimato.PREZZO_STIMATO;
+                        }
                     }
 
                     if (db.CORRIERE_SERVIZIO.Count(m => m.ID == this.ServizioSpedizioneScelto && m.CORRIERE.ID_TIPO_SPEDIZIONE == (int)Spedizione.Online) > 0)
                     {
+                        // gestione SPEDIZIONE ONLINE con TNT o E-MOTION
                         PersonaModel mittente = ((PersonaModel)HttpContext.Current.Session["utente"]);
                         spedizione.GIORNI_DISPONIBILITA_SPEDIZIONE = (GiorniSpedizioneScelti != null && GiorniSpedizioneScelti.Count() > 0) ? string.Join(";", GiorniSpedizioneScelti) : string.Join(";", GiorniSpedizione.Select(m => m.Value));
                         spedizione.ORARI_DISPONIBILITA_SPEDIZIONE = (OrariSpedizioneScelti != null && OrariSpedizioneScelti.Count() > 0) ? string.Join(";", OrariSpedizioneScelti) : string.Join(";", OrariSpedizione.Select(m => m.Value));
@@ -1297,7 +1301,30 @@ namespace GratisForGratis.Models
                         // 25-04-2018 Commentato perchè non abbiamo più e-motion
                         //spedizione.SOLDI = CalcolaPrezzo(annuncio, puntoSpedizione.ID_PUNTO_SPEDIZIONE);
                     }
-                        db.CORRIERE_SERVIZIO_SPEDIZIONE.Add(spedizione);
+                    else
+                    {
+                        // nella gestione privata salvo comunque i dati di spedizione in caso di offerta da fare o ricevere
+                        spedizione.GIORNI_DISPONIBILITA_SPEDIZIONE = (GiorniSpedizioneScelti != null && GiorniSpedizioneScelti.Count() > 0) ? string.Join(";", GiorniSpedizioneScelti) : string.Join(";", GiorniSpedizione.Select(m => m.Value));
+                        spedizione.ORARI_DISPONIBILITA_SPEDIZIONE = (OrariSpedizioneScelti != null && OrariSpedizioneScelti.Count() > 0) ? string.Join(";", OrariSpedizioneScelti) : string.Join(";", OrariSpedizione.Select(m => m.Value));
+                        spedizione.NOMINATIVO_MITTENTE = this.NominativoMittente;
+                        spedizione.TELEFONO_MITTENTE = this.TelefonoMittente;
+                        
+                        INDIRIZZO indirizzo = db.INDIRIZZO.SingleOrDefault(m => m.CIVICO == this.CivicoMittente && m.INDIRIZZO1 == this.IndirizzoMittente && m.ID_COMUNE == this.IDCittaMittente);
+                        if (indirizzo == null)
+                        {
+                            indirizzo = new INDIRIZZO();
+                            indirizzo.ID_COMUNE = (int)this.IDCittaMittente;
+                            indirizzo.INDIRIZZO1 = this.IndirizzoMittente;
+                            indirizzo.CIVICO = (int)this.CivicoMittente;
+                            indirizzo.DATA_INSERIMENTO = DateTime.Now;
+                            indirizzo.STATO = (int)Stato.ATTIVO;
+                            db.INDIRIZZO.Add(indirizzo);
+                            if (db.SaveChanges() <= 0)
+                                return false;
+                        }
+                        spedizione.ID_INDIRIZZO_MITTENTE = indirizzo.ID;
+                    }
+                    db.CORRIERE_SERVIZIO_SPEDIZIONE.Add(spedizione);
                     if (db.SaveChanges() <= 0)
                         return false;
 
@@ -1864,7 +1891,7 @@ namespace GratisForGratis.Models
 
     public class PrezzoSpedizioneViewModel
     {
-        public decimal Prezzo { get; set; }
+        public string Prezzo { get; set; }
 
         public bool Visibile { get; set; }
     }

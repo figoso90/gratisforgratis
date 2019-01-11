@@ -97,14 +97,17 @@ namespace GratisForGratis.Controllers
         // GET: PayPal
         public ActionResult Payment(PayPalIndexViewModel viewModel)
         {
-            //getting the apiContext as earlier
-            APIContext apiContext = Configuration.GetAPIContext();
             string urlCancel = GetUrlCancel(viewModel.Azione, viewModel.Token);
+            int? id = null;
 
-            if ((Session["PayPalCompra"] != null && Session["PayPalAnnuncio"] != null )|| Session["PayPalOfferta"] != null)
+            try
             {
-                try
+                //getting the apiContext as earlier
+                APIContext apiContext = Configuration.GetAPIContext();
+
+                if ((Session["PayPalCompra"] != null && Session["PayPalAnnuncio"] != null) || Session["PayPalOfferta"] != null)
                 {
+                    id = GetIdFromSession();
                     bool enablePagamento = CanPagamento(viewModel.Azione);
                     if (string.IsNullOrEmpty(viewModel.PayerID) && string.IsNullOrWhiteSpace(viewModel.Guid) && enablePagamento)
                     {
@@ -117,10 +120,14 @@ namespace GratisForGratis.Controllers
                         viewModel.Guid = Convert.ToString((new Random()).Next(100000));
                         System.Web.Routing.RouteValueDictionary data = new System.Web.Routing.RouteValueDictionary(viewModel);
                         string url = Url.Action("Payment", "PayPal", data, this.Request.Url.Scheme, this.Request.Url.Host);
-
+                        System.Web.Routing.RouteValueDictionary dataCancelPayPal = new System.Web.Routing.RouteValueDictionary(new {
+                            azione = viewModel.Azione,
+                            id = id
+                        });
+                        string urlCancelPaypal = Url.Action("CancelPayment", "PayPal", dataCancelPayPal, this.Request.Url.Scheme, this.Request.Url.Host);
                         //CreatePayment function gives us the payment approval url
                         //on which payer is redirected for paypal account payment
-                        var createdPayment = this.CreatePayment(apiContext, url, urlCancel, GetListTransaction(viewModel.Azione, viewModel.Guid));
+                        var createdPayment = this.CreatePayment(apiContext, url, urlCancelPaypal, GetListTransaction(viewModel.Azione, viewModel.Guid));
 
                         //get links returned from paypal in response to Create function call
 
@@ -144,7 +151,7 @@ namespace GratisForGratis.Controllers
 
                         return Redirect(paypalRedirectUrl);
                     }
-                    else if(!string.IsNullOrEmpty(viewModel.PayerID) || !string.IsNullOrWhiteSpace(viewModel.Guid))
+                    else if (!string.IsNullOrEmpty(viewModel.PayerID) || !string.IsNullOrWhiteSpace(viewModel.Guid))
                     {
                         // This section is executed when we have received all the payments parameters
 
@@ -172,173 +179,72 @@ namespace GratisForGratis.Controllers
                         }
                     }
                 }
-                catch (Exception ex)
+                else
                 {
-                    //Logger.log("Error" + ex.Message);
-                    // redirect errore nell'acquisto
-                    TempData["errore"] = "Errore grave durante l'acquisto";
+                    TempData["errore"] = "Sessione pagamento scaduta!";
                 }
-                // mettere qui l'annullo dell'acquisto in modo da tornare indietro
-                AnnullaPagamento(viewModel.Azione);
             }
-            else
+            catch (Exception ex)
             {
-                TempData["errore"] = "Sessione pagamento scaduta!";
+                //Logger.log("Error" + ex.Message);
+                // redirect errore nell'acquisto
+                TempData["errore"] = "Errore grave durante l'acquisto";
             }
+            // mettere qui l'annullo dell'acquisto in modo da tornare indietro
+            if (id != null)
+            {
+                AnnullaPagamento(viewModel.Azione, (int)id);
+            }
+            
             return Redirect(urlCancel);
         }
-        
-        public ActionResult PaymentWithCreditCard(PayPalIndexViewModel viewModel)
+
+        public ActionResult CancelPayment(AzionePayPal azione, int id)
         {
-            //////create and item for which you are taking payment
-            //////if you need to add more items in the list
-            //////Then you will need to create multiple item objects or use some loop to instantiate object
-            ////Item item = new Item();
-            ////item.name = "Demo Item";
-            ////item.currency = "USD";
-            ////item.price = "5";
-            ////item.quantity = "1";
-            ////item.sku = "sku";
-
-            //////Now make a List of Item and add the above item to it
-            //////you can create as many items as you want and add to this list
-            ////List<Item> itms = new List<Item>();
-            ////itms.Add(item);
-            ////ItemList itemList = new ItemList();
-            ////itemList.items = itms;
-
-            //////Address for the payment
-            ////Address billingAddress = new Address();
-            ////billingAddress.city = "NewYork";
-            ////billingAddress.country_code = "US";
-            ////billingAddress.line1 = "23rd street kew gardens";
-            ////billingAddress.postal_code = "43210";
-            ////billingAddress.state = "NY";
-
-            string urlCancel = GetUrlCancel(viewModel.Azione, viewModel.Token);
-            if ((Session["PayPalCompra"] != null && Session["PayPalAnnuncio"] != null ) || Session["PayPalOfferta"] != null && CanPagamento(viewModel.Azione))
+            AnnullaPagamento(azione, id);
+            string token = "";
+            if (azione == AzionePayPal.Acquisto)
             {
-
-                //Now Create an object of credit card and add above details to it
-                //Please replace your credit card details over here which you got from paypal
-                CreditCard crdtCard = GetCreditCard(viewModel.Azione);
-
-                ////// Specify details of your payment amount.
-                ////Details details = new Details();
-                ////details.shipping = "1";
-                ////details.subtotal = "5";
-                ////details.tax = "1";
-
-                ////// Specify your total payment amount and assign the details object
-                ////Amount amnt = new Amount();
-                ////amnt.currency = "USD";
-                ////// Total = shipping tax + subtotal.
-                ////amnt.total = "7";
-                ////amnt.details = details;
-
-                ////// Now make a transaction object and assign the Amount object
-                ////Transaction tran = new Transaction();
-                ////tran.amount = amnt;
-                ////tran.description = "Description about the payment amount.";
-                ////tran.item_list = itemList;
-                ////tran.invoice_number = "your invoice number which you are generating";
-
-                ////// Now, we have to make a list of transaction and add the transactions object
-                ////// to this list. You can create one or more object as per your requirements
-
-                ////List<Transaction> transactions = new List<Transaction>();
-                ////transactions.Add(tran);
-
-                // Now we need to specify the FundingInstrument of the Payer
-                // for credit card payments, set the CreditCard which we made above
-
-                FundingInstrument fundInstrument = new FundingInstrument();
-                fundInstrument.credit_card = crdtCard;
-
-                // The Payment creation API requires a list of FundingIntrument
-
-                List<FundingInstrument> fundingInstrumentList = new List<FundingInstrument>();
-                fundingInstrumentList.Add(fundInstrument);
-
-                // Now create Payer object and assign the fundinginstrument list to the object
-                Payer payr = new Payer();
-                payr.funding_instruments = fundingInstrumentList;
-                payr.payment_method = "credit_card";
-
-                // finally create the payment object and assign the payer object & transaction list to it
-                Payment pymnt = new Payment();
-                pymnt.intent = "sale";
-                pymnt.payer = payr;
-                viewModel.Guid = Convert.ToString((new Random()).Next(100000));
-                pymnt.transactions = GetListTransaction(viewModel.Azione, viewModel.Guid);
-
-                try
+                using (DatabaseContext db = new DatabaseContext())
                 {
-                    //getting context from the paypal
-                    //basically we are sending the clientID and clientSecret key in this function
-                    //to the get the context from the paypal API to make the payment
-                    //for which we have created the object above.
-
-                    //Basically, apiContext object has a accesstoken which is sent by the paypal
-                    //to authenticate the payment to facilitator account.
-                    //An access token could be an alphanumeric string
-
-                    APIContext apiContext = Configuration.GetAPIContext();
-
-                    //Create is a Payment class function which actually sends the payment details
-                    //to the paypal API for the payment. The function is passed with the ApiContext
-                    //which we received above.
-
-                    Payment createdPayment = pymnt.Create(apiContext);
-
-                    //if the createdPayment.state is "approved" it means the payment was successful else not
-
-                    if (createdPayment.state.ToLower() != "approved")
-                    {
-                        TempData["errore"] = "Errore durante l'acquisto";
-                    }
-                    else
-                    {
-                        if (SavePayment(viewModel, createdPayment))
-                        {
-                            TempData["Esito"] = App_GlobalResources.Language.JsonBuyAd;
-                            TempData["pagamentoEffettuato"] = true;
-                            return Redirect(_UrlFinePagamento);
-                        }
-                        else
-                        {
-                            TempData["errore"] = App_GlobalResources.ErrorResource.AdBuyFailed;
-                        }
-                    }
-                }
-                catch (PayPal.PayPalException ex)
-                {
-                    //Logger.Log("Error: " + ex.Message);
-                    TempData["errore"] = ex.Message;
+                    token = db.ANNUNCIO.SingleOrDefault(m => m.ID == (int)id).TOKEN.ToString();
                 }
             }
-            else
-            {
-                TempData["errore"] = "Sessione pagamento scaduta!";
-            }
-
+            string urlCancel = GetUrlCancel(azione, token);
             return Redirect(urlCancel);
         }
-        
-        #region METODI PRIVATI
+
+        #region ATTRIBUTI
         private PayPal.Api.Payment payment;
 
         private string _UrlFinePagamento;
+        #endregion
+
+        #region METODI PRIVATI
+
+        private int? GetIdFromSession()
+        {
+            if (Session["PayPalAnnuncio"] != null) {
+                var annuncio = Session["PayPalAnnuncio"] as AnnuncioModel;
+                return annuncio.ID;
+            } else if (Session["PayPalOfferta"] != null)
+            {
+                var offerta = Session["PayPalOfferta"] as OffertaModel;
+                return offerta.ID;
+            }
+            return null;
+        }
 
         private bool CanPagamento(AzionePayPal azione)
         {
             switch (azione)
             {
                 case AzionePayPal.Acquisto:
-                    AnnuncioModel annuncio = Session["PayPalAnnuncio"] as AnnuncioModel;
                     using (DatabaseContext db = new DatabaseContext())
                     {
-                        ANNUNCIO model = db.ANNUNCIO.SingleOrDefault(m => m.ID == annuncio.ID && m.SESSIONE_COMPRATORE == annuncio.SESSIONE_COMPRATORE);
+                        AnnuncioModel annuncio = Session["PayPalAnnuncio"] as AnnuncioModel;
+                        ANNUNCIO model = db.ANNUNCIO.SingleOrDefault(m => m.ID == annuncio.ID 
+                            && m.SESSIONE_COMPRATORE == annuncio.SESSIONE_COMPRATORE);
                         if (model != null)
                         {
                             annuncio = new AnnuncioModel(model);
@@ -347,9 +253,9 @@ namespace GratisForGratis.Controllers
                     }
                     break;
                 case AzionePayPal.Offerta:
-                    OffertaModel offerta = Session["PayPalOfferta"] as OffertaModel;
                     using (DatabaseContext db = new DatabaseContext())
                     {
+                        OffertaModel offerta = Session["PayPalOfferta"] as OffertaModel;
                         OFFERTA model = db.OFFERTA.SingleOrDefault(m => m.ID == offerta.ID && 
                             m.SESSIONE_COMPRATORE == offerta.SESSIONE_COMPRATORE);
                         if (model != null)
@@ -359,22 +265,34 @@ namespace GratisForGratis.Controllers
                         }
                     }
                     break;
+                case AzionePayPal.OffertaOK:
+                    using (DatabaseContext db = new DatabaseContext())
+                    {
+                        AnnuncioModel annuncio = Session["PayPalAnnuncio"] as AnnuncioModel;
+                        ANNUNCIO model = db.ANNUNCIO.SingleOrDefault(m => m.ID == annuncio.ID
+                            && m.SESSIONE_COMPRATORE == annuncio.SESSIONE_COMPRATORE);
+                        if (model != null)
+                        {
+                            annuncio = new AnnuncioModel(model);
+                            return true;
+                        }
+                    }
+                    break;
             }
             //AnnullaPagamento(azione);
             return false;
         }
 
-        private void AnnullaPagamento(AzionePayPal azione)
+        private void AnnullaPagamento(AzionePayPal azione, int id)
         {
             try
             {
                 switch (azione)
                 {
                     case AzionePayPal.Acquisto:
-                        AnnuncioModel annuncio = Session["PayPalAnnuncio"] as AnnuncioModel;
                         using (DatabaseContext db = new DatabaseContext())
                         {
-                            ANNUNCIO model = db.ANNUNCIO.SingleOrDefault(m => m.ID == annuncio.ID);
+                            ANNUNCIO model = db.ANNUNCIO.SingleOrDefault(m => m.ID == id);
                             if (model != null)
                             {
                                 if (model.STATO == (int)StatoVendita.SOSPESOPEROFFERTA)
@@ -392,15 +310,27 @@ namespace GratisForGratis.Controllers
                         }
                         break;
                     case AzionePayPal.Offerta:
-                        OffertaModel offerta = Session["PayPalOfferta"] as OffertaModel;
                         using (DatabaseContext db = new DatabaseContext())
                         {
-                            OFFERTA model = db.OFFERTA.SingleOrDefault(m => m.ID == offerta.ID);
+                            OFFERTA model = db.OFFERTA.SingleOrDefault(m => m.ID == id);
                             if (model != null)
                             {
                                 model.ANNUNCIO.STATO = (int)StatoVendita.ATTIVO;
                                 model.SESSIONE_COMPRATORE = null;
                                 model.STATO = (int)StatoOfferta.ATTIVA;
+                                db.SaveChanges();
+                            }
+                        }
+                        break;
+                    case AzionePayPal.OffertaOK:
+                        using (DatabaseContext db = new DatabaseContext())
+                        {
+                            ANNUNCIO model = db.ANNUNCIO.SingleOrDefault(m => m.ID == id);
+                            if (model != null)
+                            {
+                                model.STATO = (int)StatoVendita.BARATTOINCORSO;
+                                model.SESSIONE_COMPRATORE = null;
+                                model.DATA_MODIFICA = DateTime.Now;
                                 db.SaveChanges();
                             }
                         }
@@ -421,6 +351,10 @@ namespace GratisForGratis.Controllers
                 case AzionePayPal.Offerta:
                     OffertaModel offerta = Session["PayPalOfferta"] as OffertaModel;
                     return GetListTransactionFromOfferta(offerta, guid);
+                case AzionePayPal.OffertaOK:
+                    AcquistoViewModel acquistoOfferta = Session["PayPalCompra"] as AcquistoViewModel;
+                    AnnuncioModel annuncioOfferta = Session["PayPalAnnuncio"] as AnnuncioModel;
+                    return GetListTransactionFromAcquisto(acquistoOfferta, annuncioOfferta, guid);
             }
             return null;
         }
@@ -500,21 +434,6 @@ namespace GratisForGratis.Controllers
             TIPO_VALUTA tipoValuta = (HttpContext.Application["tipoValuta"] as List<TIPO_VALUTA>)
                 .SingleOrDefault(m => m.SIMBOLO == NumberFormatInfo.CurrentInfo.CurrencySymbol);
 
-            if (offerta.ANNUNCIO.TIPO_PAGAMENTO != (int)TipoPagamento.HAPPY)
-            {
-                if (offerta.SOLDI > 0)
-                {
-                    itemList.items.Add(new Item()
-                    {
-                        name = "Pagamento offerta per annuncio: " + offerta.ANNUNCIO.NOME,
-                        currency = tipoValuta.CODICE,
-                        price = ConvertDecimalToString(offerta.SOLDI),
-                        quantity = "1",
-                        sku = "sku"
-                    });
-                }
-            }
-
             OFFERTA_SPEDIZIONE spedizione = offerta.OFFERTA_SPEDIZIONE.FirstOrDefault();
             if (spedizione != null)
             {
@@ -566,16 +485,19 @@ namespace GratisForGratis.Controllers
             TIPO_VALUTA tipoValuta = (HttpContext.Application["tipoValuta"] as List<TIPO_VALUTA>)
                 .SingleOrDefault(m => m.SIMBOLO == NumberFormatInfo.CurrentInfo.CurrencySymbol);
 
-            if (offerta.ANNUNCIO.SOLDI > 0)
+            if (offerta.ANNUNCIO.TIPO_PAGAMENTO != (int)TipoPagamento.HAPPY)
             {
-                itemList.items.Add(new Item()
+                if (offerta.SOLDI > 0)
                 {
-                    name = "Pagamento offerta per annuncio: " + offerta.ANNUNCIO.NOME,
-                    currency = tipoValuta.CODICE,
-                    price = ConvertDecimalToString(offerta.ANNUNCIO.SOLDI),
-                    quantity = "1",
-                    sku = "sku"
-                });
+                    itemList.items.Add(new Item()
+                    {
+                        name = "Pagamento offerta per annuncio: " + offerta.ANNUNCIO.NOME,
+                        currency = tipoValuta.CODICE,
+                        price = ConvertDecimalToString(offerta.SOLDI),
+                        quantity = "1",
+                        sku = "sku"
+                    });
+                }
             }
 
             ANNUNCIO_TIPO_SCAMBIO tipoScambio = offerta.ANNUNCIO.ANNUNCIO_TIPO_SCAMBIO.FirstOrDefault(m => m.TIPO_SCAMBIO == (int)TipoScambio.Spedizione);
@@ -690,7 +612,9 @@ namespace GratisForGratis.Controllers
                 case AzionePayPal.Acquisto:
                     return SaveAcquisto(viewModel, payment);
                 case AzionePayPal.Offerta:
-                    return SaveOfferta();
+                    return SaveOfferta(payment);
+                case AzionePayPal.OffertaOK:
+                    return SaveOffertaCompleta(viewModel, payment);
             }
             return false;
         }
@@ -737,13 +661,13 @@ namespace GratisForGratis.Controllers
             return false;
         }
 
-        private bool SaveOfferta()
+        private bool SaveOfferta(Payment payment)
         {
             OffertaModel offerta = Session["PayPalOfferta"] as OffertaModel;
             using (DatabaseContext db = new DatabaseContext())
             {
                 db.Database.Connection.Open();
-                // AGGIUNGERE TRANSAZIONE NELLA TABELLA LOG_PAGAMENTO
+                // AGGIUNGERE TRANSAZIONE NELLA TABELLA DEI LOG
                 LOG_PAGAMENTO log = new LOG_PAGAMENTO();
                 OFFERTA model = db.OFFERTA.Include(m => m.PERSONA)
                     .Include(m => m.ANNUNCIO.ANNUNCIO_TIPO_SCAMBIO)
@@ -756,26 +680,35 @@ namespace GratisForGratis.Controllers
                 log.DATA_INSERIMENTO = DateTime.Now;
                 db.LOG_PAGAMENTO.Add(log);
                 db.SaveChanges();
+                // cambia stato spedizione in pagata
+                OFFERTA_SPEDIZIONE spedizione = model.OFFERTA_SPEDIZIONE.FirstOrDefault();
+                spedizione.DATA_MODIFICA = DateTime.Now;
+                spedizione.STATO = (int)StatoSpedizione.PAGATA;
+                db.OFFERTA_SPEDIZIONE.Attach(spedizione);
+                db.Entry(spedizione).State = EntityState.Modified;
+                db.SaveChanges();
+
                 using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
                     try
                     {
                         var utente = (Session["utente"] as PersonaModel);
                         string messaggio = string.Empty;
+                        // ripopolo classe offerta per calcoli nella funzione ACCETTA
                         offerta.OffertaOriginale = model;
                         offerta.ANNUNCIO.ANNUNCIO_TIPO_SCAMBIO = db.ANNUNCIO_TIPO_SCAMBIO
                             .Include(m => m.ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE)
                             .Where(m => m.ID_ANNUNCIO == offerta.ID_ANNUNCIO).ToList();
                         offerta.AnnuncioModel.ANNUNCIO_TIPO_SCAMBIO = offerta.ANNUNCIO.ANNUNCIO_TIPO_SCAMBIO;
-                        //offerta.ANNUNCIO = offerta.OffertaOriginale.ANNUNCIO; => non funziona nel passare tipo_scambio_spedizione nell'offerta
+
                         //if (offerta.Accetta(db, utente.Persona, utente.Credito, ref messaggio)) => non passa compratore nell'offerta
-                        if (offerta.Accetta(db, model.PERSONA, 
-                            model.PERSONA.CONTO_CORRENTE.CONTO_CORRENTE_CREDITO.ToList(), ref messaggio))
+                        if (offerta.Accetta(db, utente.Persona, ref messaggio))
                         {
                             transaction.Commit();
-                            System.Web.Routing.RouteValueDictionary data = new System.Web.Routing.RouteValueDictionary(new { token = offerta.ID });
-                            _UrlFinePagamento = Url.Action("Index", "Offerta", data, this.Request.Url.Scheme, this.Request.Url.Host);
-                            return (db.SaveChanges() > 0);
+                            //System.Web.Routing.RouteValueDictionary data = new System.Web.Routing.RouteValueDictionary(new { token = offerta.ID });
+                            _UrlFinePagamento = Url.Action("OfferteRicevute", "Vendite", null, this.Request.Url.Scheme, this.Request.Url.Host);
+                            //return (db.SaveChanges() > 0);
+                            return true;
                         }
                     }
                     catch (Exception ex)
@@ -788,23 +721,69 @@ namespace GratisForGratis.Controllers
             return false;
         }
 
+        // NON USATO - 25-12-2018
+        private bool SaveOffertaCompleta(PayPalIndexViewModel paypal, Payment payment)
+        {
+            AcquistoViewModel viewModel = Session["PayPalCompra"] as AcquistoViewModel;
+            AnnuncioModel model = Session["PayPalAnnuncio"] as AnnuncioModel;
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                // AGGIUNGERE TRANSAZIONE NELLA TABELLA LOG_PAGAMENTO
+                LOG_PAGAMENTO log = new LOG_PAGAMENTO();
+                ANNUNCIO annuncio = db.ANNUNCIO.SingleOrDefault(m => m.TOKEN.ToString() == viewModel.Token
+                    && m.SESSIONE_COMPRATORE == model.SESSIONE_COMPRATORE);
+                log.ID_ANNUNCIO = annuncio.ID;
+                log.ID_COMPRATORE = (Session["utente"] as PersonaModel).Persona.ID;
+                log.SESSIONE_COMPRATORE = paypal.Guid;
+                log.ID_PAGAMENTO = payment.id;
+                //log.ID_PAGAMENTO = "TEST";
+                log.ISTITUTO_PAGAMENTO = "PAYPAL";
+                log.NOME_ANNUNCIO = "Pagamento spedizione per " + annuncio.NOME;
+                log.DATA_INSERIMENTO = DateTime.Now;
+                db.LOG_PAGAMENTO.Add(log);
+                db.SaveChanges();
+                using (System.Data.Entity.DbContextTransaction transaction = db.Database.BeginTransaction())
+                {
+                    viewModel.PagamentoFatto = true;
+                    AnnuncioModel annuncioModel = new AnnuncioModel(annuncio);
+                    Models.Enumerators.VerificaAcquisto verifica = annuncioModel.Acquisto(db, viewModel);
+                    if (verifica == Models.Enumerators.VerificaAcquisto.Ok)
+                    {
+                        OFFERTA offerta = db.OFFERTA.SingleOrDefault(m => m.ID == paypal.Id);
+                        if (model.CompletaAcquistoOfferta(db, offerta))
+                        {
+                            transaction.Commit();
+                            this.RefreshPunteggioUtente(db);
+                            System.Web.Routing.RouteValueDictionary data = new System.Web.Routing.RouteValueDictionary(new { token = viewModel.Token });
+                            _UrlFinePagamento = Url.Action("Index", "Annuncio", data, this.Request.Url.Scheme, this.Request.Url.Host);
+                            return true;
+                        }
+                        // altrimenti acquisto fallito
+                    }
+                }
+            }
+            return false;
+        }
+
         private string GetUrlCancel(AzionePayPal azione, string token)
         {
             string nomeController = "Annuncio";
             if (azione == AzionePayPal.Offerta)
             {
                 nomeController = "Vendite";
-                System.Web.Routing.RouteValueDictionary data = new System.Web.Routing.RouteValueDictionary(new { token = token });
-                ViewBag.Message = "Errore durante il pagamento!";
-                return Url.Action("OfferteRicevute", nomeController, data, this.Request.Url.Scheme, this.Request.Url.Host);
+                return Url.Action("OfferteRicevute", nomeController, null, this.Request.Url.Scheme, this.Request.Url.Host);
+            }
+            else if (azione == AzionePayPal.OffertaOK)
+            {
+                nomeController = "Acquisti";
+                return Url.Action("", nomeController, null, this.Request.Url.Scheme, this.Request.Url.Host);
             }
             else
             {
-                AcquistoViewModel acquisto = new AcquistoViewModel();
-                acquisto.Token = token;
-                if (Session["PayPalCompra"] != null)
-                    acquisto = Session["PayPalCompra"] as AcquistoViewModel;
-                System.Web.Routing.RouteValueDictionary data = new System.Web.Routing.RouteValueDictionary(acquisto);
+                System.Web.Routing.RouteValueDictionary data = new System.Web.Routing.RouteValueDictionary(new
+                    {
+                        token
+                    });
                 return Url.Action("Index", nomeController, data, this.Request.Url.Scheme, this.Request.Url.Host);
             }
         }

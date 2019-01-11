@@ -285,4 +285,25 @@
   <data name="BidsAd" xml:space="preserve">
     <value>Offerte ricevute</value>
   </data>
+  <data name="NewsInsertDate" xml:space="preserve">
+    <value>Data notifica</value>
+  </data>
+  <data name="NewsName" xml:space="preserve">
+    <value>Tipo notifica</value>
+  </data>
+  <data name="NewsReadDate" xml:space="preserve">
+    <value>Data lettura</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Accedi / Registra</value>
+  </data>
+  <data name="LoginFacebook" xml:space="preserve">
+    <value>FaceBook</value>
+  </data>
+  <data name="LoginPasswordForgot" xml:space="preserve">
+    <value>Password dimenticata?</value>
+  </data>
+  <data name="LoginRegistration" xml:space="preserve">
+    <value>Registrazione completa</value>
+  </data>
 </root>

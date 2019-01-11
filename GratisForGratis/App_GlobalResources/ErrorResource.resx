@@ -129,6 +129,9 @@
   <data name="BidAd" xml:space="preserve">
     <value>Offerta non inviabile! Controlla il tuo credito o lo stato dell'annuncio.</value>
   </data>
+  <data name="BidComplete" xml:space="preserve">
+    <value>Errore imprevisto</value>
+  </data>
   <data name="BidFailed" xml:space="preserve">
     <value>L'offerta non è più valida!</value>
   </data>

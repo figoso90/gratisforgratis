@@ -88,6 +88,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Eliminazione annuncio completo.
+        /// </summary>
+        public static string FullAnnouncementCancel {
+            get {
+                return ResourceManager.GetString("FullAnnouncementCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Prime pubblicazioni.
         /// </summary>
         public static string InitialPubblication {
