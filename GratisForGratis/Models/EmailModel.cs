@@ -17,7 +17,7 @@ namespace GratisForGratis.Models
     */
     public class EmailModel
     {
-        private string body;
+        //private string body;
 
         public EmailModel(System.Web.Mvc.ControllerContext ControllerContext)
         {

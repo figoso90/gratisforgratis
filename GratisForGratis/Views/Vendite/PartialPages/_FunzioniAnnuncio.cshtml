@@ -33,12 +33,11 @@ else
     }
     else if (Model.StatoVendita == StatoVendita.BARATTATO || Model.StatoVendita == StatoVendita.VENDUTO)
     {
-        <div class="cella">
+        <div class="cella user">
             @Html.Label("Compratore")
             @if (Model.Compratore != null)
-            {
-
-                @Model.Compratore.Nominativo
+            {                
+            <b>@Html.ActionLink(Model.Compratore.Nominativo, "Profilo", "Utente", new { token = Model.Compratore.VenditoreToken }, null)</b>
             }
         </div>
         <div class="cella">

@@ -67,6 +67,7 @@
           <Property Name="SESSIONE_COMPRATORE" Type="nvarchar" MaxLength="500" />
           <Property Name="ID_COMPRATORE" Type="int" />
           <Property Name="DATA_VENDITA" Type="datetime" />
+          <Property Name="ID_COMMISSIONE" Type="int" />
           <Property Name="DATA_INSERIMENTO" Type="datetime" Nullable="false" />
           <Property Name="DATA_MODIFICA" Type="datetime" />
           <Property Name="STATO" Type="int" Nullable="false" />
@@ -173,6 +174,7 @@
           <Property Name="ID_TIPO_OGGETTO" Type="int" Nullable="false" />
           <Property Name="PUNTI" Type="money" Nullable="false" />
           <Property Name="SOLDI" Type="money" Nullable="false" />
+          <Property Name="ID_COMMISSIONE" Type="int" />
           <Property Name="DATA_INSERIMENTO" Type="datetime" Nullable="false" />
           <Property Name="DATA_MODIFICA" Type="datetime" />
           <Property Name="STATO" Type="int" Nullable="false" />
@@ -347,6 +349,17 @@ avviso 6005: Tipo di dati 'hierarchyid' attualmente non supportato per la versio
           <Property Name="ID_MITTENTE" Type="int" Nullable="false" />
           <Property Name="ID_DESTINATARIO" Type="int" Nullable="false" />
           <Property Name="TESTO" Type="text" Nullable="false" />
+          <Property Name="DATA_INSERIMENTO" Type="datetime" Nullable="false" />
+          <Property Name="DATA_MODIFICA" Type="datetime" />
+          <Property Name="STATO" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="COMMISSIONE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PERCENTUALE" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="TIPO" Type="int" Nullable="false" />
           <Property Name="DATA_INSERIMENTO" Type="datetime" Nullable="false" />
           <Property Name="DATA_MODIFICA" Type="datetime" />
           <Property Name="STATO" Type="int" Nullable="false" />
@@ -748,6 +761,7 @@ avviso 6005: Tipo di dati 'hierarchyid' attualmente non supportato per la versio
           <Property Name="EMAIL" Type="nvarchar" MaxLength="100" />
           <Property Name="SOLDI" Type="money" Nullable="false" />
           <Property Name="ID_TIPO_VALUTA" Type="int" Nullable="false" />
+          <Property Name="ID_COMMISSIONE" Type="int" />
           <Property Name="DATA_INSERIMENTO" Type="datetime" Nullable="false" />
           <Property Name="DATA_MODIFICA" Type="datetime" />
           <Property Name="STATO" Type="int" Nullable="false" />
@@ -915,6 +929,31 @@ avviso 6005: Tipo di dati 'hierarchyid' attualmente non supportato per la versio
           <Property Name="ID_OGGETTO" Type="int" Nullable="false" />
           <Property Name="ID_PIATTAFORMA" Type="int" />
           <Property Name="ID_GENERE" Type="int" />
+        </EntityType>
+        <EntityType Name="PAYPAL">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KEY_PAYPAL" Type="nvarchar" MaxLength="100" />
+          <Property Name="NUMERO_FATTURA" Type="nvarchar" MaxLength="100" />
+          <Property Name="NOME" Type="nvarchar" MaxLength="200" />
+          <Property Name="IMPORTO" Type="money" Nullable="false" />
+          <Property Name="ID_TIPO_VALUTA" Type="int" Nullable="false" />
+          <Property Name="DATA_INSERIMENTO" Type="datetime" Nullable="false" />
+          <Property Name="DATA_MODIFICA" Type="datetime" />
+          <Property Name="STATO" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PAYPAL_DETTAGLIO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_PAYPAL" Type="int" Nullable="false" />
+          <Property Name="NOME" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="IMPORTO" Type="money" Nullable="false" />
+          <Property Name="QUANTITA" Type="int" Nullable="false" />
+          <Property Name="STATO" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="PERSONA">
           <Key>
@@ -1380,6 +1419,7 @@ avviso 6005: Tipo di dati 'hierarchyid' attualmente non supportato per la versio
           <Property Name="SOLDI" Type="money" />
           <Property Name="PUNTI" Type="money" />
           <Property Name="EXTERNAL_ID" Type="nvarchar" MaxLength="50" />
+          <Property Name="ID_PAYPAL" Type="int" />
           <Property Name="DATA_INSERIMENTO" Type="datetime" />
           <Property Name="DATA_MODIFICA" Type="datetime" />
           <Property Name="STATO" Type="int" Nullable="false" />
@@ -1695,6 +1735,18 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ANNUNCIO_COMMISSIONE">
+          <End Role="COMMISSIONE" Type="Self.COMMISSIONE" Multiplicity="0..1" />
+          <End Role="ANNUNCIO" Type="Self.ANNUNCIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMMISSIONE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO">
+              <PropertyRef Name="ID_COMMISSIONE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ANNUNCIO_COMUNE">
           <End Role="COMUNE" Type="Self.COMUNE" Multiplicity="0..1" />
           <End Role="ANNUNCIO" Type="Self.ANNUNCIO" Multiplicity="*" />
@@ -1900,6 +1952,18 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Principal>
             <Dependent Role="ANNUNCIO_TIPO_SCAMBIO">
               <PropertyRef Name="ID_ANNUNCIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE_COMMISSIONE">
+          <End Role="COMMISSIONE" Type="Self.COMMISSIONE" Multiplicity="0..1" />
+          <End Role="ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE" Type="Self.ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMMISSIONE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE">
+              <PropertyRef Name="ID_COMMISSIONE" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2733,6 +2797,18 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_OFFERTA_SPEDIZIONE_COMMISSIONE">
+          <End Role="COMMISSIONE" Type="Self.COMMISSIONE" Multiplicity="0..1" />
+          <End Role="OFFERTA_SPEDIZIONE" Type="Self.OFFERTA_SPEDIZIONE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMMISSIONE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OFFERTA_SPEDIZIONE">
+              <PropertyRef Name="ID_COMMISSIONE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_OFFERTA_SPEDIZIONE_INDIRIZZO">
           <End Role="INDIRIZZO" Type="Self.INDIRIZZO" Multiplicity="1" />
           <End Role="OFFERTA_SPEDIZIONE" Type="Self.OFFERTA_SPEDIZIONE" Multiplicity="*" />
@@ -3282,6 +3358,30 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Principal>
             <Dependent Role="OGGETTO_VIDEOGAMES">
               <PropertyRef Name="ID_PIATTAFORMA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PAYPAL_DETTAGLIO_PAYPAL">
+          <End Role="PAYPAL" Type="Self.PAYPAL" Multiplicity="1" />
+          <End Role="PAYPAL_DETTAGLIO" Type="Self.PAYPAL_DETTAGLIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PAYPAL">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PAYPAL_DETTAGLIO">
+              <PropertyRef Name="ID_PAYPAL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PAYPAL_TIPO_VALUTA">
+          <End Role="TIPO_VALUTA" Type="Self.TIPO_VALUTA" Multiplicity="1" />
+          <End Role="PAYPAL" Type="Self.PAYPAL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPO_VALUTA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PAYPAL">
+              <PropertyRef Name="ID_TIPO_VALUTA" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4101,6 +4201,18 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TRANSAZIONE_PAYPAL">
+          <End Role="PAYPAL" Type="Self.PAYPAL" Multiplicity="0..1" />
+          <End Role="TRANSAZIONE" Type="Self.TRANSAZIONE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PAYPAL">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TRANSAZIONE">
+              <PropertyRef Name="ID_PAYPAL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TRANSAZIONE_SPEDIZIONE_TRANSAZIONE">
           <End Role="TRANSAZIONE" Type="Self.TRANSAZIONE" Multiplicity="1" />
           <End Role="TRANSAZIONE_ANNUNCIO_SPEDIZIONE" Type="Self.TRANSAZIONE_ANNUNCIO_SPEDIZIONE" Multiplicity="*" />
@@ -4178,6 +4290,7 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <EntitySet Name="BROWSER_MODELLO" EntityType="Self.BROWSER_MODELLO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CATEGORIA" EntityType="Self.CATEGORIA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CHAT" EntityType="Self.CHAT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COMMISSIONE" EntityType="Self.COMMISSIONE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="COMPONENTE" EntityType="Self.COMPONENTE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="COMUNE" EntityType="Self.COMUNE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONTO_CORRENTE" EntityType="Self.CONTO_CORRENTE" Schema="dbo" store:Type="Tables" />
@@ -4226,6 +4339,8 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <EntitySet Name="OGGETTO_VESTITO" EntityType="Self.OGGETTO_VESTITO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OGGETTO_VIDEO" EntityType="Self.OGGETTO_VIDEO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OGGETTO_VIDEOGAMES" EntityType="Self.OGGETTO_VIDEOGAMES" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PAYPAL" EntityType="Self.PAYPAL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PAYPAL_DETTAGLIO" EntityType="Self.PAYPAL_DETTAGLIO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PERSONA" EntityType="Self.PERSONA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PERSONA_ATTIVITA" EntityType="Self.PERSONA_ATTIVITA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PERSONA_EMAIL" EntityType="Self.PERSONA_EMAIL" Schema="dbo" store:Type="Tables" />
@@ -4390,6 +4505,10 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             <End Role="SISTEMA_OPERATIVO" EntitySet="SISTEMA_OPERATIVO" />
             <End Role="ANNUNCIO_CLICK" EntitySet="ANNUNCIO_CLICK" />
           </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_COMMISSIONE" Association="Self.FK_ANNUNCIO_COMMISSIONE">
+            <End Role="COMMISSIONE" EntitySet="COMMISSIONE" />
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+          </AssociationSet>
           <AssociationSet Name="FK_ANNUNCIO_COMUNE" Association="Self.FK_ANNUNCIO_COMUNE">
             <End Role="COMUNE" EntitySet="COMUNE" />
             <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
@@ -4457,6 +4576,10 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <AssociationSet Name="FK_ANNUNCIO_TIPO_SCAMBIO_ANNUNCIO" Association="Self.FK_ANNUNCIO_TIPO_SCAMBIO_ANNUNCIO">
             <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
             <End Role="ANNUNCIO_TIPO_SCAMBIO" EntitySet="ANNUNCIO_TIPO_SCAMBIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE_COMMISSIONE" Association="Self.FK_ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE_COMMISSIONE">
+            <End Role="COMMISSIONE" EntitySet="COMMISSIONE" />
+            <End Role="ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE" EntitySet="ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE" />
           </AssociationSet>
           <AssociationSet Name="FK_ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE_CORRIERE_SERVIZIO_SPEDIZIONE" Association="Self.FK_ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE_CORRIERE_SERVIZIO_SPEDIZIONE">
             <End Role="CORRIERE_SERVIZIO_SPEDIZIONE" EntitySet="CORRIERE_SERVIZIO_SPEDIZIONE" />
@@ -4734,6 +4857,10 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             <End Role="PERSONA" EntitySet="PERSONA" />
             <End Role="OFFERTA" EntitySet="OFFERTA" />
           </AssociationSet>
+          <AssociationSet Name="FK_OFFERTA_SPEDIZIONE_COMMISSIONE" Association="Self.FK_OFFERTA_SPEDIZIONE_COMMISSIONE">
+            <End Role="COMMISSIONE" EntitySet="COMMISSIONE" />
+            <End Role="OFFERTA_SPEDIZIONE" EntitySet="OFFERTA_SPEDIZIONE" />
+          </AssociationSet>
           <AssociationSet Name="FK_OFFERTA_SPEDIZIONE_INDIRIZZO" Association="Self.FK_OFFERTA_SPEDIZIONE_INDIRIZZO">
             <End Role="INDIRIZZO" EntitySet="INDIRIZZO" />
             <End Role="OFFERTA_SPEDIZIONE" EntitySet="OFFERTA_SPEDIZIONE" />
@@ -4917,6 +5044,14 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <AssociationSet Name="FK_OGGETTO_VIDEOGAMES_PIATTAFORMA" Association="Self.FK_OGGETTO_VIDEOGAMES_PIATTAFORMA">
             <End Role="PIATTAFORMA" EntitySet="PIATTAFORMA" />
             <End Role="OGGETTO_VIDEOGAMES" EntitySet="OGGETTO_VIDEOGAMES" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PAYPAL_DETTAGLIO_PAYPAL" Association="Self.FK_PAYPAL_DETTAGLIO_PAYPAL">
+            <End Role="PAYPAL" EntitySet="PAYPAL" />
+            <End Role="PAYPAL_DETTAGLIO" EntitySet="PAYPAL_DETTAGLIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PAYPAL_TIPO_VALUTA" Association="Self.FK_PAYPAL_TIPO_VALUTA">
+            <End Role="TIPO_VALUTA" EntitySet="TIPO_VALUTA" />
+            <End Role="PAYPAL" EntitySet="PAYPAL" />
           </AssociationSet>
           <AssociationSet Name="FK_PERSONA_ABBONAMENTO" Association="Self.FK_PERSONA_ABBONAMENTO">
             <End Role="ABBONAMENTO" EntitySet="ABBONAMENTO" />
@@ -5188,6 +5323,10 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           </AssociationSet>
           <AssociationSet Name="FK_TRANSAZIONE_CONTO_CORRENTE1" Association="Self.FK_TRANSAZIONE_CONTO_CORRENTE1">
             <End Role="CONTO_CORRENTE" EntitySet="CONTO_CORRENTE" />
+            <End Role="TRANSAZIONE" EntitySet="TRANSAZIONE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TRANSAZIONE_PAYPAL" Association="Self.FK_TRANSAZIONE_PAYPAL">
+            <End Role="PAYPAL" EntitySet="PAYPAL" />
             <End Role="TRANSAZIONE" EntitySet="TRANSAZIONE" />
           </AssociationSet>
           <AssociationSet Name="FK_TRANSAZIONE_SPEDIZIONE_TRANSAZIONE" Association="Self.FK_TRANSAZIONE_SPEDIZIONE_TRANSAZIONE">
@@ -6232,6 +6371,33 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             <End Role="TRANSAZIONE" EntitySet="TRANSAZIONE" />
             <End Role="TRANSAZIONE_ANNUNCIO_SPEDIZIONE" EntitySet="TRANSAZIONE_ANNUNCIO_SPEDIZIONE" />
           </AssociationSet>
+          <EntitySet Name="PAYPAL" EntityType="GratisForGratisModel.PAYPAL" />
+          <EntitySet Name="PAYPAL_DETTAGLIO" EntityType="GratisForGratisModel.PAYPAL_DETTAGLIO" />
+          <AssociationSet Name="FK_PAYPAL_DETTAGLIO_PAYPAL" Association="GratisForGratisModel.FK_PAYPAL_DETTAGLIO_PAYPAL">
+            <End Role="PAYPAL" EntitySet="PAYPAL" />
+            <End Role="PAYPAL_DETTAGLIO" EntitySet="PAYPAL_DETTAGLIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PAYPAL_TIPO_VALUTA" Association="GratisForGratisModel.FK_PAYPAL_TIPO_VALUTA">
+            <End Role="TIPO_VALUTA" EntitySet="TIPO_VALUTA" />
+            <End Role="PAYPAL" EntitySet="PAYPAL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TRANSAZIONE_PAYPAL" Association="GratisForGratisModel.FK_TRANSAZIONE_PAYPAL">
+            <End Role="PAYPAL" EntitySet="PAYPAL" />
+            <End Role="TRANSAZIONE" EntitySet="TRANSAZIONE" />
+          </AssociationSet>
+          <EntitySet Name="COMMISSIONE" EntityType="GratisForGratisModel.COMMISSIONE" />
+          <AssociationSet Name="FK_ANNUNCIO_COMMISSIONE" Association="GratisForGratisModel.FK_ANNUNCIO_COMMISSIONE">
+            <End Role="COMMISSIONE" EntitySet="COMMISSIONE" />
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE_COMMISSIONE" Association="GratisForGratisModel.FK_ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE_COMMISSIONE">
+            <End Role="COMMISSIONE" EntitySet="COMMISSIONE" />
+            <End Role="ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE" EntitySet="ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OFFERTA_SPEDIZIONE_COMMISSIONE" Association="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_COMMISSIONE">
+            <End Role="COMMISSIONE" EntitySet="COMMISSIONE" />
+            <End Role="OFFERTA_SPEDIZIONE" EntitySet="OFFERTA_SPEDIZIONE" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="FINDSOTTOCATEGORIE_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -6343,6 +6509,8 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <NavigationProperty Name="OFFERTA_BARATTO" Relationship="GratisForGratisModel.FK_OFFERTA_BARATTO_ANNUNCIO" FromRole="ANNUNCIO" ToRole="OFFERTA_BARATTO" />
           <NavigationProperty Name="TRANSAZIONE_ANNUNCIO" Relationship="GratisForGratisModel.FK_TRANSAZIONE_ANNUNCIO_ANNUNCIO" FromRole="ANNUNCIO" ToRole="TRANSAZIONE_ANNUNCIO" />
           <NavigationProperty Name="OFFERTA" Relationship="GratisForGratisModel.FK_OFFERTA_ANNUNCIO" FromRole="ANNUNCIO" ToRole="OFFERTA" />
+          <Property Name="ID_COMMISSIONE" Type="Int32" />
+          <NavigationProperty Name="COMMISSIONE" Relationship="GratisForGratisModel.FK_ANNUNCIO_COMMISSIONE" FromRole="ANNUNCIO" ToRole="COMMISSIONE" />
         </EntityType>
         <EntityType Name="ANNUNCIO_CARRELLO">
           <Key>
@@ -6472,6 +6640,8 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <NavigationProperty Name="CORRIERE_SERVIZIO_SPEDIZIONE" Relationship="GratisForGratisModel.FK_ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE_CORRIERE_SERVIZIO_SPEDIZIONE" FromRole="ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE" ToRole="CORRIERE_SERVIZIO_SPEDIZIONE" />
           <NavigationProperty Name="TIPO_OGGETTO" Relationship="GratisForGratisModel.FK_ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE_TIPO_OGGETTO" FromRole="ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE" ToRole="TIPO_OGGETTO" />
           <NavigationProperty Name="TRANSAZIONE_ANNUNCIO_SPEDIZIONE" Relationship="GratisForGratisModel.FK_TRANSAZIONE_ANNUNCIO_SPEDIZIONE_ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE" FromRole="ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE" ToRole="TRANSAZIONE_ANNUNCIO_SPEDIZIONE" />
+          <Property Name="ID_COMMISSIONE" Type="Int32" />
+          <NavigationProperty Name="COMMISSIONE" Relationship="GratisForGratisModel.FK_ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE_COMMISSIONE" FromRole="ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE" ToRole="COMMISSIONE" />
         </EntityType>
         <EntityType Name="ANNUNCIO_VISUALIZZAZIONE">
           <Key>
@@ -7163,6 +7333,8 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <NavigationProperty Name="INDIRIZZO" Relationship="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_INDIRIZZO" FromRole="OFFERTA_SPEDIZIONE" ToRole="INDIRIZZO" />
           <NavigationProperty Name="TIPO_VALUTA" Relationship="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_TIPO_VALUTA" FromRole="OFFERTA_SPEDIZIONE" ToRole="TIPO_VALUTA" />
           <NavigationProperty Name="OFFERTA" Relationship="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_OFFERTA" FromRole="OFFERTA_SPEDIZIONE" ToRole="OFFERTA" />
+          <Property Name="ID_COMMISSIONE" Type="Int32" />
+          <NavigationProperty Name="COMMISSIONE" Relationship="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_COMMISSIONE" FromRole="OFFERTA_SPEDIZIONE" ToRole="COMMISSIONE" />
         </EntityType>
         <EntityType Name="OGGETTO">
           <Key>
@@ -7969,6 +8141,7 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_TIPO_VALUTA" FromRole="TIPO_VALUTA" ToRole="ANNUNCIO" />
           <NavigationProperty Name="CORRIERE_SERVIZIO_SPEDIZIONE" Relationship="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_TIPO_VALUTA" FromRole="TIPO_VALUTA" ToRole="CORRIERE_SERVIZIO_SPEDIZIONE" />
           <NavigationProperty Name="OFFERTA_SPEDIZIONE" Relationship="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_TIPO_VALUTA" FromRole="TIPO_VALUTA" ToRole="OFFERTA_SPEDIZIONE" />
+          <NavigationProperty Name="PAYPAL" Relationship="GratisForGratisModel.FK_PAYPAL_TIPO_VALUTA" FromRole="TIPO_VALUTA" ToRole="PAYPAL" />
         </EntityType>
         <EntityType Name="TRANSAZIONE_ANNUNCIO">
           <Key>
@@ -7987,7 +8160,7 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="STATO" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_TRANSAZIONE_ANNUNCIO_ANNUNCIO" FromRole="TRANSAZIONE_ANNUNCIO" ToRole="ANNUNCIO" />
           <NavigationProperty Name="TRANSAZIONE" Relationship="GratisForGratisModel.FK_TRANSAZIONE_ANNUNCIO_TRANSAZIONE" FromRole="TRANSAZIONE_ANNUNCIO" ToRole="TRANSAZIONE" />
-        </EntityType>
+          </EntityType>
         <EntityType Name="TRANSAZIONE_ANNUNCIO_SPEDIZIONE">
           <Key>
             <PropertyRef Name="ID" />
@@ -10589,6 +10762,8 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <NavigationProperty Name="OFFERTA" Relationship="GratisForGratisModel.FK_OFFERTA_TRANSAZIONE" FromRole="TRANSAZIONE" ToRole="OFFERTA" />
           <NavigationProperty Name="TRANSAZIONE_ANNUNCIO" Relationship="GratisForGratisModel.FK_TRANSAZIONE_ANNUNCIO_TRANSAZIONE" FromRole="TRANSAZIONE" ToRole="TRANSAZIONE_ANNUNCIO" />
           <NavigationProperty Name="TRANSAZIONE_ANNUNCIO_SPEDIZIONE" Relationship="GratisForGratisModel.FK_TRANSAZIONE_SPEDIZIONE_TRANSAZIONE" FromRole="TRANSAZIONE" ToRole="TRANSAZIONE_ANNUNCIO_SPEDIZIONE" />
+          <Property Name="ID_PAYPAL" Type="Int32" />
+          <NavigationProperty Name="PAYPAL" Relationship="GratisForGratisModel.FK_TRANSAZIONE_PAYPAL" FromRole="TRANSAZIONE" ToRole="PAYPAL" />
         </EntityType>
         <Association Name="FK_OFFERTA_ANNUNCIO">
           <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1">
@@ -10772,6 +10947,121 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="PAYPAL">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KEY_PAYPAL" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="NUMERO_FATTURA" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="NOME" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="IMPORTO" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="ID_TIPO_VALUTA" Type="Int32" Nullable="false" />
+          <Property Name="DATA_INSERIMENTO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_MODIFICA" Type="DateTime" Precision="3" />
+          <Property Name="STATO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PAYPAL_DETTAGLIO" Relationship="GratisForGratisModel.FK_PAYPAL_DETTAGLIO_PAYPAL" FromRole="PAYPAL" ToRole="PAYPAL_DETTAGLIO" />
+          <NavigationProperty Name="TIPO_VALUTA" Relationship="GratisForGratisModel.FK_PAYPAL_TIPO_VALUTA" FromRole="PAYPAL" ToRole="TIPO_VALUTA" />
+          <NavigationProperty Name="TRANSAZIONE" Relationship="GratisForGratisModel.FK_TRANSAZIONE_PAYPAL" FromRole="PAYPAL" ToRole="TRANSAZIONE" />
+        </EntityType>
+        <EntityType Name="PAYPAL_DETTAGLIO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_PAYPAL" Type="Int32" Nullable="false" />
+          <Property Name="NOME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IMPORTO" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="QUANTITA" Type="Int32" Nullable="false" />
+          <Property Name="STATO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PAYPAL" Relationship="GratisForGratisModel.FK_PAYPAL_DETTAGLIO_PAYPAL" FromRole="PAYPAL_DETTAGLIO" ToRole="PAYPAL" />
+        </EntityType>
+        <Association Name="FK_PAYPAL_DETTAGLIO_PAYPAL">
+          <End Type="GratisForGratisModel.PAYPAL" Role="PAYPAL" Multiplicity="1" />
+          <End Type="GratisForGratisModel.PAYPAL_DETTAGLIO" Role="PAYPAL_DETTAGLIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PAYPAL">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PAYPAL_DETTAGLIO">
+              <PropertyRef Name="ID_PAYPAL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PAYPAL_TIPO_VALUTA">
+          <End Type="GratisForGratisModel.TIPO_VALUTA" Role="TIPO_VALUTA" Multiplicity="1" />
+          <End Type="GratisForGratisModel.PAYPAL" Role="PAYPAL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPO_VALUTA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PAYPAL">
+              <PropertyRef Name="ID_TIPO_VALUTA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TRANSAZIONE_PAYPAL">
+          <End Type="GratisForGratisModel.PAYPAL" Role="PAYPAL" Multiplicity="0..1" />
+          <End Type="GratisForGratisModel.TRANSAZIONE" Role="TRANSAZIONE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PAYPAL">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TRANSAZIONE">
+              <PropertyRef Name="ID_PAYPAL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="COMMISSIONE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PERCENTUALE" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
+          <Property Name="TIPO" Type="Int32" Nullable="false" />
+          <Property Name="DATA_INSERIMENTO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_MODIFICA" Type="DateTime" Precision="3" />
+          <Property Name="STATO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_COMMISSIONE" FromRole="COMMISSIONE" ToRole="ANNUNCIO" />
+          <NavigationProperty Name="ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE" Relationship="GratisForGratisModel.FK_ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE_COMMISSIONE" FromRole="COMMISSIONE" ToRole="ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE" />
+          <NavigationProperty Name="OFFERTA_SPEDIZIONE" Relationship="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_COMMISSIONE" FromRole="COMMISSIONE" ToRole="OFFERTA_SPEDIZIONE" />
+        </EntityType>
+        <Association Name="FK_ANNUNCIO_COMMISSIONE">
+          <End Type="GratisForGratisModel.COMMISSIONE" Role="COMMISSIONE" Multiplicity="0..1" />
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMMISSIONE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO">
+              <PropertyRef Name="ID_COMMISSIONE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE_COMMISSIONE">
+          <End Type="GratisForGratisModel.COMMISSIONE" Role="COMMISSIONE" Multiplicity="0..1" />
+          <End Type="GratisForGratisModel.ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE" Role="ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMMISSIONE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE">
+              <PropertyRef Name="ID_COMMISSIONE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OFFERTA_SPEDIZIONE_COMMISSIONE">
+          <End Type="GratisForGratisModel.COMMISSIONE" Role="COMMISSIONE" Multiplicity="0..1" />
+          <End Type="GratisForGratisModel.OFFERTA_SPEDIZIONE" Role="OFFERTA_SPEDIZIONE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMMISSIONE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OFFERTA_SPEDIZIONE">
+              <PropertyRef Name="ID_COMMISSIONE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10839,6 +11129,7 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <EntitySetMapping Name="ANNUNCIO">
             <EntityTypeMapping TypeName="GratisForGratisModel.ANNUNCIO">
               <MappingFragment StoreEntitySet="ANNUNCIO">
+                <ScalarProperty Name="ID_COMMISSIONE" ColumnName="ID_COMMISSIONE" />
                 <ScalarProperty Name="STATO" ColumnName="STATO" />
                 <ScalarProperty Name="DATA_MODIFICA" ColumnName="DATA_MODIFICA" />
                 <ScalarProperty Name="DATA_INSERIMENTO" ColumnName="DATA_INSERIMENTO" />
@@ -10972,6 +11263,7 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <EntitySetMapping Name="ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE">
             <EntityTypeMapping TypeName="GratisForGratisModel.ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE">
               <MappingFragment StoreEntitySet="ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE">
+                <ScalarProperty Name="ID_COMMISSIONE" ColumnName="ID_COMMISSIONE" />
                 <ScalarProperty Name="STATO" ColumnName="STATO" />
                 <ScalarProperty Name="DATA_MODIFICA" ColumnName="DATA_MODIFICA" />
                 <ScalarProperty Name="DATA_INSERIMENTO" ColumnName="DATA_INSERIMENTO" />
@@ -11545,6 +11837,7 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <EntitySetMapping Name="OFFERTA_SPEDIZIONE">
             <EntityTypeMapping TypeName="GratisForGratisModel.OFFERTA_SPEDIZIONE">
               <MappingFragment StoreEntitySet="OFFERTA_SPEDIZIONE">
+                <ScalarProperty Name="ID_COMMISSIONE" ColumnName="ID_COMMISSIONE" />
                 <ScalarProperty Name="STATO" ColumnName="STATO" />
                 <ScalarProperty Name="DATA_MODIFICA" ColumnName="DATA_MODIFICA" />
                 <ScalarProperty Name="DATA_INSERIMENTO" ColumnName="DATA_INSERIMENTO" />
@@ -12379,6 +12672,7 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <EntitySetMapping Name="TRANSAZIONE">
             <EntityTypeMapping TypeName="GratisForGratisModel.TRANSAZIONE">
               <MappingFragment StoreEntitySet="TRANSAZIONE">
+                <ScalarProperty Name="ID_PAYPAL" ColumnName="ID_PAYPAL" />
                 <ScalarProperty Name="STATO" ColumnName="STATO" />
                 <ScalarProperty Name="DATA_MODIFICA" ColumnName="DATA_MODIFICA" />
                 <ScalarProperty Name="DATA_INSERIMENTO" ColumnName="DATA_INSERIMENTO" />
@@ -12390,6 +12684,45 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
                 <ScalarProperty Name="TIPO" ColumnName="TIPO" />
                 <ScalarProperty Name="NOME" ColumnName="NOME" />
                 <ScalarProperty Name="TEST" ColumnName="TEST" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PAYPAL">
+            <EntityTypeMapping TypeName="GratisForGratisModel.PAYPAL">
+              <MappingFragment StoreEntitySet="PAYPAL">
+                <ScalarProperty Name="STATO" ColumnName="STATO" />
+                <ScalarProperty Name="DATA_MODIFICA" ColumnName="DATA_MODIFICA" />
+                <ScalarProperty Name="DATA_INSERIMENTO" ColumnName="DATA_INSERIMENTO" />
+                <ScalarProperty Name="ID_TIPO_VALUTA" ColumnName="ID_TIPO_VALUTA" />
+                <ScalarProperty Name="IMPORTO" ColumnName="IMPORTO" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="NUMERO_FATTURA" ColumnName="NUMERO_FATTURA" />
+                <ScalarProperty Name="KEY_PAYPAL" ColumnName="KEY_PAYPAL" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PAYPAL_DETTAGLIO">
+            <EntityTypeMapping TypeName="GratisForGratisModel.PAYPAL_DETTAGLIO">
+              <MappingFragment StoreEntitySet="PAYPAL_DETTAGLIO">
+                <ScalarProperty Name="STATO" ColumnName="STATO" />
+                <ScalarProperty Name="QUANTITA" ColumnName="QUANTITA" />
+                <ScalarProperty Name="IMPORTO" ColumnName="IMPORTO" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="ID_PAYPAL" ColumnName="ID_PAYPAL" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COMMISSIONE">
+            <EntityTypeMapping TypeName="GratisForGratisModel.COMMISSIONE">
+              <MappingFragment StoreEntitySet="COMMISSIONE">
+                <ScalarProperty Name="STATO" ColumnName="STATO" />
+                <ScalarProperty Name="DATA_MODIFICA" ColumnName="DATA_MODIFICA" />
+                <ScalarProperty Name="DATA_INSERIMENTO" ColumnName="DATA_INSERIMENTO" />
+                <ScalarProperty Name="TIPO" ColumnName="TIPO" />
+                <ScalarProperty Name="PERCENTUALE" ColumnName="PERCENTUALE" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

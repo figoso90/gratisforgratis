@@ -733,6 +733,9 @@
     <Compile Include="Models\CHAT.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\COMMISSIONE.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\COMPONENTE.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
@@ -958,6 +961,12 @@
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OGGETTO_VIDEOGAMES.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PAYPAL.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PAYPAL_DETTAGLIO.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PdfModel.cs" />
@@ -1547,6 +1556,7 @@
     <Content Include="Views\Cerca\SalvataggioOK.cshtml" />
     <Content Include="Views\Cerca\SalvataggioKO.cshtml" />
     <Content Include="Views\Chat\PartialPages\_GalleriaFotoProfilo.cshtml" />
+    <Content Include="Views\Pubblica\Oggetto\Musica-elettronica.cshtml" />
     <None Include="Web References\ServizioADV\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

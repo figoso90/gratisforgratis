@@ -162,4 +162,13 @@ namespace GratisForGratis.Models
         [Display(Name = "StateCreditExpire", ResourceType = typeof(App_GlobalResources.Language))]
         SCADUTO = 6
     }
+
+    public enum StatoScambio
+    {
+        INATTIVO = 0,
+        ATTIVO = 1,
+        ELIMINATO = 2,
+        SOSPESO = 3,
+        SELEZIONATO = 4
+    }
 }

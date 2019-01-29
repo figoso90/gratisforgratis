@@ -20,6 +20,7 @@ namespace GratisForGratis.Models
             this.ANNUNCIO = new HashSet<ANNUNCIO>();
             this.CORRIERE_SERVIZIO_SPEDIZIONE = new HashSet<CORRIERE_SERVIZIO_SPEDIZIONE>();
             this.OFFERTA_SPEDIZIONE = new HashSet<OFFERTA_SPEDIZIONE>();
+            this.PAYPAL = new HashSet<PAYPAL>();
         }
     
         public int ID { get; set; }
@@ -37,5 +38,7 @@ namespace GratisForGratis.Models
         public virtual ICollection<CORRIERE_SERVIZIO_SPEDIZIONE> CORRIERE_SERVIZIO_SPEDIZIONE { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OFFERTA_SPEDIZIONE> OFFERTA_SPEDIZIONE { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PAYPAL> PAYPAL { get; set; }
     }
 }

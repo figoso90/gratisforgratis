@@ -1,7 +1,9 @@
 ﻿@using GratisForGratis.Models
 @model OffertaViewModel
 <div id="@HttpUtility.UrlEncode(Model.Annuncio.Token)" class="col-xs-12 col-md-3 purchase">
-    <h4 class="title plus">@Model.Annuncio.Nome</h4>
+    <h4 class="title plus">
+        @Html.ActionLink(Model.Annuncio.Nome, "index", "annuncio", new { token = Model.Annuncio.Token }, null)
+    </h4>
     <div class="preview">
         <div class="cella table">
             <div class="cell">
@@ -58,11 +60,11 @@
         </div>
         <div class="cella user">
             @Html.Label("Venditore", Language.Seller + ":")
-            <b>@Model.Annuncio.Venditore.Nominativo</b>
+            <b>@Html.ActionLink(Model.Annuncio.Venditore.Nominativo, "Profilo", "Utente", new { token = Model.Annuncio.Venditore.VenditoreToken }, null)</b>
         </div>
         @Html.Partial("PartialPages/_FunzioniOfferta", Model)
         <div class="cella">
-            @Html.ActionLink(Language.MoreDetails, "Index", "Annuncio", new { token = HttpUtility.UrlEncode(Model.Annuncio.Token) }, new { @class = "btn" })
+            @Html.ActionLink(Language.AdvView, "Index", "Annuncio", new { token = HttpUtility.UrlEncode(Model.Annuncio.Token) }, new { @class = "btn" })
         </div>
     </div>
     <!--

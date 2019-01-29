@@ -74,7 +74,7 @@ namespace GratisForGratis.Models
             return VerificaOfferta.Ok;
         }
 
-        public bool Accetta(DatabaseContext db, PERSONA venditore, ref string messaggio)
+        public bool Accetta(DatabaseContext db, PERSONA venditore, int? idPayPal, ref string messaggio)
         {            
             DateTime dataModifica = DateTime.Now;
 
@@ -107,10 +107,12 @@ namespace GratisForGratis.Models
             db.Entry(this.OffertaOriginale.ANNUNCIO).State = System.Data.Entity.EntityState.Modified;
 
             // salvataggio offerta
+            this.SESSIONE_COMPRATORE = null;
             this.DATA_MODIFICA = dataModifica;
             this.STATO = (int)StatoOfferta.ACCETTATA;
             this.OffertaOriginale.STATO = this.STATO;
             this.OffertaOriginale.DATA_MODIFICA = this.DATA_MODIFICA;
+            this.OffertaOriginale.SESSIONE_COMPRATORE = this.SESSIONE_COMPRATORE;
             db.OFFERTA.Attach(this.OffertaOriginale);
             db.Entry(this.OffertaOriginale).State = System.Data.Entity.EntityState.Modified;
 
@@ -118,14 +120,19 @@ namespace GratisForGratis.Models
             if (salvataggi > 1)
             {
                 CORRIERE_SERVIZIO_SPEDIZIONE spedizioneVenditore = null;
+                ANNUNCIO_TIPO_SCAMBIO tipoScambioVenditore = this.ANNUNCIO.ANNUNCIO_TIPO_SCAMBIO
+                        .FirstOrDefault(m => m.TIPO_SCAMBIO == (int)tipoScambio);
+                tipoScambioVenditore.DATA_MODIFICA = DateTime.Now;
+                tipoScambioVenditore.STATO = (int)StatoScambio.SELEZIONATO;
+                db.ANNUNCIO_TIPO_SCAMBIO.Attach(tipoScambioVenditore);
+                db.Entry(tipoScambioVenditore).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
                 // salvataggio spedizione
                 if (tipoScambio == TipoScambio.Spedizione)
                 {
-                    var tipoScambioVenditore = this.ANNUNCIO.ANNUNCIO_TIPO_SCAMBIO
-                        .FirstOrDefault(m => m.TIPO_SCAMBIO == (int)TipoScambio.Spedizione)
-                        .ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE.FirstOrDefault();
+                    var tipoScambioSpedizioneVenditore = tipoScambioVenditore.ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE.FirstOrDefault();
 
-                    spedizioneVenditore = db.CORRIERE_SERVIZIO_SPEDIZIONE.FirstOrDefault(m => m.ID == tipoScambioVenditore.ID_CORRIERE_SERVIZIO_SPEDIZIONE);
+                    spedizioneVenditore = db.CORRIERE_SERVIZIO_SPEDIZIONE.FirstOrDefault(m => m.ID == tipoScambioSpedizioneVenditore.ID_CORRIERE_SERVIZIO_SPEDIZIONE);
                     var offertaSpedizione = this.OFFERTA_SPEDIZIONE.FirstOrDefault();
                     spedizioneVenditore.ID_INDIRIZZO_DESTINATARIO = offertaSpedizione.ID_INDIRIZZO_DESTINATARIO;
                     spedizioneVenditore.NOMINATIVO_DESTINATARIO = offertaSpedizione.NOMINATIVO_DESTINATARIO;
@@ -136,14 +143,15 @@ namespace GratisForGratis.Models
                     db.SaveChanges();
                 }
 
-                TRANSAZIONE transazione = CreateTransazione(db, venditore, spedizioneVenditore);
+                TRANSAZIONE transazione = SaveTransazionePerVenditore(db, venditore, spedizioneVenditore);
                 // tolgo i punti al mittente
                 DoPagamento(db, transazione);
+                int? idTransazionePerAcquirente = SaveTransazionePerAcquirente(db, venditore, idPayPal);
                 // cambio stato dei baratti offerti
                 for (int i=0; i < this.OffertaOriginale.OFFERTA_BARATTO.Count(); i++)
                 {
                     var baratto = this.OffertaOriginale.OFFERTA_BARATTO.ToList()[i];
-                    DoBaratto(db, ref baratto, dataModifica);
+                    DoBaratto(db, ref baratto, dataModifica, idTransazionePerAcquirente);
                 }
                 AnnullaOfferteEffettuate(db, this.ID_ANNUNCIO);
                 AnnullaOfferteRicevute(db, this.ID_ANNUNCIO, this.ID);
@@ -281,13 +289,17 @@ namespace GratisForGratis.Models
             }
         }
 
-        private TRANSAZIONE CreateTransazione(DatabaseContext db, PERSONA venditore, CORRIERE_SERVIZIO_SPEDIZIONE spedizione)
+        private TRANSAZIONE SaveTransazionePerVenditore(DatabaseContext db, PERSONA venditore, CORRIERE_SERVIZIO_SPEDIZIONE spedizione)
         {
             // compratore paga venditore
             TRANSAZIONE transazione = new TRANSAZIONE();
             transazione.ID_CONTO_MITTENTE = this.PERSONA.ID_CONTO_CORRENTE;
             transazione.ID_CONTO_DESTINATARIO = venditore.ID_CONTO_CORRENTE;
-            transazione.NOME = this.ANNUNCIO.NOME;
+            transazione.NOME = Language.BuyTransaction + " " + this.ANNUNCIO.NOME;
+            if (transazione.NOME.Length > 100)
+            {
+                transazione.NOME = transazione.NOME.Substring(0, 99);
+            }
             transazione.PUNTI = this.PUNTI;
             transazione.SOLDI = Controllers.Utils.cambioValuta(this.PUNTI);
             transazione.TIPO = (int)TipoPagamento.HAPPY;
@@ -315,6 +327,31 @@ namespace GratisForGratis.Models
                 throw new Exception(string.Format(ExceptionMessage.NotSavedBidTransaction, this.ID));
 
             return transazione;
+        }
+
+        private int SaveTransazionePerAcquirente(DatabaseContext db, PERSONA venditore, int? idPayPal)
+        {
+            // passaggio baratto da acquirente a venditore
+            TRANSAZIONE transazione = new TRANSAZIONE();
+            transazione.ID_CONTO_MITTENTE = venditore.ID_CONTO_CORRENTE;
+            transazione.ID_CONTO_DESTINATARIO = this.PERSONA.ID_CONTO_CORRENTE;
+            transazione.NOME = Language.BidTransaction + " " + this.ANNUNCIO.NOME;
+            if (transazione.NOME.Length > 100)
+            {
+                transazione.NOME = transazione.NOME.Substring(0, 99);
+            }
+            transazione.PUNTI = 0;
+            transazione.SOLDI = 0;
+            transazione.TIPO = (int)TipoPagamento.HAPPY;
+            transazione.DATA_INSERIMENTO = DateTime.Now;
+            transazione.TEST = 0;
+            transazione.ID_PAYPAL = idPayPal;
+            transazione.STATO = (int)StatoPagamento.ACCETTATO;
+            db.TRANSAZIONE.Add(transazione);
+            if (db.SaveChanges() <= 0)
+                throw new Exception(string.Format(ExceptionMessage.NotSavedBidTransaction, this.ID));
+
+            return transazione.ID;
         }
 
         private void DoPagamento(DatabaseContext db, TRANSAZIONE transazione)
@@ -350,7 +387,7 @@ namespace GratisForGratis.Models
             }
         }
 
-        private void DoBaratto(DatabaseContext db,ref OFFERTA_BARATTO baratto, DateTime dataModifica)
+        private void DoBaratto(DatabaseContext db,ref OFFERTA_BARATTO baratto, DateTime dataModifica, int? idTransazione)
         {
             baratto.DATA_MODIFICA = DateTime.Now;
             baratto.STATO = (int)StatoOfferta.ACCETTATA;
@@ -367,6 +404,20 @@ namespace GratisForGratis.Models
             db.Entry(baratto.ANNUNCIO).State = System.Data.Entity.EntityState.Modified;
             if (db.SaveChanges() <= 0)
                 throw new Exception(string.Format(ExceptionMessage.NotSavedBidBarter, this.ID, baratto.ID));
+
+            if (idTransazione != null)
+            {
+                TRANSAZIONE_ANNUNCIO transazioneAnnuncio = new TRANSAZIONE_ANNUNCIO();
+                transazioneAnnuncio.ID_ANNUNCIO = baratto.ID_ANNUNCIO;
+                transazioneAnnuncio.ID_TRANSAZIONE = (int)idTransazione;
+                transazioneAnnuncio.PUNTI = 0;
+                transazioneAnnuncio.SOLDI = 0;
+                transazioneAnnuncio.DATA_INSERIMENTO = DateTime.Now;
+                transazioneAnnuncio.STATO = (int)StatoPagamento.ACCETTATO;
+                db.TRANSAZIONE_ANNUNCIO.Add(transazioneAnnuncio);
+                if (db.SaveChanges() <= 0)
+                    throw new Exception(string.Format(ExceptionMessage.NotSavedBidBarter, this.ID, baratto.ID));
+            }
         }
         #endregion
 

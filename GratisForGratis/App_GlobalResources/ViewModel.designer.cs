@@ -70,6 +70,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Puoi offrire solo tuoi annunci pubblicati con l&apos;opzione di spedizione..
+        /// </summary>
+        public static string BidOnlyAdShipment {
+            get {
+                return ResourceManager.GetString("BidOnlyAdShipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Offerte ricevute.
         /// </summary>
         public static string BidsAd {
@@ -399,6 +408,15 @@ namespace GratisForGratis.App_GlobalResources {
         public static string ProfileTopWishes {
             get {
                 return ResourceManager.GetString("ProfileTopWishes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Al costo della spedizione verrà applicata una commissione del 10%.
+        /// </summary>
+        public static string PublishAdInfoShipment {
+            get {
+                return ResourceManager.GetString("PublishAdInfoShipment", resourceCulture);
             }
         }
         

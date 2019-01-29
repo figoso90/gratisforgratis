@@ -291,6 +291,11 @@ namespace GratisForGratis.Models
             else
                 vendita.STATO = (int)StatoVendita.INATTIVO;
 
+            if (this.TipoPagamento != TipoPagamento.HAPPY)
+            {
+                vendita.ID_COMMISSIONE = GetCommissioneAnnuncio(DbContext, (decimal)vendita.SOLDI);
+            }
+
             // non funziona più perchè deve salvare prima il campo id_oggetto o id_servizio
             // per me la soluzione è salvare invece l'id annuncio nelle altre due tabelle e cambiare il metodo di visualizzazione
             DbContext.ANNUNCIO.Add(vendita);
@@ -331,6 +336,7 @@ namespace GratisForGratis.Models
         }
         public bool IsAnnuncioCompleto()
         {
+            PulisciListe();
             PropertyInfo[] properties = this.GetType().GetProperties()
                 .Where(m => m.CustomAttributes.Count(m2 => 
                     m2.AttributeType == typeof(GratisForGratis.DataAnnotations.AnnuncioCompletoAttribute)) > 0
@@ -338,8 +344,20 @@ namespace GratisForGratis.Models
             for (int i = 0; i < (int)properties.Length; i++)
             {
                 PropertyInfo propertyInfo = properties[i];
+
                 if (propertyInfo.GetValue(this) == null)
+                {
                     return false;
+                }
+                else
+                {
+                    if (typeof(System.Collections.ICollection).IsAssignableFrom(propertyInfo.PropertyType))
+                    {
+                        System.Collections.ICollection lista = (System.Collections.ICollection)propertyInfo.GetValue(this);
+                        if (lista.Count <= 0)
+                            return false;
+                    }
+                }
             }
             return true;
         }
@@ -362,6 +380,11 @@ namespace GratisForGratis.Models
         protected override bool SalvaDettaglioPerCategoriaAnnuncio(DatabaseContext db, ANNUNCIO model)
         {
             return true;
+        }
+
+        protected virtual void PulisciListe()
+        {
+            Foto.RemoveAll(m => string.IsNullOrWhiteSpace(m));
         }
         #endregion
 
@@ -452,6 +475,19 @@ namespace GratisForGratis.Models
 
             return ((risultato)? numeroPuntiGuadagnati : 0);
             //return ((risultato) ? (int)bonus.PUNTI : 0);
+        }
+
+        private int GetCommissioneAnnuncio(DatabaseContext db, decimal importo)
+        {
+            decimal percentuale = Convert.ToDecimal(ConfigurationManager.AppSettings["annuncioMonetaRealePercentuale"]);
+            COMMISSIONE commissione = new COMMISSIONE();
+            commissione.PERCENTUALE = percentuale;
+            commissione.TIPO = (int)TipoCommissione.Annuncio;
+            commissione.DATA_INSERIMENTO = DateTime.Now;
+            commissione.STATO = (int)Stato.ATTIVO;
+            db.COMMISSIONE.Add(commissione);
+            db.SaveChanges();
+            return commissione.ID;
         }
         #endregion
     }
@@ -830,6 +866,13 @@ namespace GratisForGratis.Models
             return false;
         }
 
+        protected override void PulisciListe()
+        {
+            base.PulisciListe();
+
+            Componenti.RemoveAll(m => string.IsNullOrWhiteSpace(m));
+            Materiali.RemoveAll(m => string.IsNullOrWhiteSpace(m));
+        }
         #region VERIFICA DATI
 
         protected int? checkModello(DatabaseContext db, int? id, string nome, int? marca)
@@ -1140,6 +1183,7 @@ namespace GratisForGratis.Models
             }
 
         }
+
         private bool SaveMateriali(DatabaseContext db, int idOggetto, List<string> materiali)
         {
             // salvataggio materiali, cercando prima l'esistenza in anagrafica, tramite fulltext
@@ -1170,6 +1214,7 @@ namespace GratisForGratis.Models
             };
             return true;
         }
+
         private bool SaveComponenti(DatabaseContext db, int idOggetto, List<string> componenti)
         {
             // salvataggio componenti, cercando prima l'esistenza in anagrafica, tramite fulltext
@@ -1201,6 +1246,7 @@ namespace GratisForGratis.Models
             };
             return true;
         }
+
         private bool SaveScambio(DatabaseContext db, ANNUNCIO annuncio)
         {
             try
@@ -1265,7 +1311,7 @@ namespace GratisForGratis.Models
                         spedizione.TELEFONO_MITTENTE = this.TelefonoMittente;
 
                         // aggiornamento se nuovo indirizzo SISTEMARE GESTIONE INDIRIZZO SPEDIZIONE E PUNTO DI SPEDIZIONE
-                        CORRIERE_PUNTO_SPEDIZIONE puntoSpedizione = null;
+                        //CORRIERE_PUNTO_SPEDIZIONE puntoSpedizione = null;
                         INDIRIZZO indirizzo = db.INDIRIZZO.SingleOrDefault(m => m.CIVICO == this.CivicoMittente && m.INDIRIZZO1 == this.IndirizzoMittente && m.ID_COMUNE == this.IDCittaMittente);
                         if (indirizzo == null)
                         {
@@ -1336,9 +1382,11 @@ namespace GratisForGratis.Models
                     annuncioSpedizione.SOLDI = spedizione.SOLDI;
                     annuncioSpedizione.DATA_INSERIMENTO = DateTime.Now;
                     annuncioSpedizione.STATO = (int)Stato.ATTIVO;
+                    annuncioSpedizione.ID_COMMISSIONE = GetCommissioneSpedizione(db, spedizione.SOLDI);
                     db.ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE.Add(annuncioSpedizione);
                     if (db.SaveChanges() <= 0)
                         return false;
+
                 }
             }
             catch (ShipmentException eccezione)
@@ -1355,6 +1403,19 @@ namespace GratisForGratis.Models
                 throw new Exception(ExceptionMessage.ShipmentServiceFailed);
             }
             return true;
+        }
+
+        private int GetCommissioneSpedizione(DatabaseContext db, decimal importo)
+        {
+            decimal percentuale = Convert.ToDecimal(ConfigurationManager.AppSettings["spedizionePercentuale"]);
+            COMMISSIONE commissione = new COMMISSIONE();
+            commissione.PERCENTUALE = percentuale;
+            commissione.TIPO = (int)TipoCommissione.Spedizione;
+            commissione.DATA_INSERIMENTO = DateTime.Now;
+            commissione.STATO = (int)Stato.ATTIVO;
+            db.COMMISSIONE.Add(commissione);
+            db.SaveChanges();
+            return commissione.ID;
         }
 
         #region METODI PER E-MOTION

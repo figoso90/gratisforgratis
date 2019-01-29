@@ -11,12 +11,16 @@
         minLength: 0,
         //source: $(this).data("autocomplete-url") + ($(this).data("autocomplete-filtro-extra"))? "?filtroExtra=" + $($(this).data("autocomplete-filtro-extra")).val() : "",
         source: function (request, response) {
+            var tipoScambio = "";
+            if ($('#formOfferta select[name="TipoScambio"]').length > 0) {
+                tipoScambio = $('#formOfferta select[name="TipoScambio"]').val();
+            }
             $.ajax({
                 url: "/Cerca/AnnunciBarattabili",
                 dataType: "json",
                 data: {
                     term: request.term,
-                    tipoScambio: $('#formOfferta select[name="TipoScambio"]').val()
+                    tipoScambio: tipoScambio
                 },
                 success: function (data) {
                     response(data);

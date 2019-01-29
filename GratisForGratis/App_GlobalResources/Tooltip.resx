@@ -120,4 +120,10 @@
   <data name="InfoHowSearch" xml:space="preserve">
     <value>Trova ciò che desideri cercando per descrizione, materiali, componenti, marca e tanto altro ancora...</value>
   </data>
+  <data name="PayShipment" xml:space="preserve">
+    <value>Pagando la spedizione sull'offerta effettuata, concluderai l'acquisto.</value>
+  </data>
+  <data name="PayShipmentBid" xml:space="preserve">
+    <value>Pagando la spedizione per l'offerta ricevuta, riceverai i crediti offerti e concluderai l'acquisto dei baratti offerti.</value>
+  </data>
 </root>

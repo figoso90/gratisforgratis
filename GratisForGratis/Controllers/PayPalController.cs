@@ -9,6 +9,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using GratisForGratis.Models.ExtensionMethods;
 
 namespace GratisForGratis.Controllers
 {
@@ -94,7 +95,9 @@ namespace GratisForGratis.Controllers
 
             return Redirect(paypalRedirectUrl);
         }
+        
         // GET: PayPal
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Payment(PayPalIndexViewModel viewModel)
         {
             string urlCancel = GetUrlCancel(viewModel.Azione, viewModel.Token);
@@ -188,7 +191,7 @@ namespace GratisForGratis.Controllers
             {
                 //Logger.log("Error" + ex.Message);
                 // redirect errore nell'acquisto
-                TempData["errore"] = "Errore grave durante l'acquisto";
+                TempData["errore"] = "Errore grave durante l'acquisto: " + ex.Message;
             }
             // mettere qui l'annullo dell'acquisto in modo da tornare indietro
             if (id != null)
@@ -292,7 +295,8 @@ namespace GratisForGratis.Controllers
                     case AzionePayPal.Acquisto:
                         using (DatabaseContext db = new DatabaseContext())
                         {
-                            ANNUNCIO model = db.ANNUNCIO.SingleOrDefault(m => m.ID == id);
+                            // se non metto la sessione_compratore torno indietro dall'acquisto e annullo tutto.
+                            ANNUNCIO model = db.ANNUNCIO.SingleOrDefault(m => m.ID == id && m.SESSIONE_COMPRATORE!=null);
                             if (model != null)
                             {
                                 if (model.STATO == (int)StatoVendita.SOSPESOPEROFFERTA)
@@ -312,7 +316,7 @@ namespace GratisForGratis.Controllers
                     case AzionePayPal.Offerta:
                         using (DatabaseContext db = new DatabaseContext())
                         {
-                            OFFERTA model = db.OFFERTA.SingleOrDefault(m => m.ID == id);
+                            OFFERTA model = db.OFFERTA.SingleOrDefault(m => m.ID == id && m.SESSIONE_COMPRATORE!=null);
                             if (model != null)
                             {
                                 model.ANNUNCIO.STATO = (int)StatoVendita.ATTIVO;
@@ -325,7 +329,7 @@ namespace GratisForGratis.Controllers
                     case AzionePayPal.OffertaOK:
                         using (DatabaseContext db = new DatabaseContext())
                         {
-                            ANNUNCIO model = db.ANNUNCIO.SingleOrDefault(m => m.ID == id);
+                            ANNUNCIO model = db.ANNUNCIO.SingleOrDefault(m => m.ID == id && m.SESSIONE_COMPRATORE!=null);
                             if (model != null)
                             {
                                 model.STATO = (int)StatoVendita.BARATTOINCORSO;
@@ -342,19 +346,27 @@ namespace GratisForGratis.Controllers
 
         private List<Transaction> GetListTransaction(AzionePayPal azione, string guid)
         {
-            switch (azione)
+            using(DatabaseContext db = new DatabaseContext())
             {
-                case AzionePayPal.Acquisto:
-                    AcquistoViewModel acquisto = Session["PayPalCompra"] as AcquistoViewModel;
-                    AnnuncioModel annuncio = Session["PayPalAnnuncio"] as AnnuncioModel;
-                    return GetListTransactionFromAcquisto(acquisto, annuncio, guid);
-                case AzionePayPal.Offerta:
-                    OffertaModel offerta = Session["PayPalOfferta"] as OffertaModel;
-                    return GetListTransactionFromOfferta(offerta, guid);
-                case AzionePayPal.OffertaOK:
-                    AcquistoViewModel acquistoOfferta = Session["PayPalCompra"] as AcquistoViewModel;
-                    AnnuncioModel annuncioOfferta = Session["PayPalAnnuncio"] as AnnuncioModel;
-                    return GetListTransactionFromAcquisto(acquistoOfferta, annuncioOfferta, guid);
+                switch (azione)
+                {
+                    case AzionePayPal.Acquisto:
+                        AcquistoViewModel acquisto = Session["PayPalCompra"] as AcquistoViewModel;
+                        //AnnuncioModel annuncio = Session["PayPalAnnuncio"] as AnnuncioModel;
+                        AnnuncioModel annuncio = new AnnuncioModel((Session["PayPalAnnuncio"] as AnnuncioModel).TOKEN, db);
+                        return GetListTransactionFromAcquisto(acquisto, annuncio, guid);
+                    case AzionePayPal.Offerta:
+                        //OffertaModel offerta = Session["PayPalOfferta"] as OffertaModel;
+                        int idOfferta = (Session["PayPalOfferta"] as OffertaModel).ID;
+                        var model = db.OFFERTA.SingleOrDefault(m => m.ID == idOfferta);
+                        OffertaModel offerta = new OffertaModel(model);
+                        return GetListTransactionFromOfferta(offerta, guid);
+                    case AzionePayPal.OffertaOK:
+                        AcquistoViewModel acquistoOfferta = Session["PayPalCompra"] as AcquistoViewModel;
+                        //AnnuncioModel annuncioOfferta = Session["PayPalAnnuncio"] as AnnuncioModel;
+                        AnnuncioModel annuncioOfferta = new AnnuncioModel((Session["PayPalAnnuncio"] as AnnuncioModel).TOKEN, db);
+                        return GetListTransactionFromAcquisto(acquistoOfferta, annuncioOfferta, guid);
+                }
             }
             return null;
         }
@@ -368,14 +380,28 @@ namespace GratisForGratis.Controllers
 
             if (annuncio.TIPO_PAGAMENTO != (int)TipoPagamento.HAPPY)
             {
-                itemList.items.Add(new Item()
+                if (annuncio.SOLDI!=null && annuncio.SOLDI > 0)
                 {
-                    name = annuncio.NOME,
-                    currency = tipoValuta.CODICE,
-                    price = ConvertDecimalToString(annuncio.SOLDI),
-                    quantity = "1",
-                    sku = "sku"
-                });
+                    itemList.items.Add(new Item()
+                    {
+                        name = annuncio.NOME,
+                        currency = tipoValuta.CODICE,
+                        price = ConvertDecimalToString(annuncio.SOLDI),
+                        quantity = "1",
+                        sku = "sku"
+                    });
+                    //decimal percentualeAnnuncio = Convert.ToDecimal(System.Configuration.ConfigurationManager.AppSettings["annuncioMonetaRealePercentuale"]);
+                    //decimal commissioneAnnuncio = (((decimal)annuncio.SOLDI / 100) * percentualeAnnuncio);
+                    decimal commissioneAnnuncio = (((decimal)annuncio.SOLDI / 100) * annuncio.COMMISSIONE.PERCENTUALE);
+                    itemList.items.Add(new Item()
+                    {
+                        name = App_GlobalResources.Language.PayPalAd,
+                        currency = tipoValuta.CODICE,
+                        price = ConvertDecimalToString(commissioneAnnuncio),
+                        quantity = "1",
+                        sku = "sku"
+                    });
+                }
             }
 
             // se presente spedizione
@@ -391,6 +417,17 @@ namespace GratisForGratis.Controllers
                         currency = tipoValuta.CODICE,
                         price = ConvertDecimalToString(spedizione.SOLDI),
                         //price = ConvertDecimalToString(new Decimal(1006.5)), // prova fissa verifica conversione
+                        quantity = "1",
+                        sku = "sku"
+                    });
+                    //decimal percentualeSpedizione = Convert.ToDecimal(System.Configuration.ConfigurationManager.AppSettings["spedizionePercentuale"]);
+                    //decimal commissioneSpedizione = (((decimal)spedizione.SOLDI / 100) * percentualeSpedizione);
+                    decimal commissioneSpedizione = (((decimal)spedizione.SOLDI / 100) * spedizione.COMMISSIONE.PERCENTUALE);
+                    itemList.items.Add(new Item()
+                    {
+                        name = App_GlobalResources.Language.PayPalShipment,
+                        currency = tipoValuta.CODICE,
+                        price = ConvertDecimalToString(commissioneSpedizione),
                         quantity = "1",
                         sku = "sku"
                     });
@@ -446,6 +483,18 @@ namespace GratisForGratis.Controllers
                     quantity = "1",
                     sku = "sku"
                 });
+
+                //decimal percentualeSpedizione = Convert.ToDecimal(System.Configuration.ConfigurationManager.AppSettings["spedizionePercentuale"]);
+                //decimal commissioneSpedizione = (((decimal)spedizione.SOLDI / 100) * percentualeSpedizione);
+                decimal commissioneSpedizione = (((decimal)spedizione.SOLDI / 100) * spedizione.COMMISSIONE.PERCENTUALE);
+                itemList.items.Add(new Item()
+                {
+                    name = App_GlobalResources.Language.PayPalShipment,
+                    currency = tipoValuta.CODICE,
+                    price = ConvertDecimalToString(commissioneSpedizione),
+                    quantity = "1",
+                    sku = "sku"
+                });
             }
 
             decimal subtotal = itemList.items.Sum(m => ConvertStringToDecimal(m.price));
@@ -487,16 +536,26 @@ namespace GratisForGratis.Controllers
 
             if (offerta.ANNUNCIO.TIPO_PAGAMENTO != (int)TipoPagamento.HAPPY)
             {
-                if (offerta.SOLDI > 0)
+                if (offerta.SOLDI!=null && offerta.SOLDI > 0)
                 {
                     itemList.items.Add(new Item()
                     {
                         name = "Pagamento offerta per annuncio: " + offerta.ANNUNCIO.NOME,
                         currency = tipoValuta.CODICE,
-                        price = ConvertDecimalToString(offerta.SOLDI),
+                        price = ConvertDecimalToString((decimal)offerta.SOLDI),
                         quantity = "1",
                         sku = "sku"
                     });
+                    //decimal percentualeAnnuncio = Convert.ToDecimal(System.Configuration.ConfigurationManager.AppSettings["annuncioMonetaRealePercentuale"]);
+                    //decimal commissioneAnnuncio = (((decimal)offerta.SOLDI / 100) * percentualeAnnuncio);
+                    //itemList.items.Add(new Item()
+                    //{
+                    //    name = App_GlobalResources.Language.PayPalAd,
+                    //    currency = tipoValuta.CODICE,
+                    //    price = ConvertDecimalToString(commissioneAnnuncio),
+                    //    quantity = "1",
+                    //    sku = "sku"
+                    //});
                 }
             }
 
@@ -512,6 +571,17 @@ namespace GratisForGratis.Controllers
                         currency = tipoValuta.CODICE,
                         price = ConvertDecimalToString(spedizione.SOLDI),
                         //price = ConvertDecimalToString(new Decimal(1006.5)), // prova fissa verifica conversione
+                        quantity = "1",
+                        sku = "sku"
+                    });
+
+                    decimal percentualeSpedizione = Convert.ToDecimal(System.Configuration.ConfigurationManager.AppSettings["spedizionePercentuale"]);
+                    decimal commissioneSpedizione = (((decimal)spedizione.SOLDI / 100) * percentualeSpedizione);
+                    itemList.items.Add(new Item()
+                    {
+                        name = App_GlobalResources.Language.PayPalShipment,
+                        currency = tipoValuta.CODICE,
+                        price = ConvertDecimalToString(commissioneSpedizione),
                         quantity = "1",
                         sku = "sku"
                     });
@@ -639,14 +709,15 @@ namespace GratisForGratis.Controllers
                 log.DATA_INSERIMENTO = DateTime.Now;
                 db.LOG_PAGAMENTO.Add(log);
                 db.SaveChanges();
-                using (System.Data.Entity.DbContextTransaction transaction = db.Database.BeginTransaction())
+                int idPaypal = SavePayPal(db, payment);
+                using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
                     viewModel.PagamentoFatto = true;
                     AnnuncioModel annuncioModel = new AnnuncioModel(annuncio);
                     Models.Enumerators.VerificaAcquisto verifica = annuncioModel.Acquisto(db, viewModel);
                     if (verifica == Models.Enumerators.VerificaAcquisto.Ok)
                     {
-                        if (model.CompletaAcquisto(db, viewModel))
+                        if (model.CompletaAcquisto(db, viewModel, idPaypal))
                         {
                             transaction.Commit();
                             this.RefreshPunteggioUtente(db);
@@ -687,7 +758,7 @@ namespace GratisForGratis.Controllers
                 db.OFFERTA_SPEDIZIONE.Attach(spedizione);
                 db.Entry(spedizione).State = EntityState.Modified;
                 db.SaveChanges();
-
+                int idPayPal = SavePayPal(db, payment);
                 using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
                     try
@@ -702,7 +773,7 @@ namespace GratisForGratis.Controllers
                         offerta.AnnuncioModel.ANNUNCIO_TIPO_SCAMBIO = offerta.ANNUNCIO.ANNUNCIO_TIPO_SCAMBIO;
 
                         //if (offerta.Accetta(db, utente.Persona, utente.Credito, ref messaggio)) => non passa compratore nell'offerta
-                        if (offerta.Accetta(db, utente.Persona, ref messaggio))
+                        if (offerta.Accetta(db, utente.Persona, idPayPal, ref messaggio))
                         {
                             transaction.Commit();
                             //System.Web.Routing.RouteValueDictionary data = new System.Web.Routing.RouteValueDictionary(new { token = offerta.ID });
@@ -721,7 +792,6 @@ namespace GratisForGratis.Controllers
             return false;
         }
 
-        // NON USATO - 25-12-2018
         private bool SaveOffertaCompleta(PayPalIndexViewModel paypal, Payment payment)
         {
             AcquistoViewModel viewModel = Session["PayPalCompra"] as AcquistoViewModel;
@@ -742,15 +812,17 @@ namespace GratisForGratis.Controllers
                 log.DATA_INSERIMENTO = DateTime.Now;
                 db.LOG_PAGAMENTO.Add(log);
                 db.SaveChanges();
-                using (System.Data.Entity.DbContextTransaction transaction = db.Database.BeginTransaction())
+                int idPayPal = SavePayPal(db, payment);
+
+                using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
                     viewModel.PagamentoFatto = true;
                     AnnuncioModel annuncioModel = new AnnuncioModel(annuncio);
-                    Models.Enumerators.VerificaAcquisto verifica = annuncioModel.Acquisto(db, viewModel);
+                    Models.Enumerators.VerificaAcquisto verifica = annuncioModel.Acquisto(db, viewModel, true);
                     if (verifica == Models.Enumerators.VerificaAcquisto.Ok)
                     {
                         OFFERTA offerta = db.OFFERTA.SingleOrDefault(m => m.ID == paypal.Id);
-                        if (model.CompletaAcquistoOfferta(db, offerta))
+                        if (model.CompletaAcquistoOfferta(db, offerta, idPayPal))
                         {
                             transaction.Commit();
                             this.RefreshPunteggioUtente(db);
@@ -788,28 +860,57 @@ namespace GratisForGratis.Controllers
             }
         }
 
-        // metodo inutilizzato, viene usato direttamente paypal
-        private CreditCard GetCreditCard(AzionePayPal azione)
+        private int SavePayPal(DatabaseContext db, Payment payment)
         {
-            switch (azione)
+            var transazione = payment.transactions.FirstOrDefault();
+            TIPO_VALUTA tipoValuta = (HttpContext.Application["tipoValuta"] as List<TIPO_VALUTA>).SingleOrDefault(m => m.CODICE == transazione.amount.currency);
+
+            PAYPAL paypal = new PAYPAL();
+            paypal.KEY_PAYPAL = payment.id;
+            paypal.NUMERO_FATTURA = transazione.invoice_number;
+            paypal.NOME = transazione.description;
+            paypal.IMPORTO = transazione.amount.total.ParseFromPayPal();
+            paypal.ID_TIPO_VALUTA = tipoValuta.ID;
+            paypal.DATA_INSERIMENTO = DateTime.Now;
+            paypal.STATO = (int)Stato.ATTIVO;
+            db.PAYPAL.Add(paypal);
+            db.SaveChanges();
+            foreach(var item in transazione.item_list.items)
             {
-                case AzionePayPal.Acquisto:
-                    CreditCard creditCard = new CreditCard();
-                    AcquistoViewModel viewModel = Session["PayPalCompra"] as AcquistoViewModel;
-                    //crdtCard.billing_address = billingAddress;
-                    creditCard.type = viewModel.TipoCarta.ToString();
-                    creditCard.number = viewModel.NumeroCarta;
-                    creditCard.cvv2 = ((int)viewModel.Cvv2).ToString();
-                    creditCard.first_name = viewModel.NomeTitolareCarta;
-                    creditCard.last_name = viewModel.CognomeTitolareCarta;
-                    creditCard.expire_month = (int)viewModel.MeseScadenzaCarta;
-                    creditCard.expire_year = (int)viewModel.AnnoScadenzaCarta;
-                    return creditCard;
-                case AzionePayPal.Offerta:
-                    break;
+                PAYPAL_DETTAGLIO dettaglio = new PAYPAL_DETTAGLIO();
+                dettaglio.ID_PAYPAL = paypal.ID;
+                dettaglio.NOME = item.name;
+                dettaglio.IMPORTO = item.price.ParseFromPayPal();
+                dettaglio.QUANTITA = Convert.ToInt32(item.quantity);
+                dettaglio.STATO = (int)Stato.ATTIVO;
+                db.PAYPAL_DETTAGLIO.Add(dettaglio);
+                db.SaveChanges();
             }
-            return null;
+            return paypal.ID;
         }
+
+        // metodo inutilizzato, viene usato direttamente paypal
+        //private CreditCard GetCreditCard(AzionePayPal azione)
+        //{
+        //    switch (azione)
+        //    {
+        //        case AzionePayPal.Acquisto:
+        //            CreditCard creditCard = new CreditCard();
+        //            AcquistoViewModel viewModel = Session["PayPalCompra"] as AcquistoViewModel;
+        //            //crdtCard.billing_address = billingAddress;
+        //            creditCard.type = viewModel.TipoCarta.ToString();
+        //            creditCard.number = viewModel.NumeroCarta;
+        //            creditCard.cvv2 = ((int)viewModel.Cvv2).ToString();
+        //            creditCard.first_name = viewModel.NomeTitolareCarta;
+        //            creditCard.last_name = viewModel.CognomeTitolareCarta;
+        //            creditCard.expire_month = (int)viewModel.MeseScadenzaCarta;
+        //            creditCard.expire_year = (int)viewModel.AnnoScadenzaCarta;
+        //            return creditCard;
+        //        case AzionePayPal.Offerta:
+        //            break;
+        //    }
+        //    return null;
+        //}
         #endregion
     }
 }

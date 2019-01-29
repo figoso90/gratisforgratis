@@ -306,4 +306,10 @@
   <data name="LoginRegistration" xml:space="preserve">
     <value>Registrazione completa</value>
   </data>
+  <data name="BidOnlyAdShipment" xml:space="preserve">
+    <value>Puoi offrire solo tuoi annunci pubblicati con l'opzione di spedizione.</value>
+  </data>
+  <data name="PublishAdInfoShipment" xml:space="preserve">
+    <value>Al costo della spedizione verrà applicata una commissione del 10%</value>
+  </data>
 </root>

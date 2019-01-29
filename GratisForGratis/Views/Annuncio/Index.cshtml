@@ -31,7 +31,7 @@
                     }
                 </div>
                 <div class="user">
-                    <h5 class="seller"><img class="glyphicon" src="@Url.Content("~/Images/icone/sellerMan.svg")" alt="@Language.Seller" /> <span>@Model.Venditore.Nominativo</span></h5>
+                    <h5 class="seller"><img class="glyphicon" src="@Url.Content("~/Images/icone/sellerMan.svg")" alt="@Language.Seller" /> <span><b>@Html.ActionLink(Model.Venditore.Nominativo, "Profilo", "Utente", new { token = Model.Venditore.VenditoreToken }, null)</b></span></h5>
                     <h5 class="place"><img class="glyphicon" src="@Url.Content("~/Images/icone/position.svg")" alt="@Language.Place" /> <span>@Model.Citta</span></h5>
                 </div>
                 <div class="feedback" title="@Language.FeedbackUser">

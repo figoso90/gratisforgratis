@@ -40,7 +40,7 @@ namespace GratisForGratis.Models
             {
                 CONTO_CORRENTE_CREDITO credito = _db.CONTO_CORRENTE_CREDITO
                     .Where(m => m.ID_CONTO_CORRENTE == this.ID_CONTO_CORRENTE
-                        && m.STATO == (int)StatoCredito.ASSEGNATO && m.DATA_SCADENZA > DateTime.Now)
+                        && m.STATO == (int)StatoCredito.ASSEGNATO && m.PUNTI > 0 && m.DATA_SCADENZA > DateTime.Now)
                     .OrderBy(m => m.DATA_SCADENZA)
                     .FirstOrDefault();
                 if ((punti - credito.PUNTI) < 0)
@@ -57,6 +57,7 @@ namespace GratisForGratis.Models
                 {
                     credito.PUNTI -= puntiRimanenti;
                 }
+                credito.DATA_MODIFICA = DateTime.Now;
                 credito.ID_OFFERTA_USCITA = idOffertaUscita;
                 credito.STATO = (int)StatoCredito.SOSPESO;
                 _db.SaveChanges();
@@ -123,6 +124,8 @@ namespace GratisForGratis.Models
             foreach (CONTO_CORRENTE_CREDITO m in creditoNegativo)
             {
                 decimal totale = puntiCreditoRimanente + m.PUNTI;
+                m.DATA_MODIFICA = DateTime.Now;
+                m.DATA_SCADENZA = DateTime.Now;
                 m.STATO = (int)StatoCredito.ELIMINATO;
                 _db.SaveChanges();
                 if (totale < 0)
@@ -168,6 +171,8 @@ namespace GratisForGratis.Models
             foreach (CONTO_CORRENTE_CREDITO m in creditoPositivo)
             {
                 decimal totale = m.PUNTI + puntiDebitoRimanente;
+                m.DATA_MODIFICA = DateTime.Now;
+                m.DATA_SCADENZA = DateTime.Now;
                 m.STATO = (int)StatoCredito.ELIMINATO;
                 _db.SaveChanges();
                 if (totale < 0)

@@ -2,7 +2,9 @@
 @model AnnuncioViewModel
 
 <div id="@HttpUtility.UrlEncode(Model.Token)" class="col-xs-12 col-md-3 purchase">
-    <h4 class="title plus">@Model.Nome</h4>
+    <h4 class="title plus">
+        @Html.ActionLink(Model.Nome, "index", "annuncio", new { token = Model.Token }, null)
+    </h4>
     <div class="preview">
         <div class="cella table">
             <div class="cell">

@@ -182,4 +182,11 @@ namespace GratisForGratis.Models
         Video = 2,
         Spedizioni = 3
     }
+
+    public enum TipoCommissione
+    {
+        Spedizione = 0,
+        Annuncio = 1,
+        RimborsoSpese = 2
+    }
 }

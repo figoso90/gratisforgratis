@@ -338,6 +338,15 @@
         <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_TRANSAZIONE" />
         <AssociationConnector Association="GratisForGratisModel.FK_TRANSAZIONE_ANNUNCIO_TRANSAZIONE" />
         <AssociationConnector Association="GratisForGratisModel.FK_TRANSAZIONE_SPEDIZIONE_TRANSAZIONE" />
+        <EntityTypeShape EntityType="GratisForGratisModel.PAYPAL" Width="1.5" PointX="11.25" PointY="87.75" />
+        <EntityTypeShape EntityType="GratisForGratisModel.PAYPAL_DETTAGLIO" Width="1.5" PointX="13.5" PointY="88.125" />
+        <AssociationConnector Association="GratisForGratisModel.FK_PAYPAL_DETTAGLIO_PAYPAL" />
+        <AssociationConnector Association="GratisForGratisModel.FK_PAYPAL_TIPO_VALUTA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_TRANSAZIONE_PAYPAL" />
+        <EntityTypeShape EntityType="GratisForGratisModel.COMMISSIONE" Width="1.5" PointX="7.375" PointY="1" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_COMMISSIONE" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE_COMMISSIONE" />
+        <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_COMMISSIONE" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

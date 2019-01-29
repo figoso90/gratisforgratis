@@ -9,19 +9,29 @@
 @if (Model.TipoScambio.Contains(TipoScambio.Spedizione))
 {
     <h5 class="shipment"><b>@Language.Shipment :</b> <span class="evidence">@Model.SoldiSpedizione (@Model.NomeCorriere)</span></h5>
-    <h5><b>Disponibilità per la spedizione</b></h5>
-    <h5 class="giorniSpedizione">
-        <b>Giorni</b>
-        INSERIRE GIORNI E ORARI PER LA SPEDIZIONE....
-    </h5>
-    <h5 class="orariSpedizione">
-        <b>orari</b>
-        INSERIRE GIORNI E ORARI PER LA SPEDIZIONE....
-    </h5>
-    <h5 class="TempoImballaggio">
-        <b>Tempo imballaggio</b>
-        INSERIRE GIORNI E ORARI PER LA SPEDIZIONE....
-    </h5>
+    <h5><b>DISPONIBILITà PER LA SPEDIZIONE</b></h5>
+    <h5 class="giorniSpedizione"><b>Giorni</b></h5>
+    <p>
+        @foreach (var giorno in Model.GiorniSpedizioneEnum.Where(m => Model.GiorniSpedizione.Exists(n => n.ToString() == m.Value)))
+        {
+            @(giorno.Text + "; ")
+        }
+    </p>
+    <h5 class="orariSpedizione"><b>Orari</b></h5>
+    <p>
+        @foreach (var orario in Model.OrariSpedizioneEnum.Where(m => Model.OrariSpedizione.Exists(n => n.ToString() == m.Value)))
+        {
+            @(orario.Text +"; ")
+        }
+    </p>
+        
+    <h5 class="TempoImballaggio"><b>Tempo Imballaggio</b></h5>
+    <p>
+        @foreach (var tempo in Model.TempoImballaggioEnum.Where(m => Model.TempoImballaggio.ToString() == m.Value))
+        {
+            @(tempo.Text)
+        }
+    </p>
 }
 @if (Model.Materiali.Count(m => m.Trim() != string.Empty) > 0)
 {

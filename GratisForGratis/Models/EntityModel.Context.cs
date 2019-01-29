@@ -145,6 +145,9 @@ namespace GratisForGratis.Models
         public virtual DbSet<CONTO_CORRENTE_CREDITO> CONTO_CORRENTE_CREDITO { get; set; }
         public virtual DbSet<OFFERTA> OFFERTA { get; set; }
         public virtual DbSet<TRANSAZIONE> TRANSAZIONE { get; set; }
+        public virtual DbSet<PAYPAL> PAYPAL { get; set; }
+        public virtual DbSet<PAYPAL_DETTAGLIO> PAYPAL_DETTAGLIO { get; set; }
+        public virtual DbSet<COMMISSIONE> COMMISSIONE { get; set; }
     
         public virtual int AGGIORNAMENTO_CATEGORIE()
         {

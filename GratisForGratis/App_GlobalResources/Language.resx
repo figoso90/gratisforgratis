@@ -1704,4 +1704,25 @@
   <data name="StateCreditLost" xml:space="preserve">
     <value>Ceduto</value>
   </data>
+  <data name="PayPalAd" xml:space="preserve">
+    <value>Commissione annuncio</value>
+  </data>
+  <data name="PayPalShipment" xml:space="preserve">
+    <value>Commissione spedizione</value>
+  </data>
+  <data name="BidTransaction" xml:space="preserve">
+    <value>Offerta accettata</value>
+  </data>
+  <data name="BuyTransaction" xml:space="preserve">
+    <value>Comprato</value>
+  </data>
+  <data name="AdvView" xml:space="preserve">
+    <value>Visualizza annuncio</value>
+  </data>
+  <data name="PayShipment" xml:space="preserve">
+    <value>Paga spedizione!</value>
+  </data>
+  <data name="PayShipmentBid" xml:space="preserve">
+    <value>Paga spedizione!</value>
+  </data>
 </root>

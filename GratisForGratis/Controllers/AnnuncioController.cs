@@ -16,6 +16,7 @@ namespace GratisForGratis.Controllers
         // GET: Annuncio
         [HttpGet]
         [AllowAnonymous]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Index(string token, string azione = "compra")
         {
             try
@@ -41,6 +42,7 @@ namespace GratisForGratis.Controllers
         }
 
         [HttpPost]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Compra(AcquistoViewModel viewModel)
         {
             AnnuncioModel model = null;
@@ -122,6 +124,7 @@ namespace GratisForGratis.Controllers
         }
 
         [HttpPost]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult InviaOfferta(OffertaViewModel viewModel)
         {
             AnnuncioModel model = new AnnuncioModel();
@@ -172,6 +175,7 @@ namespace GratisForGratis.Controllers
         }
 
         [HttpPost]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult AccettaOfferta(string token)
         {
             int idOfferta = Utils.DecodeToInt(token);
@@ -216,7 +220,7 @@ namespace GratisForGratis.Controllers
                         }
                         else if (verifica == Models.Enumerators.VerificaOfferta.Ok)
                         {
-                            if (offertaModel.Accetta(db, utente.Persona, ref messaggio))
+                            if (offertaModel.Accetta(db, utente.Persona, null, ref messaggio))
                             {
                                 // se offerta dev'essere pagata, invio notifica e reindirizzo a pagina pagamento
                                 // se venditore annulla pagamento, potrà sempre pagare più avanti, sennò feedback negativo e annullo transazioni
@@ -249,6 +253,7 @@ namespace GratisForGratis.Controllers
         }
 
         [HttpPost]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult CompletaOfferta(string token)
         {
             int idOfferta = Utils.DecodeToInt(token);
@@ -284,6 +289,7 @@ namespace GratisForGratis.Controllers
         }
 
         [HttpPost]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         //[ValidateAjax]
         //public JsonResult RifiutaOfferta(string token)
         public ActionResult RifiutaOfferta(string token)

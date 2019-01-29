@@ -7,11 +7,11 @@
     @Html.TextAreaFor(m => m.NoteAggiuntive, new { @class = "form-control" })
     @Html.ValidationMessageFor(m => m.NoteAggiuntive, "", new { @class = "text-danger" })
 </div>
-<div class="form-group">
+@*<div class="form-group">
     @Html.LabelFor(m => m.DurataInserzione, new { @class = "col-md-2 control-label" })
     @Html.DropDownListFor(m => m.DurataInserzione, Model.ListaDurataInserzione, new { @class = "form-control" })
     @Html.ValidationMessageFor(m => m.DurataInserzione, "", new { @class = "text-danger" })
-</div>
+</div>*@
 
 <div class="form-group">
     @Html.LabelFor(m => m.Tariffa, new { @class = "col-md-2 control-label" })

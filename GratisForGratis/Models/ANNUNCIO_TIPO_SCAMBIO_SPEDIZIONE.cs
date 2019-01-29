@@ -29,11 +29,13 @@ namespace GratisForGratis.Models
         public System.DateTime DATA_INSERIMENTO { get; set; }
         public Nullable<System.DateTime> DATA_MODIFICA { get; set; }
         public int STATO { get; set; }
+        public Nullable<int> ID_COMMISSIONE { get; set; }
     
         public virtual ANNUNCIO_TIPO_SCAMBIO ANNUNCIO_TIPO_SCAMBIO { get; set; }
         public virtual CORRIERE_SERVIZIO_SPEDIZIONE CORRIERE_SERVIZIO_SPEDIZIONE { get; set; }
         public virtual TIPO_OGGETTO TIPO_OGGETTO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TRANSAZIONE_ANNUNCIO_SPEDIZIONE> TRANSAZIONE_ANNUNCIO_SPEDIZIONE { get; set; }
+        public virtual COMMISSIONE COMMISSIONE { get; set; }
     }
 }

@@ -295,6 +295,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Visualizza annuncio.
+        /// </summary>
+        public static string AdvView {
+            get {
+                return ResourceManager.GetString("AdvView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Tutti.
         /// </summary>
         public static string All {
@@ -399,6 +408,15 @@ namespace GratisForGratis.App_GlobalResources {
         public static string BidPayment {
             get {
                 return ResourceManager.GetString("BidPayment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Offerta accettata.
+        /// </summary>
+        public static string BidTransaction {
+            get {
+                return ResourceManager.GetString("BidTransaction", resourceCulture);
             }
         }
         
@@ -525,6 +543,15 @@ namespace GratisForGratis.App_GlobalResources {
         public static string BuyNow {
             get {
                 return ResourceManager.GetString("BuyNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Comprato.
+        /// </summary>
+        public static string BuyTransaction {
+            get {
+                return ResourceManager.GetString("BuyTransaction", resourceCulture);
             }
         }
         
@@ -3054,6 +3081,42 @@ namespace GratisForGratis.App_GlobalResources {
         public static string PaymentName {
             get {
                 return ResourceManager.GetString("PaymentName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Commissione annuncio.
+        /// </summary>
+        public static string PayPalAd {
+            get {
+                return ResourceManager.GetString("PayPalAd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Commissione spedizione.
+        /// </summary>
+        public static string PayPalShipment {
+            get {
+                return ResourceManager.GetString("PayPalShipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Paga spedizione!.
+        /// </summary>
+        public static string PayShipment {
+            get {
+                return ResourceManager.GetString("PayShipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Paga spedizione!.
+        /// </summary>
+        public static string PayShipmentBid {
+            get {
+                return ResourceManager.GetString("PayShipmentBid", resourceCulture);
             }
         }
         

@@ -67,6 +67,8 @@ namespace GratisForGratis.Models
                 .Include("PERSONA_FOTO")
                 .Include("PERSONA_ATTIVITA")
                 .SingleOrDefault(m => m.ID == idPersona);
+
+            //db.Entry(this.Persona).Reload();
             this.SetValoriBase();
             
             this.Email = this.Persona.PERSONA_EMAIL.Where(m => m.ID_PERSONA == idPersona).ToList();

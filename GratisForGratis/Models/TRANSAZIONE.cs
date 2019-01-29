@@ -37,6 +37,7 @@ namespace GratisForGratis.Models
         public Nullable<System.DateTime> DATA_INSERIMENTO { get; set; }
         public Nullable<System.DateTime> DATA_MODIFICA { get; set; }
         public int STATO { get; set; }
+        public Nullable<int> ID_PAYPAL { get; set; }
     
         public virtual CONTO_CORRENTE CONTO_CORRENTE { get; set; }
         public virtual CONTO_CORRENTE CONTO_CORRENTE1 { get; set; }
@@ -52,5 +53,6 @@ namespace GratisForGratis.Models
         public virtual ICollection<TRANSAZIONE_ANNUNCIO> TRANSAZIONE_ANNUNCIO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TRANSAZIONE_ANNUNCIO_SPEDIZIONE> TRANSAZIONE_ANNUNCIO_SPEDIZIONE { get; set; }
+        public virtual PAYPAL PAYPAL { get; set; }
     }
 }

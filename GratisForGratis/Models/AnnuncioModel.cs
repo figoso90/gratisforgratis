@@ -30,6 +30,7 @@ namespace GratisForGratis.Models
         public AnnuncioModel(Guid token, DatabaseContext db) : base()
         {
             this._AnnuncioOriginale = db.ANNUNCIO.SingleOrDefault(m => m.TOKEN == token);
+            //db.Entry(this._AnnuncioOriginale).Reload();
             CopyAttributes<ANNUNCIO>(_AnnuncioOriginale);
         }
 
@@ -161,10 +162,10 @@ namespace GratisForGratis.Models
             return VerificaAcquisto.Ok;
         }
 
-        public VerificaAcquisto Acquisto(DatabaseContext db, AcquistoViewModel viewModel)
+        public VerificaAcquisto Acquisto(DatabaseContext db, AcquistoViewModel viewModel, bool offerta = false)
         {
             PersonaModel utente = (PersonaModel)HttpContext.Current.Session["utente"];
-            VerificaAcquisto verifica = CheckAcquisto(utente.Persona, utente.Credito, viewModel.TipoScambio, viewModel.PagamentoFatto);
+            VerificaAcquisto verifica = CheckAcquisto(utente.Persona, utente.Credito, viewModel.TipoScambio, viewModel.PagamentoFatto, offerta);
             switch (verifica)
             {
                 case VerificaAcquisto.Ok:
@@ -194,7 +195,7 @@ namespace GratisForGratis.Models
             return verifica;
         }
 
-        public bool CompletaAcquisto(DatabaseContext db, AcquistoViewModel viewModel)
+        public bool CompletaAcquisto(DatabaseContext db, AcquistoViewModel viewModel, int? idPayPal = null)
         {
             PersonaModel utente = (PersonaModel)HttpContext.Current.Session["utente"];
             ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE spedizione = null;
@@ -213,6 +214,7 @@ namespace GratisForGratis.Models
             transazione.STATO = (int)StatoPagamento.ACCETTATO;
             if (!string.IsNullOrWhiteSpace(ExternalPaymentId))
                 transazione.EXTERNAL_ID = ExternalPaymentId;
+            transazione.ID_PAYPAL = idPayPal;
             db.TRANSAZIONE.Add(transazione);
             if (db.SaveChanges() > 0)
             {
@@ -225,7 +227,17 @@ namespace GratisForGratis.Models
                 transazioneAnnuncio.DATA_INSERIMENTO = DateTime.Now;
                 transazioneAnnuncio.STATO = (int)StatoPagamento.ACCETTATO;
 
-                ANNUNCIO_TIPO_SCAMBIO tipoScambio = this.ANNUNCIO_TIPO_SCAMBIO.FirstOrDefault(m => m.TIPO_SCAMBIO == (int)TipoScambio.Spedizione);
+                //ANNUNCIO_TIPO_SCAMBIO tipoScambio = this.ANNUNCIO_TIPO_SCAMBIO
+                //    .FirstOrDefault(m => m.TIPO_SCAMBIO == (int)TipoScambio.Spedizione);
+                int idTipoScambio = this.ANNUNCIO_TIPO_SCAMBIO
+                    .FirstOrDefault(m => m.TIPO_SCAMBIO == (int)viewModel.TipoScambio).ID;
+                ANNUNCIO_TIPO_SCAMBIO tipoScambio = db.ANNUNCIO_TIPO_SCAMBIO.SingleOrDefault(m => m.ID == idTipoScambio);
+                tipoScambio.DATA_MODIFICA = DateTime.Now;
+                tipoScambio.STATO = (int)StatoScambio.SELEZIONATO;
+                db.ANNUNCIO_TIPO_SCAMBIO.Attach(tipoScambio);
+                db.Entry(tipoScambio).State = EntityState.Modified;
+                db.SaveChanges();
+
                 if (this.ID_OGGETTO != null && tipoScambio != null && viewModel.TipoScambio != TipoScambio.AMano)
                 {
                     spedizione = tipoScambio.ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE.FirstOrDefault();
@@ -283,7 +295,7 @@ namespace GratisForGratis.Models
                         {
                             CONTO_CORRENTE_CREDITO credito = db.CONTO_CORRENTE_CREDITO
                                 .Where(m => m.ID_CONTO_CORRENTE == utente.Persona.ID_CONTO_CORRENTE
-                                    && m.STATO == (int)StatoCredito.ASSEGNATO && m.DATA_SCADENZA > DateTime.Now)
+                                    && m.STATO == (int)StatoCredito.ASSEGNATO && m.PUNTI > 0 && m.DATA_SCADENZA > DateTime.Now)
                                 .OrderBy(m => m.DATA_SCADENZA)
                                 .FirstOrDefault();
                             if ((punti - credito.PUNTI) < 0)
@@ -300,6 +312,7 @@ namespace GratisForGratis.Models
                             {
                                 credito.PUNTI -= puntiRimanenti;
                             }
+                            credito.DATA_MODIFICA = DateTime.Now;
                             credito.ID_TRANSAZIONE_USCITA = transazione.ID;
                             credito.STATO = (int)StatoCredito.CEDUTO;
                             db.SaveChanges();
@@ -365,6 +378,7 @@ namespace GratisForGratis.Models
                     }
                 }
                 ANNUNCIO annuncioAcquistato = db.ANNUNCIO.SingleOrDefault(m => m.ID == this.ID);
+                annuncioAcquistato.SESSIONE_COMPRATORE = null;
                 annuncioAcquistato.DATA_MODIFICA = DateTime.Now;
                 annuncioAcquistato.STATO = (int)StatoVendita.VENDUTO;
                 annuncioAcquistato.ID_COMPRATORE = utente.Persona.ID;
@@ -388,9 +402,18 @@ namespace GratisForGratis.Models
             return false;
         }
 
-        public bool CompletaAcquistoOfferta(DatabaseContext db, OFFERTA offerta)
+        public bool CompletaAcquistoOfferta(DatabaseContext db, OFFERTA offerta, int? idPayPal = null)
         {
             PersonaModel utente = (PersonaModel)HttpContext.Current.Session["utente"];
+            if (idPayPal != null)
+            {
+                TRANSAZIONE transazione = db.TRANSAZIONE.SingleOrDefault(m => m.TRANSAZIONE_ANNUNCIO.Count(n => n.ID_ANNUNCIO == offerta.ID_ANNUNCIO) > 0);
+                transazione.ID_PAYPAL = idPayPal;
+                transazione.DATA_MODIFICA = DateTime.Now;
+                db.TRANSAZIONE.Attach(transazione);
+                db.Entry(transazione).State = EntityState.Modified;
+                db.SaveChanges();
+            }
             if (offerta.OFFERTA_SPEDIZIONE.Count() > 0)
             {
                 // se è stata fatta un'offerta con spedizione setto i dati del destinatario (cioè venditore annuncio)
@@ -401,7 +424,7 @@ namespace GratisForGratis.Models
                     if (spedizioneDestinatario != null)
                     {
                         var datiSpedizioneDestinatario = db.CORRIERE_SERVIZIO_SPEDIZIONE.SingleOrDefault(m => m.ID == spedizioneDestinatario.ID_CORRIERE_SERVIZIO_SPEDIZIONE);
-
+                        
                         offerta.OFFERTA_BARATTO.ToList().ForEach(m =>
                         {
                             ANNUNCIO_TIPO_SCAMBIO tipoScambioMittente = m.ANNUNCIO.ANNUNCIO_TIPO_SCAMBIO.FirstOrDefault(o => o.TIPO_SCAMBIO == (int)TipoScambio.Spedizione);
@@ -425,6 +448,7 @@ namespace GratisForGratis.Models
             }
 
             ANNUNCIO annuncioAcquistato = db.ANNUNCIO.SingleOrDefault(m => m.ID == this.ID);
+            annuncioAcquistato.SESSIONE_COMPRATORE = null;
             annuncioAcquistato.DATA_MODIFICA = DateTime.Now;
             annuncioAcquistato.STATO = (int)StatoVendita.BARATTATO;
             annuncioAcquistato.ID_COMPRATORE = utente.Persona.ID;

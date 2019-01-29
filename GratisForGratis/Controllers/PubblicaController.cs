@@ -42,6 +42,7 @@ namespace GratisForGratis.Controllers
         }
 
         [HttpGet]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Completato(int id)
         {
             // se ancora la registrazione è incompleta, lo obbligo a concluderla

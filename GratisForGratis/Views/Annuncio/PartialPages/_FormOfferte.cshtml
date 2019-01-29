@@ -15,45 +15,47 @@
         @Html.LabelFor(m => m.Punti)
         @Html.TextBoxFor(m => m.Punti, "0", new { @class = "form-control number" })
     </div>
-    <!-- Ricerca annunci personali da poter barattare (ricerca filtrata per tipo di scambio) -->
-    <div class="barters">
-        <label>@ViewModel.BidYourAd</label> @Html.TextBox("CercaAnnuncio", "", new { @class = "form-control", data_url = "/Cerca/AnnunciBarattabili", data_value_id = "Baratti", data_autocomplete_filtro_extra = "TipoSpedizione" })
-        @if (Model.BarattiToken != null && Model.BarattiToken.Count > 0)
-        {
-            @Html.HiddenFor(m => m.BarattiToken)
-        }
-        @Html.ValidationMessageFor(m => m.BarattiToken, "", new { @class = "text-danger" })
-    </div>
-    <div id="previewBarter"></div>
-    <div id="priceShipmentBarter" style="display:none;"></div>
     if (Model.Annuncio.TipoAcquisto == GratisForGratis.Models.TipoAcquisto.Oggetto)
     {
+        <!-- Ricerca annunci personali da poter barattare (ricerca filtrata per tipo di scambio) -->
+        <div class="barters">
+            <label>@ViewModel.BidYourAd</label> @Html.TextBox("CercaAnnuncio", "", new { @class = "form-control", data_url = "/Cerca/AnnunciBarattabili", data_value_id = "Baratti", data_autocomplete_filtro_extra = "TipoSpedizione" })
+            @if (Model.BarattiToken != null && Model.BarattiToken.Count > 0)
+            {
+                @Html.HiddenFor(m => m.BarattiToken)
+            }
+            @Html.ValidationMessageFor(m => m.BarattiToken, "", new { @class = "text-danger" })
+        </div>
+        <div id="previewBarter"></div>
+        <div id="priceShipmentBarter" style="display:none;"></div>
         var annuncioOggetto = (GratisForGratis.Models.OggettoViewModel)Model.Annuncio;
         IEnumerable<SelectListItem> listaTipologia = null;
         if (annuncioOggetto.TipoScambio.Length > 0)
         {
             listaTipologia = annuncioOggetto.TipoScambio.Select(m => new SelectListItem() { Text = m.ToString(), Value = ((int)m).ToString() });
         }
-        else { 
+        else
+        {
             var scambioMano = EnumHelper.GetSelectList(typeof(GratisForGratis.Models.TipoScambio), GratisForGratis.Models.TipoScambio.AMano).Where(m => m.Selected).FirstOrDefault();
             listaTipologia = new List<SelectListItem>() {
-                    new SelectListItem() {
-                        Text = scambioMano.Text,
-                        Value = scambioMano.Value
-                    }
-                };
+        new SelectListItem() {
+            Text = scambioMano.Text,
+            Value = scambioMano.Value
         }
-    var listaAnni = new List<SelectListItem>();
-    for (int i = DateTime.Now.Year; i <= DateTime.Now.AddYears(20).Year; i++)
-    {
-        listaAnni.Add(new SelectListItem() { Text = i.ToString(), Value = i.ToString() });
-    }
+    };
+        }
+        var listaAnni = new List<SelectListItem>();
+        for (int i = DateTime.Now.Year; i <= DateTime.Now.AddYears(20).Year; i++)
+        {
+            listaAnni.Add(new SelectListItem() { Text = i.ToString(), Value = i.ToString() });
+        }
         <div class="exchange">
             @Html.LabelFor(m => m.TipoScambio)
             @Html.DropDownListFor(m => m.TipoScambio, listaTipologia, new { @class = "form-control changeTipoScambio", data_class = ".tipoScambio" })
             @Html.ValidationMessageFor(m => m.TipoScambio, "", new { @class = "text-danger" })
         </div>
         <h4 class="exchange shipment hide">@ViewModel.Recipient</h4>
+        <h5 class="exchange shipment hide" style="color:red;font-weight:bold;">@ViewModel.BidOnlyAdShipment</h5>
         <div class="exchange shipment hide">
             @Html.LabelFor(m => m.CapDestinatario)
             @Html.TextBoxFor(m => m.CapDestinatario, new { @class = "form-control", data_class = ".capDestinatario" })
@@ -84,6 +86,10 @@
             @Html.TextAreaFor(m => m.InfoExtraDestinatario, new { @class = "form-control", data_class = ".infoExtraDestinatario" })
             @Html.ValidationMessageFor(m => m.InfoExtraDestinatario, "", new { @class = "text-danger" })
         </div>
+    }
+    else
+    {
+        <p style="color:green;font-style:italic;">Sui servizi è possibile offrire solo crediti</p>
     }
     <div class="footer">
         <a href="javascript:void(0);" onclick="inviaOffertaAnnuncio(this);" class="btn buy">@Language.Send</a>

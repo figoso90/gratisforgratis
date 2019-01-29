@@ -26,9 +26,11 @@ namespace GratisForGratis.Models
         public System.DateTime DATA_INSERIMENTO { get; set; }
         public Nullable<System.DateTime> DATA_MODIFICA { get; set; }
         public int STATO { get; set; }
+        public Nullable<int> ID_COMMISSIONE { get; set; }
     
         public virtual INDIRIZZO INDIRIZZO { get; set; }
         public virtual TIPO_VALUTA TIPO_VALUTA { get; set; }
         public virtual OFFERTA OFFERTA { get; set; }
+        public virtual COMMISSIONE COMMISSIONE { get; set; }
     }
 }

@@ -799,6 +799,7 @@ namespace GratisForGratis.Controllers
         ** spedizionePrivata: cerca annunci con spedizione privata
         ** spedizioneOnline: cerca annunci con spedizione online
         **/
+        /// USATO SOLO PER GLI OGGETTI (I SERVIZI NON POSSONO ESSERE BARATTATI)
         [HttpGet]
         [Authorize]
         [Filters.ValidateAjax]
@@ -814,7 +815,7 @@ namespace GratisForGratis.Controllers
                     // annuncio ancora attivo
                     item.STATO == (int)StatoVendita.ATTIVO && (item.DATA_FINE >= DateTime.Now || item.DATA_FINE == null ) &&
                     item.NOME.Contains(termineSenzaSpazi) && 
-                    // tipo di scambio coerente con quello dell'annuncio da barattare
+                    // tipo di scambio coerente con quello dell'annuncio da barattare (NON commentato per via della riga 414 file AcquistoViewModel.cs)
                     item.ANNUNCIO_TIPO_SCAMBIO.Count(m => m.TIPO_SCAMBIO == (int)tipoScambio) > 0 &&
                     // annuncio che non è stato barattato con nessuno
                     item.OFFERTA_BARATTO.Count(m => m.STATO == (int)StatoBaratto.ACCETTATO || m.STATO == (int)StatoBaratto.SOSPESO) <= 0
@@ -1487,7 +1488,7 @@ namespace GratisForGratis.Controllers
                         condizione += " AND SISTEMA_OPERATIVO.NOME LIKE @SISTEMAOPERATIVO + '%'";
                     }
                 }
-                else if (categoriaID == 13 || (categoriaID >= 62 && categoriaID <= 66))
+                else if (categoriaID == 13 || (categoriaID >= 62 && categoriaID <= 66 && categoriaID != 64))
                 {
                     schema += " INNER JOIN OGGETTO_TECNOLOGIA AS TIPO ON O.ID=TIPO.ID_OGGETTO";
 
@@ -1568,6 +1569,17 @@ namespace GratisForGratis.Controllers
                 else if (categoriaID >= 50 && categoriaID <= 61)
                 {
                     schema += " INNER JOIN OGGETTO_SPORT AS TIPO ON O.ID=TIPO.ID_OGGETTO";
+
+                    if ((filtro["Modello"] != null) && !string.IsNullOrEmpty(filtro["Modello"]))
+                    {
+                        cmd.Parameters.Add(new SqlParameter("ID_MODELLO", filtro["Modello"]));
+                        schema += " INNER JOIN MODELLO ON TIPO.ID_MODELLO=MODELLO.ID";
+                        condizione += " AND MODELLO.NOME LIKE @ID_MODELLO + '%'";
+                    }
+                }
+                else if (categoriaID == 64)
+                {
+                    schema += " INNER JOIN OGGETTO_CONSOLE AS TIPO ON O.ID=TIPO.ID_OGGETTO";
 
                     if ((filtro["Modello"] != null) && !string.IsNullOrEmpty(filtro["Modello"]))
                     {

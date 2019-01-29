@@ -438,6 +438,7 @@ namespace GratisForGratis.Models
                             db.SaveChanges();
                         }
                         offertaSpedizione.SOLDI = soldiSpedizione;
+                        offertaSpedizione.ID_COMMISSIONE = GetCommissioneSpedizione(db, soldiSpedizione);
                         offertaSpedizione.ID_INDIRIZZO_DESTINATARIO = indirizzo.ID;
                         offertaSpedizione.NOMINATIVO_DESTINATARIO = this.NominativoDestinatario;
                         offertaSpedizione.TELEFONO_DESTINATARIO = this.TelefonoDestinatario;
@@ -494,6 +495,21 @@ namespace GratisForGratis.Models
                     CivicoDestinatario = indirizzoSpedizione.INDIRIZZO.CIVICO;
                 }
             }
+        }
+        #endregion
+
+        #region METODI PRIVATI
+        private int GetCommissioneSpedizione(DatabaseContext db, decimal importo)
+        {
+            decimal percentuale = Convert.ToDecimal(System.Configuration.ConfigurationManager.AppSettings["spedizionePercentuale"]);
+            COMMISSIONE commissione = new COMMISSIONE();
+            commissione.PERCENTUALE = percentuale;
+            commissione.TIPO = (int)TipoCommissione.Spedizione;
+            commissione.DATA_INSERIMENTO = DateTime.Now;
+            commissione.STATO = (int)Stato.ATTIVO;
+            db.COMMISSIONE.Add(commissione);
+            db.SaveChanges();
+            return commissione.ID;
         }
         #endregion
     }

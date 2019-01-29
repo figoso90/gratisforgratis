@@ -46,6 +46,10 @@ namespace GratisForGratis.Models
             Token = model.TOKEN.ToString();
             Nome = model.NOME;
             TipoPagamento = (TipoPagamento)model.TIPO_PAGAMENTO;
+            if (model.ID_SERVIZIO != null)
+            {
+                TipoAcquisto = TipoAcquisto.Servizio;
+            }
             Punti = model.PUNTI.ToHappyCoin();
             Soldi = Convert.ToDecimal(model.SOLDI).ToString("C");
             DataInserimento = (DateTime)model.DATA_INSERIMENTO;
@@ -226,17 +230,24 @@ namespace GratisForGratis.Models
     public class OggettoViewModel : AnnuncioViewModel
     {
         #region COSTRUTTORI
-        public OggettoViewModel() : base() { }
+        public OggettoViewModel() : base()
+        {
+            LoadProprietaDefault();
+        }
 
         public OggettoViewModel(OggettoViewModel model) : base(model)
         {
+            LoadProprietaDefault();
             foreach (PropertyInfo propertyInfo in model.GetType().GetProperties())
             {
                 this.GetType().GetProperty(propertyInfo.Name).SetValue(this, propertyInfo.GetValue(model));
             }
         }
 
-        public OggettoViewModel(AnnuncioViewModel model) : base(model) { }
+        public OggettoViewModel(AnnuncioViewModel model) : base(model)
+        {
+            LoadProprietaDefault();
+        }
         #endregion
 
         #region PROPRIETA
@@ -296,11 +307,38 @@ namespace GratisForGratis.Models
 
         public string LDVFile { get; set; }
 
+        public IEnumerable<SelectListItem> TempoImballaggioEnum { get; set; }
+
+        public IEnumerable<SelectListItem> GiorniSpedizioneEnum { get; set; }
+
+        public IEnumerable<SelectListItem> OrariSpedizioneEnum { get; set; }
+
         public int? TempoImballaggio { get; set; }
 
         public List<int> GiorniSpedizione { get; set; }
 
         public List<int> OrariSpedizione { get; set; }
+        #endregion
+
+        #region METODI PRIVATI
+        private void LoadProprietaDefault()
+        {
+            TempoImballaggioEnum = System.Enum.GetValues(typeof(TempoImballaggio)).Cast<TempoImballaggio>().Select(v => new SelectListItem
+            {
+                Text = Components.EnumHelper<TempoImballaggio>.GetDisplayValue(v),
+                Value = ((int)v).ToString()
+            }).ToList();
+            GiorniSpedizioneEnum = System.Enum.GetValues(typeof(GiorniSpedizione)).Cast<GiorniSpedizione>().Select(v => new SelectListItem
+            {
+                Text = Components.EnumHelper<GiorniSpedizione>.GetDisplayValue(v),
+                Value = ((int)v).ToString()
+            }).ToList();
+            OrariSpedizioneEnum = System.Enum.GetValues(typeof(OrariSpedizione)).Cast<OrariSpedizione>().Select(v => new SelectListItem
+            {
+                Text = Components.EnumHelper<OrariSpedizione>.GetDisplayValue(v),
+                Value = ((int)v).ToString()
+            }).ToList();
+        }
         #endregion
     }
 

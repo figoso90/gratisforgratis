@@ -21,7 +21,7 @@
                 </div>
                 <div class="cella noMandatory">
                     @Html.Label("Compratore", Language.Buyer)
-                    @offerta.Compratore.Nominativo
+                    <b>@Html.ActionLink(offerta.Compratore.Nominativo, "Profilo", "Utente", new { token = offerta.Compratore.VenditoreToken }, null)</b>
                 </div>
                 <div class="cella">
                     @Html.Label("Contatti", Language.Contacts)
@@ -31,21 +31,24 @@
                     @Html.Label("Punti", Language.Moneta)
                     @offerta.Punti
                 </div>
-                @if (offerta.TipoScambio == TipoScambio.Spedizione)
+                @if (offerta.Annuncio.TipoAcquisto == TipoAcquisto.Oggetto)
                 {
-                    <div class="cella">
-                        <!-- soldi spedizione -->
-                        @Html.Label("Soldi", Language.Shipment)
-                        @offerta.SoldiSpedizione (@offerta.NomeCorriere)
-                    </div>
-                }
-                else
-                {
+                    if (offerta.TipoScambio == TipoScambio.Spedizione)
+                    {
+                        <div class="cella">
+                            <!-- soldi spedizione -->
+                            @Html.Label("Soldi", Language.Shipment)
+                            @offerta.SoldiSpedizione (@offerta.NomeCorriere)
+                        </div>
+                    }
+                    else
+                    {
                         <div class="cella">
                             <!-- soldi spedizione -->
                             @Html.Label("TipoScambio", "Tipo scambio")
                             @offerta.TipoScambio
                         </div>
+                    }
                 }
 
                 @if (offerta.Baratti.Count > 0)

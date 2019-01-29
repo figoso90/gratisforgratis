@@ -31,7 +31,10 @@
             {
                 Html.AntiForgeryToken();
                 @Html.HiddenFor(m => m.Token, new { @readonly = "readonly" })
-                <a class="btn link ok" href="javascript:void(0);" onclick="$(this).parents('.formOfferta').submit();">Effettua pagamento</a>
+            <a class="btn btn-primary link ok" href="javascript:void(0);" onclick="$(this).parents('.formOfferta').submit();">
+                @Language.PayShipment
+                <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" title="@Tooltip.PayShipment"></span>
+            </a>
             }
         </div>
     }

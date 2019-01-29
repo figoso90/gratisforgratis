@@ -19,7 +19,7 @@ namespace GratisForGratis.App_GlobalResources {
     // tramite uno strumento quale ResGen o Visual Studio.
     // Per aggiungere o rimuovere un membro, modificare il file con estensione ResX ed eseguire nuovamente ResGen
     // con l'opzione /str oppure ricompilare il progetto VS.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Tooltip {
@@ -66,6 +66,24 @@ namespace GratisForGratis.App_GlobalResources {
         public static string InfoHowSearch {
             get {
                 return ResourceManager.GetString("InfoHowSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Pagando la spedizione sull&apos;offerta effettuata, concluderai l&apos;acquisto..
+        /// </summary>
+        public static string PayShipment {
+            get {
+                return ResourceManager.GetString("PayShipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Pagando la spedizione per l&apos;offerta ricevuta, riceverai i crediti offerti e concluderai l&apos;acquisto dei baratti offerti..
+        /// </summary>
+        public static string PayShipmentBid {
+            get {
+                return ResourceManager.GetString("PayShipmentBid", resourceCulture);
             }
         }
     }

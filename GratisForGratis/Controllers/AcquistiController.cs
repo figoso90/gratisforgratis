@@ -63,7 +63,7 @@ namespace GratisForGratis.Controllers
                             }
                             else
                             {
-                                Models.Enumerators.VerificaAcquisto verifica = model.Acquisto(db, viewModel);
+                                Models.Enumerators.VerificaAcquisto verifica = model.Acquisto(db, viewModel, true);
                                 if (verifica == Models.Enumerators.VerificaAcquisto.Ok)
                                 {
                                     // PENSO CHE QUESTA ACTION SIA USATA SOLO PER OFFERTA E QUINDI CAMBIO CHIAMATA
@@ -249,7 +249,8 @@ namespace GratisForGratis.Controllers
                 {
                     int utente = ((PersonaModel)Session["utente"]).Persona.ID;
                     var query = db.ANNUNCIO.Where(item => item.ID_PERSONA != utente && item.ID_COMPRATORE == utente 
-                        && item.TRANSAZIONE_ANNUNCIO.Count(m => m.STATO == (int)StatoPagamento.ATTIVO || m.STATO == (int)StatoPagamento.ACCETTATO) > 0
+                        // commentato perchè quando faccio un'offerta, non esiste una transazione dell'annuncio offerto, ma comunque questo viene comprato.
+                        //&& item.TRANSAZIONE_ANNUNCIO.Count(m => m.STATO == (int)StatoPagamento.ATTIVO || m.STATO == (int)StatoPagamento.ACCETTATO) > 0
                         && (item.STATO == (int)StatoVendita.VENDUTO || item.STATO == (int)StatoVendita.ELIMINATO || item.STATO == (int)StatoVendita.BARATTATO)
                         && (item.ID_OGGETTO != null || item.ID_SERVIZIO != null));
                     int numeroElementi = Convert.ToInt32(WebConfigurationManager.AppSettings["numeroElementi"]);
@@ -298,12 +299,12 @@ namespace GratisForGratis.Controllers
                 ViewData["TotalePagine"] = (int)Math.Ceiling((decimal)numeroAnnunci / (decimal)numeroElementi);
 
                 db.ANNUNCIO_DESIDERATO
-                    .OrderByDescending(item => item.ANNUNCIO.DATA_INSERIMENTO)
-                    .Skip(pagina * numeroElementi)
-                    .Take(numeroElementi)
                     .Where(item => item.ID_PERSONA == utente && (item.ANNUNCIO.STATO == (int)StatoVendita.INATTIVO 
                         || item.ANNUNCIO.STATO == (int)StatoVendita.ATTIVO) && (item.ANNUNCIO.DATA_FINE == null ||
                         item.ANNUNCIO.DATA_FINE >= DateTime.Now))
+                    .OrderByDescending(item => item.ANNUNCIO.DATA_INSERIMENTO)
+                    .Skip(pagina * numeroElementi)
+                    .Take(numeroElementi)
                     .ToList().ForEach(m => model.Add(
                             new AnnuncioViewModel(db, m.ANNUNCIO)
                         )

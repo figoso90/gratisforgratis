@@ -61,6 +61,7 @@ namespace GratisForGratis.Models
         public System.DateTime DATA_INSERIMENTO { get; set; }
         public Nullable<System.DateTime> DATA_MODIFICA { get; set; }
         public int STATO { get; set; }
+        public Nullable<int> ID_COMMISSIONE { get; set; }
     
         public virtual ANNUNCIO ANNUNCIO1 { get; set; }
         public virtual ANNUNCIO ANNUNCIO2 { get; set; }
@@ -104,5 +105,6 @@ namespace GratisForGratis.Models
         public virtual ICollection<TRANSAZIONE_ANNUNCIO> TRANSAZIONE_ANNUNCIO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OFFERTA> OFFERTA { get; set; }
+        public virtual COMMISSIONE COMMISSIONE { get; set; }
     }
 }
