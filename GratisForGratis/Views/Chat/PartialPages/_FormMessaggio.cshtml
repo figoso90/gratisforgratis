@@ -12,12 +12,12 @@
     </div>
     @if (Model.Id > 0)
     {
-        <a id="lnkAnnullaModifica" class="col-xs-2 btn btn-default">@ViewModel.ChatUpdateCancel</a>
+        <a id="lnkAnnullaModifica" class="col-xs-2 btn btn-danger">@ViewModel.ChatUpdateCancel</a>
     }
     else
     {
         <a class="col-xs-2"></a>
     }
-    <a id="lnkInvia" class="col-xs-2 col-xs-push-8 btn btn-default">@Language.Send</a>
+    <a id="lnkInvia" class="col-xs-2 col-xs-push-8 btn btn-success">@Language.Send</a>
 </fieldset>
 }

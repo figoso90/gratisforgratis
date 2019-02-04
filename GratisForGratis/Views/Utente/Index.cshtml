@@ -4,20 +4,23 @@
 @Styles.Render("~/Content/saldoPunti.css")
 
 <section id="menuUser">
+    <h2 id="title">Come guadagnare?! =)</h2>
     <div class="points">
         <h3>@Language.CurrentBalance: <a class="gpoints">@(((GratisForGratis.Models.PersonaModel)Session["utente"]).Credito.Where(m => m.STATO == (int)GratisForGratis.Models.StatoCredito.ASSEGNATO).Sum(m => m.PUNTI).ToHappyCoin())</a></h3>
         <h3>@Language.Points @Language.InSuspense: <a class="gpointsSuspense">@(((GratisForGratis.Models.PersonaModel)Session["utente"]).Credito.Where(m => m.STATO == (int)GratisForGratis.Models.StatoCredito.SOSPESO).Sum(m => m.PUNTI).ToHappyCoin())</a></h3>
     </div>
-    <div class="btn confirm">
-        @Html.ActionLink(Language.ConfirmPurchase, "Effettuate", "Offerte", null, new { @class = "link" })
-    </div>
-    <div class="btn onsale">
-        @Html.ActionLink(Language.OnSale, "Ricevute", "Offerte", null, new { @class = "link" })
-    </div>
-    <div class="btn publicationObject">
-        @Html.ActionLink(Language.Public, "", "Pubblica", null, new { @class = "link" })
-    </div>
-    <div class="btn settings">
-        @Html.ActionLink(Language.Settings, "Impostazioni", "Utente", null, new { @class = "link" })
+    <div class="row">
+        <div class="btn btn-primary confirm">
+            @Html.ActionLink(Language.ConfirmPurchase, "Index", "Acquisti", null, new { @class = "link" })
+        </div>
+        <div class="btn btn-primary onsale">
+            @Html.ActionLink(Language.OnSale, "Ricevute", "Offerte", null, new { @class = "link" })
+        </div>
+        <div class="btn btn-primary publicationObject">
+            @Html.ActionLink(Language.Public, "", "Pubblica", null, new { @class = "link" })
+        </div>
+        <div class="btn btn-primary settings">
+            @Html.ActionLink(Language.Settings, "Impostazioni", "Utente", null, new { @class = "link" })
+        </div>
     </div>
 </section>

@@ -601,7 +601,7 @@
     <value>Contanti</value>
   </data>
   <data name="Bonus" xml:space="preserve">
-    <value>Premi</value>
+    <value>Bonus guadagnato</value>
   </data>
   <data name="Buyer" xml:space="preserve">
     <value>Compratore</value>

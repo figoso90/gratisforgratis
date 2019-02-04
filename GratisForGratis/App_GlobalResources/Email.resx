@@ -141,6 +141,9 @@
   <data name="BidSubject" xml:space="preserve">
     <value>Offerta per la vendita</value>
   </data>
+  <data name="BonusText" xml:space="preserve">
+    <value>Complimenti!!! Hai ricevuto {0} per il {1}.</value>
+  </data>
   <data name="Footer" xml:space="preserve">
     <value>Ricevi questa e-mail perch&amp;egrave; risulti iscritto al servizio di {0} Se hai ricevuto questo messaggio per errore o non hai mai aderito al servizio di {1} , accedi e disiscriviti o contattaci nella sezione contatti del sito.&lt;br /&gt;&lt;br /&gt;Tutti i diritti riservati | Copyright &amp;reg;</value>
   </data>

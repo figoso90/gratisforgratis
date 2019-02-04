@@ -115,12 +115,16 @@
                 </div>
                 @Html.ValidationMessageFor(m => m.CivicoSpedizione, "", new { @class = "text-danger" })
             </div>
-            <div class="footer">
-                <input type="submit" value="@Language.Save" class="btn" />
-                @if (!Model.HasLoginFacebook)
-                {
-                    @Html.ActionLink(Button.JoinFacebook, "LoginFacebook", "Utente", null, new { @Class = "btn" })
-                }
+            <div class="row footer">
+                <div class="col-md-4 col-md-push-2">
+                    <input type="submit" value="@Language.Save" class="btn btn-success" />
+                </div>
+                <div class="col-md-4 col-md-push-2">
+                    @if (!Model.HasLoginFacebook)
+                    {
+                        @Html.ActionLink(Button.JoinFacebook, "LoginFacebook", "Utente", null, new { @Class = "btn btn-primary" })
+                    }
+                </div>
             </div>
         }
     </div>

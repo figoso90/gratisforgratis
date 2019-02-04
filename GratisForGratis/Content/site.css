@@ -626,10 +626,9 @@ section{
 
 /* PULSANTI */
 
-.btn{
+/*.btn{
     background-color:#1899D2;
     border-radius: 6px;
-    /*color: #337ab7;*/
     color:#fff;
     font-weight:bold;
     margin: 0px;
@@ -638,6 +637,23 @@ section{
     transition-duration: .3s;
     transition-timing-function: ease-in-out;
     transition-property: box-shadow, color;
+}
+*/
+
+.btn {
+    border-radius: 6px;
+    font-weight: bold;
+    transition-duration: .3s;
+    transition-timing-function: ease-in-out;
+    transition-property: box-shadow, color;
+}
+
+.btn-success {
+    background-color: #a2c642;
+}
+
+.btn-primary {
+    background-color: #1899D2;
 }
 
 .btn.object{

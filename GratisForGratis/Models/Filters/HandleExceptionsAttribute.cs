@@ -45,7 +45,7 @@ namespace GratisForGratis.Filters
                         int bonus = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["bonusMessaggioErrore"]);
                         Guid portale = Guid.Parse(System.Configuration.ConfigurationManager.AppSettings["portaleweb"]);
                         logErrore.ID_PERSONA = utente.Persona.ID;
-                        controller.AddBonus(db, utente.Persona, portale, bonus, TipoTransazione.BonusSegnalazioneErrore, App_GlobalResources.Bonus.MessageError);
+                        controller.AddBonus(db, filterContext.Controller.ControllerContext, utente.Persona, portale, bonus, TipoTransazione.BonusSegnalazioneErrore, App_GlobalResources.Bonus.MessageError);
                     }
                     db.LOG_ERRORE.Add(logErrore);
                     db.SaveChanges();

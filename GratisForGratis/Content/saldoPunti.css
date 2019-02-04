@@ -1,7 +1,11 @@
-﻿#menuUser .btn{
+﻿#title{
+    text-transform:uppercase;
+}
+
+#menuUser .btn{
     margin: 2% 1%;
     padding: 40px 0;
-    width: 240px;
+    width: 35%;
     word-wrap: break-word;
     word-break:normal;
 }

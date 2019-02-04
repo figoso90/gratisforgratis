@@ -11,20 +11,10 @@
 <tr>
     <td style="width:50px;">&nbsp;</td>
     <td align="center" style="padding:12px 0px 0px;line-height:12px;">
-        @string.Format(Email.BidPaymentText, Model.Nome)
+        @string.Format(Email.BonusText, Model.Bonus, Model.Nome)
     </td>
     <td style="width:50px;">&nbsp;</td>
 </tr>
-@if (Model.Bonus > 0)
-{
-    <tr>
-        <td style="width:50px;">&nbsp;</td>
-        <td align="center" style="padding:14px 0px 0px;line-height:12px;">
-            @string.Format(Email.BidPaymentTextMoneta, Model.Bonus)
-        </td>
-        <td style="width:50px;">&nbsp;</td>
-    </tr>
-}
 <tr>
     <td colspan="3">&nbsp;</td>
 </tr>

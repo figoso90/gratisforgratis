@@ -45,8 +45,12 @@
             <div class="col-md-10">
                 @Html.LabelFor(m => m.Soldi, new { @class = "col-md-2 control-label" })
                 <div>
-                    <span class="valuta" style="">VISUALIZZARE VALUTA</span>
+                    <span class="valuta" style="">€</span>
                     @Html.TextBoxFor(m => m.Soldi, new { @class = "form-control number" })
+                    <a class='my-tool-tip' data-toggle="tooltip" href="javascript:void(0);" 
+                       title="Il prodotto è venduto in HappyCoin ma viene richiesta una valutazione in €">
+                        <i class="glyphicon glyphicon-info-sign" style="display: inline-block;vertical-align: top;color: red;"></i>
+                    </a>
                 </div>
             </div>
             @Html.ValidationMessageFor(m => m.Foto, "", new { @class = "text-danger" })
@@ -66,7 +70,7 @@
                 {
                     Text = p.Nome,
                     Value = p.Token.ToString()
-                }), "Value", "Text", Model.Partner), Language.Private, new { @class = "form-control" }
+                }), "Value", "Text", Model.Partner), (Session["utente"] as GratisForGratis.Models.PersonaModel).NomeVisibile, new { @class = "form-control" }
             )
             @Html.ValidationMessageFor(m => m.Partner, "", new { @class = "text-danger" })
         </div>
@@ -99,7 +103,7 @@
         }
 
         <div class="footer">
-            <input id="bottonePubblica" type="submit" class="btn addOggetto" value="@Language.Public" />
+            <input id="bottonePubblica" type="submit" class="btn btn-success addOggetto" value="@Language.Public" />
         </div>
     }
 </section>

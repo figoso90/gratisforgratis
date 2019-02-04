@@ -4,14 +4,20 @@
 @if (Model.StatoVendita == StatoVendita.INATTIVO && (Session["utente"] as PersonaModel).Persona.STATO == (int)Stato.ATTIVO && (Session["utente"] as PersonaModel).Email.SingleOrDefault(m => m.TIPO == (int)TipoEmail.Registrazione && m.STATO == (int)Stato.ATTIVO) != null)
 {
     <div class="cella noMandatory">
-        <div class="btn enableSell">@Language.EnableAd</div>
+        <div class="btn btn-success enableSell">@Language.EnableAd</div>
+    </div>
+    <div class="cella noMandatory">
+        <div class="btn btn-danger deleteSell">@Language.DeleteSell</div>
     </div>
 }
 
 @if ((Model.StatoVendita == StatoVendita.SOSPESO && DateTime.Now > Model.DataModifica.Value.AddDays(1)) || (Model.StatoVendita == StatoVendita.ATTIVO && Model.DataFine <= DateTime.Now))
 {
     <div class="cella noMandatory">
-        <div class="btn unblock">@Language.Unblock</div>
+        <div class="btn btn-success unblock">@Language.Unblock</div>
+    </div>
+    <div class="cella noMandatory">
+        <div class="btn btn-danger deleteSell">@Language.DeleteSell</div>
     </div>
 }
 else
@@ -19,16 +25,16 @@ else
     if (Model.Offerta != null && Model.StatoVendita == StatoVendita.ATTIVO)
     {
         <div class="cella noMandatory">
-            @Html.ActionLink(ViewModel.BidsAd, "OfferteRicevute", "Vendite", new { vendita = Model.Token }, new { @Class = "btn" })
+            @Html.ActionLink(ViewModel.BidsAd, "OfferteRicevute", "Vendite", new { vendita = Model.Token }, new { @Class = "btn btn-primary" })
         </div>
         <div class="cella noMandatory">
-            <div class="btn deleteSell">@Language.DeleteSell</div>
+            <div class="btn btn-danger deleteSell">@Language.DeleteSell</div>
         </div>
     }
     else if (Model.StatoVendita == StatoVendita.SOSPESO || Model.StatoVendita == StatoVendita.SOSPESOPEROFFERTA)
     {
         <div class="cella noMandatory">
-            <div class="btn deleteSell">@Language.DeleteSell</div>
+            <div class="btn btn-danger deleteSell">@Language.DeleteSell</div>
         </div>
     }
     else if (Model.StatoVendita == StatoVendita.BARATTATO || Model.StatoVendita == StatoVendita.VENDUTO)
@@ -36,8 +42,8 @@ else
         <div class="cella user">
             @Html.Label("Compratore")
             @if (Model.Compratore != null)
-            {                
-            <b>@Html.ActionLink(Model.Compratore.Nominativo, "Profilo", "Utente", new { token = Model.Compratore.VenditoreToken }, null)</b>
+            {
+                <b>@Html.ActionLink(Model.Compratore.Nominativo, "Profilo", "Utente", new { token = Model.Compratore.VenditoreToken }, null)</b>
             }
         </div>
         <div class="cella">
@@ -45,7 +51,7 @@ else
             @Model.DataVendita
         </div>
         <div class="cella">
-            @Html.ActionLink(Language.Feedback, "Index", "Feedback", new { id = Model.Id, tipo = TipoFeedback.Venditore }, new { @Class = "btn" })
+            @Html.ActionLink(Language.Feedback, "Index", "Feedback", new { id = Model.Id, tipo = TipoFeedback.Venditore }, new { @Class = "btn btn-warning" })
         </div>
     }
 }

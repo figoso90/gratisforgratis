@@ -133,6 +133,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Complimenti!!! Hai ricevuto {0} per il {1}..
+        /// </summary>
+        public static string BonusText {
+            get {
+                return ResourceManager.GetString("BonusText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Ricevi questa e-mail perch&amp;egrave; risulti iscritto al servizio di {0} Se hai ricevuto questo messaggio per errore o non hai mai aderito al servizio di {1} , accedi e disiscriviti o contattaci nella sezione contatti del sito.&lt;br /&gt;&lt;br /&gt;Tutti i diritti riservati | Copyright &amp;reg;.
         /// </summary>
         public static string Footer {

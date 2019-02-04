@@ -132,13 +132,13 @@ namespace GratisForGratis.Controllers
                                 if (viewModel.SalvaRegistrazione(ControllerContext, db))
                                 {
                                     base.TempData["salvato"] = true;
-                                    transazione.Commit();
                                     // recupero nuovamente l'utente
                                     model = db.PERSONA_EMAIL.SingleOrDefault(
                                         item =>
                                         item.EMAIL == viewModel.Email
                                         && item.TIPO == (int)TipoEmail.Registrazione);
-                                    setSessioneUtente(base.Session, db, model.ID_PERSONA, viewModel.RicordaLogin);
+                                    setSessioneUtente(base.Session, db, model.ID_PERSONA, viewModel.RicordaLogin, ControllerContext);
+                                    transazione.Commit();
                                     // sistemare il return, perchè va in conflitto con il allowonlyanonymous
                                     return Redirect((string.IsNullOrWhiteSpace(viewModel.ReturnUrl)) ? FormsAuthentication.DefaultUrl : viewModel.ReturnUrl);
                                 }
@@ -154,8 +154,8 @@ namespace GratisForGratis.Controllers
                             }
                             else
                             {
-                                setSessioneUtente(base.Session, db, model.ID_PERSONA, viewModel.RicordaLogin);
-
+                                setSessioneUtente(base.Session, db, model.ID_PERSONA, viewModel.RicordaLogin, ControllerContext);
+                                transazione.Commit();
                                 // sistemare il return, perchè va in conflitto con il allowonlyanonymous
                                 return Redirect((string.IsNullOrWhiteSpace(viewModel.ReturnUrl)) ? FormsAuthentication.DefaultUrl : viewModel.ReturnUrl);
                             }
@@ -252,7 +252,7 @@ namespace GratisForGratis.Controllers
                 using (DatabaseContext db = new DatabaseContext())
                 {
                     int id = this.AddUtenteFacebook(accessToken, accessToken, me, db);
-                    this.setSessioneUtente(base.Session, db, id, false);
+                    this.setSessioneUtente(base.Session, db, id, false, ControllerContext);
                 }
                 //dynamic result2 = app.Post("/" + ConfigurationManager.AppSettings["FanPageID"] + "/feed", new Dictionary<string, object> { { "message", "This Post was made from my website" } });
                 //return Redirect((string.IsNullOrWhiteSpace(RedirectUri.AbsoluteUri)) ? FormsAuthentication.DefaultUrl : RedirectUri.AbsoluteUri);
@@ -358,7 +358,7 @@ namespace GratisForGratis.Controllers
                                 {
                                     Guid tokenPortale = Guid.Parse(ConfigurationManager.AppSettings["portaleweb"]);
                                     int punti = Convert.ToInt32(ConfigurationManager.AppSettings["bonusIscrizione"]);
-                                    this.AddBonus(db, utente.Persona, tokenPortale, punti, TipoTransazione.BonusIscrizione, Bonus.Registration);
+                                    this.AddBonus(db, ControllerContext, utente.Persona, tokenPortale, punti, TipoTransazione.BonusIscrizione, Bonus.Registration);
                                     this.RefreshPunteggioUtente(db);
                                 }
 
@@ -618,7 +618,7 @@ namespace GratisForGratis.Controllers
                                 {
                                     Guid tokenPortale = Guid.Parse(ConfigurationManager.AppSettings["portaleweb"]);
                                     int punti = Convert.ToInt32(ConfigurationManager.AppSettings["bonusIscrizione"]);
-                                    this.AddBonus(db, utente.Persona, tokenPortale, punti, TipoTransazione.BonusIscrizione, Bonus.Registration);
+                                    this.AddBonus(db, ControllerContext, utente.Persona, tokenPortale, punti, TipoTransazione.BonusIscrizione, Bonus.Registration);
                                 }
                                 // assegna bonus canale pubblicitario
                                 if (Request.Cookies.Get("GXG_promo") != null)
@@ -649,7 +649,7 @@ namespace GratisForGratis.Controllers
 
                                 transazione.Commit();
 
-                                setSessioneUtente(base.Session, db, persona.ID, false);
+                                setSessioneUtente(base.Session, db, persona.ID, false, ControllerContext);
                                 // sistemare il return, perchè va in conflitto con il allowonlyanonymous
                                 return Redirect((string.IsNullOrWhiteSpace(model.ReturnUrl)) ? FormsAuthentication.DefaultUrl : model.ReturnUrl);
                             }
@@ -737,7 +737,7 @@ namespace GratisForGratis.Controllers
                                     this.AddBonus(db, persona.PERSONA, tokenPortale, punti, TipoTransazione.BonusIscrizione, Bonus.Registration);
                                 }*/
                                 if (Request.IsAuthenticated)
-                                    setSessioneUtente(base.Session, db, email.ID_PERSONA, false);
+                                    setSessioneUtente(base.Session, db, email.ID_PERSONA, false, ControllerContext);
                                 TempData["Messaggio"] = string.Format(Language.ActivatedUser, ConfigurationManager.AppSettings["bonusIscrizione"] + " " + Language.Moneta, ConfigurationManager.AppSettings["bonusPubblicazioniIniziali"] + " " + Language.Moneta);
                                 transazione.Commit();
                                 return View();
@@ -863,7 +863,7 @@ namespace GratisForGratis.Controllers
                     utente.SetImmagineProfilo(db, idAllegato);
                     // aggiorna sessione utente
                     bool ricordaLogin = (FormsAuthentication.CookieMode == HttpCookieMode.UseCookies);
-                    setSessioneUtente(base.Session, db, utente.Persona.ID, ricordaLogin);
+                    setSessioneUtente(base.Session, db, utente.Persona.ID, ricordaLogin, ControllerContext);
                     //fileSalvato.Id = idAllegato.ToString();
                     //return Json(new { Success = true, responseText = fileSalvato });
                     string htmlGalleriaFotoProfilo = RenderRazorViewToString("PartialPages/_GalleriaFotoProfilo", Session["utente"] as PersonaModel);
@@ -889,7 +889,7 @@ namespace GratisForGratis.Controllers
                     utente.RemoveImmagineProfilo(db, nome);
                     // aggiorna sessione utente
                     bool ricordaLogin = (FormsAuthentication.CookieMode == HttpCookieMode.UseCookies);
-                    setSessioneUtente(base.Session, db, utente.Persona.ID, ricordaLogin);
+                    setSessioneUtente(base.Session, db, utente.Persona.ID, ricordaLogin, ControllerContext);
                     //return Json(new { Success = true, responseText = true });
                     return PartialView("PartialPages/_GalleriaFotoProfilo", Session["utente"] as PersonaModel);
                 }

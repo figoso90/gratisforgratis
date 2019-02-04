@@ -733,7 +733,7 @@ namespace GratisForGratis.Controllers
                 && bonus == null)
             {
                 decimal puntiBonusIniziali = Convert.ToInt32(ConfigurationManager.AppSettings["bonusPubblicazioniIniziali"]);
-                this.AddBonus(db, utente.Persona, portale, puntiBonusIniziali, 
+                this.AddBonus(db, ControllerContext, utente.Persona, portale, puntiBonusIniziali, 
                     TipoTransazione.BonusPubblicazioneIniziale, Bonus.InitialPubblication);
                 numeroPuntiGuadagnati += (decimal)puntiBonusIniziali;
                 risultato = risultato | true;
@@ -743,7 +743,7 @@ namespace GratisForGratis.Controllers
             if (viewModel.IsAnnuncioCompleto())
             {
                 decimal puntiAnnuncioCompleto = Convert.ToInt32(ConfigurationManager.AppSettings["bonusAnnuncioCompleto"]);
-                this.AddBonus(db, utente.Persona, portale, puntiAnnuncioCompleto,
+                this.AddBonus(db, ControllerContext, utente.Persona, portale, puntiAnnuncioCompleto,
                     TipoTransazione.BonusAnnuncioCompleto, Bonus.FullAnnouncement);
                 numeroPuntiGuadagnati += puntiAnnuncioCompleto;
                 risultato = risultato | true;

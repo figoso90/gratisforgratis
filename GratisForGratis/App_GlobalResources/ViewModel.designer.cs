@@ -349,7 +349,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Tipo notifica.
+        ///   Cerca una stringa localizzata simile a Tipologia.
         /// </summary>
         public static string NewsName {
             get {

@@ -12,7 +12,7 @@ namespace GratisForGratis.Models.ViewModels.Email
 
         public string Nome { get; set; }
 
-        public int? Bonus { get; set; }
+        public string Bonus { get; set; }
         #endregion
     }
 }

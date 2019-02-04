@@ -188,7 +188,7 @@ namespace GratisForGratis.Controllers
         private void AddBonusFeedback(PERSONA utente, DatabaseContext db, int punti, int idAnnuncio)
         {
             Guid tokenPortale = Guid.Parse(System.Configuration.ConfigurationManager.AppSettings["portaleweb"]);
-            AddBonus(db, utente, tokenPortale, punti, TipoTransazione.BonusFeedback, Bonus.Feedback, idAnnuncio);
+            AddBonus(db, ControllerContext, utente, tokenPortale, punti, TipoTransazione.BonusFeedback, Bonus.Feedback, idAnnuncio);
         }
         #endregion
     }

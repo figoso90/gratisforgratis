@@ -76,7 +76,7 @@ namespace GratisForGratis
                     PERSONA utente = db.PERSONA.SingleOrDefault<PERSONA>((PERSONA u) => u.CONTO_CORRENTE.TOKEN == name);
                     if (utente != null)
                     {
-                        (new AdvancedController()).setSessioneUtente(new HttpSessionStateWrapper(HttpContext.Current.Session), db, utente.ID, true);
+                        (new AdvancedController()).setSessioneUtente(new HttpSessionStateWrapper(HttpContext.Current.Session), db, utente.ID, true, new ControllerContext());
                     }
                 }
             }

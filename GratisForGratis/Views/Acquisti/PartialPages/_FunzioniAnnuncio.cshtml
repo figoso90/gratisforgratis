@@ -6,12 +6,12 @@
 @if (Model.Venditore.VenditoreToken != (Session["utente"] as PersonaModel).Persona.TOKEN 
         && Model.StatoVendita != StatoVendita.VENDUTO && Model.StatoVendita != StatoVendita.BARATTATO && Model.StatoVendita != StatoVendita.ELIMINATO)
 {
-    @Html.ActionLink(Language.BuyNow, "Index", "Annuncio", new { token = Model.Token }, new { @class = "btn" })
+    @Html.ActionLink(Language.BuyNow, "Index", "Annuncio", new { token = Model.Token }, new { @class = "btn btn-success" })
 }
 else if (Model.Venditore.VenditoreToken != (Session["utente"] as PersonaModel).Persona.TOKEN 
     && (Model.StatoVendita == StatoVendita.BARATTATO || Model.StatoVendita == StatoVendita.VENDUTO))
 {
     <div class="cella">
-        @Html.ActionLink(Language.Feedback, "Index", "Feedback", new { id = Model.Id, tipo = TipoFeedback.Acquirente }, new { @Class = "btn" })
+        @Html.ActionLink(Language.Feedback, "Index", "Feedback", new { id = Model.Id, tipo = TipoFeedback.Acquirente }, new { @Class = "btn btn-primary" })
     </div>
 }

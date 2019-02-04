@@ -289,7 +289,7 @@
     <value>Data notifica</value>
   </data>
   <data name="NewsName" xml:space="preserve">
-    <value>Tipo notifica</value>
+    <value>Tipologia</value>
   </data>
   <data name="NewsReadDate" xml:space="preserve">
     <value>Data lettura</value>

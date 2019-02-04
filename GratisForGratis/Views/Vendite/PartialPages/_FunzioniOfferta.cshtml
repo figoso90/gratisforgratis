@@ -11,8 +11,8 @@
         {
             Html.AntiForgeryToken();
             @Html.HiddenFor(m => m.Token)
-            <a class="btn ok" href="javascript:void(0);">@Language.AcceptBid</a>
-            <a class="btn ko" href="javascript:void(0);">@Language.RefuseBid</a>
+            <a class="btn btn-success ok" href="javascript:void(0);">@Language.AcceptBid</a>
+            <a class="btn btn-danger ko" href="javascript:void(0);">@Language.RefuseBid</a>
         }
     }
     else if (Model.StatoOfferta == StatoOfferta.ACCETTATA_ATTESO_PAGAMENTO)
@@ -22,7 +22,7 @@
             {
                 Html.AntiForgeryToken();
                 @Html.HiddenFor(m => m.Token)
-            <a class="btn link ok" href="javascript:void(0);" onclick="$('#formPagamentoOfferta').submit();">
+            <a class="btn btn-primary link ok" href="javascript:void(0);" onclick="$('#formPagamentoOfferta').submit();">
                 @Language.PayShipmentBid
                 <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" title="@Tooltip.PayShipmentBid"></span>
             </a>

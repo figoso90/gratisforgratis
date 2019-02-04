@@ -36,7 +36,7 @@ namespace GratisForGratis.Controllers
                     mail.Subject = model.Subject;
 
                     mail.Body = RenderRazorViewToString(model.ControllerContext, "Email/" + model.Body, model.Layout, model.DatiEmail);
-                    // mail.Body = View(model.Body, model.Layout, model.DatiEmail).ToString();
+                    //mail.Body = View("Email/" + model.Body, model.Layout, model.DatiEmail).ToString();
                     // aggiunge allegati
                     model.Attachments.ForEach(m => {
                         mail.Attachments.Add(new Attachment(m.InputStream, m.FileName));

@@ -421,7 +421,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Premi.
+        ///   Cerca una stringa localizzata simile a Bonus guadagnato.
         /// </summary>
         public static string Bonus {
             get {

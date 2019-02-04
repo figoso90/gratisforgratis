@@ -1,5 +1,7 @@
 ﻿using GratisForGratis.App_GlobalResources;
 using GratisForGratis.Models;
+using GratisForGratis.Models.ExtensionMethods;
+using GratisForGratis.Models.ViewModels.Email;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -44,7 +46,7 @@ namespace GratisForGratis.Controllers
                 }
                 Guid portale = Guid.Parse(System.Configuration.ConfigurationManager.AppSettings["portaleweb"]);
                 int bonus = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["bonusSuggerimentoAttivazioneAnnuncio"]);
-                this.AddBonus(db, persona, portale, bonus, TipoTransazione.BonusSuggerimentoAttivazioneAnnuncio, Bonus.SuggestAdActivation);
+                this.AddBonus(db, ControllerContext, persona, portale, bonus, TipoTransazione.BonusSuggerimentoAttivazioneAnnuncio, Bonus.SuggestAdActivation);
 
                 NOTIFICA notifica = new NOTIFICA();
                 notifica.ID_PERSONA = idUtente;
@@ -130,14 +132,14 @@ namespace GratisForGratis.Controllers
         #region METODI PUBBLICI
 
         [AllowAnonymous]
-        public void setSessioneUtente(HttpSessionStateBase sessione, DatabaseContext db, int utente, bool ricordaLogin)
+        public void setSessioneUtente(HttpSessionStateBase sessione, DatabaseContext db, int utente, bool ricordaLogin, ControllerContext controller = null)
         {
             PersonaModel persona = new PersonaModel(db, utente);
             
             // login effettuata con successo, aggiungo i punti se ha il profilo attivo completamente e se è un nuovo accesso giornaliero
             DateTime dataCorrente = DateTime.Now;
             if (persona.Persona.STATO == (int)Stato.ATTIVO && persona.Persona.STATO == (int)Stato.ATTIVO && (persona.Persona.DATA_ACCESSO == null || persona.Persona.DATA_ACCESSO.Value.Year < dataCorrente.Year || (persona.Persona.DATA_ACCESSO.Value.Year == dataCorrente.Year && dataCorrente.DayOfYear > persona.Persona.DATA_ACCESSO.Value.DayOfYear)))
-                AddPuntiLogin(db, persona.Persona);
+                AddPuntiLogin(db, controller, persona.Persona);
             
             sessione["utente"] = persona;
             if (persona.Attivita != null && persona.Attivita.Count > 0)
@@ -149,56 +151,6 @@ namespace GratisForGratis.Controllers
 
             FormsAuthentication.SetAuthCookie(persona.Persona.CONTO_CORRENTE.TOKEN.ToString(), ricordaLogin);
         }
-        //public void setSessioneUtente(HttpSessionStateBase sessione, DatabaseContext db, int utente, bool ricordaLogin)
-        //{
-        //    PERSONA model = db.PERSONA
-        //        .Include("ABBONAMENTO")
-        //        .Include("PERSONA_PRIVACY")
-        //        .Include("PERSONA_EMAIL")
-        //        .Include("PERSONA_TELEFONO")
-        //        .Include("PERSONA_METODO_PAGAMENTO")
-        //        .Include("PERSONA_INDIRIZZO")
-        //        .Include("PERSONA_FOTO")
-        //        .Include("PERSONA_ATTIVITA")
-        //        .SingleOrDefault(m => m.ID == utente);
-
-        //    // login effettuata con successo, aggiungo i punti se ha il profilo attivo completamente e se è un nuovo accesso giornaliero
-        //    DateTime dataCorrente = DateTime.Now;
-        //    if (model.STATO == (int)Stato.ATTIVO && model.STATO == (int)Stato.ATTIVO && (model.DATA_ACCESSO == null || model.DATA_ACCESSO.Value.Year < dataCorrente.Year || (model.DATA_ACCESSO.Value.Year == dataCorrente.Year && dataCorrente.DayOfYear > model.DATA_ACCESSO.Value.DayOfYear)))
-        //        AddPuntiLogin(db, model);
-
-        //    PersonaModel persona = new PersonaModel(model);
-        //    persona.Email = model.PERSONA_EMAIL.Where(m => m.ID_PERSONA == utente).ToList();
-        //    persona.Telefono = model.PERSONA_TELEFONO.Where(m => m.ID_PERSONA == utente).ToList();
-        //    persona.MetodoPagamento = model.PERSONA_METODO_PAGAMENTO.Where(m => m.ID_PERSONA == utente).ToList();
-        //    persona.Indirizzo = db.PERSONA_INDIRIZZO
-        //        .Include("INDIRIZZO")
-        //        .Include("INDIRIZZO.COMUNE")
-        //        .Include("PERSONA_INDIRIZZO_SPEDIZIONE")
-        //        .Where(m => m.ID_PERSONA == utente)
-        //        .ToList();
-        //    persona.Foto = model.PERSONA_FOTO.Where(m => m.ID_PERSONA == utente).OrderByDescending(m => m.ORDINE)
-        //        .AsEnumerable().Select(m => new FotoModel(m.ALLEGATO)).ToList();
-        //    model.PERSONA_ATTIVITA.Where(m => m.ID_PERSONA == utente).ToList().ForEach(m => {
-        //        persona.Attivita.Add(new AttivitaModel(m));
-        //    });
-        //    //persona.ContoCorrente = db.CONTO_CORRENTE_MONETA.Where(m => m.ID_CONTO_CORRENTE == persona.Persona.ID_CONTO_CORRENTE).ToList();
-        //    persona.Credito = db.CONTO_CORRENTE_CREDITO.Where(m => m.ID_CONTO_CORRENTE == persona.Persona.ID_CONTO_CORRENTE).ToList();
-        //    persona.NomeVisibile = (string.IsNullOrWhiteSpace(persona.Persona.NOME + persona.Persona.COGNOME) ? persona.Email
-        //        .Where(m => m.TIPO == (int)TipoEmail.Registrazione).SingleOrDefault().EMAIL: string.Concat(persona.Persona.NOME, " ", persona.Persona.COGNOME));
-        //    persona.NumeroMessaggiDaLeggere = db.CHAT.Count(m => m.ID_DESTINATARIO == utente && m.STATO == (int)StatoChat.INVIATO);
-        //    persona.NumeroNotificheDaLeggere = db.NOTIFICA.Count(m => m.ID_PERSONA_DESTINATARIO == utente && m.STATO == (int)StatoNotifica.ATTIVA);
-
-        //    sessione["utente"] = persona;
-        //    if (persona.Attivita != null && persona.Attivita.Count > 0)
-        //        sessione["portaleweb"] = persona.Attivita.Select(item =>
-        //            new PortaleWebViewModel(item,
-        //            item.ATTIVITA.ATTIVITA_EMAIL.Where(e => e.ID_ATTIVITA == item.ID_ATTIVITA).ToList(),
-        //            item.ATTIVITA.ATTIVITA_TELEFONO.Where(t => t.ID_ATTIVITA == item.ID_ATTIVITA).ToList()
-        //        )).ToList();
-
-        //    FormsAuthentication.SetAuthCookie(persona.Persona.CONTO_CORRENTE.TOKEN.ToString(), ricordaLogin);
-        //}
 
         public int AddUtenteFacebook(string accessToken, string tokenPermanente, dynamic paramsFB, DatabaseContext db)
         {
@@ -289,7 +241,7 @@ namespace GratisForGratis.Controllers
 
         // VERIFICARE CHE L'ASSEGNAZIONE DELLA MONETA VADA A BUON FINE E CHE QUINDI LA TRANSAZIONE
         // ABBIA EFFETTO
-        public void AddBonus(DatabaseContext db, PERSONA persona, Guid tokenPortale, decimal punti, TipoTransazione tipo, string nomeTransazione, int? idAnnuncio = null)
+        public void AddBonus(DatabaseContext db, ControllerContext controller, PERSONA persona, Guid tokenPortale, decimal punti, TipoTransazione tipo, string nomeTransazione, int? idAnnuncio = null)
         {
             ATTIVITA attivita = db.ATTIVITA.Where(p => p.TOKEN == tokenPortale).SingleOrDefault();
             PERSONA_ATTIVITA proprietario = attivita.PERSONA_ATTIVITA.SingleOrDefault(m => m.RUOLO == (int)RuoloProfilo.Proprietario && m.STATO == (int)Stato.ATTIVO);
@@ -323,7 +275,12 @@ namespace GratisForGratis.Controllers
             ContoCorrenteCreditoModel credito = new ContoCorrenteCreditoModel(db, persona.ID_CONTO_CORRENTE);
             credito.Earn(model.ID, punti);
 
-            SendNotifica(mittente, persona, TipoNotifica.Bonus, "bonusRicevuto", model, attivita, db);
+            BonusRicevutoViewModel modelEmail = new BonusRicevutoViewModel();
+            modelEmail.Nome = model.NOME;
+            modelEmail.NominativoDestinatario = persona.NOME + " " + persona.COGNOME;
+            modelEmail.Bonus = Convert.ToDecimal(model.PUNTI).ToHappyCoin();
+
+            SendNotifica(mittente, persona, TipoNotifica.Bonus, controller, "bonusRicevuto", modelEmail, attivita, db);
             TempData["BONUS"] = string.Format(Bonus.YouWin, punti, Language.Moneta);
 
             if (tipo != TipoTransazione.BonusLogin)
@@ -346,7 +303,7 @@ namespace GratisForGratis.Controllers
             }
         }
 
-        public bool SendNotifica(PERSONA mittente, PERSONA destinatario, TipoNotifica messaggio, string view, object datiNotifica, ATTIVITA attivitaMittente = null, DatabaseContext db = null)
+        public bool SendNotifica(PERSONA mittente, PERSONA destinatario, TipoNotifica messaggio, ControllerContext controller, string view, object datiNotifica, ATTIVITA attivitaMittente = null, DatabaseContext db = null)
         {
             bool nuovaConnessione = true;
             try
@@ -379,7 +336,6 @@ namespace GratisForGratis.Controllers
 
                 try
                 {
-                    ControllerContext controller = new ControllerContext();
                     string indirizzoEmail = destinatario.PERSONA_EMAIL.SingleOrDefault(e => e.TIPO == (int)TipoEmail.Registrazione).EMAIL;
                     // modificare oggetto recuperando dal tipo notifica la stringa
                     string oggetto = Components.EnumHelper<TipoNotifica>.GetDisplayValue(messaggio);
@@ -602,7 +558,7 @@ namespace GratisForGratis.Controllers
         #endregion
 
         #region METODI PRIVATI
-        private void AddPuntiLogin(DatabaseContext db, PERSONA utente)
+        private void AddPuntiLogin(DatabaseContext db, ControllerContext controller, PERSONA utente)
         {
             decimal puntiAccesso = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["bonusAccesso"]);
             utente.DATA_ACCESSO = DateTime.Now;
@@ -610,7 +566,7 @@ namespace GratisForGratis.Controllers
             if (db.SaveChanges() > 0)
             {
                 Guid tokenPortale = Guid.Parse(System.Configuration.ConfigurationManager.AppSettings["portaleweb"]);
-                this.AddBonus(db, utente, tokenPortale, puntiAccesso, TipoTransazione.BonusLogin, Bonus.Login);
+                this.AddBonus(db, controller, utente, tokenPortale, puntiAccesso, TipoTransazione.BonusLogin, Bonus.Login);
                 //db.SaveChanges();
             }
         }

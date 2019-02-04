@@ -7,10 +7,6 @@
         <label>@Language.Contacts: </label>
         <p class="name people">@Model.Annuncio.Venditore.Nominativo</p>
         <p class="email">@Model.Annuncio.Venditore.Email</p>
-        @if (!string.IsNullOrWhiteSpace(Model.Annuncio.Venditore.Telefono))
-        {
-            <p class="telephone">@Model.Annuncio.Venditore.Telefono</p>
-        }
     </div>
 }
 <div class="cella state">
@@ -19,7 +15,7 @@
     {
         <strong class="stateText">@Language.CompletedPurchase</strong>
         <div class="cella">
-            @Html.ActionLink(Language.GoToFeedback, "", "Feedback", new { acquisto = @HttpUtility.UrlEncode(Model.Token) }, new { @class = "link btn" })
+            @Html.ActionLink(Language.GoToFeedback, "", "Feedback", new { acquisto = @HttpUtility.UrlEncode(Model.Token) }, new { @class = "link btn btn-primary" })
         </div>
     }
     else if (Model.StatoOfferta == StatoOfferta.ACCETTATA && (Model.Annuncio.StatoVendita == StatoVendita.SOSPESO || Model.Annuncio.StatoVendita == StatoVendita.BARATTOINCORSO || Model.Annuncio.StatoVendita == StatoVendita.SOSPESOPEROFFERTA))

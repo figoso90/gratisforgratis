@@ -11,13 +11,16 @@
     {
         var annuncioOggetto = (GratisForGratis.Models.OggettoViewModel)Model.Annuncio;
         IEnumerable<SelectListItem> listaTipologia = null;
+        string noTipoScelto = null;
         if (annuncioOggetto.TipoScambio.Length > 0)
         {
             listaTipologia = annuncioOggetto.TipoScambio.Select(m => new SelectListItem() { Text = m.ToString(), Value = ((int)m).ToString() });
+            noTipoScelto = "Scegliere tipo scambio";
         }
         else
         {
-            var scambioMano = EnumHelper.GetSelectList(typeof(GratisForGratis.Models.TipoScambio), GratisForGratis.Models.TipoScambio.AMano).Where(m => m.Selected).FirstOrDefault();
+            var scambioMano = EnumHelper.GetSelectList(typeof(GratisForGratis.Models.TipoScambio), GratisForGratis.Models.TipoScambio.AMano)
+                .Where(m => m.Selected).FirstOrDefault();
             listaTipologia = new List<SelectListItem>() {
                     new SelectListItem() {
                         Text = scambioMano.Text,
@@ -32,7 +35,7 @@
         }
         <div class="exchange">
             @Html.LabelFor(m => m.TipoScambio)
-            @Html.DropDownListFor(m => m.TipoScambio, listaTipologia, new { @class = "form-control changeTipoScambio", data_class = ".tipoScambio" })
+            @Html.DropDownListFor(m => m.TipoScambio, listaTipologia, noTipoScelto, new { @class = "form-control changeTipoScambio", data_class = ".tipoScambio" })
             @Html.ValidationMessageFor(m => m.TipoScambio, "", new { @class = "text-danger" })
         </div>
         <h4 class="exchange shipment hide">@ViewModel.Recipient</h4>
@@ -109,7 +112,7 @@
             -->
     }
         <div class="footer">
-            <a class="btn buy" href="javascript:void(0);" onclick="compraAnnuncio(this)">@Language.BuyNow</a>
+            <a class="btn btn-success buy" href="javascript:void(0);" onclick="compraAnnuncio(this)">@Language.BuyNow</a>
             <!--<a href="javascript:void(0);" onclick="toggleOfferta(this, '#formOfferta');" class="btn buy linkOfferta">Fai un'offerta!</a>
             <a href="javascript:void(0);" onclick="toggleOfferta(this, '#formOfferta');" class="btn buy linkOfferta hide">Annulla offerta!</a>-->
         </div>

@@ -7,7 +7,6 @@
     display: inline-block;
     margin: 13px;
     max-width: 200px;
-    border: 2px solid #337ab7;
     padding: 4px;
     border-radius: 6px;
 }
@@ -20,7 +19,6 @@
     .news .nome {
         text-transform: uppercase;
         text-decoration: none;
-        color: #a2c63e;
         font-weight: bold;
         margin:12px 0px;
     }
