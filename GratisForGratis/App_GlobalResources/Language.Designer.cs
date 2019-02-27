@@ -835,7 +835,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Usa il tuo account personale per accedere e comprare..
+        ///   Cerca una stringa localizzata simile a Usa quest&apos;area per accedere o se sei nuovo, per &lt;strong&gt;registrarti velocemente&lt;/strong&gt; solo con e-mail e password!.
         /// </summary>
         public static string DescriptionLogin {
             get {
@@ -4282,15 +4282,6 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Baratta oggetti, baratta servizi comodamente da casa tua!.
-        /// </summary>
-        public static string TitleBarter {
-            get {
-                return ResourceManager.GetString("TitleBarter", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Cerca una stringa localizzata simile a Offerta inviata con successo!.
         /// </summary>
         public static string TitleBidCompleted {
@@ -4345,15 +4336,6 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Servizi supplementari.
-        /// </summary>
-        public static string TitleExtraServices {
-            get {
-                return ResourceManager.GetString("TitleExtraServices", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Cerca una stringa localizzata simile a Feedback pagamento.
         /// </summary>
         public static string TitleFeedback {
@@ -4377,24 +4359,6 @@ namespace GratisForGratis.App_GlobalResources {
         public static string TitleForgotPasswordForSite {
             get {
                 return ResourceManager.GetString("TitleForgotPasswordForSite", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Cerca una stringa localizzata simile a Guida alla sicurezza.
-        /// </summary>
-        public static string TitleGuideSecurity {
-            get {
-                return ResourceManager.GetString("TitleGuideSecurity", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Cerca una stringa localizzata simile a Come funziona.
-        /// </summary>
-        public static string TitleHowWork {
-            get {
-                return ResourceManager.GetString("TitleHowWork", resourceCulture);
             }
         }
         
@@ -4444,29 +4408,11 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a I nostri maggiori partners.
-        /// </summary>
-        public static string TitlePartners {
-            get {
-                return ResourceManager.GetString("TitlePartners", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Cerca una stringa localizzata simile a Pagamento.
         /// </summary>
         public static string TitlePayment {
             get {
                 return ResourceManager.GetString("TitlePayment", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Cerca una stringa localizzata simile a Condizioni privacy utente.
-        /// </summary>
-        public static string TitlePrivacy {
-            get {
-                return ResourceManager.GetString("TitlePrivacy", resourceCulture);
             }
         }
         
@@ -4656,15 +4602,6 @@ namespace GratisForGratis.App_GlobalResources {
         public static string TitleTransactionHistorical {
             get {
                 return ResourceManager.GetString("TitleTransactionHistorical", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Cerca una stringa localizzata simile a Perchè {0}.
-        /// </summary>
-        public static string TitleWhySite {
-            get {
-                return ResourceManager.GetString("TitleWhySite", resourceCulture);
             }
         }
         

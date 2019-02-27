@@ -92,7 +92,7 @@ namespace GratisForGratis.Models
 
         [Required(ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]     
         [Display(Name = "Civic", ResourceType = typeof(App_GlobalResources.Language))]
-        public int? Civico { get; set; }
+        public string Civico { get; set; }
 
         [Required(ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
         [DataType(DataType.PostalCode, ErrorMessageResourceName = "ErrorCity", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
@@ -109,7 +109,7 @@ namespace GratisForGratis.Models
 
         [Required(ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
         [Display(Name = "ShippingCivic", ResourceType = typeof(App_GlobalResources.Language))]
-        public int? CivicoSpedizione { get; set; }
+        public string CivicoSpedizione { get; set; }
 
     }
 
@@ -251,7 +251,7 @@ namespace GratisForGratis.Models
         //[DataType(DataType.Text)]
         //[StringLength(50, MinimumLength = 1)]
         [Display(Name = "Civic", ResourceType = typeof(App_GlobalResources.Language))]
-        public int? Civico { get; set; }
+        public string Civico { get; set; }
 
         [DataType(DataType.PostalCode, ErrorMessageResourceName = "ErrorCity", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
         [Display(Name = "ShippingCity", ResourceType = typeof(App_GlobalResources.Language))]
@@ -267,7 +267,7 @@ namespace GratisForGratis.Models
         //[DataType(DataType.Text)]
         //[StringLength(50, MinimumLength = 1)]
         [Display(Name = "ShippingCivic", ResourceType = typeof(App_GlobalResources.Language))]
-        public int? CivicoSpedizione { get; set; }
+        public string CivicoSpedizione { get; set; }
 
         [DataType(DataType.PhoneNumber)]
         [StringLength(12, MinimumLength = 9, ErrorMessageResourceName = "ErrorPhoneNumber", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
@@ -595,7 +595,7 @@ namespace GratisForGratis.Models
         public string Indirizzo { get; set; }
 
         [Display(Name = "Civic", ResourceType = typeof(App_GlobalResources.Language))]
-        public int? Civico { get; set; }
+        public string Civico { get; set; }
 
         [Display(Name = "ShippingCity", ResourceType = typeof(App_GlobalResources.Language))]
         public string CittaSpedizione { get; set; }
@@ -604,7 +604,7 @@ namespace GratisForGratis.Models
         public string IndirizzoSpedizione { get; set; }
 
         [Display(Name = "ShippingCivic", ResourceType = typeof(App_GlobalResources.Language))]
-        public int? CivicoSpedizione { get; set; }
+        public string CivicoSpedizione { get; set; }
 
         // AGGIUNGERE LISTA ACQUISTI UTENTE
         public List<AnnuncioViewModel> listaAcquisti { get; set; }

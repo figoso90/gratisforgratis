@@ -56,7 +56,9 @@ namespace GratisForGratis.Controllers
                 using (DatabaseContext db = new DatabaseContext())
                 {
                     model = db.ANNUNCIO.Include(m => m.ANNUNCIO_FOTO)
-                        .Include(m => m.CATEGORIA).Include("ANNUNCIO_FOTO.FOTO").SingleOrDefault(m => m.ID == id);
+                        .Include(m => m.CATEGORIA)
+                        //.Include("ANNUNCIO_FOTO.FOTO")
+                        .SingleOrDefault(m => m.ID == id);
                     viewModel = new AnnuncioViewModel(db, model);
                 }
             }
@@ -66,7 +68,10 @@ namespace GratisForGratis.Controllers
                 return RedirectToAction("Index", "Utente");
             }
             //if (!HttpContext.IsDebuggingEnabled)
-                SendPostFacebook(viewModel.Nome + " GRATIS con " + viewModel.Punti + Language.Moneta, GetCurrentDomain() + "/Uploads/Images/" + (Session["utente"] as PersonaModel).Email.FirstOrDefault(item => item.TIPO == (int)TipoEmail.Registrazione) + "/" + DateTime.Now.Year + "/Normal/" + viewModel.Foto[0], GetCurrentDomain());
+            string emailUtente = (Session["utente"] as PersonaModel)
+                .Email.FirstOrDefault(item => item.TIPO == (int)TipoEmail.Registrazione).EMAIL;
+            string indirizzoImmagine = GetCurrentDomain() + "/Uploads/Images/" + emailUtente + "/" + DateTime.Now.Year + "/Normal/" + viewModel.Foto[0].ALLEGATO.NOME;
+                SendPostFacebook(viewModel.Nome + " GRATIS con " + viewModel.Punti, indirizzoImmagine, GetCurrentDomain());
             return View(viewModel);
         }
         

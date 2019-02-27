@@ -310,6 +310,7 @@
     <Content Include="Content\saveRicerca.css" />
     <Content Include="Content\acquisto.css" />
     <Content Include="Content\offerteVendita.css" />
+    <Content Include="Content\seo.css" />
     <Content Include="Content\spedizioni.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -1161,7 +1162,7 @@
     </Content>
     <Content Include="Views\Home\Contatti.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Partners.cshtml" />
+    <Content Include="Views\Home\Partnership.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Scripts\Jquery\jquery-1.10.2.min.map" />
     <Content Include="Views\Utente\Registrazione.cshtml" />
@@ -1438,9 +1439,9 @@
     <Content Include="Views\Pubblica\Email\NotificaRicerca.cshtml" />
     <Content Include="Views\Home\Spedizioni.cshtml" />
     <Content Include="Views\Offerte_14092017\Acquisto.cshtml" />
-    <Content Include="Views\Home\ServiziExtra.cshtml" />
+    <Content Include="Views\Home\CircuitoGratis.cshtml" />
     <Content Include="Views\Home\PercheRegistrarsi.cshtml" />
-    <Content Include="Views\Home\GuidaSicura.cshtml" />
+    <Content Include="Views\Home\Sicurezza.cshtml" />
     <Content Include="Views\Home\Spedizione.cshtml" />
     <Content Include="Views\Cerca\Index.cshtml" />
     <Content Include="Views\Cerca\Elenco\Tutti.cshtml" />
@@ -1460,7 +1461,7 @@
     <Content Include="Views\Pagamento\Index.cshtml" />
     <Content Include="Views\Pubblica\Spedizione.cshtml" />
     <Content Include="Views\Home\Team.cshtml" />
-    <Content Include="Views\Home\BandiRicevuti.cshtml" />
+    <Content Include="Views\Home\Finanziamenti.cshtml" />
     <Content Include="Views\Utente\Login.cshtml" />
     <Content Include="Views\Utente\Email\RegistrazioneUtenteReinvio.cshtml" />
     <Content Include="Views\Pubblica\Index.cshtml" />
@@ -1517,7 +1518,6 @@
     <Content Include="Views\Annuncio\PartialPages\Email\Offerta.cshtml" />
     <Content Include="Views\Annuncio\PartialPages\_Servizio.cshtml" />
     <Content Include="Views\Annuncio\PartialPages\_Oggetto.cshtml" />
-    <Content Include="Views\Annuncio\Index_14092017.cshtml" />
     <Content Include="Views\Annuncio\PartialPages\Oggetto\Console.cshtml" />
     <Content Include="Views\Annuncio\PartialPages\_FormOfferte.cshtml" />
     <Content Include="Views\Vendite\PartialPages\_FunzioniAnnuncio.cshtml" />
@@ -1561,6 +1561,15 @@
     <Content Include="Views\Cerca\SalvataggioKO.cshtml" />
     <Content Include="Views\Chat\PartialPages\_GalleriaFotoProfilo.cshtml" />
     <Content Include="Views\Pubblica\Oggetto\Musica-elettronica.cshtml" />
+    <Content Include="Views\Home\BarattoMultilaterale.cshtml" />
+    <Content Include="Views\Home\BarattoAsincrono.cshtml" />
+    <Content Include="Views\Home\Criptovaluta.cshtml" />
+    <Content Include="Views\Home\Bitcoin.cshtml" />
+    <Content Include="Views\Home\HappyPeople.cshtml" />
+    <Content Include="Views\Home\ComeGuadagnare.cshtml" />
+    <Content Include="Views\Home\Missione.cshtml" />
+    <Content Include="Views\Home\EconomiaCircolare.cshtml" />
+    <Content Include="Views\Home\DecrescitaFelice.cshtml" />
     <None Include="Web References\ServizioADV\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

@@ -224,11 +224,14 @@ namespace GratisForGratis.Controllers
             if (Session != null)
             {
                 PersonaModel utente = Session["utente"] as PersonaModel;
-                //utente.ContoCorrente = db.CONTO_CORRENTE_MONETA.Where(m => m.ID_CONTO_CORRENTE == utente.Persona.ID_CONTO_CORRENTE).ToList();
-                utente.Credito = db.CONTO_CORRENTE_CREDITO.Where(m => m.ID_CONTO_CORRENTE == utente.Persona.ID_CONTO_CORRENTE).ToList();
-                utente.NumeroMessaggiDaLeggere = db.CHAT.Count(m => m.ID_DESTINATARIO == utente.Persona.ID && m.STATO == (int)StatoChat.INVIATO);
-                utente.NumeroNotificheDaLeggere = db.NOTIFICA.Count(m => m.ID_PERSONA_DESTINATARIO == utente.Persona.ID && m.STATO == (int)StatoNotifica.ATTIVA);
-                Session["utente"] = utente;
+                if (utente != null)
+                {
+                    //utente.ContoCorrente = db.CONTO_CORRENTE_MONETA.Where(m => m.ID_CONTO_CORRENTE == utente.Persona.ID_CONTO_CORRENTE).ToList();
+                    utente.Credito = db.CONTO_CORRENTE_CREDITO.Where(m => m.ID_CONTO_CORRENTE == utente.Persona.ID_CONTO_CORRENTE).ToList();
+                    utente.NumeroMessaggiDaLeggere = db.CHAT.Count(m => m.ID_DESTINATARIO == utente.Persona.ID && m.STATO == (int)StatoChat.INVIATO);
+                    utente.NumeroNotificheDaLeggere = db.NOTIFICA.Count(m => m.ID_PERSONA_DESTINATARIO == utente.Persona.ID && m.STATO == (int)StatoNotifica.ATTIVA);
+                    Session["utente"] = utente;
+                }
             }
         }
 

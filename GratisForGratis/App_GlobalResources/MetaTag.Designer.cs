@@ -61,7 +61,52 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Hai dei dubbi o vuoi partecipare con noi a quest&apos;avventura? Inviaci una richiesta di colloquio. Amiamo la partecipazione sociale..
+        ///   Cerca una stringa localizzata simile a Barattare online non è ritornare indietro ma andare avanti, tramite il baratto asincrono e multilaterale..
+        /// </summary>
+        public static string DescriptionBarter {
+            get {
+                return ResourceManager.GetString("DescriptionBarter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Barattare online ti permette di dare via oggetti che non ti servono più e ricevere gli oggetti che desideri solo quando ne hai bisogno..
+        /// </summary>
+        public static string DescriptionBarterAsync {
+            get {
+                return ResourceManager.GetString("DescriptionBarterAsync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Il baratto online è la soluzione più indicata per poter commerciare senza il bisogno di spendere soldi reali.
+        /// </summary>
+        public static string DescriptionBarterMultilateral {
+            get {
+                return ResourceManager.GetString("DescriptionBarterMultilateral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Una criptovaluta che si diversifica dalla moneta reale per il suo decentramento.
+        /// </summary>
+        public static string DescriptionBitCoin {
+            get {
+                return ResourceManager.GetString("DescriptionBitCoin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Un&apos;economia che guarda avanti e rispecchia lo stesso sistema che viene usato nello spazio dagli astronauti, gli scarti vengono riutilizzati per riprodurre cose nuove..
+        /// </summary>
+        public static string DescriptionCircularEconomy {
+            get {
+                return ResourceManager.GetString("DescriptionCircularEconomy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Hai dei dubbi o hai bisogno di assistenza? Saremo a tua disposizione per risponderti.
         /// </summary>
         public static string DescriptionContatti {
             get {
@@ -70,11 +115,29 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a {0} elimina disuguaglianze, rivaluta l&apos;usato e rivaluta le qualità personali dell&apos;individuo. Proponiamo un motore sociale per la crescita..
+        ///   Cerca una stringa localizzata simile a Siamo un gruppo di persone che sognano di realizzare un sistema economico basato sulla felicità delle persone. Abbiamo pensato ad una moneta in grado di generarsi in base a quanto una persona nel sistema renda felice un’altra persona e abbiamo pensato ad un sistema economico che fosse equilibrato e circolare, imitando il sistema naturale delle cose..
         /// </summary>
         public static string DescriptionCosaFacciamo {
             get {
                 return ResourceManager.GetString("DescriptionCosaFacciamo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Facciamo parte di un circuito di realtà che realizzano portali online che offrono beni o servizi gratuiti.
+        /// </summary>
+        public static string DescriptionFreeCircuit {
+            get {
+                return ResourceManager.GetString("DescriptionFreeCircuit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Siamo in costante ricerca di finanziamenti in quanto il nostro progetto non mira al profitto e ogni azione viene pensata per il benessere della persona e non al guadagno..
+        /// </summary>
+        public static string DescriptionFunding {
+            get {
+                return ResourceManager.GetString("DescriptionFunding", resourceCulture);
             }
         }
         
@@ -106,6 +169,24 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a La decrescita felice è un sistema che punta ad un economia che incentiva e fa &quot;guadagnare&quot; chi produce di meno ma riesce ad offrire maggiori beni e servizi.
+        /// </summary>
+        public static string DescriptionHappyDegrowth {
+            get {
+                return ResourceManager.GetString("DescriptionHappyDegrowth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a I nostri iscritti sono HappyPeople ovvero vengono descritte persone felici, in quanto fanno parte di un circuito che si basa sulle &quot;buone&quot; azioni fatte..
+        /// </summary>
+        public static string DescriptionHappyPeople {
+            get {
+                return ResourceManager.GetString("DescriptionHappyPeople", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Acquista gratuitamente gli oggetti che desideri. Compra servizi personali, aziendali o domestici e aumenta il tuo tempo libero..
         /// </summary>
         public static string DescriptionHome {
@@ -115,11 +196,38 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Il guadagno sul nostro circuito avviene con moltissime modalità, tutte illustrate nella proprio home page.
+        /// </summary>
+        public static string DescriptionHowEarn {
+            get {
+                return ResourceManager.GetString("DescriptionHowEarn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a La mission di GratisForGratis è migliorare il benessere materiale ma prima di tutto mentale delle persone, siamo alla costante ricerca della felicità.
+        /// </summary>
+        public static string DescriptionMission {
+            get {
+                return ResourceManager.GetString("DescriptionMission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a La criptovaluta che basa il proprio potere di acquisto sulla felicità delle persone..
+        /// </summary>
+        public static string DescriptionOnlineMoney {
+            get {
+                return ResourceManager.GetString("DescriptionOnlineMoney", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Ecco l&apos;elenco delle grandi realtà che hanno deciso di incamminarsi insieme a noi! Progetti che migliorano la persona e il gruppo sociale..
         /// </summary>
-        public static string DescriptionPartners {
+        public static string DescriptionPartnership {
             get {
-                return ResourceManager.GetString("DescriptionPartners", resourceCulture);
+                return ResourceManager.GetString("DescriptionPartnership", resourceCulture);
             }
         }
         
@@ -151,11 +259,29 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a La sicurezza è un concetto importante per una moneta virtuale, anche se il sito da la possibilità di non concentrarsi troppo sulla disponibilità di denaro in quanto questo è facilmente riguadagnabile..
+        /// </summary>
+        public static string DescriptionSecurity {
+            get {
+                return ResourceManager.GetString("DescriptionSecurity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Compra gratuitamente {0} della categoria {1}. In vendita a {2} con {3} crediti o prova con il baratto..
         /// </summary>
         public static string DescriptionService {
             get {
                 return ResourceManager.GetString("DescriptionService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a La scelta della spedizione è la nostra forza: il primo portale di economia alternativa che ti permettere di effettuare lo scambio a mano o tramite corriere..
+        /// </summary>
+        public static string DescriptionShipment {
+            get {
+                return ResourceManager.GetString("DescriptionShipment", resourceCulture);
             }
         }
         
@@ -169,7 +295,70 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Contatti, dubbi, partecipare, partecipazione sociale, inviaci un tuo contatto.
+        ///   Cerca una stringa localizzata simile a Il team di GratisForGratis nasce dal desiderio di cambiare il sistema economico attuale, dal volerlo migliorare e far evolvere in un&apos;economia pensata per la persona.
+        /// </summary>
+        public static string DescriptionTeam {
+            get {
+                return ResourceManager.GetString("DescriptionTeam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a GratisForGratis propone una realtà economica alternativa a quella attuale, dove la felicità sia il fattore di crescita principale..
+        /// </summary>
+        public static string DescriptionWhySite {
+            get {
+                return ResourceManager.GetString("DescriptionWhySite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Baratto Asincrono, Baratto Multilaterale, Baratto oggetto, Baratto servizio, Baratto bene, Baratto online.
+        /// </summary>
+        public static string KeywordsBarter {
+            get {
+                return ResourceManager.GetString("KeywordsBarter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Baratto asincrono, Baratto asincrono oggetto, Baratto asincrono servizio, Baratto asincrono online.
+        /// </summary>
+        public static string KeywordsBarterAsync {
+            get {
+                return ResourceManager.GetString("KeywordsBarterAsync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Baratto multilaterale, Baratto online, Commercio online.
+        /// </summary>
+        public static string KeywordsBarterMultilateral {
+            get {
+                return ResourceManager.GetString("KeywordsBarterMultilateral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Criptovaluta, Moneta reale, Decentramento, Valuta criptata.
+        /// </summary>
+        public static string KeywordsBitCoin {
+            get {
+                return ResourceManager.GetString("KeywordsBitCoin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Economia circolare, riutilizzo, riuso, Sistema spaziale.
+        /// </summary>
+        public static string KeywordsCircularEconomy {
+            get {
+                return ResourceManager.GetString("KeywordsCircularEconomy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Contatti, dubbi, assistenza, problemi.
         /// </summary>
         public static string KeywordsContatti {
             get {
@@ -178,11 +367,29 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Elimina le disuguaglianze, rivaluta oggetto, rivaluta servizi, crescita umana, spazio culturale, rinnovo dei beni.
+        ///   Cerca una stringa localizzata simile a economia circolare, decrescita felice, moneta virtuale, baratto, vendita, economia alternativa, economia parallela.
         /// </summary>
         public static string KeywordsCosaFacciamo {
             get {
                 return ResourceManager.GetString("KeywordsCosaFacciamo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Circuito del gratis, beni gratis, servizi gratis, portali online.
+        /// </summary>
+        public static string KeywordsFreeCircuit {
+            get {
+                return ResourceManager.GetString("KeywordsFreeCircuit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Finanziamento, No-Profit, Nessun guadagno, Crowdfunding, Fondo perduto.
+        /// </summary>
+        public static string KeywordsFunding {
+            get {
+                return ResourceManager.GetString("KeywordsFunding", resourceCulture);
             }
         }
         
@@ -214,6 +421,24 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Decrescita felice, Produrre di meno, Offrire beni, Offrire servizi, Incentivare.
+        /// </summary>
+        public static string KeywordsHappyDegrowth {
+            get {
+                return ResourceManager.GetString("KeywordsHappyDegrowth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a HappyPeople, iscritti, persone felici, guadagno veloce.
+        /// </summary>
+        public static string KeywordsHappyPeople {
+            get {
+                return ResourceManager.GetString("KeywordsHappyPeople", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Compra gratis, acquista gratuitamente, oggetti, compra servizi, compra arredamento,compra abbigliamento, compra musica, compra giochi, compra sport e tempo libero, compra elettronica, compra videoteca, compra cartoleria e libreria, compra veicoli, compra fai da te, compra servizi domestici, compra servizi aziendali, compra servizi per la persona.
         /// </summary>
         public static string KeywordsHome {
@@ -223,11 +448,38 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Guadagno, Circuito felice, Modalità di guadagno, Registrazione, Pubblicazione, Feedback, Chat, Segnalazione bug.
+        /// </summary>
+        public static string KeywordsHowEarn {
+            get {
+                return ResourceManager.GetString("KeywordsHowEarn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Mission GratisForGratis, Benessere, Felicità, Miglioramento sociale.
+        /// </summary>
+        public static string KeywordsMission {
+            get {
+                return ResourceManager.GetString("KeywordsMission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Criptovaluta, Happy-Coin, felicità, moneta virtuale, moneta online.
+        /// </summary>
+        public static string KeywordsOnlineMoney {
+            get {
+                return ResourceManager.GetString("KeywordsOnlineMoney", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Grandi realtà, miglioramento della persona, gruppo sociale, Jadenka, DavideMilitano, PsicologiADomicilio, AvvocatoClick, Totallympics, CultID Studio.
         /// </summary>
-        public static string KeywordsPartners {
+        public static string KeywordsPartnership {
             get {
-                return ResourceManager.GetString("KeywordsPartners", resourceCulture);
+                return ResourceManager.GetString("KeywordsPartnership", resourceCulture);
             }
         }
         
@@ -250,6 +502,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Sicurezza, moneta virtuale, guadagnare facilmente, criptovaluta, algoritmo criptato.
+        /// </summary>
+        public static string KeywordsSecurity {
+            get {
+                return ResourceManager.GetString("KeywordsSecurity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Compra gratuitamente, categoria, vendita, baratto, acquista, {0}, {1}, {2}, {3} crediti.
         /// </summary>
         public static string KeywordsService {
@@ -259,11 +520,74 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Scambio a mano, Spedizione con corriere privato, Corriere del sito, primo portale.
+        /// </summary>
+        public static string KeywordsShipment {
+            get {
+                return ResourceManager.GetString("KeywordsShipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Siti utili, Utilità sociale, Utilità umana, JustKnock, TaskyJob, GeniUp, WikiLeaks.
         /// </summary>
         public static string KeywordsSiteWeb {
             get {
                 return ResourceManager.GetString("KeywordsSiteWeb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Team GratisForGratis, Cambiare sistema economico, Persona al centro, Sogno economico.
+        /// </summary>
+        public static string KeywordsTeam {
+            get {
+                return ResourceManager.GetString("KeywordsTeam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a scegliere gratisforgratis, realtà economica alternativa, felicità, economia parallela.
+        /// </summary>
+        public static string KeywordsWhySite {
+            get {
+                return ResourceManager.GetString("KeywordsWhySite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Baratta oggetti, baratta servizi comodamente da casa tua!.
+        /// </summary>
+        public static string TitleBarter {
+            get {
+                return ResourceManager.GetString("TitleBarter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Baratta oggetti e servizi in modo asincrono!.
+        /// </summary>
+        public static string TitleBarterAsync {
+            get {
+                return ResourceManager.GetString("TitleBarterAsync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Baratto multilaterale online!.
+        /// </summary>
+        public static string TitleBarterMultilateral {
+            get {
+                return ResourceManager.GetString("TitleBarterMultilateral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a BitCoin la criptovaluta del momento.
+        /// </summary>
+        public static string TitleBitCoin {
+            get {
+                return ResourceManager.GetString("TitleBitCoin", resourceCulture);
             }
         }
         
@@ -282,6 +606,42 @@ namespace GratisForGratis.App_GlobalResources {
         public static string TitleChatUser {
             get {
                 return ResourceManager.GetString("TitleChatUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Economia circolare.
+        /// </summary>
+        public static string TitleCircularEconomy {
+            get {
+                return ResourceManager.GetString("TitleCircularEconomy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Assistenza / Contatti.
+        /// </summary>
+        public static string TitleContacts {
+            get {
+                return ResourceManager.GetString("TitleContacts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Circuito del gratis.
+        /// </summary>
+        public static string TitleFreeCircuit {
+            get {
+                return ResourceManager.GetString("TitleFreeCircuit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Ricerca di finanziamenti.
+        /// </summary>
+        public static string TitleFunding {
+            get {
+                return ResourceManager.GetString("TitleFunding", resourceCulture);
             }
         }
         
@@ -313,11 +673,74 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Una nuovissima e unica moneta virtuale!.
+        ///   Cerca una stringa localizzata simile a Decrescita felice.
+        /// </summary>
+        public static string TitleHappyDegrowth {
+            get {
+                return ResourceManager.GetString("TitleHappyDegrowth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Happy People (persone felici).
+        /// </summary>
+        public static string TitleHappyPeople {
+            get {
+                return ResourceManager.GetString("TitleHappyPeople", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Come guadagnare sul portale.
+        /// </summary>
+        public static string TitleHowEarn {
+            get {
+                return ResourceManager.GetString("TitleHowEarn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Come Funziona.
+        /// </summary>
+        public static string TitleHowWork {
+            get {
+                return ResourceManager.GetString("TitleHowWork", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a La nostra missione.
+        /// </summary>
+        public static string TitleMission {
+            get {
+                return ResourceManager.GetString("TitleMission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Happy-Coin la criptovaluta della felicità.
         /// </summary>
         public static string TitleOnlineMoney {
             get {
                 return ResourceManager.GetString("TitleOnlineMoney", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Partnership importanti.
+        /// </summary>
+        public static string TitlePartnership {
+            get {
+                return ResourceManager.GetString("TitlePartnership", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Privacy.
+        /// </summary>
+        public static string TitlePrivacy {
+            get {
+                return ResourceManager.GetString("TitlePrivacy", resourceCulture);
             }
         }
         
@@ -367,6 +790,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Sicurezza.
+        /// </summary>
+        public static string TitleSecurity {
+            get {
+                return ResourceManager.GetString("TitleSecurity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Tutto gratis! oggetti e servizi gratis con gli {0}!.
         /// </summary>
         public static string TitleSellGratis {
@@ -385,11 +817,38 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Come spedire.
+        /// </summary>
+        public static string TitleShipment {
+            get {
+                return ResourceManager.GetString("TitleShipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Siti utili.
         /// </summary>
         public static string TitleSiteWeb {
             get {
                 return ResourceManager.GetString("TitleSiteWeb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Il team per un sogno.
+        /// </summary>
+        public static string TitleTeam {
+            get {
+                return ResourceManager.GetString("TitleTeam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Perchè scegliere GratisForGratis.
+        /// </summary>
+        public static string TitleWhySite {
+            get {
+                return ResourceManager.GetString("TitleWhySite", resourceCulture);
             }
         }
     }

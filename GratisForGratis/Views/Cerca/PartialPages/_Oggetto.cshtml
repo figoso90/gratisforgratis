@@ -26,11 +26,11 @@
                     }
                 </div>
                 <div class="right">
-                    <!--<h5 class="state"><b>@Language.StateObject :</b> @oggetto.StatoOggetto.ToString()</h5>-->
                     <h5 class="category">
-                        <!--<strong>@Language.Category : </strong> -->
-                        <img class="glyphicon category" src="@Url.Content("~/Images/Icone/category.svg")" alt="@Language.Category" />
-                        <span class="evidence">@oggetto.Categoria</span>
+                        <a href="@Url.Action(oggetto.Categoria,"oggetti", new { categoria = oggetto.CategoriaID })" title="@oggetto.Categoria">
+                            <img class="glyphicon category" src="@Url.Content("~/Images/Icone/category.svg")" alt="@Language.Category" />
+                            <span class="evidence">@oggetto.Categoria</span>
+                        </a>
                     </h5>
                     <h5 class="points">
                         <img class="glyphicon happyCoin" src="@Url.Content("~/Images/Icone/happyCoin.svg")" alt="@Language.Moneta" />

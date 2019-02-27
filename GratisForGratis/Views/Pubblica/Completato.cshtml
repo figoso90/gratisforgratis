@@ -2,13 +2,14 @@
 @model AnnuncioViewModel
 
 @{
-    ViewBag.Title = Language.TitleSales;
+    ViewBag.Title = Language.CompletedPurchase;
 }
 
 @Styles.Render("~/Content/trattative.css")
 <section id="purchases">
+    <h2>@ViewBag.Title</h2>
     <div id="grid" class="content">
-        @Html.Partial("PartialPages/_Annuncio", Model)
+        @Html.Partial("PartialPages/_AnnuncioMedium", Model)
     </div>
 </section>
 @section Scripts {

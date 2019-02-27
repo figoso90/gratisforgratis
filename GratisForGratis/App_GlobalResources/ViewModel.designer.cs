@@ -70,6 +70,42 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Baratto asincrono.
+        /// </summary>
+        public static string BarterAsyncLink {
+            get {
+                return ResourceManager.GetString("BarterAsyncLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Baratto.
+        /// </summary>
+        public static string BarterLink {
+            get {
+                return ResourceManager.GetString("BarterLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Baratto multilaterale.
+        /// </summary>
+        public static string BarterMultilateralLink {
+            get {
+                return ResourceManager.GetString("BarterMultilateralLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Baratto / Offerta.
+        /// </summary>
+        public static string BartLink {
+            get {
+                return ResourceManager.GetString("BartLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Puoi offrire solo tuoi annunci pubblicati con l&apos;opzione di spedizione..
         /// </summary>
         public static string BidOnlyAdShipment {
@@ -102,6 +138,15 @@ namespace GratisForGratis.App_GlobalResources {
         public static string BidYourAd {
             get {
                 return ResourceManager.GetString("BidYourAd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a BitCoin.
+        /// </summary>
+        public static string BitCoin {
+            get {
+                return ResourceManager.GetString("BitCoin", resourceCulture);
             }
         }
         
@@ -169,6 +214,24 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Economia circolare.
+        /// </summary>
+        public static string CircularEconomy {
+            get {
+                return ResourceManager.GetString("CircularEconomy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Assistenza.
+        /// </summary>
+        public static string ContactsLink {
+            get {
+                return ResourceManager.GetString("ContactsLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Lista corrieri.
         /// </summary>
         public static string CourierList {
@@ -232,6 +295,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Come guadagnare.
+        /// </summary>
+        public static string EarnMoneyLink {
+            get {
+                return ResourceManager.GetString("EarnMoneyLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a A mano.
         /// </summary>
         public static string ExchangeHand {
@@ -255,6 +327,60 @@ namespace GratisForGratis.App_GlobalResources {
         public static string ExchangeShip {
             get {
                 return ResourceManager.GetString("ExchangeShip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Circuito del gratuito.
+        /// </summary>
+        public static string FreeCircuitLink {
+            get {
+                return ResourceManager.GetString("FreeCircuitLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Finanziamenti.
+        /// </summary>
+        public static string FundingLink {
+            get {
+                return ResourceManager.GetString("FundingLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Regalare.
+        /// </summary>
+        public static string GiftLink {
+            get {
+                return ResourceManager.GetString("GiftLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Decrescita felice.
+        /// </summary>
+        public static string HappyDegrowth {
+            get {
+                return ResourceManager.GetString("HappyDegrowth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a HappyPeople.
+        /// </summary>
+        public static string HappyPeople {
+            get {
+                return ResourceManager.GetString("HappyPeople", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Come funziona.
+        /// </summary>
+        public static string HowWorkLink {
+            get {
+                return ResourceManager.GetString("HowWorkLink", resourceCulture);
             }
         }
         
@@ -286,7 +412,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Accedi / Registra.
+        ///   Cerca una stringa localizzata simile a Accedi o Registrati.
         /// </summary>
         public static string Login {
             get {
@@ -295,7 +421,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a FaceBook.
+        ///   Cerca una stringa localizzata simile a Accedi con FaceBook.
         /// </summary>
         public static string LoginFacebook {
             get {
@@ -318,6 +444,15 @@ namespace GratisForGratis.App_GlobalResources {
         public static string LoginRegistration {
             get {
                 return ResourceManager.GetString("LoginRegistration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Missione.
+        /// </summary>
+        public static string MissionLink {
+            get {
+                return ResourceManager.GetString("MissionLink", resourceCulture);
             }
         }
         
@@ -381,6 +516,33 @@ namespace GratisForGratis.App_GlobalResources {
         public static string NumberCard {
             get {
                 return ResourceManager.GetString("NumberCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Criptovaluta.
+        /// </summary>
+        public static string OnlineMoneyLink {
+            get {
+                return ResourceManager.GetString("OnlineMoneyLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Partnership.
+        /// </summary>
+        public static string PartnershipLink {
+            get {
+                return ResourceManager.GetString("PartnershipLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Privacy.
+        /// </summary>
+        public static string PrivacyLink {
+            get {
+                return ResourceManager.GetString("PrivacyLink", resourceCulture);
             }
         }
         
@@ -484,6 +646,24 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Attenzione agli &lt;b&gt;spazi&lt;/b&gt; soprattutto nei campi telefono o e-mail!.
+        /// </summary>
+        public static string RegisterInfo {
+            get {
+                return ResourceManager.GetString("RegisterInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Vuoi fare una registrazione PIù RAPIDA?!?! &gt;&gt;&gt;.
+        /// </summary>
+        public static string RegisterLinkSpeed {
+            get {
+                return ResourceManager.GetString("RegisterLinkSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Rimetti in vendita.
         /// </summary>
         public static string Resell {
@@ -511,6 +691,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Sicurezza.
+        /// </summary>
+        public static string SecurityLink {
+            get {
+                return ResourceManager.GetString("SecurityLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Nominativo.
         /// </summary>
         public static string SellerName {
@@ -525,6 +714,15 @@ namespace GratisForGratis.App_GlobalResources {
         public static string SellerTelephone {
             get {
                 return ResourceManager.GetString("SellerTelephone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Vendere senza denaro.
+        /// </summary>
+        public static string SellGratisLink {
+            get {
+                return ResourceManager.GetString("SellGratisLink", resourceCulture);
             }
         }
         
@@ -561,6 +759,15 @@ namespace GratisForGratis.App_GlobalResources {
         public static string ShipmentHand {
             get {
                 return ResourceManager.GetString("ShipmentHand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Spedizione.
+        /// </summary>
+        public static string ShipmentLink {
+            get {
+                return ResourceManager.GetString("ShipmentLink", resourceCulture);
             }
         }
         
@@ -610,11 +817,29 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Siti utili.
+        /// </summary>
+        public static string SiteWebLink {
+            get {
+                return ResourceManager.GetString("SiteWebLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Cognome titolare.
         /// </summary>
         public static string SurnamePaymentCard {
             get {
                 return ResourceManager.GetString("SurnamePaymentCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Squadra.
+        /// </summary>
+        public static string TeamLink {
+            get {
+                return ResourceManager.GetString("TeamLink", resourceCulture);
             }
         }
         
@@ -633,6 +858,15 @@ namespace GratisForGratis.App_GlobalResources {
         public static string UpdateShipmentPrice {
             get {
                 return ResourceManager.GetString("UpdateShipmentPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Perchè G4G?.
+        /// </summary>
+        public static string WhySiteLink {
+            get {
+                return ResourceManager.GetString("WhySiteLink", resourceCulture);
             }
         }
         

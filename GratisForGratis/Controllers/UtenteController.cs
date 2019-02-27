@@ -18,6 +18,7 @@ namespace GratisForGratis.Controllers
     public class UtenteController : AdvancedController
     {
         [HttpGet]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Index()
         {
             using (DatabaseContext db = new DatabaseContext())
@@ -98,6 +99,7 @@ namespace GratisForGratis.Controllers
         [AllowAnonymous]
         [OnlyAnonymous]
         [HttpGet]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Login(string ReturnUrl)
         {
             ViewBag.Title = Language.TitleAccess;
@@ -109,6 +111,7 @@ namespace GratisForGratis.Controllers
         [OnlyAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         // recupera login di portaleweb
         public ActionResult Login(UtenteLoginVeloceViewModel viewModel)
         {
@@ -177,6 +180,7 @@ namespace GratisForGratis.Controllers
         [AllowAnonymous]
         [OnlyAnonymous]
         [HttpPost]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult LoginForPay(string returnUrl)
         {
             ViewBag.Title = Language.TitleAccess;
@@ -187,6 +191,7 @@ namespace GratisForGratis.Controllers
         [AllowAnonymous]
         [OnlyAnonymous]
         [HttpGet]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult LoginFacebook(string ReturnUrl)
         {
             var fb = new FacebookClient();
@@ -267,6 +272,7 @@ namespace GratisForGratis.Controllers
         #endregion
 
         [HttpGet]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult CambioPassword()
         {
             PersonaModel utente = base.Session["utente"] as PersonaModel;
@@ -279,6 +285,7 @@ namespace GratisForGratis.Controllers
         }
 
         [HttpPost]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult CambioPassword(UtenteCambioPasswordViewModel model)
         {
             if (base.ModelState.IsValid)
@@ -300,6 +307,7 @@ namespace GratisForGratis.Controllers
         }
 
         [HttpGet]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Impostazioni()
         {
             PersonaModel utente = base.Session["utente"] as PersonaModel;
@@ -309,6 +317,7 @@ namespace GratisForGratis.Controllers
         }
 
         [HttpPost]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Impostazioni(UtenteImpostazioniViewModel model)
         {
 
@@ -324,8 +333,8 @@ namespace GratisForGratis.Controllers
                         {
                             utente.SetEmail(db, model.Email);
                             utente.SetTelefono(db, model.Telefono);
-                            utente.SetIndirizzo(db, model.IDCitta, model.Indirizzo, model.Civico, (int)TipoIndirizzo.Residenza);
-                            utente.SetIndirizzo(db, model.IDCittaSpedizione, model.IndirizzoSpedizione, model.CivicoSpedizione, (int)TipoIndirizzo.Spedizione);
+                            utente.SetIndirizzo(db, model.Citta, model.IDCitta, model.Indirizzo, model.Civico, (int)TipoIndirizzo.Residenza);
+                            utente.SetIndirizzo(db, model.Citta, model.IDCittaSpedizione, model.IndirizzoSpedizione, model.CivicoSpedizione, (int)TipoIndirizzo.Spedizione);
 
                             bool primaVolta = utente.Persona.STATO == (int)Stato.INATTIVO;
                             bool personaModificata = false;
@@ -401,6 +410,7 @@ namespace GratisForGratis.Controllers
         }
 
         [HttpGet]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Privacy()
         {
             PersonaModel utente = base.Session["utente"] as PersonaModel;
@@ -409,6 +419,7 @@ namespace GratisForGratis.Controllers
         }
 
         [HttpPost]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Privacy(UtentePrivacyViewModel viewModel)
         {
             if (base.ModelState.IsValid)
@@ -543,6 +554,7 @@ namespace GratisForGratis.Controllers
         [AllowAnonymous]
         [OnlyAnonymous]
         [HttpGet]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Registrazione()
         {
             return base.View();
@@ -552,6 +564,7 @@ namespace GratisForGratis.Controllers
         [OnlyAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Registrazione(UtenteRegistrazioneViewModel model)
         {
             if (base.ModelState.IsValid)
@@ -587,32 +600,10 @@ namespace GratisForGratis.Controllers
                                 PersonaModel utente = new PersonaModel(persona);
                                 utente.SetEmail(db, model.Email, Stato.INATTIVO);
                                 utente.SetTelefono(db, model.Telefono);
-                                utente.SetIndirizzo(db, model.IDCitta, model.Indirizzo, model.Civico, (int)TipoIndirizzo.Residenza);
-                                utente.SetIndirizzo(db, model.IDCittaSpedizione, model.IndirizzoSpedizione, model.CivicoSpedizione, (int)TipoIndirizzo.Spedizione);
-
-                                /*
-                                PERSONA_EMAIL personaEmail = db.PERSONA_EMAIL.Create();
-                                personaEmail.ID_PERSONA = persona.ID;
-                                personaEmail.EMAIL = model.Email.Trim();
-                                personaEmail.TIPO = (int)TipoEmail.Registrazione;
-                                personaEmail.DATA_INSERIMENTO = DateTime.Now;
-                                personaEmail.STATO = (int)Stato.ATTIVO;
-                                db.PERSONA_EMAIL.Add(personaEmail);
-
-                                if (!string.IsNullOrWhiteSpace(model.Telefono))
-                                {
-                                    PERSONA_TELEFONO personaTelefono = db.PERSONA_TELEFONO.Create();
-                                    personaTelefono.ID_PERSONA = persona.ID;
-                                    personaTelefono.TELEFONO = model.Telefono;
-                                    personaTelefono.TIPO = (int)TipoTelefono.Privato;
-                                    personaTelefono.DATA_INSERIMENTO = DateTime.Now;
-                                    personaTelefono.STATO = (int)Stato.ATTIVO;
-                                    db.PERSONA_TELEFONO.Add(personaTelefono);
-                                }
-                                */
+                                utente.SetIndirizzo(db, model.Citta, model.IDCitta, model.Indirizzo, model.Civico, (int)TipoIndirizzo.Residenza);
+                                utente.SetIndirizzo(db, model.CittaSpedizione, model.IDCittaSpedizione, model.IndirizzoSpedizione, model.CivicoSpedizione, (int)TipoIndirizzo.Spedizione);
 
                                 utente.SetPrivacy(db, model.AccettaCondizioni);
-                                //base.TempData["salvato"] = true;
                                 // crediti omaggio registrazione completata
                                 if (db.TRANSAZIONE.Count(item => item.ID_CONTO_DESTINATARIO == utente.Persona.ID_CONTO_CORRENTE && item.TIPO == (int)TipoTransazione.BonusIscrizione) <= 0)
                                 {

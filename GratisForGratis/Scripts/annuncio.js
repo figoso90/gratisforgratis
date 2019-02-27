@@ -12,34 +12,21 @@
             }
         });
     }
-    /*document.getElementById('albumAnnuncio').onclick = function (event) {
-        event = event || window.event;
-        var target = event.target || event.srcElement,
-            link = target.src ? target.parentNode : target,
-            options = { index: link, event: event, startSlideshow: true, carousel: true },
-            links = this.getElementsByTagName('a');
-        blueimp.Gallery(links, options);
-    };*/
+
     blueimp.Gallery($('#albumAnnuncio a'), {
         container: '#blueimp-image-carousel',
-        carousel: true
+        carousel: true,
+        //titleProperty: 'title',
+        onslidecomplete: function (index, slide) {
+            // Callback function executed when the Gallery is initialized.
+            //alert("Index: " + index);
+            $item = $('#blueimp-image-carousel').find('.slide').eq(index);
+            //$item.attr('data-title', $('#albumAnnuncio a:eq(' + index + ')').attr('title'));
+            $item.attr('data-image', $item.children('img').attr('src'));
+            $item.attr('data-scale', 2.4);
+            zoomImmagine($item);
+        },
     });
-    /*
-    $('#acquisto .album').jGallery({
-        height: '500px',
-        width: '500px',
-        thumbnailsFullScreen: true,
-        zoomSize: 'original',
-        hideThumbnailsOnInit: true,
-        maxMobileWidth: 300,
-        mode: 'standard',
-        tooltips: true,
-        tooltipZoom: 'Zoom',
-        canChangeMode: false,
-        canMinimalizeThumbnails: false,
-        title: $(this).find('img').attr('alt')
-    });
-    */
     attivazioneInfoSpedizione($('.changeTipoScambio').val());
     $('.changeTipoScambio').change(function () {
         //alert($(this).val());

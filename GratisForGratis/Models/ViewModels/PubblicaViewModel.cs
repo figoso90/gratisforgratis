@@ -36,7 +36,8 @@ namespace GratisForGratis.Models
         public string CategoriaNome { get; set; }
 
         [DataType(DataType.Text)]
-        [Required]
+        [Required(ErrorMessageResourceName = "ErrorCity", ErrorMessageResourceType = typeof(Language))]
+        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public string Citta { get; set; }
 
         [DataType(DataType.Text)]
@@ -45,10 +46,9 @@ namespace GratisForGratis.Models
         [GratisForGratis.DataAnnotations.AnnuncioCompleto]
         public List<string> Foto { get; set; }
 
-        [Range(1, 2147483647, ErrorMessageResourceName = "ErrorCity", ErrorMessageResourceType = typeof(Language))]
-        [Required(ErrorMessageResourceName = "ErrorCity", ErrorMessageResourceType = typeof(Language))]
-        [GratisForGratis.DataAnnotations.AnnuncioCompleto]
-        public int IDCitta { get; set; }
+        //[Range(1, 2147483647, ErrorMessageResourceName = "ErrorCity", ErrorMessageResourceType = typeof(Language))]
+        //[GratisForGratis.DataAnnotations.AnnuncioCompleto]
+        public int? IDCitta { get; set; }
 
         [DataType(DataType.Text)]
         [Display(Name = "LblTitleAd", ResourceType = typeof(Language))]
@@ -266,6 +266,10 @@ namespace GratisForGratis.Models
             vendita.ID_PERSONA = utente.Persona.ID;
             vendita.ID_CATEGORIA = this.CategoriaId;
             vendita.NOME = this.Nome;
+            if (this.IDCitta == null || this.IDCitta <= 0)
+            {
+                vendita.ID_COMUNE = DbContext.COMUNE.FirstOrDefault(m => m.NOME == this.Citta).ID;
+            }
             vendita.ID_COMUNE = this.IDCitta;
             vendita.NOTE_AGGIUNTIVE = this.NoteAggiuntive;
             // se ho inserito il campo soldi, uso quello con la conversione attuale
@@ -741,7 +745,7 @@ namespace GratisForGratis.Models
         public string IndirizzoMittente { get; set; }
 
         [Display(Name = "DepartureCivic", ResourceType = typeof(ViewModel))]
-        public int? CivicoMittente { get; set; }
+        public string CivicoMittente { get; set; }
 
         [Display(Name = "SellerName", ResourceType = typeof(ViewModel))]
         [RequiredIf("TipoSpedizione", Operator.EqualTo, Spedizione.Online, ErrorMessageResourceName = "SellerNameRequired", ErrorMessageResourceType = typeof(App_GlobalResources.ErrorResource))]
@@ -1318,7 +1322,7 @@ namespace GratisForGratis.Models
                             indirizzo = new INDIRIZZO();
                             indirizzo.ID_COMUNE = (int)this.IDCittaMittente;
                             indirizzo.INDIRIZZO1 = this.IndirizzoMittente;
-                            indirizzo.CIVICO = (int)this.CivicoMittente;
+                            indirizzo.CIVICO = this.CivicoMittente;
                             indirizzo.DATA_INSERIMENTO = DateTime.Now;
                             indirizzo.STATO = (int)Stato.ATTIVO;
                             db.INDIRIZZO.Add(indirizzo);
@@ -1361,7 +1365,7 @@ namespace GratisForGratis.Models
                             indirizzo = new INDIRIZZO();
                             indirizzo.ID_COMUNE = (int)this.IDCittaMittente;
                             indirizzo.INDIRIZZO1 = this.IndirizzoMittente;
-                            indirizzo.CIVICO = (int)this.CivicoMittente;
+                            indirizzo.CIVICO = this.CivicoMittente;
                             indirizzo.DATA_INSERIMENTO = DateTime.Now;
                             indirizzo.STATO = (int)Stato.ATTIVO;
                             db.INDIRIZZO.Add(indirizzo);

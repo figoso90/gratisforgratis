@@ -19,53 +19,53 @@ $(document).ready(function () {
     initAutocomplete();
     attivaMenuCategoria();
 
-    //$("img.lazy").show().lazyload();
+    //$('.fieldtrim').on('input', function (e) {
+    //    alert("aaa");
+    //    $(this).val().trim();
+    //});
+    $('.fieldtrim').on('focusout', function () {
+        $(this).val($(this).val().trim());
+    });
+    
     $('#menuMobile .icona').click(function (event) {
-        /*if ($('body').css('overflow') == 'hidden')
-            $('body').css('overflow', '');
-        else
-            $('body').css('overflow', 'hidden');*/
         $('#menuMobileOverlay').slideToggle('slow');
         $('#menuMobile .menu').slideToggle('slow');
     });
 
+    /* GESTIONE LOADING */
     //$('form').submit(pauseSubmit(this));
-    
-    $('.btn:not(.dropdown-toggle)').click(function (event) {
-        //attendiInvio(this);
-        $('html').loader('show');
-    });
-    
-    var tryNumber = 0;
-    $('input[type=submit]').click(function (event) {
-        var self = $(this);
-        if (self.closest('form').valid()) {
-            $('html').loader('show');
-            if (tryNumber > 0) {
-                tryNumber++;
-                //alert('Your form has been already submited. wait please');
-                return false;
-            }
-            else {
-                tryNumber++;
-            }
-        };
-    });
-    /*
-    $('a.link').click(function (event) {
-        $('html').loader('show');
-        if (tryNumber > 0) {
-            tryNumber++;
-            //alert('Your form has been already submited. wait please');
-            return false;
-        }
-        else {
-            tryNumber++;
-        }
-    });*/
 
+    // DISABILITATO...DAVA PROBLEMI IN CASO QUANDO SI COMPRA CI SIA IL CAMPO VUOTO NELLA SCELTA TIPO SCAMBIO
+    //$('.btn:not(.dropdown-toggle)').click(function (event) {
+    //    //attendiInvio(this);
+    //    $('html').loader('show');
+    //});
+    //var tryNumber = 0;
+    //$('input[type=submit]').click(function (event) {
+    //    // esegue il loading
+    //    var self = $(this);
+    //    if (self.closest('form').valid()) {
+    //        $('html').loader('show');
+    //        if (tryNumber > 0) {
+    //            tryNumber++;
+    //            //alert('Your form has been already submited. wait please');
+    //            return false;
+    //        }
+    //        else {
+    //            tryNumber++;
+    //        }
+    //    };
+    //});
+    $("form").submit(function () {
+        if ($(this).valid()) {
+            $('html').loader('show');
+        }
+    });
     $("form").bind("invalid-form.validate", function () {
         $('html').loader('hide');
+    });
+    $(document).ajaxStart(function () {
+        $('html').loader('show');
     });
     $(document).ajaxComplete(function () {
         $('html').loader('hide');
@@ -169,12 +169,6 @@ $(document).ready(function () {
         });
     });
     $('[data-toggle="tooltip"]').tooltip();
-
-    /* CATEGORIA 21-09
-    $('#dropdownMenu1').click(function () {
-        $('#menu').toggle();
-    });
-    */
 
     // nuova funzione per il replace
     String.prototype.replaceAll = function (search, replacement) {
@@ -318,10 +312,10 @@ function initAutocomplete() {
     });
 }
 
-/**
-** slider = selettore del div da trasformare in slider
-** element = selettore dell'input dove mostrare il valore
-**/
+/*
+    slider = selettore del div da trasformare in slider
+    element = selettore dell'input dove mostrare il valore
+*/
 function setSlider(slider, label, min, max, unitaMisura, inputMin, inputMax) {
     min = (min) ? min : 0;
     max = (max) ? max : 100000;
@@ -784,4 +778,27 @@ function nonPossiedo(tokenAnnuncio, tokenAnnuncioUtente, link) {
             alert("Errore annullo vendita: " + decodeURIComponent(errore.responseText));
         }
     });
+}
+
+function zoomImmagine(tag) {
+    $(tag).on('mouseover', function () {
+            $(this).children('.photo').css({ 'transform': 'scale(' + $(this).attr('data-scale') + ')' });
+        })
+        .on('mouseout', function () {
+            $(this).children('.photo').css({ 'transform': 'scale(1)' });
+        })
+        .on('mousemove', function (e) {
+            $(this).children('.photo').css({ 'transform-origin': ((e.pageX - $(this).offset().left) / $(this).width()) * 100 + '% ' + ((e.pageY - $(this).offset().top) / $(this).height()) * 100 + '%' });
+        })
+        // tiles set up
+        .each(function () {
+            $(this)
+                // add a photo container
+                .append('<div class="photo"></div>')
+                // some text just to show zoom level on current item in this example
+                //.append('<div class="txt"><h4>' + $(this).attr('data-title') + '</h4><div class="x">' + $(this).attr('data-scale') + 'x</div>ZOOM ON<br>HOVER</div>')
+                .append('<div class="txt"><div class="x">' + $(this).attr('data-scale') + 'x</div>ZOOM ON<br>HOVER</div>')
+                // set up a background image for each tile based on data-image attribute
+                .children('.photo').css({ 'background-image': 'url(' + $(this).attr('data-image') + ')' });
+        });
 }

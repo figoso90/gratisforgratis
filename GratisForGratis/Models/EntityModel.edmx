@@ -602,7 +602,7 @@ avviso 6005: Tipo di dati 'hierarchyid' attualmente non supportato per la versio
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ID_COMUNE" Type="int" Nullable="false" />
           <Property Name="INDIRIZZO" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="CIVICO" Type="int" Nullable="false" />
+          <Property Name="CIVICO" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="SEZIONE" Type="nvarchar" MaxLength="50" />
           <Property Name="TIPOLOGIA" Type="int" Nullable="false" />
           <Property Name="DATA_INSERIMENTO" Type="datetime" Nullable="false" />
@@ -966,7 +966,7 @@ avviso 6005: Tipo di dati 'hierarchyid' attualmente non supportato per la versio
           <Property Name="TOKEN_PASSWORD" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="FACEBOOK_TOKEN_PERMANENTE" Type="nvarchar" MaxLength="4000" />
           <Property Name="FACEBOOK_TOKEN_SESSIONE" Type="nvarchar" MaxLength="4000" />
-          <Property Name="NOME" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="NOME" Type="nvarchar" MaxLength="50" />
           <Property Name="COGNOME" Type="nvarchar" MaxLength="50" />
           <Property Name="ID_ABBONAMENTO" Type="int" Nullable="false" />
           <Property Name="DATA_INSERIMENTO" Type="datetime" Nullable="false" />
@@ -5439,7 +5439,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <EntitySet Name="CORRIERE_TIPO_PACCO" EntityType="GratisForGratisModel.CORRIERE_TIPO_PACCO" />
           <EntitySet Name="FORMATO" EntityType="GratisForGratisModel.FORMATO" />
           <EntitySet Name="GENERE" EntityType="GratisForGratisModel.GENERE" />
-          <EntitySet Name="INDIRIZZO" EntityType="GratisForGratisModel.INDIRIZZO" />
           <EntitySet Name="LOG_ERRORE" EntityType="GratisForGratisModel.LOG_ERRORE" />
           <EntitySet Name="LOG_PAGAMENTO" EntityType="GratisForGratisModel.LOG_PAGAMENTO" />
           <EntitySet Name="LOG_SBLOCCO_ANNUNCIO" EntityType="GratisForGratisModel.LOG_SBLOCCO_ANNUNCIO" />
@@ -5469,7 +5468,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <EntitySet Name="OGGETTO_VESTITO" EntityType="GratisForGratisModel.OGGETTO_VESTITO" />
           <EntitySet Name="OGGETTO_VIDEO" EntityType="GratisForGratisModel.OGGETTO_VIDEO" />
           <EntitySet Name="OGGETTO_VIDEOGAMES" EntityType="GratisForGratisModel.OGGETTO_VIDEOGAMES" />
-          <EntitySet Name="PERSONA" EntityType="GratisForGratisModel.PERSONA" />
           <EntitySet Name="PERSONA_ATTIVITA" EntityType="GratisForGratisModel.PERSONA_ATTIVITA" />
           <EntitySet Name="PERSONA_EMAIL" EntityType="GratisForGratisModel.PERSONA_EMAIL" />
           <EntitySet Name="PERSONA_FOTO" EntityType="GratisForGratisModel.PERSONA_FOTO" />
@@ -5512,10 +5510,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <EntitySet Name="TRANSAZIONE_ANNUNCIO_SPEDIZIONE" EntityType="GratisForGratisModel.TRANSAZIONE_ANNUNCIO_SPEDIZIONE" />
           <EntitySet Name="SPEDIZIONE_CONCLUSA" EntityType="GratisForGratisModel.SPEDIZIONE_CONCLUSA" />
           <EntitySet Name="SPEDIZIONE_INATTESA" EntityType="GratisForGratisModel.SPEDIZIONE_INATTESA" />
-          <AssociationSet Name="FK_PERSONA_ABBONAMENTO" Association="GratisForGratisModel.FK_PERSONA_ABBONAMENTO">
-            <End Role="ABBONAMENTO" EntitySet="ABBONAMENTO" />
-            <End Role="PERSONA" EntitySet="PERSONA" />
-          </AssociationSet>
           <AssociationSet Name="FK_ALIMENTAZIONE_CATEGORIA" Association="GratisForGratisModel.FK_ALIMENTAZIONE_CATEGORIA">
             <End Role="CATEGORIA" EntitySet="CATEGORIA" />
             <End Role="ALIMENTAZIONE" EntitySet="ALIMENTAZIONE" />
@@ -5596,14 +5590,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             <End Role="OGGETTO" EntitySet="OGGETTO" />
             <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
           </AssociationSet>
-          <AssociationSet Name="FK_ANNUNCIO_PERSONA" Association="GratisForGratisModel.FK_ANNUNCIO_PERSONA">
-            <End Role="PERSONA" EntitySet="PERSONA" />
-            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ANNUNCIO_PERSONA1" Association="GratisForGratisModel.FK_ANNUNCIO_PERSONA1">
-            <End Role="PERSONA" EntitySet="PERSONA" />
-            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
-          </AssociationSet>
           <AssociationSet Name="FK_ANNUNCIO_SERVIZIO" Association="GratisForGratisModel.FK_ANNUNCIO_SERVIZIO">
             <End Role="SERVIZIO" EntitySet="SERVIZIO" />
             <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
@@ -5640,16 +5626,8 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             <End Role="ATTIVITA" EntitySet="ATTIVITA" />
             <End Role="ANNUNCIO_CARRELLO" EntitySet="ANNUNCIO_CARRELLO" />
           </AssociationSet>
-          <AssociationSet Name="FK_ANNUNCIO_CARRELLO_PERSONA" Association="GratisForGratisModel.FK_ANNUNCIO_CARRELLO_PERSONA">
-            <End Role="PERSONA" EntitySet="PERSONA" />
-            <End Role="ANNUNCIO_CARRELLO" EntitySet="ANNUNCIO_CARRELLO" />
-          </AssociationSet>
           <AssociationSet Name="FK_ANNUNCIO_CLICK_MODELLO_BROWSER" Association="GratisForGratisModel.FK_ANNUNCIO_CLICK_MODELLO_BROWSER">
             <End Role="BROWSER_MODELLO" EntitySet="BROWSER_MODELLO" />
-            <End Role="ANNUNCIO_CLICK" EntitySet="ANNUNCIO_CLICK" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ANNUNCIO_CLICK_PERSONA" Association="GratisForGratisModel.FK_ANNUNCIO_CLICK_PERSONA">
-            <End Role="PERSONA" EntitySet="PERSONA" />
             <End Role="ANNUNCIO_CLICK" EntitySet="ANNUNCIO_CLICK" />
           </AssociationSet>
           <AssociationSet Name="FK_ANNUNCIO_CLICK_SISTEMA_OPERATIVO" Association="GratisForGratisModel.FK_ANNUNCIO_CLICK_SISTEMA_OPERATIVO">
@@ -5659,14 +5637,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <AssociationSet Name="FK_ANNUNCIO_DESIDERATO_ATTIVITA" Association="GratisForGratisModel.FK_ANNUNCIO_DESIDERATO_ATTIVITA">
             <End Role="ATTIVITA" EntitySet="ATTIVITA" />
             <End Role="ANNUNCIO_DESIDERATO" EntitySet="ANNUNCIO_DESIDERATO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ANNUNCIO_DESIDERATO_PERSONA" Association="GratisForGratisModel.FK_ANNUNCIO_DESIDERATO_PERSONA">
-            <End Role="PERSONA" EntitySet="PERSONA" />
-            <End Role="ANNUNCIO_DESIDERATO" EntitySet="ANNUNCIO_DESIDERATO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ANNUNCIO_FEEDBACK_PERSONA" Association="GratisForGratisModel.FK_ANNUNCIO_FEEDBACK_PERSONA">
-            <End Role="PERSONA" EntitySet="PERSONA" />
-            <End Role="ANNUNCIO_FEEDBACK" EntitySet="ANNUNCIO_FEEDBACK" />
           </AssociationSet>
           <AssociationSet Name="FK_ANNUNCIO_NOTIFICA_NOTIFICA" Association="GratisForGratisModel.FK_ANNUNCIO_NOTIFICA_NOTIFICA">
             <End Role="NOTIFICA" EntitySet="NOTIFICA" />
@@ -5690,10 +5660,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           </AssociationSet>
           <AssociationSet Name="FK_ANNUNCIO_VISUALIZZAZIONE_MODELLO_BROWSER" Association="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_MODELLO_BROWSER">
             <End Role="BROWSER_MODELLO" EntitySet="BROWSER_MODELLO" />
-            <End Role="ANNUNCIO_VISUALIZZAZIONE" EntitySet="ANNUNCIO_VISUALIZZAZIONE" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ANNUNCIO_VISUALIZZAZIONE_PERSONA" Association="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_PERSONA">
-            <End Role="PERSONA" EntitySet="PERSONA" />
             <End Role="ANNUNCIO_VISUALIZZAZIONE" EntitySet="ANNUNCIO_VISUALIZZAZIONE" />
           </AssociationSet>
           <AssociationSet Name="FK_ANNUNCIO_VISUALIZZAZIONE_SISTEMA_OPERATIVO" Association="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_SISTEMA_OPERATIVO">
@@ -5747,10 +5713,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <AssociationSet Name="FK_PERSONA_ATTIVITA_ATTIVITA" Association="GratisForGratisModel.FK_PERSONA_ATTIVITA_ATTIVITA">
             <End Role="ATTIVITA" EntitySet="ATTIVITA" />
             <End Role="PERSONA_ATTIVITA" EntitySet="PERSONA_ATTIVITA" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ATTIVITA_INDIRIZZO_INDIRIZZO" Association="GratisForGratisModel.FK_ATTIVITA_INDIRIZZO_INDIRIZZO">
-            <End Role="INDIRIZZO" EntitySet="INDIRIZZO" />
-            <End Role="ATTIVITA_INDIRIZZO" EntitySet="ATTIVITA_INDIRIZZO" />
           </AssociationSet>
           <AssociationSet Name="FK_ATTIVITA_INDIRIZZO_SPEDIZIONE_ATTIVITA_INDIRIZZO" Association="GratisForGratisModel.FK_ATTIVITA_INDIRIZZO_SPEDIZIONE_ATTIVITA_INDIRIZZO">
             <End Role="ATTIVITA_INDIRIZZO" EntitySet="ATTIVITA_INDIRIZZO" />
@@ -5808,14 +5770,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             <End Role="CATEGORIA" EntitySet="CATEGORIA" />
             <End Role="SISTEMA_OPERATIVO" EntitySet="SISTEMA_OPERATIVO" />
           </AssociationSet>
-          <AssociationSet Name="FK_CHAT_PERSONA" Association="GratisForGratisModel.FK_CHAT_PERSONA">
-            <End Role="PERSONA" EntitySet="PERSONA" />
-            <End Role="CHAT" EntitySet="CHAT" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CHAT_PERSONA1" Association="GratisForGratisModel.FK_CHAT_PERSONA1">
-            <End Role="PERSONA" EntitySet="PERSONA" />
-            <End Role="CHAT" EntitySet="CHAT" />
-          </AssociationSet>
           <AssociationSet Name="FK_OGGETTO_COMPONENTE_COMPONENTE" Association="GratisForGratisModel.FK_OGGETTO_COMPONENTE_COMPONENTE">
             <End Role="COMPONENTE" EntitySet="COMPONENTE" />
             <End Role="OGGETTO_COMPONENTE" EntitySet="OGGETTO_COMPONENTE" />
@@ -5828,10 +5782,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             <End Role="COMUNE" EntitySet="COMUNE" />
             <End Role="CORRIERE_COMUNE" EntitySet="CORRIERE_COMUNE" />
           </AssociationSet>
-          <AssociationSet Name="FK_INDIRIZZO_COMUNE" Association="GratisForGratisModel.FK_INDIRIZZO_COMUNE">
-            <End Role="COMUNE" EntitySet="COMUNE" />
-            <End Role="INDIRIZZO" EntitySet="INDIRIZZO" />
-          </AssociationSet>
           <AssociationSet Name="FK_RICERCA_COMUNE" Association="GratisForGratisModel.FK_RICERCA_COMUNE">
             <End Role="COMUNE" EntitySet="COMUNE" />
             <End Role="RICERCA" EntitySet="RICERCA" />
@@ -5839,10 +5789,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <AssociationSet Name="FK_CONTO_CORRENTE_MONETA_CONTO_CORRENTE" Association="GratisForGratisModel.FK_CONTO_CORRENTE_MONETA_CONTO_CORRENTE">
             <End Role="CONTO_CORRENTE" EntitySet="CONTO_CORRENTE" />
             <End Role="CONTO_CORRENTE_MONETA" EntitySet="CONTO_CORRENTE_MONETA" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PERSONA_CONTO_CORRENTE" Association="GratisForGratisModel.FK_PERSONA_CONTO_CORRENTE">
-            <End Role="CONTO_CORRENTE" EntitySet="CONTO_CORRENTE" />
-            <End Role="PERSONA" EntitySet="PERSONA" />
           </AssociationSet>
           <AssociationSet Name="FK_CONTO_CORRENTE_MONETA_MONETA" Association="GratisForGratisModel.FK_CONTO_CORRENTE_MONETA_MONETA">
             <End Role="MONETA" EntitySet="MONETA" />
@@ -5888,24 +5834,12 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             <End Role="PROVINCIA" EntitySet="PROVINCIA" />
             <End Role="CORRIERE_PROVINCIA" EntitySet="CORRIERE_PROVINCIA" />
           </AssociationSet>
-          <AssociationSet Name="FK_CORRIERE_PUNTO_SPEDIZIONE_INDIRIZZO" Association="GratisForGratisModel.FK_CORRIERE_PUNTO_SPEDIZIONE_INDIRIZZO">
-            <End Role="INDIRIZZO" EntitySet="INDIRIZZO" />
-            <End Role="CORRIERE_PUNTO_SPEDIZIONE" EntitySet="CORRIERE_PUNTO_SPEDIZIONE" />
-          </AssociationSet>
           <AssociationSet Name="FK_CORRIERE_SERVIZIO_PREZZO_STIMATO_CORRIERE_SERVIZIO" Association="GratisForGratisModel.FK_CORRIERE_SERVIZIO_PREZZO_STIMATO_CORRIERE_SERVIZIO">
             <End Role="CORRIERE_SERVIZIO" EntitySet="CORRIERE_SERVIZIO" />
             <End Role="CORRIERE_SERVIZIO_PREZZO_STIMATO" EntitySet="CORRIERE_SERVIZIO_PREZZO_STIMATO" />
           </AssociationSet>
           <AssociationSet Name="FK_CORRIERE_SERVIZIO_SPEDIZIONE_CORRIERE_SERVIZIO" Association="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_CORRIERE_SERVIZIO">
             <End Role="CORRIERE_SERVIZIO" EntitySet="CORRIERE_SERVIZIO" />
-            <End Role="CORRIERE_SERVIZIO_SPEDIZIONE" EntitySet="CORRIERE_SERVIZIO_SPEDIZIONE" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CORRIERE_SERVIZIO_SPEDIZIONE_INDIRIZZO" Association="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_INDIRIZZO">
-            <End Role="INDIRIZZO" EntitySet="INDIRIZZO" />
-            <End Role="CORRIERE_SERVIZIO_SPEDIZIONE" EntitySet="CORRIERE_SERVIZIO_SPEDIZIONE" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CORRIERE_SERVIZIO_SPEDIZIONE_INDIRIZZO1" Association="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_INDIRIZZO1">
-            <End Role="INDIRIZZO" EntitySet="INDIRIZZO" />
             <End Role="CORRIERE_SERVIZIO_SPEDIZIONE" EntitySet="CORRIERE_SERVIZIO_SPEDIZIONE" />
           </AssociationSet>
           <AssociationSet Name="FK_CORRIERE_SERVIZIO_SPEDIZIONE_TIPO_PACCO" Association="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_TIPO_PACCO">
@@ -5947,22 +5881,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <AssociationSet Name="FK_RICERCA_OGGETTO_VIDEOGAMES_GENERE" Association="GratisForGratisModel.FK_RICERCA_OGGETTO_VIDEOGAMES_GENERE">
             <End Role="GENERE" EntitySet="GENERE" />
             <End Role="RICERCA_OGGETTO_VIDEOGAMES" EntitySet="RICERCA_OGGETTO_VIDEOGAMES" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OFFERTA_SPEDIZIONE_INDIRIZZO" Association="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_INDIRIZZO">
-            <End Role="INDIRIZZO" EntitySet="INDIRIZZO" />
-            <End Role="OFFERTA_SPEDIZIONE" EntitySet="OFFERTA_SPEDIZIONE" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PERSONA_INDIRIZZO_INDIRIZZO" Association="GratisForGratisModel.FK_PERSONA_INDIRIZZO_INDIRIZZO">
-            <End Role="INDIRIZZO" EntitySet="INDIRIZZO" />
-            <End Role="PERSONA_INDIRIZZO" EntitySet="PERSONA_INDIRIZZO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PERSONA_METODO_PAGAMENTO_INDIRIZZO" Association="GratisForGratisModel.FK_PERSONA_METODO_PAGAMENTO_INDIRIZZO">
-            <End Role="INDIRIZZO" EntitySet="INDIRIZZO" />
-            <End Role="PERSONA_METODO_PAGAMENTO" EntitySet="PERSONA_METODO_PAGAMENTO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_LOG_SBLOCCO_ANNUNCIO_PERSONA" Association="GratisForGratisModel.FK_LOG_SBLOCCO_ANNUNCIO_PERSONA">
-            <End Role="PERSONA" EntitySet="PERSONA" />
-            <End Role="LOG_SBLOCCO_ANNUNCIO" EntitySet="LOG_SBLOCCO_ANNUNCIO" />
           </AssociationSet>
           <AssociationSet Name="FK_MODELLO_MARCA" Association="GratisForGratisModel.FK_MODELLO_MARCA">
             <End Role="MARCA" EntitySet="MARCA" />
@@ -6056,14 +5974,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             <End Role="NAZIONE" EntitySet="NAZIONE" />
             <End Role="REGIONE" EntitySet="REGIONE" />
           </AssociationSet>
-          <AssociationSet Name="FK_NOTIFICA_PERSONA" Association="GratisForGratisModel.FK_NOTIFICA_PERSONA">
-            <End Role="PERSONA" EntitySet="PERSONA" />
-            <End Role="NOTIFICA" EntitySet="NOTIFICA" />
-          </AssociationSet>
-          <AssociationSet Name="FK_NOTIFICA_PERSONA1" Association="GratisForGratisModel.FK_NOTIFICA_PERSONA1">
-            <End Role="PERSONA" EntitySet="PERSONA" />
-            <End Role="NOTIFICA" EntitySet="NOTIFICA" />
-          </AssociationSet>
           <AssociationSet Name="FK_OFFERTA_BARATTO_OFFERTA_BARATTO" Association="GratisForGratisModel.FK_OFFERTA_BARATTO_OFFERTA_BARATTO">
             <End Role="OFFERTA_BARATTO" EntitySet="OFFERTA_BARATTO" />
             <End Role="OFFERTA_BARATTO1" EntitySet="OFFERTA_BARATTO" />
@@ -6140,10 +6050,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             <End Role="OGGETTO" EntitySet="OGGETTO" />
             <End Role="OGGETTO_VIDEOGAMES" EntitySet="OGGETTO_VIDEOGAMES" />
           </AssociationSet>
-          <AssociationSet Name="FK_OGGETTO_APPARTENENZA_PERSONA" Association="GratisForGratisModel.FK_OGGETTO_APPARTENENZA_PERSONA">
-            <End Role="PERSONA" EntitySet="PERSONA" />
-            <End Role="OGGETTO_APPARTENENZA" EntitySet="OGGETTO_APPARTENENZA" />
-          </AssociationSet>
           <AssociationSet Name="FK_OGGETTO_COMPUTER_SISTEMA_OPERATIVO" Association="GratisForGratisModel.FK_OGGETTO_COMPUTER_SISTEMA_OPERATIVO">
             <End Role="SISTEMA_OPERATIVO" EntitySet="SISTEMA_OPERATIVO" />
             <End Role="OGGETTO_COMPUTER" EntitySet="OGGETTO_COMPUTER" />
@@ -6167,42 +6073,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <AssociationSet Name="FK_OGGETTO_VIDEOGAMES_PIATTAFORMA" Association="GratisForGratisModel.FK_OGGETTO_VIDEOGAMES_PIATTAFORMA">
             <End Role="PIATTAFORMA" EntitySet="PIATTAFORMA" />
             <End Role="OGGETTO_VIDEOGAMES" EntitySet="OGGETTO_VIDEOGAMES" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PERSONA_ATTIVITA_PERSONA" Association="GratisForGratisModel.FK_PERSONA_ATTIVITA_PERSONA">
-            <End Role="PERSONA" EntitySet="PERSONA" />
-            <End Role="PERSONA_ATTIVITA" EntitySet="PERSONA_ATTIVITA" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PERSONA_EMAIL_PERSONA" Association="GratisForGratisModel.FK_PERSONA_EMAIL_PERSONA">
-            <End Role="PERSONA" EntitySet="PERSONA" />
-            <End Role="PERSONA_EMAIL" EntitySet="PERSONA_EMAIL" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PERSONA_FOTO_PERSONA" Association="GratisForGratisModel.FK_PERSONA_FOTO_PERSONA">
-            <End Role="PERSONA" EntitySet="PERSONA" />
-            <End Role="PERSONA_FOTO" EntitySet="PERSONA_FOTO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PERSONA_INDIRIZZO_PERSONA" Association="GratisForGratisModel.FK_PERSONA_INDIRIZZO_PERSONA">
-            <End Role="PERSONA" EntitySet="PERSONA" />
-            <End Role="PERSONA_INDIRIZZO" EntitySet="PERSONA_INDIRIZZO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PERSONA_METODO_PAGAMENTO_PERSONA" Association="GratisForGratisModel.FK_PERSONA_METODO_PAGAMENTO_PERSONA">
-            <End Role="PERSONA" EntitySet="PERSONA" />
-            <End Role="PERSONA_METODO_PAGAMENTO" EntitySet="PERSONA_METODO_PAGAMENTO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PERSONA_PRIVACY_PERSONA" Association="GratisForGratisModel.FK_PERSONA_PRIVACY_PERSONA">
-            <End Role="PERSONA" EntitySet="PERSONA" />
-            <End Role="PERSONA_PRIVACY" EntitySet="PERSONA_PRIVACY" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PERSONA_RICERCA_PERSONA" Association="GratisForGratisModel.FK_PERSONA_RICERCA_PERSONA">
-            <End Role="PERSONA" EntitySet="PERSONA" />
-            <End Role="PERSONA_RICERCA" EntitySet="PERSONA_RICERCA" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PERSONA_SEGNALAZIONE_PERSONA" Association="GratisForGratisModel.FK_PERSONA_SEGNALAZIONE_PERSONA">
-            <End Role="PERSONA" EntitySet="PERSONA" />
-            <End Role="PERSONA_SEGNALAZIONE" EntitySet="PERSONA_SEGNALAZIONE" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PERSONA_TELEFONO_PERSONA" Association="GratisForGratisModel.FK_PERSONA_TELEFONO_PERSONA">
-            <End Role="PERSONA" EntitySet="PERSONA" />
-            <End Role="PERSONA_TELEFONO" EntitySet="PERSONA_TELEFONO" />
           </AssociationSet>
           <AssociationSet Name="FK_PERSONA_INDIRIZZO_SPEDIZIONE_PERSONA_INDIRIZZO" Association="GratisForGratisModel.FK_PERSONA_INDIRIZZO_SPEDIZIONE_PERSONA_INDIRIZZO">
             <End Role="PERSONA_INDIRIZZO" EntitySet="PERSONA_INDIRIZZO" />
@@ -6351,10 +6221,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             <End Role="OFFERTA" EntitySet="OFFERTA" />
             <End Role="OFFERTA_BARATTO" EntitySet="OFFERTA_BARATTO" />
           </AssociationSet>
-          <AssociationSet Name="FK_OFFERTA_PERSONA" Association="GratisForGratisModel.FK_OFFERTA_PERSONA">
-            <End Role="PERSONA" EntitySet="PERSONA" />
-            <End Role="OFFERTA" EntitySet="OFFERTA" />
-          </AssociationSet>
           <AssociationSet Name="FK_OFFERTA_SPEDIZIONE_OFFERTA" Association="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_OFFERTA">
             <End Role="OFFERTA" EntitySet="OFFERTA" />
             <End Role="OFFERTA_SPEDIZIONE" EntitySet="OFFERTA_SPEDIZIONE" />
@@ -6397,6 +6263,140 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <AssociationSet Name="FK_OFFERTA_SPEDIZIONE_COMMISSIONE" Association="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_COMMISSIONE">
             <End Role="COMMISSIONE" EntitySet="COMMISSIONE" />
             <End Role="OFFERTA_SPEDIZIONE" EntitySet="OFFERTA_SPEDIZIONE" />
+          </AssociationSet>
+          <EntitySet Name="INDIRIZZO" EntityType="GratisForGratisModel.INDIRIZZO" />
+          <AssociationSet Name="FK_ATTIVITA_INDIRIZZO_INDIRIZZO" Association="GratisForGratisModel.FK_ATTIVITA_INDIRIZZO_INDIRIZZO">
+            <End Role="INDIRIZZO" EntitySet="INDIRIZZO" />
+            <End Role="ATTIVITA_INDIRIZZO" EntitySet="ATTIVITA_INDIRIZZO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INDIRIZZO_COMUNE" Association="GratisForGratisModel.FK_INDIRIZZO_COMUNE">
+            <End Role="COMUNE" EntitySet="COMUNE" />
+            <End Role="INDIRIZZO" EntitySet="INDIRIZZO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CORRIERE_PUNTO_SPEDIZIONE_INDIRIZZO" Association="GratisForGratisModel.FK_CORRIERE_PUNTO_SPEDIZIONE_INDIRIZZO">
+            <End Role="INDIRIZZO" EntitySet="INDIRIZZO" />
+            <End Role="CORRIERE_PUNTO_SPEDIZIONE" EntitySet="CORRIERE_PUNTO_SPEDIZIONE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CORRIERE_SERVIZIO_SPEDIZIONE_INDIRIZZO" Association="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_INDIRIZZO">
+            <End Role="INDIRIZZO" EntitySet="INDIRIZZO" />
+            <End Role="CORRIERE_SERVIZIO_SPEDIZIONE" EntitySet="CORRIERE_SERVIZIO_SPEDIZIONE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CORRIERE_SERVIZIO_SPEDIZIONE_INDIRIZZO1" Association="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_INDIRIZZO1">
+            <End Role="INDIRIZZO" EntitySet="INDIRIZZO" />
+            <End Role="CORRIERE_SERVIZIO_SPEDIZIONE" EntitySet="CORRIERE_SERVIZIO_SPEDIZIONE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OFFERTA_SPEDIZIONE_INDIRIZZO" Association="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_INDIRIZZO">
+            <End Role="INDIRIZZO" EntitySet="INDIRIZZO" />
+            <End Role="OFFERTA_SPEDIZIONE" EntitySet="OFFERTA_SPEDIZIONE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERSONA_INDIRIZZO_INDIRIZZO" Association="GratisForGratisModel.FK_PERSONA_INDIRIZZO_INDIRIZZO">
+            <End Role="INDIRIZZO" EntitySet="INDIRIZZO" />
+            <End Role="PERSONA_INDIRIZZO" EntitySet="PERSONA_INDIRIZZO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERSONA_METODO_PAGAMENTO_INDIRIZZO" Association="GratisForGratisModel.FK_PERSONA_METODO_PAGAMENTO_INDIRIZZO">
+            <End Role="INDIRIZZO" EntitySet="INDIRIZZO" />
+            <End Role="PERSONA_METODO_PAGAMENTO" EntitySet="PERSONA_METODO_PAGAMENTO" />
+          </AssociationSet>
+          <EntitySet Name="PERSONA" EntityType="GratisForGratisModel.PERSONA" />
+          <AssociationSet Name="FK_PERSONA_ABBONAMENTO" Association="GratisForGratisModel.FK_PERSONA_ABBONAMENTO">
+            <End Role="ABBONAMENTO" EntitySet="ABBONAMENTO" />
+            <End Role="PERSONA" EntitySet="PERSONA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_PERSONA" Association="GratisForGratisModel.FK_ANNUNCIO_PERSONA">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_PERSONA1" Association="GratisForGratisModel.FK_ANNUNCIO_PERSONA1">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_CARRELLO_PERSONA" Association="GratisForGratisModel.FK_ANNUNCIO_CARRELLO_PERSONA">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="ANNUNCIO_CARRELLO" EntitySet="ANNUNCIO_CARRELLO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_CLICK_PERSONA" Association="GratisForGratisModel.FK_ANNUNCIO_CLICK_PERSONA">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="ANNUNCIO_CLICK" EntitySet="ANNUNCIO_CLICK" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_DESIDERATO_PERSONA" Association="GratisForGratisModel.FK_ANNUNCIO_DESIDERATO_PERSONA">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="ANNUNCIO_DESIDERATO" EntitySet="ANNUNCIO_DESIDERATO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_FEEDBACK_PERSONA" Association="GratisForGratisModel.FK_ANNUNCIO_FEEDBACK_PERSONA">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="ANNUNCIO_FEEDBACK" EntitySet="ANNUNCIO_FEEDBACK" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_VISUALIZZAZIONE_PERSONA" Association="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_PERSONA">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="ANNUNCIO_VISUALIZZAZIONE" EntitySet="ANNUNCIO_VISUALIZZAZIONE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CHAT_PERSONA" Association="GratisForGratisModel.FK_CHAT_PERSONA">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="CHAT" EntitySet="CHAT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CHAT_PERSONA1" Association="GratisForGratisModel.FK_CHAT_PERSONA1">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="CHAT" EntitySet="CHAT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERSONA_CONTO_CORRENTE" Association="GratisForGratisModel.FK_PERSONA_CONTO_CORRENTE">
+            <End Role="CONTO_CORRENTE" EntitySet="CONTO_CORRENTE" />
+            <End Role="PERSONA" EntitySet="PERSONA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LOG_SBLOCCO_ANNUNCIO_PERSONA" Association="GratisForGratisModel.FK_LOG_SBLOCCO_ANNUNCIO_PERSONA">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="LOG_SBLOCCO_ANNUNCIO" EntitySet="LOG_SBLOCCO_ANNUNCIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NOTIFICA_PERSONA" Association="GratisForGratisModel.FK_NOTIFICA_PERSONA">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="NOTIFICA" EntitySet="NOTIFICA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NOTIFICA_PERSONA1" Association="GratisForGratisModel.FK_NOTIFICA_PERSONA1">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="NOTIFICA" EntitySet="NOTIFICA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OFFERTA_PERSONA" Association="GratisForGratisModel.FK_OFFERTA_PERSONA">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="OFFERTA" EntitySet="OFFERTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OGGETTO_APPARTENENZA_PERSONA" Association="GratisForGratisModel.FK_OGGETTO_APPARTENENZA_PERSONA">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="OGGETTO_APPARTENENZA" EntitySet="OGGETTO_APPARTENENZA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERSONA_ATTIVITA_PERSONA" Association="GratisForGratisModel.FK_PERSONA_ATTIVITA_PERSONA">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="PERSONA_ATTIVITA" EntitySet="PERSONA_ATTIVITA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERSONA_EMAIL_PERSONA" Association="GratisForGratisModel.FK_PERSONA_EMAIL_PERSONA">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="PERSONA_EMAIL" EntitySet="PERSONA_EMAIL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERSONA_FOTO_PERSONA" Association="GratisForGratisModel.FK_PERSONA_FOTO_PERSONA">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="PERSONA_FOTO" EntitySet="PERSONA_FOTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERSONA_INDIRIZZO_PERSONA" Association="GratisForGratisModel.FK_PERSONA_INDIRIZZO_PERSONA">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="PERSONA_INDIRIZZO" EntitySet="PERSONA_INDIRIZZO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERSONA_METODO_PAGAMENTO_PERSONA" Association="GratisForGratisModel.FK_PERSONA_METODO_PAGAMENTO_PERSONA">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="PERSONA_METODO_PAGAMENTO" EntitySet="PERSONA_METODO_PAGAMENTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERSONA_PRIVACY_PERSONA" Association="GratisForGratisModel.FK_PERSONA_PRIVACY_PERSONA">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="PERSONA_PRIVACY" EntitySet="PERSONA_PRIVACY" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERSONA_RICERCA_PERSONA" Association="GratisForGratisModel.FK_PERSONA_RICERCA_PERSONA">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="PERSONA_RICERCA" EntitySet="PERSONA_RICERCA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERSONA_SEGNALAZIONE_PERSONA" Association="GratisForGratisModel.FK_PERSONA_SEGNALAZIONE_PERSONA">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="PERSONA_SEGNALAZIONE" EntitySet="PERSONA_SEGNALAZIONE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERSONA_TELEFONO_PERSONA" Association="GratisForGratisModel.FK_PERSONA_TELEFONO_PERSONA">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="PERSONA_TELEFONO" EntitySet="PERSONA_TELEFONO" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="FINDSOTTOCATEGORIE_Result">
@@ -6498,8 +6498,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <NavigationProperty Name="ANNUNCIO_FOTO" Relationship="GratisForGratisModel.FK_ANNUNCIO_FOTO_ANNUNCIO" FromRole="ANNUNCIO" ToRole="ANNUNCIO_FOTO" />
           <NavigationProperty Name="ANNUNCIO_NOTIFICA" Relationship="GratisForGratisModel.FK_ANNUNCIO_NOTIFICA_ANNUNCIO" FromRole="ANNUNCIO" ToRole="ANNUNCIO_NOTIFICA" />
           <NavigationProperty Name="OGGETTO" Relationship="GratisForGratisModel.FK_ANNUNCIO_OGGETTO" FromRole="ANNUNCIO" ToRole="OGGETTO" />
-          <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_ANNUNCIO_PERSONA" FromRole="ANNUNCIO" ToRole="PERSONA" />
-          <NavigationProperty Name="PERSONA1" Relationship="GratisForGratisModel.FK_ANNUNCIO_PERSONA1" FromRole="ANNUNCIO" ToRole="PERSONA" />
           <NavigationProperty Name="SERVIZIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_SERVIZIO" FromRole="ANNUNCIO" ToRole="SERVIZIO" />
           <NavigationProperty Name="ANNUNCIO_TAG" Relationship="GratisForGratisModel.FK_ANNUNCIO_TAG_ANNUNCIO" FromRole="ANNUNCIO" ToRole="ANNUNCIO_TAG" />
           <NavigationProperty Name="ANNUNCIO_TIPO_SCAMBIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_TIPO_SCAMBIO_ANNUNCIO" FromRole="ANNUNCIO" ToRole="ANNUNCIO_TIPO_SCAMBIO" />
@@ -6511,6 +6509,8 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <NavigationProperty Name="OFFERTA" Relationship="GratisForGratisModel.FK_OFFERTA_ANNUNCIO" FromRole="ANNUNCIO" ToRole="OFFERTA" />
           <Property Name="ID_COMMISSIONE" Type="Int32" />
           <NavigationProperty Name="COMMISSIONE" Relationship="GratisForGratisModel.FK_ANNUNCIO_COMMISSIONE" FromRole="ANNUNCIO" ToRole="COMMISSIONE" />
+          <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_ANNUNCIO_PERSONA" FromRole="ANNUNCIO" ToRole="PERSONA" />
+          <NavigationProperty Name="PERSONA1" Relationship="GratisForGratisModel.FK_ANNUNCIO_PERSONA1" FromRole="ANNUNCIO" ToRole="PERSONA" />
         </EntityType>
         <EntityType Name="ANNUNCIO_CARRELLO">
           <Key>
@@ -6543,8 +6543,8 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="STATO" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_CLICK_ANNUNCIO" FromRole="ANNUNCIO_CLICK" ToRole="ANNUNCIO" />
           <NavigationProperty Name="BROWSER_MODELLO" Relationship="GratisForGratisModel.FK_ANNUNCIO_CLICK_MODELLO_BROWSER" FromRole="ANNUNCIO_CLICK" ToRole="BROWSER_MODELLO" />
-          <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_ANNUNCIO_CLICK_PERSONA" FromRole="ANNUNCIO_CLICK" ToRole="PERSONA" />
           <NavigationProperty Name="SISTEMA_OPERATIVO" Relationship="GratisForGratisModel.FK_ANNUNCIO_CLICK_SISTEMA_OPERATIVO" FromRole="ANNUNCIO_CLICK" ToRole="SISTEMA_OPERATIVO" />
+          <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_ANNUNCIO_CLICK_PERSONA" FromRole="ANNUNCIO_CLICK" ToRole="PERSONA" />
         </EntityType>
         <EntityType Name="ANNUNCIO_DESIDERATO">
           <Key>
@@ -6659,8 +6659,8 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="STATO" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_ANNUNCIO" FromRole="ANNUNCIO_VISUALIZZAZIONE" ToRole="ANNUNCIO" />
           <NavigationProperty Name="BROWSER_MODELLO" Relationship="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_MODELLO_BROWSER" FromRole="ANNUNCIO_VISUALIZZAZIONE" ToRole="BROWSER_MODELLO" />
-          <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_PERSONA" FromRole="ANNUNCIO_VISUALIZZAZIONE" ToRole="PERSONA" />
           <NavigationProperty Name="SISTEMA_OPERATIVO" Relationship="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_SISTEMA_OPERATIVO" FromRole="ANNUNCIO_VISUALIZZAZIONE" ToRole="SISTEMA_OPERATIVO" />
+          <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_PERSONA" FromRole="ANNUNCIO_VISUALIZZAZIONE" ToRole="PERSONA" />
         </EntityType>
         <EntityType Name="ARTISTA">
           <Key>
@@ -6746,8 +6746,8 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="DATA_MODIFICA" Type="DateTime" Precision="3" />
           <Property Name="STATO" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ATTIVITA" Relationship="GratisForGratisModel.FK_ATTIVITA_INDIRIZZO_ATTIVITA" FromRole="ATTIVITA_INDIRIZZO" ToRole="ATTIVITA" />
-          <NavigationProperty Name="INDIRIZZO" Relationship="GratisForGratisModel.FK_ATTIVITA_INDIRIZZO_INDIRIZZO" FromRole="ATTIVITA_INDIRIZZO" ToRole="INDIRIZZO" />
           <NavigationProperty Name="ATTIVITA_INDIRIZZO_SPEDIZIONE" Relationship="GratisForGratisModel.FK_ATTIVITA_INDIRIZZO_SPEDIZIONE_ATTIVITA_INDIRIZZO" FromRole="ATTIVITA_INDIRIZZO" ToRole="ATTIVITA_INDIRIZZO_SPEDIZIONE" />
+          <NavigationProperty Name="INDIRIZZO" Relationship="GratisForGratisModel.FK_ATTIVITA_INDIRIZZO_INDIRIZZO" FromRole="ATTIVITA_INDIRIZZO" ToRole="INDIRIZZO" />
         </EntityType>
         <EntityType Name="ATTIVITA_INDIRIZZO_SPEDIZIONE">
           <Key>
@@ -6865,7 +6865,7 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="STATO" Type="Int32" Nullable="false" />
           <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_CHAT_PERSONA" FromRole="CHAT" ToRole="PERSONA" />
           <NavigationProperty Name="PERSONA1" Relationship="GratisForGratisModel.FK_CHAT_PERSONA1" FromRole="CHAT" ToRole="PERSONA" />
-        </EntityType>
+          </EntityType>
         <EntityType Name="COMPONENTE">
           <Key>
             <PropertyRef Name="ID" />
@@ -6886,8 +6886,8 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_COMUNE" FromRole="COMUNE" ToRole="ANNUNCIO" />
           <NavigationProperty Name="PROVINCIA" Relationship="GratisForGratisModel.FK_COMUNE_PROVINCIA" FromRole="COMUNE" ToRole="PROVINCIA" />
           <NavigationProperty Name="CORRIERE_COMUNE" Relationship="GratisForGratisModel.FK_CORRIERE_COMUNE_COMUNE" FromRole="COMUNE" ToRole="CORRIERE_COMUNE" />
-          <NavigationProperty Name="INDIRIZZO" Relationship="GratisForGratisModel.FK_INDIRIZZO_COMUNE" FromRole="COMUNE" ToRole="INDIRIZZO" />
           <NavigationProperty Name="RICERCA" Relationship="GratisForGratisModel.FK_RICERCA_COMUNE" FromRole="COMUNE" ToRole="RICERCA" />
+          <NavigationProperty Name="INDIRIZZO" Relationship="GratisForGratisModel.FK_INDIRIZZO_COMUNE" FromRole="COMUNE" ToRole="INDIRIZZO" />
         </EntityType>
         <EntityType Name="CONTO_CORRENTE">
           <Key>
@@ -6902,10 +6902,10 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="STATO" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ATTIVITA" Relationship="GratisForGratisModel.FK_ATTIVITA_CONTO_CORRENTE" FromRole="CONTO_CORRENTE" ToRole="ATTIVITA" />
           <NavigationProperty Name="CONTO_CORRENTE_MONETA" Relationship="GratisForGratisModel.FK_CONTO_CORRENTE_MONETA_CONTO_CORRENTE" FromRole="CONTO_CORRENTE" ToRole="CONTO_CORRENTE_MONETA" />
-          <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_PERSONA_CONTO_CORRENTE" FromRole="CONTO_CORRENTE" ToRole="PERSONA" />
           <NavigationProperty Name="CONTO_CORRENTE_CREDITO" Relationship="GratisForGratisModel.FK_CONTO_CORRENTE_CREDITO_CONTO_CORRENTE" FromRole="CONTO_CORRENTE" ToRole="CONTO_CORRENTE_CREDITO" />
           <NavigationProperty Name="TRANSAZIONE" Relationship="GratisForGratisModel.FK_TRANSAZIONE_CONTO_CORRENTE" FromRole="CONTO_CORRENTE" ToRole="TRANSAZIONE" />
           <NavigationProperty Name="TRANSAZIONE1" Relationship="GratisForGratisModel.FK_TRANSAZIONE_CONTO_CORRENTE1" FromRole="CONTO_CORRENTE" ToRole="TRANSAZIONE" />
+          <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_PERSONA_CONTO_CORRENTE" FromRole="CONTO_CORRENTE" ToRole="PERSONA" />
           </EntityType>
         <EntityType Name="CONTO_CORRENTE_MONETA">
           <Key>
@@ -7067,11 +7067,11 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <NavigationProperty Name="ALLEGATO" Relationship="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_ALLEGATO" FromRole="CORRIERE_SERVIZIO_SPEDIZIONE" ToRole="ALLEGATO" />
           <NavigationProperty Name="ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE" Relationship="GratisForGratisModel.FK_ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE_CORRIERE_SERVIZIO_SPEDIZIONE" FromRole="CORRIERE_SERVIZIO_SPEDIZIONE" ToRole="ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE" />
           <NavigationProperty Name="CORRIERE_SERVIZIO" Relationship="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_CORRIERE_SERVIZIO" FromRole="CORRIERE_SERVIZIO_SPEDIZIONE" ToRole="CORRIERE_SERVIZIO" />
-          <NavigationProperty Name="INDIRIZZO" Relationship="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_INDIRIZZO" FromRole="CORRIERE_SERVIZIO_SPEDIZIONE" ToRole="INDIRIZZO" />
-          <NavigationProperty Name="INDIRIZZO1" Relationship="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_INDIRIZZO1" FromRole="CORRIERE_SERVIZIO_SPEDIZIONE" ToRole="INDIRIZZO" />
           <NavigationProperty Name="TIPO_PACCO" Relationship="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_TIPO_PACCO" FromRole="CORRIERE_SERVIZIO_SPEDIZIONE" ToRole="TIPO_PACCO" />
           <NavigationProperty Name="TIPO_VALUTA" Relationship="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_TIPO_VALUTA" FromRole="CORRIERE_SERVIZIO_SPEDIZIONE" ToRole="TIPO_VALUTA" />
-        </EntityType>
+          <NavigationProperty Name="INDIRIZZO" Relationship="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_INDIRIZZO" FromRole="CORRIERE_SERVIZIO_SPEDIZIONE" ToRole="INDIRIZZO" />
+          <NavigationProperty Name="INDIRIZZO1" Relationship="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_INDIRIZZO1" FromRole="CORRIERE_SERVIZIO_SPEDIZIONE" ToRole="INDIRIZZO" />
+          </EntityType>
         <EntityType Name="CORRIERE_TIPO_OGGETTO">
           <Key>
             <PropertyRef Name="ID" />
@@ -7133,28 +7133,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <NavigationProperty Name="CATEGORIA" Relationship="GratisForGratisModel.FK_GENERE_CATEGORIA" FromRole="GENERE" ToRole="CATEGORIA" />
           <NavigationProperty Name="OGGETTO_VIDEOGAMES" Relationship="GratisForGratisModel.FK_OGGETTO_VIDEOGAMES_GENERE" FromRole="GENERE" ToRole="OGGETTO_VIDEOGAMES" />
           <NavigationProperty Name="RICERCA_OGGETTO_VIDEOGAMES" Relationship="GratisForGratisModel.FK_RICERCA_OGGETTO_VIDEOGAMES_GENERE" FromRole="GENERE" ToRole="RICERCA_OGGETTO_VIDEOGAMES" />
-        </EntityType>
-        <EntityType Name="INDIRIZZO">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ID_COMUNE" Type="Int32" Nullable="false" />
-          <Property Name="INDIRIZZO1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CIVICO" Type="Int32" Nullable="false" />
-          <Property Name="SEZIONE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="TIPOLOGIA" Type="Int32" Nullable="false" />
-          <Property Name="DATA_INSERIMENTO" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DATA_MODIFICA" Type="DateTime" Precision="3" />
-          <Property Name="STATO" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ATTIVITA_INDIRIZZO" Relationship="GratisForGratisModel.FK_ATTIVITA_INDIRIZZO_INDIRIZZO" FromRole="INDIRIZZO" ToRole="ATTIVITA_INDIRIZZO" />
-          <NavigationProperty Name="COMUNE" Relationship="GratisForGratisModel.FK_INDIRIZZO_COMUNE" FromRole="INDIRIZZO" ToRole="COMUNE" />
-          <NavigationProperty Name="CORRIERE_PUNTO_SPEDIZIONE" Relationship="GratisForGratisModel.FK_CORRIERE_PUNTO_SPEDIZIONE_INDIRIZZO" FromRole="INDIRIZZO" ToRole="CORRIERE_PUNTO_SPEDIZIONE" />
-          <NavigationProperty Name="CORRIERE_SERVIZIO_SPEDIZIONE" Relationship="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_INDIRIZZO" FromRole="INDIRIZZO" ToRole="CORRIERE_SERVIZIO_SPEDIZIONE" />
-          <NavigationProperty Name="CORRIERE_SERVIZIO_SPEDIZIONE1" Relationship="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_INDIRIZZO1" FromRole="INDIRIZZO" ToRole="CORRIERE_SERVIZIO_SPEDIZIONE" />
-          <NavigationProperty Name="OFFERTA_SPEDIZIONE" Relationship="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_INDIRIZZO" FromRole="INDIRIZZO" ToRole="OFFERTA_SPEDIZIONE" />
-          <NavigationProperty Name="PERSONA_INDIRIZZO" Relationship="GratisForGratisModel.FK_PERSONA_INDIRIZZO_INDIRIZZO" FromRole="INDIRIZZO" ToRole="PERSONA_INDIRIZZO" />
-          <NavigationProperty Name="PERSONA_METODO_PAGAMENTO" Relationship="GratisForGratisModel.FK_PERSONA_METODO_PAGAMENTO_INDIRIZZO" FromRole="INDIRIZZO" ToRole="PERSONA_METODO_PAGAMENTO" />
         </EntityType>
         <EntityType Name="LOG_ERRORE">
           <Key>
@@ -7298,7 +7276,7 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <NavigationProperty Name="ATTIVITA1" Relationship="GratisForGratisModel.FK_NOTIFICA_ATTIVITA1" FromRole="NOTIFICA" ToRole="ATTIVITA" />
           <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_NOTIFICA_PERSONA" FromRole="NOTIFICA" ToRole="PERSONA" />
           <NavigationProperty Name="PERSONA1" Relationship="GratisForGratisModel.FK_NOTIFICA_PERSONA1" FromRole="NOTIFICA" ToRole="PERSONA" />
-        </EntityType>
+          </EntityType>
         <EntityType Name="OFFERTA_BARATTO">
           <Key>
             <PropertyRef Name="ID" />
@@ -7330,11 +7308,11 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="DATA_INSERIMENTO" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DATA_MODIFICA" Type="DateTime" Precision="3" />
           <Property Name="STATO" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="INDIRIZZO" Relationship="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_INDIRIZZO" FromRole="OFFERTA_SPEDIZIONE" ToRole="INDIRIZZO" />
           <NavigationProperty Name="TIPO_VALUTA" Relationship="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_TIPO_VALUTA" FromRole="OFFERTA_SPEDIZIONE" ToRole="TIPO_VALUTA" />
           <NavigationProperty Name="OFFERTA" Relationship="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_OFFERTA" FromRole="OFFERTA_SPEDIZIONE" ToRole="OFFERTA" />
           <Property Name="ID_COMMISSIONE" Type="Int32" />
           <NavigationProperty Name="COMMISSIONE" Relationship="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_COMMISSIONE" FromRole="OFFERTA_SPEDIZIONE" ToRole="COMMISSIONE" />
+          <NavigationProperty Name="INDIRIZZO" Relationship="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_INDIRIZZO" FromRole="OFFERTA_SPEDIZIONE" ToRole="INDIRIZZO" />
         </EntityType>
         <EntityType Name="OGGETTO">
           <Key>
@@ -7561,50 +7539,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <NavigationProperty Name="OGGETTO" Relationship="GratisForGratisModel.FK_OGGETTO_VIDEOGAMES_OGGETTO" FromRole="OGGETTO_VIDEOGAMES" ToRole="OGGETTO" />
           <NavigationProperty Name="PIATTAFORMA" Relationship="GratisForGratisModel.FK_OGGETTO_VIDEOGAMES_PIATTAFORMA" FromRole="OGGETTO_VIDEOGAMES" ToRole="PIATTAFORMA" />
         </EntityType>
-        <EntityType Name="PERSONA">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TOKEN" Type="Guid" Nullable="false" />
-          <Property Name="ID_CONTO_CORRENTE" Type="Guid" Nullable="false" />
-          <Property Name="PASSWORD" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="TOKEN_PASSWORD" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FACEBOOK_TOKEN_PERMANENTE" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="FACEBOOK_TOKEN_SESSIONE" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="NOME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="COGNOME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ID_ABBONAMENTO" Type="Int32" Nullable="false" />
-          <Property Name="DATA_INSERIMENTO" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DATA_ACCESSO" Type="DateTime" Precision="3" />
-          <Property Name="DATA_MODIFICA" Type="DateTime" Precision="3" />
-          <Property Name="STATO" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ABBONAMENTO" Relationship="GratisForGratisModel.FK_PERSONA_ABBONAMENTO" FromRole="PERSONA" ToRole="ABBONAMENTO" />
-          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_PERSONA" FromRole="PERSONA" ToRole="ANNUNCIO" />
-          <NavigationProperty Name="ANNUNCIO1" Relationship="GratisForGratisModel.FK_ANNUNCIO_PERSONA1" FromRole="PERSONA" ToRole="ANNUNCIO" />
-          <NavigationProperty Name="ANNUNCIO_CARRELLO" Relationship="GratisForGratisModel.FK_ANNUNCIO_CARRELLO_PERSONA" FromRole="PERSONA" ToRole="ANNUNCIO_CARRELLO" />
-          <NavigationProperty Name="ANNUNCIO_CLICK" Relationship="GratisForGratisModel.FK_ANNUNCIO_CLICK_PERSONA" FromRole="PERSONA" ToRole="ANNUNCIO_CLICK" />
-          <NavigationProperty Name="ANNUNCIO_DESIDERATO" Relationship="GratisForGratisModel.FK_ANNUNCIO_DESIDERATO_PERSONA" FromRole="PERSONA" ToRole="ANNUNCIO_DESIDERATO" />
-          <NavigationProperty Name="ANNUNCIO_FEEDBACK" Relationship="GratisForGratisModel.FK_ANNUNCIO_FEEDBACK_PERSONA" FromRole="PERSONA" ToRole="ANNUNCIO_FEEDBACK" />
-          <NavigationProperty Name="ANNUNCIO_VISUALIZZAZIONE" Relationship="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_PERSONA" FromRole="PERSONA" ToRole="ANNUNCIO_VISUALIZZAZIONE" />
-          <NavigationProperty Name="CHAT" Relationship="GratisForGratisModel.FK_CHAT_PERSONA" FromRole="PERSONA" ToRole="CHAT" />
-          <NavigationProperty Name="CHAT1" Relationship="GratisForGratisModel.FK_CHAT_PERSONA1" FromRole="PERSONA" ToRole="CHAT" />
-          <NavigationProperty Name="CONTO_CORRENTE" Relationship="GratisForGratisModel.FK_PERSONA_CONTO_CORRENTE" FromRole="PERSONA" ToRole="CONTO_CORRENTE" />
-          <NavigationProperty Name="LOG_SBLOCCO_ANNUNCIO" Relationship="GratisForGratisModel.FK_LOG_SBLOCCO_ANNUNCIO_PERSONA" FromRole="PERSONA" ToRole="LOG_SBLOCCO_ANNUNCIO" />
-          <NavigationProperty Name="NOTIFICA" Relationship="GratisForGratisModel.FK_NOTIFICA_PERSONA" FromRole="PERSONA" ToRole="NOTIFICA" />
-          <NavigationProperty Name="NOTIFICA1" Relationship="GratisForGratisModel.FK_NOTIFICA_PERSONA1" FromRole="PERSONA" ToRole="NOTIFICA" />
-          <NavigationProperty Name="OGGETTO_APPARTENENZA" Relationship="GratisForGratisModel.FK_OGGETTO_APPARTENENZA_PERSONA" FromRole="PERSONA" ToRole="OGGETTO_APPARTENENZA" />
-          <NavigationProperty Name="PERSONA_ATTIVITA" Relationship="GratisForGratisModel.FK_PERSONA_ATTIVITA_PERSONA" FromRole="PERSONA" ToRole="PERSONA_ATTIVITA" />
-          <NavigationProperty Name="PERSONA_EMAIL" Relationship="GratisForGratisModel.FK_PERSONA_EMAIL_PERSONA" FromRole="PERSONA" ToRole="PERSONA_EMAIL" />
-          <NavigationProperty Name="PERSONA_FOTO" Relationship="GratisForGratisModel.FK_PERSONA_FOTO_PERSONA" FromRole="PERSONA" ToRole="PERSONA_FOTO" />
-          <NavigationProperty Name="PERSONA_INDIRIZZO" Relationship="GratisForGratisModel.FK_PERSONA_INDIRIZZO_PERSONA" FromRole="PERSONA" ToRole="PERSONA_INDIRIZZO" />
-          <NavigationProperty Name="PERSONA_METODO_PAGAMENTO" Relationship="GratisForGratisModel.FK_PERSONA_METODO_PAGAMENTO_PERSONA" FromRole="PERSONA" ToRole="PERSONA_METODO_PAGAMENTO" />
-          <NavigationProperty Name="PERSONA_PRIVACY" Relationship="GratisForGratisModel.FK_PERSONA_PRIVACY_PERSONA" FromRole="PERSONA" ToRole="PERSONA_PRIVACY" />
-          <NavigationProperty Name="PERSONA_RICERCA" Relationship="GratisForGratisModel.FK_PERSONA_RICERCA_PERSONA" FromRole="PERSONA" ToRole="PERSONA_RICERCA" />
-          <NavigationProperty Name="PERSONA_SEGNALAZIONE" Relationship="GratisForGratisModel.FK_PERSONA_SEGNALAZIONE_PERSONA" FromRole="PERSONA" ToRole="PERSONA_SEGNALAZIONE" />
-          <NavigationProperty Name="PERSONA_TELEFONO" Relationship="GratisForGratisModel.FK_PERSONA_TELEFONO_PERSONA" FromRole="PERSONA" ToRole="PERSONA_TELEFONO" />
-          <NavigationProperty Name="OFFERTA" Relationship="GratisForGratisModel.FK_OFFERTA_PERSONA" FromRole="PERSONA" ToRole="OFFERTA" />
-        </EntityType>
         <EntityType Name="PERSONA_ATTIVITA">
           <Key>
             <PropertyRef Name="ID" />
@@ -7659,9 +7593,9 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="DATA_INSERIMENTO" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DATA_MODIFICA" Type="DateTime" Precision="3" />
           <Property Name="STATO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PERSONA_INDIRIZZO_SPEDIZIONE" Relationship="GratisForGratisModel.FK_PERSONA_INDIRIZZO_SPEDIZIONE_PERSONA_INDIRIZZO" FromRole="PERSONA_INDIRIZZO" ToRole="PERSONA_INDIRIZZO_SPEDIZIONE" />
           <NavigationProperty Name="INDIRIZZO" Relationship="GratisForGratisModel.FK_PERSONA_INDIRIZZO_INDIRIZZO" FromRole="PERSONA_INDIRIZZO" ToRole="INDIRIZZO" />
           <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_PERSONA_INDIRIZZO_PERSONA" FromRole="PERSONA_INDIRIZZO" ToRole="PERSONA" />
-          <NavigationProperty Name="PERSONA_INDIRIZZO_SPEDIZIONE" Relationship="GratisForGratisModel.FK_PERSONA_INDIRIZZO_SPEDIZIONE_PERSONA_INDIRIZZO" FromRole="PERSONA_INDIRIZZO" ToRole="PERSONA_INDIRIZZO_SPEDIZIONE" />
         </EntityType>
         <EntityType Name="PERSONA_INDIRIZZO_SPEDIZIONE">
           <Key>
@@ -7727,8 +7661,8 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ID_PERSONA" Type="Int32" Nullable="false" />
           <Property Name="ID_RICERCA" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_PERSONA_RICERCA_PERSONA" FromRole="PERSONA_RICERCA" ToRole="PERSONA" />
           <NavigationProperty Name="RICERCA" Relationship="GratisForGratisModel.FK_PERSONA_RICERCA_RICERCA" FromRole="PERSONA_RICERCA" ToRole="RICERCA" />
+          <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_PERSONA_RICERCA_PERSONA" FromRole="PERSONA_RICERCA" ToRole="PERSONA" />
         </EntityType>
         <EntityType Name="PERSONA_SEGNALAZIONE">
           <Key>
@@ -8296,18 +8230,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="PRODOTTO" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
           <Property Name="SERVIZIO_RESI_EASY" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
         </EntityType>
-        <Association Name="FK_PERSONA_ABBONAMENTO">
-          <End Type="GratisForGratisModel.ABBONAMENTO" Role="ABBONAMENTO" Multiplicity="1" />
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ABBONAMENTO">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PERSONA">
-              <PropertyRef Name="ID_ABBONAMENTO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ALIMENTAZIONE_CATEGORIA">
           <End Type="GratisForGratisModel.CATEGORIA" Role="CATEGORIA" Multiplicity="1" />
           <End Type="GratisForGratisModel.ALIMENTAZIONE" Role="ALIMENTAZIONE" Multiplicity="*" />
@@ -8552,30 +8474,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ANNUNCIO_PERSONA">
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERSONA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ANNUNCIO">
-              <PropertyRef Name="ID_PERSONA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ANNUNCIO_PERSONA1">
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="0..1" />
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERSONA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ANNUNCIO">
-              <PropertyRef Name="ID_COMPRATORE" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ANNUNCIO_SERVIZIO">
           <End Type="GratisForGratisModel.SERVIZIO" Role="SERVIZIO" Multiplicity="0..1" />
           <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="*" />
@@ -8686,18 +8584,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ANNUNCIO_CARRELLO_PERSONA">
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
-          <End Type="GratisForGratisModel.ANNUNCIO_CARRELLO" Role="ANNUNCIO_CARRELLO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERSONA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ANNUNCIO_CARRELLO">
-              <PropertyRef Name="ID_UTENTE" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ANNUNCIO_CLICK_MODELLO_BROWSER">
           <End Type="GratisForGratisModel.BROWSER_MODELLO" Role="BROWSER_MODELLO" Multiplicity="1" />
           <End Type="GratisForGratisModel.ANNUNCIO_CLICK" Role="ANNUNCIO_CLICK" Multiplicity="*" />
@@ -8707,18 +8593,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Principal>
             <Dependent Role="ANNUNCIO_CLICK">
               <PropertyRef Name="ID_MODELLO_BROWSER" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ANNUNCIO_CLICK_PERSONA">
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="0..1" />
-          <End Type="GratisForGratisModel.ANNUNCIO_CLICK" Role="ANNUNCIO_CLICK" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERSONA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ANNUNCIO_CLICK">
-              <PropertyRef Name="ID_PERSONA" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8743,30 +8617,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Principal>
             <Dependent Role="ANNUNCIO_DESIDERATO">
               <PropertyRef Name="ID_ATTIVITA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ANNUNCIO_DESIDERATO_PERSONA">
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
-          <End Type="GratisForGratisModel.ANNUNCIO_DESIDERATO" Role="ANNUNCIO_DESIDERATO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERSONA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ANNUNCIO_DESIDERATO">
-              <PropertyRef Name="ID_PERSONA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ANNUNCIO_FEEDBACK_PERSONA">
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
-          <End Type="GratisForGratisModel.ANNUNCIO_FEEDBACK" Role="ANNUNCIO_FEEDBACK" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERSONA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ANNUNCIO_FEEDBACK">
-              <PropertyRef Name="ID_VOTANTE" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8839,18 +8689,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Principal>
             <Dependent Role="ANNUNCIO_VISUALIZZAZIONE">
               <PropertyRef Name="ID_MODELLO_BROWSER" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ANNUNCIO_VISUALIZZAZIONE_PERSONA">
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="0..1" />
-          <End Type="GratisForGratisModel.ANNUNCIO_VISUALIZZAZIONE" Role="ANNUNCIO_VISUALIZZAZIONE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERSONA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ANNUNCIO_VISUALIZZAZIONE">
-              <PropertyRef Name="ID_PERSONA" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9007,18 +8845,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Principal>
             <Dependent Role="PERSONA_ATTIVITA">
               <PropertyRef Name="ID_ATTIVITA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ATTIVITA_INDIRIZZO_INDIRIZZO">
-          <End Type="GratisForGratisModel.INDIRIZZO" Role="INDIRIZZO" Multiplicity="1" />
-          <End Type="GratisForGratisModel.ATTIVITA_INDIRIZZO" Role="ATTIVITA_INDIRIZZO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="INDIRIZZO">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ATTIVITA_INDIRIZZO">
-              <PropertyRef Name="ID_INDIRIZZO" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9190,30 +9016,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CHAT_PERSONA">
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
-          <End Type="GratisForGratisModel.CHAT" Role="CHAT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERSONA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="CHAT">
-              <PropertyRef Name="ID_MITTENTE" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CHAT_PERSONA1">
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
-          <End Type="GratisForGratisModel.CHAT" Role="CHAT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERSONA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="CHAT">
-              <PropertyRef Name="ID_DESTINATARIO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_OGGETTO_COMPONENTE_COMPONENTE">
           <End Type="GratisForGratisModel.COMPONENTE" Role="COMPONENTE" Multiplicity="1" />
           <End Type="GratisForGratisModel.OGGETTO_COMPONENTE" Role="OGGETTO_COMPONENTE" Multiplicity="*" />
@@ -9250,18 +9052,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_INDIRIZZO_COMUNE">
-          <End Type="GratisForGratisModel.COMUNE" Role="COMUNE" Multiplicity="1" />
-          <End Type="GratisForGratisModel.INDIRIZZO" Role="INDIRIZZO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="COMUNE">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="INDIRIZZO">
-              <PropertyRef Name="ID_COMUNE" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_RICERCA_COMUNE">
           <End Type="GratisForGratisModel.COMUNE" Role="COMUNE" Multiplicity="0..1" />
           <End Type="GratisForGratisModel.RICERCA" Role="RICERCA" Multiplicity="*" />
@@ -9282,18 +9072,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="CONTO_CORRENTE_MONETA">
-              <PropertyRef Name="ID_CONTO_CORRENTE" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PERSONA_CONTO_CORRENTE">
-          <End Type="GratisForGratisModel.CONTO_CORRENTE" Role="CONTO_CORRENTE" Multiplicity="1" />
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CONTO_CORRENTE">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PERSONA">
               <PropertyRef Name="ID_CONTO_CORRENTE" />
             </Dependent>
           </ReferentialConstraint>
@@ -9430,18 +9208,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CORRIERE_PUNTO_SPEDIZIONE_INDIRIZZO">
-          <End Type="GratisForGratisModel.INDIRIZZO" Role="INDIRIZZO" Multiplicity="1" />
-          <End Type="GratisForGratisModel.CORRIERE_PUNTO_SPEDIZIONE" Role="CORRIERE_PUNTO_SPEDIZIONE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="INDIRIZZO">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="CORRIERE_PUNTO_SPEDIZIONE">
-              <PropertyRef Name="ID_INDIRIZZO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_CORRIERE_SERVIZIO_PREZZO_STIMATO_CORRIERE_SERVIZIO">
           <End Type="GratisForGratisModel.CORRIERE_SERVIZIO" Role="CORRIERE_SERVIZIO" Multiplicity="1" />
           <End Type="GratisForGratisModel.CORRIERE_SERVIZIO_PREZZO_STIMATO" Role="CORRIERE_SERVIZIO_PREZZO_STIMATO" Multiplicity="*" />
@@ -9463,30 +9229,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Principal>
             <Dependent Role="CORRIERE_SERVIZIO_SPEDIZIONE">
               <PropertyRef Name="ID_CORRIERE_SERVIZIO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CORRIERE_SERVIZIO_SPEDIZIONE_INDIRIZZO">
-          <End Type="GratisForGratisModel.INDIRIZZO" Role="INDIRIZZO" Multiplicity="0..1" />
-          <End Type="GratisForGratisModel.CORRIERE_SERVIZIO_SPEDIZIONE" Role="CORRIERE_SERVIZIO_SPEDIZIONE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="INDIRIZZO">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="CORRIERE_SERVIZIO_SPEDIZIONE">
-              <PropertyRef Name="ID_INDIRIZZO_MITTENTE" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CORRIERE_SERVIZIO_SPEDIZIONE_INDIRIZZO1">
-          <End Type="GratisForGratisModel.INDIRIZZO" Role="INDIRIZZO" Multiplicity="0..1" />
-          <End Type="GratisForGratisModel.CORRIERE_SERVIZIO_SPEDIZIONE" Role="CORRIERE_SERVIZIO_SPEDIZIONE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="INDIRIZZO">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="CORRIERE_SERVIZIO_SPEDIZIONE">
-              <PropertyRef Name="ID_INDIRIZZO_DESTINATARIO" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9607,54 +9349,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Principal>
             <Dependent Role="RICERCA_OGGETTO_VIDEOGAMES">
               <PropertyRef Name="ID_GENERE" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OFFERTA_SPEDIZIONE_INDIRIZZO">
-          <End Type="GratisForGratisModel.INDIRIZZO" Role="INDIRIZZO" Multiplicity="1" />
-          <End Type="GratisForGratisModel.OFFERTA_SPEDIZIONE" Role="OFFERTA_SPEDIZIONE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="INDIRIZZO">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="OFFERTA_SPEDIZIONE">
-              <PropertyRef Name="ID_INDIRIZZO_DESTINATARIO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PERSONA_INDIRIZZO_INDIRIZZO">
-          <End Type="GratisForGratisModel.INDIRIZZO" Role="INDIRIZZO" Multiplicity="1" />
-          <End Type="GratisForGratisModel.PERSONA_INDIRIZZO" Role="PERSONA_INDIRIZZO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="INDIRIZZO">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PERSONA_INDIRIZZO">
-              <PropertyRef Name="ID_INDIRIZZO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PERSONA_METODO_PAGAMENTO_INDIRIZZO">
-          <End Type="GratisForGratisModel.INDIRIZZO" Role="INDIRIZZO" Multiplicity="0..1" />
-          <End Type="GratisForGratisModel.PERSONA_METODO_PAGAMENTO" Role="PERSONA_METODO_PAGAMENTO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="INDIRIZZO">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PERSONA_METODO_PAGAMENTO">
-              <PropertyRef Name="ID_INDIRIZZO_FATTURAZIONE" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_LOG_SBLOCCO_ANNUNCIO_PERSONA">
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
-          <End Type="GratisForGratisModel.LOG_SBLOCCO_ANNUNCIO" Role="LOG_SBLOCCO_ANNUNCIO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERSONA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="LOG_SBLOCCO_ANNUNCIO">
-              <PropertyRef Name="ID_UTENTE_SBLOCCO" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9934,30 +9628,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_NOTIFICA_PERSONA">
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
-          <End Type="GratisForGratisModel.NOTIFICA" Role="NOTIFICA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERSONA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="NOTIFICA">
-              <PropertyRef Name="ID_PERSONA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_NOTIFICA_PERSONA1">
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="0..1" />
-          <End Type="GratisForGratisModel.NOTIFICA" Role="NOTIFICA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERSONA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="NOTIFICA">
-              <PropertyRef Name="ID_PERSONA_DESTINATARIO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_OFFERTA_BARATTO_OFFERTA_BARATTO">
           <End Type="GratisForGratisModel.OFFERTA_BARATTO" Role="OFFERTA_BARATTO" Multiplicity="1" />
           <End Type="GratisForGratisModel.OFFERTA_BARATTO" Role="OFFERTA_BARATTO1" Multiplicity="0..1" />
@@ -10186,18 +9856,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OGGETTO_APPARTENENZA_PERSONA">
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
-          <End Type="GratisForGratisModel.OGGETTO_APPARTENENZA" Role="OGGETTO_APPARTENENZA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERSONA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="OGGETTO_APPARTENENZA">
-              <PropertyRef Name="ID_PERSONA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_OGGETTO_COMPUTER_SISTEMA_OPERATIVO">
           <End Type="GratisForGratisModel.SISTEMA_OPERATIVO" Role="SISTEMA_OPERATIVO" Multiplicity="0..1" />
           <End Type="GratisForGratisModel.OGGETTO_COMPUTER" Role="OGGETTO_COMPUTER" Multiplicity="*" />
@@ -10267,114 +9925,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Principal>
             <Dependent Role="OGGETTO_VIDEOGAMES">
               <PropertyRef Name="ID_PIATTAFORMA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PERSONA_ATTIVITA_PERSONA">
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
-          <End Type="GratisForGratisModel.PERSONA_ATTIVITA" Role="PERSONA_ATTIVITA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERSONA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PERSONA_ATTIVITA">
-              <PropertyRef Name="ID_PERSONA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PERSONA_EMAIL_PERSONA">
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
-          <End Type="GratisForGratisModel.PERSONA_EMAIL" Role="PERSONA_EMAIL" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERSONA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PERSONA_EMAIL">
-              <PropertyRef Name="ID_PERSONA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PERSONA_FOTO_PERSONA">
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
-          <End Type="GratisForGratisModel.PERSONA_FOTO" Role="PERSONA_FOTO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERSONA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PERSONA_FOTO">
-              <PropertyRef Name="ID_PERSONA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PERSONA_INDIRIZZO_PERSONA">
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
-          <End Type="GratisForGratisModel.PERSONA_INDIRIZZO" Role="PERSONA_INDIRIZZO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERSONA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PERSONA_INDIRIZZO">
-              <PropertyRef Name="ID_PERSONA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PERSONA_METODO_PAGAMENTO_PERSONA">
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
-          <End Type="GratisForGratisModel.PERSONA_METODO_PAGAMENTO" Role="PERSONA_METODO_PAGAMENTO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERSONA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PERSONA_METODO_PAGAMENTO">
-              <PropertyRef Name="ID_PERSONA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PERSONA_PRIVACY_PERSONA">
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
-          <End Type="GratisForGratisModel.PERSONA_PRIVACY" Role="PERSONA_PRIVACY" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERSONA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PERSONA_PRIVACY">
-              <PropertyRef Name="ID_PERSONA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PERSONA_RICERCA_PERSONA">
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
-          <End Type="GratisForGratisModel.PERSONA_RICERCA" Role="PERSONA_RICERCA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERSONA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PERSONA_RICERCA">
-              <PropertyRef Name="ID_PERSONA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PERSONA_SEGNALAZIONE_PERSONA">
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
-          <End Type="GratisForGratisModel.PERSONA_SEGNALAZIONE" Role="PERSONA_SEGNALAZIONE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERSONA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PERSONA_SEGNALAZIONE">
-              <PropertyRef Name="ID_PERSONA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PERSONA_TELEFONO_PERSONA">
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
-          <End Type="GratisForGratisModel.PERSONA_TELEFONO" Role="PERSONA_TELEFONO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERSONA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PERSONA_TELEFONO">
-              <PropertyRef Name="ID_PERSONA" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -10734,9 +10284,9 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <NavigationProperty Name="ATTIVITA" Relationship="GratisForGratisModel.FK_OFFERTA_ATTIVITA" FromRole="OFFERTA" ToRole="ATTIVITA" />
           <NavigationProperty Name="CONTO_CORRENTE_CREDITO" Relationship="GratisForGratisModel.FK_CONTO_CORRENTE_CREDITO_OFFERTA" FromRole="OFFERTA" ToRole="CONTO_CORRENTE_CREDITO" />
           <NavigationProperty Name="OFFERTA_BARATTO" Relationship="GratisForGratisModel.FK_OFFERTA_BARATTO_OFFERTA" FromRole="OFFERTA" ToRole="OFFERTA_BARATTO" />
-          <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_OFFERTA_PERSONA" FromRole="OFFERTA" ToRole="PERSONA" />
           <NavigationProperty Name="OFFERTA_SPEDIZIONE" Relationship="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_OFFERTA" FromRole="OFFERTA" ToRole="OFFERTA_SPEDIZIONE" />
           <NavigationProperty Name="TRANSAZIONE" Relationship="GratisForGratisModel.FK_OFFERTA_TRANSAZIONE" FromRole="OFFERTA" ToRole="TRANSAZIONE" />
+          <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_OFFERTA_PERSONA" FromRole="OFFERTA" ToRole="PERSONA" />
         </EntityType>
         <EntityType Name="TRANSAZIONE">
           <Key>
@@ -10884,18 +10434,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Principal>
             <Dependent Role="OFFERTA_BARATTO">
               <PropertyRef Name="ID_OFFERTA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OFFERTA_PERSONA">
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="0..1" />
-          <End Type="GratisForGratisModel.OFFERTA" Role="OFFERTA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERSONA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="OFFERTA">
-              <PropertyRef Name="ID_PERSONA" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -11059,6 +10597,468 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Principal>
             <Dependent Role="OFFERTA_SPEDIZIONE">
               <PropertyRef Name="ID_COMMISSIONE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="INDIRIZZO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_COMUNE" Type="Int32" Nullable="false" />
+          <Property Name="INDIRIZZO1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CIVICO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="SEZIONE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TIPOLOGIA" Type="Int32" Nullable="false" />
+          <Property Name="DATA_INSERIMENTO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_MODIFICA" Type="DateTime" Precision="3" />
+          <Property Name="STATO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ATTIVITA_INDIRIZZO" Relationship="GratisForGratisModel.FK_ATTIVITA_INDIRIZZO_INDIRIZZO" FromRole="INDIRIZZO" ToRole="ATTIVITA_INDIRIZZO" />
+          <NavigationProperty Name="COMUNE" Relationship="GratisForGratisModel.FK_INDIRIZZO_COMUNE" FromRole="INDIRIZZO" ToRole="COMUNE" />
+          <NavigationProperty Name="CORRIERE_PUNTO_SPEDIZIONE" Relationship="GratisForGratisModel.FK_CORRIERE_PUNTO_SPEDIZIONE_INDIRIZZO" FromRole="INDIRIZZO" ToRole="CORRIERE_PUNTO_SPEDIZIONE" />
+          <NavigationProperty Name="CORRIERE_SERVIZIO_SPEDIZIONE" Relationship="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_INDIRIZZO" FromRole="INDIRIZZO" ToRole="CORRIERE_SERVIZIO_SPEDIZIONE" />
+          <NavigationProperty Name="CORRIERE_SERVIZIO_SPEDIZIONE1" Relationship="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_INDIRIZZO1" FromRole="INDIRIZZO" ToRole="CORRIERE_SERVIZIO_SPEDIZIONE" />
+          <NavigationProperty Name="OFFERTA_SPEDIZIONE" Relationship="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_INDIRIZZO" FromRole="INDIRIZZO" ToRole="OFFERTA_SPEDIZIONE" />
+          <NavigationProperty Name="PERSONA_INDIRIZZO" Relationship="GratisForGratisModel.FK_PERSONA_INDIRIZZO_INDIRIZZO" FromRole="INDIRIZZO" ToRole="PERSONA_INDIRIZZO" />
+          <NavigationProperty Name="PERSONA_METODO_PAGAMENTO" Relationship="GratisForGratisModel.FK_PERSONA_METODO_PAGAMENTO_INDIRIZZO" FromRole="INDIRIZZO" ToRole="PERSONA_METODO_PAGAMENTO" />
+        </EntityType>
+        <Association Name="FK_ATTIVITA_INDIRIZZO_INDIRIZZO">
+          <End Type="GratisForGratisModel.INDIRIZZO" Role="INDIRIZZO" Multiplicity="1" />
+          <End Type="GratisForGratisModel.ATTIVITA_INDIRIZZO" Role="ATTIVITA_INDIRIZZO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="INDIRIZZO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ATTIVITA_INDIRIZZO">
+              <PropertyRef Name="ID_INDIRIZZO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INDIRIZZO_COMUNE">
+          <End Type="GratisForGratisModel.COMUNE" Role="COMUNE" Multiplicity="1" />
+          <End Type="GratisForGratisModel.INDIRIZZO" Role="INDIRIZZO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMUNE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="INDIRIZZO">
+              <PropertyRef Name="ID_COMUNE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CORRIERE_PUNTO_SPEDIZIONE_INDIRIZZO">
+          <End Type="GratisForGratisModel.INDIRIZZO" Role="INDIRIZZO" Multiplicity="1" />
+          <End Type="GratisForGratisModel.CORRIERE_PUNTO_SPEDIZIONE" Role="CORRIERE_PUNTO_SPEDIZIONE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="INDIRIZZO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CORRIERE_PUNTO_SPEDIZIONE">
+              <PropertyRef Name="ID_INDIRIZZO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CORRIERE_SERVIZIO_SPEDIZIONE_INDIRIZZO">
+          <End Type="GratisForGratisModel.INDIRIZZO" Role="INDIRIZZO" Multiplicity="0..1" />
+          <End Type="GratisForGratisModel.CORRIERE_SERVIZIO_SPEDIZIONE" Role="CORRIERE_SERVIZIO_SPEDIZIONE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="INDIRIZZO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CORRIERE_SERVIZIO_SPEDIZIONE">
+              <PropertyRef Name="ID_INDIRIZZO_MITTENTE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CORRIERE_SERVIZIO_SPEDIZIONE_INDIRIZZO1">
+          <End Type="GratisForGratisModel.INDIRIZZO" Role="INDIRIZZO" Multiplicity="0..1" />
+          <End Type="GratisForGratisModel.CORRIERE_SERVIZIO_SPEDIZIONE" Role="CORRIERE_SERVIZIO_SPEDIZIONE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="INDIRIZZO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CORRIERE_SERVIZIO_SPEDIZIONE">
+              <PropertyRef Name="ID_INDIRIZZO_DESTINATARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OFFERTA_SPEDIZIONE_INDIRIZZO">
+          <End Type="GratisForGratisModel.INDIRIZZO" Role="INDIRIZZO" Multiplicity="1" />
+          <End Type="GratisForGratisModel.OFFERTA_SPEDIZIONE" Role="OFFERTA_SPEDIZIONE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="INDIRIZZO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OFFERTA_SPEDIZIONE">
+              <PropertyRef Name="ID_INDIRIZZO_DESTINATARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERSONA_INDIRIZZO_INDIRIZZO">
+          <End Type="GratisForGratisModel.INDIRIZZO" Role="INDIRIZZO" Multiplicity="1" />
+          <End Type="GratisForGratisModel.PERSONA_INDIRIZZO" Role="PERSONA_INDIRIZZO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="INDIRIZZO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PERSONA_INDIRIZZO">
+              <PropertyRef Name="ID_INDIRIZZO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERSONA_METODO_PAGAMENTO_INDIRIZZO">
+          <End Type="GratisForGratisModel.INDIRIZZO" Role="INDIRIZZO" Multiplicity="0..1" />
+          <End Type="GratisForGratisModel.PERSONA_METODO_PAGAMENTO" Role="PERSONA_METODO_PAGAMENTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="INDIRIZZO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PERSONA_METODO_PAGAMENTO">
+              <PropertyRef Name="ID_INDIRIZZO_FATTURAZIONE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PERSONA">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TOKEN" Type="Guid" Nullable="false" />
+          <Property Name="ID_CONTO_CORRENTE" Type="Guid" Nullable="false" />
+          <Property Name="PASSWORD" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="TOKEN_PASSWORD" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FACEBOOK_TOKEN_PERMANENTE" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="FACEBOOK_TOKEN_SESSIONE" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="NOME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="COGNOME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ID_ABBONAMENTO" Type="Int32" Nullable="false" />
+          <Property Name="DATA_INSERIMENTO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_ACCESSO" Type="DateTime" Precision="3" />
+          <Property Name="DATA_MODIFICA" Type="DateTime" Precision="3" />
+          <Property Name="STATO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ABBONAMENTO" Relationship="GratisForGratisModel.FK_PERSONA_ABBONAMENTO" FromRole="PERSONA" ToRole="ABBONAMENTO" />
+          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_PERSONA" FromRole="PERSONA" ToRole="ANNUNCIO" />
+          <NavigationProperty Name="ANNUNCIO1" Relationship="GratisForGratisModel.FK_ANNUNCIO_PERSONA1" FromRole="PERSONA" ToRole="ANNUNCIO" />
+          <NavigationProperty Name="ANNUNCIO_CARRELLO" Relationship="GratisForGratisModel.FK_ANNUNCIO_CARRELLO_PERSONA" FromRole="PERSONA" ToRole="ANNUNCIO_CARRELLO" />
+          <NavigationProperty Name="ANNUNCIO_CLICK" Relationship="GratisForGratisModel.FK_ANNUNCIO_CLICK_PERSONA" FromRole="PERSONA" ToRole="ANNUNCIO_CLICK" />
+          <NavigationProperty Name="ANNUNCIO_DESIDERATO" Relationship="GratisForGratisModel.FK_ANNUNCIO_DESIDERATO_PERSONA" FromRole="PERSONA" ToRole="ANNUNCIO_DESIDERATO" />
+          <NavigationProperty Name="ANNUNCIO_FEEDBACK" Relationship="GratisForGratisModel.FK_ANNUNCIO_FEEDBACK_PERSONA" FromRole="PERSONA" ToRole="ANNUNCIO_FEEDBACK" />
+          <NavigationProperty Name="ANNUNCIO_VISUALIZZAZIONE" Relationship="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_PERSONA" FromRole="PERSONA" ToRole="ANNUNCIO_VISUALIZZAZIONE" />
+          <NavigationProperty Name="CHAT" Relationship="GratisForGratisModel.FK_CHAT_PERSONA" FromRole="PERSONA" ToRole="CHAT" />
+          <NavigationProperty Name="CHAT1" Relationship="GratisForGratisModel.FK_CHAT_PERSONA1" FromRole="PERSONA" ToRole="CHAT" />
+          <NavigationProperty Name="CONTO_CORRENTE" Relationship="GratisForGratisModel.FK_PERSONA_CONTO_CORRENTE" FromRole="PERSONA" ToRole="CONTO_CORRENTE" />
+          <NavigationProperty Name="LOG_SBLOCCO_ANNUNCIO" Relationship="GratisForGratisModel.FK_LOG_SBLOCCO_ANNUNCIO_PERSONA" FromRole="PERSONA" ToRole="LOG_SBLOCCO_ANNUNCIO" />
+          <NavigationProperty Name="NOTIFICA" Relationship="GratisForGratisModel.FK_NOTIFICA_PERSONA" FromRole="PERSONA" ToRole="NOTIFICA" />
+          <NavigationProperty Name="NOTIFICA1" Relationship="GratisForGratisModel.FK_NOTIFICA_PERSONA1" FromRole="PERSONA" ToRole="NOTIFICA" />
+          <NavigationProperty Name="OFFERTA" Relationship="GratisForGratisModel.FK_OFFERTA_PERSONA" FromRole="PERSONA" ToRole="OFFERTA" />
+          <NavigationProperty Name="OGGETTO_APPARTENENZA" Relationship="GratisForGratisModel.FK_OGGETTO_APPARTENENZA_PERSONA" FromRole="PERSONA" ToRole="OGGETTO_APPARTENENZA" />
+          <NavigationProperty Name="PERSONA_ATTIVITA" Relationship="GratisForGratisModel.FK_PERSONA_ATTIVITA_PERSONA" FromRole="PERSONA" ToRole="PERSONA_ATTIVITA" />
+          <NavigationProperty Name="PERSONA_EMAIL" Relationship="GratisForGratisModel.FK_PERSONA_EMAIL_PERSONA" FromRole="PERSONA" ToRole="PERSONA_EMAIL" />
+          <NavigationProperty Name="PERSONA_FOTO" Relationship="GratisForGratisModel.FK_PERSONA_FOTO_PERSONA" FromRole="PERSONA" ToRole="PERSONA_FOTO" />
+          <NavigationProperty Name="PERSONA_INDIRIZZO" Relationship="GratisForGratisModel.FK_PERSONA_INDIRIZZO_PERSONA" FromRole="PERSONA" ToRole="PERSONA_INDIRIZZO" />
+          <NavigationProperty Name="PERSONA_METODO_PAGAMENTO" Relationship="GratisForGratisModel.FK_PERSONA_METODO_PAGAMENTO_PERSONA" FromRole="PERSONA" ToRole="PERSONA_METODO_PAGAMENTO" />
+          <NavigationProperty Name="PERSONA_PRIVACY" Relationship="GratisForGratisModel.FK_PERSONA_PRIVACY_PERSONA" FromRole="PERSONA" ToRole="PERSONA_PRIVACY" />
+          <NavigationProperty Name="PERSONA_RICERCA" Relationship="GratisForGratisModel.FK_PERSONA_RICERCA_PERSONA" FromRole="PERSONA" ToRole="PERSONA_RICERCA" />
+          <NavigationProperty Name="PERSONA_SEGNALAZIONE" Relationship="GratisForGratisModel.FK_PERSONA_SEGNALAZIONE_PERSONA" FromRole="PERSONA" ToRole="PERSONA_SEGNALAZIONE" />
+          <NavigationProperty Name="PERSONA_TELEFONO" Relationship="GratisForGratisModel.FK_PERSONA_TELEFONO_PERSONA" FromRole="PERSONA" ToRole="PERSONA_TELEFONO" />
+        </EntityType>
+        <Association Name="FK_PERSONA_ABBONAMENTO">
+          <End Type="GratisForGratisModel.ABBONAMENTO" Role="ABBONAMENTO" Multiplicity="1" />
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ABBONAMENTO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PERSONA">
+              <PropertyRef Name="ID_ABBONAMENTO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ANNUNCIO_PERSONA">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO">
+              <PropertyRef Name="ID_PERSONA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ANNUNCIO_PERSONA1">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="0..1" />
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO">
+              <PropertyRef Name="ID_COMPRATORE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ANNUNCIO_CARRELLO_PERSONA">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
+          <End Type="GratisForGratisModel.ANNUNCIO_CARRELLO" Role="ANNUNCIO_CARRELLO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO_CARRELLO">
+              <PropertyRef Name="ID_UTENTE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ANNUNCIO_CLICK_PERSONA">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="0..1" />
+          <End Type="GratisForGratisModel.ANNUNCIO_CLICK" Role="ANNUNCIO_CLICK" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO_CLICK">
+              <PropertyRef Name="ID_PERSONA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ANNUNCIO_DESIDERATO_PERSONA">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
+          <End Type="GratisForGratisModel.ANNUNCIO_DESIDERATO" Role="ANNUNCIO_DESIDERATO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO_DESIDERATO">
+              <PropertyRef Name="ID_PERSONA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ANNUNCIO_FEEDBACK_PERSONA">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
+          <End Type="GratisForGratisModel.ANNUNCIO_FEEDBACK" Role="ANNUNCIO_FEEDBACK" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO_FEEDBACK">
+              <PropertyRef Name="ID_VOTANTE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ANNUNCIO_VISUALIZZAZIONE_PERSONA">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="0..1" />
+          <End Type="GratisForGratisModel.ANNUNCIO_VISUALIZZAZIONE" Role="ANNUNCIO_VISUALIZZAZIONE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO_VISUALIZZAZIONE">
+              <PropertyRef Name="ID_PERSONA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CHAT_PERSONA">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
+          <End Type="GratisForGratisModel.CHAT" Role="CHAT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CHAT">
+              <PropertyRef Name="ID_MITTENTE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CHAT_PERSONA1">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
+          <End Type="GratisForGratisModel.CHAT" Role="CHAT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CHAT">
+              <PropertyRef Name="ID_DESTINATARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERSONA_CONTO_CORRENTE">
+          <End Type="GratisForGratisModel.CONTO_CORRENTE" Role="CONTO_CORRENTE" Multiplicity="1" />
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CONTO_CORRENTE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PERSONA">
+              <PropertyRef Name="ID_CONTO_CORRENTE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LOG_SBLOCCO_ANNUNCIO_PERSONA">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
+          <End Type="GratisForGratisModel.LOG_SBLOCCO_ANNUNCIO" Role="LOG_SBLOCCO_ANNUNCIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LOG_SBLOCCO_ANNUNCIO">
+              <PropertyRef Name="ID_UTENTE_SBLOCCO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NOTIFICA_PERSONA">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
+          <End Type="GratisForGratisModel.NOTIFICA" Role="NOTIFICA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="NOTIFICA">
+              <PropertyRef Name="ID_PERSONA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NOTIFICA_PERSONA1">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="0..1" />
+          <End Type="GratisForGratisModel.NOTIFICA" Role="NOTIFICA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="NOTIFICA">
+              <PropertyRef Name="ID_PERSONA_DESTINATARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OFFERTA_PERSONA">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="0..1" />
+          <End Type="GratisForGratisModel.OFFERTA" Role="OFFERTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OFFERTA">
+              <PropertyRef Name="ID_PERSONA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OGGETTO_APPARTENENZA_PERSONA">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
+          <End Type="GratisForGratisModel.OGGETTO_APPARTENENZA" Role="OGGETTO_APPARTENENZA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OGGETTO_APPARTENENZA">
+              <PropertyRef Name="ID_PERSONA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERSONA_ATTIVITA_PERSONA">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
+          <End Type="GratisForGratisModel.PERSONA_ATTIVITA" Role="PERSONA_ATTIVITA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PERSONA_ATTIVITA">
+              <PropertyRef Name="ID_PERSONA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERSONA_EMAIL_PERSONA">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
+          <End Type="GratisForGratisModel.PERSONA_EMAIL" Role="PERSONA_EMAIL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PERSONA_EMAIL">
+              <PropertyRef Name="ID_PERSONA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERSONA_FOTO_PERSONA">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
+          <End Type="GratisForGratisModel.PERSONA_FOTO" Role="PERSONA_FOTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PERSONA_FOTO">
+              <PropertyRef Name="ID_PERSONA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERSONA_INDIRIZZO_PERSONA">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
+          <End Type="GratisForGratisModel.PERSONA_INDIRIZZO" Role="PERSONA_INDIRIZZO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PERSONA_INDIRIZZO">
+              <PropertyRef Name="ID_PERSONA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERSONA_METODO_PAGAMENTO_PERSONA">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
+          <End Type="GratisForGratisModel.PERSONA_METODO_PAGAMENTO" Role="PERSONA_METODO_PAGAMENTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PERSONA_METODO_PAGAMENTO">
+              <PropertyRef Name="ID_PERSONA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERSONA_PRIVACY_PERSONA">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
+          <End Type="GratisForGratisModel.PERSONA_PRIVACY" Role="PERSONA_PRIVACY" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PERSONA_PRIVACY">
+              <PropertyRef Name="ID_PERSONA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERSONA_RICERCA_PERSONA">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
+          <End Type="GratisForGratisModel.PERSONA_RICERCA" Role="PERSONA_RICERCA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PERSONA_RICERCA">
+              <PropertyRef Name="ID_PERSONA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERSONA_SEGNALAZIONE_PERSONA">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
+          <End Type="GratisForGratisModel.PERSONA_SEGNALAZIONE" Role="PERSONA_SEGNALAZIONE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PERSONA_SEGNALAZIONE">
+              <PropertyRef Name="ID_PERSONA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERSONA_TELEFONO_PERSONA">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
+          <End Type="GratisForGratisModel.PERSONA_TELEFONO" Role="PERSONA_TELEFONO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PERSONA_TELEFONO">
+              <PropertyRef Name="ID_PERSONA" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -11690,21 +11690,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="INDIRIZZO">
-            <EntityTypeMapping TypeName="GratisForGratisModel.INDIRIZZO">
-              <MappingFragment StoreEntitySet="INDIRIZZO">
-                <ScalarProperty Name="STATO" ColumnName="STATO" />
-                <ScalarProperty Name="DATA_MODIFICA" ColumnName="DATA_MODIFICA" />
-                <ScalarProperty Name="DATA_INSERIMENTO" ColumnName="DATA_INSERIMENTO" />
-                <ScalarProperty Name="TIPOLOGIA" ColumnName="TIPOLOGIA" />
-                <ScalarProperty Name="SEZIONE" ColumnName="SEZIONE" />
-                <ScalarProperty Name="CIVICO" ColumnName="CIVICO" />
-                <ScalarProperty Name="INDIRIZZO1" ColumnName="INDIRIZZO" />
-                <ScalarProperty Name="ID_COMUNE" ColumnName="ID_COMUNE" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="LOG_ERRORE">
             <EntityTypeMapping TypeName="GratisForGratisModel.LOG_ERRORE">
               <MappingFragment StoreEntitySet="LOG_ERRORE">
@@ -12031,26 +12016,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
                 <ScalarProperty Name="ID_GENERE" ColumnName="ID_GENERE" />
                 <ScalarProperty Name="ID_PIATTAFORMA" ColumnName="ID_PIATTAFORMA" />
                 <ScalarProperty Name="ID_OGGETTO" ColumnName="ID_OGGETTO" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PERSONA">
-            <EntityTypeMapping TypeName="GratisForGratisModel.PERSONA">
-              <MappingFragment StoreEntitySet="PERSONA">
-                <ScalarProperty Name="STATO" ColumnName="STATO" />
-                <ScalarProperty Name="DATA_MODIFICA" ColumnName="DATA_MODIFICA" />
-                <ScalarProperty Name="DATA_ACCESSO" ColumnName="DATA_ACCESSO" />
-                <ScalarProperty Name="DATA_INSERIMENTO" ColumnName="DATA_INSERIMENTO" />
-                <ScalarProperty Name="ID_ABBONAMENTO" ColumnName="ID_ABBONAMENTO" />
-                <ScalarProperty Name="COGNOME" ColumnName="COGNOME" />
-                <ScalarProperty Name="NOME" ColumnName="NOME" />
-                <ScalarProperty Name="FACEBOOK_TOKEN_SESSIONE" ColumnName="FACEBOOK_TOKEN_SESSIONE" />
-                <ScalarProperty Name="FACEBOOK_TOKEN_PERMANENTE" ColumnName="FACEBOOK_TOKEN_PERMANENTE" />
-                <ScalarProperty Name="TOKEN_PASSWORD" ColumnName="TOKEN_PASSWORD" />
-                <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
-                <ScalarProperty Name="ID_CONTO_CORRENTE" ColumnName="ID_CONTO_CORRENTE" />
-                <ScalarProperty Name="TOKEN" ColumnName="TOKEN" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -12723,6 +12688,41 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
                 <ScalarProperty Name="DATA_INSERIMENTO" ColumnName="DATA_INSERIMENTO" />
                 <ScalarProperty Name="TIPO" ColumnName="TIPO" />
                 <ScalarProperty Name="PERCENTUALE" ColumnName="PERCENTUALE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="INDIRIZZO">
+            <EntityTypeMapping TypeName="GratisForGratisModel.INDIRIZZO">
+              <MappingFragment StoreEntitySet="INDIRIZZO">
+                <ScalarProperty Name="STATO" ColumnName="STATO" />
+                <ScalarProperty Name="DATA_MODIFICA" ColumnName="DATA_MODIFICA" />
+                <ScalarProperty Name="DATA_INSERIMENTO" ColumnName="DATA_INSERIMENTO" />
+                <ScalarProperty Name="TIPOLOGIA" ColumnName="TIPOLOGIA" />
+                <ScalarProperty Name="SEZIONE" ColumnName="SEZIONE" />
+                <ScalarProperty Name="CIVICO" ColumnName="CIVICO" />
+                <ScalarProperty Name="INDIRIZZO1" ColumnName="INDIRIZZO" />
+                <ScalarProperty Name="ID_COMUNE" ColumnName="ID_COMUNE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PERSONA">
+            <EntityTypeMapping TypeName="GratisForGratisModel.PERSONA">
+              <MappingFragment StoreEntitySet="PERSONA">
+                <ScalarProperty Name="STATO" ColumnName="STATO" />
+                <ScalarProperty Name="DATA_MODIFICA" ColumnName="DATA_MODIFICA" />
+                <ScalarProperty Name="DATA_ACCESSO" ColumnName="DATA_ACCESSO" />
+                <ScalarProperty Name="DATA_INSERIMENTO" ColumnName="DATA_INSERIMENTO" />
+                <ScalarProperty Name="ID_ABBONAMENTO" ColumnName="ID_ABBONAMENTO" />
+                <ScalarProperty Name="COGNOME" ColumnName="COGNOME" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="FACEBOOK_TOKEN_SESSIONE" ColumnName="FACEBOOK_TOKEN_SESSIONE" />
+                <ScalarProperty Name="FACEBOOK_TOKEN_PERMANENTE" ColumnName="FACEBOOK_TOKEN_PERMANENTE" />
+                <ScalarProperty Name="TOKEN_PASSWORD" ColumnName="TOKEN_PASSWORD" />
+                <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
+                <ScalarProperty Name="ID_CONTO_CORRENTE" ColumnName="ID_CONTO_CORRENTE" />
+                <ScalarProperty Name="TOKEN" ColumnName="TOKEN" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

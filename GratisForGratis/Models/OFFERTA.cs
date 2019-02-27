@@ -44,9 +44,9 @@ namespace GratisForGratis.Models
         public virtual ICollection<CONTO_CORRENTE_CREDITO> CONTO_CORRENTE_CREDITO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OFFERTA_BARATTO> OFFERTA_BARATTO { get; set; }
-        public virtual PERSONA PERSONA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OFFERTA_SPEDIZIONE> OFFERTA_SPEDIZIONE { get; set; }
         public virtual TRANSAZIONE TRANSAZIONE { get; set; }
+        public virtual PERSONA PERSONA { get; set; }
     }
 }

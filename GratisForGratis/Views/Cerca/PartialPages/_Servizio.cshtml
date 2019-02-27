@@ -24,9 +24,10 @@
                 </div>
                 <div class="right">
                     <h5 class="category">
-                        <!--<strong>@Language.Category : </strong> -->
-                        <img class="glyphicon category" src="@Url.Content("~/Images/Icone/category.svg")" alt="@Language.Category" />
-                        <span class="evidence">@servizio.Categoria</span>
+                        <a href="@Url.Action(servizio.Categoria,"servizi", new { categoria = servizio.CategoriaID })" title="@servizio.Categoria">
+                            <img class="glyphicon category" src="@Url.Content("~/Images/Icone/category.svg")" alt="@Language.Category" />
+                            <span class="evidence">@servizio.Categoria</span>
+                        </a>
                     </h5>
                     <h5 class="points">
                         <img class="glyphicon happyCoin" src="@Url.Content("~/Images/Icone/happyCoin.svg")" alt="@Language.Moneta" />

@@ -28,7 +28,7 @@ namespace GratisForGratis.Controllers
             // setta i cookie principali
             HttpCookie cookie = HttpContext.Request.Cookies.Get("ricerca");
             List<FINDSOTTOCATEGORIE_Result> categorie = HttpContext.Application["categorie"] as List<FINDSOTTOCATEGORIE_Result>;
-            var categoria = categorie.Where(c => c.ID == cerca.Cerca_IDCategoria || c.DESCRIZIONE == cerca.Cerca_Categoria)
+            var categoria = categorie.Where(c => c.ID == cerca.Cerca_IDCategoria || (cerca.Cerca_IDCategoria <= 0 && c.DESCRIZIONE == cerca.Cerca_Categoria))
                 .OrderBy(c => c.LIVELLO).OrderBy(c => c.ID_PADRE)
                 .FirstOrDefault();
             try

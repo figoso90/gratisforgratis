@@ -121,27 +121,27 @@
     <value>Il primo e-commerce che non vende, ma regala!</value>
   </data>
   <data name="DescriptionContatti" xml:space="preserve">
-    <value>Hai dei dubbi o vuoi partecipare con noi a quest'avventura? Inviaci una richiesta di colloquio. Amiamo la partecipazione sociale.</value>
+    <value>Hai dei dubbi o hai bisogno di assistenza? Saremo a tua disposizione per risponderti</value>
   </data>
   <data name="DescriptionCosaFacciamo" xml:space="preserve">
-    <value>{0} elimina disuguaglianze, rivaluta l'usato e rivaluta le qualità personali dell'individuo. Proponiamo un motore sociale per la crescita.</value>
+    <value>Siamo un gruppo di persone che sognano di realizzare un sistema economico basato sulla felicità delle persone. Abbiamo pensato ad una moneta in grado di generarsi in base a quanto una persona nel sistema renda felice un’altra persona e abbiamo pensato ad un sistema economico che fosse equilibrato e circolare, imitando il sistema naturale delle cose.</value>
   </data>
   <data name="DescriptionHome" xml:space="preserve">
     <value>Acquista gratuitamente gli oggetti che desideri. Compra servizi personali, aziendali o domestici e aumenta il tuo tempo libero.</value>
   </data>
-  <data name="DescriptionPartners" xml:space="preserve">
+  <data name="DescriptionPartnership" xml:space="preserve">
     <value>Ecco l'elenco delle grandi realtà che hanno deciso di incamminarsi insieme a noi! Progetti che migliorano la persona e il gruppo sociale.</value>
   </data>
   <data name="KeywordsContatti" xml:space="preserve">
-    <value>Contatti, dubbi, partecipare, partecipazione sociale, inviaci un tuo contatto</value>
+    <value>Contatti, dubbi, assistenza, problemi</value>
   </data>
   <data name="KeywordsCosaFacciamo" xml:space="preserve">
-    <value>Elimina le disuguaglianze, rivaluta oggetto, rivaluta servizi, crescita umana, spazio culturale, rinnovo dei beni</value>
+    <value>economia circolare, decrescita felice, moneta virtuale, baratto, vendita, economia alternativa, economia parallela</value>
   </data>
   <data name="KeywordsHome" xml:space="preserve">
     <value>Compra gratis, acquista gratuitamente, oggetti, compra servizi, compra arredamento,compra abbigliamento, compra musica, compra giochi, compra sport e tempo libero, compra elettronica, compra videoteca, compra cartoleria e libreria, compra veicoli, compra fai da te, compra servizi domestici, compra servizi aziendali, compra servizi per la persona</value>
   </data>
-  <data name="KeywordsPartners" xml:space="preserve">
+  <data name="KeywordsPartnership" xml:space="preserve">
     <value>Grandi realtà, miglioramento della persona, gruppo sociale, Jadenka, DavideMilitano, PsicologiADomicilio, AvvocatoClick, Totallympics, CultID Studio</value>
   </data>
   <data name="DescriptionPrivacy" xml:space="preserve">
@@ -196,7 +196,7 @@
     <value>Tutto gratis! oggetti e servizi gratis con gli {0}!</value>
   </data>
   <data name="TitleOnlineMoney" xml:space="preserve">
-    <value>Una nuovissima e unica moneta virtuale!</value>
+    <value>Happy-Coin la criptovaluta della felicità</value>
   </data>
   <data name="DescriptionSiteWeb" xml:space="preserve">
     <value>Siti web di utilità sociale ed umana</value>
@@ -227,5 +227,158 @@
   </data>
   <data name="DescriptionSearchSave" xml:space="preserve">
     <value>Potrai annullare la ricerca dal link presente nelle mail di notifica che riceverai oppure, se possiedi un profilo d'accesso, direttamente dalla tua area privata.</value>
+  </data>
+  <data name="DescriptionFreeCircuit" xml:space="preserve">
+    <value>Facciamo parte di un circuito di realtà che realizzano portali online che offrono beni o servizi gratuiti</value>
+  </data>
+  <data name="DescriptionSecurity" xml:space="preserve">
+    <value>La sicurezza è un concetto importante per una moneta virtuale, anche se il sito da la possibilità di non concentrarsi troppo sulla disponibilità di denaro in quanto questo è facilmente riguadagnabile.</value>
+  </data>
+  <data name="DescriptionShipment" xml:space="preserve">
+    <value>La scelta della spedizione è la nostra forza: il primo portale di economia alternativa che ti permettere di effettuare lo scambio a mano o tramite corriere.</value>
+  </data>
+  <data name="DescriptionWhySite" xml:space="preserve">
+    <value>GratisForGratis propone una realtà economica alternativa a quella attuale, dove la felicità sia il fattore di crescita principale.</value>
+  </data>
+  <data name="KeywordsFreeCircuit" xml:space="preserve">
+    <value>Circuito del gratis, beni gratis, servizi gratis, portali online</value>
+  </data>
+  <data name="KeywordsSecurity" xml:space="preserve">
+    <value>Sicurezza, moneta virtuale, guadagnare facilmente, criptovaluta, algoritmo criptato</value>
+  </data>
+  <data name="KeywordsShipment" xml:space="preserve">
+    <value>Scambio a mano, Spedizione con corriere privato, Corriere del sito, primo portale</value>
+  </data>
+  <data name="KeywordsWhySite" xml:space="preserve">
+    <value>scegliere gratisforgratis, realtà economica alternativa, felicità, economia parallela</value>
+  </data>
+  <data name="TitleContacts" xml:space="preserve">
+    <value>Assistenza / Contatti</value>
+  </data>
+  <data name="TitleFreeCircuit" xml:space="preserve">
+    <value>Circuito del gratis</value>
+  </data>
+  <data name="TitleHowWork" xml:space="preserve">
+    <value>Come Funziona</value>
+  </data>
+  <data name="TitlePartnership" xml:space="preserve">
+    <value>Partnership importanti</value>
+  </data>
+  <data name="TitlePrivacy" xml:space="preserve">
+    <value>Privacy</value>
+  </data>
+  <data name="TitleSecurity" xml:space="preserve">
+    <value>Sicurezza</value>
+  </data>
+  <data name="TitleShipment" xml:space="preserve">
+    <value>Come spedire</value>
+  </data>
+  <data name="TitleWhySite" xml:space="preserve">
+    <value>Perchè scegliere GratisForGratis</value>
+  </data>
+  <data name="DescriptionBarter" xml:space="preserve">
+    <value>Barattare online non è ritornare indietro ma andare avanti, tramite il baratto asincrono e multilaterale.</value>
+  </data>
+  <data name="DescriptionBarterAsync" xml:space="preserve">
+    <value>Barattare online ti permette di dare via oggetti che non ti servono più e ricevere gli oggetti che desideri solo quando ne hai bisogno.</value>
+  </data>
+  <data name="DescriptionBarterMultilateral" xml:space="preserve">
+    <value>Il baratto online è la soluzione più indicata per poter commerciare senza il bisogno di spendere soldi reali</value>
+  </data>
+  <data name="DescriptionBitCoin" xml:space="preserve">
+    <value>Una criptovaluta che si diversifica dalla moneta reale per il suo decentramento</value>
+  </data>
+  <data name="DescriptionCircularEconomy" xml:space="preserve">
+    <value>Un'economia che guarda avanti e rispecchia lo stesso sistema che viene usato nello spazio dagli astronauti, gli scarti vengono riutilizzati per riprodurre cose nuove.</value>
+  </data>
+  <data name="DescriptionFunding" xml:space="preserve">
+    <value>Siamo in costante ricerca di finanziamenti in quanto il nostro progetto non mira al profitto e ogni azione viene pensata per il benessere della persona e non al guadagno.</value>
+  </data>
+  <data name="DescriptionHappyDegrowth" xml:space="preserve">
+    <value>La decrescita felice è un sistema che punta ad un economia che incentiva e fa "guadagnare" chi produce di meno ma riesce ad offrire maggiori beni e servizi</value>
+  </data>
+  <data name="DescriptionHappyPeople" xml:space="preserve">
+    <value>I nostri iscritti sono HappyPeople ovvero vengono descritte persone felici, in quanto fanno parte di un circuito che si basa sulle "buone" azioni fatte.</value>
+  </data>
+  <data name="DescriptionHowEarn" xml:space="preserve">
+    <value>Il guadagno sul nostro circuito avviene con moltissime modalità, tutte illustrate nella proprio home page</value>
+  </data>
+  <data name="DescriptionMission" xml:space="preserve">
+    <value>La mission di GratisForGratis è migliorare il benessere materiale ma prima di tutto mentale delle persone, siamo alla costante ricerca della felicità</value>
+  </data>
+  <data name="DescriptionOnlineMoney" xml:space="preserve">
+    <value>La criptovaluta che basa il proprio potere di acquisto sulla felicità delle persone.</value>
+  </data>
+  <data name="DescriptionTeam" xml:space="preserve">
+    <value>Il team di GratisForGratis nasce dal desiderio di cambiare il sistema economico attuale, dal volerlo migliorare e far evolvere in un'economia pensata per la persona</value>
+  </data>
+  <data name="KeywordsBarter" xml:space="preserve">
+    <value>Baratto Asincrono, Baratto Multilaterale, Baratto oggetto, Baratto servizio, Baratto bene, Baratto online</value>
+  </data>
+  <data name="KeywordsBarterAsync" xml:space="preserve">
+    <value>Baratto asincrono, Baratto asincrono oggetto, Baratto asincrono servizio, Baratto asincrono online</value>
+  </data>
+  <data name="KeywordsBarterMultilateral" xml:space="preserve">
+    <value>Baratto multilaterale, Baratto online, Commercio online</value>
+  </data>
+  <data name="KeywordsBitCoin" xml:space="preserve">
+    <value>Criptovaluta, Moneta reale, Decentramento, Valuta criptata</value>
+  </data>
+  <data name="KeywordsCircularEconomy" xml:space="preserve">
+    <value>Economia circolare, riutilizzo, riuso, Sistema spaziale</value>
+  </data>
+  <data name="KeywordsFunding" xml:space="preserve">
+    <value>Finanziamento, No-Profit, Nessun guadagno, Crowdfunding, Fondo perduto</value>
+  </data>
+  <data name="KeywordsHappyDegrowth" xml:space="preserve">
+    <value>Decrescita felice, Produrre di meno, Offrire beni, Offrire servizi, Incentivare</value>
+  </data>
+  <data name="KeywordsHappyPeople" xml:space="preserve">
+    <value>HappyPeople, iscritti, persone felici, guadagno veloce</value>
+  </data>
+  <data name="KeywordsHowEarn" xml:space="preserve">
+    <value>Guadagno, Circuito felice, Modalità di guadagno, Registrazione, Pubblicazione, Feedback, Chat, Segnalazione bug</value>
+  </data>
+  <data name="KeywordsMission" xml:space="preserve">
+    <value>Mission GratisForGratis, Benessere, Felicità, Miglioramento sociale</value>
+  </data>
+  <data name="KeywordsOnlineMoney" xml:space="preserve">
+    <value>Criptovaluta, Happy-Coin, felicità, moneta virtuale, moneta online</value>
+  </data>
+  <data name="KeywordsTeam" xml:space="preserve">
+    <value>Team GratisForGratis, Cambiare sistema economico, Persona al centro, Sogno economico</value>
+  </data>
+  <data name="TitleBarter" xml:space="preserve">
+    <value>Baratta oggetti, baratta servizi comodamente da casa tua!</value>
+  </data>
+  <data name="TitleBarterAsync" xml:space="preserve">
+    <value>Baratta oggetti e servizi in modo asincrono!</value>
+  </data>
+  <data name="TitleBarterMultilateral" xml:space="preserve">
+    <value>Baratto multilaterale online!</value>
+  </data>
+  <data name="TitleBitCoin" xml:space="preserve">
+    <value>BitCoin la criptovaluta del momento</value>
+  </data>
+  <data name="TitleCircularEconomy" xml:space="preserve">
+    <value>Economia circolare</value>
+  </data>
+  <data name="TitleFunding" xml:space="preserve">
+    <value>Ricerca di finanziamenti</value>
+  </data>
+  <data name="TitleHappyDegrowth" xml:space="preserve">
+    <value>Decrescita felice</value>
+  </data>
+  <data name="TitleHappyPeople" xml:space="preserve">
+    <value>Happy People (persone felici)</value>
+  </data>
+  <data name="TitleHowEarn" xml:space="preserve">
+    <value>Come guadagnare sul portale</value>
+  </data>
+  <data name="TitleMission" xml:space="preserve">
+    <value>La nostra missione</value>
+  </data>
+  <data name="TitleTeam" xml:space="preserve">
+    <value>Il team per un sogno</value>
   </data>
 </root>

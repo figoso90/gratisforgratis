@@ -17,6 +17,7 @@
     <meta name="msvalidate.01" content="226F39118B8B7D348C07F1D8FEC695BD" />
     <title>@((ViewBag.Title != null) ? ViewBag.Title : MetaTag.TitleGeneric) - @WebConfigurationManager.AppSettings["nomeSito"]</title>
 
+    <link href="https://fonts.googleapis.com/css?family=Gochi+Hand" rel="stylesheet">
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     @Styles.Render("~/Content/JqueryUI/jquery-ui.min.css")
@@ -76,14 +77,20 @@
                 <li role="presentation" class="register">
                     @Html.ActionLink(Language.Register, "Registrazione", "Utente")
                 </li>
+                <li role="presentation" class="register loginFacebook">
+                    <a class="col-md-9 col-md-push-2 btn btn-primary loginFB" href="@Url.Action("LoginFacebook", "Utente", new { ReturnUrl = (Model == null || Model.GetType().GetProperty("ReturnUrl") == null || string.IsNullOrWhiteSpace(Model.ReturnUrl) ? "" : Model.ReturnUrl) })">
+                        <img src="https://facebookbrand.com/wp-content/uploads/2016/05/flogo_rgb_hex-brc-site-250.png?w=125&h=125" />
+                        @ViewModel.LoginFacebook
+                    </a>
+                </li>
+                <li role="presentation" class="mission">
+                    @Html.ActionLink(ViewModel.MissionLink, "Missione", "Home")
+                </li>
                 <li role="presentation" class="whatido">
-                    @Html.ActionLink(Language.TitleHowWork, "ComeFunziona", "Home")
+                    @Html.ActionLink(ViewModel.HowWorkLink, "ComeFunziona", "Home")
                 </li>
-                <li role="presentation" class="siteWeb">
-                    @Html.ActionLink(Language.OurPartners, "Partners", "Home")
-                </li>
-                <li role="presentation" class="privacy">
-                    @Html.ActionLink(Language.PagePrivacy, "Privacy", "Home")
+                <li role="presentation" class="earn">
+                    @Html.ActionLink(ViewModel.EarnMoneyLink, "ComeGuadagnare", "Home")
                 </li>
                 <li role="presentation" class="contacts">
                     @Html.ActionLink(Language.Contacts, "Contatti", "Home")
@@ -98,7 +105,10 @@
                 @Html.ActionLink(Language.Register, "Registrazione", "Utente")
             </li>
             <li role="presentation" class="register loginFacebook">
-                @Html.ActionLink(Language.Login + " Facebook", "LoginFacebook", "Utente")
+                <a class="btn btn-primary" href="@Url.Action("LoginFacebook", "Utente")" style="color:#FFF;">
+                    <img src="https://facebookbrand.com/wp-content/uploads/2016/05/flogo_rgb_hex-brc-site-250.png?w=16&h=16" style="margin-right: 10px;" />
+                    @ViewModel.LoginFacebook
+                </a>
             </li>
         </ul>
         <header>
@@ -108,14 +118,14 @@
             </a>
             <menu>
                 <ul class="nav-pills">
+                    <li role="presentation" class="mission">
+                        @Html.ActionLink(ViewModel.MissionLink, "Missione", "Home")
+                    </li>
                     <li role="presentation" class="whatido">
-                        @Html.ActionLink(Language.TitleHowWork, "ComeFunziona", "Home")
+                        @Html.ActionLink(ViewModel.HowWorkLink, "ComeFunziona", "Home")
                     </li>
-                    <li role="presentation" class="siteWeb">
-                        @Html.ActionLink(Language.OurPartners, "Partners", "Home")
-                    </li>
-                    <li role="presentation" class="privacy">
-                        @Html.ActionLink(Language.PagePrivacy, "Privacy", "Home")
+                    <li role="presentation" class="earn">
+                        @Html.ActionLink(ViewModel.EarnMoneyLink, "ComeGuadagnare", "Home")
                     </li>
                     <li role="presentation" class="contacts">
                         @Html.ActionLink(Language.Contacts, "Contatti", "Home")
@@ -188,20 +198,23 @@
     <footer>
         <nav>
             <ul id="footermenu">
-                <li role="presentation" class="whatido">
-                    @Html.ActionLink(Language.TitleHowWork, "ComeFunziona", "Home")
+                <li role="presentation" class="mission">
+                    @Html.ActionLink(ViewModel.MissionLink, "Missione", "Home")
                 </li>
-                <li role="presentation" class="partners">
-                    @Html.ActionLink(Language.OurPartners, "Partners", "Home")
+                <li role="presentation" class="whatido">
+                    @Html.ActionLink(ViewModel.HowWorkLink, "ComeFunziona", "Home")
+                </li>
+                <li role="presentation" class="earn">
+                    @Html.ActionLink(ViewModel.EarnMoneyLink, "ComeGuadagnare", "Home")
                 </li>
                 <li role="presentation" class="siteweb">
-                    @Html.ActionLink(Language.Siteweb, "SitiUtili", "Home")
+                    @Html.ActionLink(ViewModel.BartLink, "Baratto", "Home")
                 </li>
                 <li role="presentation" class="privacy">
-                    @Html.ActionLink(Language.PagePrivacy, "Privacy", "Home")
+                    @Html.ActionLink(ViewModel.PrivacyLink, "Privacy", "Home")
                 </li>
                 <li role="presentation" class="contacts">
-                    @Html.ActionLink(Language.Contacts, "Contatti", "Home")
+                    @Html.ActionLink(ViewModel.ContactsLink, "Contatti", "Home")
                 </li>
             </ul>
         </nav>

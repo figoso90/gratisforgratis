@@ -165,7 +165,7 @@ namespace GratisForGratis.Models
         public VerificaAcquisto Acquisto(DatabaseContext db, AcquistoViewModel viewModel, bool offerta = false)
         {
             PersonaModel utente = (PersonaModel)HttpContext.Current.Session["utente"];
-            VerificaAcquisto verifica = CheckAcquisto(utente.Persona, utente.Credito, viewModel.TipoScambio, viewModel.PagamentoFatto, offerta);
+            VerificaAcquisto verifica = CheckAcquisto(utente.Persona, utente.Credito, (TipoScambio)viewModel.TipoScambio, viewModel.PagamentoFatto, offerta);
             switch (verifica)
             {
                 case VerificaAcquisto.Ok:

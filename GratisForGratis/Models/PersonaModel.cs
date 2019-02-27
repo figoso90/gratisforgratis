@@ -192,11 +192,17 @@ namespace GratisForGratis.Models
             */
         }
 
-        public void SetIndirizzo(DatabaseContext db, int? comune, string indirizzo, int? civico, int tipoIndirizzo)
+        public void SetIndirizzo(DatabaseContext db, string nomeComune, int? comune, string indirizzo, string civico, int tipoIndirizzo)
         {
             PERSONA_INDIRIZZO model = this.Indirizzo.SingleOrDefault(m => m.TIPO == tipoIndirizzo
                 && m.STATO == (int)Stato.ATTIVO);
             bool modificato = false;
+
+            if (comune == null || comune <= 0)
+            {
+                comune = db.COMUNE.FirstOrDefault(m => m.NOME == nomeComune).ID;
+            }
+
             if (model == null)
             {
                 // se l'utente non aveva un indirizzo e ne ha inserito uno
@@ -216,7 +222,7 @@ namespace GratisForGratis.Models
                         model.INDIRIZZO.STATO = (int)Stato.ATTIVO;
                         model.INDIRIZZO.ID_COMUNE = (int)comune;
                         model.INDIRIZZO.INDIRIZZO1 = indirizzo;
-                        model.INDIRIZZO.CIVICO = (int)civico;
+                        model.INDIRIZZO.CIVICO = civico;
                         db.INDIRIZZO.Add(model.INDIRIZZO);
                     }
                     // aggiungo l'indirizzo all'utente
@@ -251,7 +257,7 @@ namespace GratisForGratis.Models
                         nuovoIndirizzo.INDIRIZZO.STATO = (int)Stato.ATTIVO;
                         nuovoIndirizzo.INDIRIZZO.ID_COMUNE = (int)comune;
                         nuovoIndirizzo.INDIRIZZO.INDIRIZZO1 = indirizzo;
-                        nuovoIndirizzo.INDIRIZZO.CIVICO = (int)civico;
+                        nuovoIndirizzo.INDIRIZZO.CIVICO = civico;
                         db.INDIRIZZO.Add(nuovoIndirizzo.INDIRIZZO);
                         db.SaveChanges();
                     }

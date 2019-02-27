@@ -29,7 +29,7 @@ namespace GratisForGratis.Models
         public int ID { get; set; }
         public int ID_COMUNE { get; set; }
         public string INDIRIZZO1 { get; set; }
-        public int CIVICO { get; set; }
+        public string CIVICO { get; set; }
         public string SEZIONE { get; set; }
         public int TIPOLOGIA { get; set; }
         public System.DateTime DATA_INSERIMENTO { get; set; }

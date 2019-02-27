@@ -69,7 +69,6 @@ namespace GratisForGratis.Models
         public virtual DbSet<CORRIERE_TIPO_PACCO> CORRIERE_TIPO_PACCO { get; set; }
         public virtual DbSet<FORMATO> FORMATO { get; set; }
         public virtual DbSet<GENERE> GENERE { get; set; }
-        public virtual DbSet<INDIRIZZO> INDIRIZZO { get; set; }
         public virtual DbSet<LOG_ERRORE> LOG_ERRORE { get; set; }
         public virtual DbSet<LOG_PAGAMENTO> LOG_PAGAMENTO { get; set; }
         public virtual DbSet<LOG_SBLOCCO_ANNUNCIO> LOG_SBLOCCO_ANNUNCIO { get; set; }
@@ -99,7 +98,6 @@ namespace GratisForGratis.Models
         public virtual DbSet<OGGETTO_VESTITO> OGGETTO_VESTITO { get; set; }
         public virtual DbSet<OGGETTO_VIDEO> OGGETTO_VIDEO { get; set; }
         public virtual DbSet<OGGETTO_VIDEOGAMES> OGGETTO_VIDEOGAMES { get; set; }
-        public virtual DbSet<PERSONA> PERSONA { get; set; }
         public virtual DbSet<PERSONA_ATTIVITA> PERSONA_ATTIVITA { get; set; }
         public virtual DbSet<PERSONA_EMAIL> PERSONA_EMAIL { get; set; }
         public virtual DbSet<PERSONA_FOTO> PERSONA_FOTO { get; set; }
@@ -148,6 +146,8 @@ namespace GratisForGratis.Models
         public virtual DbSet<PAYPAL> PAYPAL { get; set; }
         public virtual DbSet<PAYPAL_DETTAGLIO> PAYPAL_DETTAGLIO { get; set; }
         public virtual DbSet<COMMISSIONE> COMMISSIONE { get; set; }
+        public virtual DbSet<INDIRIZZO> INDIRIZZO { get; set; }
+        public virtual DbSet<PERSONA> PERSONA { get; set; }
     
         public virtual int AGGIORNAMENTO_CATEGORIE()
         {

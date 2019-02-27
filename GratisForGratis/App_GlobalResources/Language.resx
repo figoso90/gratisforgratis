@@ -280,7 +280,7 @@
     <value>Indirizzo web</value>
   </data>
   <data name="DescriptionLogin" xml:space="preserve">
-    <value>Usa il tuo account personale per accedere e comprare.</value>
+    <value>Usa quest'area per accedere o se sei nuovo, per &lt;strong&gt;registrarti velocemente&lt;/strong&gt; solo con e-mail e password!</value>
   </data>
   <data name="SystemOperating" xml:space="preserve">
     <value>Sistema operativo</value>
@@ -353,9 +353,6 @@
   </data>
   <data name="MoreDetails" xml:space="preserve">
     <value>Maggiori dettagli</value>
-  </data>
-  <data name="TitlePartners" xml:space="preserve">
-    <value>I nostri maggiori partners</value>
   </data>
   <data name="NotSaved" xml:space="preserve">
     <value>Non salvata</value>
@@ -1083,9 +1080,6 @@
   <data name="Offers" xml:space="preserve">
     <value>Offerte</value>
   </data>
-  <data name="TitlePrivacy" xml:space="preserve">
-    <value>Condizioni privacy utente</value>
-  </data>
   <data name="ErrorPaymentLogin" xml:space="preserve">
     <value>Non puoi accedere con la stessa mail a cui effettuare il pagamento. Mail a cui pagare:</value>
   </data>
@@ -1184,9 +1178,6 @@
   </data>
   <data name="CompletedPurchase" xml:space="preserve">
     <value>Acquisto concluso</value>
-  </data>
-  <data name="TitleBarter" xml:space="preserve">
-    <value>Baratta oggetti, baratta servizi comodamente da casa tua!</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>Utente</value>
@@ -1365,20 +1356,8 @@
   <data name="DeleteSell" xml:space="preserve">
     <value>Elimina vendita</value>
   </data>
-  <data name="TitleWhySite" xml:space="preserve">
-    <value>Perchè {0}</value>
-  </data>
   <data name="Purchase" xml:space="preserve">
     <value>Acquisto</value>
-  </data>
-  <data name="TitleExtraServices" xml:space="preserve">
-    <value>Servizi supplementari</value>
-  </data>
-  <data name="TitleGuideSecurity" xml:space="preserve">
-    <value>Guida alla sicurezza</value>
-  </data>
-  <data name="TitleHowWork" xml:space="preserve">
-    <value>Come funziona</value>
   </data>
   <data name="TitleShipment" xml:space="preserve">
     <value>Spedizione</value>

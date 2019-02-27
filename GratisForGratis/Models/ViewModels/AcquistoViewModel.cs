@@ -27,7 +27,7 @@ namespace GratisForGratis.Models
             Token = offerta.ANNUNCIO.TOKEN.ToString();
             TipoCarta = TipoCartaCredito.PayPal;
             // recupero dati per spedizione
-            TipoScambio = TipoScambio.Spedizione;
+            TipoScambio = Models.TipoScambio.Spedizione;
             OFFERTA_SPEDIZIONE spedizione = offerta.OFFERTA_SPEDIZIONE.SingleOrDefault();
             NominativoDestinatario = spedizione.NOMINATIVO_DESTINATARIO;
             TelefonoDestinatario = spedizione.TELEFONO_DESTINATARIO;
@@ -50,25 +50,25 @@ namespace GratisForGratis.Models
 
         [Required]
         [Display(Name = "ExchangeMode", ResourceType = typeof(App_GlobalResources.ViewModel))]
-        public TipoScambio TipoScambio { get; set; }
+        public TipoScambio? TipoScambio { get; set; }
 
-        [RequiredIf("TipoScambio", TipoScambio.Spedizione, ErrorMessageResourceName = "RecipientCap", ErrorMessageResourceType = typeof(App_GlobalResources.ErrorResource))]
+        [RequiredIf("TipoScambio", Models.TipoScambio.Spedizione, ErrorMessageResourceName = "RecipientCap", ErrorMessageResourceType = typeof(App_GlobalResources.ErrorResource))]
         [Display(Name = "RecipientCap", ResourceType = typeof(App_GlobalResources.ViewModel))]
         public string CapDestinatario { get; set; }
 
-        [RequiredIf("TipoScambio", TipoScambio.Spedizione, ErrorMessageResourceName = "RecipientAddress", ErrorMessageResourceType = typeof(App_GlobalResources.ErrorResource))]
+        [RequiredIf("TipoScambio", Models.TipoScambio.Spedizione, ErrorMessageResourceName = "RecipientAddress", ErrorMessageResourceType = typeof(App_GlobalResources.ErrorResource))]
         [Display(Name = "RecipientAddress", ResourceType = typeof(App_GlobalResources.ViewModel))]
         public string IndirizzoDestinatario { get; set; }
 
-        [RequiredIf("TipoScambio", TipoScambio.Spedizione, ErrorMessageResourceName = "RecipientCivic", ErrorMessageResourceType = typeof(App_GlobalResources.ErrorResource))]
+        [RequiredIf("TipoScambio", Models.TipoScambio.Spedizione, ErrorMessageResourceName = "RecipientCivic", ErrorMessageResourceType = typeof(App_GlobalResources.ErrorResource))]
         [Display(Name = "RecipientCivic", ResourceType = typeof(App_GlobalResources.ViewModel))]
-        public int CivicoDestinatario { get; set; }
+        public string CivicoDestinatario { get; set; }
 
-        [RequiredIf("TipoScambio", TipoScambio.Spedizione, ErrorMessageResourceName = "RecipientName", ErrorMessageResourceType = typeof(App_GlobalResources.ErrorResource))]
+        [RequiredIf("TipoScambio", Models.TipoScambio.Spedizione, ErrorMessageResourceName = "RecipientName", ErrorMessageResourceType = typeof(App_GlobalResources.ErrorResource))]
         [Display(Name = "RecipientName", ResourceType = typeof(App_GlobalResources.ViewModel))]
         public string NominativoDestinatario { get; set; }
 
-        [RequiredIf("TipoScambio", TipoScambio.Spedizione, ErrorMessageResourceName = "RecipientTelephone", ErrorMessageResourceType = typeof(App_GlobalResources.ErrorResource))]
+        [RequiredIf("TipoScambio", Models.TipoScambio.Spedizione, ErrorMessageResourceName = "RecipientTelephone", ErrorMessageResourceType = typeof(App_GlobalResources.ErrorResource))]
         [Display(Name = "RecipientTelephone", ResourceType = typeof(App_GlobalResources.ViewModel))]
         public string TelefonoDestinatario { get; set; }
 
@@ -319,7 +319,7 @@ namespace GratisForGratis.Models
 
         [RequiredIf("TipoScambio", TipoScambio.Spedizione, ErrorMessageResourceName = "RecipientCivic", ErrorMessageResourceType = typeof(App_GlobalResources.ErrorResource))]
         [Display(Name = "RecipientCivic", ResourceType = typeof(App_GlobalResources.ViewModel))]
-        public int CivicoDestinatario { get; set; }
+        public string CivicoDestinatario { get; set; }
 
         [RequiredIf("TipoScambio", TipoScambio.Spedizione, ErrorMessageResourceName = "RecipientName", ErrorMessageResourceType = typeof(App_GlobalResources.ErrorResource))]
         [Display(Name = "RecipientName", ResourceType = typeof(App_GlobalResources.ViewModel))]

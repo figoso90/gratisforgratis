@@ -13,8 +13,10 @@
             </div>
         </div>
         <div class="cella noMandatory">
-            <img class="glyphicon category" src="@Url.Content("~/Images/Icone/category.svg")" alt="@Language.Category" />
-            @Model.Categoria
+            <a href="@Url.Action("","cerca", new { Cerca_IDCategoria = Model.CategoriaID, Cerca_Categoria = Model.Categoria })" title="@Model.Categoria">
+                <img class="glyphicon category" src="@Url.Content("~/Images/Icone/category.svg")" alt="@Language.Category" />
+                @Model.Categoria
+            </a>
         </div>
         <div class="cella points">
             <img class="glyphicon happyCoin" src="@Url.Content("~/Images/Icone/happyCoin.svg")" alt="@Language.Moneta" />

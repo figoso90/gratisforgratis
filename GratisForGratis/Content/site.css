@@ -1,15 +1,21 @@
 ﻿html, body {
-    margin:0px;
-    padding:0px;
-    width:100%;
-    height:100%;
-    font-size:13px;
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    height: 100%;
+    font-size: 17px;
     /*color:#178fcc;*/
+    font-family: 'Gochi Hand', cursive;
 }
 
-img{
+h4, .h4
+{
+    font-size:20px;
+}
+
+img {
     border-radius: 8px;
-    border:none;
+    border: none;
 }
 
 textarea{
@@ -187,7 +193,7 @@ textarea{
     list-style:none;
     padding:8px 12px 0px;
     margin-bottom:0px;
-    height:28px;
+    height:58px;
 }
 
 #linkLogin li{
@@ -208,6 +214,11 @@ textarea{
     color:#000;
 }
 
+.loginFacebook .btn {
+    background-color: #4267B2;
+    color:#fff;
+}
+
 /* HEADER */
 
 header{
@@ -215,10 +226,6 @@ header{
     /*text-align:center;*/
     border-bottom: 8px solid #eee;
     padding-bottom:20px;
-}
-
-header a, #header a:link{
-    
 }
 
 #logo:hover, #logo:link{
@@ -688,9 +695,6 @@ section{
     font-weight: bold;
 }
 
-#title{
-}
-
 #description{
     /*color:#bd1723;*/
     /*color:#a5c71b;*/
@@ -786,7 +790,7 @@ footer h4 {
 
 footer h5 {
   color: #337ab7;
-  font-size: 11px;
+  font-size: 19px;
   font-weight: 900;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -895,9 +899,6 @@ footer h6 a {
     text-transform: uppercase;
     font-size: 10px;
     text-align:left;
-}
-
-.object .wish:hover, .purchase .wish:hover {
 }
 
 .object .feedback, .purchase .feedback {

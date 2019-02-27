@@ -47,9 +47,9 @@ namespace GratisForGratis.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE> ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE { get; set; }
         public virtual CORRIERE_SERVIZIO CORRIERE_SERVIZIO { get; set; }
-        public virtual INDIRIZZO INDIRIZZO { get; set; }
-        public virtual INDIRIZZO INDIRIZZO1 { get; set; }
         public virtual TIPO_PACCO TIPO_PACCO { get; set; }
         public virtual TIPO_VALUTA TIPO_VALUTA { get; set; }
+        public virtual INDIRIZZO INDIRIZZO { get; set; }
+        public virtual INDIRIZZO INDIRIZZO1 { get; set; }
     }
 }

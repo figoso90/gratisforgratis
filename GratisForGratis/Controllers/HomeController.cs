@@ -38,7 +38,7 @@ namespace GratisForGratis.Controllers
                     Response.SetCookie(cookiePromo);
                 }
 
-                ViewBag.Title = App_GlobalResources.MetaTag.TitleGeneric;
+                ViewBag.Title = App_GlobalResources.MetaTag.TitleGeneric + " - " + WebConfigurationManager.AppSettings["nomeSito"];
                 ViewBag.Description = App_GlobalResources.MetaTag.DescriptionHome;
                 ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsHome;
 
@@ -67,7 +67,7 @@ namespace GratisForGratis.Controllers
         //[Filters.HandleExceptionsAttribute]
         public ActionResult Contatti()
         {
-            ViewBag.Title = App_GlobalResources.Language.Contacts;
+            ViewBag.Title = App_GlobalResources.Language.Contacts + " - " + WebConfigurationManager.AppSettings["nomeSito"];
             ViewBag.Description = App_GlobalResources.MetaTag.DescriptionContatti;
             ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsContatti;
             return View();
@@ -76,9 +76,8 @@ namespace GratisForGratis.Controllers
         [HttpGet]
         public ActionResult ComeFunziona()
         {
-            ViewBag.Title = App_GlobalResources.Language.TitleHowWork;
-            ViewBag.Description = string.Format(App_GlobalResources.MetaTag.DescriptionCosaFacciamo, 
-                WebConfigurationManager.AppSettings["nomeSito"]);
+            ViewBag.Title = App_GlobalResources.MetaTag.TitleHowWork + " - " + WebConfigurationManager.AppSettings["nomeSito"];
+            ViewBag.Description = App_GlobalResources.MetaTag.DescriptionCosaFacciamo;
             ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsCosaFacciamo;
 
             return View();
@@ -87,10 +86,9 @@ namespace GratisForGratis.Controllers
         [HttpGet]
         public ActionResult PercheGratisForGratis()
         {
-            ViewBag.Title = string.Format(App_GlobalResources.Language.TitleWhySite, WebConfigurationManager.AppSettings["nomeSito"]);
-            ViewBag.Description = string.Format(App_GlobalResources.MetaTag.DescriptionCosaFacciamo,
-                WebConfigurationManager.AppSettings["nomeSito"]);
-            ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsCosaFacciamo;
+            ViewBag.Title = App_GlobalResources.MetaTag.TitleWhySite;
+            ViewBag.Description = App_GlobalResources.MetaTag.DescriptionWhySite;
+            ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsWhySite;
 
             return View();
         }
@@ -98,42 +96,39 @@ namespace GratisForGratis.Controllers
         [HttpGet]
         public ActionResult Spedizione()
         {
-            ViewBag.Title = App_GlobalResources.Language.TitleHowWork;
-            ViewBag.Description = string.Format(App_GlobalResources.MetaTag.DescriptionCosaFacciamo,
-                WebConfigurationManager.AppSettings["nomeSito"]);
-            ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsCosaFacciamo;
+            ViewBag.Title = App_GlobalResources.MetaTag.TitleShipment + " - " + WebConfigurationManager.AppSettings["nomeSito"];
+            ViewBag.Description = App_GlobalResources.MetaTag.DescriptionShipment;
+            ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsShipment;
 
             return View();
         }
 
         [HttpGet]
-        public ActionResult GuidaSicura()
+        public ActionResult Sicurezza()
         {
-            ViewBag.Title = App_GlobalResources.Language.TitleGuideSecurity;
-            ViewBag.Description = string.Format(App_GlobalResources.MetaTag.DescriptionCosaFacciamo,
-                WebConfigurationManager.AppSettings["nomeSito"]);
-            ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsCosaFacciamo;
+            ViewBag.Title = App_GlobalResources.MetaTag.TitleSecurity + " - " + WebConfigurationManager.AppSettings["nomeSito"];
+            ViewBag.Description = App_GlobalResources.MetaTag.DescriptionSecurity;
+            ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsSecurity;
 
             return View();
         }
 
         [HttpGet]
-        public ActionResult ServiziExtra()
+        public ActionResult CircuitoGratis()
         {
-            ViewBag.Title = App_GlobalResources.Language.TitleExtraServices;
-            ViewBag.Description = string.Format(App_GlobalResources.MetaTag.DescriptionCosaFacciamo,
-                WebConfigurationManager.AppSettings["nomeSito"]);
-            ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsCosaFacciamo;
+            ViewBag.Title = App_GlobalResources.MetaTag.TitleFreeCircuit + " - " + WebConfigurationManager.AppSettings["nomeSito"]; ;
+            ViewBag.Description = App_GlobalResources.MetaTag.DescriptionFreeCircuit;
+            ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsFreeCircuit;
 
             return View();
         }
 
         [HttpGet]
-        public ActionResult Partners()
+        public ActionResult Partnership()
         {
-            ViewBag.Title = App_GlobalResources.Language.TitlePartners;
-            ViewBag.Description = App_GlobalResources.MetaTag.DescriptionPartners;
-            ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsPartners;
+            ViewBag.Title = App_GlobalResources.MetaTag.TitlePartnership + " - " + WebConfigurationManager.AppSettings["nomeSito"]; ;
+            ViewBag.Description = App_GlobalResources.MetaTag.DescriptionPartnership;
+            ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsPartnership;
 
             return View();
         }
@@ -141,9 +136,8 @@ namespace GratisForGratis.Controllers
         [HttpGet]
         public ActionResult Privacy()
         {
-            ViewBag.Title = App_GlobalResources.Language.TitlePrivacy;
-            ViewBag.Description = string.Format(App_GlobalResources.MetaTag.DescriptionPrivacy,
-                WebConfigurationManager.AppSettings["nomeSito"]);
+            ViewBag.Title = App_GlobalResources.MetaTag.TitlePrivacy + " - " + WebConfigurationManager.AppSettings["nomeSito"];
+            ViewBag.Description = App_GlobalResources.MetaTag.DescriptionPrivacy;
             ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsPrivacy;
 
             return View();
@@ -152,7 +146,7 @@ namespace GratisForGratis.Controllers
         [HttpGet]
         public ActionResult VenditaGratis()
         {
-            ViewBag.Title = string.Format(App_GlobalResources.MetaTag.TitleSellGratis, App_GlobalResources.Language.Moneta);
+            ViewBag.Title = string.Format(App_GlobalResources.MetaTag.TitleSellGratis, App_GlobalResources.Language.Moneta) + " - " + WebConfigurationManager.AppSettings["nomeSito"];
             ViewBag.Description = App_GlobalResources.MetaTag.DescriptionGratis;
             ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsGratis;
 
@@ -162,17 +156,37 @@ namespace GratisForGratis.Controllers
         [HttpGet]
         public ActionResult Baratto()
         {
-            ViewBag.Title = App_GlobalResources.Language.TitleBarter;
-            ViewBag.Description = App_GlobalResources.MetaTag.DescriptionGratis;
-            ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsGratis;
+            ViewBag.Title = App_GlobalResources.MetaTag.TitleBarter + " - " + WebConfigurationManager.AppSettings["nomeSito"];
+            ViewBag.Description = App_GlobalResources.MetaTag.DescriptionBarter;
+            ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsBarter;
 
             return View();
         }
 
         [HttpGet]
+        public ActionResult BarattoAsincrono()
+        {
+            ViewBag.Title = App_GlobalResources.MetaTag.TitleBarterAsync + " - " + WebConfigurationManager.AppSettings["nomeSito"];
+            ViewBag.Description = App_GlobalResources.MetaTag.DescriptionBarterAsync;
+            ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsBarterAsync;
+
+            return View("baratto");
+        }
+
+        [HttpGet]
+        public ActionResult BarattoMultilaterale()
+        {
+            ViewBag.Title = App_GlobalResources.MetaTag.TitleBarterMultilateral + " - " + WebConfigurationManager.AppSettings["nomeSito"];
+            ViewBag.Description = App_GlobalResources.MetaTag.DescriptionBarterMultilateral;
+            ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsBarterMultilateral;
+
+            return View("baratto");
+        }
+
+        [HttpGet]
         public ActionResult Regalo()
         {
-            ViewBag.Title = App_GlobalResources.MetaTag.TitleGift;
+            ViewBag.Title = App_GlobalResources.MetaTag.TitleGift + " - " + WebConfigurationManager.AppSettings["nomeSito"];
             ViewBag.Description = App_GlobalResources.MetaTag.DescriptionGift;
             ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsGift;
 
@@ -182,9 +196,19 @@ namespace GratisForGratis.Controllers
         [HttpGet]
         public ActionResult MonetaVirtuale()
         {
-            ViewBag.Title = App_GlobalResources.MetaTag.TitleOnlineMoney;
-            ViewBag.Description = App_GlobalResources.MetaTag.DescriptionGratis;
-            ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsGratis;
+            ViewBag.Title = App_GlobalResources.MetaTag.TitleOnlineMoney + " - " + WebConfigurationManager.AppSettings["nomeSito"];
+            ViewBag.Description = App_GlobalResources.MetaTag.DescriptionOnlineMoney;
+            ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsOnlineMoney;
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult Criptovaluta()
+        {
+            ViewBag.Title = App_GlobalResources.MetaTag.TitleOnlineMoney + " - " + WebConfigurationManager.AppSettings["nomeSito"];
+            ViewBag.Description = App_GlobalResources.MetaTag.DescriptionOnlineMoney;
+            ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsOnlineMoney;
 
             return View();
         }
@@ -192,7 +216,7 @@ namespace GratisForGratis.Controllers
         [HttpGet]
         public ActionResult SitiUtili()
         {
-            ViewBag.Title = App_GlobalResources.MetaTag.TitleSiteWeb;
+            ViewBag.Title = App_GlobalResources.MetaTag.TitleSiteWeb + " - " + WebConfigurationManager.AppSettings["nomeSito"];
             ViewBag.Description = App_GlobalResources.MetaTag.DescriptionSiteWeb;
             ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsSiteWeb;
 
@@ -202,19 +226,79 @@ namespace GratisForGratis.Controllers
         [HttpGet]
         public ActionResult Team()
         {
-            ViewBag.Title = App_GlobalResources.MetaTag.TitleSiteWeb;
-            ViewBag.Description = App_GlobalResources.MetaTag.DescriptionSiteWeb;
-            ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsSiteWeb;
+            ViewBag.Title = App_GlobalResources.MetaTag.TitleTeam + " - " + WebConfigurationManager.AppSettings["nomeSito"];
+            ViewBag.Description = App_GlobalResources.MetaTag.DescriptionTeam;
+            ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsTeam;
 
             return View();
         }
 
         [HttpGet]
-        public ActionResult BandiRicevuti()
+        public ActionResult Finanziamenti()
         {
-            ViewBag.Title = App_GlobalResources.MetaTag.TitleSiteWeb;
-            ViewBag.Description = App_GlobalResources.MetaTag.DescriptionSiteWeb;
-            ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsSiteWeb;
+            ViewBag.Title = App_GlobalResources.MetaTag.TitleFunding + " - " + WebConfigurationManager.AppSettings["nomeSito"];
+            ViewBag.Description = App_GlobalResources.MetaTag.DescriptionFunding;
+            ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsFunding;
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult Missione()
+        {
+            ViewBag.Title = App_GlobalResources.MetaTag.TitleMission + " - " + WebConfigurationManager.AppSettings["nomeSito"];
+            ViewBag.Description = App_GlobalResources.MetaTag.DescriptionMission;
+            ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsMission;
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult ComeGuadagnare()
+        {
+            ViewBag.Title = App_GlobalResources.MetaTag.TitleHowEarn + " - " + WebConfigurationManager.AppSettings["nomeSito"];
+            ViewBag.Description = App_GlobalResources.MetaTag.DescriptionHowEarn;
+            ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsHowEarn;
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult HappyPeople()
+        {
+            ViewBag.Title = App_GlobalResources.MetaTag.TitleHappyPeople + " - " + WebConfigurationManager.AppSettings["nomeSito"];
+            ViewBag.Description = App_GlobalResources.MetaTag.DescriptionHappyPeople;
+            ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsHappyPeople;
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult BitCoin()
+        {
+            ViewBag.Title = App_GlobalResources.MetaTag.TitleBitCoin + " - " + WebConfigurationManager.AppSettings["nomeSito"];
+            ViewBag.Description = App_GlobalResources.MetaTag.DescriptionBitCoin;
+            ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsBitCoin;
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult EconomiaCircolare()
+        {
+            ViewBag.Title = App_GlobalResources.MetaTag.TitleCircularEconomy + " - " + WebConfigurationManager.AppSettings["nomeSito"];
+            ViewBag.Description = App_GlobalResources.MetaTag.DescriptionCircularEconomy;
+            ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsCircularEconomy;
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult DecrescitaFelice()
+        {
+            ViewBag.Title = App_GlobalResources.MetaTag.TitleHappyDegrowth + " - " + WebConfigurationManager.AppSettings["nomeSito"];
+            ViewBag.Description = App_GlobalResources.MetaTag.DescriptionHappyDegrowth;
+            ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsHappyDegrowth;
 
             return View();
         }

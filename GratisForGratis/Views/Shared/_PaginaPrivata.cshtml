@@ -15,7 +15,7 @@
     <meta name="msvalidate.01" content="226F39118B8B7D348C07F1D8FEC695BD" />
     <title>@((@ViewBag.Title != null) ? ViewBag.Title : MetaTag.TitleGeneric) - @WebConfigurationManager.AppSettings["nomeSito"]</title>
 
-
+    <link href="https://fonts.googleapis.com/css?family=Gochi+Hand" rel="stylesheet">
     @Styles.Render("~/Content/JqueryUI/jquery-ui.min.css")
     @Styles.Render("~/Scripts/Uploadify/uploadifive.css")
     @Styles.Render("~/Scripts/loader/jquery.loader.min.css")
@@ -354,14 +354,14 @@
     <footer>
         <nav>
             <ul id="footermenu">
+                <li role="presentation" class="mission">
+                    @Html.ActionLink(ViewModel.MissionLink, "Missione", "Home")
+                </li>
                 <li role="presentation" class="whatido">
-                    @Html.ActionLink(Language.TitleHowWork, "ComeFunziona", "Home")
+                    @Html.ActionLink(ViewModel.HowWorkLink, "ComeFunziona", "Home")
                 </li>
-                <li role="presentation" class="partners">
-                    @Html.ActionLink(Language.OurPartners, "Partners", "Home")
-                </li>
-                <li role="presentation" class="siteweb">
-                    @Html.ActionLink(Language.Siteweb, "SitiUtili", "Home")
+                <li role="presentation" class="earn">
+                    @Html.ActionLink(ViewModel.EarnMoneyLink, "ComeGuadagnare", "Home")
                 </li>
                 <li role="presentation" class="privacy">
                     @Html.ActionLink(Language.PagePrivacy, "Privacy", "Home")

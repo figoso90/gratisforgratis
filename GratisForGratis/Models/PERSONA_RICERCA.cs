@@ -18,7 +18,7 @@ namespace GratisForGratis.Models
         public int ID_PERSONA { get; set; }
         public int ID_RICERCA { get; set; }
     
-        public virtual PERSONA PERSONA { get; set; }
         public virtual RICERCA RICERCA { get; set; }
+        public virtual PERSONA PERSONA { get; set; }
     }
 }

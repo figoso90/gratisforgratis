@@ -48,7 +48,6 @@
         <EntityTypeShape EntityType="GratisForGratisModel.CORRIERE_TIPO_PACCO" Width="1.5" PointX="13.5" PointY="20.75" />
         <EntityTypeShape EntityType="GratisForGratisModel.FORMATO" Width="1.5" PointX="11.25" PointY="32.875" />
         <EntityTypeShape EntityType="GratisForGratisModel.GENERE" Width="1.5" PointX="11.25" PointY="37" />
-        <EntityTypeShape EntityType="GratisForGratisModel.INDIRIZZO" Width="1.5" PointX="3" PointY="55.375" />
         <EntityTypeShape EntityType="GratisForGratisModel.LOG_ERRORE" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="GratisForGratisModel.LOG_PAGAMENTO" Width="1.5" PointX="2.75" PointY="0.75" />
         <EntityTypeShape EntityType="GratisForGratisModel.LOG_SBLOCCO_ANNUNCIO" Width="1.5" PointX="19.5" PointY="70.25" />
@@ -78,7 +77,6 @@
         <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_VESTITO" Width="1.5" PointX="11.25" PointY="52.625" />
         <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_VIDEO" Width="1.5" PointX="16.5" PointY="31.125" />
         <EntityTypeShape EntityType="GratisForGratisModel.OGGETTO_VIDEOGAMES" Width="1.5" PointX="13.5" PointY="40.75" />
-        <EntityTypeShape EntityType="GratisForGratisModel.PERSONA" Width="1.5" PointX="6" PointY="66.875" />
         <EntityTypeShape EntityType="GratisForGratisModel.PERSONA_ATTIVITA" Width="1.5" PointX="8.25" PointY="66.125" />
         <EntityTypeShape EntityType="GratisForGratisModel.PERSONA_EMAIL" Width="1.5" PointX="8.25" PointY="82" />
         <EntityTypeShape EntityType="GratisForGratisModel.PERSONA_FOTO" Width="1.5" PointX="11.25" PointY="78.625" />
@@ -121,7 +119,6 @@
         <EntityTypeShape EntityType="GratisForGratisModel.TRANSAZIONE_ANNUNCIO_SPEDIZIONE" Width="1.5" PointX="19" PointY="78.5" />
         <EntityTypeShape EntityType="GratisForGratisModel.SPEDIZIONE_CONCLUSA" Width="1.5" PointX="4.75" PointY="0.75" />
         <EntityTypeShape EntityType="GratisForGratisModel.SPEDIZIONE_INATTESA" Width="1.5" PointX="0.75" PointY="5.75" />
-        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_ABBONAMENTO" />
         <AssociationConnector Association="GratisForGratisModel.FK_ALIMENTAZIONE_CATEGORIA" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_VEICOLO_ALIMENTAZIONE" />
         <AssociationConnector Association="GratisForGratisModel.FK_RICERCA_OGGETTO_VEICOLO_ALIMENTAZIONE" />
@@ -142,8 +139,6 @@
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_FOTO_ANNUNCIO" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_NOTIFICA_ANNUNCIO" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_OGGETTO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_PERSONA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_PERSONA1" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_SERVIZIO" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_TAG_ANNUNCIO" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_TIPO_SCAMBIO_ANNUNCIO" />
@@ -153,20 +148,15 @@
         <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_BARATTO_ANNUNCIO" />
         <AssociationConnector Association="GratisForGratisModel.FK_TRANSAZIONE_ANNUNCIO_ANNUNCIO" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_CARRELLO_ATTIVITA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_CARRELLO_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_CLICK_MODELLO_BROWSER" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_CLICK_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_CLICK_SISTEMA_OPERATIVO" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_DESIDERATO_ATTIVITA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_DESIDERATO_PERSONA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_FEEDBACK_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_NOTIFICA_NOTIFICA" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_SPEDIZIONE_ANNUNCIO_TIPO_SCAMBIO" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE_CORRIERE_SERVIZIO_SPEDIZIONE" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE_TIPO_OGGETTO" />
         <AssociationConnector Association="GratisForGratisModel.FK_TRANSAZIONE_ANNUNCIO_SPEDIZIONE_ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_MODELLO_BROWSER" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_SISTEMA_OPERATIVO" />
         <AssociationConnector Association="GratisForGratisModel.FK_ARTISTA_CATEGORIA" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_MUSICA_ARTISTA" />
@@ -180,7 +170,6 @@
         <AssociationConnector Association="GratisForGratisModel.FK_NOTIFICA_ATTIVITA1" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_APPARTENENZA_ATTIVITA" />
         <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_ATTIVITA_ATTIVITA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ATTIVITA_INDIRIZZO_INDIRIZZO" />
         <AssociationConnector Association="GratisForGratisModel.FK_ATTIVITA_INDIRIZZO_SPEDIZIONE_ATTIVITA_INDIRIZZO" />
         <AssociationConnector Association="GratisForGratisModel.FK_ATTIVITA_INDIRIZZO_SPEDIZIONE_ATTIVITA_INDIRIZZO_SPEDIZIONE" />
         <AssociationConnector Association="GratisForGratisModel.FK_AUTORE_CATEGORIA" />
@@ -195,15 +184,11 @@
         <AssociationConnector Association="GratisForGratisModel.FK_REGISTA_CATEGORIA" />
         <AssociationConnector Association="GratisForGratisModel.FK_RICERCA_CATEGORIA" />
         <AssociationConnector Association="GratisForGratisModel.FK_SISTEMA_OPERATIVO_CATEGORIA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_CHAT_PERSONA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_CHAT_PERSONA1" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_COMPONENTE_COMPONENTE" />
         <AssociationConnector Association="GratisForGratisModel.FK_COMUNE_PROVINCIA" />
         <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_COMUNE_COMUNE" />
-        <AssociationConnector Association="GratisForGratisModel.FK_INDIRIZZO_COMUNE" />
         <AssociationConnector Association="GratisForGratisModel.FK_RICERCA_COMUNE" />
         <AssociationConnector Association="GratisForGratisModel.FK_CONTO_CORRENTE_MONETA_CONTO_CORRENTE" />
-        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_CONTO_CORRENTE" />
         <AssociationConnector Association="GratisForGratisModel.FK_CONTO_CORRENTE_MONETA_MONETA" />
         <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_COMUNE_CORRIERE" />
         <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_NAZIONE_CORRIERE" />
@@ -215,11 +200,8 @@
         <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_TIPO_SPEDIZIONE" />
         <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_NAZIONE_NAZIONE" />
         <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_PROVINCIA_PROVINCIA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_PUNTO_SPEDIZIONE_INDIRIZZO" />
         <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_SERVIZIO_PREZZO_STIMATO_CORRIERE_SERVIZIO" />
         <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_CORRIERE_SERVIZIO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_INDIRIZZO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_INDIRIZZO1" />
         <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_TIPO_PACCO" />
         <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_TIPO_VALUTA" />
         <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_TIPO_OGGETTO_TIPO_OGGETTO" />
@@ -230,10 +212,6 @@
         <AssociationConnector Association="GratisForGratisModel.FK_RICERCA_OGGETTO_VIDEO_FORMATO" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_VIDEOGAMES_GENERE" />
         <AssociationConnector Association="GratisForGratisModel.FK_RICERCA_OGGETTO_VIDEOGAMES_GENERE" />
-        <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_INDIRIZZO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_INDIRIZZO_INDIRIZZO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_METODO_PAGAMENTO_INDIRIZZO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_LOG_SBLOCCO_ANNUNCIO_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_MODELLO_MARCA" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_MARCA" />
         <AssociationConnector Association="GratisForGratisModel.FK_RICERCA_OGGETTO_MARCA" />
@@ -257,8 +235,6 @@
         <AssociationConnector Association="GratisForGratisModel.FK_RICERCA_OGGETTO_VEICOLO_MODELLO" />
         <AssociationConnector Association="GratisForGratisModel.FK_CREDITO_VIRTUALE_CREDITO_VIRTUALE" />
         <AssociationConnector Association="GratisForGratisModel.FK_REGIONE_NAZIONE" />
-        <AssociationConnector Association="GratisForGratisModel.FK_NOTIFICA_PERSONA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_NOTIFICA_PERSONA1" />
         <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_BARATTO_OFFERTA_BARATTO" />
         <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_TIPO_VALUTA" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_APPARTENENZA_OGGETTO" />
@@ -278,22 +254,12 @@
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_VESTITO_OGGETTO" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_VIDEO_OGGETTO" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_VIDEOGAMES_OGGETTO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_APPARTENENZA_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_COMPUTER_SISTEMA_OPERATIVO" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_CONSOLE_PIATTAFORMA" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_MUSICA_OGGETTO_MUSICA" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_CELLULARE_SISTEMA_OPERATIVO" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_VIDEO_REGISTA" />
         <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_VIDEOGAMES_PIATTAFORMA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_ATTIVITA_PERSONA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_EMAIL_PERSONA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_FOTO_PERSONA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_INDIRIZZO_PERSONA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_METODO_PAGAMENTO_PERSONA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_PRIVACY_PERSONA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_RICERCA_PERSONA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_SEGNALAZIONE_PERSONA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_TELEFONO_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_INDIRIZZO_SPEDIZIONE_PERSONA_INDIRIZZO" />
         <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_INDIRIZZO_SPEDIZIONE_PERSONA_INDIRIZZO_SPEDIZIONE" />
         <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_RICERCA_RICERCA" />
@@ -333,7 +299,6 @@
         <AssociationConnector Association="GratisForGratisModel.FK_CONTO_CORRENTE_CREDITO_TRANSAZIONE1" />
         <AssociationConnector Association="GratisForGratisModel.FK_CONTO_CORRENTE_MONETA_TRANSAZIONE" />
         <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_BARATTO_OFFERTA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_OFFERTA" />
         <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_TRANSAZIONE" />
         <AssociationConnector Association="GratisForGratisModel.FK_TRANSAZIONE_ANNUNCIO_TRANSAZIONE" />
@@ -347,6 +312,41 @@
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_COMMISSIONE" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE_COMMISSIONE" />
         <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_COMMISSIONE" />
+        <EntityTypeShape EntityType="GratisForGratisModel.INDIRIZZO" Width="1.5" PointX="3" PointY="55.375" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ATTIVITA_INDIRIZZO_INDIRIZZO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_INDIRIZZO_COMUNE" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_PUNTO_SPEDIZIONE_INDIRIZZO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_INDIRIZZO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_INDIRIZZO1" />
+        <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_INDIRIZZO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_INDIRIZZO_INDIRIZZO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_METODO_PAGAMENTO_INDIRIZZO" />
+        <EntityTypeShape EntityType="GratisForGratisModel.PERSONA" Width="1.5" PointX="6" PointY="67.125" />
+        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_ABBONAMENTO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_PERSONA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_PERSONA1" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_CARRELLO_PERSONA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_CLICK_PERSONA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_DESIDERATO_PERSONA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_FEEDBACK_PERSONA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_PERSONA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CHAT_PERSONA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CHAT_PERSONA1" />
+        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_CONTO_CORRENTE" />
+        <AssociationConnector Association="GratisForGratisModel.FK_LOG_SBLOCCO_ANNUNCIO_PERSONA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_NOTIFICA_PERSONA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_NOTIFICA_PERSONA1" />
+        <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_PERSONA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_OGGETTO_APPARTENENZA_PERSONA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_ATTIVITA_PERSONA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_EMAIL_PERSONA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_FOTO_PERSONA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_INDIRIZZO_PERSONA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_METODO_PAGAMENTO_PERSONA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_PRIVACY_PERSONA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_RICERCA_PERSONA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_SEGNALAZIONE_PERSONA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_TELEFONO_PERSONA" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

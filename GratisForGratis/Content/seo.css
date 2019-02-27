@@ -1,0 +1,29 @@
+﻿.title {
+    color: #bd1723;
+}
+
+#presentazione {
+
+}
+
+    #presentazione strong {
+        color: #337ab7;
+    }
+
+    #presentazione .box{
+        height: 300px;
+    }
+
+#linkRapidi {
+    text-align: left;
+}
+
+.lista {
+    padding-left: 0px;
+    list-style: none;
+}
+
+.lista li{
+    margin: 10px 0px;
+    text-transform:uppercase;
+}

@@ -30,8 +30,8 @@ namespace GratisForGratis.Models
         public int STATO { get; set; }
     
         public virtual ATTIVITA ATTIVITA { get; set; }
-        public virtual INDIRIZZO INDIRIZZO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ATTIVITA_INDIRIZZO_SPEDIZIONE> ATTIVITA_INDIRIZZO_SPEDIZIONE { get; set; }
+        public virtual INDIRIZZO INDIRIZZO { get; set; }
     }
 }

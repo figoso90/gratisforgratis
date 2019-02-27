@@ -295,10 +295,10 @@
     <value>Data lettura</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>Accedi / Registra</value>
+    <value>Accedi o Registrati</value>
   </data>
   <data name="LoginFacebook" xml:space="preserve">
-    <value>FaceBook</value>
+    <value>Accedi con FaceBook</value>
   </data>
   <data name="LoginPasswordForgot" xml:space="preserve">
     <value>Password dimenticata?</value>
@@ -311,5 +311,83 @@
   </data>
   <data name="PublishAdInfoShipment" xml:space="preserve">
     <value>Al costo della spedizione verrà applicata una commissione del 10%</value>
+  </data>
+  <data name="RegisterInfo" xml:space="preserve">
+    <value>Attenzione agli &lt;b&gt;spazi&lt;/b&gt; soprattutto nei campi telefono o e-mail!</value>
+  </data>
+  <data name="BartLink" xml:space="preserve">
+    <value>Baratto / Offerta</value>
+  </data>
+  <data name="ContactsLink" xml:space="preserve">
+    <value>Assistenza</value>
+  </data>
+  <data name="EarnMoneyLink" xml:space="preserve">
+    <value>Come guadagnare</value>
+  </data>
+  <data name="HowWorkLink" xml:space="preserve">
+    <value>Come funziona</value>
+  </data>
+  <data name="MissionLink" xml:space="preserve">
+    <value>Missione</value>
+  </data>
+  <data name="PrivacyLink" xml:space="preserve">
+    <value>Privacy</value>
+  </data>
+  <data name="BarterAsyncLink" xml:space="preserve">
+    <value>Baratto asincrono</value>
+  </data>
+  <data name="BarterLink" xml:space="preserve">
+    <value>Baratto</value>
+  </data>
+  <data name="BarterMultilateralLink" xml:space="preserve">
+    <value>Baratto multilaterale</value>
+  </data>
+  <data name="BitCoin" xml:space="preserve">
+    <value>BitCoin</value>
+  </data>
+  <data name="CircularEconomy" xml:space="preserve">
+    <value>Economia circolare</value>
+  </data>
+  <data name="FreeCircuitLink" xml:space="preserve">
+    <value>Circuito del gratuito</value>
+  </data>
+  <data name="FundingLink" xml:space="preserve">
+    <value>Finanziamenti</value>
+  </data>
+  <data name="GiftLink" xml:space="preserve">
+    <value>Regalare</value>
+  </data>
+  <data name="HappyDegrowth" xml:space="preserve">
+    <value>Decrescita felice</value>
+  </data>
+  <data name="HappyPeople" xml:space="preserve">
+    <value>HappyPeople</value>
+  </data>
+  <data name="OnlineMoneyLink" xml:space="preserve">
+    <value>Criptovaluta</value>
+  </data>
+  <data name="PartnershipLink" xml:space="preserve">
+    <value>Partnership</value>
+  </data>
+  <data name="SecurityLink" xml:space="preserve">
+    <value>Sicurezza</value>
+  </data>
+  <data name="SellGratisLink" xml:space="preserve">
+    <value>Vendere senza denaro</value>
+  </data>
+  <data name="ShipmentLink" xml:space="preserve">
+    <value>Spedizione</value>
+  </data>
+  <data name="SiteWebLink" xml:space="preserve">
+    <value>Siti utili</value>
+  </data>
+  <data name="TeamLink" xml:space="preserve">
+    <value>Squadra</value>
+  </data>
+  <data name="WhySiteLink" xml:space="preserve">
+    <value>Perchè G4G?</value>
+  </data>
+  <data name="RegisterLinkSpeed" xml:space="preserve">
+    <value>Vuoi fare una registrazione PIù RAPIDA?!?! &gt;&gt;&gt;</value>
   </data>
 </root>

@@ -19,13 +19,13 @@
                     <a class="prev">‹</a>
                     <a class="next">›</a>
                     <!--<a class="close">×</a>
-                    <a class="play-pause"></a>-->
-                    <ol class="indicator"></ol>
+                    <a class="play-pause"></a>
+                    <ol class="indicator"></ol>-->
                 </div>
                 <div id="albumAnnuncio" class="album" style="display:none;">
                     @foreach (GratisForGratis.Models.AnnuncioFoto foto in Model.Foto)
                     {
-                        <a href="@Url.Content("~/Uploads/Images/" + Model.Venditore.VenditoreToken + "/" + @foto.DATA_INSERIMENTO.Year + "/Original/" + foto.ALLEGATO.NOME)">
+                        <a href="@Url.Content("~/Uploads/Images/" + Model.Venditore.VenditoreToken + "/" + @foto.DATA_INSERIMENTO.Year + "/Original/" + foto.ALLEGATO.NOME)" title="@(Language.Phote + " 1")">
                             <img src="@Url.Content("~/Uploads/Images/" + Model.Venditore.VenditoreToken + "/" + @foto.DATA_INSERIMENTO.Year + "/Little/" + foto.ALLEGATO.NOME)" alt="@Model.Nome" />
                         </a>
                     }
@@ -41,8 +41,10 @@
             <div class="right">
                 <h3 class="info title">@Model.Nome</h3>
                 <h4 class="info category">
-                    <img class="glyphicon category" src="@Url.Content("~/Images/Icone/category.svg")" alt="@Language.Category" />
-                    @Model.Categoria
+                    <a href="@Url.Action("","cerca", new { Cerca_IDCategoria = Model.CategoriaID, Cerca_Categoria = Model.Categoria })" title="@Model.Categoria">
+                        <img class="glyphicon category" src="@Url.Content("~/Images/Icone/category.svg")" alt="@Language.Category" />
+                        @Model.Categoria
+                    </a>
                 </h4>
                 <div class="info">
                     <h5 class="points">
