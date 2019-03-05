@@ -584,13 +584,13 @@ namespace GratisForGratis.Controllers
         {
             try
             {
-                FacebookClient app = new FacebookClient(ConfigurationManager.AppSettings["TokenPermanente"]);
+                FacebookClient app = new FacebookClient(ConfigurationManager.AppSettings["FBTokenPermanenteG4G"]);
                 Dictionary<string, object> feed = new Dictionary<string, object>() {
                     { "message", message },
-                    { "picture", picture },
-                    { "link", link }
+                    //{ "picture", picture },
+                    //{ "link", link }
                 };
-                var isSend = app.Post("/" + ConfigurationManager.AppSettings["FanPageID"] + "/feed", feed);
+                var isSend = app.Post("/v3.2/" + ConfigurationManager.AppSettings["FBPageIDG4G"] + "/feed", feed);
                 return (string)isSend;
             }
             catch (FacebookOAuthException ex)

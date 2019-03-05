@@ -198,6 +198,7 @@ namespace GratisForGratis.Controllers
             var loginUrl = fb.GetLoginUrl(new
             {
                 client_id = ConfigurationManager.AppSettings["FacebookApiId"],
+                client_secret = ConfigurationManager.AppSettings["FacebookApiSecret"],
                 redirect_uri = RedirectUri.AbsoluteUri,
                 response_type = "code",
                 scope = "email" // Add other permissions as needed
@@ -212,13 +213,16 @@ namespace GratisForGratis.Controllers
         {
             try
             {
+                // RECUPERA ACCESS TOKEN BREVE
                 var fb = new FacebookClient();
+                string scope = "user_friends, email, manage_pages, pages_show_list, publish_pages, public_profile";
                 dynamic result = fb.Post("oauth/access_token", new
                 {
                     client_id = ConfigurationManager.AppSettings["FacebookApiId"],
                     client_secret = ConfigurationManager.AppSettings["FacebookApiSecret"],
                     redirect_uri = RedirectUri.AbsoluteUri,
-                    code = code
+                    code = code,
+                    scope = scope
                 });
 
                 var accessToken = result.access_token;
@@ -234,32 +238,52 @@ namespace GratisForGratis.Controllers
                 dynamic me = fb.Get("me?fields=first_name,last_name,id,email");
 
                 // Set the auth cookie
-                //string email = me.email;
-                //FormsAuthentication.SetAuthCookie(email, false);
+                string email = me.email;
+                FormsAuthentication.SetAuthCookie(email, false);
 
-                FacebookClient app = new FacebookClient(accessToken);
+                // RECUPERA ACCESS TOKEN MEDIO
+                //FacebookClient app = new FacebookClient(accessToken);
 
-                dynamic result2 = app.Post("https://graph.facebook.com/oauth/access_token", new
-                {
-                    grant_type = "fb_exchange_token",
-                    client_id = ConfigurationManager.AppSettings["FacebookApiId"],
-                    client_secret = ConfigurationManager.AppSettings["FacebookApiSecret"],
-                    fb_exchange_token = accessToken
-                });
+                //dynamic result2 = app.Post("https://graph.facebook.com/oauth/access_token", new
+                //{
+                //    grant_type = "fb_exchange_token",
+                //    client_id = ConfigurationManager.AppSettings["FacebookApiId"],
+                //    client_secret = ConfigurationManager.AppSettings["FacebookApiSecret"],
+                //    fb_exchange_token = accessToken
+                //});
 
-                dynamic token = app.Get("https://graph.facebook.com/me/accounts", new
-                {
-                    access_token = result2[0]
-                });
+                //// RECUPERA ACCESS TOKEN PERMANENTE
+                //JsonObject user = (JsonObject)app.Get("https://graph.facebook.com/me/accounts", new
+                //{
+                //    access_token = result2[0]
+                //});
 
-                var logJson = Newtonsoft.Json.JsonConvert.SerializeObject(token);
+                //JsonArray listaPagine = (JsonArray)user[0];
+                //string tokenPermanenteG4G = null;
+                //listaPagine.ForEach(m =>
+                //{
+                //    var test = (JsonObject)m;
+                //    if (test["id"].ToString() == ConfigurationManager.AppSettings["FBPageIDG4G"])
+                //    {
+                //        // TOKEN PERMANENTE PAGINA GRATISFORGRATIS
+                //        tokenPermanenteG4G = test["access_token"].ToString();
+                //    }
+                //});
 
                 using (DatabaseContext db = new DatabaseContext())
                 {
                     int id = this.AddUtenteFacebook(accessToken, accessToken, me, db);
                     this.setSessioneUtente(base.Session, db, id, false, ControllerContext);
                 }
-                //dynamic result2 = app.Post("/" + ConfigurationManager.AppSettings["FanPageID"] + "/feed", new Dictionary<string, object> { { "message", "This Post was made from my website" } });
+                //string tok = ConfigurationManager.AppSettings["FBTokenPermanenteG4G"];
+                
+                //FacebookClient app2 = new FacebookClient(tokenPermanenteG4G);
+                //dynamic result3 = app2.Post("/v3.2/" + ConfigurationManager.AppSettings["FBPageIDG4G"] + "/feed", 
+                //    new Dictionary<string, object> {
+                //        {
+                //            "message", "This Post was made from my website"
+                //        }
+                //    });
                 //return Redirect((string.IsNullOrWhiteSpace(RedirectUri.AbsoluteUri)) ? FormsAuthentication.DefaultUrl : RedirectUri.AbsoluteUri);
                 return RedirectToAction("Index");
             }
@@ -268,6 +292,45 @@ namespace GratisForGratis.Controllers
                 TempData["eccezione"] = eccezione;
                 return Redirect("Login");
             }
+        }
+
+        // NON USATO
+        [HttpGet]
+        public ActionResult FBTokenPermanente(string accessToken)
+        {
+            var fb = new FacebookClient();
+
+            // generate medium lived token (2 mesi)
+            FacebookClient app = new FacebookClient(accessToken);
+            dynamic result2 = app.Post("https://graph.facebook.com/oauth/access_token", new
+            {
+                grant_type = "fb_exchange_token",
+                client_id = ConfigurationManager.AppSettings["FacebookApiId"],
+                client_secret = ConfigurationManager.AppSettings["FacebookApiSecret"],
+                fb_exchange_token = accessToken
+            });
+
+            // RECUPERA ACCESS TOKEN PERMANENTE
+            JsonObject user = (JsonObject)app.Get("https://graph.facebook.com/me/accounts", new
+            {
+                access_token = result2[0]
+            });
+
+            JsonArray listaPagine = (JsonArray)user[0];
+            string token = null;
+            listaPagine.ForEach(m =>
+            {
+                var test = (JsonObject)m;
+                //if (test["id"].ToString() == ConfigurationManager.AppSettings["FBPageIDG4G"])
+                //{
+                //    // TOKEN PERMANENTE PAGINA GRATISFORGRATIS
+                //    token = test["access_token"].ToString();
+                //}
+                token += "<p><b>Pagina " + test["name"].ToString() + ":</b> " + test["access_token"].ToString() + "</p>";
+            });
+            
+            TempData["token"] = token;
+            return View();
         }
         #endregion
 
@@ -575,76 +638,87 @@ namespace GratisForGratis.Controllers
                     {
                         try
                         {
-                            // verificare esistenza e-mail come nell'action Cerca/RegistrazioneEmail in versione POST
-                            CONTO_CORRENTE conto = db.CONTO_CORRENTE.Create();
-                            conto.ID = Guid.NewGuid();
-                            conto.TOKEN = Guid.NewGuid();
-                            conto.DATA_INSERIMENTO = DateTime.Now;
-                            conto.STATO = (int)Stato.ATTIVO;
-                            db.CONTO_CORRENTE.Add(conto);
-                            db.SaveChanges();
-                            PBKDF2 crypto = new PBKDF2();
-                            PERSONA persona = db.PERSONA.Create();
-                            persona.TOKEN = Guid.NewGuid();
-                            persona.TOKEN_PASSWORD = crypto.GenerateSalt(1, 20);
-                            persona.PASSWORD = crypto.Compute(model.Password.Trim(), persona.TOKEN_PASSWORD);
-                            persona.NOME = model.Nome.Trim();
-                            persona.COGNOME = model.Cognome.Trim();
-                            persona.ID_CONTO_CORRENTE = conto.ID;
-                            persona.ID_ABBONAMENTO = db.ABBONAMENTO.SingleOrDefault(item => item.NOME == "BASE").ID;
-                            persona.DATA_INSERIMENTO = DateTime.Now;
-                            persona.STATO = (int)Stato.ATTIVO;
-                            db.PERSONA.Add(persona);
-                            if (db.SaveChanges() > 0)
+                            // verificare esistenza e-mail
+                            PERSONA checkPersona = db.PERSONA.SingleOrDefault(
+                                    item =>
+                                    item.PERSONA_EMAIL.Count(m => m.EMAIL == model.Email && m.TIPO == (int)TipoEmail.Registrazione) > 0 ||
+                                    item.PERSONA_TELEFONO.Count(m => m.TELEFONO == model.Telefono && m.TIPO == (int)TipoTelefono.Privato) > 0);
+                            if (checkPersona == null)
                             {
-                                PersonaModel utente = new PersonaModel(persona);
-                                utente.SetEmail(db, model.Email, Stato.INATTIVO);
-                                utente.SetTelefono(db, model.Telefono);
-                                utente.SetIndirizzo(db, model.Citta, model.IDCitta, model.Indirizzo, model.Civico, (int)TipoIndirizzo.Residenza);
-                                utente.SetIndirizzo(db, model.CittaSpedizione, model.IDCittaSpedizione, model.IndirizzoSpedizione, model.CivicoSpedizione, (int)TipoIndirizzo.Spedizione);
+                                CONTO_CORRENTE conto = db.CONTO_CORRENTE.Create();
+                                conto.ID = Guid.NewGuid();
+                                conto.TOKEN = Guid.NewGuid();
+                                conto.DATA_INSERIMENTO = DateTime.Now;
+                                conto.STATO = (int)Stato.ATTIVO;
+                                db.CONTO_CORRENTE.Add(conto);
+                                db.SaveChanges();
+                                PBKDF2 crypto = new PBKDF2();
+                                PERSONA persona = db.PERSONA.Create();
+                                persona.TOKEN = Guid.NewGuid();
+                                persona.TOKEN_PASSWORD = crypto.GenerateSalt(1, 20);
+                                persona.PASSWORD = crypto.Compute(model.Password.Trim(), persona.TOKEN_PASSWORD);
+                                persona.NOME = model.Nome.Trim();
+                                persona.COGNOME = model.Cognome.Trim();
+                                persona.ID_CONTO_CORRENTE = conto.ID;
+                                persona.ID_ABBONAMENTO = db.ABBONAMENTO.SingleOrDefault(item => item.NOME == "BASE").ID;
+                                persona.DATA_INSERIMENTO = DateTime.Now;
+                                persona.STATO = (int)Stato.ATTIVO;
+                                db.PERSONA.Add(persona);
+                                if (db.SaveChanges() > 0)
+                                {
+                                    PersonaModel utente = new PersonaModel(persona);
+                                    utente.SetEmail(db, model.Email, Stato.INATTIVO);
+                                    utente.SetTelefono(db, model.Telefono);
+                                    utente.SetIndirizzo(db, model.Citta, model.IDCitta, model.Indirizzo, model.Civico, (int)TipoIndirizzo.Residenza);
+                                    utente.SetIndirizzo(db, model.CittaSpedizione, model.IDCittaSpedizione, model.IndirizzoSpedizione, model.CivicoSpedizione, (int)TipoIndirizzo.Spedizione);
 
-                                utente.SetPrivacy(db, model.AccettaCondizioni);
-                                // crediti omaggio registrazione completata
-                                if (db.TRANSAZIONE.Count(item => item.ID_CONTO_DESTINATARIO == utente.Persona.ID_CONTO_CORRENTE && item.TIPO == (int)TipoTransazione.BonusIscrizione) <= 0)
-                                {
-                                    Guid tokenPortale = Guid.Parse(ConfigurationManager.AppSettings["portaleweb"]);
-                                    int punti = Convert.ToInt32(ConfigurationManager.AppSettings["bonusIscrizione"]);
-                                    this.AddBonus(db, ControllerContext, utente.Persona, tokenPortale, punti, TipoTransazione.BonusIscrizione, Bonus.Registration);
-                                }
-                                // assegna bonus canale pubblicitario
-                                if (Request.Cookies.Get("GXG_promo") != null)
-                                {
-                                    string promo = Request.Cookies.Get("GXG_promo").Value;
-                                    utente.AddBonusCanalePubblicitario(db, promo);
-                                    // reset cookie
-                                    HttpCookie currentUserCookie = Request.Cookies["GXG_promo"];
-                                    if (currentUserCookie != null)
+                                    utente.SetPrivacy(db, model.AccettaCondizioni);
+                                    // crediti omaggio registrazione completata
+                                    if (db.TRANSAZIONE.Count(item => item.ID_CONTO_DESTINATARIO == utente.Persona.ID_CONTO_CORRENTE && item.TIPO == (int)TipoTransazione.BonusIscrizione) <= 0)
                                     {
-                                        Response.Cookies.Remove("GXG_promo");
-                                        currentUserCookie.Expires = DateTime.Now.AddDays(-10);
-                                        currentUserCookie.Value = null;
-                                        Response.SetCookie(currentUserCookie);
+                                        Guid tokenPortale = Guid.Parse(ConfigurationManager.AppSettings["portaleweb"]);
+                                        int punti = Convert.ToInt32(ConfigurationManager.AppSettings["bonusIscrizione"]);
+                                        this.AddBonus(db, ControllerContext, utente.Persona, tokenPortale, punti, TipoTransazione.BonusIscrizione, Bonus.Registration);
                                     }
+                                    // assegna bonus canale pubblicitario
+                                    if (Request.Cookies.Get("GXG_promo") != null)
+                                    {
+                                        string promo = Request.Cookies.Get("GXG_promo").Value;
+                                        utente.AddBonusCanalePubblicitario(db, promo);
+                                        // reset cookie
+                                        HttpCookie currentUserCookie = Request.Cookies["GXG_promo"];
+                                        if (currentUserCookie != null)
+                                        {
+                                            Response.Cookies.Remove("GXG_promo");
+                                            currentUserCookie.Expires = DateTime.Now.AddDays(-10);
+                                            currentUserCookie.Value = null;
+                                            Response.SetCookie(currentUserCookie);
+                                        }
+                                    }
+
+                                    // invio email registrazione
+                                    EmailModel email = new EmailModel(ControllerContext);
+                                    email.To.Add(new System.Net.Mail.MailAddress(utente.Email.SingleOrDefault(m => m.TIPO == (int)TipoEmail.Registrazione).EMAIL, persona.NOME + " " + persona.COGNOME));
+                                    email.Subject = Email.RegistrationSubject + " - " + WebConfigurationManager.AppSettings["nomeSito"];
+                                    email.Body = "RegistrazioneUtente";
+                                    email.DatiEmail = new RegistrazioneEmailModel(model)
+                                    {
+                                        PasswordCodificata = persona.PASSWORD
+                                    };
+                                    new EmailController().SendEmail(email);
+
+                                    transazione.Commit();
+
+                                    setSessioneUtente(base.Session, db, persona.ID, false, ControllerContext);
+                                    // sistemare il return, perchè va in conflitto con il allowonlyanonymous
+                                    return Redirect((string.IsNullOrWhiteSpace(model.ReturnUrl)) ? FormsAuthentication.DefaultUrl : model.ReturnUrl);
                                 }
-
-                                // invio email registrazione
-                                EmailModel email = new EmailModel(ControllerContext);
-                                email.To.Add(new System.Net.Mail.MailAddress(utente.Email.SingleOrDefault(m => m.TIPO == (int)TipoEmail.Registrazione).EMAIL, persona.NOME + " " + persona.COGNOME));
-                                email.Subject = Email.RegistrationSubject + " - " + WebConfigurationManager.AppSettings["nomeSito"];
-                                email.Body = "RegistrazioneUtente";
-                                email.DatiEmail = new RegistrazioneEmailModel(model)
-                                {
-                                    PasswordCodificata = persona.PASSWORD
-                                };
-                                new EmailController().SendEmail(email);
-
-                                transazione.Commit();
-
-                                setSessioneUtente(base.Session, db, persona.ID, false, ControllerContext);
-                                // sistemare il return, perchè va in conflitto con il allowonlyanonymous
-                                return Redirect((string.IsNullOrWhiteSpace(model.ReturnUrl)) ? FormsAuthentication.DefaultUrl : model.ReturnUrl);
                             }
-
+                            else
+                            {
+                                base.ModelState.AddModelError("Errore", ErrorResource.RegisterExist);
+                                return View(model);
+                            }
                         }
                         catch (Exception exception)
                         {

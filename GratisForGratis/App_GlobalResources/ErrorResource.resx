@@ -201,6 +201,9 @@
   <data name="RecipientTelephone" xml:space="preserve">
     <value>Telefono obbligatorio</value>
   </data>
+  <data name="RegisterExist" xml:space="preserve">
+    <value>E-mail o telefono già presenti</value>
+  </data>
   <data name="SellerNameRequired" xml:space="preserve">
     <value>Nominativo obbligatorio</value>
   </data>

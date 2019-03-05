@@ -313,6 +313,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a E-mail o telefono già presenti.
+        /// </summary>
+        public static string RegisterExist {
+            get {
+                return ResourceManager.GetString("RegisterExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Nominativo obbligatorio.
         /// </summary>
         public static string SellerNameRequired {

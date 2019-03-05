@@ -1570,6 +1570,7 @@
     <Content Include="Views\Home\Missione.cshtml" />
     <Content Include="Views\Home\EconomiaCircolare.cshtml" />
     <Content Include="Views\Home\DecrescitaFelice.cshtml" />
+    <Content Include="Views\Utente\FBTokenPermanente.cshtml" />
     <None Include="Web References\ServizioADV\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
