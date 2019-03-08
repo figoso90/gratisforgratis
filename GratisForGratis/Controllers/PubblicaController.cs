@@ -67,11 +67,17 @@ namespace GratisForGratis.Controllers
                 ErrorSignal.FromCurrentContext().Raise(ex);
                 return RedirectToAction("Index", "Utente");
             }
-            //if (!HttpContext.IsDebuggingEnabled)
+            // PUBBLICAZIONE SOCIAL
             string emailUtente = (Session["utente"] as PersonaModel)
                 .Email.FirstOrDefault(item => item.TIPO == (int)TipoEmail.Registrazione).EMAIL;
-            string indirizzoImmagine = GetCurrentDomain() + "/Uploads/Images/" + emailUtente + "/" + DateTime.Now.Year + "/Normal/" + viewModel.Foto[0].ALLEGATO.NOME;
-                SendPostFacebook(viewModel.Nome + " GRATIS con " + viewModel.Punti, indirizzoImmagine, GetCurrentDomain());
+            string dominio = GetCurrentDomain();
+            if (HttpContext.IsDebuggingEnabled)
+            {
+                dominio = "https://www.gratisforgratis.com";
+            }
+            string indirizzoImmagine = dominio + "/Uploads/Images/" + emailUtente + "/" + DateTime.Now.Year + "/Normal/" + viewModel.Foto[0].ALLEGATO.NOME;
+            SendPostFacebook(viewModel.Nome + " GRATIS con " + viewModel.Punti, indirizzoImmagine, dominio);
+
             return View(viewModel);
         }
         
@@ -585,13 +591,22 @@ namespace GratisForGratis.Controllers
             try
             {
                 FacebookClient app = new FacebookClient(ConfigurationManager.AppSettings["FBTokenPermanenteG4G"]);
+                bool visibile = false;
+                if (!HttpContext.IsDebuggingEnabled)
+                {
+                    visibile = true;
+                }
                 Dictionary<string, object> feed = new Dictionary<string, object>() {
+                    { "published", visibile },
                     { "message", message },
-                    //{ "picture", picture },
-                    //{ "link", link }
+                    { "picture", picture },
+                    { "link", link }
                 };
-                var isSend = app.Post("/v3.2/" + ConfigurationManager.AppSettings["FBPageIDG4G"] + "/feed", feed);
-                return (string)isSend;
+                JsonObject response = (JsonObject)app.Post("/v3.2/" + ConfigurationManager.AppSettings["FBPageIDG4G"] + "/feed", feed);
+
+                TempData["FBINFO"] = "Test riuscito";
+
+                return response["id"].ToString();
             }
             catch (FacebookOAuthException ex)
             {

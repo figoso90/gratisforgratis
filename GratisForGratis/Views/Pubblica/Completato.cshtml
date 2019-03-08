@@ -11,6 +11,7 @@
     <div id="grid" class="content">
         @Html.Partial("PartialPages/_AnnuncioMedium", Model)
     </div>
+    <h3>@TempData["FBINFO"]</h3>
 </section>
 @section Scripts {
     @Scripts.Render("~/Scripts/offerteRicevute.js")

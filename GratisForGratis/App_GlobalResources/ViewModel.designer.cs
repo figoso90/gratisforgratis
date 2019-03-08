@@ -574,11 +574,29 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Al costo della spedizione verrà applicata una commissione del 10%.
+        ///   Cerca una stringa localizzata simile a Al costo della spedizione verrà applicata una &lt;span style=&quot;color:red;font-weight:bold;&quot;&gt;commissione del 10%&lt;/span&gt;.
         /// </summary>
         public static string PublishAdInfoShipment {
             get {
                 return ResourceManager.GetString("PublishAdInfoShipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Se il tuo account è collegato a quello di Facebook &lt;b&gt;guadagnerai HappyCoin&lt;/b&gt; omaggio!.
+        /// </summary>
+        public static string PublishInfoFB {
+            get {
+                return ResourceManager.GetString("PublishInfoFB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a INFO SPEDIZIONE.
+        /// </summary>
+        public static string PublishTitleShipment {
+            get {
+                return ResourceManager.GetString("PublishTitleShipment", resourceCulture);
             }
         }
         
@@ -723,6 +741,15 @@ namespace GratisForGratis.App_GlobalResources {
         public static string SellGratisLink {
             get {
                 return ResourceManager.GetString("SellGratisLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Collegato a FB!.
+        /// </summary>
+        public static string SettingsJoinToFB {
+            get {
+                return ResourceManager.GetString("SettingsJoinToFB", resourceCulture);
             }
         }
         

@@ -310,7 +310,7 @@
     <value>Puoi offrire solo tuoi annunci pubblicati con l'opzione di spedizione.</value>
   </data>
   <data name="PublishAdInfoShipment" xml:space="preserve">
-    <value>Al costo della spedizione verrà applicata una commissione del 10%</value>
+    <value>Al costo della spedizione verrà applicata una &lt;span style="color:red;font-weight:bold;"&gt;commissione del 10%&lt;/span&gt;</value>
   </data>
   <data name="RegisterInfo" xml:space="preserve">
     <value>Attenzione agli &lt;b&gt;spazi&lt;/b&gt; soprattutto nei campi telefono o e-mail!</value>
@@ -389,5 +389,14 @@
   </data>
   <data name="RegisterLinkSpeed" xml:space="preserve">
     <value>Vuoi fare una registrazione PIù RAPIDA?!?! &gt;&gt;&gt;</value>
+  </data>
+  <data name="PublishInfoFB" xml:space="preserve">
+    <value>Se il tuo account è collegato a quello di Facebook &lt;b&gt;guadagnerai HappyCoin&lt;/b&gt; omaggio!</value>
+  </data>
+  <data name="PublishTitleShipment" xml:space="preserve">
+    <value>INFO SPEDIZIONE</value>
+  </data>
+  <data name="SettingsJoinToFB" xml:space="preserve">
+    <value>Collegato a FB!</value>
   </data>
 </root>

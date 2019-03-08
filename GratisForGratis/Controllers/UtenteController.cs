@@ -64,6 +64,9 @@ namespace GratisForGratis.Controllers
                     viewModel.IndirizzoSpedizione = modelIndirizzoSpedizione.INDIRIZZO.INDIRIZZO1;
                     viewModel.CivicoSpedizione = modelIndirizzoSpedizione.INDIRIZZO.CIVICO;
                 }
+
+                viewModel.Foto = persona.PERSONA_FOTO.Select(m => new FotoModel(m.ALLEGATO)).ToList();
+
                 viewModel.listaAcquisti = new List<AnnuncioViewModel>();
                 viewModel.listaDesideri = new List<AnnuncioViewModel>();
                 // far vedere top n acquisti con link
@@ -394,7 +397,20 @@ namespace GratisForGratis.Controllers
                         PersonaModel utente = base.Session["utente"] as PersonaModel;
                         try
                         {
+                            if (db.PERSONA_EMAIL.Count(m => m.ID_PERSONA != utente.Persona.ID && 
+                                m.EMAIL == model.Email) > 0)
+                            {
+                                base.ModelState.AddModelError("Errore", ErrorResource.RegisterExist);
+                                base.TempData["salvato"] = false;
+                                return base.View(model);
+                            }
                             utente.SetEmail(db, model.Email);
+                            if (db.PERSONA_TELEFONO.Count(m => m.TELEFONO == model.Telefono) > 0)
+                            {
+                                base.ModelState.AddModelError("Errore", ErrorResource.RegisterExist);
+                                base.TempData["salvato"] = false;
+                                return base.View(model);
+                            }
                             utente.SetTelefono(db, model.Telefono);
                             utente.SetIndirizzo(db, model.Citta, model.IDCitta, model.Indirizzo, model.Civico, (int)TipoIndirizzo.Residenza);
                             utente.SetIndirizzo(db, model.Citta, model.IDCittaSpedizione, model.IndirizzoSpedizione, model.CivicoSpedizione, (int)TipoIndirizzo.Spedizione);

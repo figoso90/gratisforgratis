@@ -124,6 +124,13 @@
                     {
                         @Html.ActionLink(Button.JoinFacebook, "LoginFacebook", "Utente", null, new { @Class = "btn btn-primary" })
                     }
+                    else
+                    {
+                        <span>
+                            <img src="https://facebookbrand.com/wp-content/uploads/2016/05/flogo_rgb_hex-brc-site-250.png?w=32&h=32" style="margin-right: 10px;" />
+                            @ViewModel.SettingsJoinToFB
+                        </span>
+                    }
                 </div>
             </div>
         }

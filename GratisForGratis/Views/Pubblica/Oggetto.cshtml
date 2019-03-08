@@ -11,8 +11,8 @@
     @Html.ValidationMessageFor(m => m.ScambioConSpedizione, "", new { @class = "text-danger" })
 </div>
 
-<h5 class="title @((Model.ScambioConSpedizione)?"":"hide") spedizione">INFO SPEDIZIONE</h5>
-<h5 style="color:red;font-weight:bold;">@ViewModel.PublishAdInfoShipment</h5>
+<h5 class="title @((Model.ScambioConSpedizione)?"":"hide") spedizione">@ViewModel.PublishTitleShipment</h5>
+<h5>@Html.Raw(ViewModel.PublishAdInfoShipment)</h5>
 <!-- campi spedizione -->
 <div class="form-group @((Model.ScambioConSpedizione)?"":"hide") spedizione">
     @Html.LabelFor(m => m.TipoSpedizione, new { @class = "col-md-2 control-label" })

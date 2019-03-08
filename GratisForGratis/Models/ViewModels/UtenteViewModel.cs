@@ -606,6 +606,8 @@ namespace GratisForGratis.Models
         [Display(Name = "ShippingCivic", ResourceType = typeof(App_GlobalResources.Language))]
         public string CivicoSpedizione { get; set; }
 
+        public List<FotoModel> Foto { get; set; }
+
         // AGGIUNGERE LISTA ACQUISTI UTENTE
         public List<AnnuncioViewModel> listaAcquisti { get; set; }
         // AGGIUNGERE LISTA DESIDERI UTENTE

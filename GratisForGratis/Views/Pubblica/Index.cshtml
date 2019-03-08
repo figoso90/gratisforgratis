@@ -48,7 +48,7 @@
                     <span class="valuta" style="">€</span>
                     @Html.TextBoxFor(m => m.Soldi, new { @class = "form-control number" })
                     <a class='my-tool-tip' data-toggle="tooltip" href="javascript:void(0);" 
-                       title="Il prodotto è venduto in HappyCoin ma viene richiesta una valutazione in €">
+                       title="@Tooltip.PublishInfoMoney">
                         <i class="glyphicon glyphicon-info-sign" style="display: inline-block;vertical-align: top;color: red;"></i>
                     </a>
                 </div>
@@ -104,6 +104,7 @@
 
         <div class="footer">
             <input id="bottonePubblica" type="submit" class="btn btn-success addOggetto" value="@Language.Public" />
+            <p>@Html.Raw(ViewModel.PublishInfoFB)</p>
         </div>
     }
 </section>

@@ -126,4 +126,7 @@
   <data name="PayShipmentBid" xml:space="preserve">
     <value>Pagando la spedizione per l'offerta ricevuta, riceverai i crediti offerti e concluderai l'acquisto dei baratti offerti.</value>
   </data>
+  <data name="PublishInfoMoney" xml:space="preserve">
+    <value>Il prodotto è venduto in HappyCoin ma viene richiesta una valutazione in €</value>
+  </data>
 </root>

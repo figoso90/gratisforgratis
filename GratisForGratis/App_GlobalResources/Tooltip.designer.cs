@@ -86,5 +86,14 @@ namespace GratisForGratis.App_GlobalResources {
                 return ResourceManager.GetString("PayShipmentBid", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Il prodotto è venduto in HappyCoin ma viene richiesta una valutazione in €.
+        /// </summary>
+        public static string PublishInfoMoney {
+            get {
+                return ResourceManager.GetString("PublishInfoMoney", resourceCulture);
+            }
+        }
     }
 }

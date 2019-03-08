@@ -12,7 +12,7 @@
 <section id="profilo">
     <h1 id="title">@ViewBag.Title</h1>
     <section>
-        <div id="lnkChat" class="col-sm-10 btn">
+        <div id="lnkChat" class="col-sm-10 btn btn-primary">
             <i class="glyphicon glyphicon-envelope"></i>
             @Html.ActionLink(ViewModel.ProfileSendMessage, "Utente", "Chat", new { token = Model.Token }, new { @class = "" })
         </div>
@@ -20,8 +20,20 @@
     <section class="content">
         <div class="row">
             <div class="col-sm-3">
+                <div>
+                    @if (Model.Foto.Count > 0)
+                    {
+                        <img src="@("/Uploads/Images/" + Model.Token + "/" + Model.Foto[0].DATA_INSERIMENTO.Year + "/Normal/" + Model.Foto[0].NOME)" alt="@(Model.Foto[0].NOME)">
+                    }
+                    else
+                    {
+                        <img src="/Images/profile.png" alt="Immagine profilo">
+                    }
+                </div>
+            </div>
+            <div class="col-sm-3">
                 <header>
-                @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+                    @Html.LabelFor(m => m.Email, new { @class = "control-label" })
                 </header>
                 <div>
                     @Model.Email
@@ -43,14 +55,14 @@
                     @Model.Cognome
                 </div>
             </div>
-            <div class="col-sm-3">
-                <header>
-                    @Html.LabelFor(m => m.Telefono, new { @class = "control-label" })
-                </header>
-                <div>
-                    @Model.Telefono
-                </div>
+            @*<div class="col-sm-3">
+            <header>
+                @Html.LabelFor(m => m.Telefono, new { @class = "control-label" })
+            </header>
+            <div>
+                @Model.Telefono
             </div>
+        </div>*@
         </div>
         <div class="row">
             <div class="col-sm-4">
