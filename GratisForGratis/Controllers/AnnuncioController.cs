@@ -76,6 +76,8 @@ namespace GratisForGratis.Controllers
                                         TempData["pagamentoEffettuato"] = true;
                                         transaction.Commit();
                                         this.RefreshPunteggioUtente(db);
+                                        this.SendNotifica(model.PERSONA, model.PERSONA1, TipoNotifica.AnnuncioAcquistato, ControllerContext, "annuncioAcquistato", model);
+                                        this.SendNotifica(model.PERSONA1, model.PERSONA, TipoNotifica.AnnuncioVenduto, ControllerContext, "annuncioVenduto", model);
                                         return RedirectToAction("Index", "Annuncio", new { token = viewModel.Token });
                                     }
                                     // altrimenti pagamento fallito!
@@ -154,6 +156,9 @@ namespace GratisForGratis.Controllers
                                 // salvare transazione
                                 transaction.Commit();
                                 this.RefreshPunteggioUtente(db);
+                                // invia e-mail al venditore
+                                PERSONA venditore = db.PERSONA.SingleOrDefault(m => m.ID == viewModel.Annuncio.Venditore.Id);
+                                this.SendNotifica(utente.Persona, venditore, TipoNotifica.OffertaRicevuta, ControllerContext, "offerta", viewModel);
                                 return Json(new { Messaggio = Language.JsonSendBid });
                             }
 
@@ -226,13 +231,13 @@ namespace GratisForGratis.Controllers
                                 // se venditore annulla pagamento, potrà sempre pagare più avanti, sennò feedback negativo e annullo transazioni
                                 if (offertaModel.ANNUNCIO.STATO == (int)StatoVendita.BARATTOINCORSO)
                                 {
-                                    Models.ViewModels.Email.PagamentoOffertaViewModel pagamentoOfferta = new Models.ViewModels.Email.PagamentoOffertaViewModel();
-                                    pagamentoOfferta.NominativoDestinatario = offertaModel.PERSONA.NOME + " " + offertaModel.PERSONA.COGNOME;
-                                    pagamentoOfferta.NomeAnnuncio = offertaModel.ANNUNCIO.NOME;
-                                    pagamentoOfferta.Moneta = offertaModel.PUNTI;
-                                    pagamentoOfferta.SoldiSpedizione = offertaModel.SOLDI;
-                                    pagamentoOfferta.Baratti = offertaModel.OFFERTA_BARATTO.Select(m => m.ANNUNCIO.NOME).ToList();
-                                    this.SendNotifica(utente.Persona,offertaModel.PERSONA, TipoNotifica.PagaOfferta, ControllerContext, "pagamentoOfferta", pagamentoOfferta);
+                                    Models.ViewModels.Email.PagamentoOffertaViewModel offertaAccettata = new Models.ViewModels.Email.PagamentoOffertaViewModel();
+                                    offertaAccettata.NominativoDestinatario = offertaModel.PERSONA.NOME + " " + offertaModel.PERSONA.COGNOME;
+                                    offertaAccettata.NomeAnnuncio = offertaModel.ANNUNCIO.NOME;
+                                    offertaAccettata.Moneta = offertaModel.PUNTI;
+                                    offertaAccettata.SoldiSpedizione = offertaModel.SOLDI;
+                                    offertaAccettata.Baratti = offertaModel.OFFERTA_BARATTO.Select(m => m.ANNUNCIO.NOME).ToList();
+                                    this.SendNotifica(utente.Persona,offertaModel.PERSONA, TipoNotifica.OffertaAccettata, ControllerContext, "offertaAccettata", offertaAccettata);
                                 }
                                 transazioneDb.Commit();
                                 ViewBag.Message = Language.AcceptedBid;
@@ -295,11 +300,13 @@ namespace GratisForGratis.Controllers
         public ActionResult RifiutaOfferta(string token)
         {
             int idOfferta = Utils.DecodeToInt(token);
-            OffertaModel offerta = new OffertaModel(idOfferta, (Session["utente"] as PersonaModel).Persona);
+            PERSONA mittente = (Session["utente"] as PersonaModel).Persona;
+            OffertaModel offerta = new OffertaModel(idOfferta, mittente);
             if (offerta.Rifiuta())
             {
                 //return Json(new { Messaggio = Language.StateBidDelete });
                 ViewBag.Message = Language.StateBidDelete;
+                this.SendNotifica(mittente, offerta.PERSONA, TipoNotifica.OffertaRifiutata, ControllerContext, "offertaRifiutata", offerta);
                 return Redirect(System.Web.HttpContext.Current.Request.UrlReferrer.ToString());
             }
             //Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;

@@ -358,6 +358,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts_OLD\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Images\beta.png" />
+    <Content Include="Images\beta_testing.png" />
+    <Content Include="Images\black_friday.jpg" />
     <Content Include="Images\categorie\Abbigliamento.jpg" />
     <Content Include="Images\categorie\Arredamento.jpg" />
     <Content Include="Images\categorie\Cartoleria.jpg" />
@@ -379,6 +382,8 @@
     <Content Include="Images\categorie\ServiziPerLaPersona.jpg" />
     <Content Include="Images\categorie\Sport.jpg" />
     <Content Include="Images\categorie\Videoteca.jpg" />
+    <Content Include="Images\free.jpg" />
+    <Content Include="Images\gratisforgratis_nametag.png" />
     <Content Include="Images\icone\aprifiltro.svg" />
     <Content Include="Images\icone\aprifiltro2.svg" />
     <Content Include="Images\icone\aprifiltro3.svg" />
@@ -405,6 +410,40 @@
     <Content Include="Images\icone\search.svg" />
     <Content Include="Images\icone\security.svg" />
     <Content Include="Images\logo.jpg" />
+    <Content Include="Images\logo.svg" />
+    <Content Include="Images\logo2.jpg" />
+    <Content Include="Images\logo3.jpg" />
+    <Content Include="Images\logo4.jpg" />
+    <Content Include="Images\nessunaFoto.jpg" />
+    <Content Include="Images\notFound.jpg" />
+    <Content Include="Images\notFound2.jpg" />
+    <Content Include="Images\regalo.jpg" />
+    <Content Include="Images\saldi.jpg" />
+    <Content Include="Images\sezioni\compra_gratis.jpg" />
+    <Content Include="Images\sezioni\compra_gratis1.jpg" />
+    <Content Include="Images\sezioni\compra_gratis3.jpg" />
+    <Content Include="Images\sezioni\compra_gratis4.jpg" />
+    <Content Include="Images\sezioni\compra_gratis5.jpg" />
+    <Content Include="Images\sezioni\compra_gratis6.jpg" />
+    <Content Include="Images\sezioni\compra_gratis7.jpg" />
+    <Content Include="Images\sezioni\compra_gratis8.jpg" />
+    <Content Include="Images\sezioni\compra_gratis9.jpg" />
+    <Content Include="Images\sezioni\compra_gratis_2.jpg" />
+    <Content Include="Images\sezioni\credit author.txt" />
+    <Content Include="Images\sezioni\speranza1.jpg" />
+    <Content Include="Images\sezioni\speranza2.jpg" />
+    <Content Include="Images\sezioni\speranza3.jpg" />
+    <Content Include="Images\sezioni\speranza4.jpg" />
+    <Content Include="Images\sfondo.jpg" />
+    <Content Include="Images\stickers\10.png" />
+    <Content Include="Images\stickers\17.png" />
+    <Content Include="Images\stickers\21.png" />
+    <Content Include="Images\stickers\25.png" />
+    <Content Include="Images\stickers\28.png" />
+    <Content Include="Images\stickers\29.png" />
+    <Content Include="Images\stickers\3.png" />
+    <Content Include="Images\stickers\4.png" />
+    <Content Include="Images\voucher.jpg" />
     <Content Include="Models\EntityModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>EntityModel.edmx</DependentUpon>
@@ -1515,7 +1554,7 @@
     <Content Include="Views\Annuncio\PartialPages\Oggetto\Computer.cshtml" />
     <Content Include="Views\Annuncio\PartialPages\Oggetto\Telefono.cshtml" />
     <Content Include="Views\Annuncio\PartialPages\Oggetto\Videogames.cshtml" />
-    <Content Include="Views\Annuncio\PartialPages\Email\Offerta.cshtml" />
+    <Content Include="Views\Shared\Email\offerta.cshtml" />
     <Content Include="Views\Annuncio\PartialPages\_Servizio.cshtml" />
     <Content Include="Views\Annuncio\PartialPages\_Oggetto.cshtml" />
     <Content Include="Views\Annuncio\PartialPages\Oggetto\Console.cshtml" />
@@ -1571,6 +1610,10 @@
     <Content Include="Views\Home\EconomiaCircolare.cshtml" />
     <Content Include="Views\Home\DecrescitaFelice.cshtml" />
     <Content Include="Views\Utente\FBTokenPermanente.cshtml" />
+    <Content Include="Views\Shared\Email\offertaRifiutata.cshtml" />
+    <Content Include="Views\Shared\Email\annuncioAcquistato.cshtml" />
+    <Content Include="Views\Shared\Email\annuncioVenduto.cshtml" />
+    <Content Include="Views\Shared\Email\offertaAccettata.cshtml" />
     <None Include="Web References\ServizioADV\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -1594,6 +1637,7 @@
     <Folder Include="Uploads\Images\Little\" />
     <Folder Include="Uploads\Images\Normal\" />
     <Folder Include="Uploads\Images\Original\" />
+    <Folder Include="Views\Annuncio\PartialPages\Email\" />
     <Folder Include="Views\Annuncio\PartialPages\Servizio\" />
     <Folder Include="Views\Pubblica\Servizio\" />
   </ItemGroup>

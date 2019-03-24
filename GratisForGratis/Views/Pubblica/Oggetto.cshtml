@@ -1,18 +1,20 @@
 ﻿@using GratisForGratis.Models
 @model PubblicaOggettoViewModel
 
+<h5 class="title">INFO OPZIONALI (Per ulteriori possibilità e maggiore visibilità)</h5>
+
 <div class="form-group">
     @Html.Label("TipoScambio", ViewModel.ExchangeMode, new { @class = "col-md-2 control-label" })
     @Html.CheckBoxFor(m => m.ScambioAMano, new { @class = "form-control", onchange = "sceltaScambio(this);" })
     @Html.LabelFor(m => m.ScambioAMano, new { @class = "col-md-2 control-label" })
     @Html.CheckBoxFor(m => m.ScambioConSpedizione, new { @class = "form-control", onchange = "sceltaScambio(this, true);" })
     @Html.LabelFor(m => m.ScambioConSpedizione, new { @class = "col-md-2 control-label" })
+    <span>@Html.Raw(ViewModel.PublishAdInfoShipment)</span>
     @Html.ValidationMessageFor(m => m.ScambioAMano, "", new { @class = "text-danger" })
     @Html.ValidationMessageFor(m => m.ScambioConSpedizione, "", new { @class = "text-danger" })
 </div>
 
 <h5 class="title @((Model.ScambioConSpedizione)?"":"hide") spedizione">@ViewModel.PublishTitleShipment</h5>
-<h5>@Html.Raw(ViewModel.PublishAdInfoShipment)</h5>
 <!-- campi spedizione -->
 <div class="form-group @((Model.ScambioConSpedizione)?"":"hide") spedizione">
     @Html.LabelFor(m => m.TipoSpedizione, new { @class = "col-md-2 control-label" })
@@ -100,38 +102,6 @@
         @Html.ValidationMessageFor(m => m.CivicoMittente, "", new { @class = "text-danger" })
     </div>
 </div>
-<!--
-<h5 class="title @((Model.ScambioConSpedizione && Model.TipoSpedizione==(int)Spedizione.Online)?"":"hide") spedizioneOnline">@ViewModel.DepartureInfo</h5>
-<div class="form-group departureInfo @((Model.ScambioConSpedizione && Model.TipoSpedizione==(int)Spedizione.Online)?"":"hide") spedizioneOnline">
-    <div class="form-group spedizioneOnline">
-        @Html.LabelFor(m => m.NominativoMittente, new { @class = "col-md-2 control-label" })
-        @Html.TextBoxFor(m => m.NominativoMittente, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.NominativoMittente, "", new { @class = "text-danger" })
-    </div>
-    <div class="form-group spedizioneOnline">
-        @Html.LabelFor(m => m.TelefonoMittente, new { @class = "col-md-2 control-label" })
-        @Html.TextBoxFor(m => m.TelefonoMittente, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.TelefonoMittente, "", new { @class = "text-danger" })
-    </div>
-    <div class="form-group spedizioneOnline">
-        @Html.LabelFor(m => m.CittaMittente, new { @class = "col-md-2 control-label" })
-        @Html.TextBoxFor(m => m.CittaMittente, new { @class = "form-control", data_autocomplete_url = "/Home/FindCitta", data_autocomplete_id = "IDCittaMittente" })
-        @Html.HiddenFor(m => m.IDCittaMittente)
-        @Html.ValidationMessageFor(m => m.CittaMittente, "", new { @class = "text-danger" })
-    </div>
-    <div class="form-group spedizioneOnline">
-        @Html.LabelFor(m => m.IndirizzoMittente, new { @class = "col-md-2 control-label" })
-        @Html.TextBoxFor(m => m.IndirizzoMittente, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.IndirizzoMittente, "", new { @class = "text-danger" })
-    </div>
-    <div class="form-group spedizioneOnline">
-        @Html.LabelFor(m => m.CivicoMittente, new { @class = "col-md-2 control-label" })
-        @Html.TextBoxFor(m => m.CivicoMittente, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.CivicoMittente, "", new { @class = "text-danger" })
-    </div>
-</div>
--->
-<h5 class="title">INFO OGGETTO (Opzionali: utili per maggiore visibilità)</h5>
 
 <div class="form-group">
     @Html.LabelFor(m => m.NoteAggiuntive, new { @class = "col-md-2 control-label" })

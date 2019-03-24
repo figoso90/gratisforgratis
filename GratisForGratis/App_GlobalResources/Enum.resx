@@ -180,6 +180,21 @@
   <data name="Moneta" xml:space="preserve">
     <value>Happy-Coin</value>
   </data>
+  <data name="NotificationTypeAdPurchase" xml:space="preserve">
+    <value>Annuncio acquistato</value>
+  </data>
+  <data name="NotificationTypeAdSelled" xml:space="preserve">
+    <value>Annuncio venduto</value>
+  </data>
+  <data name="NotificationTypeBidAccepted" xml:space="preserve">
+    <value>Offerta accettata</value>
+  </data>
+  <data name="NotificationTypeBidReceveid" xml:space="preserve">
+    <value>Offerta ricevuta</value>
+  </data>
+  <data name="NotificationTypeBidRefused" xml:space="preserve">
+    <value>Offerta rifiutata</value>
+  </data>
   <data name="November" xml:space="preserve">
     <value>Novembre</value>
   </data>

@@ -76,14 +76,17 @@ function loadInfoAggiuntive() {
             $('html').loader('hide');
         }
     );*/
-    $('#formPubblica .lastInfoBase').nextAll().not(".footer").remove();
+    //$('#formPubblica .lastInfoBase').nextAll().not(".footer").remove();
+    $('#boxInfoAggiuntive').show();
+    $('#advanced').html('');
     $.ajax({
         type: "POST",
         url: "/Pubblica/LoadInfoAggiuntive",
         data: { categoria: decodeURI($('#CategoriaId').val()) },
         dataType: "html",
         success: function (data) {
-            $(data).insertAfter('#formPubblica .lastInfoBase');
+            //$(data).insertAfter('#formPubblica .lastInfoBase');
+            $('#advanced').append(data);
             showInfoAggiuntive();
         },
         error: function (response, status, xhr) {

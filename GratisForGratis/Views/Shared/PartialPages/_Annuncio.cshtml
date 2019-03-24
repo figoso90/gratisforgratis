@@ -2,7 +2,7 @@
 @using GratisForGratis.Models.ExtensionMethods;
 @model AnnuncioViewModel
 
-<div id="@HttpUtility.UrlEncode(Model.Token)" class="col-xs-12 col-md-3 purchase">
+<div id="@HttpUtility.UrlEncode(Model.Token)" class="col-xs-12 col-md-3 purchase @(((Model.StatoVendita == StatoVendita.SOSPESO && DateTime.Now > Model.DataModifica.Value.AddDays(1)) || (Model.StatoVendita == StatoVendita.ATTIVO && Model.DataFine <= DateTime.Now))?"blocked":"")">
     <h4 class="title plus">
         @Html.ActionLink(Model.Nome, "index", "annuncio", new { token = Model.Token }, null)
     </h4>
@@ -79,12 +79,21 @@
                 </div>
             }
         }
-        <div class="cella">
-            @Html.Label("Stato", Language.StateSelling + ":")
-            <span class="stateText">
-                @EnumHelper.GetSelectList(typeof(StatoVendita), Model.StatoVendita).Where(m => m.Selected).FirstOrDefault().Text
-            </span>
-        </div>
+                <div class="cella">
+                    @Html.Label("Stato", Language.StateSelling + ":")
+                    @if ((Model.StatoVendita == StatoVendita.SOSPESO && DateTime.Now > Model.DataModifica.Value.AddDays(1)) || (Model.StatoVendita == StatoVendita.ATTIVO && Model.DataFine <= DateTime.Now))
+                    {
+                        <span class="stateText">
+                            @Language.InSuspense
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="stateText">
+                            @EnumHelper.GetSelectList(typeof(StatoVendita), Model.StatoVendita).Where(m => m.Selected).FirstOrDefault().Text
+                        </span>
+                    }
+                </div>
         @if (Model.StatoVendita != StatoVendita.BARATTATO && Model.StatoVendita != StatoVendita.VENDUTO)
         {
             <div class="cella noMandatory">

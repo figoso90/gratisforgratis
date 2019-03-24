@@ -61,6 +61,60 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Lo sapevi che l&apos;economia circolare viene già attuata nello spazio?.
+        /// </summary>
+        public static string AdPurchasedFooter {
+            get {
+                return ResourceManager.GetString("AdPurchasedFooter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Visualizza.
+        /// </summary>
+        public static string AdPurchasedLink {
+            get {
+                return ResourceManager.GetString("AdPurchasedLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a L&apos;annuncio {0} è stato acquistato con successo. Verifica lo stato al seguente link:.
+        /// </summary>
+        public static string AdPurchasedText {
+            get {
+                return ResourceManager.GetString("AdPurchasedText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Complimenti, l&apos;acquirente ti ringrazia! Sei riuscito a regalare tanta felicità anche oggi!.
+        /// </summary>
+        public static string AdSelledFooter {
+            get {
+                return ResourceManager.GetString("AdSelledFooter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Visualizza.
+        /// </summary>
+        public static string AdSelledLink {
+            get {
+                return ResourceManager.GetString("AdSelledLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a L&apos;annuncio {0} è stato venduto! Complimenti! Vai al seguente link per maggiori info:.
+        /// </summary>
+        public static string AdSelledText {
+            get {
+                return ResourceManager.GetString("AdSelledText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Offerta di.
         /// </summary>
         public static string BidOf {
@@ -120,6 +174,60 @@ namespace GratisForGratis.App_GlobalResources {
         public static string BidPaymentTextMoneyShipment {
             get {
                 return ResourceManager.GetString("BidPaymentTextMoneyShipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Hai fatto bene a tentare, non bisogna demordere..
+        /// </summary>
+        public static string BidRefusedFooter {
+            get {
+                return ResourceManager.GetString("BidRefusedFooter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Visualizza.
+        /// </summary>
+        public static string BidRefusedLink {
+            get {
+                return ResourceManager.GetString("BidRefusedLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Ci spiace, l&apos;offerta per l&apos;annuncio {0} è stata rifiutata. Puoi visualizzare l&apos;offerta che hai inviato al seguente link:.
+        /// </summary>
+        public static string BidRefusedText {
+            get {
+                return ResourceManager.GetString("BidRefusedText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Chiunque abbia qualcosa che non usa, è un ladro. (Mahatma Gandhi).
+        /// </summary>
+        public static string BidSendFooter {
+            get {
+                return ResourceManager.GetString("BidSendFooter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Visualizza offerta.
+        /// </summary>
+        public static string BidSendLink {
+            get {
+                return ResourceManager.GetString("BidSendLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Hai ricevuto un&apos; offerta per l&apos;annuncio {0}. Clicca sul seguente link per visualizzarla:.
+        /// </summary>
+        public static string BidSendText {
+            get {
+                return ResourceManager.GetString("BidSendText", resourceCulture);
             }
         }
         

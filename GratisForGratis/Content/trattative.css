@@ -38,6 +38,10 @@
     text-transform: uppercase;
 }
 
+        #grid .purchase.blocked label {
+            background-color: #ccc;
+        }
+
 #grid .purchase .plus{
     color: #337ab7;
     font-style: italic;

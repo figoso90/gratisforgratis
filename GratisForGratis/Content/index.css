@@ -94,3 +94,7 @@
         max-width:220px;
     }
 }
+
+#menuUser .img-thumbnail{
+    width:70%;
+}

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GratisForGratis.Models
 {
-    class OffertaModel : OFFERTA
+    public class OffertaModel : OFFERTA
     {
         #region PROPRIETA
         public OFFERTA OffertaOriginale { get; set; }

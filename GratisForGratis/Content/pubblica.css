@@ -1,4 +1,12 @@
-﻿.btnUpload{
+﻿#boxInfoAggiuntive{
+    display:none;
+}
+
+#advanced {
+    display: none;
+}
+
+.btnUpload{
     width:80px !important;
     height:32px !important;
     background-image:none;

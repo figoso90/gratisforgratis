@@ -1,0 +1,27 @@
+﻿@model GratisForGratis.Models.AnnuncioModel
+@using System.Web.Configuration
+
+<tr>
+    <td style="width:50px;">&nbsp;</td>
+    <td align="center" style="padding:14px 0px 0px;line-height:12px;">
+        @Html.Raw(string.Format(Email.AdSelledText, Model.NOME))<br /><br />
+        <div bgcolor="#178fcc" width="160" style="width:160px;background-color:#178fcc;">
+            <p>&nbsp;</p>
+            @Html.ActionLink(Email.AdSelledLink, "Concluse", "Vendite", null, Request.Url.Host, null, null, new { style = "color:#FFF;" })
+            <p>&nbsp;</p>
+        </div>
+    </td>
+    <td style="width:50px;">&nbsp;</td>
+</tr>
+<tr>
+    <td style="width:50px;">&nbsp;</td>
+    <td align="center" style="padding:20px 0px 0px;line-height:12px;">
+        @Html.Raw(@Email.AdSelledFooter)
+        <span style="font-style:italic;">Team @WebConfigurationManager.AppSettings["nomeSito"].</span>
+    </td>
+    <td style="width:50px;">&nbsp;</td>
+</tr>
+<tr>
+    <td colspan="3">&nbsp;</td>
+</tr>
+

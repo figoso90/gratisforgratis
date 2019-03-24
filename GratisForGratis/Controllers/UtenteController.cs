@@ -405,7 +405,8 @@ namespace GratisForGratis.Controllers
                                 return base.View(model);
                             }
                             utente.SetEmail(db, model.Email);
-                            if (db.PERSONA_TELEFONO.Count(m => m.TELEFONO == model.Telefono) > 0)
+                            if (db.PERSONA_TELEFONO.Count(m => m.ID_PERSONA != utente.Persona.ID && 
+                                m.TELEFONO == model.Telefono) > 0)
                             {
                                 base.ModelState.AddModelError("Errore", ErrorResource.RegisterExist);
                                 base.TempData["salvato"] = false;

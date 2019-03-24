@@ -114,9 +114,19 @@ namespace GratisForGratis.Models
         [Display(Name = "NewsAdActive", ResourceType = typeof(App_GlobalResources.Language))]
         AttivaAnnuncio = 0,
         [Display(Name = "BidPayment", ResourceType = typeof(App_GlobalResources.Language))]
-        PagaOfferta = 1,
+        OffertaPagata = 1,
         [Display(Name = "Bonus", ResourceType = typeof(App_GlobalResources.Language))]
         Bonus = 2,
+        [Display(Name = "NotificationTypeBidReceveid", ResourceType = typeof(App_GlobalResources.Enum))]
+        OffertaRicevuta = 3,
+        [Display(Name = "NotificationTypeAdSelled", ResourceType = typeof(App_GlobalResources.Enum))]
+        AnnuncioVenduto = 4,
+        [Display(Name = "NotificationTypeAdPurchase", ResourceType = typeof(App_GlobalResources.Enum))]
+        AnnuncioAcquistato = 5,
+        [Display(Name = "NotificationTypeBidRefused", ResourceType = typeof(App_GlobalResources.Enum))]
+        OffertaRifiutata = 6,
+        [Display(Name = "NotificationTypeBidAccepted", ResourceType = typeof(App_GlobalResources.Enum))]
+        OffertaAccettata = 7,
     }
     
     /*

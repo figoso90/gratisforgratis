@@ -10,7 +10,37 @@
         <h3>@Language.Points @Language.InSuspense: <a class="gpointsSuspense">@(((GratisForGratis.Models.PersonaModel)Session["utente"]).Credito.Where(m => m.STATO == (int)GratisForGratis.Models.StatoCredito.SOSPESO).Sum(m => m.PUNTI).ToHappyCoin())</a></h3>
     </div>
     <div class="row">
-        <div class="btn btn-primary confirm">
+        <div class="col-md-3">
+            <h3>@Html.ActionLink(ViewModel.HomeUserJoinSocial, "Impostazioni", "Utente", null, new { @class = "link" })</h3>
+            <img class="img-thumbnail img-circle" src="~/Images/stickers/25.png" alt="@ViewModel.HomeUserJoinSocial" />
+            <p>(@ViewModel.HomeUserJoinSocialInfo)</p>
+        </div>
+        <div class="col-md-3">
+            <h3>@Html.ActionLink(ViewModel.HomeUserPublishGood, "", "Pubblica", null, new { @class = "link" })</h3>
+            <img class="img-thumbnail img-circle" src="~/Images/stickers/3.png" alt="@ViewModel.HomeUserPublishGood" />
+            <p>(@ViewModel.HomeUserPublishGoodInfo)</p>
+        </div>
+        <div class="col-md-3">
+            <h3>@Html.ActionLink(ViewModel.HomeUserPublishService, "", "Pubblica", null, new { @class = "link" })</h3>
+            <img class="img-thumbnail img-circle" src="~/Images/stickers/10.png" alt="@ViewModel.HomeUserPublishService" />
+            <p>(@ViewModel.HomeUserPublishServiceInfo)</p>
+        </div>
+        <div class="col-md-3">
+            <h3><a href="javascript:void(0);" onclick="$('#reporting').click();">@ViewModel.HomeUserSendBug</a></h3>
+            <img class="img-thumbnail img-circle" src="~/Images/stickers/28.png" alt="@ViewModel.HomeUserSendBug" />
+            <p>(@ViewModel.HomeUserSendBugInfo)</p>
+        </div>
+        <div class="col-md-3">
+            <h3>@Html.ActionLink(ViewModel.HomeUserFullAd, "", "Pubblica", null, new { @class = "link" })</h3>
+            <img class="img-thumbnail img-circle" src="~/Images/stickers/29.png" alt="@ViewModel.HomeUserFullAd" />
+            <p>(@ViewModel.HomeUserFullAdInfo)</p>
+        </div>
+        <div class="col-md-3">
+            <h3>@Html.ActionLink(ViewModel.HomeUserFeedback, "Concluse", "Vendite", null, new { @class = "link" })</h3>
+            <img class="img-thumbnail img-circle" src="~/Images/stickers/21.png" alt="@ViewModel.HomeUserFeedback" />
+            <p>(@ViewModel.HomeUserFeedbackInfo)</p>
+        </div>
+        @*<div class="btn btn-primary confirm">
             @Html.ActionLink(Language.ConfirmPurchase, "Index", "Acquisti", null, new { @class = "link" })
         </div>
         <div class="btn btn-primary onsale">
@@ -21,6 +51,6 @@
         </div>
         <div class="btn btn-primary settings">
             @Html.ActionLink(Language.Settings, "Impostazioni", "Utente", null, new { @class = "link" })
-        </div>
+        </div>*@
     </div>
 </section>

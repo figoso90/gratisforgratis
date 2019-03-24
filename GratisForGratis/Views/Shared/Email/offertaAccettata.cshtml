@@ -1,0 +1,58 @@
+﻿@model GratisForGratis.Models.ViewModels.Email.PagamentoOffertaViewModel
+@using System.Web.Configuration
+
+<!--
+<tr>
+    <td style="width:50px;">&nbsp;</td>
+    <td align="center" style="padding:30px 0px 0px;line-height:12px;">
+        @Html.Raw(string.Format(Email.Hello, Model.NominativoDestinatario))
+    </td>
+    <td style="width:50px;">&nbsp;</td>
+</tr>
+-->
+<tr>
+    <td style="width:50px;">&nbsp;</td>
+    <td align="center" style="padding:12px 0px 0px;line-height:12px;">
+        @string.Format(Email.BidPaymentText, Model.NomeAnnuncio)
+    </td>
+    <td style="width:50px;">&nbsp;</td>
+</tr>
+@if (Model.Moneta > 0)
+{
+<tr>
+    <td style="width:50px;">&nbsp;</td>
+    <td align="center" style="padding:14px 0px 0px;line-height:12px;">
+        @string.Format(Email.BidPaymentTextMoneta, Model.Moneta)
+    </td>
+    <td style="width:50px;">&nbsp;</td>
+</tr>
+}
+@if (Model.Baratti.Count > 0)
+{
+<tr>
+    <td style="width:50px;">&nbsp;</td>
+    <td align="center" style="padding:14px 0px 0px;line-height:12px;">
+        @Email.BidPaymentTextBarter
+        <br />
+        @foreach (string baratto in Model.Baratti)
+        {
+            <a>-    @baratto</a><br />
+        }
+    </td>
+    <td style="width:50px;">&nbsp;</td>
+</tr>
+}
+@if (Model.SoldiSpedizione > 0)
+{
+<tr>
+    <td style="width:50px;">&nbsp;</td>
+    <td align="center" style="padding:14px 0px 0px;line-height:12px;">
+        @string.Format(Email.BidPaymentTextMoneyShipment, Model.SoldiSpedizione)
+    </td>
+    <td style="width:50px;">&nbsp;</td>
+</tr>
+}
+<tr>
+    <td colspan="3">&nbsp;</td>
+</tr>
+

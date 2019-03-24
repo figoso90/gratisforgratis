@@ -25,6 +25,10 @@ namespace GratisForGratis.Models
     public abstract class PubblicaViewModel
     {
         #region PROPRIETA
+
+        [Display(Name = "PublishCheckInfoExtra", ResourceType = typeof(ViewModel))]
+        public bool InserimentoInfoAvanzate { get; set; }
+
         public DatabaseContext DbContext { get; set; }
 
         [Display(Name = "Category", ResourceType = typeof(Language))]

@@ -721,6 +721,8 @@ namespace GratisForGratis.Controllers
                         {
                             transaction.Commit();
                             this.RefreshPunteggioUtente(db);
+                            this.SendNotifica(annuncioModel.PERSONA, annuncioModel.PERSONA1, TipoNotifica.AnnuncioAcquistato, ControllerContext, "annuncioAcquistato", annuncioModel);
+                            this.SendNotifica(annuncioModel.PERSONA1, annuncioModel.PERSONA, TipoNotifica.AnnuncioVenduto, ControllerContext, "annuncioVenduto", annuncioModel);
                             System.Web.Routing.RouteValueDictionary data = new System.Web.Routing.RouteValueDictionary(new { token = viewModel.Token });
                             _UrlFinePagamento = Url.Action("Index", "Annuncio", data, this.Request.Url.Scheme, this.Request.Url.Host);
                             return true;
@@ -776,6 +778,13 @@ namespace GratisForGratis.Controllers
                         if (offerta.Accetta(db, utente.Persona, idPayPal, ref messaggio))
                         {
                             transaction.Commit();
+                            Models.ViewModels.Email.PagamentoOffertaViewModel offertaAccettata = new Models.ViewModels.Email.PagamentoOffertaViewModel();
+                            offertaAccettata.NominativoDestinatario = offerta.PERSONA.NOME + " " + offerta.PERSONA.COGNOME;
+                            offertaAccettata.NomeAnnuncio = offerta.ANNUNCIO.NOME;
+                            offertaAccettata.Moneta = offerta.PUNTI;
+                            offertaAccettata.SoldiSpedizione = offerta.SOLDI;
+                            offertaAccettata.Baratti = offerta.OFFERTA_BARATTO.Select(m => m.ANNUNCIO.NOME).ToList();
+                            this.SendNotifica(utente.Persona, offerta.PERSONA, TipoNotifica.OffertaAccettata, ControllerContext, "offertaAccettata", offertaAccettata);
                             //System.Web.Routing.RouteValueDictionary data = new System.Web.Routing.RouteValueDictionary(new { token = offerta.ID });
                             _UrlFinePagamento = Url.Action("OfferteRicevute", "Vendite", null, this.Request.Url.Scheme, this.Request.Url.Host);
                             //return (db.SaveChanges() > 0);
@@ -826,6 +835,13 @@ namespace GratisForGratis.Controllers
                         {
                             transaction.Commit();
                             this.RefreshPunteggioUtente(db);
+                            Models.ViewModels.Email.PagamentoOffertaViewModel pagamentoOfferta = new Models.ViewModels.Email.PagamentoOffertaViewModel();
+                            pagamentoOfferta.NominativoDestinatario = offerta.ANNUNCIO.PERSONA.NOME + " " + offerta.ANNUNCIO.PERSONA.COGNOME;
+                            pagamentoOfferta.NomeAnnuncio = offerta.ANNUNCIO.NOME;
+                            pagamentoOfferta.Moneta = offerta.PUNTI;
+                            pagamentoOfferta.SoldiSpedizione = offerta.SOLDI;
+                            pagamentoOfferta.Baratti = offerta.OFFERTA_BARATTO.Select(m => m.ANNUNCIO.NOME).ToList();
+                            this.SendNotifica((Session["utente"] as PersonaModel).Persona, offerta.ANNUNCIO.PERSONA, TipoNotifica.OffertaPagata, ControllerContext, "pagamentoOfferta", pagamentoOfferta);
                             System.Web.Routing.RouteValueDictionary data = new System.Web.Routing.RouteValueDictionary(new { token = viewModel.Token });
                             _UrlFinePagamento = Url.Action("Index", "Annuncio", data, this.Request.Url.Scheme, this.Request.Url.Host);
                             return true;

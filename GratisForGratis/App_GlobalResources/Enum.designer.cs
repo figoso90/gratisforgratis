@@ -250,6 +250,51 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Annuncio acquistato.
+        /// </summary>
+        public static string NotificationTypeAdPurchase {
+            get {
+                return ResourceManager.GetString("NotificationTypeAdPurchase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Annuncio venduto.
+        /// </summary>
+        public static string NotificationTypeAdSelled {
+            get {
+                return ResourceManager.GetString("NotificationTypeAdSelled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Offerta accettata.
+        /// </summary>
+        public static string NotificationTypeBidAccepted {
+            get {
+                return ResourceManager.GetString("NotificationTypeBidAccepted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Offerta ricevuta.
+        /// </summary>
+        public static string NotificationTypeBidReceveid {
+            get {
+                return ResourceManager.GetString("NotificationTypeBidReceveid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Offerta rifiutata.
+        /// </summary>
+        public static string NotificationTypeBidRefused {
+            get {
+                return ResourceManager.GetString("NotificationTypeBidRefused", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Novembre.
         /// </summary>
         public static string November {

@@ -17,7 +17,7 @@ namespace GratisForGratis.Controllers
             Models.PersonaModel destinatario = Session["utente"] as Models.PersonaModel;
             string indirizzoEmail = destinatario.Email.SingleOrDefault(e => e.TIPO == (int)Models.TipoEmail.Registrazione).EMAIL;
 
-            if (this.SendEmail(indirizzoEmail, Models.TipoNotifica.PagaOfferta.ToString(), ControllerContext, "test", pagamentoOfferta))
+            if (this.SendEmail(indirizzoEmail, Models.TipoNotifica.OffertaPagata.ToString(), ControllerContext, "test", pagamentoOfferta))
                 ViewData["test"] = "Funziona";
             else
                 ViewData["test"] = "Non funziona";

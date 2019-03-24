@@ -376,6 +376,114 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Lascia un feedback.
+        /// </summary>
+        public static string HomeUserFeedback {
+            get {
+                return ResourceManager.GetString("HomeUserFeedback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Alla fine di una compravendita, rilascia un tuo giudizio.
+        /// </summary>
+        public static string HomeUserFeedbackInfo {
+            get {
+                return ResourceManager.GetString("HomeUserFeedbackInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Pubblica annunci completi.
+        /// </summary>
+        public static string HomeUserFullAd {
+            get {
+                return ResourceManager.GetString("HomeUserFullAd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Inserisci tutti i dati, anche quelli opzionali.
+        /// </summary>
+        public static string HomeUserFullAdInfo {
+            get {
+                return ResourceManager.GetString("HomeUserFullAdInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Collega il tuo profilo a Facebook.
+        /// </summary>
+        public static string HomeUserJoinSocial {
+            get {
+                return ResourceManager.GetString("HomeUserJoinSocial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Potrai guadagnare dagli annunci postati anche sul social network.
+        /// </summary>
+        public static string HomeUserJoinSocialInfo {
+            get {
+                return ResourceManager.GetString("HomeUserJoinSocialInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Posta oggetti da vendere.
+        /// </summary>
+        public static string HomeUserPublishGood {
+            get {
+                return ResourceManager.GetString("HomeUserPublishGood", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Inutilizzati, indesiderati, ecc...
+        /// </summary>
+        public static string HomeUserPublishGoodInfo {
+            get {
+                return ResourceManager.GetString("HomeUserPublishGoodInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Posta le tue competenze.
+        /// </summary>
+        public static string HomeUserPublishService {
+            get {
+                return ResourceManager.GetString("HomeUserPublishService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Hobby, Professionali, ecc...
+        /// </summary>
+        public static string HomeUserPublishServiceInfo {
+            get {
+                return ResourceManager.GetString("HomeUserPublishServiceInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Segnala bug del sito.
+        /// </summary>
+        public static string HomeUserSendBug {
+            get {
+                return ResourceManager.GetString("HomeUserSendBug", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a In caso riscontrato da una buona percentuale di utenti, verranno versati crediti.
+        /// </summary>
+        public static string HomeUserSendBugInfo {
+            get {
+                return ResourceManager.GetString("HomeUserSendBugInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Come funziona.
         /// </summary>
         public static string HowWorkLink {
@@ -579,6 +687,15 @@ namespace GratisForGratis.App_GlobalResources {
         public static string PublishAdInfoShipment {
             get {
                 return ResourceManager.GetString("PublishAdInfoShipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Visualizza inserimento dati aggiuntivi (anche per la spedizione).
+        /// </summary>
+        public static string PublishCheckInfoExtra {
+            get {
+                return ResourceManager.GetString("PublishCheckInfoExtra", resourceCulture);
             }
         }
         

@@ -1,0 +1,36 @@
+﻿@model GratisForGratis.Models.OffertaModel
+@using System.Web.Configuration
+
+<!--
+<tr>
+    <td style="width:50px;">&nbsp;</td>
+    <td align="center" style="padding:30px 0px 0px;line-height:12px;">
+        @Html.Raw(string.Format(Email.Hello, Model.PERSONA.NOME + " " + Model.PERSONA.COGNOME))
+    </td>
+    <td style="width:50px;">&nbsp;</td>
+</tr>
+-->
+<tr>
+    <td style="width:50px;">&nbsp;</td>
+    <td align="center" style="padding:14px 0px 0px;line-height:12px;">
+        @Html.Raw(string.Format(Email.BidRefusedText, Model.ANNUNCIO.NOME))<br /><br />
+        <div bgcolor="#178fcc" width="160" style="width:160px;background-color:#178fcc;">
+            <p>&nbsp;</p>
+            @Html.ActionLink(Email.BidRefusedLink, "OfferteRifiutate", "Acquisti", null, Request.Url.Host, null, null, new { style = "color:#FFF;" })
+            <p>&nbsp;</p>
+        </div>
+    </td>
+    <td style="width:50px;">&nbsp;</td>
+</tr>
+<tr>
+    <td style="width:50px;">&nbsp;</td>
+    <td align="center" style="padding:20px 0px 0px;line-height:12px;">
+        @Html.Raw(@Email.BidRefusedFooter)
+        <span style="font-style:italic;">Team @WebConfigurationManager.AppSettings["nomeSito"].</span>
+    </td>
+    <td style="width:50px;">&nbsp;</td>
+</tr>
+<tr>
+    <td colspan="3">&nbsp;</td>
+</tr>
+

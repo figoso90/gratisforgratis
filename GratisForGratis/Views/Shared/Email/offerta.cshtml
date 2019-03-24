@@ -1,19 +1,19 @@
-﻿@model GratisForGratis.Models.ServizioViewModel
+﻿@model GratisForGratis.Models.OffertaViewModel
 @using System.Web.Configuration
 <tr>
     <td style="width:50px;">&nbsp;</td>
     <td align="center" style="padding:30px 0px 0px;line-height:12px;">
-        @Html.Raw(string.Format(Email.Hello, Model.Venditore))
+        @Html.Raw(string.Format(Email.Hello, Model.Annuncio.Venditore.Nominativo))
     </td>
     <td style="width:50px;">&nbsp;</td>
 </tr>
 <tr>
     <td style="width:50px;">&nbsp;</td>
     <td align="center" style="padding:14px 0px 0px;line-height:12px;">
-        @Html.Raw(string.Format(Email.PaymentText1,Model.Nome, Model.Compratore))<br /><br />
+        @Html.Raw(string.Format(Email.BidSendText, Model.Annuncio.Nome))<br /><br />
         <div bgcolor="#178fcc" width="160" style="width:160px;background-color:#178fcc;">
             <p>&nbsp;</p>
-            @Html.ActionLink(Email.PaymentHistorical, "StoricoPagamenti", "Offerte", null, Request.Url.Host, null, null, new { style = "color:#FFF;" })
+            @Html.ActionLink(Email.BidSendLink, "OfferteRicevute", "Vendite", null, Request.Url.Host, null, new { vendita = HttpUtility.UrlEncode(Model.Annuncio.Token) }, new { style = "color:#FFF;" })
             <p>&nbsp;</p>
         </div>
     </td>
@@ -22,7 +22,7 @@
 <tr>
     <td style="width:50px;">&nbsp;</td>
     <td align="center" style="padding:20px 0px 0px;line-height:12px;">
-        @Html.Raw(@Email.PaymentFooter)
+        @Html.Raw(@Email.BidSendFooter)
         <span style="font-style:italic;">Team @WebConfigurationManager.AppSettings["nomeSito"].</span>
     </td>
     <td style="width:50px;">&nbsp;</td>
