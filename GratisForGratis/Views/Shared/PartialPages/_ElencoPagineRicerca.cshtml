@@ -16,8 +16,8 @@
             {
                 if (i > 1)
                 {
-                    <li>@Html.ActionLink("<<", Model.Action, Model.Controller, new { Pagina = 1, Categoria = Model.Categoria }, new { @class = classe })</li>
-                            <li>@Html.ActionLink("<", Model.Action, Model.Controller, new { Pagina = i - 1, Categoria = Model.Categoria }, new { @class = classe })</li>
+                    <li>@Html.ActionLink("<<", Model.Action + "/" + Model.Categoria, Model.Controller, new { Pagina = 1 }, new { @class = classe })</li>
+                            <li>@Html.ActionLink("<", Model.Action + "/" + Model.Categoria, Model.Controller, new { Pagina = i - 1 }, new { @class = classe })</li>
                 }
             }
 
@@ -29,15 +29,15 @@
                 }
                 else
                 {
-                    <li class="@classe">@Html.ActionLink(i.ToString(), Model.Action, Model.Controller, new { Pagina = i, Categoria = Model.Categoria }, new { @class = classe }) </li>
+                    <li class="@classe">@Html.ActionLink(i.ToString(), Model.Action + "/" + Model.Categoria, Model.Controller, new { Pagina = i }, new { @class = classe }) </li>
                 }
             }
             else
             {
                 if (i < Model.NumeroPagine)
                 {
-                    <li>@Html.ActionLink(">", Model.Action, Model.Controller, new { Pagina = i + 1, Categoria = Model.Categoria }, new { @class = classe })</li>
-                            <li>@Html.ActionLink(">>", Model.Action, Model.Controller, new { Pagina = Model.NumeroPagine, Categoria = Model.Categoria }, new { @class = classe })</li>
+                    <li>@Html.ActionLink(">", Model.Action + "/" + Model.Categoria, Model.Controller, new { Pagina = i + 1 }, new { @class = classe })</li>
+                            <li>@Html.ActionLink(">>", Model.Action + "/" + Model.Categoria, Model.Controller, new { Pagina = Model.NumeroPagine }, new { @class = classe })</li>
                 }
                 break;
             }

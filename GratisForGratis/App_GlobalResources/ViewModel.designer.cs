@@ -412,7 +412,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Collega il tuo profilo a Facebook.
+        ///   Cerca una stringa localizzata simile a Condividi su Facebook.
         /// </summary>
         public static string HomeUserJoinSocial {
             get {
@@ -421,7 +421,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Potrai guadagnare dagli annunci postati anche sul social network.
+        ///   Cerca una stringa localizzata simile a Guadagnare facilmente postando sul social network.
         /// </summary>
         public static string HomeUserJoinSocialInfo {
             get {
@@ -705,6 +705,15 @@ namespace GratisForGratis.App_GlobalResources {
         public static string PublishInfoFB {
             get {
                 return ResourceManager.GetString("PublishInfoFB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Pubblica sui social (Guadagnerai crediti omaggio).
+        /// </summary>
+        public static string PublishSocial {
+            get {
+                return ResourceManager.GetString("PublishSocial", resourceCulture);
             }
         }
         

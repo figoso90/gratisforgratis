@@ -84,7 +84,7 @@ namespace GratisForGratis.Controllers
         }
 
         [HttpGet]
-        public ActionResult PercheGratisForGratis()
+        public ActionResult PercheRegistrarsi()
         {
             ViewBag.Title = App_GlobalResources.MetaTag.TitleWhySite;
             ViewBag.Description = App_GlobalResources.MetaTag.DescriptionWhySite;

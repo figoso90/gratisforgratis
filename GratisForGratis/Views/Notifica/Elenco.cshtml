@@ -14,37 +14,26 @@
                         @ViewModel.NewsName
                     </div>
                     <div class="cella noMandatory">
-                        @*@{
-                                switch (news.Tipo)
-                                {
-                                    case GratisForGratis.Models.TipoNotifica.AttivaAnnuncio:
-                                        if (news.AnnuncioNotifica != null)
-                                        {
-                                            WriteLiteral(Html.Raw(string.Format(news.Messaggio, news.AnnuncioNotifica.Annuncio.Nome, news.AnnuncioNotifica.Annuncio.DataInserimento)));
-                                        }
-                                        break;
-                                    default:
-                                        WriteLiteral(Html.Raw(news.Messaggio));
-                                        break;
-                                }
-                            }*@
                         @{
                             switch (news.Tipo)
                             {
                                 case TipoNotifica.AttivaAnnuncio:
-                                    @Html.Partial("PartialPages/_AnnuncioSmall", news.AnnuncioNotifica.Annuncio)
+                                    @*Html.Partial("PartialPages/_AnnuncioSmall", news.AnnuncioNotifica.Annuncio)*@
                                     <div class="cella noMandatory">
                                         @if ((Session["utente"] as PersonaModel).Persona.STATO == (int)Stato.INATTIVO)
                                         {
-                                            @Html.ActionLink(Language.Settings, "Impostazioni", "Utente", null, new { @class = "btn" })
+                                            @Html.ActionLink(Language.Settings, "Impostazioni", "Utente", null, new { @class = "btn btn-primary" })
                                         }
                                         else
                                         {
-                                            @Html.ActionLink(Language.EnableAd, "", "Annuncio", new { id = news.AnnuncioNotifica.Annuncio.Token }, new { @class = "btn" })
+                                            @Html.ActionLink(Language.EnableAd, "", "Annuncio", new { id = news.AnnuncioNotifica.Annuncio.Token }, new { @class = "btn btn-primary" })
                                         }
                                     </div>
+                                    <div class="cella noMandatory">
+                                        @Html.ActionLink(news.AnnuncioNotifica.Annuncio.Nome, news.AnnuncioNotifica.Annuncio.Nome + "/" + news.AnnuncioNotifica.Annuncio.Token, "annuncio")
+                                    </div>
                                     break;
-                                case TipoNotifica.PagaOfferta:
+                                case TipoNotifica.OffertaAccettata:
                                     <div class="cella noMandatory">
                                         @Html.ActionLink(news.Messaggio, "", "Acquisti", null, new { @class = "btn btn-success" })
                                     </div>

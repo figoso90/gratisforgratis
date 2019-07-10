@@ -9,6 +9,7 @@
     @Html.Partial("PartialPages/_Oggetto", oggetto)
 }
 @Html.Partial("PartialPages/_ElencoPagineRicerca", new GratisForGratis.Models.ElencoPagineRicerca(Model.PageCount,
-Model.PageNumber, ((Model.PageNumber - 5) < 1 ? 1 : Model.PageNumber - 5), "Oggetti",
+Model.PageNumber, ((Model.PageNumber - 5) < 1 ? 1 : Model.PageNumber - 5),
+"categoria",
 Response.Cookies["ricerca"]["Categoria"],
 Response.Cookies["ricerca"]["IDCategoria"]))

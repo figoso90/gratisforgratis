@@ -178,6 +178,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Escludi annunci personali.
+        /// </summary>
+        public static string AdOther {
+            get {
+                return ResourceManager.GetString("AdOther", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Ricerca Avanzata.
         /// </summary>
         public static string AdvancedSearch {
@@ -2230,6 +2239,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Tipo scambio.
+        /// </summary>
+        public static string KidExchange {
+            get {
+                return ResourceManager.GetString("KidExchange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Genere.
         /// </summary>
         public static string Kind {
@@ -2401,7 +2419,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Login.
+        ///   Cerca una stringa localizzata simile a Login / Registrazione RAPIDA.
         /// </summary>
         public static string Login {
             get {
@@ -3337,7 +3355,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Registra.
+        ///   Cerca una stringa localizzata simile a Registrazione COMPLETA.
         /// </summary>
         public static string Register {
             get {
@@ -3697,7 +3715,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a &lt;strong&gt;Il commercio circolare con moneta virtuale&lt;/strong&gt;!.
+        ///   Cerca una stringa localizzata simile a &lt;strong&gt;Gratis is new business&lt;/strong&gt;!.
         /// </summary>
         public static string Slogan {
             get {

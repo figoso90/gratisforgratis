@@ -55,6 +55,12 @@
         @Html.LabelFor(m => m.Cerca_AnnoMax, new { @class = "evidence" })
         @Html.TextBoxFor(m => m.Cerca_AnnoMax, new { @class = "form-control number" })
     </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.EnumDropDownListFor(m => m.Cerca_TipoScambio, Language.KidExchange, new { @class = "form-control" })
+        </div>
+        @Html.ValidationMessageFor(m => m.Cerca_TipoScambio, "", new { @class = "text-danger" })
+    </div>
     <div class="button">
         <a class="btn btn-success" href="javascript:void(0);" onclick="ricercaAvanzata('FiltroOggetti');">@Language.Find</a>
     </div>
