@@ -8,7 +8,7 @@
 @Styles.Render("~/Content/acquisto.css")
 <section id="purchases">
     <div id="@HttpUtility.UrlEncode(Model.Token)" class="purchase">
-        <h4 class="title plus">@Model.Annuncio.Nome</h4>
+        <h4 class="title plus">@Html.ActionLink(Model.Annuncio.Nome, Model.Annuncio.Nome + "/" + Model.Annuncio.Token, (Model.Annuncio.TipoAcquisto == TipoAcquisto.Oggetto)?"oggetto":"servizio", null, null)</h4>
         <div class="preview">
             <div class="cella noMandatory">
                 <div class="cell">
@@ -17,7 +17,7 @@
             </div>
             <div class="cella">
                 @Html.Label("Categoria", Language.Category + ":")
-                @Model.Annuncio.Categoria
+                @Html.ActionLink(Model.Annuncio.Categoria, Model.Annuncio.Categoria + "/" + Model.Annuncio.CategoriaID, "categoria", null, null)
             </div>
             <div class="cella">
                 @Html.Label("Punti", Language.Moneta + ":")

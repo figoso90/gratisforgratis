@@ -37,7 +37,15 @@ namespace GratisForGratis.Controllers
                     foreach(ANNUNCIO annuncio in listaAnnunci)
                     {
                         AnnuncioModel annuncioModel = new AnnuncioModel();
-                        vendite.Add(annuncioModel.GetViewModel(db, annuncio));
+                        // escludo il singolo annuncio in caso di errore
+                        try
+                        {
+                            vendite.Add(annuncioModel.GetViewModel(db, annuncio));
+                        }
+                        catch (Exception eccezione)
+                        {
+                            Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                        }
                     }
 
                     if (vendite.Count > 0)

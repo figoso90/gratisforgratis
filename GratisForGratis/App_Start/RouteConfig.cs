@@ -15,15 +15,15 @@ namespace GratisForGratis
 
             routes.IgnoreRoute("elmah.axd");
 
-            /*
+            /* HTML
             routes.RouteExistingFiles = true;
-
             routes.MapRoute(
                 name: "CrazyPants",
                 url: "{page}.html",
                 defaults: new { controller = "Home", action = "Html", page = UrlParameter.Optional }
             );
             */
+            /* VECCHIA GESTIONE URL FRIENDLY
             routes.MapRoute(
                 name: "DefaultOggetti",
                 url: "Oggetti/{nomeCategoria}/{sottocategoria}/{id}",
@@ -45,6 +45,25 @@ namespace GratisForGratis
                 name: "Servizio",
                 url: "Servizio/{nomeAnnuncio}/{id}",
                 defaults: new { controller = "Annuncio", action = "", nomeAnnuncio = UrlParameter.Optional, id = UrlParameter.Optional }
+            );
+            */
+
+            routes.MapRoute(
+                name: "Categoria",
+                url: "Categoria/{Cerca_Categoria}/{Cerca_IDCategoria}",
+                defaults: new { controller = "Cerca", action = "Index", Cerca_Categoria = "", Cerca_IDCategoria = "" }
+            );
+
+            routes.MapRoute(
+                name: "Servizio",
+                url: "Servizio/{nomeAnnuncio}/{token}",
+                defaults: new { controller = "Annuncio", action = "Index", nomeAnnuncio = "", token = "" }
+            );
+
+            routes.MapRoute(
+                name: "Oggetto",
+                url: "Oggetto/{nomeAnnuncio}/{token}",
+                defaults: new { controller = "Annuncio", action = "Index", nomeAnnuncio = "", token = "" }
             );
 
             routes.MapRoute(

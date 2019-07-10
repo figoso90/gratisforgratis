@@ -382,7 +382,7 @@
     <value>Venditore</value>
   </data>
   <data name="Slogan" xml:space="preserve">
-    <value>&lt;strong&gt;Il commercio circolare con moneta virtuale&lt;/strong&gt;!</value>
+    <value>&lt;strong&gt;Gratis is new business&lt;/strong&gt;!</value>
   </data>
   <data name="Public" xml:space="preserve">
     <value>Pubblica</value>
@@ -613,7 +613,7 @@
     <value>Proprietario</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>Login</value>
+    <value>Login / Registrazione RAPIDA</value>
   </data>
   <data name="Width" xml:space="preserve">
     <value>Larghezza</value>
@@ -730,7 +730,7 @@
     <value>Regione obbligatoria (Selezionare regione suggerita)</value>
   </data>
   <data name="Register" xml:space="preserve">
-    <value>Registra</value>
+    <value>Registrazione COMPLETA</value>
   </data>
   <data name="EmailNotExist" xml:space="preserve">
     <value>Email inesistente</value>
@@ -1703,5 +1703,11 @@
   </data>
   <data name="PayShipmentBid" xml:space="preserve">
     <value>Paga spedizione!</value>
+  </data>
+  <data name="AdOther" xml:space="preserve">
+    <value>Escludi annunci personali</value>
+  </data>
+  <data name="KidExchange" xml:space="preserve">
+    <value>Tipo scambio</value>
   </data>
 </root>

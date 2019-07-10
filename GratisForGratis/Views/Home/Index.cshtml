@@ -7,7 +7,7 @@
         <div id="subCategoryObjects" class="subCategory">
             @foreach (GratisForGratis.Models.FINDSOTTOCATEGORIE_Result sottoCategoria in (HttpContext.Current.Application["categorie"] as List<GratisForGratis.Models.FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoria"]) && c.TIPO_VENDITA == 0))
             {
-                <a class="category object" href="@Url.Content("/Oggetti/" + sottoCategoria.DESCRIZIONE + "?categoria=" + sottoCategoria.ID)" title="@(Language.Object + ' ' + sottoCategoria.NOME)">
+                <a class="category object" href="@Url.Content("/Categoria/" + sottoCategoria.DESCRIZIONE.Replace(" ","-") + "/" + sottoCategoria.ID)" title="@(Language.Object + ' ' + sottoCategoria.NOME)">
                     <div class="box" style="background-image:url(@Url.Content("/Images/categorie/" + sottoCategoria.IMMAGINE));">
                         <div>
                             <h3 class="text name">@sottoCategoria.NOME</h3>
@@ -20,7 +20,7 @@
         <div id="subCategoryServices" class="subCategory">
             @foreach (GratisForGratis.Models.FINDSOTTOCATEGORIE_Result sottoCategoria in (HttpContext.Current.Application["categorie"] as List<GratisForGratis.Models.FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoria"]) && c.TIPO_VENDITA == 1))
             {
-                <a class="category service" href="@Url.Content("/Servizi/" + sottoCategoria.DESCRIZIONE + "?categoria=" + sottoCategoria.ID)" title="@(Language.Service + ' ' + sottoCategoria.NOME)">
+                <a class="category service" href="@Url.Content("/Categoria/" + sottoCategoria.DESCRIZIONE.Replace(" ","-") + "/" + sottoCategoria.ID)" title="@(Language.Service + ' ' + sottoCategoria.NOME)">
                     <div class="box" style="background-image:url(@Url.Content("/Images/categorie/" + sottoCategoria.IMMAGINE));">
                         <div>
                             <h3 class="text name">@sottoCategoria.NOME</h3>

@@ -30,7 +30,6 @@ namespace GratisForGratis.Models
         public virtual DbSet<ABBONAMENTO> ABBONAMENTO { get; set; }
         public virtual DbSet<ALIMENTAZIONE> ALIMENTAZIONE { get; set; }
         public virtual DbSet<ALLEGATO> ALLEGATO { get; set; }
-        public virtual DbSet<ANNUNCIO> ANNUNCIO { get; set; }
         public virtual DbSet<ANNUNCIO_CARRELLO> ANNUNCIO_CARRELLO { get; set; }
         public virtual DbSet<ANNUNCIO_CLICK> ANNUNCIO_CLICK { get; set; }
         public virtual DbSet<ANNUNCIO_DESIDERATO> ANNUNCIO_DESIDERATO { get; set; }
@@ -148,6 +147,7 @@ namespace GratisForGratis.Models
         public virtual DbSet<COMMISSIONE> COMMISSIONE { get; set; }
         public virtual DbSet<INDIRIZZO> INDIRIZZO { get; set; }
         public virtual DbSet<PERSONA> PERSONA { get; set; }
+        public virtual DbSet<ANNUNCIO> ANNUNCIO { get; set; }
     
         public virtual int AGGIORNAMENTO_CATEGORIE()
         {

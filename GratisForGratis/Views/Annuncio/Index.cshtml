@@ -4,13 +4,24 @@
     @Styles.Render("~/Scripts/blueimp-gallery/css/blueimp-gallery.min.css")
     @Styles.Render("~/Scripts/blueimp-gallery/css/blueimp-gallery-indicator.css")
     @Styles.Render("~/Content/annuncio.css")
+    <!-- You can use Open Graph tags to customize link previews.
+        Learn more: https://developers.facebook.com/docs/sharing/webmasters -->
+    <meta property="og:url" content="https://www.gratisforgratis.org/annuncio/@(HttpUtility.UrlEncode(Model.Nome.Replace(" ","-") + "/" + Model.Token))" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="@Model.Nome" />
+    <meta property="og:description" content="@Model.Nome" />
+    <meta property="og:image" content="https://www.gratisforgratis.org/Uploads/Images/@Model.Venditore.VenditoreToken/@Model.Foto[0].ALLEGATO.DATA_INSERIMENTO.Year/Normal/@Model.Foto[0].ALLEGATO.NOME" />
 }
 <section id="page">
     <section id="acquisto" class="content">
         @if (ViewBag.Esito != null)
         {
-        <h2 class="esito">@ViewBag.Esito</h2>
+            <h2 class="esito">@ViewBag.Esito</h2>
         }
+        <h4>
+            @Html.ValidationMessage("", new { @class = "text-danger" })
+            @Html.ValidationMessage("ErroreOfferta", new { @class = "text-danger" })
+        </h4>
         <div class="annuncio">
             <div class="left">
                 <div id="blueimp-image-carousel" class="blueimp-gallery blueimp-gallery-carousel blueimp-gallery-display blueimp-gallery-playing  blueimp-gallery-controls">
@@ -19,8 +30,8 @@
                     <a class="prev">‹</a>
                     <a class="next">›</a>
                     <!--<a class="close">×</a>
-                    <a class="play-pause"></a>
-                    <ol class="indicator"></ol>-->
+                <a class="play-pause"></a>
+                <ol class="indicator"></ol>-->
                 </div>
                 <div id="albumAnnuncio" class="album" style="display:none;">
                     @foreach (GratisForGratis.Models.AnnuncioFoto foto in Model.Foto)
@@ -41,7 +52,7 @@
             <div class="right">
                 <h3 class="info title">@Model.Nome</h3>
                 <h4 class="info category">
-                    <a href="@Url.Action("","cerca", new { Cerca_IDCategoria = Model.CategoriaID, Cerca_Categoria = Model.Categoria })" title="@Model.Categoria">
+                    <a href="@Url.Action(Model.Categoria.Replace(" ","-") + "/" + Model.CategoriaID, "categoria")" title="@Model.Categoria">
                         <img class="glyphicon category" src="@Url.Content("~/Images/Icone/category.svg")" alt="@Language.Category" />
                         @Model.Categoria
                     </a>
@@ -67,17 +78,20 @@
                     @Html.Partial("PartialPages/_SuggerimentoAttivazioneAnnuncio", Model)
                 </div>
                 <div class="buttons" style="text-align:left;margin-top:13px;">
-                    @if (Request.IsAuthenticated 
-                        && Model.Venditore.Id != ((GratisForGratis.Models.PersonaModel)Session["utente"]).Persona.ID 
+                    @if (Request.IsAuthenticated
+                        && Model.Venditore.Id != ((GratisForGratis.Models.PersonaModel)Session["utente"]).Persona.ID
                         && Model.StatoVendita == GratisForGratis.Models.StatoVendita.ATTIVO
-                        && (Model.DataFine >= DateTime.Now || Model.DataFine == null ))
+                        && (Model.DataFine >= DateTime.Now || Model.DataFine == null))
                     {
-                        if (Model.Azione.ToLower().Equals("offerta")) {
+                        if (Model.Azione.ToLower().Equals("offerta"))
+                        {
                             WriteLiteral(Html.Partial("PartialPages/_FormOfferte", (ViewData["offertaViewModel"] != null) ? ViewData["offertaViewModel"] : new GratisForGratis.Models.OffertaViewModel(Model)));
                             <div class="boxAcquisto">
                                 @Html.ActionLink(Language.Buy, "Index", "Annuncio", new { token = @HttpUtility.UrlEncode(Model.Token), azione = "compra" }, new { @class = "btn btn-primary" })
                             </div>
-                        } else {
+                        }
+                        else
+                        {
                             WriteLiteral(Html.Partial("PartialPages/_FormAcquisto", (ViewData["acquistoViewModel"] != null) ? ViewData["acquistoViewModel"] : new GratisForGratis.Models.AcquistoViewModel(Model)));
                             <div class="boxAcquisto">
                                 @Html.ActionLink(Language.Bid, "Index", "Annuncio", new { token = @HttpUtility.UrlEncode(Model.Token), azione = "offerta" }, new { @class = "btn btn-primary" })
@@ -89,21 +103,17 @@
                         @Html.ActionLink(Language.LoginAndBuy, "Login", "Utente", new { ReturnUrl = "~/Annuncio?token=" + HttpUtility.UrlEncode(Model.Token) }, new { @class = "btn btn-success buy" })
                     }
                 </div>
-                <h4>
-                    @Html.ValidationMessage("", new { @class = "text-danger" })
-                    @Html.ValidationMessage("ErroreOfferta", new { @class = "text-danger" })
-                </h4>
             </div>
         </div>
     </section>
 </section>
 
 @section Scripts {
-@Scripts.Render("~/Scripts/blueimp-gallery/js/blueimp-helper.js")
+    @Scripts.Render("~/Scripts/blueimp-gallery/js/blueimp-helper.js")
     @Scripts.Render("~/Scripts/blueimp-gallery/js/blueimp-gallery.min.js")
-@Scripts.Render("~/Scripts/blueimp-gallery/js/blueimp-gallery-fullscreen.js")
-@Scripts.Render("~/Scripts/blueimp-gallery/js/blueimp-gallery-indicator.js")
-@Scripts.Render("~/Scripts/blueimp-gallery/js/jquery.blueimp-gallery.js")
+    @Scripts.Render("~/Scripts/blueimp-gallery/js/blueimp-gallery-fullscreen.js")
+    @Scripts.Render("~/Scripts/blueimp-gallery/js/blueimp-gallery-indicator.js")
+    @Scripts.Render("~/Scripts/blueimp-gallery/js/jquery.blueimp-gallery.js")
     @Scripts.Render("~/Scripts/annuncio.js")
     @Scripts.Render("~/Scripts/baratto.js")
 }

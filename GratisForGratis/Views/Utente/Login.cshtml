@@ -47,11 +47,12 @@
             </div>
             <div class="row">
                 <div class="form-group">
-                    <input type="submit" value="@ViewModel.Login" class="col-md-9 col-md-push-1 btn btn-success" />
+                    <input type="submit" value="Accesso / Registrazione RAPIDA" class="btn btn-primary col-md-12" />
                 </div>
             </div>
             <p>
                 @Html.ActionLink(ViewModel.LoginRegistration, "Registrazione")
+                <i class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Facendo la registrazione completa riceverai ulteriori crediti omaggio"></i>
             </p>
             <p>
                 @Html.ActionLink(ViewModel.LoginPasswordForgot, "PasswordDimenticata")

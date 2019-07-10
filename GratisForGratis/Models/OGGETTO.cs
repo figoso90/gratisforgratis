@@ -17,7 +17,6 @@ namespace GratisForGratis.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public OGGETTO()
         {
-            this.ANNUNCIO = new HashSet<ANNUNCIO>();
             this.OGGETTO_APPARTENENZA = new HashSet<OGGETTO_APPARTENENZA>();
             this.OGGETTO_COMPONENTE = new HashSet<OGGETTO_COMPONENTE>();
             this.OGGETTO_COMPUTER = new HashSet<OGGETTO_COMPUTER>();
@@ -35,6 +34,7 @@ namespace GratisForGratis.Models
             this.OGGETTO_VESTITO = new HashSet<OGGETTO_VESTITO>();
             this.OGGETTO_VIDEO = new HashSet<OGGETTO_VIDEO>();
             this.OGGETTO_VIDEOGAMES = new HashSet<OGGETTO_VIDEOGAMES>();
+            this.ANNUNCIO = new HashSet<ANNUNCIO>();
         }
     
         public int ID { get; set; }
@@ -51,8 +51,6 @@ namespace GratisForGratis.Models
         public Nullable<System.DateTime> DATA_MODIFICA { get; set; }
         public int STATO { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ANNUNCIO> ANNUNCIO { get; set; }
         public virtual MARCA MARCA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OGGETTO_APPARTENENZA> OGGETTO_APPARTENENZA { get; set; }
@@ -88,5 +86,7 @@ namespace GratisForGratis.Models
         public virtual ICollection<OGGETTO_VIDEO> OGGETTO_VIDEO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OGGETTO_VIDEOGAMES> OGGETTO_VIDEOGAMES { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ANNUNCIO> ANNUNCIO { get; set; }
     }
 }

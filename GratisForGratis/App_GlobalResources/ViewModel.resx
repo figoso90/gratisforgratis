@@ -412,10 +412,10 @@
     <value>Inserisci tutti i dati, anche quelli opzionali</value>
   </data>
   <data name="HomeUserJoinSocial" xml:space="preserve">
-    <value>Collega il tuo profilo a Facebook</value>
+    <value>Condividi su Facebook</value>
   </data>
   <data name="HomeUserJoinSocialInfo" xml:space="preserve">
-    <value>Potrai guadagnare dagli annunci postati anche sul social network</value>
+    <value>Guadagnare facilmente postando sul social network</value>
   </data>
   <data name="HomeUserPublishGood" xml:space="preserve">
     <value>Posta oggetti da vendere</value>
@@ -437,5 +437,8 @@
   </data>
   <data name="PublishCheckInfoExtra" xml:space="preserve">
     <value>Visualizza inserimento dati aggiuntivi (anche per la spedizione)</value>
+  </data>
+  <data name="PublishSocial" xml:space="preserve">
+    <value>Pubblica sui social (Guadagnerai crediti omaggio)</value>
   </data>
 </root>

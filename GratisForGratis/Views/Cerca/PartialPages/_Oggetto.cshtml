@@ -13,7 +13,7 @@
 {
     <div id="@("Token" + oggetto.Token)" class="object">
         <div>
-            <a class="openLink" href="/Annuncio?token=@HttpUtility.UrlEncode(oggetto.Token)" title="@oggetto.Nome GRATIS">
+            <a class="openLink" href="/oggetto/@HttpUtility.UrlEncode(oggetto.Nome.Replace(" ","-") + "/" + oggetto.Token)" title="@oggetto.Nome GRATIS">
                 <h3 class="title">@oggetto.Nome</h3>
                 <div class="left" style="background-image:url('@Url.Content("~/Uploads/Images/" + oggetto.Venditore.VenditoreToken + "/" + @oggetto.Foto.FirstOrDefault().DATA_INSERIMENTO.Year + "/" + "Normal/" + oggetto.Foto.FirstOrDefault().ALLEGATO.NOME)')">
                     @if (oggetto.StatoOggetto == GratisForGratis.Models.CondizioneOggetto.Nuovo)
@@ -27,7 +27,7 @@
                 </div>
                 <div class="right">
                     <h5 class="category">
-                        <a href="@Url.Action(oggetto.Categoria,"oggetti", new { categoria = oggetto.CategoriaID })" title="@oggetto.Categoria">
+                        <a href="@Url.Action(oggetto.Categoria.Replace(" ","-") + "/" + oggetto.CategoriaID,"categoria")" title="@oggetto.Categoria">
                             <img class="glyphicon category" src="@Url.Content("~/Images/Icone/category.svg")" alt="@Language.Category" />
                             <span class="evidence">@oggetto.Categoria</span>
                         </a>

@@ -120,6 +120,9 @@
   <data name="JoinFacebook" xml:space="preserve">
     <value>Collegati a Facebook!</value>
   </data>
+  <data name="PublishShareFB" xml:space="preserve">
+    <value>Condividi su FB</value>
+  </data>
   <data name="RegisterYou" xml:space="preserve">
     <value>Registrati</value>
   </data>
