@@ -394,7 +394,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Pubblica annunci completi.
+        ///   Cerca una stringa localizzata simile a Annunci completi.
         /// </summary>
         public static string HomeUserFullAd {
             get {

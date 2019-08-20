@@ -5,7 +5,11 @@
     @Styles.Render("~/Content/ricerca.css")
 }
 <aside id="ricerca">
-    @Html.Partial("Filtri/Arredamento", new GratisForGratis.Models.RicercaModelloViewModel(Model.TotalNumber))
+    @{
+        var modello = new GratisForGratis.Models.RicercaModelloViewModel(Model.TotalNumber);
+        modello.NomeFiltro = "Arredamento";
+    }
+    @Html.Partial("PartialPages/_Filtro", modello)
 </aside>
 <section id="page">
     <section id="home" class="content">

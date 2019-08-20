@@ -1408,7 +1408,7 @@
     <value>Ricerca in {0} ({1} annunci trovati)</value>
   </data>
   <data name="TitleSearchGeneric" xml:space="preserve">
-    <value>Ricerca generica ({0} annunci trovati)</value>
+    <value>Modifica ricerca generica ({0} trovati)</value>
   </data>
   <data name="MenuSearchSaved" xml:space="preserve">
     <value>Ricerche salvate</value>
@@ -1537,7 +1537,7 @@
     <value>Acquisti</value>
   </data>
   <data name="MenuPurchasesCompleted" xml:space="preserve">
-    <value>Conclusi</value>
+    <value>Archivio</value>
   </data>
   <data name="MenuPurchasesCurrent" xml:space="preserve">
     <value>In corso</value>
@@ -1561,7 +1561,7 @@
     <value>Vendite</value>
   </data>
   <data name="MenuSellsCompleted" xml:space="preserve">
-    <value>Concluse</value>
+    <value>Archivio</value>
   </data>
   <data name="MenuSellsCurrent" xml:space="preserve">
     <value>In corso</value>

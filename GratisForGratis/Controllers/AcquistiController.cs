@@ -211,8 +211,6 @@ namespace GratisForGratis.Controllers
                 {
                     int utente = ((PersonaModel)Session["utente"]).Persona.ID;
                     var query = db.ANNUNCIO.Where(item => item.ID_PERSONA != utente && item.ID_COMPRATORE == utente 
-                        // commentato perchè quando faccio un'offerta, non esiste una transazione dell'annuncio offerto, ma comunque questo viene comprato.
-                        //&& item.TRANSAZIONE_ANNUNCIO.Count(m => m.STATO == (int)StatoPagamento.ATTIVO || m.STATO == (int)StatoPagamento.ACCETTATO) > 0
                         && (item.STATO == (int)StatoVendita.VENDUTO || item.STATO == (int)StatoVendita.ELIMINATO || item.STATO == (int)StatoVendita.BARATTATO)
                         && (item.ID_OGGETTO != null || item.ID_SERVIZIO != null));
                     int numeroElementi = Convert.ToInt32(WebConfigurationManager.AppSettings["numeroElementi"]);

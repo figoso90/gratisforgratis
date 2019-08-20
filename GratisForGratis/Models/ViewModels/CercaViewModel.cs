@@ -26,7 +26,7 @@ namespace GratisForGratis.Models
 
         void SendMail(System.Web.Mvc.ControllerContext controller);
     }
-    
+
     public class RicercaViewModel : IRicercaViewModel
     {
         #region COSTRUTTORI
@@ -65,6 +65,7 @@ namespace GratisForGratis.Models
         #endregion
 
         #region PROPRIETA
+        public string NomeFiltro { get; set; }
 
         public int Id { get; set; }
 
@@ -159,7 +160,7 @@ namespace GratisForGratis.Models
             {
                 //if (propertyInfo.GetValue(this) != null)
                 string nomeParametro = System.Text.RegularExpressions.Regex.Replace(propertyInfo.Name, "Cerca_", "", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                cookie[nomeParametro] = (propertyInfo.GetValue(this) != null)?propertyInfo.GetValue(this).ToString():null;
+                cookie[nomeParametro] = (propertyInfo.GetValue(this) != null) ? propertyInfo.GetValue(this).ToString() : null;
             }
             return cookie;
         }
@@ -225,7 +226,7 @@ namespace GratisForGratis.Models
                 viewModel = new RicercaViewModel();
                 viewModel.Id = model.ID;
                 viewModel.Cerca_Categoria = model.CATEGORIA.NOME;
-                if (model.COMUNE!=null)
+                if (model.COMUNE != null)
                     viewModel.Cerca_Citta = model.COMUNE.NOME;
                 if (model.PUNTI_MAX != null)
                     viewModel.Cerca_PuntiMax = (int)model.PUNTI_MAX;
@@ -233,7 +234,7 @@ namespace GratisForGratis.Models
                     viewModel.Cerca_PuntiMin = (int)model.PUNTI_MIN;
                 viewModel.Cerca_Nome = model.NOME;
             }
-            
+
             return viewModel;
         }
 
@@ -321,797 +322,797 @@ namespace GratisForGratis.Models
 
     #region OGGETTI
     public class RicercaOggettoViewModel : RicercaViewModel
-    {
-        #region COSTRUTTORI
-        public RicercaOggettoViewModel() : base()
         {
-            this.Cerca_AnnoMin = 0;
-            this.Cerca_AnnoMax = DateTime.Now.Year;
-            ActionSalvataggio = "SaveRicercaOggetto";
-        }
-
-        public RicercaOggettoViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) 
-        {
-            this.Cerca_AnnoMin = 0;
-            this.Cerca_AnnoMax = DateTime.Now.Year;
-            ActionSalvataggio = "SaveRicercaOggetto";
-        }
-
-        public RicercaOggettoViewModel(RicercaViewModel ricerca)
-        {
-            this.Cerca_Nome = ricerca.Cerca_Nome;
-            this.Cerca_Categoria = ricerca.Cerca_Categoria;
-            this.Cerca_IDCategoria = ricerca.Cerca_IDCategoria;
-            this.Cerca_PuntiMax = Convert.ToInt32(WebConfigurationManager.AppSettings["MaxPunti"]);
-            this.Cerca_AnnoMin = 0;
-            this.Cerca_AnnoMax = DateTime.Now.Year;
-            ActionSalvataggio = "SaveRicercaOggetto";
-        }
-
-        public RicercaOggettoViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
-        {
-            if (ricerca["MarcaID"] != null)
-                Cerca_MarcaID = Convert.ToInt32(ricerca["MarcaID"]);
-            if (ricerca["StatoOggetto"] != null)
-                Cerca_StatoOggetto = (CondizioneOggetto)Convert.ToInt32(ricerca["StatoOggetto"]);
-            if (ricerca["AnnoMin"] != null)
-                Cerca_AnnoMin = Convert.ToInt32(ricerca["AnnoMin"]);
-            if (ricerca["AnnoMax"] != null)
-                Cerca_AnnoMax = Convert.ToInt32(ricerca["AnnoMax"]);
-            if (ricerca["TipoScambio"] != null)
-                Cerca_TipoScambio = (TipoScambio)Convert.ToInt32(ricerca["TipoScambio"]);
-            //if (ricerca["Colore"] != null)
-            //    Cerca_Colore = Convert.ToInt32(ricerca["Colore"]);
-        }
-        #endregion
-
-        #region PROPRIETA
-        public int IdRicercaOggetto { get; set; }
-
-        [Display(Name = "StateObject", ResourceType = typeof(App_GlobalResources.Language))]
-        public CondizioneOggetto? Cerca_StatoOggetto { get; set; }
-
-        [DataType(DataType.Text)]
-        [Display(Name = "Brand", ResourceType = typeof(App_GlobalResources.Language))]
-        public string Cerca_Marca { get; set; }
-
-        [DataType(DataType.Text)]
-        [StringLength(100, MinimumLength = 16)]
-        public int? Cerca_MarcaID { get; set; }
-
-        [Display(Name = "Min", ResourceType = typeof(App_GlobalResources.Language))]
-        //[RangeDate(ErrorMessageResourceName = "ErrorMinYear", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
-        [Range(int.MinValue, int.MaxValue, ErrorMessageResourceName = "ErrorMinYear", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
-        public int Cerca_AnnoMin { get; set; }
-
-        [Display(Name = "Max", ResourceType = typeof(App_GlobalResources.Language))]
-        [Range(int.MinValue, int.MaxValue, ErrorMessageResourceName = "ErrorMaxYear", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
-        //[RangeDate(ErrorMessageResourceName = "ErrorMaxYear", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
-        public int Cerca_AnnoMax { get; set; }
-
-        public List<Color> Cerca_Colore { get; set; }
-
-        [Display(Name = "KidExchange", ResourceType = typeof(App_GlobalResources.Language))]
-        public TipoScambio? Cerca_TipoScambio { get; set; }
-        #endregion
-
-        #region METODI PUBBLICI
-        public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
-        {
-            if (base.Save(db, controller))
+            #region COSTRUTTORI
+            public RicercaOggettoViewModel() : base()
             {
-                RICERCA_OGGETTO ricercaOggetto = new RICERCA_OGGETTO();
-                ricercaOggetto.ID_RICERCA = this.Id;
-                ricercaOggetto.ID_MARCA = this.Cerca_MarcaID;
-                ricercaOggetto.STATO_OGGETTO = (int?)this.Cerca_StatoOggetto;
-                ricercaOggetto.ANNO_MASSIMO = this.Cerca_AnnoMax;
-                ricercaOggetto.ANNO_MINIMO = this.Cerca_AnnoMin;
-                //ricercaOggetto.TIPO_SCAMBIO = this.Cerca_TipoScambio;
-                if (this.Cerca_Colore != null && this.Cerca_Colore.Count > 0)
+                this.Cerca_AnnoMin = 0;
+                this.Cerca_AnnoMax = DateTime.Now.Year;
+                ActionSalvataggio = "SaveRicercaOggetto";
+            }
+
+            public RicercaOggettoViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) 
+            {
+                this.Cerca_AnnoMin = 0;
+                this.Cerca_AnnoMax = DateTime.Now.Year;
+                ActionSalvataggio = "SaveRicercaOggetto";
+            }
+
+            public RicercaOggettoViewModel(RicercaViewModel ricerca)
+            {
+                this.Cerca_Nome = ricerca.Cerca_Nome;
+                this.Cerca_Categoria = ricerca.Cerca_Categoria;
+                this.Cerca_IDCategoria = ricerca.Cerca_IDCategoria;
+                this.Cerca_PuntiMax = Convert.ToInt32(WebConfigurationManager.AppSettings["MaxPunti"]);
+                this.Cerca_AnnoMin = 0;
+                this.Cerca_AnnoMax = DateTime.Now.Year;
+                ActionSalvataggio = "SaveRicercaOggetto";
+            }
+
+            public RicercaOggettoViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
+            {
+                if (ricerca["MarcaID"] != null)
+                    Cerca_MarcaID = Convert.ToInt32(ricerca["MarcaID"]);
+                if (ricerca["StatoOggetto"] != null)
+                    Cerca_StatoOggetto = (CondizioneOggetto)Convert.ToInt32(ricerca["StatoOggetto"]);
+                if (ricerca["AnnoMin"] != null)
+                    Cerca_AnnoMin = Convert.ToInt32(ricerca["AnnoMin"]);
+                if (ricerca["AnnoMax"] != null)
+                    Cerca_AnnoMax = Convert.ToInt32(ricerca["AnnoMax"]);
+                if (ricerca["TipoScambio"] != null)
+                    Cerca_TipoScambio = (TipoScambio)Convert.ToInt32(ricerca["TipoScambio"]);
+                //if (ricerca["Colore"] != null)
+                //    Cerca_Colore = Convert.ToInt32(ricerca["Colore"]);
+            }
+            #endregion
+
+            #region PROPRIETA
+            public int IdRicercaOggetto { get; set; }
+
+            [Display(Name = "StateObject", ResourceType = typeof(App_GlobalResources.Language))]
+            public CondizioneOggetto? Cerca_StatoOggetto { get; set; }
+
+            [DataType(DataType.Text)]
+            [Display(Name = "Brand", ResourceType = typeof(App_GlobalResources.Language))]
+            public string Cerca_Marca { get; set; }
+
+            [DataType(DataType.Text)]
+            [StringLength(100, MinimumLength = 16)]
+            public int? Cerca_MarcaID { get; set; }
+
+            [Display(Name = "Min", ResourceType = typeof(App_GlobalResources.Language))]
+            //[RangeDate(ErrorMessageResourceName = "ErrorMinYear", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
+            [Range(int.MinValue, int.MaxValue, ErrorMessageResourceName = "ErrorMinYear", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
+            public int Cerca_AnnoMin { get; set; }
+
+            [Display(Name = "Max", ResourceType = typeof(App_GlobalResources.Language))]
+            [Range(int.MinValue, int.MaxValue, ErrorMessageResourceName = "ErrorMaxYear", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
+            //[RangeDate(ErrorMessageResourceName = "ErrorMaxYear", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
+            public int Cerca_AnnoMax { get; set; }
+
+            public List<Color> Cerca_Colore { get; set; }
+
+            [Display(Name = "KidExchange", ResourceType = typeof(App_GlobalResources.Language))]
+            public TipoScambio? Cerca_TipoScambio { get; set; }
+            #endregion
+
+            #region METODI PUBBLICI
+            public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
+            {
+                if (base.Save(db, controller))
                 {
-                    ricercaOggetto.COLORE = string.Join(",", this.Cerca_Colore);
+                    RICERCA_OGGETTO ricercaOggetto = new RICERCA_OGGETTO();
+                    ricercaOggetto.ID_RICERCA = this.Id;
+                    ricercaOggetto.ID_MARCA = this.Cerca_MarcaID;
+                    ricercaOggetto.STATO_OGGETTO = (int?)this.Cerca_StatoOggetto;
+                    ricercaOggetto.ANNO_MASSIMO = this.Cerca_AnnoMax;
+                    ricercaOggetto.ANNO_MINIMO = this.Cerca_AnnoMin;
+                    //ricercaOggetto.TIPO_SCAMBIO = this.Cerca_TipoScambio;
+                    if (this.Cerca_Colore != null && this.Cerca_Colore.Count > 0)
+                    {
+                        ricercaOggetto.COLORE = string.Join(",", this.Cerca_Colore);
+                    }
+                    db.RICERCA_OGGETTO.Add(ricercaOggetto);
+                    bool risultato = db.SaveChanges() > 0;
+                    this.IdRicercaOggetto = ricercaOggetto.ID;
+                    return risultato;
                 }
-                db.RICERCA_OGGETTO.Add(ricercaOggetto);
-                bool risultato = db.SaveChanges() > 0;
-                this.IdRicercaOggetto = ricercaOggetto.ID;
-                return risultato;
+                return false;
             }
-            return false;
-        }
-        #endregion
-    }
-
-    public class RicercaModelloViewModel : RicercaOggettoViewModel
-    {
-        #region COSTRUTTORI
-        public RicercaModelloViewModel() : base() {
-            ActionSalvataggio = "SaveRicercaModello";
+            #endregion
         }
 
-        public RicercaModelloViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) {
-            ActionSalvataggio = "SaveRicercaModello";
-        }
-
-        public RicercaModelloViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
+        public class RicercaModelloViewModel : RicercaOggettoViewModel
         {
-            if (ricerca["modelloID"] != null)
-                cerca_modelloID = Convert.ToInt32(ricerca["modelloID"]);
-        }
-        #endregion
+            #region COSTRUTTORI
+            public RicercaModelloViewModel() : base() {
+                ActionSalvataggio = "SaveRicercaModello";
+            }
 
-        #region PROPRIETA
-        [Range(1, int.MaxValue)]
-        public int? cerca_modelloID { get; set; }
+            public RicercaModelloViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) {
+                ActionSalvataggio = "SaveRicercaModello";
+            }
 
-        [DataType(DataType.Text)]
-        [Display(Name = "Model", ResourceType = typeof(App_GlobalResources.Language))]
-        public string cerca_modello { get; set; }
-        #endregion
-
-        #region METODI PUBBLICI
-        public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
-        {
-            if (base.Save(db, controller))
+            public RicercaModelloViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
             {
-                RICERCA_OGGETTO_MODELLO model = new RICERCA_OGGETTO_MODELLO();
-                model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
-                model.ID_MODELLO = this.cerca_modelloID;
-                db.RICERCA_OGGETTO_MODELLO.Add(model);
-                return db.SaveChanges() > 0;
+                if (ricerca["modelloID"] != null)
+                    cerca_modelloID = Convert.ToInt32(ricerca["modelloID"]);
             }
-            return false;
-        }
-        #endregion
-    }
+            #endregion
 
-    public class RicercaTelefonoViewModel : RicercaOggettoViewModel
-    {
-        #region COSTRUTTORI
-        public RicercaTelefonoViewModel() : base() {
-            ActionSalvataggio = "SaveRicercaTelefono";
-        }
+            #region PROPRIETA
+            [Range(1, int.MaxValue)]
+            public int? cerca_modelloID { get; set; }
 
-        public RicercaTelefonoViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) {
-            ActionSalvataggio = "SaveRicercaTelefono";
-        }
+            [DataType(DataType.Text)]
+            [Display(Name = "Model", ResourceType = typeof(App_GlobalResources.Language))]
+            public string cerca_modello { get; set; }
+            #endregion
 
-        public RicercaTelefonoViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
-        {
-            if (ricerca["modelloID"] != null)
-                cerca_modelloID = Convert.ToInt32(ricerca["modelloID"]);
-            if (ricerca["sistemaOperativoID"] != null)
-                cerca_sistemaOperativoID = Convert.ToInt32(ricerca["sistemaOperativoID"]);
-        }
-        #endregion
-
-        #region PROPRIETA
-        [Range(1, int.MaxValue)]
-        public int? cerca_modelloID { get; set; }
-
-        [DataType(DataType.Text)]
-        [Display(Name = "Model", ResourceType = typeof(App_GlobalResources.Language))]
-        public string cerca_modello { get; set; }
-
-        [Range(1, int.MaxValue)]
-        public int? cerca_sistemaOperativoID { get; set; }
-
-        [DataType(DataType.Text)]
-        [Display(Name = "SystemOperating", ResourceType = typeof(App_GlobalResources.Language))]
-        public string cerca_sistemaOperativo { get; set; }
-        #endregion
-
-        #region METODI PUBBLICI
-        public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
-        {
-            if (base.Save(db, controller))
+            #region METODI PUBBLICI
+            public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
             {
-                RICERCA_OGGETTO_TELEFONO model = new RICERCA_OGGETTO_TELEFONO();
-                model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
-                model.ID_MODELLO = this.cerca_modelloID;
-                model.ID_SISTEMA_OPERATIVO = this.cerca_sistemaOperativoID;
-                db.RICERCA_OGGETTO_TELEFONO.Add(model);
-                return db.SaveChanges() > 0;
+                if (base.Save(db, controller))
+                {
+                    RICERCA_OGGETTO_MODELLO model = new RICERCA_OGGETTO_MODELLO();
+                    model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
+                    model.ID_MODELLO = this.cerca_modelloID;
+                    db.RICERCA_OGGETTO_MODELLO.Add(model);
+                    return db.SaveChanges() > 0;
+                }
+                return false;
             }
-            return false;
-        }
-        #endregion
-    }
-
-    public class RicercaAudioHiFiViewModel : RicercaOggettoViewModel
-    {
-        #region COSTRUTTORI
-        public RicercaAudioHiFiViewModel() : base() {
-            ActionSalvataggio = "SaveRicercaAudioHiFi";
+            #endregion
         }
 
-        public RicercaAudioHiFiViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) { ActionSalvataggio = "SaveRicercaAudioHiFi"; }
-
-        public RicercaAudioHiFiViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
+        public class RicercaTelefonoViewModel : RicercaOggettoViewModel
         {
-            if (ricerca["modelloID"] != null)
-                cerca_modelloID = Convert.ToInt32(ricerca["modelloID"]);
-        }
-        #endregion
+            #region COSTRUTTORI
+            public RicercaTelefonoViewModel() : base() {
+                ActionSalvataggio = "SaveRicercaTelefono";
+            }
 
-        #region PROPRIETA
-        [Range(1, int.MaxValue)]
-        public int? cerca_modelloID { get; set; }
+            public RicercaTelefonoViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) {
+                ActionSalvataggio = "SaveRicercaTelefono";
+            }
 
-        [DataType(DataType.Text)]
-        [Display(Name = "Model", ResourceType = typeof(App_GlobalResources.Language))]
-        public string cerca_modello { get; set; }
-        #endregion
-
-        #region METODI PUBBLICI
-        public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
-        {
-            if (base.Save(db, controller))
+            public RicercaTelefonoViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
             {
-                RICERCA_OGGETTO_TECNOLOGIA model = new RICERCA_OGGETTO_TECNOLOGIA();
-                model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
-                model.ID_MODELLO = this.cerca_modelloID;
-                db.RICERCA_OGGETTO_TECNOLOGIA.Add(model);
-                return db.SaveChanges() > 0;
+                if (ricerca["modelloID"] != null)
+                    cerca_modelloID = Convert.ToInt32(ricerca["modelloID"]);
+                if (ricerca["sistemaOperativoID"] != null)
+                    cerca_sistemaOperativoID = Convert.ToInt32(ricerca["sistemaOperativoID"]);
             }
-            return false;
-        }
-        #endregion
-    }
+            #endregion
 
-    public class RicercaPcViewModel : RicercaOggettoViewModel
-    {
-        #region COSTRUTTORI
-        public RicercaPcViewModel() : base() { ActionSalvataggio = "SaveRicercaPc"; }
+            #region PROPRIETA
+            [Range(1, int.MaxValue)]
+            public int? cerca_modelloID { get; set; }
 
-        public RicercaPcViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) { ActionSalvataggio = "SaveRicercaPc"; }
+            [DataType(DataType.Text)]
+            [Display(Name = "Model", ResourceType = typeof(App_GlobalResources.Language))]
+            public string cerca_modello { get; set; }
 
-        public RicercaPcViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
-        {
-            if (ricerca["modelloID"] != null)
-                cerca_modelloID = Convert.ToInt32(ricerca["modelloID"]);
-            if (ricerca["sistemaOperativoID"] != null)
-                cerca_sistemaOperativoID = Convert.ToInt32(ricerca["sistemaOperativoID"]);
-        }
-        #endregion
+            [Range(1, int.MaxValue)]
+            public int? cerca_sistemaOperativoID { get; set; }
 
-        #region PROPRIETA
-        [Range(1, int.MaxValue)]
-        public int? cerca_modelloID { get; set; }
+            [DataType(DataType.Text)]
+            [Display(Name = "SystemOperating", ResourceType = typeof(App_GlobalResources.Language))]
+            public string cerca_sistemaOperativo { get; set; }
+            #endregion
 
-        [DataType(DataType.Text)]
-        [Display(Name = "Model", ResourceType = typeof(App_GlobalResources.Language))]
-        public string cerca_modello { get; set; }
-
-        [Range(1, int.MaxValue)]
-        public int? cerca_sistemaOperativoID { get; set; }
-
-        [DataType(DataType.Text)]
-        [Display(Name = "SystemOperating", ResourceType = typeof(App_GlobalResources.Language))]
-        public string cerca_sistemaOperativo { get; set; }
-        #endregion
-
-        #region METODI PUBBLICI
-        public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
-        {
-            if (base.Save(db, controller))
+            #region METODI PUBBLICI
+            public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
             {
-                RICERCA_OGGETTO_PC model = new RICERCA_OGGETTO_PC();
-                model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
-                model.ID_MODELLO = this.cerca_modelloID;
-                model.ID_SISTEMA_OPERATIVO = this.cerca_sistemaOperativoID;
-                db.RICERCA_OGGETTO_PC.Add(model);
-                return db.SaveChanges() > 0;
+                if (base.Save(db, controller))
+                {
+                    RICERCA_OGGETTO_TELEFONO model = new RICERCA_OGGETTO_TELEFONO();
+                    model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
+                    model.ID_MODELLO = this.cerca_modelloID;
+                    model.ID_SISTEMA_OPERATIVO = this.cerca_sistemaOperativoID;
+                    db.RICERCA_OGGETTO_TELEFONO.Add(model);
+                    return db.SaveChanges() > 0;
+                }
+                return false;
             }
-            return false;
+            #endregion
         }
-        #endregion
-    }
 
-    public class RicercaElettrodomesticoViewModel : RicercaOggettoViewModel
-    {
-        #region COSTRUTTORI
-        public RicercaElettrodomesticoViewModel() : base() { ActionSalvataggio = "SaveRicercaElettrodomestico"; }
-
-        public RicercaElettrodomesticoViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) { ActionSalvataggio = "SaveRicercaElettrodomestico"; }
-
-        public RicercaElettrodomesticoViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
+        public class RicercaAudioHiFiViewModel : RicercaOggettoViewModel
         {
-            if (ricerca["modelloID"] != null)
-                cerca_modelloID = Convert.ToInt32(ricerca["modelloID"]);
-        }
-        #endregion
+            #region COSTRUTTORI
+            public RicercaAudioHiFiViewModel() : base() {
+                ActionSalvataggio = "SaveRicercaAudioHiFi";
+            }
 
-        #region PROPRIETA
-        [Range(1, int.MaxValue)]
-        public int? cerca_modelloID { get; set; }
+            public RicercaAudioHiFiViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) { ActionSalvataggio = "SaveRicercaAudioHiFi"; }
 
-        [DataType(DataType.Text)]
-        [Display(Name = "Model", ResourceType = typeof(App_GlobalResources.Language))]
-        public string cerca_modello { get; set; }
-        #endregion
-
-        #region METODI PUBBLICI
-        public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
-        {
-            if (base.Save(db, controller))
+            public RicercaAudioHiFiViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
             {
-                RICERCA_OGGETTO_ELETTRODOMESTICO model = new RICERCA_OGGETTO_ELETTRODOMESTICO();
-                model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
-                model.ID_MODELLO = this.cerca_modelloID;
-                db.RICERCA_OGGETTO_ELETTRODOMESTICO.Add(model);
-                return db.SaveChanges() > 0;
+                if (ricerca["modelloID"] != null)
+                    cerca_modelloID = Convert.ToInt32(ricerca["modelloID"]);
             }
-            return false;
-        }
-        #endregion
-    }
+            #endregion
 
-    public class RicercaStrumentoViewModel : RicercaOggettoViewModel
-    {
-        #region COSTRUTTORI
-        public RicercaStrumentoViewModel() : base() { ActionSalvataggio = "SaveRicercaStrumento"; }
+            #region PROPRIETA
+            [Range(1, int.MaxValue)]
+            public int? cerca_modelloID { get; set; }
 
-        public RicercaStrumentoViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) { ActionSalvataggio = "SaveRicercaStrumento"; }
+            [DataType(DataType.Text)]
+            [Display(Name = "Model", ResourceType = typeof(App_GlobalResources.Language))]
+            public string cerca_modello { get; set; }
+            #endregion
 
-        public RicercaStrumentoViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
-        {
-            if (ricerca["modelloID"] != null)
-                cerca_modelloID = Convert.ToInt32(ricerca["modelloID"]);
-        }
-        #endregion
-
-        #region PROPRIETA
-        [Range(1, int.MaxValue)]
-        public int? cerca_modelloID { get; set; }
-
-        [DataType(DataType.Text)]
-        [Display(Name = "Model", ResourceType = typeof(App_GlobalResources.Language))]
-        public string cerca_modello { get; set; }
-        #endregion
-
-        #region METODI PUBBLICI
-        public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
-        {
-            if (base.Save(db, controller))
+            #region METODI PUBBLICI
+            public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
             {
-                RICERCA_OGGETTO_STRUMENTI model = new RICERCA_OGGETTO_STRUMENTI();
-                model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
-                model.ID_MODELLO = this.cerca_modelloID;
-                db.RICERCA_OGGETTO_STRUMENTI.Add(model);
-                return db.SaveChanges() > 0;
+                if (base.Save(db, controller))
+                {
+                    RICERCA_OGGETTO_TECNOLOGIA model = new RICERCA_OGGETTO_TECNOLOGIA();
+                    model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
+                    model.ID_MODELLO = this.cerca_modelloID;
+                    db.RICERCA_OGGETTO_TECNOLOGIA.Add(model);
+                    return db.SaveChanges() > 0;
+                }
+                return false;
             }
-            return false;
+            #endregion
         }
-        #endregion
-    }
 
-    public class RicercaMusicaViewModel : RicercaOggettoViewModel
-    {
-        #region COSTRUTTORI
-        public RicercaMusicaViewModel() : base() { ActionSalvataggio = "SaveRicercaMusica"; }
-
-        public RicercaMusicaViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) { ActionSalvataggio = "SaveRicercaMusica"; }
-
-        public RicercaMusicaViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
+        public class RicercaPcViewModel : RicercaOggettoViewModel
         {
-            if (ricerca["formatoID"] != null)
-                cerca_formatoID = Convert.ToInt32(ricerca["formatoID"]);
-            if (ricerca["artistaID"] != null)
-                cerca_artistaID = Convert.ToInt32(ricerca["artistaID"]);
-        }
-        #endregion
+            #region COSTRUTTORI
+            public RicercaPcViewModel() : base() { ActionSalvataggio = "SaveRicercaPc"; }
 
-        #region PROPRIETA
-        [Range(1, int.MaxValue)]
-        public int? cerca_formatoID { get; set; }
+            public RicercaPcViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) { ActionSalvataggio = "SaveRicercaPc"; }
 
-        [DataType(DataType.Text)]
-        [Display(Name = "Format", ResourceType = typeof(App_GlobalResources.Language))]
-        public string cerca_formato { get; set; }
-
-        [Range(1, int.MaxValue)]
-        public int? cerca_artistaID { get; set; }
-
-        [DataType(DataType.Text)]
-        [Display(Name = "Artist", ResourceType = typeof(App_GlobalResources.Language))]
-        public string cerca_artista { get; set; }
-        #endregion
-
-        #region METODI PUBBLICI
-        public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
-        {
-            if (base.Save(db, controller))
+            public RicercaPcViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
             {
-                RICERCA_OGGETTO_MUSICA model = new RICERCA_OGGETTO_MUSICA();
-                model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
-                model.ID_ARTISTA = this.cerca_artistaID;
-                model.ID_FORMATO = this.cerca_formatoID;
-                db.RICERCA_OGGETTO_MUSICA.Add(model);
-                return db.SaveChanges() > 0;
+                if (ricerca["modelloID"] != null)
+                    cerca_modelloID = Convert.ToInt32(ricerca["modelloID"]);
+                if (ricerca["sistemaOperativoID"] != null)
+                    cerca_sistemaOperativoID = Convert.ToInt32(ricerca["sistemaOperativoID"]);
             }
-            return false;
-        }
-        #endregion
-    }
+            #endregion
 
-    public class RicercaGiocoViewModel : RicercaOggettoViewModel
-    {
-        #region COSTRUTTORI
-        public RicercaGiocoViewModel() : base() { ActionSalvataggio = "SaveRicercaGioco"; }
+            #region PROPRIETA
+            [Range(1, int.MaxValue)]
+            public int? cerca_modelloID { get; set; }
 
-        public RicercaGiocoViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) { ActionSalvataggio = "SaveRicercaGioco"; }
+            [DataType(DataType.Text)]
+            [Display(Name = "Model", ResourceType = typeof(App_GlobalResources.Language))]
+            public string cerca_modello { get; set; }
 
-        public RicercaGiocoViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
-        {
-            if (ricerca["modelloID"] != null)
-                cerca_modelloID = Convert.ToInt32(ricerca["modelloID"]);
-        }
-        #endregion
+            [Range(1, int.MaxValue)]
+            public int? cerca_sistemaOperativoID { get; set; }
 
-        #region PROPRIETA
-        [Range(1, int.MaxValue)]
-        public int? cerca_modelloID { get; set; }
+            [DataType(DataType.Text)]
+            [Display(Name = "SystemOperating", ResourceType = typeof(App_GlobalResources.Language))]
+            public string cerca_sistemaOperativo { get; set; }
+            #endregion
 
-        [DataType(DataType.Text)]
-        [Display(Name = "Model", ResourceType = typeof(App_GlobalResources.Language))]
-        public string cerca_modello { get; set; }
-        #endregion
-
-        #region METODI PUBBLICI
-        public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
-        {
-            if (base.Save(db, controller))
+            #region METODI PUBBLICI
+            public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
             {
-                RICERCA_OGGETTO_GIOCO model = new RICERCA_OGGETTO_GIOCO();
-                model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
-                model.ID_MODELLO = this.cerca_modelloID;
-                db.RICERCA_OGGETTO_GIOCO.Add(model);
-                return db.SaveChanges() > 0;
+                if (base.Save(db, controller))
+                {
+                    RICERCA_OGGETTO_PC model = new RICERCA_OGGETTO_PC();
+                    model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
+                    model.ID_MODELLO = this.cerca_modelloID;
+                    model.ID_SISTEMA_OPERATIVO = this.cerca_sistemaOperativoID;
+                    db.RICERCA_OGGETTO_PC.Add(model);
+                    return db.SaveChanges() > 0;
+                }
+                return false;
             }
-            return false;
+            #endregion
         }
-        #endregion
-    }
 
-    public class RicercaVideogamesViewModel : RicercaOggettoViewModel
-    {
-        #region COSTRUTTORI
-        public RicercaVideogamesViewModel() : base() { ActionSalvataggio = "SaveRicercaVideogames"; }
-
-        public RicercaVideogamesViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) { ActionSalvataggio = "SaveRicercaVideogames"; }
-
-        public RicercaVideogamesViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
+        public class RicercaElettrodomesticoViewModel : RicercaOggettoViewModel
         {
-            if (ricerca["piattaformaID"] != null)
-                cerca_piattaformaID = Convert.ToInt32(ricerca["piattaformaID"]);
-            if (ricerca["genereID"] != null)
-                cerca_genereID = Convert.ToInt32(ricerca["genereID"]);
-        }
-        #endregion
+            #region COSTRUTTORI
+            public RicercaElettrodomesticoViewModel() : base() { ActionSalvataggio = "SaveRicercaElettrodomestico"; }
 
-        #region PROPRIETA
-        [Range(1, int.MaxValue)]
-        public int? cerca_piattaformaID { get; set; }
+            public RicercaElettrodomesticoViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) { ActionSalvataggio = "SaveRicercaElettrodomestico"; }
 
-        [DataType(DataType.Text)]
-        [Display(Name = "Platform", ResourceType = typeof(App_GlobalResources.Language))]
-        public string cerca_piattaforma { get; set; }
-
-        [Range(1, int.MaxValue)]
-        public int? cerca_genereID { get; set; }
-
-        [DataType(DataType.Text)]
-        [Display(Name = "Kind", ResourceType = typeof(App_GlobalResources.Language))]
-        public string cerca_genere { get; set; }
-        #endregion
-
-        #region METODI PUBBLICI
-        public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
-        {
-            if (base.Save(db, controller))
+            public RicercaElettrodomesticoViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
             {
-                RICERCA_OGGETTO_VIDEOGAMES model = new RICERCA_OGGETTO_VIDEOGAMES();
-                model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
-                model.ID_PIATTAFORMA = this.cerca_piattaformaID;
-                model.ID_GENERE = this.cerca_genereID;
-                db.RICERCA_OGGETTO_VIDEOGAMES.Add(model);
-                return (db.SaveChanges() > 0);
+                if (ricerca["modelloID"] != null)
+                    cerca_modelloID = Convert.ToInt32(ricerca["modelloID"]);
             }
-            return false;
-        }
-        #endregion
-    }
+            #endregion
 
-    public class RicercaSportViewModel : RicercaOggettoViewModel
-    {
-        #region COSTRUTTORI
-        public RicercaSportViewModel() : base() { ActionSalvataggio = "SaveRicercaSport"; }
+            #region PROPRIETA
+            [Range(1, int.MaxValue)]
+            public int? cerca_modelloID { get; set; }
 
-        public RicercaSportViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) { ActionSalvataggio = "SaveRicercaSport"; }
+            [DataType(DataType.Text)]
+            [Display(Name = "Model", ResourceType = typeof(App_GlobalResources.Language))]
+            public string cerca_modello { get; set; }
+            #endregion
 
-        public RicercaSportViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
-        {
-            if (ricerca["modelloID"] != null)
-                cerca_modelloID = Convert.ToInt32(ricerca["modelloID"]);
-        }
-        #endregion
-
-        #region PROPRIETA
-        [Range(1, int.MaxValue)]
-        public int? cerca_modelloID { get; set; }
-
-        [DataType(DataType.Text)]
-        [Display(Name = "Model", ResourceType = typeof(App_GlobalResources.Language))]
-        public string cerca_modello { get; set; }
-        #endregion
-
-        #region METODI PUBBLICI
-        public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
-        {
-            if (base.Save(db, controller))
+            #region METODI PUBBLICI
+            public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
             {
-                RICERCA_OGGETTO_SPORT model = new RICERCA_OGGETTO_SPORT();
-                model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
-                model.ID_MODELLO = this.cerca_modelloID;
-                db.RICERCA_OGGETTO_SPORT.Add(model);
-                return db.SaveChanges() > 0;
+                if (base.Save(db, controller))
+                {
+                    RICERCA_OGGETTO_ELETTRODOMESTICO model = new RICERCA_OGGETTO_ELETTRODOMESTICO();
+                    model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
+                    model.ID_MODELLO = this.cerca_modelloID;
+                    db.RICERCA_OGGETTO_ELETTRODOMESTICO.Add(model);
+                    return db.SaveChanges() > 0;
+                }
+                return false;
             }
-            return false;
+            #endregion
         }
-        #endregion
-    }
 
-    public class RicercaTecnologiaViewModel : RicercaOggettoViewModel
-    {
-        #region COSTRUTTORI
-        public RicercaTecnologiaViewModel() : base() { ActionSalvataggio = "SaveRicercaTecnologia"; }
-
-        public RicercaTecnologiaViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) { ActionSalvataggio = "SaveRicercaTecnologia"; }
-
-        public RicercaTecnologiaViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
+        public class RicercaStrumentoViewModel : RicercaOggettoViewModel
         {
-            if (ricerca["modelloID"] != null)
-                cerca_modelloID = Convert.ToInt32(ricerca["modelloID"]);
-        }
-        #endregion
+            #region COSTRUTTORI
+            public RicercaStrumentoViewModel() : base() { ActionSalvataggio = "SaveRicercaStrumento"; }
 
-        #region PROPRIETA
-        [Range(1, int.MaxValue)]
-        public int? cerca_modelloID { get; set; }
+            public RicercaStrumentoViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) { ActionSalvataggio = "SaveRicercaStrumento"; }
 
-        [DataType(DataType.Text)]
-        [Display(Name = "Model", ResourceType = typeof(App_GlobalResources.Language))]
-        public string cerca_modello { get; set; }
-        #endregion
-
-        #region METODI PUBBLICI
-        public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
-        {
-            if (base.Save(db, controller))
+            public RicercaStrumentoViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
             {
-                RICERCA_OGGETTO_TECNOLOGIA model = new RICERCA_OGGETTO_TECNOLOGIA();
-                model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
-                model.ID_MODELLO = this.cerca_modelloID;
-                db.RICERCA_OGGETTO_TECNOLOGIA.Add(model);
-                return db.SaveChanges() > 0;
+                if (ricerca["modelloID"] != null)
+                    cerca_modelloID = Convert.ToInt32(ricerca["modelloID"]);
             }
-            return false;
-        }
-        #endregion
-    }
+            #endregion
 
-    public class RicercaConsoleViewModel : RicercaOggettoViewModel
-    {
-        #region COSTRUTTORI
-        public RicercaConsoleViewModel() : base() { ActionSalvataggio = "SaveRicercaConsole"; }
+            #region PROPRIETA
+            [Range(1, int.MaxValue)]
+            public int? cerca_modelloID { get; set; }
 
-        public RicercaConsoleViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) { ActionSalvataggio = "SaveRicercaConsole"; }
+            [DataType(DataType.Text)]
+            [Display(Name = "Model", ResourceType = typeof(App_GlobalResources.Language))]
+            public string cerca_modello { get; set; }
+            #endregion
 
-        public RicercaConsoleViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
-        {
-            if (ricerca["piattaformaID"] != null)
-                cerca_piattaformaID = Convert.ToInt32(ricerca["piattaformaID"]);
-        }
-        #endregion
-
-        #region PROPRIETA
-        [Range(1, int.MaxValue)]
-        public int? cerca_piattaformaID { get; set; }
-
-        [DataType(DataType.Text)]
-        [Display(Name = "Platform", ResourceType = typeof(App_GlobalResources.Language))]
-        public string cerca_piattaforma { get; set; }
-        #endregion
-
-        #region METODI PUBBLICI
-        public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
-        {
-            if (base.Save(db, controller))
+            #region METODI PUBBLICI
+            public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
             {
-                RICERCA_OGGETTO_CONSOLE model = new RICERCA_OGGETTO_CONSOLE();
-                model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
-                model.ID_PIATTAFORMA = this.cerca_piattaformaID;
-                db.RICERCA_OGGETTO_CONSOLE.Add(model);
-                return db.SaveChanges() > 0;
+                if (base.Save(db, controller))
+                {
+                    RICERCA_OGGETTO_STRUMENTI model = new RICERCA_OGGETTO_STRUMENTI();
+                    model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
+                    model.ID_MODELLO = this.cerca_modelloID;
+                    db.RICERCA_OGGETTO_STRUMENTI.Add(model);
+                    return db.SaveChanges() > 0;
+                }
+                return false;
             }
-            return false;
+            #endregion
         }
-        #endregion
-    }
 
-    public class RicercaVideoViewModel : RicercaOggettoViewModel
-    {
-        #region COSTRUTTORI
-        public RicercaVideoViewModel() : base() { ActionSalvataggio = "SaveRicercaVideo"; }
-
-        public RicercaVideoViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) { ActionSalvataggio = "SaveRicercaVideo"; }
-
-        public RicercaVideoViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
+        public class RicercaMusicaViewModel : RicercaOggettoViewModel
         {
-            if (ricerca["formatoID"] != null)
-                cerca_formatoID = Convert.ToInt32(ricerca["formatoID"]);
-            if (ricerca["registaID"] != null)
-                cerca_registaID = Convert.ToInt32(ricerca["registaID"]);
-        }
-        #endregion
+            #region COSTRUTTORI
+            public RicercaMusicaViewModel() : base() { ActionSalvataggio = "SaveRicercaMusica"; }
 
-        #region PROPRIETA
-        [Range(1, int.MaxValue)]
-        public int? cerca_formatoID { get; set; }
+            public RicercaMusicaViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) { ActionSalvataggio = "SaveRicercaMusica"; }
 
-        [DataType(DataType.Text)]
-        [Display(Name = "Support", ResourceType = typeof(App_GlobalResources.Language))]
-        public string cerca_formato { get; set; }
-
-        [Range(1, int.MaxValue)]
-        public int? cerca_registaID { get; set; }
-
-        [DataType(DataType.Text)]
-        [Display(Name = "Director", ResourceType = typeof(App_GlobalResources.Language))]
-        public string cerca_regista { get; set; }
-        #endregion
-
-        #region METODI PUBBLICI
-        public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
-        {
-            if (base.Save(db, controller))
+            public RicercaMusicaViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
             {
-                RICERCA_OGGETTO_VIDEO model = new RICERCA_OGGETTO_VIDEO();
-                model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
-                model.ID_REGISTA = this.cerca_registaID;
-                model.ID_FORMATO = this.cerca_formatoID;
-                db.RICERCA_OGGETTO_VIDEO.Add(model);
-                return db.SaveChanges() > 0;
+                if (ricerca["formatoID"] != null)
+                    cerca_formatoID = Convert.ToInt32(ricerca["formatoID"]);
+                if (ricerca["artistaID"] != null)
+                    cerca_artistaID = Convert.ToInt32(ricerca["artistaID"]);
             }
-            return false;
-        }
-        #endregion
-    }
+            #endregion
 
-    public class RicercaLibroViewModel : RicercaOggettoViewModel
-    {
-        #region COSTRUTTORI
-        public RicercaLibroViewModel() : base() { ActionSalvataggio = "SaveRicercaLibro"; }
+            #region PROPRIETA
+            [Range(1, int.MaxValue)]
+            public int? cerca_formatoID { get; set; }
 
-        public RicercaLibroViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) { ActionSalvataggio = "SaveRicercaLibro"; }
+            [DataType(DataType.Text)]
+            [Display(Name = "Format", ResourceType = typeof(App_GlobalResources.Language))]
+            public string cerca_formato { get; set; }
 
-        public RicercaLibroViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
-        {
-            if (ricerca["autoreID"] != null)
-                cerca_autoreID = Convert.ToInt32(ricerca["autoreID"]);
-        }
-        #endregion
+            [Range(1, int.MaxValue)]
+            public int? cerca_artistaID { get; set; }
 
-        #region PROPRIETA
-        [Range(1, int.MaxValue)]
-        public int? cerca_autoreID { get; set; }
+            [DataType(DataType.Text)]
+            [Display(Name = "Artist", ResourceType = typeof(App_GlobalResources.Language))]
+            public string cerca_artista { get; set; }
+            #endregion
 
-        [DataType(DataType.Text)]
-        [Display(Name = "Author", ResourceType = typeof(App_GlobalResources.Language))]
-        public string cerca_autore { get; set; }
-        #endregion
-
-        #region METODI PUBBLICI
-        public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
-        {
-            if (base.Save(db, controller))
+            #region METODI PUBBLICI
+            public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
             {
-                RICERCA_OGGETTO_AUTORE model = new RICERCA_OGGETTO_AUTORE();
-                model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
-                model.ID_AUTORE = this.cerca_autoreID;
-                db.RICERCA_OGGETTO_AUTORE.Add(model);
-                return db.SaveChanges() > 0;
+                if (base.Save(db, controller))
+                {
+                    RICERCA_OGGETTO_MUSICA model = new RICERCA_OGGETTO_MUSICA();
+                    model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
+                    model.ID_ARTISTA = this.cerca_artistaID;
+                    model.ID_FORMATO = this.cerca_formatoID;
+                    db.RICERCA_OGGETTO_MUSICA.Add(model);
+                    return db.SaveChanges() > 0;
+                }
+                return false;
             }
-            return false;
+            #endregion
         }
-        #endregion
-    }
 
-    public class RicercaVeicoloViewModel : RicercaOggettoViewModel
-    {
-        #region COSTRUTTORI
-        public RicercaVeicoloViewModel() : base() { ActionSalvataggio = "SaveRicercaVeicolo"; }
-
-        public RicercaVeicoloViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) { ActionSalvataggio = "SaveRicercaVeicolo"; }
-
-        public RicercaVeicoloViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
+        public class RicercaGiocoViewModel : RicercaOggettoViewModel
         {
-            if (ricerca["modelloID"] != null)
-                cerca_modelloID = Convert.ToInt32(ricerca["modelloID"]);
-            if (ricerca["alimentazioneID"] != null)
-                cerca_alimentazioneID = Convert.ToInt32(ricerca["alimentazioneID"]);
-        }
-        #endregion
+            #region COSTRUTTORI
+            public RicercaGiocoViewModel() : base() { ActionSalvataggio = "SaveRicercaGioco"; }
 
-        #region PROPRIETA
-        [Range(1, int.MaxValue)]
-        public int? cerca_modelloID { get; set; }
+            public RicercaGiocoViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) { ActionSalvataggio = "SaveRicercaGioco"; }
 
-        [DataType(DataType.Text)]
-        [Display(Name = "Model", ResourceType = typeof(App_GlobalResources.Language))]
-        public string cerca_modello { get; set; }
-
-        [Range(1, int.MaxValue)]
-        public int? cerca_alimentazioneID { get; set; }
-
-        [DataType(DataType.Text)]
-        [Display(Name = "Feed", ResourceType = typeof(App_GlobalResources.Language))]
-        public string cerca_alimentazione { get; set; }
-        #endregion
-
-        #region METODI PUBBLICI
-        public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
-        {
-            if (base.Save(db, controller))
+            public RicercaGiocoViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
             {
-                RICERCA_OGGETTO_VEICOLO model = new RICERCA_OGGETTO_VEICOLO();
-                model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
-                model.ID_MODELLO = this.cerca_modelloID;
-                model.ID_ALIMENTAZIONE = this.cerca_alimentazioneID;
-                db.RICERCA_OGGETTO_VEICOLO.Add(model);
-                return db.SaveChanges() > 0;
+                if (ricerca["modelloID"] != null)
+                    cerca_modelloID = Convert.ToInt32(ricerca["modelloID"]);
             }
-            return false;
-        }
-        #endregion
-    }
+            #endregion
 
-    public class RicercaVestitoViewModel : RicercaOggettoViewModel
-    {
-        #region COSTRUTTORI
-        public RicercaVestitoViewModel() : base() { ActionSalvataggio = "SaveRicercaVestito"; }
+            #region PROPRIETA
+            [Range(1, int.MaxValue)]
+            public int? cerca_modelloID { get; set; }
 
-        public RicercaVestitoViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) { ActionSalvataggio = "SaveRicercaVestito"; }
+            [DataType(DataType.Text)]
+            [Display(Name = "Model", ResourceType = typeof(App_GlobalResources.Language))]
+            public string cerca_modello { get; set; }
+            #endregion
 
-        public RicercaVestitoViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
-        {
-            if (ricerca["taglia"] != null)
-                cerca_taglia = ricerca["taglia"];
-        }
-        #endregion
-
-        #region PROPRIETA
-        [DataType(DataType.Text)]
-        [Display(Name = "Size", ResourceType = typeof(App_GlobalResources.Language))]
-        public string cerca_taglia { get; set; }
-        #endregion
-
-        #region METODI PUBBLICI
-        public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
-        {
-            if (base.Save(db, controller))
+            #region METODI PUBBLICI
+            public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
             {
-                RICERCA_OGGETTO_VESTITO model = new RICERCA_OGGETTO_VESTITO();
-                model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
-                model.TAGLIA = this.cerca_taglia;
-                db.RICERCA_OGGETTO_VESTITO.Add(model);
-                return db.SaveChanges() > 0;
+                if (base.Save(db, controller))
+                {
+                    RICERCA_OGGETTO_GIOCO model = new RICERCA_OGGETTO_GIOCO();
+                    model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
+                    model.ID_MODELLO = this.cerca_modelloID;
+                    db.RICERCA_OGGETTO_GIOCO.Add(model);
+                    return db.SaveChanges() > 0;
+                }
+                return false;
             }
-            return false;
+            #endregion
+        }
+
+        public class RicercaVideogamesViewModel : RicercaOggettoViewModel
+        {
+            #region COSTRUTTORI
+            public RicercaVideogamesViewModel() : base() { ActionSalvataggio = "SaveRicercaVideogames"; }
+
+            public RicercaVideogamesViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) { ActionSalvataggio = "SaveRicercaVideogames"; }
+
+            public RicercaVideogamesViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
+            {
+                if (ricerca["piattaformaID"] != null)
+                    cerca_piattaformaID = Convert.ToInt32(ricerca["piattaformaID"]);
+                if (ricerca["genereID"] != null)
+                    cerca_genereID = Convert.ToInt32(ricerca["genereID"]);
+            }
+            #endregion
+
+            #region PROPRIETA
+            [Range(1, int.MaxValue)]
+            public int? cerca_piattaformaID { get; set; }
+
+            [DataType(DataType.Text)]
+            [Display(Name = "Platform", ResourceType = typeof(App_GlobalResources.Language))]
+            public string cerca_piattaforma { get; set; }
+
+            [Range(1, int.MaxValue)]
+            public int? cerca_genereID { get; set; }
+
+            [DataType(DataType.Text)]
+            [Display(Name = "Kind", ResourceType = typeof(App_GlobalResources.Language))]
+            public string cerca_genere { get; set; }
+            #endregion
+
+            #region METODI PUBBLICI
+            public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
+            {
+                if (base.Save(db, controller))
+                {
+                    RICERCA_OGGETTO_VIDEOGAMES model = new RICERCA_OGGETTO_VIDEOGAMES();
+                    model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
+                    model.ID_PIATTAFORMA = this.cerca_piattaformaID;
+                    model.ID_GENERE = this.cerca_genereID;
+                    db.RICERCA_OGGETTO_VIDEOGAMES.Add(model);
+                    return (db.SaveChanges() > 0);
+                }
+                return false;
+            }
+            #endregion
+        }
+
+        public class RicercaSportViewModel : RicercaOggettoViewModel
+        {
+            #region COSTRUTTORI
+            public RicercaSportViewModel() : base() { ActionSalvataggio = "SaveRicercaSport"; }
+
+            public RicercaSportViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) { ActionSalvataggio = "SaveRicercaSport"; }
+
+            public RicercaSportViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
+            {
+                if (ricerca["modelloID"] != null)
+                    cerca_modelloID = Convert.ToInt32(ricerca["modelloID"]);
+            }
+            #endregion
+
+            #region PROPRIETA
+            [Range(1, int.MaxValue)]
+            public int? cerca_modelloID { get; set; }
+
+            [DataType(DataType.Text)]
+            [Display(Name = "Model", ResourceType = typeof(App_GlobalResources.Language))]
+            public string cerca_modello { get; set; }
+            #endregion
+
+            #region METODI PUBBLICI
+            public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
+            {
+                if (base.Save(db, controller))
+                {
+                    RICERCA_OGGETTO_SPORT model = new RICERCA_OGGETTO_SPORT();
+                    model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
+                    model.ID_MODELLO = this.cerca_modelloID;
+                    db.RICERCA_OGGETTO_SPORT.Add(model);
+                    return db.SaveChanges() > 0;
+                }
+                return false;
+            }
+            #endregion
+        }
+
+        public class RicercaTecnologiaViewModel : RicercaOggettoViewModel
+        {
+            #region COSTRUTTORI
+            public RicercaTecnologiaViewModel() : base() { ActionSalvataggio = "SaveRicercaTecnologia"; }
+
+            public RicercaTecnologiaViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) { ActionSalvataggio = "SaveRicercaTecnologia"; }
+
+            public RicercaTecnologiaViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
+            {
+                if (ricerca["modelloID"] != null)
+                    cerca_modelloID = Convert.ToInt32(ricerca["modelloID"]);
+            }
+            #endregion
+
+            #region PROPRIETA
+            [Range(1, int.MaxValue)]
+            public int? cerca_modelloID { get; set; }
+
+            [DataType(DataType.Text)]
+            [Display(Name = "Model", ResourceType = typeof(App_GlobalResources.Language))]
+            public string cerca_modello { get; set; }
+            #endregion
+
+            #region METODI PUBBLICI
+            public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
+            {
+                if (base.Save(db, controller))
+                {
+                    RICERCA_OGGETTO_TECNOLOGIA model = new RICERCA_OGGETTO_TECNOLOGIA();
+                    model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
+                    model.ID_MODELLO = this.cerca_modelloID;
+                    db.RICERCA_OGGETTO_TECNOLOGIA.Add(model);
+                    return db.SaveChanges() > 0;
+                }
+                return false;
+            }
+            #endregion
+        }
+
+        public class RicercaConsoleViewModel : RicercaOggettoViewModel
+        {
+            #region COSTRUTTORI
+            public RicercaConsoleViewModel() : base() { ActionSalvataggio = "SaveRicercaConsole"; }
+
+            public RicercaConsoleViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) { ActionSalvataggio = "SaveRicercaConsole"; }
+
+            public RicercaConsoleViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
+            {
+                if (ricerca["piattaformaID"] != null)
+                    cerca_piattaformaID = Convert.ToInt32(ricerca["piattaformaID"]);
+            }
+            #endregion
+
+            #region PROPRIETA
+            [Range(1, int.MaxValue)]
+            public int? cerca_piattaformaID { get; set; }
+
+            [DataType(DataType.Text)]
+            [Display(Name = "Platform", ResourceType = typeof(App_GlobalResources.Language))]
+            public string cerca_piattaforma { get; set; }
+            #endregion
+
+            #region METODI PUBBLICI
+            public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
+            {
+                if (base.Save(db, controller))
+                {
+                    RICERCA_OGGETTO_CONSOLE model = new RICERCA_OGGETTO_CONSOLE();
+                    model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
+                    model.ID_PIATTAFORMA = this.cerca_piattaformaID;
+                    db.RICERCA_OGGETTO_CONSOLE.Add(model);
+                    return db.SaveChanges() > 0;
+                }
+                return false;
+            }
+            #endregion
+        }
+
+        public class RicercaVideoViewModel : RicercaOggettoViewModel
+        {
+            #region COSTRUTTORI
+            public RicercaVideoViewModel() : base() { ActionSalvataggio = "SaveRicercaVideo"; }
+
+            public RicercaVideoViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) { ActionSalvataggio = "SaveRicercaVideo"; }
+
+            public RicercaVideoViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
+            {
+                if (ricerca["formatoID"] != null)
+                    cerca_formatoID = Convert.ToInt32(ricerca["formatoID"]);
+                if (ricerca["registaID"] != null)
+                    cerca_registaID = Convert.ToInt32(ricerca["registaID"]);
+            }
+            #endregion
+
+            #region PROPRIETA
+            [Range(1, int.MaxValue)]
+            public int? cerca_formatoID { get; set; }
+
+            [DataType(DataType.Text)]
+            [Display(Name = "Support", ResourceType = typeof(App_GlobalResources.Language))]
+            public string cerca_formato { get; set; }
+
+            [Range(1, int.MaxValue)]
+            public int? cerca_registaID { get; set; }
+
+            [DataType(DataType.Text)]
+            [Display(Name = "Director", ResourceType = typeof(App_GlobalResources.Language))]
+            public string cerca_regista { get; set; }
+            #endregion
+
+            #region METODI PUBBLICI
+            public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
+            {
+                if (base.Save(db, controller))
+                {
+                    RICERCA_OGGETTO_VIDEO model = new RICERCA_OGGETTO_VIDEO();
+                    model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
+                    model.ID_REGISTA = this.cerca_registaID;
+                    model.ID_FORMATO = this.cerca_formatoID;
+                    db.RICERCA_OGGETTO_VIDEO.Add(model);
+                    return db.SaveChanges() > 0;
+                }
+                return false;
+            }
+            #endregion
+        }
+
+        public class RicercaLibroViewModel : RicercaOggettoViewModel
+        {
+            #region COSTRUTTORI
+            public RicercaLibroViewModel() : base() { ActionSalvataggio = "SaveRicercaLibro"; }
+
+            public RicercaLibroViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) { ActionSalvataggio = "SaveRicercaLibro"; }
+
+            public RicercaLibroViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
+            {
+                if (ricerca["autoreID"] != null)
+                    cerca_autoreID = Convert.ToInt32(ricerca["autoreID"]);
+            }
+            #endregion
+
+            #region PROPRIETA
+            [Range(1, int.MaxValue)]
+            public int? cerca_autoreID { get; set; }
+
+            [DataType(DataType.Text)]
+            [Display(Name = "Author", ResourceType = typeof(App_GlobalResources.Language))]
+            public string cerca_autore { get; set; }
+            #endregion
+
+            #region METODI PUBBLICI
+            public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
+            {
+                if (base.Save(db, controller))
+                {
+                    RICERCA_OGGETTO_AUTORE model = new RICERCA_OGGETTO_AUTORE();
+                    model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
+                    model.ID_AUTORE = this.cerca_autoreID;
+                    db.RICERCA_OGGETTO_AUTORE.Add(model);
+                    return db.SaveChanges() > 0;
+                }
+                return false;
+            }
+            #endregion
+        }
+
+        public class RicercaVeicoloViewModel : RicercaOggettoViewModel
+        {
+            #region COSTRUTTORI
+            public RicercaVeicoloViewModel() : base() { ActionSalvataggio = "SaveRicercaVeicolo"; }
+
+            public RicercaVeicoloViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) { ActionSalvataggio = "SaveRicercaVeicolo"; }
+
+            public RicercaVeicoloViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
+            {
+                if (ricerca["modelloID"] != null)
+                    cerca_modelloID = Convert.ToInt32(ricerca["modelloID"]);
+                if (ricerca["alimentazioneID"] != null)
+                    cerca_alimentazioneID = Convert.ToInt32(ricerca["alimentazioneID"]);
+            }
+            #endregion
+
+            #region PROPRIETA
+            [Range(1, int.MaxValue)]
+            public int? cerca_modelloID { get; set; }
+
+            [DataType(DataType.Text)]
+            [Display(Name = "Model", ResourceType = typeof(App_GlobalResources.Language))]
+            public string cerca_modello { get; set; }
+
+            [Range(1, int.MaxValue)]
+            public int? cerca_alimentazioneID { get; set; }
+
+            [DataType(DataType.Text)]
+            [Display(Name = "Feed", ResourceType = typeof(App_GlobalResources.Language))]
+            public string cerca_alimentazione { get; set; }
+            #endregion
+
+            #region METODI PUBBLICI
+            public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
+            {
+                if (base.Save(db, controller))
+                {
+                    RICERCA_OGGETTO_VEICOLO model = new RICERCA_OGGETTO_VEICOLO();
+                    model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
+                    model.ID_MODELLO = this.cerca_modelloID;
+                    model.ID_ALIMENTAZIONE = this.cerca_alimentazioneID;
+                    db.RICERCA_OGGETTO_VEICOLO.Add(model);
+                    return db.SaveChanges() > 0;
+                }
+                return false;
+            }
+            #endregion
+        }
+
+        public class RicercaVestitoViewModel : RicercaOggettoViewModel
+        {
+            #region COSTRUTTORI
+            public RicercaVestitoViewModel() : base() { ActionSalvataggio = "SaveRicercaVestito"; }
+
+            public RicercaVestitoViewModel(int numeroRecordTrovati = 0) : base(numeroRecordTrovati) { ActionSalvataggio = "SaveRicercaVestito"; }
+
+            public RicercaVestitoViewModel(HttpCookie ricerca, HttpCookie filtro) : base(ricerca, filtro)
+            {
+                if (ricerca["taglia"] != null)
+                    cerca_taglia = ricerca["taglia"];
+            }
+            #endregion
+
+            #region PROPRIETA
+            [DataType(DataType.Text)]
+            [Display(Name = "Size", ResourceType = typeof(App_GlobalResources.Language))]
+            public string cerca_taglia { get; set; }
+            #endregion
+
+            #region METODI PUBBLICI
+            public override bool Save(DatabaseContext db, System.Web.Mvc.ControllerContext controller)
+            {
+                if (base.Save(db, controller))
+                {
+                    RICERCA_OGGETTO_VESTITO model = new RICERCA_OGGETTO_VESTITO();
+                    model.ID_RICERCA_OGGETTO = this.IdRicercaOggetto;
+                    model.TAGLIA = this.cerca_taglia;
+                    db.RICERCA_OGGETTO_VESTITO.Add(model);
+                    return db.SaveChanges() > 0;
+                }
+                return false;
+            }
+            #endregion
         }
         #endregion
-    }
-    #endregion
 
     #region SERVIZI
     public class RicercaServizioViewModel : RicercaViewModel

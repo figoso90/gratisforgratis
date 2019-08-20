@@ -3,7 +3,7 @@
     <div>
         @(Language.Page + " " + (Model.NumeroPagine < Model.PaginaAttuale ? 1 : Model.PaginaAttuale) + " " + Language.Of + " " + Model.NumeroPagine)
     </div>
-    <ul class="pagination">
+    <ul class="pagination justify-content-center align-items-center">
         @for (int i = Model.PaginaIniziale; i <= Model.NumeroPagine; i++)
         {
             string classe = "pagina";

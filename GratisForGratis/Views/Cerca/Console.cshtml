@@ -4,8 +4,12 @@
     @Styles.Render("~/Content/home.css")
     @Styles.Render("~/Content/ricerca.css")
 }
-<aside id="ricerca">
-    @Html.Partial("Filtri/Console", new GratisForGratis.Models.RicercaConsoleViewModel(Model.TotalNumber))
+<aside id="ricerca">    
+    @{
+        var modello = new GratisForGratis.Models.RicercaConsoleViewModel(Model.TotalNumber);
+        modello.NomeFiltro = "Console";
+    }
+    @Html.Partial("PartialPages/_Filtro", modello)
 </aside>
 <section id="page">
     <section id="home" class="content">

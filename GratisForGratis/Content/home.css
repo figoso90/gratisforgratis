@@ -1,4 +1,12 @@
-﻿#home{
+﻿.linkPubblicaCategoria {
+    margin: 17px auto;
+    text-transform: uppercase;
+    font-weight: bold;
+    background-color: yellow;
+    width: 300px;
+}
+
+#home{
     padding:0px;
 }
 
@@ -20,6 +28,7 @@
 
         #home .object h5 {
             color: #333;
+            font-size:13px;
         }
 
 #home .object .title{

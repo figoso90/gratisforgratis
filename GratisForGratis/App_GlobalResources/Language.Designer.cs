@@ -2509,7 +2509,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Conclusi.
+        ///   Cerca una stringa localizzata simile a Archivio.
         /// </summary>
         public static string MenuPurchasesCompleted {
             get {
@@ -2608,7 +2608,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Concluse.
+        ///   Cerca una stringa localizzata simile a Archivio.
         /// </summary>
         public static string MenuSellsCompleted {
             get {
@@ -4534,7 +4534,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Ricerca generica ({0} annunci trovati).
+        ///   Cerca una stringa localizzata simile a Modifica ricerca generica ({0} trovati).
         /// </summary>
         public static string TitleSearchGeneric {
             get {

@@ -1,75 +1,13 @@
 ﻿@model GratisForGratis.Models.RicercaLibroViewModel
-@{
-    Model.SetRicercaByCookie(Response.Cookies["filtro"]);
-}
-<h4 class="title advancedSearch">
-    @((Response.Cookies["ricerca"]["IDCategoria"] == "1") ? string.Format(Language.TitleSearchGeneric, Model.NumeroRecordTrovati) : string.Format(Language.TitleSearch, Response.Cookies["ricerca"]["Categoria"], Model.NumeroRecordTrovati))
-</h4>
-<p class="advancedSearch">
-    <img class="ico" src="~/Images/icone/search.svg" />
-    @Language.AdvancedSearch
-    <img class="ico" src="~/Images/icone/apriFiltro.svg" />
-</p>
-@using (Html.BeginForm("RicercaAvanzata", "CercaOggetto", FormMethod.Get, new { @class = "form-horizontal", id = "FormRicerca", role = "form", style = ((Model.AttivaRicercaAvanzata) ? "display:block;" : "") }))
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationMessage("Error", new { @class = "text-danger" })
-    <div class="form-group">
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Cerca_Marca, new { @class = "form-control", data_autocomplete_url = "/Home/FindMarca", data_autocomplete_id = "Cerca_MarcaID", data_autocomplete_filtro_extra = "#IDCategoria", placeholder = Language.Brand })
-            @Html.HiddenFor(m => m.Cerca_MarcaID)
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Cerca_Citta, new { @class = "form-control", data_autocomplete_url = "/Home/FindCittaSenzaCap", data_autocomplete_id = "Cerca_IDCitta", placeholder = Language.City })
-            @Html.HiddenFor(m => m.Cerca_IDCitta)
-        </div>
-        @Html.ValidationMessageFor(m => m.Cerca_IDCitta, "", new { @class = "text-danger" })
-    </div>
-    <div class="form-group">
-        <div class="col-md-10">
-            @Html.EnumDropDownListFor(m => m.Cerca_StatoOggetto, Language.StateObject, new { @class = "form-control" })
-        </div>
-        @Html.ValidationMessageFor(m => m.Cerca_StatoOggetto, "", new { @class = "text-danger" })
-    </div>
-    <div class="form-group">
-        <div class="col-md-10">
-            @Html.EnumDropDownListFor(m => m.Cerca_TipoPagamento, Language.PaymentMethods, new { @class = "form-control" })
-        </div>
-        @Html.ValidationMessageFor(m => m.Cerca_TipoPagamento, "", new { @class = "text-danger" })
-    </div>
-    <div class="form-group slider punti">
-        @Html.Label("LblSliderPunti", Language.Price, new { id = "lblPunti", @class = "lblRange col-md-2 control-label" })
-        <div id="SliderPunti" class="range">
-        </div>
-        @Html.LabelFor(m => m.Cerca_PuntiMin, new { @class = "evidence" })
-        @Html.TextBoxFor(m => m.Cerca_PuntiMin, new { @class = "form-control number" })
-        -
-        @Html.LabelFor(m => m.Cerca_PuntiMax, new { @class = "evidence" })
-        @Html.TextBoxFor(m => m.Cerca_PuntiMax, new { @class = "form-control number" })
-    </div>
-    <div class="form-group slider anno">
-        @Html.Label(Resources.Language.Year, new { @class = "col-md-2 control-label" })
-        <div id="SliderAnno" class="range">
-        </div>
 
-        @Html.LabelFor(m => m.Cerca_AnnoMin, new { @class = "evidence" })
-        @Html.TextBoxFor(m => m.Cerca_AnnoMin, new { @class = "form-control number" })
-        -
-        @Html.LabelFor(m => m.Cerca_AnnoMax, new { @class = "evidence" })
-        @Html.TextBoxFor(m => m.Cerca_AnnoMax, new { @class = "form-control number" })
-    </div>
+@Html.Partial("PartialPages/_FiltroOggetto", Model)
 
-    <div class="form-group slider autore">
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.cerca_autore, new { @class = "form-control", data_autocomplete_url = "/Home/FindAutore", data_autocomplete_id = "cerca_autoreID", placeholder = Language.Author })
-            @Html.HiddenFor(m => m.cerca_autoreID)
-        </div>
-        @Html.ValidationMessageFor(m => m.cerca_autoreID, "", new { @class = "text-danger" })
-    </div>
-    <div class="button">
-        <a class="btn btn-success" href="javascript:void(0);" onclick="ricercaAvanzata('FiltroLibro');">@Language.Filter</a>
-    </div>
-}
-@Html.Partial("PartialPages/_NotFound")
+<div class="form-group col-md-2 autore">
+    @Html.LabelFor(m => m.cerca_autore, new { @class = "control-label" })
+    @Html.TextBoxFor(m => m.cerca_autore, new { @class = "form-control", data_autocomplete_url = "/Home/FindAutore", data_autocomplete_id = "cerca_autoreID", placeholder = Language.Author })
+    @Html.HiddenFor(m => m.cerca_autoreID)
+    @Html.ValidationMessageFor(m => m.cerca_autoreID, "", new { @class = "text-danger" })
+</div>
+<div class="row justify-content-center align-items-center">
+    <a class="btn btn-primary" href="javascript:void(0);" onclick="ricercaAvanzata('FiltroLibro');">@Language.Filter</a>
+</div>

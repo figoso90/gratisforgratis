@@ -116,7 +116,9 @@ namespace GratisForGratis.Controllers
                 {
                     int utente = ((PersonaModel)Session["utente"]).Persona.ID;
                     var query = db.ANNUNCIO.Where(item => item.ID_PERSONA == utente
-                        && (item.STATO == (int)StatoVendita.ELIMINATO || item.STATO == (int)StatoVendita.BARATTATO || item.STATO == (int)StatoVendita.VENDUTO)
+                        // commentato perchè voglio vedere qualsiasi annuncio non in vendita o in bozza
+                        //&& (item.STATO == (int)StatoVendita.ELIMINATO || item.STATO == (int)StatoVendita.BARATTATO || item.STATO == (int)StatoVendita.VENDUTO)
+                        && !(item.STATO == (int)StatoVendita.INATTIVO || item.STATO == (int)StatoVendita.ATTIVO)
                         && (item.ID_OGGETTO != null || item.ID_SERVIZIO != null));
                     int numeroElementi = Convert.ToInt32(WebConfigurationManager.AppSettings["numeroElementi"]);
                     ViewData["TotalePagine"] = (int)Math.Ceiling((decimal)query.Count() / (decimal)numeroElementi);

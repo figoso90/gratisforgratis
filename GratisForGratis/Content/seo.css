@@ -2,8 +2,11 @@
     color: #bd1723;
 }
 
-.img-thumbnail{
-    max-width:100px;
+.img-thumbnail {
+    max-width: 100px;
+    width: 70%;
+    border-radius: 100px;
+    margin: 22px;
 }
 
 #presentazione {
