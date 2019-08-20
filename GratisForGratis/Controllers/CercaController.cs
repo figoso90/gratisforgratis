@@ -92,20 +92,12 @@ namespace GratisForGratis.Controllers
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
                 RedirectToAction("Index", "Home");
             }
 
             return View();
-            //// reindirizzo alla action corretta in base al tipo di vendita
-            //if (categoria != null && categoria.TIPO_VENDITA == (int)TipoAcquisto.Servizio)
-            //{
-            //    //return RedirectToAction(cookie["Categoria"], "Servizi", new { categoria = categoria.ID });
-            //    return RedirectToAction("Servizi", new { categoria = categoria.ID });
-            //}
-
-            ////return RedirectToAction(cookie["Categoria"], "Oggetti", new { categoria = categoria.ID });
-            //return RedirectToAction("Oggetti", new { categoria = categoria.ID });
         }
 
         [HttpGet]
@@ -290,7 +282,8 @@ namespace GratisForGratis.Controllers
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
 
             // ritorna vista per l'inserimento della mail
@@ -332,7 +325,8 @@ namespace GratisForGratis.Controllers
             }
             catch(Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
             return View();
         }
@@ -1023,7 +1017,8 @@ namespace GratisForGratis.Controllers
                             }
                             catch (Exception ex)
                             {
-                                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                                LoggatoreModel.Errore(ex);
                             }
                         }
                     }
@@ -1245,7 +1240,8 @@ namespace GratisForGratis.Controllers
                             }
                             catch (Exception ex)
                             {
-                                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                                LoggatoreModel.Errore(ex);
                             }
                         }
                     }
@@ -1878,7 +1874,8 @@ namespace GratisForGratis.Controllers
                             }
                             catch (Exception ex)
                             {
-                                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                                LoggatoreModel.Errore(ex);
                             }
                         }
                     }
@@ -2087,7 +2084,8 @@ namespace GratisForGratis.Controllers
             }
             catch (Exception eccezione)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                LoggatoreModel.Errore(eccezione);
                 viewModel.VenditoreFeedback = -1;
             }
         }
@@ -2127,7 +2125,8 @@ namespace GratisForGratis.Controllers
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
 
             return RedirectToAction("SalvataggioKO");

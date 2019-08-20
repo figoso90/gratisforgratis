@@ -17,5 +17,10 @@ namespace GratisForGratis.Models.ExtensionMethods
         {
             return decimal.Parse(value, System.Globalization.NumberStyles.Currency, System.Globalization.CultureInfo.GetCultureInfo("en-US"));
         }
+
+        public static string Join(this System.Collections.Specialized.NameValueCollection collection, Func<string, string> selector, string separator)
+        {
+            return String.Join(separator, collection.Cast<string>().Select(e => selector(e)));
+        }
     }
 }

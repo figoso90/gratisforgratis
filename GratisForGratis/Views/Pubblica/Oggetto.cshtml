@@ -1,187 +1,194 @@
 ﻿@using GratisForGratis.Models
 @model PubblicaOggettoViewModel
 
-<h5 class="title">INFO OPZIONALI (Per ulteriori possibilità e maggiore visibilità)</h5>
-
-<div class="form-group">
-    @Html.Label("TipoScambio", ViewModel.ExchangeMode, new { @class = "col-md-2 control-label" })
-    @Html.CheckBoxFor(m => m.ScambioAMano, new { @class = "form-control", onchange = "sceltaScambio(this);" })
-    @Html.LabelFor(m => m.ScambioAMano, new { @class = "col-md-2 control-label" })
-    @Html.CheckBoxFor(m => m.ScambioConSpedizione, new { @class = "form-control", onchange = "sceltaScambio(this, true);" })
-    @Html.LabelFor(m => m.ScambioConSpedizione, new { @class = "col-md-2 control-label" })
-    <span>@Html.Raw(ViewModel.PublishAdInfoShipment)</span>
-    @Html.ValidationMessageFor(m => m.ScambioAMano, "", new { @class = "text-danger" })
-    @Html.ValidationMessageFor(m => m.ScambioConSpedizione, "", new { @class = "text-danger" })
-</div>
-
-<h5 class="title @((Model.ScambioConSpedizione)?"":"hide") spedizione">@ViewModel.PublishTitleShipment</h5>
-<!-- campi spedizione -->
-<div class="form-group @((Model.ScambioConSpedizione)?"":"hide") spedizione">
-    @Html.LabelFor(m => m.TipoSpedizione, new { @class = "col-md-2 control-label" })
-    @Html.DropDownListFor(m => m.TipoSpedizione, Model.ListaTipoSpedizione, new { @class = "form-control", onchange = "sceltaSpedizione(this);" })
-    @Html.ValidationMessageFor(m => m.TipoSpedizione, "", new { @class = "text-danger" })
-</div>
-<div class="form-group @((Model.ScambioConSpedizione)?"":"hide") spedizione">
-    @Html.LabelFor(m => m.TempoImballaggio, new { @class = "col-md-2 control-label" })
-    @Html.DropDownListFor(m => m.TempoImballaggio, Model.ListaTempoImballaggio, new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.TempoImballaggio, "", new { @class = "text-danger" })
-</div>
-<div class="form-group @((Model.ScambioConSpedizione && Model.TipoSpedizione==(int)Spedizione.Online)?"":"hide") spedizione spedizioneOnline">
-    @Html.LabelFor(m => m.Altezza, new { @class = "col-md-2 control-label" })
-    @Html.TextBoxFor(m => m.Altezza, new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.Altezza, "", new { @class = "text-danger" })
-</div>
-<div class="form-group @((Model.ScambioConSpedizione && Model.TipoSpedizione==(int)Spedizione.Online)?"":"hide") spedizione spedizioneOnline">
-    @Html.LabelFor(m => m.Lunghezza, new { @class = "col-md-2 control-label" })
-    @Html.TextBoxFor(m => m.Lunghezza, new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.Lunghezza, "", new { @class = "text-danger" })
-</div>
-<div class="form-group @((Model.ScambioConSpedizione && Model.TipoSpedizione==(int)Spedizione.Online)?"":"hide") spedizione spedizioneOnline">
-    @Html.LabelFor(m => m.Larghezza, new { @class = "col-md-2 control-label" })
-    @Html.TextBoxFor(m => m.Larghezza, new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.Larghezza, "", new { @class = "text-danger" })
-</div>
-<div class="form-group @((Model.ScambioConSpedizione && Model.TipoSpedizione==(int)Spedizione.Online)?"":"hide") spedizione spedizioneOnline">
-    @Html.LabelFor(m => m.Peso, new { @class = "col-md-2 control-label" })
-    @Html.TextBoxFor(m => m.Peso, new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.Peso, "", new { @class = "text-danger" })
-</div>
-<div class="form-group @((Model.ScambioConSpedizione)?"":"hide") spedizione corrieri">
-    @Html.LabelFor(m => m.ServizioSpedizioneScelto, new { @class = "col-md-2 control-label" })
-    @Html.DropDownListFor(m => m.ServizioSpedizioneScelto, Model.ServiziSpedizione, new { @class = "form-control", onchange = "getPrezzoSpedizione(this)" })
-    @Html.ValidationMessageFor(m => m.ServizioSpedizioneScelto, "", new { @class = "text-danger" })
-</div>
-<div class="form-group @((Model.ScambioConSpedizione)?"":"hide") spedizione prezzoSpedizione">
-    @Html.LabelFor(m => m.PrezzoSpedizione, new { @class = "col-md-2 control-label" })
-    <div>
-        <div class="btn" onclick="getPrezzoSpedizione($('#ServizioSpedizioneScelto'))">
-            @ViewModel.UpdateShipmentPrice
-        </div>
-        <span class="valuta"></span>
-        @Html.TextBoxFor(m => m.PrezzoSpedizione, new { @class = "form-control number" })
+<div class="form-row">
+    <div class="col-md">
+        <h5 class="title">INFO OPZIONALI (Per ulteriori possibilità e maggiore visibilità)</h5>
+        <h5 class="title @((Model.ScambioConSpedizione)?"":"hide") spedizione">@ViewModel.PublishTitleShipment</h5>
     </div>
-    @Html.ValidationMessageFor(m => m.PrezzoSpedizione, "", new { @class = "text-danger" })
 </div>
-<div class="form-group @((Model.ScambioConSpedizione && Model.TipoSpedizione==(int)Spedizione.Online)?"":"hide") spedizione spedizioneOnline">
-    @Html.LabelFor(m => m.GiorniSpedizioneScelti, new { @class = "col-md-2 control-label" })
-    @Html.ListBoxFor(m => m.GiorniSpedizioneScelti, Model.GiorniSpedizione, new { @class = "form-control", multiple = "" })
-    @Html.ValidationMessageFor(m => m.GiorniSpedizioneScelti, "", new { @class = "text-danger" })
+<div class="form-row">
+    <div class="form-group col-md-4">
+        @Html.Label("TipoScambio", ViewModel.ExchangeMode, new { @class = "control-label" })
+        @Html.CheckBoxFor(m => m.ScambioAMano, new { @class = "form-control", onchange = "sceltaScambio(this);" })
+        @Html.LabelFor(m => m.ScambioAMano, new { @class = "control-label" })
+        @Html.CheckBoxFor(m => m.ScambioConSpedizione, new { @class = "form-control", onchange = "sceltaScambio(this, true);" })
+        @Html.LabelFor(m => m.ScambioConSpedizione, new { @class = "control-label" })
+        <p>@Html.Raw(ViewModel.PublishAdInfoShipment)</p>
+        @Html.ValidationMessageFor(m => m.ScambioAMano, "", new { @class = "text-danger" })
+        @Html.ValidationMessageFor(m => m.ScambioConSpedizione, "", new { @class = "text-danger" })
+    </div>
+    <!-- campi spedizione -->
+    <div class="form-group col-md-3 @((Model.ScambioConSpedizione)?"":"hide") spedizione">
+        @Html.LabelFor(m => m.TipoSpedizione, new { @class = "control-label" })
+        @Html.DropDownListFor(m => m.TipoSpedizione, Model.ListaTipoSpedizione, new { @class = "form-control", onchange = "sceltaSpedizione(this);" })
+        @Html.ValidationMessageFor(m => m.TipoSpedizione, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-3 @((Model.ScambioConSpedizione)?"":"hide") spedizione">
+        @Html.LabelFor(m => m.TempoImballaggio, new { @class = "control-label" })
+        @Html.DropDownListFor(m => m.TempoImballaggio, Model.ListaTempoImballaggio, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.TempoImballaggio, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-1 @((Model.ScambioConSpedizione && Model.TipoSpedizione==(int)Spedizione.Online)?"":"hide") spedizione spedizioneOnline">
+        @Html.LabelFor(m => m.Altezza, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.Altezza, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Altezza, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-1 @((Model.ScambioConSpedizione && Model.TipoSpedizione==(int)Spedizione.Online)?"":"hide") spedizione spedizioneOnline">
+        @Html.LabelFor(m => m.Lunghezza, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.Lunghezza, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Lunghezza, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-1 @((Model.ScambioConSpedizione && Model.TipoSpedizione==(int)Spedizione.Online)?"":"hide") spedizione spedizioneOnline">
+        @Html.LabelFor(m => m.Larghezza, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.Larghezza, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Larghezza, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-1 @((Model.ScambioConSpedizione && Model.TipoSpedizione==(int)Spedizione.Online)?"":"hide") spedizione spedizioneOnline">
+        @Html.LabelFor(m => m.Peso, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.Peso, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Peso, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-3 @((Model.ScambioConSpedizione)?"":"hide") spedizione corrieri">
+        @Html.LabelFor(m => m.ServizioSpedizioneScelto, new { @class = "control-label" })
+        @Html.DropDownListFor(m => m.ServizioSpedizioneScelto, Model.ServiziSpedizione, new { @class = "form-control", onchange = "getPrezzoSpedizione(this)" })
+        @Html.ValidationMessageFor(m => m.ServizioSpedizioneScelto, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-1 @((Model.ScambioConSpedizione)?"":"hide") spedizione prezzoSpedizione">
+        @Html.LabelFor(m => m.PrezzoSpedizione, new { @class = "control-label" })
+        <div>
+            <div class="btn" onclick="getPrezzoSpedizione($('#ServizioSpedizioneScelto'))">
+                @ViewModel.UpdateShipmentPrice
+            </div>
+            <span class="valuta"></span>
+            @Html.TextBoxFor(m => m.PrezzoSpedizione, new { @class = "form-control number" })
+        </div>
+        @Html.ValidationMessageFor(m => m.PrezzoSpedizione, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-3 @((Model.ScambioConSpedizione && Model.TipoSpedizione==(int)Spedizione.Online)?"":"hide") spedizione spedizioneOnline">
+        @Html.LabelFor(m => m.GiorniSpedizioneScelti, new { @class = "control-label" })
+        @Html.ListBoxFor(m => m.GiorniSpedizioneScelti, Model.GiorniSpedizione, new { @class = "form-control", multiple = "" })
+        @Html.ValidationMessageFor(m => m.GiorniSpedizioneScelti, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-3 @((Model.ScambioConSpedizione && Model.TipoSpedizione==(int)Spedizione.Online)?"":"hide") spedizione spedizioneOnline">
+        @Html.LabelFor(m => m.OrariSpedizioneScelti, new { @class = "control-label" })
+        @Html.ListBoxFor(m => m.OrariSpedizioneScelti, Model.OrariSpedizione, new { @class = "form-control", multiple = "" })
+        @Html.ValidationMessageFor(m => m.OrariSpedizioneScelti, "", new { @class = "text-danger" })
+    </div>
 </div>
-<div class="form-group @((Model.ScambioConSpedizione && Model.TipoSpedizione==(int)Spedizione.Online)?"":"hide") spedizione spedizioneOnline">
-    @Html.LabelFor(m => m.OrariSpedizioneScelti, new { @class = "col-md-2 control-label" })
-    @Html.ListBoxFor(m => m.OrariSpedizioneScelti, Model.OrariSpedizione, new { @class = "form-control", multiple = "" })
-    @Html.ValidationMessageFor(m => m.OrariSpedizioneScelti, "", new { @class = "text-danger" })
+<div class="form-row">
+    <div class="col-md">
+        <h5 class="title @((Model.ScambioConSpedizione)?"":"hide") spedizione">@ViewModel.DepartureInfo</h5>
+    </div>
 </div>
-
-<h5 class="title @((Model.ScambioConSpedizione)?"":"hide") spedizione">@ViewModel.DepartureInfo</h5>
-<div class="form-group departureInfo @((Model.ScambioConSpedizione)?"":"hide") spedizione">
-    <div class="form-group spedizione">
-        @Html.LabelFor(m => m.NominativoMittente, new { @class = "col-md-2 control-label" })
+<div class="form-row">
+    <div class="form-group col-md-3 departureInfo @((Model.ScambioConSpedizione)?"":"hide") spedizione">
+        @Html.LabelFor(m => m.NominativoMittente, new { @class = "control-label" })
         @Html.TextBoxFor(m => m.NominativoMittente, new { @class = "form-control" })
         @Html.ValidationMessageFor(m => m.NominativoMittente, "", new { @class = "text-danger" })
     </div>
-    <div class="form-group spedizione">
-        @Html.LabelFor(m => m.TelefonoMittente, new { @class = "col-md-2 control-label" })
+    <div class="form-group col-md-3 departureInfo @((Model.ScambioConSpedizione)?"":"hide") spedizione">
+        @Html.LabelFor(m => m.TelefonoMittente, new { @class = "control-label" })
         @Html.TextBoxFor(m => m.TelefonoMittente, new { @class = "form-control" })
         @Html.ValidationMessageFor(m => m.TelefonoMittente, "", new { @class = "text-danger" })
     </div>
-    <div class="form-group spedizione">
-        @Html.LabelFor(m => m.CittaMittente, new { @class = "col-md-2 control-label" })
+    <div class="form-group col-md-3 departureInfo @((Model.ScambioConSpedizione)?"":"hide") spedizione">
+        @Html.LabelFor(m => m.CittaMittente, new { @class = "control-label" })
         @Html.TextBoxFor(m => m.CittaMittente, new { @class = "form-control", data_autocomplete_url = "/Home/FindCitta", data_autocomplete_id = "IDCittaMittente" })
         @Html.HiddenFor(m => m.IDCittaMittente)
         @Html.ValidationMessageFor(m => m.CittaMittente, "", new { @class = "text-danger" })
     </div>
-    <div class="form-group spedizione">
-        @Html.LabelFor(m => m.IndirizzoMittente, new { @class = "col-md-2 control-label" })
+    <div class="form-group col-md-3 departureInfo @((Model.ScambioConSpedizione)?"":"hide") spedizione">
+        @Html.LabelFor(m => m.IndirizzoMittente, new { @class = "control-label" })
         @Html.TextBoxFor(m => m.IndirizzoMittente, new { @class = "form-control" })
         @Html.ValidationMessageFor(m => m.IndirizzoMittente, "", new { @class = "text-danger" })
     </div>
-    <div class="form-group spedizione">
-        @Html.LabelFor(m => m.CivicoMittente, new { @class = "col-md-2 control-label" })
+    <div class="form-group col-md-3 departureInfo @((Model.ScambioConSpedizione)?"":"hide") spedizione">
+        @Html.LabelFor(m => m.CivicoMittente, new { @class = "control-label" })
         @Html.TextBoxFor(m => m.CivicoMittente, new { @class = "form-control" })
         @Html.ValidationMessageFor(m => m.CivicoMittente, "", new { @class = "text-danger" })
     </div>
-</div>
 
-<div class="form-group">
-    @Html.LabelFor(m => m.NoteAggiuntive, new { @class = "col-md-2 control-label" })
-    @Html.TextAreaFor(m => m.NoteAggiuntive, new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.NoteAggiuntive, "", new { @class = "text-danger" })
-</div>
-
-<div class="form-group">
-    @Html.LabelFor(m => m.CondizioneOggetto, new { @class = "col-md-2 control-label" })
-    @Html.EnumDropDownListFor(m => m.CondizioneOggetto, new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.CondizioneOggetto, "", new { @class = "text-danger" })
-</div>
-
-<div class="form-group">
-    @Html.LabelFor(m => m.Marca, new { @class = "col-md-2 control-label" })
-    @Html.TextBoxFor(m => m.Marca, new { @class = "form-control", data_autocomplete_url = "/Home/FindMarca", data_autocomplete_id = "MarcaID", data_autocomplete_filtro_extra = "#CategoriaMarca" })
-    @Html.Hidden("CategoriaMarca", -1)
-    @Html.HiddenFor(m => m.MarcaID)
-    @Html.ValidationMessageFor(m => m.Marca, "", new { @class = "text-danger" })
-</div>
-
-<div class="form-group">
-    <div class="field col-md-10 quantity">
-        @Html.LabelFor(m => m.Anno, new { @class = "col-md-2 control-label" })
-        @Html.TextBoxFor(m => m.Anno, new { @class = "form-control number" })
+    <div class="form-group col-md-3">
+        @Html.LabelFor(m => m.NoteAggiuntive, new { @class = "control-label" })
+        @Html.TextAreaFor(m => m.NoteAggiuntive, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.NoteAggiuntive, "", new { @class = "text-danger" })
     </div>
-    <div class="field col-md-10 quantity">
-        @Html.LabelFor(m => m.Quantità, new { @class = "col-md-2 control-label" })
-        @Html.TextBoxFor(m => m.Quantità, new { @class = "form-control number" })
-    </div>
-    @Html.ValidationMessageFor(m => m.Quantità, "", new { @class = "text-danger" })
-    @Html.ValidationMessageFor(m => m.Anno, "", new { @class = "text-danger" })
-</div>
 
-<div class="form-group">
-    <label class="col-md-2 control-label" for="Materiali">
-        @Language.LblMaterials
-        <a class="add" href="javascript:void(0);" onclick="addMateriale(this);">
-            <img src="~/Images/icone/add.svg" alt="@Language.AddMaterial" style="width:32px;" />
-        </a>
-    </label>
-    <div class="field materials">
-        @for (int i = 0; i < Model.Materiali.Count; i++)
-        {
-            <div class="row">
-                @if (i > 0)
-                {
-                    <a class="remove" href="javascript:void(0);" onclick="removeMateriale(this);"><img src="/Images/icone/remove.svg" /></a>
-                }
-                @Html.TextBoxFor(m => m.Materiali[i], new { @class = "form-control" })
-            </div>
-        }
+    <div class="form-group col-md-3">
+        @Html.LabelFor(m => m.CondizioneOggetto, new { @class = "control-label" })
+        @Html.EnumDropDownListFor(m => m.CondizioneOggetto, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.CondizioneOggetto, "", new { @class = "text-danger" })
     </div>
-    @Html.ValidationMessageFor(m => m.Materiali, "", new { @class = "text-danger" })
-</div>
 
-<div class="form-group">
-    <label class="col-md-2 control-label" for="Componenti">
-        @Language.LblComponents
-        <a class="add" href="javascript:void(0);" onclick="addComponente(this);">
-            <img src="~/Images/icone/add.svg" alt="@Language.AddComponent" />
-        </a>
-    </label>
-    <div class="field components">
-        @for (int i = 0; i < Model.Componenti.Count; i++)
-        {
-            <div class="row">
-                @if (i > 0)
-                {
-                    <a class="remove" href="javascript:void(0);" onclick="removeComponente(this);"><img src="/Images/icone/remove.svg" /></a>
-                }
-                @Html.TextBoxFor(m => m.Componenti[i], new { @class = "form-control" })
-            </div>
-        }
+    <div class="form-group col-md-3">
+        @Html.LabelFor(m => m.Marca, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.Marca, new { @class = "form-control", data_autocomplete_url = "/Home/FindMarca", data_autocomplete_id = "MarcaID", data_autocomplete_filtro_extra = "#CategoriaMarca" })
+        @Html.Hidden("CategoriaMarca", -1)
+        @Html.HiddenFor(m => m.MarcaID)
+        @Html.ValidationMessageFor(m => m.Marca, "", new { @class = "text-danger" })
     </div>
-    @Html.ValidationMessageFor(m => m.Materiali, "", new { @class = "text-danger" })
-</div>
 
-@if (ViewData["ActionTipologia"] != null)
-{
-    // serve in caso di categoria senza dettagli aggiuntivi (Es. Servizi)
-    @Html.Hidden("ActionCategoria", ViewData["ActionTipologia"])
-}
+    <div class="form-group col-md-3">
+        <div class="field col-md-10 quantity">
+            @Html.LabelFor(m => m.Anno, new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.Anno, new { @class = "form-control number" })
+        </div>
+        <div class="field col-md-10 quantity">
+            @Html.LabelFor(m => m.Quantità, new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.Quantità, new { @class = "form-control number" })
+        </div>
+        @Html.ValidationMessageFor(m => m.Quantità, "", new { @class = "text-danger" })
+        @Html.ValidationMessageFor(m => m.Anno, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group col-md-3">
+        <label class="control-label" for="Materiali">
+            @Language.LblMaterials
+            <a class="add" href="javascript:void(0);" onclick="addMateriale(this);">
+                <img src="~/Images/icone/add.svg" alt="@Language.AddMaterial" style="width:32px;" />
+            </a>
+        </label>
+        <div class="field materials">
+            @for (int i = 0; i < Model.Materiali.Count; i++)
+            {
+                <div class="row">
+                    @if (i > 0)
+                    {
+                        <a class="remove" href="javascript:void(0);" onclick="removeMateriale(this);"><img src="/Images/icone/remove.svg" /></a>
+                    }
+                    @Html.TextBoxFor(m => m.Materiali[i], new { @class = "form-control col-md-10 col-sm-11" })
+                </div>
+            }
+        </div>
+        @Html.ValidationMessageFor(m => m.Materiali, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group col-md-3">
+        <label class="control-label" for="Componenti">
+            @Language.LblComponents
+            <a class="add" href="javascript:void(0);" onclick="addComponente(this);">
+                <img src="~/Images/icone/add.svg" alt="@Language.AddComponent" />
+            </a>
+        </label>
+        <div class="field components">
+            @for (int i = 0; i < Model.Componenti.Count; i++)
+            {
+                <div class="row">
+                    @if (i > 0)
+                    {
+                        <a class="remove" href="javascript:void(0);" onclick="removeComponente(this);"><img src="/Images/icone/remove.svg" /></a>
+                    }
+                    @Html.TextBoxFor(m => m.Componenti[i], new { @class = "form-control col-md-10 col-sm-11" })
+                </div>
+            }
+        </div>
+        @Html.ValidationMessageFor(m => m.Materiali, "", new { @class = "text-danger" })
+    </div>
+
+    @if (ViewData["ActionTipologia"] != null)
+    {
+        // serve in caso di categoria senza dettagli aggiuntivi (Es. Servizi)
+        @Html.Hidden("ActionCategoria", ViewData["ActionTipologia"])
+    }
+</div>

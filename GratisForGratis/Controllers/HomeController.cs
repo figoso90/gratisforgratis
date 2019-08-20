@@ -58,7 +58,8 @@ namespace GratisForGratis.Controllers
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
             return View();
         }
@@ -339,13 +340,15 @@ namespace GratisForGratis.Controllers
             }
             catch (InvalidDataException ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
                 Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
                 return Json(ex.Message);
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
             Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
             return Json(App_GlobalResources.Language.ErrorReporting);
@@ -368,13 +371,15 @@ namespace GratisForGratis.Controllers
             }
             catch (InvalidDataException ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
                 Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
                 return Json(ex.Message);
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
             Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
             return Json(App_GlobalResources.Language.ErrorReporting);

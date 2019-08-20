@@ -2,11 +2,9 @@
 
 @Html.Partial("Oggetto", (Model!=null)?Model:new GratisForGratis.Models.PubblicaOggettoViewModel())
 @Html.Hidden("ActionCategoria", "/Pubblica/Libro")
-<div class="form-group">
+<div class="form-group col-md-3">
     @Html.LabelFor(m => m.Autore, new { @class = "col-md-2 control-label" })
-    <div class="field">
-        @Html.TextBoxFor(m => m.Autore, new { @class = "form-control", data_autocomplete_url = "/Home/FindAutore", data_autocomplete_id = "AutoreID" })
-        @Html.Hidden("AutoreID")
-    </div>
+    @Html.TextBoxFor(m => m.Autore, new { @class = "form-control", data_autocomplete_url = "/Home/FindAutore", data_autocomplete_id = "AutoreID" })
+    @Html.Hidden("AutoreID")
     @Html.ValidationMessageFor(m => m.Autore, "", new { @class = "text-danger" })
 </div>

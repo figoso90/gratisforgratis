@@ -170,7 +170,8 @@ namespace GratisForGratis.Controllers
                         catch (Exception exception)
                         {
                             transazione.Rollback();
-                            Elmah.ErrorSignal.FromCurrentContext().Raise(exception);
+                            //Elmah.ErrorSignal.FromCurrentContext().Raise(exception);
+                            LoggatoreModel.Errore(exception);
                         }
                     }
                 }
@@ -292,6 +293,7 @@ namespace GratisForGratis.Controllers
             }
             catch (FacebookOAuthException eccezione)
             {
+                LoggatoreModel.Errore(eccezione);
                 TempData["eccezione"] = eccezione;
                 return Redirect("Login");
             }
@@ -473,7 +475,8 @@ namespace GratisForGratis.Controllers
                         {
                             transazione.Rollback();
                             ModelState.AddModelError("", eccezione.Message);
-                            Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                            //Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                            LoggatoreModel.Errore(eccezione);
                         }
                         finally
                         {
@@ -528,7 +531,8 @@ namespace GratisForGratis.Controllers
                     catch (Exception eccezione)
                     {
                         ModelState.AddModelError("", eccezione.Message);
-                        Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                        //Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                        LoggatoreModel.Errore(eccezione);
                     }
                 }
             }
@@ -617,7 +621,8 @@ namespace GratisForGratis.Controllers
                         {
                             transaction.Rollback();
                             base.ModelState.AddModelError("", exception.Message);
-                            Elmah.ErrorSignal.FromCurrentContext().Raise(exception);
+                            //Elmah.ErrorSignal.FromCurrentContext().Raise(exception);
+                            LoggatoreModel.Errore(exception);
                         }
                     }
                 }
@@ -740,7 +745,8 @@ namespace GratisForGratis.Controllers
                         catch (Exception exception)
                         {
                             transazione.Rollback();
-                            Elmah.ErrorSignal.FromCurrentContext().Raise(exception);
+                            //Elmah.ErrorSignal.FromCurrentContext().Raise(exception);
+                            LoggatoreModel.Errore(exception);
                         }
                     }
                 }
@@ -830,7 +836,8 @@ namespace GratisForGratis.Controllers
                     }
                     catch (Exception eccezione)
                     {
-                        Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                        //Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                        LoggatoreModel.Errore(eccezione);
                         transazione.Rollback();
                     }
                 }
@@ -1075,7 +1082,9 @@ namespace GratisForGratis.Controllers
                     item.TIPO == (int)TipoTransazione.BonusSuggerimentoAttivazioneAnnuncio ||
                     item.TIPO == (int)TipoTransazione.BonusSegnalazioneErrore ||
                     item.TIPO == (int)TipoTransazione.BonusInvitaAmicoFB ||
-                    item.TIPO == (int)TipoTransazione.BonusAttivaHappyPage)
+                    item.TIPO == (int)TipoTransazione.BonusAttivaHappyPage ||
+                    item.TIPO == (int)TipoTransazione.BonusFeedback ||
+                    item.TIPO == (int)TipoTransazione.BonusCondividiFB)
                     && 
                     item.STATO == (int)StatoPagamento.ACCETTATO);
                 int numeroElementi = Convert.ToInt32(WebConfigurationManager.AppSettings["numeroElementi"]);

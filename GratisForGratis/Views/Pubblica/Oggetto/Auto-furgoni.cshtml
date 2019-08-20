@@ -2,19 +2,15 @@
 
 @Html.Partial("Oggetto", (Model!=null)?Model:new GratisForGratis.Models.PubblicaOggettoViewModel())
 @Html.Hidden("ActionCategoria", "/Pubblica/Veicolo")
-<div class="form-group">
+<div class="form-group col-md-3">
     @Html.LabelFor(m => m.Modello, new { @class = "col-md-2 control-label" })
-    <div class="field">
-        @Html.TextBoxFor(m => m.Modello, new { @class = "form-control", data_autocomplete_url = "/Home/FindModello", data_autocomplete_id = "ModelloID", data_autocomplete_filtro_extra = "#MarcaID" })
-        @Html.Hidden("ModelloID")
-    </div>
+    @Html.TextBoxFor(m => m.Modello, new { @class = "form-control", data_autocomplete_url = "/Home/FindModello", data_autocomplete_id = "ModelloID", data_autocomplete_filtro_extra = "#MarcaID" })
+    @Html.Hidden("ModelloID")
     @Html.ValidationMessageFor(m => m.Modello, "", new { @class = "text-danger" })
 </div>
-<div class="form-group">
+<div class="form-group col-md-3">
     @Html.LabelFor(m => m.Alimentazione, new { @class = "col-md-2 control-label" })
-    <div class="field">
-        @Html.TextBoxFor(m => m.Alimentazione, new { @class = "form-control", data_autocomplete_url = "/Home/FindAlimentazione", data_autocomplete_id = "AlimentazioneID" })
-        @Html.Hidden("AlimentazioneID")
-    </div>
+    @Html.TextBoxFor(m => m.Alimentazione, new { @class = "form-control", data_autocomplete_url = "/Home/FindAlimentazione", data_autocomplete_id = "AlimentazioneID" })
+    @Html.Hidden("AlimentazioneID")
     @Html.ValidationMessageFor(m => m.Alimentazione, "", new { @class = "text-danger" })
 </div>

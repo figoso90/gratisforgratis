@@ -2,7 +2,7 @@
 
 @Html.Partial("Oggetto", (Model!=null)?Model:new GratisForGratis.Models.PubblicaOggettoViewModel())
 @Html.Hidden("ActionCategoria", "/Pubblica/Sport")
-<div class="form-group">
+<div class="form-group col-md-3">
     @Html.LabelFor(m => m.Modello, new { @class = "col-md-2 control-label" })
     @Html.TextBoxFor(m => m.Modello, new { @class = "form-control", data_autocomplete_url = "/Home/FindModello", data_autocomplete_id = "ModelloID", data_autocomplete_filtro_extra = "#CategoriaMarca" })
     @Html.Hidden("CategoriaModello", -1)

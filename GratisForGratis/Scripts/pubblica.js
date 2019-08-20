@@ -77,7 +77,7 @@ function loadInfoAggiuntive() {
         }
     );*/
     //$('#formPubblica .lastInfoBase').nextAll().not(".footer").remove();
-    $('#boxInfoAggiuntive').show();
+    $('#boxInfoAggiuntive').css('display','flex');
     $('#advanced').html('');
     $.ajax({
         type: "POST",
@@ -105,6 +105,14 @@ function showInfoAggiuntive() {
     //$('#infoAggiuntive').show();
     refreshValidatoreForm();
     initAutocomplete();
+}
+
+function showDatiExtra() {
+    if ($('#advanced:visible').length > 0) {
+        $('#advanced').css('display', 'none');
+    } else {
+        $('#advanced').css('display', 'flex');
+    }
 }
 
 function refreshValidatoreForm() {

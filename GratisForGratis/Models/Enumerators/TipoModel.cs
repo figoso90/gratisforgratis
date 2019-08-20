@@ -81,7 +81,8 @@ namespace GratisForGratis.Models
         BonusSegnalazioneErrore = 11,
         BonusSuggerimentoAttivazioneAnnuncio = 12,
         BonusInvitaAmicoFB = 13,
-        BonusAttivaHappyPage = 14
+        BonusAttivaHappyPage = 14,
+        BonusCondividiFB = 15
     }
 
     public enum TipoEmail

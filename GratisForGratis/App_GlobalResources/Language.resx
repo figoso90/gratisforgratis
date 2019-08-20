@@ -190,7 +190,7 @@
     <value>Filtra</value>
   </data>
   <data name="Footer" xml:space="preserve">
-    <value>Beni e servizi gratuiti per tutti!</value>
+    <value>Beni e servizi per tutti!</value>
   </data>
   <data name="Format" xml:space="preserve">
     <value>Formato</value>
@@ -382,7 +382,7 @@
     <value>Venditore</value>
   </data>
   <data name="Slogan" xml:space="preserve">
-    <value>&lt;strong&gt;Gratis is new business&lt;/strong&gt;!</value>
+    <value>&lt;strong&gt;Beni e servizi per tutti&lt;/strong&gt;!</value>
   </data>
   <data name="Public" xml:space="preserve">
     <value>Pubblica</value>
@@ -457,7 +457,7 @@
     <value>Data spedizione</value>
   </data>
   <data name="Partners" xml:space="preserve">
-    <value>Partners</value>
+    <value>Happy-Shop</value>
   </data>
   <data name="ErrorNothingBarter" xml:space="preserve">
     <value>Inserire almeno un baratto</value>
@@ -691,7 +691,7 @@
     <value>Email o password errati</value>
   </data>
   <data name="AllDays" xml:space="preserve">
-    <value>Tutti i giorni</value>
+    <value>Sempre</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Impostazioni</value>

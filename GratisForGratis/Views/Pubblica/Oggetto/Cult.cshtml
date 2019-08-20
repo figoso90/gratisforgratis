@@ -2,20 +2,16 @@
 
 @Html.Partial("Oggetto", (Model!=null)?Model:new GratisForGratis.Models.PubblicaOggettoViewModel())
 @Html.Hidden("ActionCategoria", "/Pubblica/Video")
-<div class="form-group">
+<div class="form-group col-md-3">
     @Html.LabelFor(m => m.Formato, new { @class = "col-md-2 control-label" })
-    <div class="field">
-        @Html.TextBoxFor(m => m.Formato, new { @class = "form-control", data_autocomplete_url = "/Home/FindFormato", data_autocomplete_id = "FormatoID" })
-        @Html.Hidden("FormatoID")
-    </div>
+    @Html.TextBoxFor(m => m.Formato, new { @class = "form-control", data_autocomplete_url = "/Home/FindFormato", data_autocomplete_id = "FormatoID" })
+    @Html.Hidden("FormatoID")
     @Html.ValidationMessageFor(m => m.Formato, "", new { @class = "text-danger" })
 </div>
 
-<div class="form-group">
+<div class="form-group col-md-3">
     @Html.LabelFor(m => m.Regista, new { @class = "col-md-2 control-label" })
-    <div class="field">
-        @Html.TextBoxFor(m => m.Regista, new { @class = "form-control", data_autocomplete_url = "/Home/FindRegista", data_autocomplete_id = "RegistaID" })
-        @Html.Hidden("RegistaID")
-    </div>
+    @Html.TextBoxFor(m => m.Regista, new { @class = "form-control", data_autocomplete_url = "/Home/FindRegista", data_autocomplete_id = "RegistaID" })
+    @Html.Hidden("RegistaID")
     @Html.ValidationMessageFor(m => m.Regista, "", new { @class = "text-danger" })
 </div>

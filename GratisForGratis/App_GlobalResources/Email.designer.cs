@@ -295,6 +295,42 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Spedizione disponibile per l&apos;annuncio {0}.
+        /// </summary>
+        public static string LDVSubject {
+            get {
+                return ResourceManager.GetString("LDVSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Abbiamo caricato correttamente la lettera di vettura per l&apos;annuncio {0}.&lt;br /&gt;Ora puoi accedere nella tua area personale e scaricarlo oppure lo troverai in allegato in questa email..
+        /// </summary>
+        public static string LDVText1 {
+            get {
+                return ResourceManager.GetString("LDVText1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Una volta scaricato, stampalo e portalo al centro spedizione insieme al tuo oggetto da spedire.
+        /// </summary>
+        public static string LDVText2 {
+            get {
+                return ResourceManager.GetString("LDVText2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Complimenti {0},.
+        /// </summary>
+        public static string LDVWelcome {
+            get {
+                return ResourceManager.GetString("LDVWelcome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Nuova password.
         /// </summary>
         public static string NewPassword {

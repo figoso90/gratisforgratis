@@ -11,12 +11,11 @@
         text-align: left;
         vertical-align: top;
         margin: 16px 20px;
-        width: 220px;
-        /*height: 340px; commentato per la vetrina di ricerca, in caso di tasto suggerisci era troppo poca*/
-        /*
-        border: 2px solid #1899D2;*/
-        border-radius:6px;
-        padding:10px;
+        width: 330px;
+        height: 520px;
+        border: 1px solid #ececec;
+        border-radius: 6px;
+        padding: 10px;
     }
 
         #home .object h5 {

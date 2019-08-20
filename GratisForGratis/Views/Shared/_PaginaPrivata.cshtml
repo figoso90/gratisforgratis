@@ -20,6 +20,7 @@
     @Styles.Render("~/Scripts/Uploadify/uploadifive.css")
     @Styles.Render("~/Scripts/loader/jquery.loader.min.css")
     @Styles.Render("~/Scripts/SlickNav/slicknav.css")
+    @Styles.Render("https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
     @Styles.Render("~/Content/css")
     @RenderSection("styles", required: false)
     @Scripts.Render("~/bundles/modernizr")
@@ -422,10 +423,14 @@
 
         </script>
     }
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("https://code.jquery.com/jquery-3.4.1.min.js")
+    @Scripts.Render("https://code.jquery.com/ui/1.12.1/jquery-ui.min.js")
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js")
+    @Scripts.Render("https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js")
     @Scripts.Render("~/Scripts/JqueryValidate/jquery.validate.unobtrusive.js")
+    @Scripts.Render("~/Scripts/Uploadify/jquery.uploadifive.min.js")
+    @Scripts.Render("~/Scripts/loader/jquery.loader.min.js")
     <script type="text/javascript">
     $.validator.setDefaults({
         ignore: null
@@ -441,9 +446,6 @@
     // variabili globali
     var MONETA = '@(Language.Price + " (" + Language.Moneta + ")")';
     </script>
-    @Scripts.Render("~/Scripts/Jquery/jquery-ui-1.11.4.min.js")
-    @Scripts.Render("~/Scripts/Uploadify/jquery.uploadifive.min.js")
-    @Scripts.Render("~/Scripts/loader/jquery.loader.min.js")
     @Scripts.Render("~/Scripts/SlickNav/jquery.slicknav.min.js")
     @Scripts.Render("~/Scripts/Site.js")
     @RenderSection("scripts", required: false)

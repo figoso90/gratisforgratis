@@ -16,8 +16,8 @@
             {
                 if (i > 1)
                 {
-                    <li>@Html.ActionLink("<<", Model.Action + "/" + Model.Categoria, Model.Controller, new { Pagina = 1 }, new { @class = classe })</li>
-                            <li>@Html.ActionLink("<", Model.Action + "/" + Model.Categoria, Model.Controller, new { Pagina = i - 1 }, new { @class = classe })</li>
+                    <li class="page-item">@Html.ActionLink("<<", Model.Action + "/" + Model.Categoria, Model.Controller, new { Pagina = 1 }, new { @class = "page-link " + classe })</li>
+                    <li class="page-item">@Html.ActionLink("<", Model.Action + "/" + Model.Categoria, Model.Controller, new { Pagina = i - 1 }, new { @class = "page-link " + classe })</li>
                 }
             }
 
@@ -25,19 +25,19 @@
             {
                 if (i == Model.PaginaAttuale)
                 {
-                    <li class=@classe><a>@i</a></li>
+                    <li class="page-item @classe"><a class="page-link">@i</a></li>
                 }
                 else
                 {
-                    <li class="@classe">@Html.ActionLink(i.ToString(), Model.Action + "/" + Model.Categoria, Model.Controller, new { Pagina = i }, new { @class = classe }) </li>
+                    <li class="page-item @classe">@Html.ActionLink(i.ToString(), Model.Action + "/" + Model.Categoria, Model.Controller, new { Pagina = i }, new { @class = "page-link " + classe }) </li>
                 }
             }
             else
             {
                 if (i < Model.NumeroPagine)
                 {
-                    <li>@Html.ActionLink(">", Model.Action + "/" + Model.Categoria, Model.Controller, new { Pagina = i + 1 }, new { @class = classe })</li>
-                            <li>@Html.ActionLink(">>", Model.Action + "/" + Model.Categoria, Model.Controller, new { Pagina = Model.NumeroPagine }, new { @class = classe })</li>
+                    <li class="page-item">@Html.ActionLink(">", Model.Action + "/" + Model.Categoria, Model.Controller, new { Pagina = i + 1 }, new { @class = "page-link " + classe })</li>
+                    <li class="page-item">@Html.ActionLink(">>", Model.Action + "/" + Model.Categoria, Model.Controller, new { Pagina = Model.NumeroPagine }, new { @class = "page-link " + classe })</li>
                 }
                 break;
             }

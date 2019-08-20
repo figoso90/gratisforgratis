@@ -13,6 +13,7 @@
     border-radius:6px;
     background-color:#a5c71b;
     border: 2px solid #337ab7;
+    margin:0px auto;
 }
 
 .btnUpload:hover, .btnUpload.selected{
@@ -124,6 +125,7 @@
     height: 32px;
     padding: 0px;
     width: 72px;
+    margin:0px auto;
 }
 
 #progress {

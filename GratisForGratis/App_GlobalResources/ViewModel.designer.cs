@@ -700,7 +700,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Se il tuo account è collegato a quello di Facebook &lt;b&gt;guadagnerai HappyCoin&lt;/b&gt; omaggio!.
+        ///   Cerca una stringa localizzata simile a Ricordati che se alla fine della pubblicazione, condividerai l&apos;annuncio su FACEBOOK &lt;b&gt;guadagnerai HappyCoin&lt;/b&gt;!.
         /// </summary>
         public static string PublishInfoFB {
             get {

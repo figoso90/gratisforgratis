@@ -2,10 +2,12 @@
 
 @Html.Partial("Oggetto", (Model!=null)?Model:new GratisForGratis.Models.PubblicaOggettoViewModel())
 @Html.Hidden("ActionCategoria", "/Pubblica/Tecnologia")
-<div class="form-group">
-    @Html.LabelFor(m => m.Modello, new { @class = "col-md-2 control-label" })
-    @Html.TextBoxFor(m => m.Modello, new { @class = "form-control", data_autocomplete_url = "/Home/FindModello", data_autocomplete_id = "ModelloID", data_autocomplete_filtro_extra = "#CategoriaMarca" })
-    @Html.Hidden("CategoriaModello", -1)
-    @Html.HiddenFor(m => m.ModelloID)
-    @Html.ValidationMessageFor(m => m.Modello, "", new { @class = "text-danger" })
+<div class="form-row">
+    <div class="form-group col-md-3">
+        @Html.LabelFor(m => m.Modello, new { @class = "col-md-2 control-label" })
+        @Html.TextBoxFor(m => m.Modello, new { @class = "form-control", data_autocomplete_url = "/Home/FindModello", data_autocomplete_id = "ModelloID", data_autocomplete_filtro_extra = "#CategoriaMarca" })
+        @Html.Hidden("CategoriaModello", -1)
+        @Html.HiddenFor(m => m.ModelloID)
+        @Html.ValidationMessageFor(m => m.Modello, "", new { @class = "text-danger" })
+    </div>
 </div>

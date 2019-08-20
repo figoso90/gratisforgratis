@@ -36,7 +36,8 @@ namespace GratisForGratis.Controllers
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
             return View();
         }
@@ -103,13 +104,15 @@ namespace GratisForGratis.Controllers
                     }
                     catch (System.Web.HttpException eccezione)
                     {
-                        Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                        //Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                        LoggatoreModel.Errore(eccezione);
                         throw new System.Web.HttpException(404, eccezione.Message);
                     }
                     catch (Exception eccezione)
                     {
                         ModelState.AddModelError("", eccezione.Message);
-                        Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                        //Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                        LoggatoreModel.Errore(eccezione);
                     }
                     finally
                     {
@@ -166,8 +169,9 @@ namespace GratisForGratis.Controllers
                         }
                         catch (Exception eccezione)
                         {
-                            Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                            //Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
                             transaction.Rollback();
+                            LoggatoreModel.Errore(eccezione);
                             Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
                             return Json(eccezione.Message);
                         }
@@ -247,7 +251,8 @@ namespace GratisForGratis.Controllers
                     }
                     catch (Exception eccezione)
                     {
-                        Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                        //Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                        LoggatoreModel.Errore(eccezione);
                     }
                     transazioneDb.Rollback();
                 }
@@ -339,7 +344,8 @@ namespace GratisForGratis.Controllers
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
             Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
             return Json(Language.ErrorRefuseBid);
@@ -385,7 +391,8 @@ namespace GratisForGratis.Controllers
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
             finally
             {
@@ -424,7 +431,8 @@ namespace GratisForGratis.Controllers
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
             Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
             return Json(App_GlobalResources.Language.EnableSellFailed);
@@ -484,7 +492,8 @@ namespace GratisForGratis.Controllers
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
             Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
             return Json(ExceptionMessage.UnblockFailed);
@@ -557,7 +566,8 @@ namespace GratisForGratis.Controllers
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
             // annuncio non in possesso
             throw new Exception(ExceptionMessage.YouDontHaveThisAd);

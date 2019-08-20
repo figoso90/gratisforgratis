@@ -148,6 +148,7 @@ namespace GratisForGratis.Models
         public virtual DbSet<INDIRIZZO> INDIRIZZO { get; set; }
         public virtual DbSet<PERSONA> PERSONA { get; set; }
         public virtual DbSet<ANNUNCIO> ANNUNCIO { get; set; }
+        public virtual DbSet<PERSONA_ANNUNCIO_PROPOSTO> PERSONA_ANNUNCIO_PROPOSTO { get; set; }
     
         public virtual int AGGIORNAMENTO_CATEGORIE()
         {

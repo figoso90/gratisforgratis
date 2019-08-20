@@ -977,6 +977,19 @@ avviso 6005: Tipo di dati 'hierarchyid' attualmente non supportato per la versio
           <Property Name="DATA_MODIFICA" Type="datetime" />
           <Property Name="STATO" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="PERSONA_ANNUNCIO_PROPOSTO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_ANNUNCIO" Type="int" Nullable="false" />
+          <Property Name="ID_PERSONA" Type="int" Nullable="false" />
+          <Property Name="DATA_PROPOSTA" Type="datetime" Nullable="false" />
+          <Property Name="DATA_SCADENZA" Type="datetime" Nullable="false" />
+          <Property Name="DATA_INSERIMENTO" Type="datetime" Nullable="false" />
+          <Property Name="DATA_MODIFICA" Type="datetime" />
+          <Property Name="STATO" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="PERSONA_ATTIVITA">
           <Key>
             <PropertyRef Name="ID" />
@@ -3400,6 +3413,30 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PERSONA_ANNUNCIO_PROPOSTO_ANNUNCIO">
+          <End Role="ANNUNCIO" Type="Self.ANNUNCIO" Multiplicity="1" />
+          <End Role="PERSONA_ANNUNCIO_PROPOSTO" Type="Self.PERSONA_ANNUNCIO_PROPOSTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ANNUNCIO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PERSONA_ANNUNCIO_PROPOSTO">
+              <PropertyRef Name="ID_ANNUNCIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERSONA_ANNUNCIO_PROPOSTO_PERSONA">
+          <End Role="PERSONA" Type="Self.PERSONA" Multiplicity="1" />
+          <End Role="PERSONA_ANNUNCIO_PROPOSTO" Type="Self.PERSONA_ANNUNCIO_PROPOSTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PERSONA_ANNUNCIO_PROPOSTO">
+              <PropertyRef Name="ID_PERSONA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PERSONA_ATTIVITA_ATTIVITA">
           <End Role="ATTIVITA" Type="Self.ATTIVITA" Multiplicity="1" />
           <End Role="PERSONA_ATTIVITA" Type="Self.PERSONA_ATTIVITA" Multiplicity="*" />
@@ -4345,6 +4382,7 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <EntitySet Name="PAYPAL" EntityType="Self.PAYPAL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PAYPAL_DETTAGLIO" EntityType="Self.PAYPAL_DETTAGLIO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PERSONA" EntityType="Self.PERSONA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PERSONA_ANNUNCIO_PROPOSTO" EntityType="Self.PERSONA_ANNUNCIO_PROPOSTO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PERSONA_ATTIVITA" EntityType="Self.PERSONA_ATTIVITA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PERSONA_EMAIL" EntityType="Self.PERSONA_EMAIL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PERSONA_FOTO" EntityType="Self.PERSONA_FOTO" Schema="dbo" store:Type="Tables" />
@@ -5059,6 +5097,14 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <AssociationSet Name="FK_PERSONA_ABBONAMENTO" Association="Self.FK_PERSONA_ABBONAMENTO">
             <End Role="ABBONAMENTO" EntitySet="ABBONAMENTO" />
             <End Role="PERSONA" EntitySet="PERSONA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERSONA_ANNUNCIO_PROPOSTO_ANNUNCIO" Association="Self.FK_PERSONA_ANNUNCIO_PROPOSTO_ANNUNCIO">
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+            <End Role="PERSONA_ANNUNCIO_PROPOSTO" EntitySet="PERSONA_ANNUNCIO_PROPOSTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERSONA_ANNUNCIO_PROPOSTO_PERSONA" Association="Self.FK_PERSONA_ANNUNCIO_PROPOSTO_PERSONA">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="PERSONA_ANNUNCIO_PROPOSTO" EntitySet="PERSONA_ANNUNCIO_PROPOSTO" />
           </AssociationSet>
           <AssociationSet Name="FK_PERSONA_ATTIVITA_ATTIVITA" Association="Self.FK_PERSONA_ATTIVITA_ATTIVITA">
             <End Role="ATTIVITA" EntitySet="ATTIVITA" />
@@ -6400,6 +6446,15 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <AssociationSet Name="FK_TRANSAZIONE_ANNUNCIO_ANNUNCIO" Association="GratisForGratisModel.FK_TRANSAZIONE_ANNUNCIO_ANNUNCIO">
             <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
             <End Role="TRANSAZIONE_ANNUNCIO" EntitySet="TRANSAZIONE_ANNUNCIO" />
+          </AssociationSet>
+          <EntitySet Name="PERSONA_ANNUNCIO_PROPOSTO" EntityType="GratisForGratisModel.PERSONA_ANNUNCIO_PROPOSTO" />
+          <AssociationSet Name="FK_PERSONA_ANNUNCIO_PROPOSTO_ANNUNCIO" Association="GratisForGratisModel.FK_PERSONA_ANNUNCIO_PROPOSTO_ANNUNCIO">
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+            <End Role="PERSONA_ANNUNCIO_PROPOSTO" EntitySet="PERSONA_ANNUNCIO_PROPOSTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERSONA_ANNUNCIO_PROPOSTO_PERSONA" Association="GratisForGratisModel.FK_PERSONA_ANNUNCIO_PROPOSTO_PERSONA">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="PERSONA_ANNUNCIO_PROPOSTO" EntitySet="PERSONA_ANNUNCIO_PROPOSTO" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="FINDSOTTOCATEGORIE_Result">
@@ -10419,6 +10474,7 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <NavigationProperty Name="PERSONA_TELEFONO" Relationship="GratisForGratisModel.FK_PERSONA_TELEFONO_PERSONA" FromRole="PERSONA" ToRole="PERSONA_TELEFONO" />
           <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_PERSONA" FromRole="PERSONA" ToRole="ANNUNCIO" />
           <NavigationProperty Name="ANNUNCIO1" Relationship="GratisForGratisModel.FK_ANNUNCIO_PERSONA1" FromRole="PERSONA" ToRole="ANNUNCIO" />
+          <NavigationProperty Name="PERSONA_ANNUNCIO_PROPOSTO" Relationship="GratisForGratisModel.FK_PERSONA_ANNUNCIO_PROPOSTO_PERSONA" FromRole="PERSONA" ToRole="PERSONA_ANNUNCIO_PROPOSTO" />
         </EntityType>
         <Association Name="FK_PERSONA_ABBONAMENTO">
           <End Type="GratisForGratisModel.ABBONAMENTO" Role="ABBONAMENTO" Multiplicity="1" />
@@ -10759,6 +10815,7 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <NavigationProperty Name="OFFERTA" Relationship="GratisForGratisModel.FK_OFFERTA_ANNUNCIO" FromRole="ANNUNCIO" ToRole="OFFERTA" />
           <NavigationProperty Name="OFFERTA_BARATTO" Relationship="GratisForGratisModel.FK_OFFERTA_BARATTO_ANNUNCIO" FromRole="ANNUNCIO" ToRole="OFFERTA_BARATTO" />
           <NavigationProperty Name="TRANSAZIONE_ANNUNCIO" Relationship="GratisForGratisModel.FK_TRANSAZIONE_ANNUNCIO_ANNUNCIO" FromRole="ANNUNCIO" ToRole="TRANSAZIONE_ANNUNCIO" />
+          <NavigationProperty Name="PERSONA_ANNUNCIO_PROPOSTO" Relationship="GratisForGratisModel.FK_PERSONA_ANNUNCIO_PROPOSTO_ANNUNCIO" FromRole="ANNUNCIO" ToRole="PERSONA_ANNUNCIO_PROPOSTO" />
         </EntityType>
         <Association Name="FK_ANNUNCIO_ANNUNCIO">
           <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1" />
@@ -11065,6 +11122,45 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Principal>
             <Dependent Role="TRANSAZIONE_ANNUNCIO">
               <PropertyRef Name="ID_ANNUNCIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PERSONA_ANNUNCIO_PROPOSTO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_ANNUNCIO" Type="Int32" Nullable="false" />
+          <Property Name="ID_PERSONA" Type="Int32" Nullable="false" />
+          <Property Name="DATA_PROPOSTA" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_SCADENZA" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_INSERIMENTO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_MODIFICA" Type="DateTime" Precision="3" />
+          <Property Name="STATO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_PERSONA_ANNUNCIO_PROPOSTO_ANNUNCIO" FromRole="PERSONA_ANNUNCIO_PROPOSTO" ToRole="ANNUNCIO" />
+          <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_PERSONA_ANNUNCIO_PROPOSTO_PERSONA" FromRole="PERSONA_ANNUNCIO_PROPOSTO" ToRole="PERSONA" />
+        </EntityType>
+        <Association Name="FK_PERSONA_ANNUNCIO_PROPOSTO_ANNUNCIO">
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1" />
+          <End Type="GratisForGratisModel.PERSONA_ANNUNCIO_PROPOSTO" Role="PERSONA_ANNUNCIO_PROPOSTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ANNUNCIO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PERSONA_ANNUNCIO_PROPOSTO">
+              <PropertyRef Name="ID_ANNUNCIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERSONA_ANNUNCIO_PROPOSTO_PERSONA">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
+          <End Type="GratisForGratisModel.PERSONA_ANNUNCIO_PROPOSTO" Role="PERSONA_ANNUNCIO_PROPOSTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PERSONA_ANNUNCIO_PROPOSTO">
+              <PropertyRef Name="ID_PERSONA" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -12732,6 +12828,20 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
                 <ScalarProperty Name="ID_OGGETTO" ColumnName="ID_OGGETTO" />
                 <ScalarProperty Name="ID_CATEGORIA" ColumnName="ID_CATEGORIA" />
                 <ScalarProperty Name="TOKEN" ColumnName="TOKEN" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PERSONA_ANNUNCIO_PROPOSTO">
+            <EntityTypeMapping TypeName="GratisForGratisModel.PERSONA_ANNUNCIO_PROPOSTO">
+              <MappingFragment StoreEntitySet="PERSONA_ANNUNCIO_PROPOSTO">
+                <ScalarProperty Name="STATO" ColumnName="STATO" />
+                <ScalarProperty Name="DATA_MODIFICA" ColumnName="DATA_MODIFICA" />
+                <ScalarProperty Name="DATA_INSERIMENTO" ColumnName="DATA_INSERIMENTO" />
+                <ScalarProperty Name="DATA_SCADENZA" ColumnName="DATA_SCADENZA" />
+                <ScalarProperty Name="DATA_PROPOSTA" ColumnName="DATA_PROPOSTA" />
+                <ScalarProperty Name="ID_PERSONA" ColumnName="ID_PERSONA" />
+                <ScalarProperty Name="ID_ANNUNCIO" ColumnName="ID_ANNUNCIO" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

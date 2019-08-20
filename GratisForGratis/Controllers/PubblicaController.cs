@@ -81,7 +81,8 @@ namespace GratisForGratis.Controllers
             }
             catch (Exception ex)
             {
-                ErrorSignal.FromCurrentContext().Raise(ex);
+                //ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
                 return RedirectToAction("Index", "Utente");
             }
 
@@ -225,7 +226,7 @@ namespace GratisForGratis.Controllers
             // Cambiare anche la index e caricare la vista parziale oggetto e servizio
             string nomeVistaDettaglio = GetNomeVistaDettagliAnnuncio(categoria);
             if (!string.IsNullOrWhiteSpace(nomeVistaDettaglio))
-                return PartialView(GetNomeVistaDettagliAnnuncio(categoria));
+                return PartialView(nomeVistaDettaglio);
             else
                 return PartialView(GetNomeVistaTipologia(categoria), TempData["modelloVista"]);
         }
@@ -287,7 +288,8 @@ namespace GratisForGratis.Controllers
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
             //return Json(new { Success = false, responseText = Language.ErrorFormatFile });
             Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
@@ -421,7 +423,8 @@ namespace GratisForGratis.Controllers
                         catch (Exception eccezione)
                         {
                             transaction.Rollback();
-                            ErrorSignal.FromCurrentContext().Raise(eccezione);
+                            //ErrorSignal.FromCurrentContext().Raise(eccezione);
+                            LoggatoreModel.Errore(eccezione);
                         }
                     }
                 }
@@ -502,7 +505,8 @@ namespace GratisForGratis.Controllers
                         catch (Exception eccezione)
                         {
                             transaction.Rollback();
-                            ErrorSignal.FromCurrentContext().Raise(eccezione);
+                            //ErrorSignal.FromCurrentContext().Raise(eccezione);
+                            LoggatoreModel.Errore(eccezione);
                         }
                     }
                 }
@@ -546,6 +550,11 @@ namespace GratisForGratis.Controllers
                 annuncio.CONDIVISIONE_FACEBOOK_UTENTE = (int)StatoPubblicaAnnuncioFacebook.Pubblicato;
                 annuncio.DATA_PUBBLICAZIONE_FACEBOOK = DateTime.Now;
                 db.SaveChanges();
+                var utente = Session["utente"] as PersonaModel;
+                Guid tokenPortale = Guid.Parse(ConfigurationManager.AppSettings["portaleweb"]);
+                decimal bonus = Convert.ToDecimal(ConfigurationManager.AppSettings["bonusPromozioneFB"]);
+
+                AddBonus(db, ControllerContext, utente.Persona, tokenPortale, bonus, TipoTransazione.BonusCondividiFB, annuncio.NOME, annuncio.ID);
             }
         }
 
@@ -587,7 +596,8 @@ namespace GratisForGratis.Controllers
                         transaction.Rollback();
                         viewModel.CancelUploadFoto(annuncio);
                         ModelState.AddModelError("Error", eccezione.Message);
-                        ErrorSignal.FromCurrentContext().Raise(eccezione);
+                        //ErrorSignal.FromCurrentContext().Raise(eccezione);
+                        LoggatoreModel.Errore(eccezione);
                     }
                 }
             }
@@ -631,15 +641,18 @@ namespace GratisForGratis.Controllers
             }
             catch (FacebookOAuthException ex)
             {
-                ErrorSignal.FromCurrentContext().Raise(ex);
+                //ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
             catch (FacebookApiException ex)
             {
-                ErrorSignal.FromCurrentContext().Raise(ex);
+                //ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
             catch (Exception ex)
             {
-                ErrorSignal.FromCurrentContext().Raise(ex);
+                //ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
             return string.Empty;
         }

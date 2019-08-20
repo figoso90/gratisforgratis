@@ -2,8 +2,12 @@
     color: #bd1723;
 }
 
-#presentazione {
+.img-thumbnail{
+    max-width:100px;
+}
 
+#presentazione {
+    text-align:left;
 }
 
     #presentazione strong {

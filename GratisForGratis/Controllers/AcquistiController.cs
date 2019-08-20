@@ -25,9 +25,10 @@ namespace GratisForGratis.Controllers
                     return View(GetListaOfferte(db, utente, pagina));
                 }
             }
-            catch (Exception ex)
+            catch (Exception eccezione)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(eccezione);
             }
             return View();
         }
@@ -99,13 +100,15 @@ namespace GratisForGratis.Controllers
                     }
                     catch (HttpException eccezione)
                     {
-                        Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                        //Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                        LoggatoreModel.Errore(eccezione);
                         throw new HttpException(404, eccezione.Message);
                     }
                     catch (Exception eccezione)
                     {
                         ModelState.AddModelError("", eccezione.Message);
-                        Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                        //Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                        LoggatoreModel.Errore(eccezione);
                     }
                     finally
                     {
@@ -151,9 +154,10 @@ namespace GratisForGratis.Controllers
                         RefreshPunteggioUtente(db);
                 }
             }
-            catch (Exception ex)
+            catch (Exception eccezione)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(eccezione);
             }
             return View(offerte);
         }
@@ -186,54 +190,12 @@ namespace GratisForGratis.Controllers
                         offerta = db.OFFERTA.SingleOrDefault(c => c.OFFERTA_BARATTO.Count(b => b.ANNUNCIO.TOKEN == tokenBaratto && b.ANNUNCIO.ID_PERSONA == idUtente) > 0);
                     }
                     viewModel = new OffertaViewModel(db, offerta);
-                    /*
-                    viewModel = new OffertaViewModel()
-                    {
-                        Id = offerta.ID,
-                        Token = Utils.Encode(offerta.ID),
-                        Annuncio = new AnnuncioViewModel()
-                        {
-                            Nome = offerta.ANNUNCIO.NOME,
-                            Categoria = offerta.ANNUNCIO.CATEGORIA.NOME,
-                            TipoSpedizione = (TipoSpedizione)offerta.TIPO_TRATTATIVA,
-                            StatoVendita = (StatoVendita)offerta.ANNUNCIO.STATO,
-                            Foto = offerta.ANNUNCIO.ANNUNCIO_FOTO.Select(f => new AnnuncioFoto()
-                            {
-                                ID_ANNUNCIO = f.ID_ANNUNCIO,
-                                FOTO = f.FOTO,
-                                DATA_INSERIMENTO = f.DATA_INSERIMENTO,
-                                DATA_MODIFICA = f.DATA_MODIFICA
-                            }).ToList(),
-                            Venditore = new UtenteVenditaViewModel() {
-                                Nominativo = (offerta.ANNUNCIO.ID_ATTIVITA != null) ? offerta.ANNUNCIO.ATTIVITA.NOME : offerta.ANNUNCIO.PERSONA.NOME + ' ' + offerta.ANNUNCIO.PERSONA.COGNOME,
-                                Email = (offerta.ANNUNCIO.ID_ATTIVITA != null) ? offerta.ANNUNCIO.ATTIVITA.ATTIVITA_EMAIL.SingleOrDefault(e => e.TIPO == (int)TipoEmail.Registrazione).EMAIL : offerta.ANNUNCIO.PERSONA.PERSONA_EMAIL.SingleOrDefault(e => e.TIPO == (int)TipoEmail.Registrazione).EMAIL,
-                                VenditoreToken = offerta.ANNUNCIO.PERSONA.TOKEN,
-                                Telefono = (offerta.ANNUNCIO.ID_ATTIVITA != null) ? offerta.ANNUNCIO.ATTIVITA.ATTIVITA_TELEFONO.SingleOrDefault(t => t.TIPO == (int)TipoTelefono.Privato).TELEFONO : offerta.ANNUNCIO.PERSONA.PERSONA_TELEFONO.SingleOrDefault(t => t.TIPO == (int)TipoTelefono.Privato).TELEFONO,
-                            }
-                        },
-                        Punti = (int)offerta.PUNTI,
-                        Soldi = (int)offerta.SOLDI,
-                        Baratti = db.OFFERTA_BARATTO.Where(b => b.ID_OFFERTA == offerta.ID && b.ANNUNCIO != null).Select(b =>
-                                    new AnnuncioViewModel()
-                                    {
-                                        Token = b.ANNUNCIO.TOKEN.ToString(),
-                                        TipoAcquisto = b.ANNUNCIO.SERVIZIO != null ? TipoAcquisto.Servizio : TipoAcquisto.Oggetto,
-                                        Nome = b.ANNUNCIO.NOME,
-                                        Punti = b.ANNUNCIO.PUNTI,
-                                        Soldi = b.ANNUNCIO.SOLDI,
-                                    }).ToList(),
-                        TipoOfferta = (TipoPagamento)offerta.TIPO_OFFERTA,
-                        TipoPagamento = (TipoPagamento)offerta.ANNUNCIO.TIPO_PAGAMENTO,
-                        StatoOfferta = (StatoOfferta)offerta.STATO,
-                        DataInserimento = (DateTime)offerta.DATA_INSERIMENTO,
-                        //PuntiCompratore = offerta.PERSONA.CONTO_CORRENTE.CONTO_CORRENTE_MONETA.Count(m => m.STATO == (int)StatoMoneta.ASSEGNATA),
-                        //PuntiSospesiCompratore = offerta.PERSONA.CONTO_CORRENTE.CONTO_CORRENTE_MONETA.Count(m => m.STATO == (int)StatoMoneta.SOSPESA)
-                    };*/
                 }
             }
-            catch (Exception ex)
+            catch (Exception eccezione)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(eccezione);
             }
 
             return View(viewModel);
@@ -276,9 +238,10 @@ namespace GratisForGratis.Controllers
                         RefreshPunteggioUtente(db);
                 }
             }
-            catch (Exception ex)
+            catch (Exception eccezione)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(eccezione);
             }
             return View(acquistiConclusi);
         }
@@ -372,9 +335,10 @@ namespace GratisForGratis.Controllers
                         });
                 }
             }
-            catch (Exception ex)
+            catch (Exception eccezione)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(eccezione);
             }
             return View(viewModel);
         }

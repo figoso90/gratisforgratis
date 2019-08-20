@@ -3,9 +3,11 @@
     padding: 0px;
     width: 100%;
     height: 100%;
-    font-size: 17px;
-    /*color:#178fcc;*/
+    /*font-size: 17px;
     font-family: 'Gochi Hand', cursive;
+    */
+    font-size:14px;
+    font-family:Arial;
 }
 
 h4, .h4
@@ -228,13 +230,14 @@ header{
     padding-bottom:20px;
 }
 
-#logo:hover, #logo:link{
-    border:none !important;
-    background-color:transparent !important;
+#logo:hover, #logo:link {
+    border: none !important;
+    background-color: transparent !important;
     display: inline-block;
     max-width: 220px;
     text-align: center;
-    margin-right:5%;
+    margin-right: 5%;
+    font-family: 'Gochi Hand', cursive;
 }
 
 #logo .ico{
@@ -466,7 +469,7 @@ header menu ul.nav-pills > li > a{
 header menu .subCategory{
     max-width:700px;
     padding:0px 15px;
-    margin:33px auto 0px;
+    margin:12px auto 0px;
 }
 
 header menu .subCategory .link{
@@ -514,7 +517,7 @@ input[type="checkbox"]:checked+input[type=hidden]+label, input[type="checkbox"]:
 }
 
 textarea.form-control{
-    width: 300px;
+    /*width: 300px;*/
     height: 120px;
     resize: none;
 }
@@ -704,6 +707,7 @@ section{
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
+/*
 input, select, textarea {
     max-width: 280px;
 }
@@ -719,7 +723,6 @@ input[type="text"].number{
 }
 
 .form-horizontal{
-    /*text-align:left;*/
     width:80%;
     margin:0% auto;
 }
@@ -761,12 +764,12 @@ input[type="text"].number{
     margin:0px;
     width: 100%;
 }
-
-#window{
-    min-height:100%;
-    height:auto !important;
-    height:100%;
-    width:100%;
+*/
+#window {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    width: 100%;
 }
 
 #window > header, #window > section, #window > footer{

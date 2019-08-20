@@ -322,7 +322,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Tutti i giorni.
+        ///   Cerca una stringa localizzata simile a Sempre.
         /// </summary>
         public static string AllDays {
             get {
@@ -1978,7 +1978,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Beni e servizi gratuiti per tutti!.
+        ///   Cerca una stringa localizzata simile a Beni e servizi per tutti!.
         /// </summary>
         public static string Footer {
             get {
@@ -3040,7 +3040,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Partners.
+        ///   Cerca una stringa localizzata simile a Happy-Shop.
         /// </summary>
         public static string Partners {
             get {
@@ -3715,7 +3715,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a &lt;strong&gt;Gratis is new business&lt;/strong&gt;!.
+        ///   Cerca una stringa localizzata simile a &lt;strong&gt;Beni e servizi per tutti&lt;/strong&gt;!.
         /// </summary>
         public static string Slogan {
             get {

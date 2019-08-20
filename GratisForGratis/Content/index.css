@@ -97,4 +97,6 @@
 
 #menuUser .img-thumbnail{
     width:70%;
+    border-radius:100px;
+    margin:22px;
 }

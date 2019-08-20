@@ -26,7 +26,7 @@ namespace GratisForGratis
                       ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/Bootstrap/bootstrap.css",
+                      //"~/Content/Bootstrap/bootstrap.css",
                       "~/Content/site.css"));
         }
     }

@@ -11,24 +11,31 @@
     <div id="grid" class="content">
         @Html.Partial("PartialPages/_AnnuncioMedium", Model)
     </div>
-    <h3>@TempData["FBINFO"]</h3>
-    <!-- Load Facebook SDK for JavaScript -->
-    <div id="fb-root"></div>
-    @if (Model.DataPubblicazioneFacebook == null)
-    {
-    <!-- Your share button code -->
-    <div id="shareBtn"
-         data-quote="@((Session["utente"] as PersonaModel).NomeVisibile.ToUpper() + " REGALA " + Model.Nome)"
-         data-href="https://www.gratisforgratis.org/annuncio?token=@Model.Token"
-         data-token="@Model.Token"
-         data-layout="button"
-         data-size="large">
-        @Button.PublishShareFB
-        <p style="color:green;">
-            @ViewModel.PublishSocial
-        </p>
+    <div class="content">
+        <div class="row">
+            <div class="col-md-8" style="margin:0px auto;">
+                <h3>@TempData["FBINFO"]</h3>
+                <!-- Load Facebook SDK for JavaScript -->
+                <div id="fb-root"></div>
+                @if (Model.DataPubblicazioneFacebook == null)
+                {
+                    <!-- Your share button code -->
+                    <div id="shareBtn"
+                         class="btn btn-primary"
+                         data-quote="@((Session["utente"] as PersonaModel).NomeVisibile.ToUpper() + " REGALA " + Model.Nome)"
+                         data-href="https://www.gratisforgratis.org/annuncio?token=@Model.Token"
+                         data-token="@Model.Token"
+                         data-layout="button"
+                         data-size="large">
+                        @Button.PublishShareFB
+                    </div>
+                    <p style="color:green;">
+                        @ViewModel.PublishSocial
+                    </p>
+                }
+            </div>
+        </div>
     </div>
-    }
 </section>
 @section Scripts {
     @Scripts.Render("~/Scripts/offerteRicevute.js")

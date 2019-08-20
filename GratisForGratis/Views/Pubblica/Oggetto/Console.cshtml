@@ -2,11 +2,9 @@
 
 @Html.Partial("Oggetto", (Model!=null)?Model:new GratisForGratis.Models.PubblicaOggettoViewModel())
 @Html.Hidden("ActionCategoria", "/Pubblica/Console")
-<div class="form-group">
+<div class="form-group col-md-3">
     @Html.LabelFor(m => m.Piattaforma, new { @class = "col-md-2 control-label" })
-    <div class="field">
-        @Html.TextBoxFor(m => m.Piattaforma, new { @class = "form-control", data_autocomplete_url = "/Home/FindPiattaforma", data_autocomplete_id = "PiattaformaID" })
-        @Html.Hidden("PiattaformaID")
-    </div>
+    @Html.TextBoxFor(m => m.Piattaforma, new { @class = "form-control", data_autocomplete_url = "/Home/FindPiattaforma", data_autocomplete_id = "PiattaformaID" })
+    @Html.Hidden("PiattaformaID")
     @Html.ValidationMessageFor(m => m.Piattaforma, "", new { @class = "text-danger" })
 </div>

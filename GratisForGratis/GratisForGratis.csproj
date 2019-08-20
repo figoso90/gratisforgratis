@@ -409,6 +409,7 @@
     <Content Include="Images\icone\save.svg" />
     <Content Include="Images\icone\search.svg" />
     <Content Include="Images\icone\security.svg" />
+    <Content Include="Images\icone\simbolo.svg" />
     <Content Include="Images\logo.jpg" />
     <Content Include="Images\logo.svg" />
     <Content Include="Images\logo2.jpg" />
@@ -918,6 +919,7 @@
     <Compile Include="Models\INDIRIZZO.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\LoggatoreModel.cs" />
     <Compile Include="Models\LOG_ERRORE.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
@@ -1026,6 +1028,9 @@
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PersonaModel.cs" />
+    <Compile Include="Models\PERSONA_ANNUNCIO_PROPOSTO.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PERSONA_ATTIVITA.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
@@ -1615,6 +1620,7 @@
     <Content Include="Views\Shared\Email\annuncioAcquistato.cshtml" />
     <Content Include="Views\Shared\Email\annuncioVenduto.cshtml" />
     <Content Include="Views\Shared\Email\offertaAccettata.cshtml" />
+    <Content Include="Views\PortaleWeb\Email\LDV.cshtml" />
     <None Include="Web References\ServizioADV\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

@@ -347,6 +347,9 @@
         <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_ANNUNCIO" />
         <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_BARATTO_ANNUNCIO" />
         <AssociationConnector Association="GratisForGratisModel.FK_TRANSAZIONE_ANNUNCIO_ANNUNCIO" />
+        <EntityTypeShape EntityType="GratisForGratisModel.PERSONA_ANNUNCIO_PROPOSTO" Width="1.5" PointX="19.5" PointY="58.25" />
+        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_ANNUNCIO_PROPOSTO_ANNUNCIO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_ANNUNCIO_PROPOSTO_PERSONA" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

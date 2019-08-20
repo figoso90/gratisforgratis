@@ -40,6 +40,7 @@ namespace GratisForGratis.Models
             this.PERSONA_TELEFONO = new HashSet<PERSONA_TELEFONO>();
             this.ANNUNCIO = new HashSet<ANNUNCIO>();
             this.ANNUNCIO1 = new HashSet<ANNUNCIO>();
+            this.PERSONA_ANNUNCIO_PROPOSTO = new HashSet<PERSONA_ANNUNCIO_PROPOSTO>();
         }
     
         public int ID { get; set; }
@@ -105,5 +106,7 @@ namespace GratisForGratis.Models
         public virtual ICollection<ANNUNCIO> ANNUNCIO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ANNUNCIO> ANNUNCIO1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PERSONA_ANNUNCIO_PROPOSTO> PERSONA_ANNUNCIO_PROPOSTO { get; set; }
     }
 }

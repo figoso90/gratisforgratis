@@ -32,6 +32,7 @@ namespace GratisForGratis.Models
             this.OFFERTA = new HashSet<OFFERTA>();
             this.OFFERTA_BARATTO = new HashSet<OFFERTA_BARATTO>();
             this.TRANSAZIONE_ANNUNCIO = new HashSet<TRANSAZIONE_ANNUNCIO>();
+            this.PERSONA_ANNUNCIO_PROPOSTO = new HashSet<PERSONA_ANNUNCIO_PROPOSTO>();
         }
     
         public int ID { get; set; }
@@ -109,5 +110,7 @@ namespace GratisForGratis.Models
         public virtual ICollection<OFFERTA_BARATTO> OFFERTA_BARATTO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TRANSAZIONE_ANNUNCIO> TRANSAZIONE_ANNUNCIO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PERSONA_ANNUNCIO_PROPOSTO> PERSONA_ANNUNCIO_PROPOSTO { get; set; }
     }
 }

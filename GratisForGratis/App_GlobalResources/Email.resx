@@ -195,6 +195,18 @@
   <data name="Hello" xml:space="preserve">
     <value>Ciao &lt;b&gt;{0}&lt;/b&gt;</value>
   </data>
+  <data name="LDVSubject" xml:space="preserve">
+    <value>Spedizione disponibile per l'annuncio {0}</value>
+  </data>
+  <data name="LDVText1" xml:space="preserve">
+    <value>Abbiamo caricato correttamente la lettera di vettura per l'annuncio {0}.&lt;br /&gt;Ora puoi accedere nella tua area personale e scaricarlo oppure lo troverai in allegato in questa email.</value>
+  </data>
+  <data name="LDVText2" xml:space="preserve">
+    <value>Una volta scaricato, stampalo e portalo al centro spedizione insieme al tuo oggetto da spedire</value>
+  </data>
+  <data name="LDVWelcome" xml:space="preserve">
+    <value>Complimenti {0},</value>
+  </data>
   <data name="NewPassword" xml:space="preserve">
     <value>Nuova password</value>
   </data>

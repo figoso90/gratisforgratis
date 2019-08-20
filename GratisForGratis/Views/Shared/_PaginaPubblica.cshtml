@@ -23,9 +23,14 @@
     @Styles.Render("~/Scripts/Uploadify/uploadifive.css")
     @Styles.Render("~/Scripts/loader/jquery.loader.min.css")
     @Styles.Render("~/Scripts/SlickNav/slicknav.css")
+    @Styles.Render("https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
     @Styles.Render("~/Content/css")
     @RenderSection("styles", required: false)
     @Scripts.Render("~/bundles/modernizr")
+
+
+    <script src="https://use.fontawesome.com/ce46ed0ed1.js"></script>
+
     <!-- respond.js per IE8 -->
     <!--[if lt IE 9]>
     <script src="js/respond.min.js"></script>
@@ -54,10 +59,10 @@
                     @Html.ActionLink(Language.Login, "Login", "Utente")
                 </li>
                 <!--
-    <li role="presentation" class="register">
-        @Html.ActionLink(Language.Register, "Registrazione", "Utente")
-    </li>
-        -->
+                <li role="presentation" class="register">
+                    @Html.ActionLink(Language.Register, "Registrazione", "Utente")
+                </li>
+                    -->
                 <li role="presentation" class="register loginFacebook">
                     <a class="col-md-9 col-md-push-2 btn btn-primary loginFB" href="@Url.Action("LoginFacebook", "Utente", new { ReturnUrl = (Model == null || Model.GetType().GetProperty("ReturnUrl") == null || string.IsNullOrWhiteSpace(Model.ReturnUrl) ? "" : Model.ReturnUrl) })">
                         <img src="https://facebookbrand.com/wp-content/uploads/2016/05/flogo_rgb_hex-brc-site-250.png?w=125&h=125" />
@@ -83,10 +88,10 @@
                 @Html.ActionLink(Language.Login, "Login", "Utente")
             </li>
             <!--
-    <li role="presentation" class="register">
-        @Html.ActionLink(Language.Register, "Registrazione", "Utente")
-    </li>
-        -->
+            <li role="presentation" class="register">
+                @Html.ActionLink(Language.Register, "Registrazione", "Utente")
+            </li>
+                -->
             <li role="presentation" class="register loginFacebook">
                 <a class="btn btn-primary" href="@Url.Action("LoginFacebook", "Utente")" style="color:#FFF;">
                     <img src="https://facebookbrand.com/wp-content/uploads/2016/05/flogo_rgb_hex-brc-site-250.png?w=16&h=16" style="margin-right: 10px;" />
@@ -272,11 +277,16 @@
         </script>
     }
     <!-- END POPUP -->
-    @Scripts.Render("~/bundles/jquery")
+    @*Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/Scripts/Jquery/jquery-ui-1.11.4.min.js")
+        @Scripts.Render("~/bundles/bootstrap")*@
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>-->
+    @Scripts.Render("https://code.jquery.com/jquery-3.4.1.min.js")
+    @Scripts.Render("https://code.jquery.com/ui/1.12.1/jquery-ui.min.js")
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/Scripts/Jquery/jquery-ui-1.11.4.min.js")
-    @Scripts.Render("~/bundles/bootstrap")
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    @Scripts.Render("https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js")
+    @Scripts.Render("https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js")
     @Scripts.Render("~/Scripts/Uploadify/jquery.uploadifive.min.js")
     @Scripts.Render("~/Scripts/loader/jquery.loader.min.js")
     <script type="text/javascript">

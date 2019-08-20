@@ -57,7 +57,8 @@ namespace GratisForGratis.Controllers
             }
             catch (Exception exception)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(exception);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(exception);
+                LoggatoreModel.Errore(exception);
                 // se ha un errore generico o semplicemente sta cercando di fare un feedback
                 return Redirect(System.Web.Security.FormsAuthentication.DefaultUrl);
             }
@@ -119,7 +120,8 @@ namespace GratisForGratis.Controllers
                 }
                 catch (Exception exception)
                 {
-                    Elmah.ErrorSignal.FromCurrentContext().Raise(exception);
+                    //Elmah.ErrorSignal.FromCurrentContext().Raise(exception);
+                    LoggatoreModel.Errore(exception);
                     // se ha un errore generico o semplicemente sta cercando di fare un feedback
                     return Redirect(System.Web.Security.FormsAuthentication.DefaultUrl);
                 }
@@ -167,7 +169,8 @@ namespace GratisForGratis.Controllers
                 }
                 catch (Exception eccezione)
                 {
-                    Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                    //Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                    LoggatoreModel.Errore(eccezione);
                     // se ha un errore generico o semplicemente sta cercando di fare un feedback
                     return Redirect(System.Web.Security.FormsAuthentication.DefaultUrl);
                 }
