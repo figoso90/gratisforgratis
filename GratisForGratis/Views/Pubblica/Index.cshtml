@@ -5,9 +5,6 @@
     @Styles.Render("~/Scripts/ColorPicker/css/colorpicker.css")
     @Styles.Render("~/Content/pubblica.css")
 }
-
-
-
 <section id="pubblicazione">
     <div class="content">
         <div class="container">
@@ -49,9 +46,9 @@
                                             <div class="input-group-text">€</div>
                                         </div>
                                         @Html.TextBoxFor(m => m.Soldi, new { @class = "form-control number", placeholder = Language.Price })
-                                        <a class='my-tool-tip' data-toggle="tooltip" href="javascript:void(0);"
+                                        <a class="infoDomanda" data-toggle="tooltip" href="javascript:void(0);"
                                            title="@Tooltip.PublishInfoMoney">
-                                            <i class="glyphicon glyphicon-info-sign" style="display: inline-block;vertical-align: top;color: red;"></i>
+                                            <i class="far fa-question-circle"></i>
                                         </a>
                                     </div>
                                 </div>

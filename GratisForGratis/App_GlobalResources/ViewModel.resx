@@ -271,7 +271,7 @@
     <value>Top desideri</value>
   </data>
   <data name="ProfileSendMessage" xml:space="preserve">
-    <value>Invia messaggio</value>
+    <value>Contatta</value>
   </data>
   <data name="ChatDateUpdate" xml:space="preserve">
     <value>Data ultima modifica</value>
@@ -440,5 +440,8 @@
   </data>
   <data name="PublishSocial" xml:space="preserve">
     <value>Pubblica sui social (Guadagnerai crediti omaggio)</value>
+  </data>
+  <data name="ProfileLastSell" xml:space="preserve">
+    <value>Ultime vendite</value>
   </data>
 </root>

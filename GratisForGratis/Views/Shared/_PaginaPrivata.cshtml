@@ -24,8 +24,7 @@
     @Styles.Render("~/Content/css")
     @RenderSection("styles", required: false)
     @Scripts.Render("~/bundles/modernizr")
-
-    <script src="https://use.fontawesome.com/ce46ed0ed1.js"></script>
+    @Styles.Render("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css")
 </head>
 <body>
     <div id="window">
@@ -272,14 +271,16 @@
                 <div id="toolbar">
                     @using (Html.BeginForm("Index2", "Cerca", FormMethod.Get, new { id = "cerca" }))
                     {
-                        <div id="menuCategoriaRicerca" style="display: inline-block;margin-top: 12px;position: relative;vertical-align: top;">
-                            @Html.Hidden("Cerca_IDCategoria", Response.Cookies["ricerca"]["IDCategoria"])
-                            @Html.Hidden("Cerca_Categoria", Response.Cookies["ricerca"]["Categoria"])
-                            @Html.TextBox("Cerca_Nome", Response.Cookies["ricerca"]["Nome"], new { @class = "form-control", placeholder = Language.InputSearch })
-                            <input class="btn-search" type="submit" value="search" data-toggle="tooltip" data-placement="top" title="@Language.SearchSubmit" />
-                            <img class="infoTooltip" src="~/Images/icone/infoTooltip.svg" alt="info" title="@Tooltip.InfoHowSearch" />
-                            <!--<input name="Cerca_Submit" class="btnSearchSave" type="submit" value="save" data-toggle="tooltip" data-placement="top" title="@Language.SearchSave" />-->
-                        </div>
+                    <div id="menuCategoriaRicerca" style="display: inline-block;margin-top: 12px;position: relative;vertical-align: top;">
+                        @Html.Hidden("Cerca_IDCategoria", Response.Cookies["ricerca"]["IDCategoria"])
+                        @Html.Hidden("Cerca_Categoria", Response.Cookies["ricerca"]["Categoria"])
+                        @Html.TextBox("Cerca_Nome", Response.Cookies["ricerca"]["Nome"], new { @class = "form-control", placeholder = Language.InputSearch })
+                        <input class="btn-search" type="submit" value="search" data-toggle="tooltip" data-placement="top" title="@Language.SearchSubmit" />
+                        <a class="infoTooltip infoDomanda" data-toggle="tooltip" href="javascript:void(0);"
+                           title="@Tooltip.InfoHowSearch">
+                            <i class="far fa-question-circle"></i>
+                        </a>
+                    </div>
                     }
                 </div>
                 <div id="subCategoryObjects" class="subCategory">
@@ -449,6 +450,7 @@
     var MONETA = '@(Language.Price + " (" + Language.Moneta + ")")';
     </script>
     @Scripts.Render("~/Scripts/SlickNav/jquery.slicknav.min.js")
+    @Scripts.Render("https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js")
     @Scripts.Render("~/Scripts/Site.js")
     @RenderSection("scripts", required: false)
 </body>

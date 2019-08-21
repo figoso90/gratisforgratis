@@ -1,4 +1,8 @@
-﻿#boxInfoAggiuntive{
+﻿.icona{
+    margin-top:4px;
+}
+
+#boxInfoAggiuntive{
     display:none;
 }
 
@@ -156,7 +160,11 @@
     width: 28px;
     position:absolute;
     right:3px;
-    bottom:10px;
+    bottom:2px;
+}
+
+.remove{
+    color:red;
 }
 
 .materials .row, .components .row

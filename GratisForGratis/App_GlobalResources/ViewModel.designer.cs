@@ -655,7 +655,16 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Invia messaggio.
+        ///   Cerca una stringa localizzata simile a Ultime vendite.
+        /// </summary>
+        public static string ProfileLastSell {
+            get {
+                return ResourceManager.GetString("ProfileLastSell", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Contatta.
         /// </summary>
         public static string ProfileSendMessage {
             get {

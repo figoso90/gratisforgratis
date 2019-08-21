@@ -8,7 +8,7 @@
     @((Response.Cookies["ricerca"]["IDCategoria"] == "1") ? string.Format(Language.TitleSearchGeneric, Model.NumeroRecordTrovati) : string.Format(Language.TitleSearch, Response.Cookies["ricerca"]["Categoria"], Model.NumeroRecordTrovati))
     <i class="fa fa-search" aria-hidden="true"></i>
 </h4>
-@using (Html.BeginForm("", "Cerca", FormMethod.Get, new { @class = "form-horizontal", id = "FormRicerca", role = "form", style = ((Model.AttivaRicercaAvanzata) ? "display:block;" : "") }))
+@using (Html.BeginForm("", "Cerca", FormMethod.Get, new { @class = "form-horizontal", id = "FormRicerca", role = "form" }))
 {
     <div class="form-row">
         <div class="form-group col-md-12">
@@ -37,7 +37,6 @@
             </div>
             @Html.LabelFor(m => m.Cerca_PuntiMin)
             @Html.TextBoxFor(m => m.Cerca_PuntiMin, new { @class = "form-control number" })
-            -
             @Html.LabelFor(m => m.Cerca_PuntiMax)
             @Html.TextBoxFor(m => m.Cerca_PuntiMax, new { @class = "form-control number" })
         </div>

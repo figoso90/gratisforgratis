@@ -12,33 +12,33 @@
             <div id="presentazione" class="col-md-6 mr-5">
                 <h2>COME FUNZIONA</h2>
                 <p>
-                    Appena vedi un annuncio che t'interessa, apri l'annuncio e clicca sul pulsante "offerta".
-                    In seguito decidi cosa proporre, happy-coin, oggetti o servizi oppure entrambi. Se lo scambio ha bisogno di
-                    una spedizione puoi gestire anche quella.
-                    Se il venditore trova l'offerta interessante può accettare l'offerta o in caso contrario la rifiuterà, inviando
+                    Appena vedi un annuncio che t'interessa, apri l'<strong>annuncio</strong> e clicca sul pulsante <strong>"offerta"</strong>.
+                    In seguito decidi se proporre happy-coin, oggetti, servizi oppure entrambi.
+                    Potrai inoltre gestire i dati per la <strong>spedizione</strong>.
+                    Se il venditore trova l'offerta interessante può <strong>accettarla</strong> o in caso contrario <strong>rifiutarla</strong>, inviando
                     a te la notifica con l'esito della sua decisione.
-                    Il baratto proprio per come è impostato è asincrono, privato e può avvenire in maniera multilaterale.
-                    <ul class="lista">
-                        <li>Asincrono perchè deciso in momenti diversi dall'offerta fatta</li>
-                        <li>Privato perchè nessuno a parte le due controparti conosce la contrattazione</li>
-                        <li>Multilaterale perchè A può scambiare un oggetto con B e poi B può scambiarlo a sua volta con C</li>
-                    </ul>
+                    Il <strong>baratto</strong> proprio per come è impostato è asincrono, privato e può avvenire in maniera multilaterale.
+                       <ul class="lista">
+                           <li><strong>Asincrono</strong> perchè deciso in momenti diversi dall'offerta fatta</li>
+                           <li><strong>Privato</strong> perchè nessuno a parte le due controparti conosce la contrattazione</li>
+                           <li><strong>Multilaterale</strong> perchè A può scambiare un oggetto con B e poi B può scambiarlo a sua volta con C</li>
+                       </ul>
                 </p>
             </div>
             <aside id="linkRapidi" class="col-md-3">
                 <h2 class="title">Link rapidi</h2>
                 <ul class="lista">
                     <li>
-                        @Html.ActionLink(ViewModel.TeamLink, "Team", "Home")
+                        @Html.ActionLink(ViewModel.BarterAsyncLink, "BarattoAsincrono", "Home")
                     </li>
                     <li>
-                        @Html.ActionLink(ViewModel.FundingLink, "Finanziamenti", "Home")
+                        @Html.ActionLink(ViewModel.BarterMultilateralLink, "BarattoMultilaterale", "Home")
                     </li>
                     <li>
-                        @Html.ActionLink(ViewModel.FreeCircuitLink, "CircuitoGratis", "Home")
+                        @Html.ActionLink(ViewModel.BitCoin, "Bitcoin", "Home")
                     </li>
                     <li>
-                        @Html.ActionLink(ViewModel.PartnershipLink, "Partnership", "Home")
+                        @Html.ActionLink(ViewModel.GiftLink, "Regalo", "Home")
                     </li>
                     <li>
                         @Html.ActionLink(ViewModel.SellGratisLink, "VenditaGratis", "Home")

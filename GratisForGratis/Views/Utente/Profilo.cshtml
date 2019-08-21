@@ -9,138 +9,80 @@
     @Styles.Render("~/Content/profilo.css")
 }
 
-<section id="profilo">
+<section id="profilo" class="content">
     <h1 id="title">@ViewBag.Title</h1>
-    <section>
-        <div id="lnkChat" class="col-sm-10 btn btn-primary">
-            <i class="glyphicon glyphicon-envelope"></i>
+    <div class="row">
+        <div id="lnkChat" class="col-md-2 btn btn-primary">
+            <i class="far fa-comments"></i>
             @Html.ActionLink(ViewModel.ProfileSendMessage, "Utente", "Chat", new { token = Model.Token }, new { @class = "" })
         </div>
-    </section>
-    <section class="content">
-        <div class="row">
-            <div class="col-sm-3">
-                <div>
-                    @if (Model.Foto.Count > 0)
-                    {
-                        <img src="@("/Uploads/Images/" + Model.Token + "/" + Model.Foto[0].DATA_INSERIMENTO.Year + "/Normal/" + Model.Foto[0].NOME)" alt="@(Model.Foto[0].NOME)">
-                    }
-                    else
-                    {
-                        <img src="/Images/profile.png" alt="Immagine profilo">
-                    }
-                </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <div>
+                @if (Model.Foto.Count > 0)
+                {
+                    <img src="@("/Uploads/Images/" + Model.Token + "/" + Model.Foto[0].DATA_INSERIMENTO.Year + "/Normal/" + Model.Foto[0].NOME)" alt="@(Model.Foto[0].NOME)">
+                }
+                else
+                {
+                    <img src="/Images/profile.png" alt="Immagine profilo">
+                }
             </div>
-            <!--
-            <div class="col-sm-3">
-                <header>
-                    @Html.LabelFor(m => m.Email, new { @class = "control-label" })
-                </header>
-                <div>
-                    @Model.Email
-                </div>
-            </div>
-            -->
-            <div class="col-sm-3">
-                <header>
-                    @Html.LabelFor(m => m.Nome, new { @class = "control-label" })
-                </header>
-                <div>
-                    @Model.Nome
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <header>
-                    @Html.LabelFor(m => m.Cognome, new { @class = "control-label" })
-                </header>
-                <div>
-                    @Model.Cognome
-                </div>
-            </div>
-            @*<div class="col-sm-3">
+        </div>
+        <div class="col-sm-3">
             <header>
-                @Html.LabelFor(m => m.Telefono, new { @class = "control-label" })
+                @Html.LabelFor(m => m.Nome, new { @class = "control-label" })
             </header>
             <div>
-                @Model.Telefono
-            </div>
-        </div>*@
-        </div>
-        <!--
-        <div class="row">
-            <div class="col-sm-4">
-                <header>
-                    @Html.LabelFor(m => m.Citta, new { @class = "control-label" })
-                </header>
-                <div>
-                    @Model.Citta
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <header>
-                    @Html.LabelFor(m => m.Indirizzo, new { @class = "control-label" })
-                </header>
-                <div>
-                    @Model.Indirizzo
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <header>
-                    @Html.LabelFor(m => m.Civico, new { @class = "control-label" })
-                </header>
-                <div>
-                    @Model.Civico
-                </div>
+                @Model.Nome
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-4">
-                <header>
-                    @Html.LabelFor(m => m.CittaSpedizione, new { @class = "control-label" })
-                </header>
-                <div>
-                    @Model.CittaSpedizione
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <header>
-                    @Html.LabelFor(m => m.IndirizzoSpedizione, new { @class = "control-label" })
-                </header>
-                <div>
-                    @Model.IndirizzoSpedizione
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <header>
-                    @Html.LabelFor(m => m.CivicoSpedizione, new { @class = "control-label" })
-                </header>
-                <div>
-                    @Model.CivicoSpedizione
-                </div>
+        <div class="col-sm-3">
+            <header>
+                @Html.LabelFor(m => m.Cognome, new { @class = "control-label" })
+            </header>
+            <div>
+                @Model.Cognome
             </div>
         </div>
-        -->
-        @if (Model.listaAcquisti.Count > 0)
-        {
-            <div id="topAcquisti" class="row hidden-xs">
+    </div>
+    @if (Model.listaVendite.Count > 0)
+    {
+        <div id="topVendite" class="row hidden-xs">
+            <div class="col-sm-12">
+                <h5 class="title">@ViewModel.ProfileLastSell</h5>
+            </div>
+            @foreach (GratisForGratis.Models.AnnuncioViewModel annuncio in Model.listaVendite.Take(4))
+            {
+                @Html.Partial("PartialPages/_AnnuncioSmall", annuncio)
+            }
+        </div>
+    }
+    @if (Model.listaAcquisti.Count > 0)
+    {
+        <div id="topAcquisti" class="row hidden-xs">
+            <div class="col-sm-12">
                 <h5 class="title">@ViewModel.ProfileTopPurchases</h5>
-                @foreach (GratisForGratis.Models.AnnuncioViewModel annuncio in Model.listaAcquisti.Take(4))
-                {
-                    @Html.Partial("PartialPages/_AnnuncioSmall", annuncio)
-                }
             </div>
-        }
-        @if (Model.listaDesideri.Count > 0)
-        {
-            <div id="topDesideri" class="row hidden-xs">
+            @foreach (GratisForGratis.Models.AnnuncioViewModel annuncio in Model.listaAcquisti.Take(4))
+            {
+                @Html.Partial("PartialPages/_AnnuncioSmall", annuncio)
+            }
+        </div>
+    }
+    @if (Model.listaDesideri.Count > 0)
+    {
+        <div id="topDesideri" class="row hidden-xs">
+            <div class="col-sm-12">
                 <h5 class="title">@ViewModel.ProfileTopWishes</h5>
-                @foreach (GratisForGratis.Models.AnnuncioViewModel annuncio in Model.listaDesideri.Take(4))
-                {
-                    @Html.Partial("PartialPages/_AnnuncioSmall", annuncio)
-                }
             </div>
-        }
-    </section>
+            @foreach (GratisForGratis.Models.AnnuncioViewModel annuncio in Model.listaDesideri.Take(4))
+            {
+                @Html.Partial("PartialPages/_AnnuncioSmall", annuncio)
+            }
+        </div>
+    }
 </section>
 
 @section Scripts {

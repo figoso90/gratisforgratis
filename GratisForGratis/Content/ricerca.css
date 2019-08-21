@@ -45,6 +45,7 @@
 }
 
 #FormRicerca{
+    display:none;
     margin: 0px auto 20px;
     text-align: center;
     vertical-align: top;

@@ -38,40 +38,18 @@ namespace GratisForGratis.Controllers
                 db.Database.Connection.Open();
                 PERSONA persona = db.PERSONA.FirstOrDefault(u => u.TOKEN.ToString() == token);
                 viewModel.Token = token;
-                viewModel.Email = persona.PERSONA_EMAIL.SingleOrDefault(item => item.TIPO == (int)TipoEmail.Registrazione).EMAIL;
                 viewModel.Nome = persona.NOME;
                 viewModel.Cognome = persona.COGNOME;
-                PERSONA_TELEFONO modelTelefono = persona.PERSONA_TELEFONO.SingleOrDefault(item => 
-                    item.TIPO == (int)TipoTelefono.Privato);
-                if (modelTelefono != null)
-                    viewModel.Telefono = modelTelefono.TELEFONO;
-                PERSONA_INDIRIZZO modelIndirizzo = persona.PERSONA_INDIRIZZO.SingleOrDefault(item =>
-                    item.TIPO == (int)TipoIndirizzo.Residenza);
-
-                if (modelIndirizzo != null && modelIndirizzo.INDIRIZZO != null)
-                {
-                    viewModel.Citta = modelIndirizzo.INDIRIZZO.COMUNE.NOME;
-                    viewModel.Indirizzo = modelIndirizzo.INDIRIZZO.INDIRIZZO1;
-                    viewModel.Civico = modelIndirizzo.INDIRIZZO.CIVICO;
-                }
-                // caricamento indirizzo di spedizione
-                PERSONA_INDIRIZZO modelIndirizzoSpedizione = persona.PERSONA_INDIRIZZO.SingleOrDefault(item =>
-                    item.TIPO == (int)TipoIndirizzo.Spedizione);
-
-                if (modelIndirizzoSpedizione != null && modelIndirizzoSpedizione.INDIRIZZO != null)
-                {
-                    viewModel.CittaSpedizione = modelIndirizzoSpedizione.INDIRIZZO.COMUNE.NOME;
-                    viewModel.IndirizzoSpedizione = modelIndirizzoSpedizione.INDIRIZZO.INDIRIZZO1;
-                    viewModel.CivicoSpedizione = modelIndirizzoSpedizione.INDIRIZZO.CIVICO;
-                }
 
                 viewModel.Foto = persona.PERSONA_FOTO.Select(m => new FotoModel(m.ALLEGATO)).ToList();
 
                 viewModel.listaAcquisti = new List<AnnuncioViewModel>();
+                viewModel.listaVendite = new List<AnnuncioViewModel>();
                 viewModel.listaDesideri = new List<AnnuncioViewModel>();
                 // far vedere top n acquisti con link
-                var query = db.ANNUNCIO.Where(item => item.ID_COMPRATORE != persona.ID && item.TRANSAZIONE_ANNUNCIO.Count(m => m.STATO == (int)StatoPagamento.ATTIVO || m.STATO == (int)StatoPagamento.ACCETTATO) > 0
-                        && (item.STATO == (int)StatoVendita.VENDUTO || item.STATO == (int)StatoVendita.ELIMINATO || item.STATO == (int)StatoVendita.BARATTATO)
+                var query = db.ANNUNCIO.Where(item => item.ID_COMPRATORE == persona.ID 
+                        && item.TRANSAZIONE_ANNUNCIO.Count(m => m.STATO == (int)StatoPagamento.ATTIVO || m.STATO == (int)StatoPagamento.ACCETTATO) > 0
+                        && (item.STATO == (int)StatoVendita.VENDUTO || item.STATO == (int)StatoVendita.BARATTATO)
                         && (item.ID_OGGETTO != null || item.ID_SERVIZIO != null));
                 List<ANNUNCIO> lista = query
                     .OrderByDescending(item => item.DATA_INSERIMENTO)
@@ -80,6 +58,18 @@ namespace GratisForGratis.Controllers
                 {
                     AnnuncioModel annuncioModel = new AnnuncioModel();
                     viewModel.listaAcquisti.Add(annuncioModel.GetViewModel(db, m));
+                }
+                // far vedere vendite recenti con link
+                var queryVendite = db.ANNUNCIO.Where(item => item.ID_PERSONA == persona.ID
+                        && (item.STATO != (int)StatoVendita.ELIMINATO && item.STATO != (int)StatoVendita.BARATTATO && item.STATO != (int)StatoVendita.VENDUTO)
+                        && (item.ID_OGGETTO != null || item.ID_SERVIZIO != null));
+                List<ANNUNCIO> listaVendite = queryVendite
+                    .OrderByDescending(item => item.DATA_INSERIMENTO)
+                    .Take(4).ToList();
+                foreach (ANNUNCIO m in listaVendite)
+                {
+                    AnnuncioModel annuncioModel = new AnnuncioModel();
+                    viewModel.listaVendite.Add(annuncioModel.GetViewModel(db, m));
                 }
                 // far vedere top n desideri con link
                 List<ANNUNCIO_DESIDERATO> listaDesideri = db.ANNUNCIO_DESIDERATO

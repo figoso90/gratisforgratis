@@ -1,19 +1,17 @@
 ﻿@model GratisForGratis.Models.PubblicaMusicaViewModel
 
-@Html.Partial("Oggetto", (Model!=null)?Model:new GratisForGratis.Models.PubblicaOggettoViewModel())
-@Html.Hidden("ActionCategoria", "/Pubblica/Musica")
-<div class="form-row">
-    <div class="form-group col-md-3">
-        @Html.LabelFor(m => m.Formato, new { @class = "col-md-2 control-label" })
-        @Html.TextBoxFor(m => m.Formato, new { @class = "form-control", data_autocomplete_url = "/Home/FindFormato", data_autocomplete_id = "FormatoID" })
-        @Html.Hidden("FormatoID")
-        @Html.ValidationMessageFor(m => m.Formato, "", new { @class = "text-danger" })
-    </div>
-
-    <div class="form-group col-md-3">
-        @Html.LabelFor(m => m.Artista, new { @class = "col-md-2 control-label" })
-        @Html.TextBoxFor(m => m.Artista, new { @class = "form-control", data_autocomplete_url = "/Home/FindArtista", data_autocomplete_id = "ArtistaID" })
-        @Html.Hidden("ArtistaID")
-        @Html.ValidationMessageFor(m => m.Artista, "", new { @class = "text-danger" })
-    </div>
+@Html.Partial("Oggetto", (Model != null) ? Model : new GratisForGratis.Models.PubblicaOggettoViewModel())
+<div class="form-group col-md-3">
+    @Html.LabelFor(m => m.Formato, new { @class = "col-md-2 control-label" })
+    @Html.TextBoxFor(m => m.Formato, new { @class = "form-control", data_autocomplete_url = "/Home/FindFormato", data_autocomplete_id = "FormatoID" })
+    @Html.Hidden("FormatoID")
+    @Html.ValidationMessageFor(m => m.Formato, "", new { @class = "text-danger" })
 </div>
+
+<div class="form-group col-md-3">
+    @Html.LabelFor(m => m.Artista, new { @class = "col-md-2 control-label" })
+    @Html.TextBoxFor(m => m.Artista, new { @class = "form-control", data_autocomplete_url = "/Home/FindArtista", data_autocomplete_id = "ArtistaID" })
+    @Html.Hidden("ArtistaID")
+    @Html.ValidationMessageFor(m => m.Artista, "", new { @class = "text-danger" })
+</div>
+@Html.Hidden("ActionCategoria", "/Pubblica/Musica")

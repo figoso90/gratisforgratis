@@ -26,24 +26,31 @@ namespace GratisForGratis.Controllers
         public ActionResult Index(RicercaViewModel cerca)
         {
             // setta i cookie principali
-            HttpCookie cookie = HttpContext.Request.Cookies.Get("ricerca");
+            //HttpCookie cookie = HttpContext.Request.Cookies.Get("ricerca");
             List<FINDSOTTOCATEGORIE_Result> categorie = HttpContext.Application["categorie"] as List<FINDSOTTOCATEGORIE_Result>;
             var categoria = categorie.Where(c => c.ID == cerca.Cerca_IDCategoria || (cerca.Cerca_IDCategoria <= 0 && c.DESCRIZIONE == cerca.Cerca_Categoria))
                 .OrderBy(c => c.LIVELLO).OrderBy(c => c.ID_PADRE)
                 .FirstOrDefault();
+            if (categoria == null)
+                RedirectToAction("Index", "Home");
             try
             {
                 dynamic lista;
                 string nomeView = string.Empty;
+                FINDSOTTOCATEGORIE_Result categoriaPadre = categorie.Where(c => c.ID == categoria.ID_PADRE && c.TIPO_VENDITA > -1).SingleOrDefault();
+                if (categoriaPadre != null)
+                {
+                    nomeView = categoria.DESCRIZIONE;
+                }
+                cerca.SetCookie(categoria, categoriaPadre);
+                HttpCookie cookie = HttpContext.Request.Cookies.Get("ricerca");
                 // recupero la categoria
-                cookie["Nome"] = cerca.Cerca_Nome;
-                if (categoria == null)
-                    RedirectToAction("Index", "Home");
-                cookie["Categoria"] = categoria.DESCRIZIONE;
-                cookie["IDCategoria"] = categoria.ID.ToString();
-                cookie["TipoAcquisto"] = categoria.TIPO_VENDITA.ToString();
-                cookie["Livello"] = categoria.LIVELLO.ToString();
-                HttpContext.Response.SetCookie(cookie);
+                //cookie["Nome"] = cerca.Cerca_Nome;
+                //cookie["Categoria"] = categoria.DESCRIZIONE;
+                //cookie["IDCategoria"] = categoria.ID.ToString();
+                //cookie["TipoAcquisto"] = categoria.TIPO_VENDITA.ToString();
+                //cookie["Livello"] = categoria.LIVELLO.ToString();
+                //HttpContext.Response.SetCookie(cookie);
 
                 // cerca tra tutte le vendite
                 if (categoria.ID == 1)
@@ -58,31 +65,34 @@ namespace GratisForGratis.Controllers
                         PageCount = pagineTotali,
                         TotalNumber = numeroRecord
                     };
-                    nomeView = "index";
+                    if (string.IsNullOrWhiteSpace(nomeView))
+                        nomeView = "index";
                 }else if (categoria != null && categoria.TIPO_VENDITA == (int)TipoAcquisto.Servizio)
                 {
                     lista = new ListaServizi();
                     lista = GetListaServizi(cerca.Pagina, cookie);
-                    nomeView = "servizi";
+                    if (string.IsNullOrWhiteSpace(nomeView))
+                        nomeView = "servizi";
                 }
                 else
                 {
                     lista = new ListaOggetti();
                     lista = GetListaOggetti(cerca.Pagina, cookie);
-                    nomeView = "oggetti";
+                    if (string.IsNullOrWhiteSpace(nomeView))
+                        nomeView = "oggetti";
                 }
 
                 // verifica se salvare la ricerca
                 if (cerca.Cerca_Submit == "save" && (!string.IsNullOrWhiteSpace(cerca.Cerca_Nome) || cerca.Cerca_IDCategoria > 1))
                     return RedirectToAction("SaveRicerca");
 
-                FINDSOTTOCATEGORIE_Result categoriaPadre = categorie.Where(c => c.ID == categoria.ID_PADRE && c.TIPO_VENDITA > -1).SingleOrDefault();
-                if (categoriaPadre != null)
-                {
-                    cookie["CategoriaPadre"] = categoriaPadre.NOME;
-                    cookie["IDCategoriaPadre"] = categoriaPadre.ID.ToString();
-                    nomeView = categoria.DESCRIZIONE;
-                }
+                //FINDSOTTOCATEGORIE_Result categoriaPadre = categorie.Where(c => c.ID == categoria.ID_PADRE && c.TIPO_VENDITA > -1).SingleOrDefault();
+                //if (categoriaPadre != null)
+                //{
+                //    cookie["CategoriaPadre"] = categoriaPadre.NOME;
+                //    cookie["IDCategoriaPadre"] = categoriaPadre.ID.ToString();
+                //    nomeView = categoria.DESCRIZIONE;
+                //}
 
                 ViewBag.Description = string.Format(App_GlobalResources.MetaTag.DescriptionSearch, cookie["Categoria"],
                     WebConfigurationManager.AppSettings["nomeSito"]);

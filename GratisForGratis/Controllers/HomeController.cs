@@ -74,6 +74,24 @@ namespace GratisForGratis.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult Contatti(ContattiViewModel value)
+        {
+            ViewBag.Title = App_GlobalResources.Language.Contacts + " - " + WebConfigurationManager.AppSettings["nomeSito"];
+            ViewBag.Description = App_GlobalResources.MetaTag.DescriptionContatti;
+            ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsContatti;
+            if (ModelState.IsValid)
+            {
+                string errore = string.Empty;
+                value.InviaEmail(ref errore);
+                if (!string.IsNullOrWhiteSpace(errore))
+                {
+                    TempData["MESSAGGIO"] = errore;
+                }
+            }
+            return View();
+        }
+
         [HttpGet]
         public ActionResult ComeFunziona()
         {

@@ -8,6 +8,6 @@
     @Html.HiddenFor(m => m.cerca_autoreID)
     @Html.ValidationMessageFor(m => m.cerca_autoreID, "", new { @class = "text-danger" })
 </div>
-<div class="row justify-content-center align-items-center">
+<div class="form-group col-md-12 justify-content-center align-items-center">
     <a class="btn btn-primary" href="javascript:void(0);" onclick="ricercaAvanzata('FiltroLibro');">@Language.Filter</a>
 </div>

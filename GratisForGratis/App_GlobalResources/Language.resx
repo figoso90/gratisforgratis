@@ -136,7 +136,7 @@
     <value>Tipo vendita errato</value>
   </data>
   <data name="ShippingCivic" xml:space="preserve">
-    <value>Civico di spedizione</value>
+    <value>Civico</value>
   </data>
   <data name="Negotiations" xml:space="preserve">
     <value>Trattative</value>
@@ -349,7 +349,7 @@
     <value>Compilare correttamente i campi dell'offerta</value>
   </data>
   <data name="DescriptionContacts" xml:space="preserve">
-    <value>Se hai bisogno di informazioni, hai delle proposte da fare o semplicemente hai bisogno di assistenza, contattaci ad uno dei riferimenti che trovi qui sotto:</value>
+    <value>Se hai bisogno di informazioni, hai delle proposte da fare o semplicemente hai bisogno di assistenza, contattaci con il form sottostante:</value>
   </data>
   <data name="MoreDetails" xml:space="preserve">
     <value>Maggiori dettagli</value>
@@ -514,7 +514,7 @@
     <value>Cambia password</value>
   </data>
   <data name="ShippingAddress" xml:space="preserve">
-    <value>Indirizzo di spedizione</value>
+    <value>Indirizzo</value>
   </data>
   <data name="TitleConfirmPurchase" xml:space="preserve">
     <value>Beni / Servizi - In Acquisto</value>
@@ -829,7 +829,7 @@
     <value>Stato utente</value>
   </data>
   <data name="ShippingCap" xml:space="preserve">
-    <value>Cap di spedizione</value>
+    <value>Cap</value>
   </data>
   <data name="AdvNoTax2" xml:space="preserve">
     <value>Oppure se vuoi continuare lo stesso ad avere un guadagno, aprire la partita iva e &lt;b&gt;aumentare i tuoi guadagni&lt;/b&gt; senza pagare ulteriori tasse, tutto legalmente.</value>
@@ -958,7 +958,7 @@
     <value>Città di residenza</value>
   </data>
   <data name="ShippingCity" xml:space="preserve">
-    <value>Città di spedizione</value>
+    <value>Città</value>
   </data>
   <data name="ErrorTermsAndConditions" xml:space="preserve">
     <value>Accettare prima le condizioni</value>
@@ -1709,5 +1709,8 @@
   </data>
   <data name="KidExchange" xml:space="preserve">
     <value>Tipo scambio</value>
+  </data>
+  <data name="DescriptionContacts2" xml:space="preserve">
+    <value>Altrimenti contattaci ad uno dei seguenti indirizzi:</value>
   </data>
 </root>

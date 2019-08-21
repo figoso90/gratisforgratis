@@ -3,7 +3,7 @@
 <p id="alertNotFound" style="margin-bottom:0px;">
     @Html.Raw(MessageForUser.SalvaRicerca)
     <a href="javascript:void(0);" onclick="saveVendita('@Model.ActionSalvataggio');" title="@Language.SearchSave">
-        <i class="fa fa-floppy-o" aria-hidden="true" style="font-size:20px;color:#fff;margin-left:17px;"></i>
+        <i class="far fa-save" aria-hidden="true" style="font-size:20px;color:#fff;margin-left:17px;"></i>
     </a>
 </p>
 }
@@ -11,7 +11,7 @@ else{
 <p style="margin-bottom:0px;">
     @Html.Raw(ViewModel.SearchNotLike)
     <a href="javascript:void(0);" onclick="saveVendita('@Model.ActionSalvataggio');" title="@Language.SearchSave">
-        <i class="fa fa-floppy-o" aria-hidden="true" style="font-size:20px;color:#fff;margin-left:17px;"></i>
+        <i class="far fa-save" aria-hidden="true" style="font-size:20px;color:#fff;margin-left:17px;"></i>
     </a>
 </p>
 }

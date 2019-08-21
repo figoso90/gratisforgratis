@@ -115,7 +115,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Siamo un gruppo di persone che sognano di realizzare un sistema economico basato sulla felicità delle persone. Abbiamo pensato ad una moneta in grado di generarsi in base a quanto una persona nel sistema renda felice un’altra persona e abbiamo pensato ad un sistema economico che fosse equilibrato e circolare, imitando il sistema naturale delle cose..
+        ///   Cerca una stringa localizzata simile a Siamo un gruppo di persone che sognano di realizzare  un sistema dove le persone possano vivere in completa felicità. Abbiamo pensato ad una moneta in grado di generarsi in base a quanto una persona nel sistema renda felice un’altra persona e abbiamo pensato ad un sistema economico che fosse equilibrato e circolare, imitando il sistema naturale delle cose..
         /// </summary>
         public static string DescriptionCosaFacciamo {
             get {
@@ -187,7 +187,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Acquista gratuitamente gli oggetti che desideri. Compra servizi personali, aziendali o domestici e aumenta il tuo tempo libero..
+        ///   Cerca una stringa localizzata simile a Acquista beni e servizi senza limiti, usa il tipo di pagamento che preferisci, happy-coin, euro o fai un&apos;offerta. Entra a far parte del primo e-commerce che applica l&apos;economia circolare..
         /// </summary>
         public static string DescriptionHome {
             get {
@@ -205,7 +205,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a La mission di GratisForGratis è migliorare il benessere materiale ma prima di tutto mentale delle persone, siamo alla costante ricerca della felicità.
+        ///   Cerca una stringa localizzata simile a Un sistema economico complementare che aiuti le persone ad ottenere tutti i beni o servizi che desiderano senza limiti!.
         /// </summary>
         public static string DescriptionMission {
             get {

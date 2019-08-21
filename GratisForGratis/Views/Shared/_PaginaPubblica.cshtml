@@ -27,8 +27,7 @@
     @Styles.Render("~/Content/css")
     @RenderSection("styles", required: false)
     @Scripts.Render("~/bundles/modernizr")
-
-    <script src="https://use.fontawesome.com/ce46ed0ed1.js"></script>
+    @Styles.Render("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css")
 
     <!-- respond.js per IE8 -->
     <!--[if lt IE 9]>
@@ -50,6 +49,21 @@
             }
 
         </div>
+        <div id="messaggioPerUtente">
+            @if (TempData["MESSAGGIO"] != null)
+            {
+                <div class="testo">
+                    @Html.Raw(TempData["MESSAGGIO"])
+                </div>
+            }
+
+            @if (ViewBag.Message != null)
+            {
+                <div class="testo">
+                    @Html.Raw(ViewBag.Message)
+                </div>
+            }
+        </div>
         <div id="menuMobileOverlay"></div>
         <div id="menuMobile">
             <img class="icona" src="~/Images/icone/menu.svg" alt="Menu" />
@@ -58,10 +72,10 @@
                     @Html.ActionLink(Language.Login, "Login", "Utente")
                 </li>
                 <!--
-                <li role="presentation" class="register">
-                    @Html.ActionLink(Language.Register, "Registrazione", "Utente")
-                </li>
-                    -->
+            <li role="presentation" class="register">
+                @Html.ActionLink(Language.Register, "Registrazione", "Utente")
+            </li>
+                -->
                 <li role="presentation" class="register loginFacebook">
                     <a class="col-md-9 col-md-push-2 btn btn-primary loginFB" href="@Url.Action("LoginFacebook", "Utente", new { ReturnUrl = (Model == null || Model.GetType().GetProperty("ReturnUrl") == null || string.IsNullOrWhiteSpace(Model.ReturnUrl) ? "" : Model.ReturnUrl) })">
                         <img src="https://facebookbrand.com/wp-content/uploads/2016/05/flogo_rgb_hex-brc-site-250.png?w=125&h=125" />
@@ -87,10 +101,10 @@
                 @Html.ActionLink(Language.Login, "Login", "Utente")
             </li>
             <!--
-            <li role="presentation" class="register">
-                @Html.ActionLink(Language.Register, "Registrazione", "Utente")
-            </li>
-                -->
+        <li role="presentation" class="register">
+            @Html.ActionLink(Language.Register, "Registrazione", "Utente")
+        </li>
+            -->
             <li role="presentation" class="register loginFacebook">
                 <a class="btn btn-primary" href="@Url.Action("LoginFacebook", "Utente")" style="color:#FFF;">
                     <img src="https://facebookbrand.com/wp-content/uploads/2016/05/flogo_rgb_hex-brc-site-250.png?w=16&h=16" style="margin-right: 10px;" />
@@ -126,8 +140,10 @@
                             @Html.Hidden("Cerca_Categoria", Response.Cookies["ricerca"]["Categoria"])
                             @Html.TextBox("Cerca_Nome", Response.Cookies["ricerca"]["Nome"], new { @class = "form-control", placeholder = Language.InputSearch })
                             <input name="Cerca_Submit" class="btn-search" type="submit" value="search" data-toggle="tooltip" data-placement="top" title="@Language.SearchSubmit" />
-                            <img class="infoTooltip" src="~/Images/icone/infoTooltip.svg" alt="info" title="@Tooltip.InfoHowSearch" />
-                            <!--<input name="Cerca_Submit" class="btnSearchSave" type="submit" value="save" data-toggle="tooltip" data-placement="top" title="@Language.SearchSave" />-->
+                            <a class="infoTooltip infoDomanda" data-toggle="tooltip" href="javascript:void(0);"
+                               title="@Tooltip.InfoHowSearch">
+                                <i class="far fa-question-circle"></i>
+                            </a>
                         </div>
                     }
                 </div>
@@ -148,16 +164,16 @@
                     }
                 </div>
                 <!--<div id="advertising" role="banner" class="banner">
-                    @if (TempData["advertising"] != null)
-                    {
-                        @Html.Raw(WebUtility.HtmlDecode(TempData["advertising"].ToString()))
-                    }
-                </div>
-                <div class="fb-like"
-                     data-share="true"
-                     data-width="260"
-                     data-show-faces="false">
-                </div>-->
+                @if (TempData["advertising"] != null)
+                {
+                    @Html.Raw(WebUtility.HtmlDecode(TempData["advertising"].ToString()))
+                }
+            </div>
+            <div class="fb-like"
+                 data-share="true"
+                 data-width="260"
+                 data-show-faces="false">
+            </div>-->
             </menu>
             <!--<img id="betatesting" src='@Url.Content("~/Images/beta_testing.png")' alt="@WebConfigurationManager.AppSettings["nomeSito"] Beta" />-->
         </header>
@@ -304,6 +320,7 @@
         var MONETA = '@(Language.Price + " (" + Language.Moneta + ")")';
     </script>
     @Scripts.Render("~/Scripts/SlickNav/jquery.slicknav.min.js")
+    @Scripts.Render("https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js")
     @Scripts.Render("~/Scripts/Site.js")
     @RenderSection("scripts", required: false)
 </body>

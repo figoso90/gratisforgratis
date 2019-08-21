@@ -817,11 +817,20 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Se hai bisogno di informazioni, hai delle proposte da fare o semplicemente hai bisogno di assistenza, contattaci ad uno dei riferimenti che trovi qui sotto:.
+        ///   Cerca una stringa localizzata simile a Se hai bisogno di informazioni, hai delle proposte da fare o semplicemente hai bisogno di assistenza, contattaci con il form sottostante:.
         /// </summary>
         public static string DescriptionContacts {
             get {
                 return ResourceManager.GetString("DescriptionContacts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Altrimenti contattaci ad uno dei seguenti indirizzi:.
+        /// </summary>
+        public static string DescriptionContacts2 {
+            get {
+                return ResourceManager.GetString("DescriptionContacts2", resourceCulture);
             }
         }
         
@@ -3625,7 +3634,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Indirizzo di spedizione.
+        ///   Cerca una stringa localizzata simile a Indirizzo.
         /// </summary>
         public static string ShippingAddress {
             get {
@@ -3634,7 +3643,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Cap di spedizione.
+        ///   Cerca una stringa localizzata simile a Cap.
         /// </summary>
         public static string ShippingCap {
             get {
@@ -3643,7 +3652,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Città di spedizione.
+        ///   Cerca una stringa localizzata simile a Città.
         /// </summary>
         public static string ShippingCity {
             get {
@@ -3652,7 +3661,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Civico di spedizione.
+        ///   Cerca una stringa localizzata simile a Civico.
         /// </summary>
         public static string ShippingCivic {
             get {

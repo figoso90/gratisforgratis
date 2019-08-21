@@ -61,6 +61,7 @@ namespace GratisForGratis.Models
             if (ricerca["IDCitta"] != null)
                 Cerca_IDCitta = Convert.ToInt32(ricerca["IDCitta"]);
             Cerca_NonPersonale = Convert.ToBoolean(ricerca["NonPersonale"]);
+            //Cerca_RicercaAvanzata = Convert.ToBoolean(ricerca["AttivaRicercaAvanzata"]);
         }
         #endregion
 
@@ -103,7 +104,7 @@ namespace GratisForGratis.Models
 
         public int Pagina { get; set; }
 
-        public bool AttivaRicercaAvanzata { get; private set; }
+        //public bool Cerca_RicercaAvanzata { get; set; }
 
         public string ActionSalvataggio { get; protected set; }
 
@@ -123,9 +124,24 @@ namespace GratisForGratis.Models
         #endregion
 
         #region METODI PUBBLICI
+        public void SetCookie(FINDSOTTOCATEGORIE_Result categoria, FINDSOTTOCATEGORIE_Result categoriaPadre = null)
+        {
+            HttpCookie cookie = HttpContext.Current.Request.Cookies.Get("ricerca");
+            cookie["Nome"] = Cerca_Nome;
+            cookie["Categoria"] = categoria.DESCRIZIONE;
+            cookie["IDCategoria"] = categoria.ID.ToString();
+            cookie["TipoAcquisto"] = categoria.TIPO_VENDITA.ToString();
+            cookie["Livello"] = categoria.LIVELLO.ToString();
+            if (categoriaPadre != null)
+            {
+                cookie["CategoriaPadre"] = categoriaPadre.NOME;
+                cookie["IDCategoriaPadre"] = categoriaPadre.ID.ToString();
+            }
+            HttpContext.Current.Response.SetCookie(cookie);
+        }
         // setta la ricerca in base ai cookie
         public virtual void SetRicercaByCookie(HttpCookie cookie) {
-            this.AttivaRicercaAvanzata = false;
+            //this.AttivaRicercaAvanzata = false;
             foreach (PropertyInfo propertyInfo in this.GetType().GetProperties())
             {
                 object valoreDefault = this.GetType().GetProperty(propertyInfo.Name).GetValue(this);
@@ -149,7 +165,7 @@ namespace GratisForGratis.Models
                         valoreCookie = Convert.ChangeType(valoreCookie, tipoProprieta);
                     }
                     this.GetType().GetProperty(propertyInfo.Name).SetValue(this, valoreCookie);
-                    this.AttivaRicercaAvanzata = true;
+                    //this.AttivaRicercaAvanzata = true;
                 }
             }
         }
