@@ -306,7 +306,8 @@ namespace GratisForGratis.Controllers
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
                 ModelState.AddModelError("Error", ex);
             }
                 
@@ -331,7 +332,8 @@ namespace GratisForGratis.Controllers
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
             return View();
         }
@@ -388,7 +390,8 @@ namespace GratisForGratis.Controllers
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
                 // log errore, invio mail
                 Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
                 return Json(ex.ToString());
@@ -429,7 +432,8 @@ namespace GratisForGratis.Controllers
                 }
                 catch (Exception ex)
                 {
-                    Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                    //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                    LoggatoreModel.Errore(ex);
                     // log errore, invio mail
                     Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
                     return Json(ex.ToString());

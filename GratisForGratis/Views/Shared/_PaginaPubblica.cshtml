@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->
 <!--[if gt IE 8]><!--><html class="no-js"><!--<![endif]-->
-<html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
@@ -23,9 +22,12 @@
     @Styles.Render("~/Scripts/Uploadify/uploadifive.css")
     @Styles.Render("~/Scripts/loader/jquery.loader.min.css")
     @Styles.Render("~/Scripts/SlickNav/slicknav.css")
+    @Styles.Render("https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
     @Styles.Render("~/Content/css")
     @RenderSection("styles", required: false)
     @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css")
+
     <!-- respond.js per IE8 -->
     <!--[if lt IE 9]>
     <script src="js/respond.min.js"></script>
@@ -46,6 +48,21 @@
             }
 
         </div>
+        <div id="messaggioPerUtente">
+            @if (TempData["MESSAGGIO"] != null)
+            {
+                <div class="testo">
+                    @Html.Raw(TempData["MESSAGGIO"])
+                </div>
+            }
+
+            @if (ViewBag.Message != null)
+            {
+                <div class="testo">
+                    @Html.Raw(ViewBag.Message)
+                </div>
+            }
+        </div>
         <div id="menuMobileOverlay"></div>
         <div id="menuMobile">
             <img class="icona" src="~/Images/icone/menu.svg" alt="Menu" />
@@ -53,9 +70,11 @@
                 <li role="presentation" class="login">
                     @Html.ActionLink(Language.Login, "Login", "Utente")
                 </li>
-                <li role="presentation" class="register">
-                    @Html.ActionLink(Language.Register, "Registrazione", "Utente")
-                </li>
+                <!--
+            <li role="presentation" class="register">
+                @Html.ActionLink(Language.Register, "Registrazione", "Utente")
+            </li>
+                -->
                 <li role="presentation" class="register loginFacebook">
                     <a class="col-md-9 col-md-push-2 btn btn-primary loginFB" href="@Url.Action("LoginFacebook", "Utente", new { ReturnUrl = (Model == null || Model.GetType().GetProperty("ReturnUrl") == null || string.IsNullOrWhiteSpace(Model.ReturnUrl) ? "" : Model.ReturnUrl) })">
                         <img src="https://facebookbrand.com/wp-content/uploads/2016/05/flogo_rgb_hex-brc-site-250.png?w=125&h=125" />
@@ -80,9 +99,11 @@
             <li role="presentation" class="login">
                 @Html.ActionLink(Language.Login, "Login", "Utente")
             </li>
-            <li role="presentation" class="register">
-                @Html.ActionLink(Language.Register, "Registrazione", "Utente")
-            </li>
+            <!--
+        <li role="presentation" class="register">
+            @Html.ActionLink(Language.Register, "Registrazione", "Utente")
+        </li>
+            -->
             <li role="presentation" class="register loginFacebook">
                 <a class="btn btn-primary" href="@Url.Action("LoginFacebook", "Utente")" style="color:#FFF;">
                     <img src="https://facebookbrand.com/wp-content/uploads/2016/05/flogo_rgb_hex-brc-site-250.png?w=16&h=16" style="margin-right: 10px;" />
@@ -111,15 +132,17 @@
                     </li>
                 </ul>
                 <div id="toolbar">
-                    @using (Html.BeginForm("", "Cerca", FormMethod.Get, new { id = "cerca" }))
+                    @using (Html.BeginForm("Index2", "Cerca", FormMethod.Get, new { id = "cerca" }))
                     {
                         <div id="menuCategoriaRicerca" style="display: inline-block;margin-top: 12px;position: relative;vertical-align: top;">
                             @Html.Hidden("Cerca_IDCategoria", Response.Cookies["ricerca"]["IDCategoria"])
                             @Html.Hidden("Cerca_Categoria", Response.Cookies["ricerca"]["Categoria"])
                             @Html.TextBox("Cerca_Nome", Response.Cookies["ricerca"]["Nome"], new { @class = "form-control", placeholder = Language.InputSearch })
                             <input name="Cerca_Submit" class="btn-search" type="submit" value="search" data-toggle="tooltip" data-placement="top" title="@Language.SearchSubmit" />
-                            <img class="infoTooltip" src="~/Images/icone/infoTooltip.svg" alt="info" title="@Tooltip.InfoHowSearch" />
-                            <!--<input name="Cerca_Submit" class="btnSearchSave" type="submit" value="save" data-toggle="tooltip" data-placement="top" title="@Language.SearchSave" />-->
+                            <a class="infoTooltip infoDomanda" data-toggle="tooltip" href="javascript:void(0);"
+                               title="@Tooltip.InfoHowSearch">
+                                <i class="far fa-question-circle"></i>
+                            </a>
                         </div>
                     }
                 </div>
@@ -128,42 +151,28 @@
                     {
                         foreach (GratisForGratis.Models.FINDSOTTOCATEGORIE_Result sottoCategoria in (HttpContext.Current.Application["categorie"] as List<GratisForGratis.Models.FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoria"])))
                         {
-                            if (sottoCategoria.LIVELLO == 0)
-                            {
-                                @Html.ActionLink(sottoCategoria.NOME, sottoCategoria.DESCRIZIONE, (sottoCategoria.TIPO_VENDITA == 0) ? "Oggetti" : "Servizi", new { categoria = sottoCategoria.ID }, new { @class = "link" })
-                            }
-                            else
-                            {
-                                @Html.ActionLink(sottoCategoria.NOME, Response.Cookies["ricerca"]["Categoria"] + "/" + sottoCategoria.DESCRIZIONE, (sottoCategoria.TIPO_VENDITA == 0) ? "Oggetti" : "Servizi", new { categoria = sottoCategoria.ID }, new { @class = "link" })
-                            }
+                            @Html.ActionLink(sottoCategoria.DESCRIZIONE, sottoCategoria.DESCRIZIONE.Replace(" ", "-") + "/" + sottoCategoria.ID, "categoria", null, new { @class = "link" })
                         }
                     }
                     else
                     {
                         foreach (GratisForGratis.Models.FINDSOTTOCATEGORIE_Result sottoCategoria in (HttpContext.Current.Application["categorie"] as List<GratisForGratis.Models.FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoriaPadre"])))
                         {
-                            if (sottoCategoria.LIVELLO == 0)
-                            {
-                                @Html.ActionLink(sottoCategoria.NOME, sottoCategoria.DESCRIZIONE, (sottoCategoria.TIPO_VENDITA == 0) ? "Oggetti" : "Servizi", new { categoria = sottoCategoria.ID }, new { @class = "link" })
-                            }
-                            else
-                            {
-                                @Html.ActionLink(sottoCategoria.NOME, Response.Cookies["ricerca"]["CategoriaPadre"] + "/" + sottoCategoria.DESCRIZIONE, (sottoCategoria.TIPO_VENDITA == 0) ? "Oggetti" : "Servizi", new { categoria = sottoCategoria.ID }, new { @class = "link" })
-                            }
+                            @Html.ActionLink(sottoCategoria.DESCRIZIONE, sottoCategoria.DESCRIZIONE.Replace(" ", "-") + "/" + sottoCategoria.ID, "categoria", null, new { @class = "link" })
                         }
                     }
                 </div>
                 <!--<div id="advertising" role="banner" class="banner">
-                    @if (TempData["advertising"] != null)
-                    {
-                        @Html.Raw(WebUtility.HtmlDecode(TempData["advertising"].ToString()))
-                    }
-                </div>
-                <div class="fb-like"
-                     data-share="true"
-                     data-width="260"
-                     data-show-faces="false">
-                </div>-->
+                @if (TempData["advertising"] != null)
+                {
+                    @Html.Raw(WebUtility.HtmlDecode(TempData["advertising"].ToString()))
+                }
+            </div>
+            <div class="fb-like"
+                 data-share="true"
+                 data-width="260"
+                 data-show-faces="false">
+            </div>-->
             </menu>
             <!--<img id="betatesting" src='@Url.Content("~/Images/beta_testing.png")' alt="@WebConfigurationManager.AppSettings["nomeSito"] Beta" />-->
         </header>
@@ -281,12 +290,11 @@
 
         </script>
     }
-    <!-- END POPUP -->
-    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("https://code.jquery.com/jquery-3.4.1.min.js")
+    @Scripts.Render("https://code.jquery.com/ui/1.12.1/jquery-ui.min.js")
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/Scripts/Jquery/jquery-ui-1.11.4.min.js")
-    @Scripts.Render("~/bundles/bootstrap")
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    @Scripts.Render("https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js")
+    @Scripts.Render("https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js")
     @Scripts.Render("~/Scripts/Uploadify/jquery.uploadifive.min.js")
     @Scripts.Render("~/Scripts/loader/jquery.loader.min.js")
     <script type="text/javascript">
@@ -305,6 +313,7 @@
         var MONETA = '@(Language.Price + " (" + Language.Moneta + ")")';
     </script>
     @Scripts.Render("~/Scripts/SlickNav/jquery.slicknav.min.js")
+    @Scripts.Render("https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js")
     @Scripts.Render("~/Scripts/Site.js")
     @RenderSection("scripts", required: false)
 </body>

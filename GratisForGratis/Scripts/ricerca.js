@@ -48,8 +48,25 @@ function changeSliderFromTextBox(slider, valoreMinimo, valoreMassimo) {
     });
 }
 
-function enableFiltroAvanzate(){
+function enableFiltroAvanzate() {
+    var avanzata = Cookies.get('ricercaAvanzata');
+    //alert("Aprire? " + avanzata);
+    if (avanzata != 1) {
+        Cookies.set('ricercaAvanzata', 0, { expires: 7 });
+    } else {
+        $('#FormRicerca').slideToggle('slow');
+    }
     $('#ricerca .advancedSearch').click(function () {
         $('#FormRicerca').slideToggle('slow');
+        //alert("Ripristino");
+        var avanzata = Cookies.get('ricercaAvanzata');
+        Cookies.remove('ricercaAvanzata');
+        if (avanzata == 1) {
+            Cookies.set('ricercaAvanzata', 0, { expires: 7 });
+        } else {
+            // setta attivazione ricerca
+            //alert("Attiva");
+            Cookies.set('ricercaAvanzata', 1, { expires: 7 });
+        }
     });
 }

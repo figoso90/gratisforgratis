@@ -607,10 +607,11 @@ namespace GratisForGratis.Models
         public string CivicoSpedizione { get; set; }
 
         public List<FotoModel> Foto { get; set; }
-
-        // AGGIUNGERE LISTA ACQUISTI UTENTE
+        
         public List<AnnuncioViewModel> listaAcquisti { get; set; }
-        // AGGIUNGERE LISTA DESIDERI UTENTE
+
+        public List<AnnuncioViewModel> listaVendite { get; set; }
+        
         public List<AnnuncioViewModel> listaDesideri { get; set; }
     }
 

@@ -1,6 +1,6 @@
 ﻿@model GratisForGratis.Models.PersonaModel
 
-<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+<div id="carousel-example-generic" class="carousel slide justify-content-center align-items-center" data-ride="carousel">
     @if (Model.Foto.Count > 0)
     {
         <!-- Indicators -->
@@ -15,9 +15,11 @@
         <div id="listaUpload" class="carousel-inner" role="listbox">
             @for (int i = 0; i < Model.Foto.Count; i++)
             {
-                <div class="item uploadifive-queue-item2 @(i == 0 ? "active" : "")">
+                <div class="carousel-item uploadifive-queue-item2 @(i == 0 ? "active" : "")">
                     <img src="@("/Uploads/Images/" + Model.Persona.TOKEN + "/" + Model.Foto[i].DATA_INSERIMENTO.Year + "/Normal/" + Model.Foto[i].NOME)" alt="@(Model.Foto[i].NOME)">
-                    <a class="glyphicon glyphicon-remove-sign" onclick="deleteImmagineProfilo(encodeURI('@(Model.Foto[i].ID)'), this);"></a>
+                    <a class="eliminaImg" onclick="deleteImmagineProfilo(encodeURI('@(Model.Foto[i].ID)'), this);">
+                        <i class="far fa-trash-alt icona"></i>
+                    </a>
                 </div>
             }
         </div>
@@ -40,5 +42,5 @@
         <div id="listaUpload" class="carousel-inner" role="listbox">
         </div>
     }
-    @Html.TextBox("uploadifiveImmagineProfilo", "", new { @class = "form-control number", type = "file", data_url = "/Utente/UploadFotoProfilo", multiple = "" })
 </div>
+@Html.TextBox("uploadifiveImmagineProfilo", "", new { @class = "form-control number", type = "file", data_url = "/Utente/UploadFotoProfilo", multiple = "" })

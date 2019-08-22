@@ -394,7 +394,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Pubblica annunci completi.
+        ///   Cerca una stringa localizzata simile a Annunci completi.
         /// </summary>
         public static string HomeUserFullAd {
             get {
@@ -412,7 +412,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Collega il tuo profilo a Facebook.
+        ///   Cerca una stringa localizzata simile a Condividi su Facebook.
         /// </summary>
         public static string HomeUserJoinSocial {
             get {
@@ -421,7 +421,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Potrai guadagnare dagli annunci postati anche sul social network.
+        ///   Cerca una stringa localizzata simile a Guadagnare facilmente postando sul social network.
         /// </summary>
         public static string HomeUserJoinSocialInfo {
             get {
@@ -655,7 +655,16 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Invia messaggio.
+        ///   Cerca una stringa localizzata simile a Ultime vendite.
+        /// </summary>
+        public static string ProfileLastSell {
+            get {
+                return ResourceManager.GetString("ProfileLastSell", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Contatta.
         /// </summary>
         public static string ProfileSendMessage {
             get {
@@ -700,11 +709,20 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Se il tuo account è collegato a quello di Facebook &lt;b&gt;guadagnerai HappyCoin&lt;/b&gt; omaggio!.
+        ///   Cerca una stringa localizzata simile a Ricordati che se alla fine della pubblicazione, condividerai l&apos;annuncio su FACEBOOK &lt;b&gt;guadagnerai HappyCoin&lt;/b&gt;!.
         /// </summary>
         public static string PublishInfoFB {
             get {
                 return ResourceManager.GetString("PublishInfoFB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Pubblica sui social (Guadagnerai crediti omaggio).
+        /// </summary>
+        public static string PublishSocial {
+            get {
+                return ResourceManager.GetString("PublishSocial", resourceCulture);
             }
         }
         

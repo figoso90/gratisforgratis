@@ -4,30 +4,56 @@
         <h1 id="title">Spedizioni</h1>
     </div>
 </section>
-<section id="spedizione">
-    GratisForGratis offre ai propri utenti una forma di spedizione sicura e veloce con il corriere espresso piu’ famoso d’Italia – SDA.
-    Comodità, velocità e sicurezza – sono i punti forti della spedizione GratisForGratis&SDA
+<section id="spedizione" class="content">
+    <div class="container">
+        <div class="row">
+            <div id="presentazione" class="col-md-6 mr-5">
+                GratisForGratis offre ai propri utenti una forma di spedizione sicura e veloce con il corriere espresso piu’ famoso d’Italia – SDA.
+                Comodità, velocità e sicurezza – sono i punti forti della spedizione GratisForGratis&SDA
 
-    Ritiro a domicilio:
-    Niente piu’ code alla posta e niente piu’ difficoltà per ricevere il rimborso per le spese dall’acquirente. Con la spedizione GratisForGratis&SDA potrai monitorare la consegna tramite il tracking online su www.sda.it
+                Ritiro a domicilio:
+                Niente piu’ code alla posta e niente piu’ difficoltà per ricevere il rimborso per le spese dall’acquirente. Con la spedizione GratisForGratis&SDA potrai monitorare la consegna tramite il tracking online su www.sda.it
 
-    Convenienza:
-    Grazie all’accordo GratisForGratis&SDA i prezzi per le spedizioni sono piu’ convenienti rispetto ai prezzi di mercato.
+                Convenienza:
+                Grazie all’accordo GratisForGratis&SDA i prezzi per le spedizioni sono piu’ convenienti rispetto ai prezzi di mercato.
 
-    Velocità
-    La SDA fa parte del Gruppo Poste italiane e offre servizi express su tutto il territorio nazionale . La consegna viene effettuata in 1/2 giorni lavorativi successivi al ritiro .
+                Velocità
+                La SDA fa parte del Gruppo Poste italiane e offre servizi express su tutto il territorio nazionale . La consegna viene effettuata in 1/2 giorni lavorativi successivi al ritiro .
 
-    Come funziona
-    -Dopo aver effettuato uno scambio l’acquirente acquista la spedizione.
-    -A pagamento effettuato l’acquirente riceverà via email il numero della lettera di vettura da comunicare al venditore.
-    - Il venditore prenota il ritiro su www.sda.it oppure chiamando il numero 199.113366 , applicando sul pacco la copia della lettera di vettura ricevuta via email dall’acquirente.
-    - In 24 – 48 ore l’oggetto verrà consegnato al destinatario.
+                Come funziona
+                -Dopo aver effettuato uno scambio l’acquirente acquista la spedizione.
+                -A pagamento effettuato l’acquirente riceverà via email il numero della lettera di vettura da comunicare al venditore.
+                - Il venditore prenota il ritiro su www.sda.it oppure chiamando il numero 199.113366 , applicando sul pacco la copia della lettera di vettura ricevuta via email dall’acquirente.
+                - In 24 – 48 ore l’oggetto verrà consegnato al destinatario.
 
-    Costi(*)
-    Scegli il modulo in base al peso dell’oggetto:
+                Costi(*)
+                Scegli il modulo in base al peso dell’oggetto:
 
-    Importo con IVA (22%)	Descrizione
-    8,50 €	10,37 €	da zero a 3 kg
-    10,40 €	12,69 €	da 3 a 10 kg
-    11,50 €	14,03 €	da 10 a 15 kg
+                Importo con IVA (22%)	Descrizione
+                8,50 €	10,37 €	da zero a 3 kg
+                10,40 €	12,69 €	da 3 a 10 kg
+                11,50 €	14,03 €	da 10 a 15 kg
+            </div>
+            <aside id="linkRapidi" class="col-md-3">
+                <h2 class="title">Link rapidi</h2>
+                <ul class="lista">
+                    <li>
+                        @Html.ActionLink(ViewModel.TeamLink, "Team", "Home")
+                    </li>
+                    <li>
+                        @Html.ActionLink(ViewModel.FundingLink, "Finanziamenti", "Home")
+                    </li>
+                    <li>
+                        @Html.ActionLink(ViewModel.FreeCircuitLink, "CircuitoGratis", "Home")
+                    </li>
+                    <li>
+                        @Html.ActionLink(ViewModel.PartnershipLink, "Partnership", "Home")
+                    </li>
+                    <li>
+                        @Html.ActionLink(ViewModel.SellGratisLink, "VenditaGratis", "Home")
+                    </li>
+                </ul>
+            </aside>
+        </div>
+    </div>
 </section>

@@ -56,28 +56,10 @@ function attivaMenuCategoriaPubblica() {
             $('.slicknav_item').slicknav('close');
         }
     });
-    /*
-    $('#dropdownMenuPubblicazione').click(function () {
-        $('#categoriePubblicazione').toggle();
-    });*/
 }
 
 function loadInfoAggiuntive() {
-    /*
-    $('#infoAggiuntive .content').load('/Pubblica/LoadInfoAggiuntive', { categoria: decodeURI($('#CategoriaId').val()) },
-        function (response, status, xhr)
-        {
-            if (status == "error")
-            {
-                alert("Ci scusiamo per il disagio, ma si è verificato un errore imprevisto. Vi preghiamo di segnalarlo ai pantofolai dell'assistenza. Grazie");
-            } else {
-                showInfoAggiuntive();
-            }
-            $('html').loader('hide');
-        }
-    );*/
-    //$('#formPubblica .lastInfoBase').nextAll().not(".footer").remove();
-    $('#boxInfoAggiuntive').show();
+    $('#boxInfoAggiuntive').css('display','flex');
     $('#advanced').html('');
     $.ajax({
         type: "POST",
@@ -107,6 +89,14 @@ function showInfoAggiuntive() {
     initAutocomplete();
 }
 
+function showDatiExtra() {
+    if ($('#advanced:visible').length > 0) {
+        $('#advanced').css('display', 'none');
+    } else {
+        $('#advanced').css('display', 'flex');
+    }
+}
+
 function refreshValidatoreForm() {
     $('form').removeData('validator');
     $('form').removeData('unobtrusiveValidation');
@@ -120,7 +110,7 @@ function addMateriale(tag) {
     $nuovoTag.attr('name', $nuovoTag.attr('name').replace(indiceTagDaClonare, indiceTagDaClonare + 1));
     $nuovoTag.val('');
 
-    $remove = '<a class="remove" href="javascript:void(0);" onclick="removeMateriale(this);"><img src="/Images/icone/remove.svg" /></a>';
+    $remove = '<a class="remove" href="javascript:void(0);" onclick="removeMateriale(this);"><i class="fas fa-minus-circle icona"></i></a>';
     $row = $('<div class="row"></div>');
     $row.append($remove);
     $row.append($nuovoTag);
@@ -139,7 +129,7 @@ function addComponente(tag) {
     $nuovoTag.attr('name', $nuovoTag.attr('name').replace(indiceTagDaClonare, indiceTagDaClonare + 1));
     $nuovoTag.val('');
 
-    $remove = '<a class="remove" href="javascript:void(0);" onclick="removeComponente(this);"><img src="/Images/icone/remove.svg" /></a>';
+    $remove = '<a class="remove" href="javascript:void(0);" onclick="removeComponente(this);"><i class="fas fa-minus-circle icona"></i></a>';
     $row = $('<div class="row"></div>');
     $row.append($remove);
     $row.append($nuovoTag);

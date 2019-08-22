@@ -8,6 +8,8 @@ using System.Web;
 using System.Drawing;
 using System.IO;
 using System.Web.Configuration;
+using Recaptcha.Web;
+using Recaptcha.Web.Mvc;
 
 namespace GratisForGratis.Controllers
 {
@@ -58,7 +60,8 @@ namespace GratisForGratis.Controllers
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
             return View();
         }
@@ -73,6 +76,28 @@ namespace GratisForGratis.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult Contatti(ContattiViewModel value)
+        {
+            ViewBag.Title = App_GlobalResources.Language.Contacts + " - " + WebConfigurationManager.AppSettings["nomeSito"];
+            ViewBag.Description = App_GlobalResources.MetaTag.DescriptionContatti;
+            ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsContatti;
+            if (ModelState.IsValid && CheckCaptcha())
+            {
+                string errore = string.Empty;
+                value.InviaEmail(ref errore);
+                if (!string.IsNullOrWhiteSpace(errore))
+                {
+                    TempData["MESSAGGIO"] = errore;
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            return View(value);
+        }
+
         [HttpGet]
         public ActionResult ComeFunziona()
         {
@@ -84,7 +109,7 @@ namespace GratisForGratis.Controllers
         }
 
         [HttpGet]
-        public ActionResult PercheGratisForGratis()
+        public ActionResult PercheRegistrarsi()
         {
             ViewBag.Title = App_GlobalResources.MetaTag.TitleWhySite;
             ViewBag.Description = App_GlobalResources.MetaTag.DescriptionWhySite;
@@ -339,13 +364,15 @@ namespace GratisForGratis.Controllers
             }
             catch (InvalidDataException ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
                 Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
                 return Json(ex.Message);
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
             Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
             return Json(App_GlobalResources.Language.ErrorReporting);
@@ -368,13 +395,15 @@ namespace GratisForGratis.Controllers
             }
             catch (InvalidDataException ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
                 Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
                 return Json(ex.Message);
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
             Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
             return Json(App_GlobalResources.Language.ErrorReporting);
@@ -837,6 +866,23 @@ namespace GratisForGratis.Controllers
                 return nomeFileUnivoco;
             }
             return null;
+        }
+
+        public bool CheckCaptcha()
+        {
+            RecaptchaVerificationHelper recaptchaHelper = this.GetRecaptchaVerificationHelper();
+            if (String.IsNullOrEmpty(recaptchaHelper.Response))
+            {
+                ModelState.AddModelError("", "Captcha answer cannot be empty.");
+                return false;
+            }
+            RecaptchaVerificationResult recaptchaResult = recaptchaHelper.VerifyRecaptchaResponse();
+            if (recaptchaResult != RecaptchaVerificationResult.Success)
+            {
+                ModelState.AddModelError("", "Incorrect captcha answer.");
+                return false;
+            }
+            return true;
         }
 
         #endregion

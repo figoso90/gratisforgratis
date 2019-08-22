@@ -81,7 +81,8 @@ namespace GratisForGratis.Models
         BonusSegnalazioneErrore = 11,
         BonusSuggerimentoAttivazioneAnnuncio = 12,
         BonusInvitaAmicoFB = 13,
-        BonusAttivaHappyPage = 14
+        BonusAttivaHappyPage = 14,
+        BonusCondividiFB = 15
     }
 
     public enum TipoEmail
@@ -144,10 +145,8 @@ namespace GratisForGratis.Models
     {
         [Display(Name = "Moneta", ResourceType = typeof(App_GlobalResources.Enum))]
         HAPPY = 0,
-        [Display(Name = "Euro", ResourceType = typeof(App_GlobalResources.Enum))]
-        EUR = 1,
-        [Display(Name = "Dollar", ResourceType = typeof(App_GlobalResources.Enum))]
-        USD = 2,
+        [Display(Name = "RealMoney", ResourceType = typeof(App_GlobalResources.Enum))]
+        REALE = 1,
     }
 
     public enum TipoValuta

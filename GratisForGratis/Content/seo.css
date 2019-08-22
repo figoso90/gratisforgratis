@@ -2,8 +2,15 @@
     color: #bd1723;
 }
 
-#presentazione {
+.img-thumbnail {
+    max-width: 100px;
+    width: 70%;
+    border-radius: 100px;
+    margin: 22px;
+}
 
+#presentazione {
+    text-align:left;
 }
 
     #presentazione strong {

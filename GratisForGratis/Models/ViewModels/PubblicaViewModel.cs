@@ -123,6 +123,9 @@ namespace GratisForGratis.Models
         public DurataAnnuncio DurataInserzione { get; set; }
 
         public Guid TokenUploadFoto { get; set; }
+
+        [Display(Name = "PublishSocial", ResourceType = typeof(ViewModel))]
+        public bool PubblicazioneSocial { get; set; }
         #endregion
 
         #region COSTRUTTORI

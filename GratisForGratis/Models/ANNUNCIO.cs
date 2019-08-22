@@ -29,9 +29,10 @@ namespace GratisForGratis.Models
             this.ANNUNCIO_TIPO_SCAMBIO = new HashSet<ANNUNCIO_TIPO_SCAMBIO>();
             this.ANNUNCIO_VISUALIZZAZIONE = new HashSet<ANNUNCIO_VISUALIZZAZIONE>();
             this.LOG_SBLOCCO_ANNUNCIO = new HashSet<LOG_SBLOCCO_ANNUNCIO>();
+            this.OFFERTA = new HashSet<OFFERTA>();
             this.OFFERTA_BARATTO = new HashSet<OFFERTA_BARATTO>();
             this.TRANSAZIONE_ANNUNCIO = new HashSet<TRANSAZIONE_ANNUNCIO>();
-            this.OFFERTA = new HashSet<OFFERTA>();
+            this.PERSONA_ANNUNCIO_PROPOSTO = new HashSet<PERSONA_ANNUNCIO_PROPOSTO>();
         }
     
         public int ID { get; set; }
@@ -58,10 +59,13 @@ namespace GratisForGratis.Models
         public string SESSIONE_COMPRATORE { get; set; }
         public Nullable<int> ID_COMPRATORE { get; set; }
         public Nullable<System.DateTime> DATA_VENDITA { get; set; }
+        public Nullable<int> ID_COMMISSIONE { get; set; }
+        public Nullable<int> CONDIVISIONE_FACEBOOK_G4G { get; set; }
+        public Nullable<int> CONDIVISIONE_FACEBOOK_UTENTE { get; set; }
+        public Nullable<System.DateTime> DATA_PUBBLICAZIONE_FACEBOOK { get; set; }
         public System.DateTime DATA_INSERIMENTO { get; set; }
         public Nullable<System.DateTime> DATA_MODIFICA { get; set; }
         public int STATO { get; set; }
-        public Nullable<int> ID_COMMISSIONE { get; set; }
     
         public virtual ANNUNCIO ANNUNCIO1 { get; set; }
         public virtual ANNUNCIO ANNUNCIO2 { get; set; }
@@ -77,6 +81,7 @@ namespace GratisForGratis.Models
         public virtual CATEGORIA CATEGORIA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ANNUNCIO_CLICK> ANNUNCIO_CLICK { get; set; }
+        public virtual COMMISSIONE COMMISSIONE { get; set; }
         public virtual COMUNE COMUNE { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ANNUNCIO_DESIDERATO> ANNUNCIO_DESIDERATO { get; set; }
@@ -87,6 +92,8 @@ namespace GratisForGratis.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ANNUNCIO_NOTIFICA> ANNUNCIO_NOTIFICA { get; set; }
         public virtual OGGETTO OGGETTO { get; set; }
+        public virtual PERSONA PERSONA { get; set; }
+        public virtual PERSONA PERSONA1 { get; set; }
         public virtual SERVIZIO SERVIZIO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ANNUNCIO_TAG> ANNUNCIO_TAG { get; set; }
@@ -98,13 +105,12 @@ namespace GratisForGratis.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LOG_SBLOCCO_ANNUNCIO> LOG_SBLOCCO_ANNUNCIO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OFFERTA> OFFERTA { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OFFERTA_BARATTO> OFFERTA_BARATTO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TRANSAZIONE_ANNUNCIO> TRANSAZIONE_ANNUNCIO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OFFERTA> OFFERTA { get; set; }
-        public virtual COMMISSIONE COMMISSIONE { get; set; }
-        public virtual PERSONA PERSONA { get; set; }
-        public virtual PERSONA PERSONA1 { get; set; }
+        public virtual ICollection<PERSONA_ANNUNCIO_PROPOSTO> PERSONA_ANNUNCIO_PROPOSTO { get; set; }
     }
 }

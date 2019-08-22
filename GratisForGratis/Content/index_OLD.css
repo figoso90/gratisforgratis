@@ -1,0 +1,102 @@
+﻿#window #whoare{
+    background-image: url("../Images/sezioni/compra_gratis.jpg");
+    background-position: 0 -140px;
+    background-size: cover;
+    margin: 0px 0px 40px;
+    padding-bottom: 250px;
+    padding-top: 100px;
+}
+
+#window #whoare .content{
+    background-color: rgba(221, 255, 255, 0.34);
+    border-radius: 6px;
+    padding: 20px;
+    width: 50%;
+}
+
+#index .category{
+    font-size:20px;
+    color:#fff;
+    text-decoration:none;
+    text-transform:uppercase;
+    display: inline-block;
+    margin-right: 1%;
+    margin-bottom:1%;
+    vertical-align: top;
+    width: 20%;
+    min-width:250px;
+}
+
+#index .category .box{
+    /*background-color: #f4f4f4;*/
+    background-color:rgb(24, 153, 210);
+    background-position: center center;
+    background-size: cover;
+    display: table;
+    height: 210px;
+    width: 100%;
+}
+
+#index .category.service .box{
+    background-color:rgb(162, 198, 66);
+}
+
+#index .category .box > div{
+    display:table-cell;
+    vertical-align:middle;
+}
+
+#index .category .box:hover > div{
+    background-color:rgba(24, 153, 210, 0.5);
+}
+
+#index .category.service .box:hover > div{
+    background-color:rgba(162, 198, 66, 0.5);
+}
+
+#index .category .box .text{
+    margin:0% 10%;
+    background-color:rgba(0,0,0,0.8);
+    padding:10px 0px;
+}
+
+#index .category .box .name{
+}
+
+#index .category .box .link{
+    border-top:1px solid;
+    font-weight:bold;
+}
+
+@media only all and (max-width: 480px) {
+    #menuUser .points h3 a{
+        display:block;
+    }
+    #index .category {
+        width: 85%;
+        margin-left:0%;
+        margin-right:0%;
+    }
+    /*
+    #index .category {
+        min-width: 118px;
+    }
+
+        #index .category .box {
+            height: 118px;
+        }
+
+        #index .category .box .text{
+            font-size:12px;
+        }
+    */
+    ins, iframe{
+        max-width:220px;
+    }
+}
+
+#menuUser .img-thumbnail{
+    width:70%;
+    border-radius:100px;
+    margin:22px;
+}

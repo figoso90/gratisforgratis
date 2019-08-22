@@ -59,24 +59,32 @@ namespace GratisForGratis.Controllers
                         .Include(m => m.CATEGORIA)
                         //.Include("ANNUNCIO_FOTO.FOTO")
                         .SingleOrDefault(m => m.ID == id);
+
                     viewModel = new AnnuncioViewModel(db, model);
+                    if (model.CONDIVISIONE_FACEBOOK_G4G == null || (StatoPubblicaAnnuncioFacebook)model.CONDIVISIONE_FACEBOOK_G4G == StatoPubblicaAnnuncioFacebook.NonPubblicato)
+                    {
+                        // PUBBLICAZIONE SOCIAL
+                        string emailUtente = (Session["utente"] as PersonaModel)
+                            .Email.FirstOrDefault(item => item.TIPO == (int)TipoEmail.Registrazione).EMAIL;
+                        string dominio = GetCurrentDomain();
+                        if (HttpContext.IsDebuggingEnabled)
+                        {
+                            dominio = "https://www.gratisforgratis.com";
+                        }
+                        string indirizzoImmagine = dominio + "/Uploads/Images/" + emailUtente + "/" + DateTime.Now.Year + "/Normal/" + viewModel.Foto[0].ALLEGATO.NOME;
+
+                        SendPostFacebook(viewModel.Nome, viewModel.Nome + " GRATIS con " + viewModel.Punti, indirizzoImmagine, dominio);
+                        model.CONDIVISIONE_FACEBOOK_G4G = (int)StatoPubblicaAnnuncioFacebook.Pubblicato;
+                        db.SaveChanges();
+                    }
                 }
             }
             catch (Exception ex)
             {
-                ErrorSignal.FromCurrentContext().Raise(ex);
+                //ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
                 return RedirectToAction("Index", "Utente");
             }
-            // PUBBLICAZIONE SOCIAL
-            string emailUtente = (Session["utente"] as PersonaModel)
-                .Email.FirstOrDefault(item => item.TIPO == (int)TipoEmail.Registrazione).EMAIL;
-            string dominio = GetCurrentDomain();
-            if (HttpContext.IsDebuggingEnabled)
-            {
-                dominio = "https://www.gratisforgratis.com";
-            }
-            string indirizzoImmagine = dominio + "/Uploads/Images/" + emailUtente + "/" + DateTime.Now.Year + "/Normal/" + viewModel.Foto[0].ALLEGATO.NOME;
-            SendPostFacebook(viewModel.Nome + " GRATIS con " + viewModel.Punti, indirizzoImmagine, dominio);
 
             return View(viewModel);
         }
@@ -218,7 +226,7 @@ namespace GratisForGratis.Controllers
             // Cambiare anche la index e caricare la vista parziale oggetto e servizio
             string nomeVistaDettaglio = GetNomeVistaDettagliAnnuncio(categoria);
             if (!string.IsNullOrWhiteSpace(nomeVistaDettaglio))
-                return PartialView(GetNomeVistaDettagliAnnuncio(categoria));
+                return PartialView(nomeVistaDettaglio);
             else
                 return PartialView(GetNomeVistaTipologia(categoria), TempData["modelloVista"]);
         }
@@ -280,7 +288,8 @@ namespace GratisForGratis.Controllers
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
             //return Json(new { Success = false, responseText = Language.ErrorFormatFile });
             Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
@@ -414,7 +423,8 @@ namespace GratisForGratis.Controllers
                         catch (Exception eccezione)
                         {
                             transaction.Rollback();
-                            ErrorSignal.FromCurrentContext().Raise(eccezione);
+                            //ErrorSignal.FromCurrentContext().Raise(eccezione);
+                            LoggatoreModel.Errore(eccezione);
                         }
                     }
                 }
@@ -495,7 +505,8 @@ namespace GratisForGratis.Controllers
                         catch (Exception eccezione)
                         {
                             transaction.Rollback();
-                            ErrorSignal.FromCurrentContext().Raise(eccezione);
+                            //ErrorSignal.FromCurrentContext().Raise(eccezione);
+                            LoggatoreModel.Errore(eccezione);
                         }
                     }
                 }
@@ -527,6 +538,24 @@ namespace GratisForGratis.Controllers
                 }
             }
             return Json(prezzoViewModel);
+        }
+
+        [HttpPost]
+        [Filters.ValidateAjax]
+        public void CondividiSuFacebook(string token)
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                var annuncio = db.ANNUNCIO.SingleOrDefault(m => m.TOKEN.ToString() == token);
+                annuncio.CONDIVISIONE_FACEBOOK_UTENTE = (int)StatoPubblicaAnnuncioFacebook.Pubblicato;
+                annuncio.DATA_PUBBLICAZIONE_FACEBOOK = DateTime.Now;
+                db.SaveChanges();
+                var utente = Session["utente"] as PersonaModel;
+                Guid tokenPortale = Guid.Parse(ConfigurationManager.AppSettings["portaleweb"]);
+                decimal bonus = Convert.ToDecimal(ConfigurationManager.AppSettings["bonusPromozioneFB"]);
+
+                AddBonus(db, ControllerContext, utente.Persona, tokenPortale, bonus, TipoTransazione.BonusCondividiFB, annuncio.NOME, annuncio.ID);
+            }
         }
 
         #endregion
@@ -567,7 +596,8 @@ namespace GratisForGratis.Controllers
                         transaction.Rollback();
                         viewModel.CancelUploadFoto(annuncio);
                         ModelState.AddModelError("Error", eccezione.Message);
-                        ErrorSignal.FromCurrentContext().Raise(eccezione);
+                        //ErrorSignal.FromCurrentContext().Raise(eccezione);
+                        LoggatoreModel.Errore(eccezione);
                     }
                 }
             }
@@ -586,7 +616,7 @@ namespace GratisForGratis.Controllers
             return View("Index", viewModel);
         }
 
-        private string SendPostFacebook(string message, string picture, string link)
+        private string SendPostFacebook(string nome, string message, string picture, string link)
         {
             try
             {
@@ -598,27 +628,31 @@ namespace GratisForGratis.Controllers
                 }
                 Dictionary<string, object> feed = new Dictionary<string, object>() {
                     { "published", visibile },
+                    //{ "name", nome },
                     { "message", message },
-                    { "picture", picture },
+                    //{ "picture", picture },
                     { "link", link }
                 };
                 JsonObject response = (JsonObject)app.Post("/v3.2/" + ConfigurationManager.AppSettings["FBPageIDG4G"] + "/feed", feed);
 
-                TempData["FBINFO"] = "Test riuscito";
+                TempData["FBINFO"] = "Pubblicato anche su Facebook! Complimenti per i crediti guadagnati!";
 
                 return response["id"].ToString();
             }
             catch (FacebookOAuthException ex)
             {
-                ErrorSignal.FromCurrentContext().Raise(ex);
+                //ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
             catch (FacebookApiException ex)
             {
-                ErrorSignal.FromCurrentContext().Raise(ex);
+                //ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
             catch (Exception ex)
             {
-                ErrorSignal.FromCurrentContext().Raise(ex);
+                //ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
             return string.Empty;
         }

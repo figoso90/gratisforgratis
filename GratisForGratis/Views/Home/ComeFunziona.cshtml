@@ -7,42 +7,66 @@
     </div>
 </section>
 
-<section id="pagina">
-    <div id="presentazione" class="col-md-6 col-md-push-1">
-        <h2 class="title">FUNZIONI ATTIVE</h2>
-        <ul class="lista">
-            <li>Pubblicazione annuncio (Rapida - Completa)</li>
-            <li>Acquista subito (Ritiro a mano - Spedizione)</li>
-            <li>Offerta (Credito - Baratto)</li>
-            <li>Spedizione (A mano - Privata - Dal sito)</li>
-            <li>Chat</li>
-            <li>Feedback</li>
-        </ul>
-        <h2 class="title">TECNOLOGIA</h2>
-        <ul class="lista">
-            <li>Linguaggio</li>
-            <li>Ambiente di sviluppo</li>
-        </ul>
+<section id="pagina" class="content">
+    <div class="container">
+        <div class="row">
+            <div id="presentazione" class="col-md-6 mr-5">
+                <h2 class="title">SERVIZI PRINCIPALI</h2>
+                <h4>
+                    <strong>REGISTRAZIONE</strong> (RAPIDA - COMPLETA)
+                </h4>
+                <p>
+                    Con la modalità rapida basterà loro inserire <strong>e-mail</strong> e <strong>password</strong> per registrarsi
+                    e questo gli permetterà di inserire annunci (NON visibili), ottenere bonus, vedere il <strong>funzionamento del portale</strong> e
+                    successivamente di completare le proprie informazioni personali per iniziare a vendere / comprare.
+                    La modalità <strong>completa</strong> invece richiede tutte le <strong>informazioni obbligatorie</strong> dell'utente (username o nome) e
+                    permette di utilizzare tutte le funzioni del portale.
+                </p>
+                <h4>
+                    <strong>PUBBLICAZIONE</strong> ANNUNCIO (RAPIDA - COMPLETA)
+                </h4>
+                <p>
+                    Con la modalità <strong>rapida</strong> in pochi click si riuscirà a pubblicare un annuncio in modo <strong>semplice</strong>.
+                    Con la modalità <strong>completa</strong> si potranno inserire anche informazioni come il tipo di <strong>spedizione</strong>, i <strong>dettagli</strong> del prodotto
+                    e si otterranno <strong>HappyCoin</strong> come bonus.
+                </p>
+                <h2 class="title">ELENCO FUNZIONI</h2>
+                <ul class="lista">
+                    <li><strong>Registrazione</strong> (Rapida - Completa)</li>
+                    <li><strong>Pubblicazione annuncio</strong> (Rapida - Completa)</li>
+                    <li><strong>Acquista subito</strong> (Ritiro a mano - Spedizione)</li>
+                    <li><strong>Offerta</strong> (Credito - Baratto)</li>
+                    <li><strong>Spedizione</strong> (A mano - Privata - Dal sito)</li>
+                    <li><strong>Chat</strong></li>
+                    <li><strong>Feedback</strong></li>
+                </ul>
+                <h2 class="title">TECNOLOGIA</h2>
+                <ul class="lista">
+                    <li>Linguaggio <strong>C#</strong> - <strong>SQL SERVER</strong> - <strong>HTML5</strong> - <strong>CSS3</strong> - <strong>JQUERY</strong></li>
+                    <li>Ambiente di sviluppo <strong>VISUAL STUDIO</strong> 2017</li>
+                </ul>
+            </div>
+            <aside id="linkRapidi" class="col-md-3">
+                <h2 class="title">Link rapidi</h2>
+                <ul class="lista">
+                    <li>
+                        @Html.ActionLink(ViewModel.WhySiteLink, "PercheRegistrarsi", "Home")
+                    </li>
+                    <li>
+                        @Html.ActionLink(ViewModel.ShipmentLink, "Spedizione", "Home")
+                    </li>
+                    <li>
+                        @Html.ActionLink(ViewModel.SecurityLink, "Sicurezza", "Home")
+                    </li>
+                    <li>
+                        @Html.ActionLink(ViewModel.BarterLink, "Baratto", "Home")
+                    </li>
+                    <li>
+                        @Html.ActionLink(ViewModel.HappyDegrowth, "DecrescitaFelice", "Home")
+                    </li>
+                </ul>
+            </aside>
+        </div>
     </div>
-    <aside id="linkRapidi" class="col-md-3 col-md-push-2">
-        <h2 class="title">Link rapidi</h2>
-        <ul class="lista">
-            <li>
-                @Html.ActionLink(ViewModel.WhySiteLink, "PercheGratisForGratis", "Home")
-            </li>
-            <li>
-                @Html.ActionLink(ViewModel.ShipmentLink, "Spedizione", "Home")
-            </li>
-            <li>
-                @Html.ActionLink(ViewModel.SecurityLink, "Sicurezza", "Home")
-            </li>
-            <li>
-                @Html.ActionLink(ViewModel.BarterLink, "Baratto", "Home")
-            </li>
-            <li>
-                @Html.ActionLink(ViewModel.GiftLink, "Regalo", "Home")
-            </li>
-        </ul>
-    </aside>
 </section>
 

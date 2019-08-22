@@ -37,7 +37,15 @@ namespace GratisForGratis.Controllers
                     foreach(ANNUNCIO annuncio in listaAnnunci)
                     {
                         AnnuncioModel annuncioModel = new AnnuncioModel();
-                        vendite.Add(annuncioModel.GetViewModel(db, annuncio));
+                        // escludo il singolo annuncio in caso di errore
+                        try
+                        {
+                            vendite.Add(annuncioModel.GetViewModel(db, annuncio));
+                        }
+                        catch (Exception eccezione)
+                        {
+                            Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                        }
                     }
 
                     if (vendite.Count > 0)
@@ -46,7 +54,8 @@ namespace GratisForGratis.Controllers
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
             return View(vendite);
         }
@@ -90,7 +99,8 @@ namespace GratisForGratis.Controllers
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
             
             return View(offerte);
@@ -106,7 +116,9 @@ namespace GratisForGratis.Controllers
                 {
                     int utente = ((PersonaModel)Session["utente"]).Persona.ID;
                     var query = db.ANNUNCIO.Where(item => item.ID_PERSONA == utente
-                        && (item.STATO == (int)StatoVendita.ELIMINATO || item.STATO == (int)StatoVendita.BARATTATO || item.STATO == (int)StatoVendita.VENDUTO)
+                        // commentato perchè voglio vedere qualsiasi annuncio non in vendita o in bozza
+                        //&& (item.STATO == (int)StatoVendita.ELIMINATO || item.STATO == (int)StatoVendita.BARATTATO || item.STATO == (int)StatoVendita.VENDUTO)
+                        && !(item.STATO == (int)StatoVendita.INATTIVO || item.STATO == (int)StatoVendita.ATTIVO)
                         && (item.ID_OGGETTO != null || item.ID_SERVIZIO != null));
                     int numeroElementi = Convert.ToInt32(WebConfigurationManager.AppSettings["numeroElementi"]);
                     ViewData["TotalePagine"] = (int)Math.Ceiling((decimal)query.Count() / (decimal)numeroElementi);
@@ -129,7 +141,8 @@ namespace GratisForGratis.Controllers
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
             return View(vendite);
         }

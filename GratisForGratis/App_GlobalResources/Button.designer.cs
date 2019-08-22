@@ -70,6 +70,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Condividi su FB.
+        /// </summary>
+        public static string PublishShareFB {
+            get {
+                return ResourceManager.GetString("PublishShareFB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Registrati.
         /// </summary>
         public static string RegisterYou {

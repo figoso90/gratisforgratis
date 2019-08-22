@@ -136,7 +136,7 @@
     <value>Tipo vendita errato</value>
   </data>
   <data name="ShippingCivic" xml:space="preserve">
-    <value>Civico di spedizione</value>
+    <value>Civico</value>
   </data>
   <data name="Negotiations" xml:space="preserve">
     <value>Trattative</value>
@@ -190,7 +190,7 @@
     <value>Filtra</value>
   </data>
   <data name="Footer" xml:space="preserve">
-    <value>Beni e servizi gratuiti per tutti!</value>
+    <value>Beni e servizi per tutti!</value>
   </data>
   <data name="Format" xml:space="preserve">
     <value>Formato</value>
@@ -349,7 +349,7 @@
     <value>Compilare correttamente i campi dell'offerta</value>
   </data>
   <data name="DescriptionContacts" xml:space="preserve">
-    <value>Se hai bisogno di informazioni, hai delle proposte da fare o semplicemente hai bisogno di assistenza, contattaci ad uno dei riferimenti che trovi qui sotto:</value>
+    <value>Se hai bisogno di informazioni, hai delle proposte da fare o semplicemente hai bisogno di assistenza, contattaci con il form sottostante:</value>
   </data>
   <data name="MoreDetails" xml:space="preserve">
     <value>Maggiori dettagli</value>
@@ -382,7 +382,7 @@
     <value>Venditore</value>
   </data>
   <data name="Slogan" xml:space="preserve">
-    <value>&lt;strong&gt;Il commercio circolare con moneta virtuale&lt;/strong&gt;!</value>
+    <value>&lt;strong&gt;Beni e servizi per tutti&lt;/strong&gt;!</value>
   </data>
   <data name="Public" xml:space="preserve">
     <value>Pubblica</value>
@@ -457,7 +457,7 @@
     <value>Data spedizione</value>
   </data>
   <data name="Partners" xml:space="preserve">
-    <value>Partners</value>
+    <value>Happy-Shop</value>
   </data>
   <data name="ErrorNothingBarter" xml:space="preserve">
     <value>Inserire almeno un baratto</value>
@@ -514,7 +514,7 @@
     <value>Cambia password</value>
   </data>
   <data name="ShippingAddress" xml:space="preserve">
-    <value>Indirizzo di spedizione</value>
+    <value>Indirizzo</value>
   </data>
   <data name="TitleConfirmPurchase" xml:space="preserve">
     <value>Beni / Servizi - In Acquisto</value>
@@ -613,7 +613,7 @@
     <value>Proprietario</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>Login</value>
+    <value>Login / Registrazione RAPIDA</value>
   </data>
   <data name="Width" xml:space="preserve">
     <value>Larghezza</value>
@@ -691,7 +691,7 @@
     <value>Email o password errati</value>
   </data>
   <data name="AllDays" xml:space="preserve">
-    <value>Tutti i giorni</value>
+    <value>Sempre</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Impostazioni</value>
@@ -730,7 +730,7 @@
     <value>Regione obbligatoria (Selezionare regione suggerita)</value>
   </data>
   <data name="Register" xml:space="preserve">
-    <value>Registra</value>
+    <value>Registrazione COMPLETA</value>
   </data>
   <data name="EmailNotExist" xml:space="preserve">
     <value>Email inesistente</value>
@@ -829,7 +829,7 @@
     <value>Stato utente</value>
   </data>
   <data name="ShippingCap" xml:space="preserve">
-    <value>Cap di spedizione</value>
+    <value>Cap</value>
   </data>
   <data name="AdvNoTax2" xml:space="preserve">
     <value>Oppure se vuoi continuare lo stesso ad avere un guadagno, aprire la partita iva e &lt;b&gt;aumentare i tuoi guadagni&lt;/b&gt; senza pagare ulteriori tasse, tutto legalmente.</value>
@@ -958,7 +958,7 @@
     <value>Città di residenza</value>
   </data>
   <data name="ShippingCity" xml:space="preserve">
-    <value>Città di spedizione</value>
+    <value>Città</value>
   </data>
   <data name="ErrorTermsAndConditions" xml:space="preserve">
     <value>Accettare prima le condizioni</value>
@@ -1408,7 +1408,7 @@
     <value>Ricerca in {0} ({1} annunci trovati)</value>
   </data>
   <data name="TitleSearchGeneric" xml:space="preserve">
-    <value>Ricerca generica ({0} annunci trovati)</value>
+    <value>Modifica ricerca generica ({0} trovati)</value>
   </data>
   <data name="MenuSearchSaved" xml:space="preserve">
     <value>Ricerche salvate</value>
@@ -1537,7 +1537,7 @@
     <value>Acquisti</value>
   </data>
   <data name="MenuPurchasesCompleted" xml:space="preserve">
-    <value>Conclusi</value>
+    <value>Archivio</value>
   </data>
   <data name="MenuPurchasesCurrent" xml:space="preserve">
     <value>In corso</value>
@@ -1561,7 +1561,7 @@
     <value>Vendite</value>
   </data>
   <data name="MenuSellsCompleted" xml:space="preserve">
-    <value>Concluse</value>
+    <value>Archivio</value>
   </data>
   <data name="MenuSellsCurrent" xml:space="preserve">
     <value>In corso</value>
@@ -1703,5 +1703,14 @@
   </data>
   <data name="PayShipmentBid" xml:space="preserve">
     <value>Paga spedizione!</value>
+  </data>
+  <data name="AdOther" xml:space="preserve">
+    <value>Escludi annunci personali</value>
+  </data>
+  <data name="KidExchange" xml:space="preserve">
+    <value>Tipo scambio</value>
+  </data>
+  <data name="DescriptionContacts2" xml:space="preserve">
+    <value>Altrimenti contattaci ad uno dei seguenti indirizzi:</value>
   </data>
 </root>

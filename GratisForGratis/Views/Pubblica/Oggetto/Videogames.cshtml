@@ -2,20 +2,18 @@
 
 @Html.Partial("Oggetto", (Model!=null)?Model:new GratisForGratis.Models.PubblicaOggettoViewModel())
 @Html.Hidden("ActionCategoria", "/Pubblica/Videogames")
-<div class="form-group">
-    @Html.LabelFor(m => m.Piattaforma, new { @class = "col-md-2 control-label" })
-    <div class="field">
+<div class="form-row">
+    <div class="form-group col-md-3">
+        @Html.LabelFor(m => m.Piattaforma, new { @class = "col-md-2 control-label" })
         @Html.TextBoxFor(m => m.Piattaforma, new { @class = "form-control", data_autocomplete_url = "/Home/FindPiattaforma", data_autocomplete_id = "PiattaformaID" })
         @Html.Hidden("PiattaformaID")
+        @Html.ValidationMessageFor(m => m.Piattaforma, "", new { @class = "text-danger" })
     </div>
-    @Html.ValidationMessageFor(m => m.Piattaforma, "", new { @class = "text-danger" })
-</div>
 
-<div class="form-group">
-    @Html.LabelFor(m => m.Genere, new { @class = "col-md-2 control-label" })
-    <div class="field">
+    <div class="form-group col-md-3">
+        @Html.LabelFor(m => m.Genere, new { @class = "col-md-2 control-label" })
         @Html.TextBoxFor(m => m.Genere, new { @class = "form-control", data_autocomplete_url = "/Home/FindGenere", data_autocomplete_id = "GenereID" })
         @Html.Hidden("GenereID")
+        @Html.ValidationMessageFor(m => m.Genere, "", new { @class = "text-danger" })
     </div>
-    @Html.ValidationMessageFor(m => m.Genere, "", new { @class = "text-danger" })
 </div>

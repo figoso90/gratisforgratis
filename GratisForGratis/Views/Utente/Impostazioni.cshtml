@@ -22,118 +22,116 @@
         </h3>
         @using (Html.BeginForm("Impostazioni", "Utente", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
-            @Html.AntiForgeryToken()
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            @Html.ValidationMessage("", new { @class = "text-danger" })
+        <div class="form-row justify-content-center align-items-center">
+            <div class="for-group col-md-12">
+                @Html.AntiForgeryToken()
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.ValidationMessage("", new { @class = "text-danger" })
 
-            if (TempData["completaRegistrazione"] != null)
-            {
-                <h4 class="message">@TempData["completaRegistrazione"]</h4>
-            }
-            if (TempData["confermaEmail"] != null)
-            {
-                <h4 class="message">@TempData["confermaEmail"] <a class="btn btnReinvio" href="javascript:void(0);" onclick="reinvioEmailRegistrazione();">@Language.BtnResubmission</a></h4>
-            }
+                @if (TempData["completaRegistrazione"] != null)
+                {
+                    <h4 class="message">@TempData["completaRegistrazione"]</h4>
+                }
+                @if (TempData["confermaEmail"] != null)
+                {
+                    <h4 class="message">@TempData["confermaEmail"] <a class="btn btnReinvio" href="javascript:void(0);" onclick="reinvioEmailRegistrazione();">@Language.BtnResubmission</a></h4>
+                }
 
-            if (TempData["salvato"] != null && (bool)TempData["salvato"])
-            {
-                <h4 class="message">@Language.SaveOK</h4>
-            }
-            <div id="boxFotoProfilo">
-                @Html.Partial("PartialPages/_GalleriaFotoProfilo", (Session["utente"] as PersonaModel))
+                @if (TempData["salvato"] != null && (bool)TempData["salvato"])
+                {
+                    <h4 class="message">@Language.SaveOK</h4>
+                }
             </div>
-            @Html.HiddenFor(m => m.ImmagineProfilo, new { @class = "form-control" })
-            <div class="form-group">
-                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                <div class="col-md">
-                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                </div>
+        </div>
+        <div class="form-row justify-content-center align-items-center">
+            <div id="boxFotoProfilo" class="form-group col-md-12">
+                @Html.Partial("PartialPages/_GalleriaFotoProfilo", (Session["utente"] as PersonaModel))
+                @Html.HiddenFor(m => m.ImmagineProfilo, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-row justify-content-center align-items-center">
+            <div class="form-group col-md-3">
+                @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
             </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Nome, new { @class = "col-md-2 control-label" })
-                <div class="col-md">
-                    @Html.TextBoxFor(m => m.Nome, new { @class = "form-control fieldtrim" })
-                </div>
+            <div class="form-group col-md-3">
+                @Html.LabelFor(m => m.Nome, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.Nome, new { @class = "form-control fieldtrim" })
                 @Html.ValidationMessageFor(m => m.Nome, "", new { @class = "text-danger" })
             </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Cognome, new { @class = "col-md-2 control-label" })
-                <div class="col-md">
-                    @Html.TextBoxFor(m => m.Cognome, new { @class = "form-control fieldtrim" })
-                </div>
+            <div class="form-group col-md-3">
+                @Html.LabelFor(m => m.Cognome, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.Cognome, new { @class = "form-control fieldtrim" })
                 @Html.ValidationMessageFor(m => m.Cognome, "", new { @class = "text-danger" })
             </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Citta, new { @class = "col-md-2 control-label" })
-                <div class="col-md">
-                    @Html.TextBoxFor(m => m.Citta, new { @class = "form-control fieldtrim", data_autocomplete_url = "/Home/FindCitta", data_autocomplete_id = "IDCitta" })
-                    @Html.HiddenFor(m => m.IDCitta)
-                </div>
-                @Html.ValidationMessageFor(m => m.IDCitta, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Indirizzo, new { @class = "col-md-2 control-label" })
-                <div class="col-md">
-                    @Html.TextBoxFor(m => m.Indirizzo, new { @class = "form-control fieldtrim" })
-                </div>
-                @Html.ValidationMessageFor(m => m.Indirizzo, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Civico, new { @class = "col-md-2 control-label" })
-                <div class="col-md">
-                    @Html.TextBoxFor(m => m.Civico, new { @class = "form-control fieldtrim" })
-                </div>
-                @Html.ValidationMessageFor(m => m.Civico, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Telefono, new { @class = "col-md-2 control-label" })
-                <div class="col-md">
-                    @Html.TextBoxFor(m => m.Telefono, new { @class = "form-control fieldtrim" })
-                </div>
+            <div class="form-group col-md-3">
+                @Html.LabelFor(m => m.Telefono, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.Telefono, new { @class = "form-control fieldtrim" })
                 @Html.ValidationMessageFor(m => m.Telefono, "", new { @class = "text-danger" })
             </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.CittaSpedizione, new { @class = "col-md-2 control-label" })
-                <div class="col-md">
-                    @Html.TextBoxFor(m => m.CittaSpedizione, new { @class = "form-control fieldtrim", data_autocomplete_url = "/Home/FindCitta", data_autocomplete_id = "IDCittaSpedizione" })
-                    @Html.HiddenFor(m => m.IDCittaSpedizione)
-                </div>
+        </div>
+        <div class="form-row justify-content-center align-items-center">
+            <div class="form-group col-md-12">
+                <h3>Residenza</h3>
+            </div>
+            <div class="form-group col-md-3">
+                @Html.LabelFor(m => m.Citta, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.Citta, new { @class = "form-control fieldtrim", data_autocomplete_url = "/Home/FindCitta", data_autocomplete_id = "IDCitta" })
+                @Html.HiddenFor(m => m.IDCitta)
+                @Html.ValidationMessageFor(m => m.IDCitta, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-3">
+                @Html.LabelFor(m => m.Indirizzo, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.Indirizzo, new { @class = "form-control fieldtrim" })
+                @Html.ValidationMessageFor(m => m.Indirizzo, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-1">
+                @Html.LabelFor(m => m.Civico, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.Civico, new { @class = "form-control fieldtrim" })
+                @Html.ValidationMessageFor(m => m.Civico, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-row justify-content-center align-items-center">
+            <div class="form-group col-md-12">
+                <h3>Spedizione</h3>
+            </div>
+            <div class="form-group col-md-3">
+                @Html.LabelFor(m => m.CittaSpedizione, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.CittaSpedizione, new { @class = "form-control fieldtrim", data_autocomplete_url = "/Home/FindCitta", data_autocomplete_id = "IDCittaSpedizione" })
+                @Html.HiddenFor(m => m.IDCittaSpedizione)
                 @Html.ValidationMessageFor(m => m.IDCittaSpedizione, "", new { @class = "text-danger" })
             </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.IndirizzoSpedizione, new { @class = "col-md-2 control-label" })
-                <div class="col-md">
-                    @Html.TextBoxFor(m => m.IndirizzoSpedizione, new { @class = "form-control fieldtrim" })
-                </div>
+            <div class="form-group col-md-3">
+                @Html.LabelFor(m => m.IndirizzoSpedizione, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.IndirizzoSpedizione, new { @class = "form-control fieldtrim" })
                 @Html.ValidationMessageFor(m => m.IndirizzoSpedizione, "", new { @class = "text-danger" })
             </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.CivicoSpedizione, new { @class = "col-md-2 control-label" })
-                <div class="col-md">
-                    @Html.TextBoxFor(m => m.CivicoSpedizione, new { @class = "form-control fieldtrim" })
-                </div>
+            <div class="form-group col-md-1">
+                @Html.LabelFor(m => m.CivicoSpedizione, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.CivicoSpedizione, new { @class = "form-control fieldtrim" })
                 @Html.ValidationMessageFor(m => m.CivicoSpedizione, "", new { @class = "text-danger" })
             </div>
-            <div class="row footer">
-                <div class="col-md-4 col-md-push-2">
-                    <input type="submit" value="@Language.Save" class="btn btn-success" />
-                </div>
-                <div class="col-md-4 col-md-push-2">
-                    @if (!Model.HasLoginFacebook)
-                    {
-                        @Html.ActionLink(Button.JoinFacebook, "LoginFacebook", "Utente", null, new { @Class = "btn btn-primary" })
-                    }
-                    else
-                    {
-                        <span>
-                            <img src="https://facebookbrand.com/wp-content/uploads/2016/05/flogo_rgb_hex-brc-site-250.png?w=32&h=32" style="margin-right: 10px;" />
-                            @ViewModel.SettingsJoinToFB
-                        </span>
-                    }
-                </div>
+        </div>
+        <div class="form-row footer justify-content-center align-items-center">
+            <div class="form-group col-md-2">
+                <input type="submit" value="@Language.Save" class="btn btn-success" />
             </div>
+            <div class="form-group col-md-2">
+                @if (!Model.HasLoginFacebook)
+                {
+                    @Html.ActionLink(Button.JoinFacebook, "LoginFacebook", "Utente", null, new { @Class = "btn btn-primary" })
+                }
+                else
+                {
+                    <span>
+                        <img src="https://facebookbrand.com/wp-content/uploads/2016/05/flogo_rgb_hex-brc-site-250.png?w=32&h=32" style="margin-right: 10px;" />
+                        @ViewModel.SettingsJoinToFB
+                    </span>
+                }
+            </div>
+        </div>
         }
     </div>
 </section>

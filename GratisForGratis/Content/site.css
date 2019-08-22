@@ -3,9 +3,11 @@
     padding: 0px;
     width: 100%;
     height: 100%;
-    font-size: 17px;
-    /*color:#178fcc;*/
+    /*font-size: 17px;
     font-family: 'Gochi Hand', cursive;
+    */
+    font-size:14px;
+    font-family:Arial;
 }
 
 h4, .h4
@@ -27,6 +29,10 @@ textarea{
 }
 
 .lazy {
+    display: none;
+}
+
+.hide {
     display: none;
 }
 
@@ -166,12 +172,17 @@ textarea{
     text-transform: uppercase;
 }
 
+.icona {
+    font-size: 26px;
+    color: #007bff;
+}
+
 .infoTooltip {
     max-height: 23px;
     max-width: 23px;
     display: inline-block;
     position: absolute;
-    top: 7px;
+    top: 1px;
     cursor: pointer;
     right: -34px;
 }
@@ -185,6 +196,13 @@ textarea{
     top:auto;
     left:auto;
     margin-left:5px;
+}
+
+.infoDomanda {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 20px;
+    margin-left: 7px;
 }
 
 /* LOGIN */
@@ -228,13 +246,14 @@ header{
     padding-bottom:20px;
 }
 
-#logo:hover, #logo:link{
-    border:none !important;
-    background-color:transparent !important;
+#logo:hover, #logo:link {
+    border: none !important;
+    background-color: transparent !important;
     display: inline-block;
     max-width: 220px;
     text-align: center;
-    margin-right:5%;
+    margin-right: 5%;
+    font-family: 'Gochi Hand', cursive;
 }
 
 #logo .ico{
@@ -466,7 +485,7 @@ header menu ul.nav-pills > li > a{
 header menu .subCategory{
     max-width:700px;
     padding:0px 15px;
-    margin:33px auto 0px;
+    margin:12px auto 0px;
 }
 
 header menu .subCategory .link{
@@ -514,7 +533,7 @@ input[type="checkbox"]:checked+input[type=hidden]+label, input[type="checkbox"]:
 }
 
 textarea.form-control{
-    width: 300px;
+    /*width: 300px;*/
     height: 120px;
     resize: none;
 }
@@ -532,7 +551,7 @@ textarea.form-control{
 }
 
     .glyphicon.happyCoin {
-        width: 40px;
+        width: 22px;
     }
 
 .text-danger.field-validation-error{
@@ -564,7 +583,7 @@ textarea.form-control{
     background-size: cover;
     border: medium none;
     height: 23px;
-    width: 23px;
+    width: 24px;
     position: absolute;
     right: 6px;
     bottom: 6px;
@@ -704,6 +723,7 @@ section{
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
+/*
 input, select, textarea {
     max-width: 280px;
 }
@@ -719,7 +739,6 @@ input[type="text"].number{
 }
 
 .form-horizontal{
-    /*text-align:left;*/
     width:80%;
     margin:0% auto;
 }
@@ -761,12 +780,12 @@ input[type="text"].number{
     margin:0px;
     width: 100%;
 }
-
-#window{
-    min-height:100%;
-    height:auto !important;
-    height:100%;
-    width:100%;
+*/
+#window {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    width: 100%;
 }
 
 #window > header, #window > section, #window > footer{

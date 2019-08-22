@@ -330,7 +330,8 @@ namespace GratisForGratis.Controllers
             }
             catch(Exception eccezione)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                LoggatoreModel.Errore(eccezione);
             }
             finally
             {
@@ -347,7 +348,8 @@ namespace GratisForGratis.Controllers
                 }
                 catch(Exception eccezione)
                 {
-                    Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                    //Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                    LoggatoreModel.Errore(eccezione);
                 }
             }
             return false;

@@ -1,0 +1,40 @@
+﻿@model GratisForGratis.Models.RicercaServizioViewModel
+
+<div class="form-group col-md-2">
+    @Html.LabelFor(m => m.Cerca_Citta, new { @class = "control-label" })
+    @Html.TextBoxFor(m => m.Cerca_Citta, new { @class = "form-control", data_autocomplete_url = "/Home/FindCittaSenzaCap", data_autocomplete_id = "Cerca_IDCitta", placeholder = Language.City })
+    @Html.HiddenFor(m => m.Cerca_IDCitta)
+    @Html.ValidationMessageFor(m => m.Cerca_IDCitta, "", new { @class = "text-danger" })
+</div>
+<div class="form-group col-md-1 giorno">
+    @Html.CheckBoxFor(m => m.Cerca_Lunedi, new { @class = "form-control day" })
+    @Html.LabelFor(m => m.Cerca_Lunedi, new { @class = "col-md-2 control-label" })
+</div>
+<div class="form-group col-md-1 giorno">
+    @Html.CheckBoxFor(m => m.Cerca_Martedi, new { @class = "form-control day" })
+    @Html.LabelFor(m => m.Cerca_Martedi, new { @class = "col-md-2 control-label" })
+</div>
+<div class="form-group col-md-1 giorno">
+    @Html.CheckBoxFor(m => m.Cerca_Mercoledi, new { @class = "form-control day" })
+    @Html.LabelFor(m => m.Cerca_Mercoledi, new { @class = "col-md-2 control-label" })
+</div>
+<div class="form-group col-md-1 giorno">
+    @Html.CheckBoxFor(m => m.Cerca_Giovedi, new { @class = "form-control day" })
+    @Html.LabelFor(m => m.Cerca_Giovedi, new { @class = "col-md-2 control-label" })
+</div>
+<div class="form-group col-md-1 giorno">
+    @Html.CheckBoxFor(m => m.Cerca_Venerdi, new { @class = "form-control day" })
+    @Html.LabelFor(m => m.Cerca_Venerdi, new { @class = "col-md-2 control-label" })
+</div>
+<div class="form-group col-md-1 giorno">
+    @Html.CheckBoxFor(m => m.Cerca_Sabato, new { @class = "form-control day" })
+    @Html.LabelFor(m => m.Cerca_Sabato, new { @class = "col-md-2 control-label" })
+</div>
+<div class="form-group col-md-1 giorno">
+    @Html.CheckBoxFor(m => m.Cerca_Domenica, new { @class = "form-control day" })
+    @Html.LabelFor(m => m.Cerca_Domenica, new { @class = "col-md-2 control-label" })
+</div>
+<div class="form-group col-md-1 giorno">
+    @Html.CheckBoxFor(m => m.Cerca_Tutti, new { @class = "form-control" })
+    @Html.LabelFor(m => m.Cerca_Tutti, new { @class = "col-md-2 control-label" })
+</div>

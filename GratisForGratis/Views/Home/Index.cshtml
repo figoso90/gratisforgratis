@@ -1,46 +1,369 @@
-﻿@Styles.Render("~/Content/Index.css")
+﻿@using System.Web.Configuration
+@{ 
+    Layout = null;
+}
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="author" content="Gratis Onlus" />
+    <meta name="robots" content="@( (ViewBag.Robots==null)?"INDEX,FOLLOW":ViewBag.Robots )" />
+    <meta name="description" content="@ViewBag.Description" />
+    <meta name="keywords" content="@ViewBag.Keywords" />
+    <!-- BING -->
+    <meta name="msvalidate.01" content="226F39118B8B7D348C07F1D8FEC695BD" />
+    <title>@((ViewBag.Title != null) ? ViewBag.Title : MetaTag.TitleGeneric) - @WebConfigurationManager.AppSettings["nomeSito"]</title>
 
-<!--<section id="filter"></section>-->
+    <link href="https://fonts.googleapis.com/css?family=Gochi+Hand" rel="stylesheet">
+    <!-- Latest compiled and minified JavaScript -->
+    @Styles.Render("~/Content/JqueryUI/jquery-ui.min.css")
+    @Styles.Render("~/Scripts/loader/jquery.loader.min.css")
+    @Styles.Render("https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
+    
+    @Styles.Render("~/Content/Index.css")   
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css")
 
-<section id="index">
-    <div class="content">
-        <div id="subCategoryObjects" class="subCategory">
-            @foreach (GratisForGratis.Models.FINDSOTTOCATEGORIE_Result sottoCategoria in (HttpContext.Current.Application["categorie"] as List<GratisForGratis.Models.FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoria"]) && c.TIPO_VENDITA == 0))
-            {
-                <a class="category object" href="@Url.Content("/Oggetti/" + sottoCategoria.DESCRIZIONE + "?categoria=" + sottoCategoria.ID)" title="@(Language.Object + ' ' + sottoCategoria.NOME)">
-                    <div class="box" style="background-image:url(@Url.Content("/Images/categorie/" + sottoCategoria.IMMAGINE));">
-                        <div>
-                            <h3 class="text name">@sottoCategoria.NOME</h3>
-                            <h4 class="text link">@Language.BuyFree</h4>
+    <!-- respond.js per IE8 -->
+    <!--[if lt IE 9]>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+        var CATEGORIAINUSO = 'ciao';
+    </script>
+</head>
+
+<body>
+    <div id="advBackground">
+
+    </div>
+
+    <div id="main" class="page" style="height:100% !important;">
+        <div class="content" style="height:100%;">
+            <header>
+                <menu id="menuTop" class="text-right">
+                    <ul class="nav justify-content-right">
+                        <li role="presentation" class="nav-item login">
+                            @Html.ActionLink(Language.Login, "Login", "Utente", null, new { @class = "nav-link" })
+                        </li>
+                        <li role="presentation" class="nav-item loginFacebook">
+                            <a class="nav-link loginFB" href="@Url.Action("LoginFacebook", "Utente", new { ReturnUrl = (Model == null || Model.GetType().GetProperty("ReturnUrl") == null || string.IsNullOrWhiteSpace(Model.ReturnUrl) ? "" : Model.ReturnUrl) })">
+                                @ViewModel.LoginFacebook
+                            </a>
+                        </li>
+                    </ul>
+                </menu>
+            </header>
+            <section class="row justify-content-center align-items-center text-center" style="height:100%;">
+                <div id="boxLogo" class="col-sm-12">
+                    <div class="row justify-content-center align-items-center text-center">
+                        <div class="col-sm-12">
+                            <a href="@Url.Action("Index", "Home")">
+                                <img src='@Url.Content("~/Images/logo.jpg")' alt="@WebConfigurationManager.AppSettings["nomeSito"]" />
+                                <h3 class="slogan">@Html.Raw(@Language.Slogan)</h3>
+                            </a>
+                        </div>
+                        <div id="boxRicerca" class="col-sm-6">
+                            <!--
+                            <div class="col-sm-12">
+                                <div class="input-group mb-2 col-md-12" style="text-align:right;display:block;font-size:12px;">
+                                    Risultati trovati:&nbsp;<span class="numeroArticoli"></span>
+                                </div>
+                            </div>
+                            -->
+                            <div class="col-sm">
+                                @using (Html.BeginForm("Index2", "Cerca", FormMethod.Get, new { id = "cerca" }))
+                                {
+                                <div id="menuCategoriaRicerca">
+                                    @Html.Hidden("Cerca_IDCategoria", Response.Cookies["ricerca"]["IDCategoria"])
+                                    @Html.Hidden("Cerca_Categoria", Response.Cookies["ricerca"]["Categoria"])
+                                    <div class="form-group ricerca">
+                                        <label class="sr-only" for="inlineFormInputGroup">@Language.InputSearch</label>
+                                        <div class="input-group mb-2 col-md-12">
+                                            <!--
+                                            <div class="ddl-select input-group-btn">
+                                                <select id="ddlsearch" name="linguaggio" class="selectpicker form-control show-tick" data-style="btn-primary">
+                                                    <option data-icon="fas fa-code"></option>
+                                                    <option data-icon="fa-microsoft" value="C#">C#</option>
+                                                    <option data-icon="fa-php" value="PHP">PHP</option>
+                                                    <option data-icon="fa-java" value="JAVA">JAVA</option>
+                                                    <option data-icon="fa-html5" value="HTML">HTML</option>
+                                                    <option data-icon="fa-css3" value="CSS">CSS</option>
+                                                    <option data-icon="fa-js" value="JQUERY">JQUERY</option>
+                                                    <option data-icon="fa-angular" value="ANGULARJS">ANGULARJS</option>
+                                                </select>
+                                            </div>
+                                            -->
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <a class="infoTooltip infoDomanda" data-toggle="tooltip" href="javascript:void(0);"
+                                                       title="@Tooltip.InfoHowSearch">
+                                                        <i class="far fa-question-circle"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            @Html.TextBox("Cerca_Nome", Response.Cookies["ricerca"]["Nome"], new { @class = "form-control", placeholder = Language.InputSearch })
+                                            <div class="input-group-append">
+                                                <div class="input-group-text"><a href="javascript:void(0);" onclick="$('#btnInvio2').click();"><i class="fab fa-searchengin"></i></a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group pulsante">
+                                        <div class="col-md-12">
+                                            <input class="btn btn-primary" type="submit" name="invio" id="btnInvio2" value="CERCA" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group pulsante">
+                                        <div class="col-md-12">
+                                            <a href="javascript:void(0);" onclick="anchorPage('#index');">
+                                                <i class="fas fa-chevron-circle-down" style="font-size: 38px;margin-top: 12px;"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                }
+                            </div>
                         </div>
                     </div>
-                </a>
-            }
-        </div>
-        <div id="subCategoryServices" class="subCategory">
-            @foreach (GratisForGratis.Models.FINDSOTTOCATEGORIE_Result sottoCategoria in (HttpContext.Current.Application["categorie"] as List<GratisForGratis.Models.FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoria"]) && c.TIPO_VENDITA == 1))
-            {
-                <a class="category service" href="@Url.Content("/Servizi/" + sottoCategoria.DESCRIZIONE + "?categoria=" + sottoCategoria.ID)" title="@(Language.Service + ' ' + sottoCategoria.NOME)">
-                    <div class="box" style="background-image:url(@Url.Content("/Images/categorie/" + sottoCategoria.IMMAGINE));">
-                        <div>
-                            <h3 class="text name">@sottoCategoria.NOME</h3>
-                            <h4 class="text link">@Language.PurchaseFree</h4>
-                        </div>
-                    </div>
-                </a>
-            }
+                </div>
+            </section>
+            <footer>
+                <menu id="menuFooter">
+                    <nav class="navbar navbar-default navbar-static-bottom">
+                        <ul class="nav justify-content-left">
+                            <li class="nav-item">@Html.ActionLink(Language.Search, "Tutti", "Categoria", null, new { @class = "nav-link" })</li>
+                            <li class="nav-item">@Html.ActionLink(ViewModel.MissionLink, "Missione", "Home", null, new { @class = "nav-link" })</li>
+                            <li class="nav-item">@Html.ActionLink(ViewModel.HowWorkLink, "ComeFunziona", "Home", null, new { @class = "nav-link" })</li>
+                            <li class="nav-item">@Html.ActionLink(ViewModel.EarnMoneyLink, "ComeGuadagnare", "Home", null, new { @class = "nav-link" })</li>
+                            <li class="nav-item">@Html.ActionLink(ViewModel.PrivacyLink, "Privacy", "Home", null, new { @class = "nav-link" })</li>
+                            <li class="nav-item">@Html.ActionLink(ViewModel.ContactsLink, "Contatti", "Home", null, new { @class = "nav-link" })</li>
+                        </ul>
+                        <ul class="nav justify-content-right box desktop">
+                            <li>
+                                <a href="http://www.davidemilitano.net/SviluppatoreDotNet" title="WebMaster C#" target="_blank">WebMaster C# - Davide Militano</a>
+                            </li>
+                            <li>&nbsp;</li>
+                            <li>
+                                @WebConfigurationManager.AppSettings["nomeSito"] &copy; @DateTime.Now.Year
+                            </li>
+                            <li>
+                                <a class="social fb" href="https://www.facebook.com/gratisforgratis" target="_blank"><i class="fab fa-facebook"></i></a>
+                                <a class="social instagram" href="https://www.instagram.com/gratisforgratis" target="_blank"><i class="fab fa-instagram"></i></a>
+                                <a class="social twitter" href="https://www.twitter.com/gratisforgratis" target="_blank"><i class="fab fa-twitter"></i></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </menu>
+            </footer>
         </div>
     </div>
-@if (!this.Context.IsDebuggingEnabled)
-{
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-        <!-- gratisforgratis -->
-        <ins class="adsbygoogle"
-             style="display:inline-block;width:728px;height:90px"
-             data-ad-client="ca-pub-5108424997424987"
-             data-ad-slot="6804074557"></ins>
-        <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
+    <div id="index" class="page">
+        <div class="content">
+            <div class="row justify-content-center text-center">
+                <div class="col-md-12">
+                    <h2 class="title" style="margin:22px auto;">CATEGORIE</h2>
+                </div>
+            </div>
+            <div id="subCategoryObjects" class="row justify-content-center">
+                @foreach (GratisForGratis.Models.FINDSOTTOCATEGORIE_Result sottoCategoria in (HttpContext.Current.Application["categorie"] as List<GratisForGratis.Models.FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoria"]) && c.TIPO_VENDITA == 0))
+                {
+                    <a class="col-lg-2 col-md-3 col-sm-4 category object" href="@Url.Content("/Categoria/" + sottoCategoria.DESCRIZIONE.Replace(" ","-") + "/" + sottoCategoria.ID)" title="@(Language.Object + ' ' + sottoCategoria.NOME)">
+                        <div class="box" style="background-image:url(@Url.Content("/Images/categorie/" + sottoCategoria.IMMAGINE));">
+                            <div>
+                                <h3 class="text name">@sottoCategoria.NOME</h3>
+                                <h4 class="text link">@Language.BuyFree</h4>
+                            </div>
+                        </div>
+                    </a>
+                }
+            </div>
+            <div id="subCategoryServices" class="row justify-content-center">
+                @foreach (GratisForGratis.Models.FINDSOTTOCATEGORIE_Result sottoCategoria in (HttpContext.Current.Application["categorie"] as List<GratisForGratis.Models.FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoria"]) && c.TIPO_VENDITA == 1))
+                {
+                    <a class="col-lg-2 col-md-3 category service" href="@Url.Content("/Categoria/" + sottoCategoria.DESCRIZIONE.Replace(" ","-") + "/" + sottoCategoria.ID)" title="@(Language.Service + ' ' + sottoCategoria.NOME)">
+                        <div class="box" style="background-image:url(@Url.Content("/Images/categorie/" + sottoCategoria.IMMAGINE));">
+                            <div>
+                                <h3 class="text name">@sottoCategoria.NOME</h3>
+                                <h4 class="text link">@Language.PurchaseFree</h4>
+                            </div>
+                        </div>
+                    </a>
+                }
+            </div>
+            <div class="row pulsante justify-content-center text-center">
+                <div class="col-md-12">
+                    <a href="javascript:void(0);" onclick="anchorPage('#why');">
+                        <i class="fas fa-chevron-circle-down" style="font-size: 38px;margin-top: 12px;"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        @if (!this.Context.IsDebuggingEnabled)
+        {
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- gratisforgratis -->
+            <ins class="adsbygoogle"
+                 style="display:inline-block;width:728px;height:90px"
+                 data-ad-client="ca-pub-5108424997424987"
+                 data-ad-slot="6804074557"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        }
+    </div>
+    <div id="why" class="page">
+        <div class="content" style="height:100%;">
+            <div class="row align-items-center justify-content-center" style="height:100%;">
+                <div class="col-md-12 text-center">
+                    <h2 class="title" style="margin:22px auto;">CARATTERISTICHE</h2>
+                </div>
+                <div class="col-md-10">
+                    <div id="caratteristiche" class="row align-items-start" style="margin:22px 0px 60px;">
+                        <div id="completo" class="col-md-4 text-center language">
+                            <h2 class="title"><a href="/articolo/25889/How-do-I-stop-MS-Graph-component-popping-up-during-Interop?">Completo</a></h2>
+                            <div>
+                                <img class="img-thumbnail" src="/img/c1.jpg" alt="immagine linguaggio" />
+                            </div>
+                            <div class="text">
+                                <p>
+                                    Puoi pagare con qualsiasi forma di pagamento: euro, happy-coin, fare un'offerta (anche il baratto) o regalare
+                                </p>
+                            </div>
+                        </div>
+                        <div id="anonimo" class="col-md-4 text-center language">
+                            <h2 class="title"><a href="/articolo/39911/How-to-program-a-full-screen-mode-in-Java?">Anonimo</a></h2>
+                            <div>
+                                <img class="img-thumbnail" src="/img/java1.jpg" alt="immagine linguaggio" />
+                            </div>
+                            <div class="text">
+                                <p>
+                                    Per l'utilizzo della piattaforma ti chiederemo solo e-mail, password ed un nome identificativo (come uno username)
+                                </p>
+                            </div>
+                        </div>
+                        <div id="sicuro" class="col-md-4 text-center language">
+                            <h2 class="title"><a href="/articolo/109237/Editing-PHP-files-for-configuration-via-PHP">Sicuro</a></h2>
+                            <div>
+                                <img class="img-thumbnail" src="/img/php1.jpg" alt="immagine linguaggio" />
+                            </div>
+                            <div class="text">
+                                <p>
+                                    Abbiamo usato le nuove tecnologie, monitoriamo la sicurezza tramite appositi tool, tracciamo gli errori e applichiamo
+                                    una filosofia che esorta la violazione del sistema
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 pulsante">
+                    <a href="javascript:void(0);" onclick="anchorPage('#bando');">
+                        <i class="fas fa-chevron-circle-down" style="font-size: 38px;margin-top: 12px;"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="bando" class="page">
+        <div class="content" style="height:100%;">
+            <div class="row align-items-center justify-content-center" style="height:100%;">
+                <div class="col-md-12 text-center">
+                    <h2 class="title" style="margin:22px auto;">Bando 2019 - Come partecipare?</h2>
+                </div>
+                <div class="col-md-10">
+                    <div id="bando2019" class="row align-items-center" style="margin:22px 0px 60px;">
+                        <div id="bandreg" class="col-md-3 text-center language">
+                            <h2 class="title"><a href="/utente/login">Registrati</a></h2>
+                            <div>
+                                <img class="img-thumbnail" src="/img/c1.jpg" alt="immagine linguaggio" />
+                            </div>
+                            <div class="text">
+                                <p>
+                                    Fai la registrazione smart inserendo solamente e-mail, password e lo username dopo l'accesso
+                                </p>
+                            </div>
+                        </div>
+                        <div id="bandopubb" class="col-md-3 text-center language">
+                            <h2 class="title"><a href="/pubblica">Pubblica</a></h2>
+                            <div>
+                                <img class="img-thumbnail" src="/img/java1.jpg" alt="immagine linguaggio" />
+                            </div>
+                            <div class="text">
+                                <p>
+                                    Pubblica 4 annunci attendibili, con almeno uno che sia nella categoria servizi
+                                </p>
+                            </div>
+                        </div>
+                        <div id="bandoatt" class="col-md-3 text-center language">
+                            <h2 class="title"><a href="/utente">Attendi</a></h2>
+                            <div>
+                                <img class="img-thumbnail" src="/img/php1.jpg" alt="immagine linguaggio" />
+                            </div>
+                            <div class="text">
+                                <p>
+                                    Il concorso inizia il 01-09-2019 e si conclude il 30-09-2019.<br />
+                                    Dal 01-10-2019 al 31-10-2019 potrai verificare se hai vinto o meno.
+                                </p>
+                            </div>
+                        </div>
+                        <div id="bandopremio" class="col-md-3 text-center language">
+                            <h2 class="title"><a href="/utente">Premio</a></h2>
+                            <div>
+                                <img class="img-thumbnail" src="/img/php1.jpg" alt="immagine linguaggio" />
+                            </div>
+                            <div class="text">
+                                <p>
+                                    Il vincitore riceverà un buono Amazon da € 50!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <a href="~/Temp/Bando2019_Regolamento.pdf" >
+                        <i class="fas fa-file-download" style="font-size: 38px;margin-top: 12px;"></i><br />
+                        Scarica regolamento
+                    </a>
+                </div>
+                <div class="col-md-12 pulsante" style="margin-bottom:22px;">
+                    <a href="javascript:void(0);" onclick="anchorPage('#main');">
+                        <i class="fas fa-chevron-circle-up" style="font-size: 38px;margin-top: 12px;"></i><br />
+                        Torna alla ricerca
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    @Scripts.Render("https://code.jquery.com/jquery-3.4.1.min.js")
+    @Scripts.Render("https://code.jquery.com/ui/1.12.1/jquery-ui.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js")
+    @Scripts.Render("https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js")
+    @Scripts.Render("~/Scripts/Uploadify/jquery.uploadifive.min.js")
+    @Scripts.Render("~/Scripts/loader/jquery.loader.min.js")
+    <script type="text/javascript">
+        $.validator.setDefaults({
+            ignore: null
+        });
+        $.validator.methods.range = function (value, element, param) {
+            var globalizedValue = value.replace(",", ".");
+            return this.optional(element) || (globalizedValue >= param[0] && globalizedValue <= param[1]);
+        }
+
+        $.validator.methods.number = function (value, element) {
+            return this.optional(element) || /^-?(?:\d+|\d{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
+        }
+        // variabili globali
+        var MONETA = '@(Language.Price + " (" + Language.Moneta + ")")';
     </script>
-}
-</section>
+    @Scripts.Render("~/Scripts/SlickNav/jquery.slicknav.min.js")
+    @Scripts.Render("https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js")
+    @Scripts.Render("~/Scripts/Site.js")
+    @Scripts.Render("~/Scripts/index.js")
+</body>
+</html>

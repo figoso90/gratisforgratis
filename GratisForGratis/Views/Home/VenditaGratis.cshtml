@@ -6,48 +6,55 @@
     </div>
 </section>
 
-<section id="pagina">
-    <div id="presentazione" class="col-md-6 col-md-push-1">
-        <h2>MISSION</h2>
-        <p>
-            Vogliamo abbattere le barriere dell’economia attuale, creando un sistema virtuale basato sulla felicità individuale e collettiva.
-        </p>
-        <h2>VISION</h2>
-        <p>
-            Un mercato libero da banche, multinazionali e lobby di potere
-        </p>
-        <h2>FILOSOFIA</h2>
-        <p>
-            Abbiamo constatato nel corso di questo secolo che l’attuale <strong>sistema economico</strong> continua a mantenere
-            il costante problema delle disuguaglianze sociale ed economiche, anzi nel corso degli ultimi anni questa
-            forbice continua ad allargarsi. Ci siamo accorti inoltre di come grazie al raggiungimento del benessere
-            di una piccola parte della popolazione mondiale, una grande parte di essa debba subire tutto questo.
-            La situazione è inaccettabile per chiunque abbia un minimo di cuore.
-            Sulla base di questa considerazione ci siamo decisi a <strong>realizzare un sistema virtuale</strong> in cui instaurare
-            un <strong>nuovo modello socio-economico</strong>, che possa cambiare i parametri su cui basare l’economia e che modifichi
-            la filosofia e la rotta attuali.
-            Ecco perché la realizzazione di un <strong>sistema “happy”</strong>, un’<strong>economia circolare</strong> il cui strumento per valutare
-            gli scambi sia la <strong>felicità</strong>.
-        </p>
+<section id="pagina" class="content">
+    <div class="container">
+        <div class="row">
+            <div id="presentazione" class="col-md-6 mr-5">
+                <p>
+                    Il sistema <strong>permette</strong> anche di pubblicare beni e competenze da <strong>regalare</strong>, questo perchè crediamo che questa forma di scambio
+                    possa rappresentare i seguenti punti:
+                </p>
+                <h2>REGALO => <strong>COME FORMA RIVOLUZIONARIA</strong></h2>
+                <p>
+                    Vuole essere un sistema per <strong>controbattere</strong> il <strong>sistema capitalista liberale</strong>, dove non esistono regole certe,
+                    dove il PIù FORTE vince con il più debole e dove non esistono i valori anche cristiani, di carità,
+                    <strong>sostegno del più debole</strong>, altruismo per realizzare una <strong>società più forte</strong> e più progredita di altre.
+                </p>
+                <h2>REGALO => <strong>COME PROGRESSO UMANO</strong></h2>
+                <p>
+                    Un progresso non economico, non tecnologico, ma un progresso del <strong>pensiero umano</strong>,
+                    della <strong>coscienza</strong> e della <strong>società</strong>,
+                    per la creazione di un'ambiente più in sintonia con l'essere umano.
+                </p>
+                <h2>REGALO => <strong>COME FUTURO SOSTENIBILE</strong></h2>
+                <p>
+                    L'<strong>abbattimento</strong> della ricerca del <strong>superflueo</strong>, con la ricerca di ciò che è meglio per noi, quindi la
+                    negazione dell'<strong>avarizia</strong> ed invece la ricerca della modestia come modello di vita. La comprensione del mondo che ci
+                    sta attorno per arrivare ad apprezzare ciò che abbiamo senza cercare in modo ossessivo e malato <strong>cose inutili</strong> e solo
+                    <strong>momentanee</strong>. Un'evoluzione vera cercando un progresso nei valori per capire il significato di avere fatto proprio un valore.
+                </p>
+            </div>
+            <aside id="linkRapidi" class="col-md-3">
+                <h2 class="title">Link rapidi</h2>
+                <ul class="lista">
+                    <li>
+                        @Html.ActionLink(ViewModel.EarnMoneyLink, "ComeGuadagnare", "Home")
+                    </li>
+                    <li>
+                        @Html.ActionLink(ViewModel.FundingLink, "Finanziamenti", "Home")
+                    </li>
+                    <li>
+                        @Html.ActionLink(ViewModel.CircularEconomy, "EconomiaCircolare", "Home")
+                    </li>
+                    <li>
+                        @Html.ActionLink(ViewModel.PartnershipLink, "Partnership", "Home")
+                    </li>
+                    <li>
+                        @Html.ActionLink(ViewModel.GiftLink, "Regalo", "Home")
+                    </li>
+                </ul>
+            </aside>
+        </div>
     </div>
-    <aside id="linkRapidi" class="col-md-3 col-md-push-2">
-        <ul>
-            <li>
-                @Html.ActionLink(ViewModel.TeamLink, "Team", "Home")
-            </li>
-            <li>
-                @Html.ActionLink(ViewModel.FundingLink, "Finanziamenti", "Home")
-            </li>
-            <li>
-                @Html.ActionLink(ViewModel.FreeCircuitLink, "CircuitoGratis", "Home")
-            </li>
-            <li>
-                @Html.ActionLink(ViewModel.PartnershipLink, "Partnership", "Home")
-            </li>
-            <li>
-                @Html.ActionLink(ViewModel.SellGratisLink, "VenditaGratis", "Home")
-            </li>
-        </ul>
-    </aside>
 </section>
 

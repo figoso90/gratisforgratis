@@ -1,15 +1,19 @@
-﻿@model GratisForGratis.Models.ListaOggetti
+﻿@model GratisForGratis.Models.ListaServizi
 
 @section Styles {
     @Styles.Render("~/Content/home.css")
     @Styles.Render("~/Content/ricerca.css")
 }
 <aside id="ricerca">
-    @Html.Partial("Filtri/Telefoni-Smartphone", new GratisForGratis.Models.RicercaCellulareViewModel(Model.TotalNumber))
+    @{
+        var modello = new GratisForGratis.Models.RicercaServizioViewModel(Model.TotalNumber);
+        modello.NomeFiltro = "Servizi";
+    }
+    @Html.Partial("PartialPages/_Filtro", modello)
 </aside>
 <section id="page">
     <section id="home" class="content">
-        @Html.Partial("Elenco/Telefoni-Smartphone", Model)
+        @Html.Partial("Elenco/Servizi", Model)
     </section>
 </section>
 

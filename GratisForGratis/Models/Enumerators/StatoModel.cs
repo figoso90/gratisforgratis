@@ -171,4 +171,10 @@ namespace GratisForGratis.Models
         SOSPESO = 3,
         SELEZIONATO = 4
     }
+
+    public enum StatoPubblicaAnnuncioFacebook
+    {
+        NonPubblicato = 0,
+        Pubblicato = 1
+    }
 }

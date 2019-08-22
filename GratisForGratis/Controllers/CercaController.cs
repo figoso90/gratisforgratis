@@ -26,22 +26,31 @@ namespace GratisForGratis.Controllers
         public ActionResult Index(RicercaViewModel cerca)
         {
             // setta i cookie principali
-            HttpCookie cookie = HttpContext.Request.Cookies.Get("ricerca");
+            //HttpCookie cookie = HttpContext.Request.Cookies.Get("ricerca");
             List<FINDSOTTOCATEGORIE_Result> categorie = HttpContext.Application["categorie"] as List<FINDSOTTOCATEGORIE_Result>;
             var categoria = categorie.Where(c => c.ID == cerca.Cerca_IDCategoria || (cerca.Cerca_IDCategoria <= 0 && c.DESCRIZIONE == cerca.Cerca_Categoria))
                 .OrderBy(c => c.LIVELLO).OrderBy(c => c.ID_PADRE)
                 .FirstOrDefault();
+            if (categoria == null)
+                RedirectToAction("Index", "Home");
             try
             {
+                dynamic lista;
+                string nomeView = string.Empty;
+                FINDSOTTOCATEGORIE_Result categoriaPadre = categorie.Where(c => c.ID == categoria.ID_PADRE && c.TIPO_VENDITA > -1).SingleOrDefault();
+                if (categoriaPadre != null)
+                {
+                    nomeView = categoria.DESCRIZIONE;
+                }
+                cerca.SetCookie(categoria, categoriaPadre);
+                HttpCookie cookie = HttpContext.Request.Cookies.Get("ricerca");
                 // recupero la categoria
-                cookie["Nome"] = cerca.Cerca_Nome;
-                if (categoria == null)
-                    RedirectToAction("Index", "Home");
-                cookie["Categoria"] = categoria.DESCRIZIONE;
-                cookie["IDCategoria"] = categoria.ID.ToString();
-                cookie["TipoAcquisto"] = categoria.TIPO_VENDITA.ToString();
-                cookie["Livello"] = categoria.LIVELLO.ToString();
-                HttpContext.Response.SetCookie(cookie);
+                //cookie["Nome"] = cerca.Cerca_Nome;
+                //cookie["Categoria"] = categoria.DESCRIZIONE;
+                //cookie["IDCategoria"] = categoria.ID.ToString();
+                //cookie["TipoAcquisto"] = categoria.TIPO_VENDITA.ToString();
+                //cookie["Livello"] = categoria.LIVELLO.ToString();
+                //HttpContext.Response.SetCookie(cookie);
 
                 // cerca tra tutte le vendite
                 if (categoria.ID == 1)
@@ -49,126 +58,156 @@ namespace GratisForGratis.Controllers
                     ViewBag.Title = App_GlobalResources.Language.Search + " " + categoria.NOME;
                     int pagineTotali = 1;
                     int numeroRecord = 0;
-                    ListaVendite lista = new ListaVendite(categoria.ID,categoria.DESCRIZIONE)
+                    lista = new ListaVendite(categoria.ID,categoria.DESCRIZIONE)
                     {
                         List = FindVendite(cookie, HttpContext.Request.Cookies.Get("filtro"), cerca.Pagina, ref pagineTotali, ref numeroRecord),
                         PageNumber = cerca.Pagina,
                         PageCount = pagineTotali,
                         TotalNumber = numeroRecord
                     };
-                    return View(lista);
+                    if (string.IsNullOrWhiteSpace(nomeView))
+                        nomeView = "index";
+                }else if (categoria != null && categoria.TIPO_VENDITA == (int)TipoAcquisto.Servizio)
+                {
+                    lista = new ListaServizi();
+                    lista = GetListaServizi(cerca.Pagina, cookie);
+                    if (string.IsNullOrWhiteSpace(nomeView))
+                        nomeView = "servizi";
+                }
+                else
+                {
+                    lista = new ListaOggetti();
+                    lista = GetListaOggetti(cerca.Pagina, cookie);
+                    if (string.IsNullOrWhiteSpace(nomeView))
+                        nomeView = "oggetti";
                 }
 
                 // verifica se salvare la ricerca
                 if (cerca.Cerca_Submit == "save" && (!string.IsNullOrWhiteSpace(cerca.Cerca_Nome) || cerca.Cerca_IDCategoria > 1))
                     return RedirectToAction("SaveRicerca");
+
+                //FINDSOTTOCATEGORIE_Result categoriaPadre = categorie.Where(c => c.ID == categoria.ID_PADRE && c.TIPO_VENDITA > -1).SingleOrDefault();
+                //if (categoriaPadre != null)
+                //{
+                //    cookie["CategoriaPadre"] = categoriaPadre.NOME;
+                //    cookie["IDCategoriaPadre"] = categoriaPadre.ID.ToString();
+                //    nomeView = categoria.DESCRIZIONE;
+                //}
+
+                ViewBag.Description = string.Format(App_GlobalResources.MetaTag.DescriptionSearch, cookie["Categoria"],
+                    WebConfigurationManager.AppSettings["nomeSito"]);
+                ViewBag.Keywords = string.Format(App_GlobalResources.MetaTag.KeywordsSearch, cookie["Categoria"]);
+                // se la sottocategoria è vuota, torna la view di default
+                return View(nomeView, lista);
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
                 RedirectToAction("Index", "Home");
             }
 
-            // reindirizzo alla action corretta in base al tipo di vendita
-            if (categoria != null && categoria.TIPO_VENDITA == (int)TipoAcquisto.Servizio)
-            {
-                return RedirectToAction(cookie["Categoria"], "Servizi", new { categoria = categoria.ID });
-            }
-
-            return RedirectToAction(cookie["Categoria"], "Oggetti", new { categoria = categoria.ID });
-        }
-
-        // ricerca da link diretto - manca settaggio cookie funzionante e passaggio id categoria
-        // controllare che nella sessione ci siano le categorie
-        [HttpGet]
-        public ActionResult Oggetti(string nomeCategoria = "Tutti", string sottocategoria = "", int categoria = 1, int pagina = 1)
-        {
-            // imposta i cookie di ricerca
-            HttpCookie cookie = HttpContext.Request.Cookies.Get("ricerca");
-            ListaOggetti lista = new ListaOggetti();
-            try
-            {
-                List<FINDSOTTOCATEGORIE_Result> listaCategorie = HttpContext.Application["categorie"] as List<FINDSOTTOCATEGORIE_Result>;
-                // se esiste il parametro categoria allora cercare per quello, altrimenti per nome
-                FINDSOTTOCATEGORIE_Result risultato = listaCategorie.Where(c => c.TIPO_VENDITA == 0 && c.ID == categoria
-                        && c.STATO == (int)Stato.ATTIVO).OrderBy(c => c.LIVELLO).OrderBy(c => c.ID_PADRE).FirstOrDefault();
-                if (risultato == null)
-                    return RedirectToAction("","Cerca");
-                cookie["Categoria"] = risultato.DESCRIZIONE;
-                cookie["IDCategoria"] = risultato.ID.ToString();
-                cookie["TipoAcquisto"] = risultato.TIPO_VENDITA.ToString();
-                FINDSOTTOCATEGORIE_Result categoriaPadre = listaCategorie.Where(c => c.ID == risultato.ID_PADRE && c.TIPO_VENDITA > -1).SingleOrDefault();
-                if (categoriaPadre != null)
-                {
-                    cookie["CategoriaPadre"] = categoriaPadre.NOME;
-                    cookie["IDCategoriaPadre"] = categoriaPadre.ID.ToString();
-                    sottocategoria = risultato.DESCRIZIONE;
-                }
-
-                ViewBag.Title = string.Format(App_GlobalResources.MetaTag.TitleSearch, risultato.NOME);
-
-                HttpContext.Response.SetCookie(cookie);
-                lista = GetListaOggetti(pagina, cookie);
-
-            }
-            catch (Exception ex)
-            {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
-                RedirectToAction("Index", "Home");
-            }
-            ViewBag.Description = string.Format(App_GlobalResources.MetaTag.DescriptionSearch, cookie["Categoria"],
-                WebConfigurationManager.AppSettings["nomeSito"]);
-            ViewBag.Keywords = string.Format(App_GlobalResources.MetaTag.KeywordsSearch, cookie["Categoria"]);
-            // se la sottocategoria è vuota, torna la view di default
-            return View(sottocategoria, lista);
+            return View();
         }
 
         [HttpGet]
-        public ActionResult Servizi(string nomeCategoria = "Tutti", string sottocategoria = "", int categoria = 1, int pagina = 1)
+        public ActionResult Index2(RicercaViewModel cerca)
         {
-            // imposta i cookie di ricerca
-            HttpCookie cookie = HttpContext.Request.Cookies.Get("ricerca");
-            ListaServizi lista = new ListaServizi();
+            return RedirectToRoute("Categoria", cerca);
+        }
 
-            try
-            {
-                List<FINDSOTTOCATEGORIE_Result> listaCategorie = HttpContext.Application["categorie"] as List<FINDSOTTOCATEGORIE_Result>;
-                // carico la ricerca per la macrocategoria o se c'è la sottocategoria
-                /*var risultato = listaCategorie.Where(c =>
-                    ((c.TIPO_VENDITA == 1 && c.ID == categoria) || (categoria == 1 && (c.TIPO_VENDITA == -1 || c.TIPO_VENDITA == 1) 
-                    && c.LIVELLO <=0 && c.DESCRIZIONE == nomeCategoria))
-                    && c.STATO == (int)Stato.ATTIVO).OrderBy(c => c.LIVELLO).OrderBy(c => c.ID_PADRE).FirstOrDefault();*/
-                FINDSOTTOCATEGORIE_Result risultato = listaCategorie.Where(c => c.TIPO_VENDITA == 1 && c.ID == categoria
-                        && c.STATO == (int)Stato.ATTIVO).OrderBy(c => c.LIVELLO).OrderBy(c => c.ID_PADRE).FirstOrDefault();
-                if (risultato == null)
-                    return RedirectToAction("", "Cerca");
+        //// ricerca da link diretto - manca settaggio cookie funzionante e passaggio id categoria
+        //// controllare che nella sessione ci siano le categorie
+        //[HttpGet]
+        //public ActionResult Oggetti(int categoria = 1, int pagina = 1)
+        //{
+        //    // imposta i cookie di ricerca
+        //    HttpCookie cookie = HttpContext.Request.Cookies.Get("ricerca");
+        //    ListaOggetti lista = new ListaOggetti();
+        //    string sottocategoria = string.Empty;
+        //    try
+        //    {
+        //        List<FINDSOTTOCATEGORIE_Result> listaCategorie = HttpContext.Application["categorie"] as List<FINDSOTTOCATEGORIE_Result>;
+        //        // se esiste il parametro categoria allora cercare per quello, altrimenti per nome
+        //        FINDSOTTOCATEGORIE_Result risultato = listaCategorie.Where(c => c.TIPO_VENDITA == 0 && c.ID == categoria
+        //                && c.STATO == (int)Stato.ATTIVO).OrderBy(c => c.LIVELLO).OrderBy(c => c.ID_PADRE).FirstOrDefault();
+        //        if (risultato == null)
+        //            return RedirectToAction("","Cerca");
+        //        cookie["Categoria"] = risultato.DESCRIZIONE;
+        //        cookie["IDCategoria"] = risultato.ID.ToString();
+        //        cookie["TipoAcquisto"] = risultato.TIPO_VENDITA.ToString();
+        //        FINDSOTTOCATEGORIE_Result categoriaPadre = listaCategorie.Where(c => c.ID == risultato.ID_PADRE && c.TIPO_VENDITA > -1).SingleOrDefault();
+        //        if (categoriaPadre != null)
+        //        {
+        //            cookie["CategoriaPadre"] = categoriaPadre.NOME;
+        //            cookie["IDCategoriaPadre"] = categoriaPadre.ID.ToString();
+        //            sottocategoria = risultato.DESCRIZIONE;
+        //        }
 
-                cookie["Categoria"] = risultato.DESCRIZIONE;
-                cookie["IDCategoria"] = risultato.ID.ToString();
-                cookie["TipoAcquisto"] = risultato.TIPO_VENDITA.ToString();
-                FINDSOTTOCATEGORIE_Result categoriaPadre = listaCategorie.Where(c => c.ID == risultato.ID_PADRE && c.TIPO_VENDITA > -1).SingleOrDefault();
-                if (categoriaPadre != null)
-                {
-                    cookie["CategoriaPadre"] = categoriaPadre.NOME;
-                    cookie["IDCategoriaPadre"] = categoriaPadre.ID.ToString();
-                    sottocategoria = risultato.DESCRIZIONE;
-                }
-                ViewBag.Title = string.Format(App_GlobalResources.MetaTag.TitleSearch, risultato.NOME);
+        //        ViewBag.Title = string.Format(App_GlobalResources.MetaTag.TitleSearch, risultato.NOME);
+
+        //        HttpContext.Response.SetCookie(cookie);
+        //        lista = GetListaOggetti(pagina, cookie);
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+        //        RedirectToAction("Index", "Home");
+        //    }
+        //    ViewBag.Description = string.Format(App_GlobalResources.MetaTag.DescriptionSearch, cookie["Categoria"],
+        //        WebConfigurationManager.AppSettings["nomeSito"]);
+        //    ViewBag.Keywords = string.Format(App_GlobalResources.MetaTag.KeywordsSearch, cookie["Categoria"]);
+        //    // se la sottocategoria è vuota, torna la view di default
+        //    return View(sottocategoria, lista);
+        //}
+
+        //[HttpGet]
+        //public ActionResult Servizi(int categoria = 1, int pagina = 1)
+        //{
+        //    // imposta i cookie di ricerca
+        //    HttpCookie cookie = HttpContext.Request.Cookies.Get("ricerca");
+        //    ListaServizi lista = new ListaServizi();
+        //    string sottocategoria = string.Empty;
+        //    try
+        //    {
+        //        List<FINDSOTTOCATEGORIE_Result> listaCategorie = HttpContext.Application["categorie"] as List<FINDSOTTOCATEGORIE_Result>;
+        //        // carico la ricerca per la macrocategoria o se c'è la sottocategoria
+        //        /*var risultato = listaCategorie.Where(c =>
+        //            ((c.TIPO_VENDITA == 1 && c.ID == categoria) || (categoria == 1 && (c.TIPO_VENDITA == -1 || c.TIPO_VENDITA == 1) 
+        //            && c.LIVELLO <=0 && c.DESCRIZIONE == nomeCategoria))
+        //            && c.STATO == (int)Stato.ATTIVO).OrderBy(c => c.LIVELLO).OrderBy(c => c.ID_PADRE).FirstOrDefault();*/
+        //        FINDSOTTOCATEGORIE_Result risultato = listaCategorie.Where(c => c.TIPO_VENDITA == 1 && c.ID == categoria
+        //                && c.STATO == (int)Stato.ATTIVO).OrderBy(c => c.LIVELLO).OrderBy(c => c.ID_PADRE).FirstOrDefault();
+        //        if (risultato == null)
+        //            return RedirectToAction("", "Cerca");
+
+        //        cookie["Categoria"] = risultato.DESCRIZIONE;
+        //        cookie["IDCategoria"] = risultato.ID.ToString();
+        //        cookie["TipoAcquisto"] = risultato.TIPO_VENDITA.ToString();
+        //        FINDSOTTOCATEGORIE_Result categoriaPadre = listaCategorie.Where(c => c.ID == risultato.ID_PADRE && c.TIPO_VENDITA > -1).SingleOrDefault();
+        //        if (categoriaPadre != null)
+        //        {
+        //            cookie["CategoriaPadre"] = categoriaPadre.NOME;
+        //            cookie["IDCategoriaPadre"] = categoriaPadre.ID.ToString();
+        //            sottocategoria = risultato.DESCRIZIONE;
+        //        }
+        //        ViewBag.Title = string.Format(App_GlobalResources.MetaTag.TitleSearch, risultato.NOME);
                 
-                HttpContext.Response.Cookies.Set(cookie);
-                lista = GetListaServizi(pagina, cookie);
-            }
-            catch (Exception ex)
-            {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
-                RedirectToAction("Index", "Home");
-            }
-            ViewBag.Description = string.Format(App_GlobalResources.MetaTag.DescriptionSearch, cookie["Categoria"],
-                WebConfigurationManager.AppSettings["nomeSito"]);
-            ViewBag.Keywords = string.Format(App_GlobalResources.MetaTag.KeywordsSearch, cookie["Categoria"]);
-            // se la sottocategoria è vuota, torna la view di default
-            return View(sottocategoria, lista);
-        }
+        //        HttpContext.Response.Cookies.Set(cookie);
+        //        lista = GetListaServizi(pagina, cookie);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+        //        RedirectToAction("Index", "Home");
+        //    }
+        //    ViewBag.Description = string.Format(App_GlobalResources.MetaTag.DescriptionSearch, cookie["Categoria"],
+        //        WebConfigurationManager.AppSettings["nomeSito"]);
+        //    ViewBag.Keywords = string.Format(App_GlobalResources.MetaTag.KeywordsSearch, cookie["Categoria"]);
+        //    // se la sottocategoria è vuota, torna la view di default
+        //    return View(sottocategoria, lista);
+        //}
 
         [HttpGet]
         [AllowAnonymous]
@@ -253,7 +292,8 @@ namespace GratisForGratis.Controllers
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
 
             // ritorna vista per l'inserimento della mail
@@ -295,7 +335,8 @@ namespace GratisForGratis.Controllers
             }
             catch(Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
             return View();
         }
@@ -986,7 +1027,8 @@ namespace GratisForGratis.Controllers
                             }
                             catch (Exception ex)
                             {
-                                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                                LoggatoreModel.Errore(ex);
                             }
                         }
                     }
@@ -1019,6 +1061,10 @@ namespace GratisForGratis.Controllers
             {
                 cmd.Parameters.Add(new SqlParameter("PUNTIMAX", Convert.ToDecimal(filtro["PuntiMax"])));
                 condizione += " AND V.PUNTI <= @PUNTIMAX";
+            }
+            if (filtro["NonPersonale"] != null && Convert.ToBoolean(filtro["NonPersonale"]) == true)
+            {
+                condizione += " AND V.ID_PERSONA != @UTENTE";
             }
             /*
             if ((filtro["AnnoMin"] != null) && Convert.ToInt32(filtro["AnnoMin"]) > 0)
@@ -1204,7 +1250,8 @@ namespace GratisForGratis.Controllers
                             }
                             catch (Exception ex)
                             {
-                                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                                LoggatoreModel.Errore(ex);
                             }
                         }
                     }
@@ -1451,6 +1498,20 @@ namespace GratisForGratis.Controllers
                 {
                     cmd.Parameters.Add(new SqlParameter("ANNOMAX", Convert.ToInt32(filtro["AnnoMax"])));
                     condizione += " AND O.ANNO <= @ANNOMAX";
+                }
+                if (filtro["NonPersonale"] != null && Convert.ToBoolean(filtro["NonPersonale"]) == true)
+                {
+                    condizione += " AND V.ID_PERSONA != @UTENTE";
+                }
+                if (!string.IsNullOrWhiteSpace(filtro["TipoScambio"]))
+                {
+                    //var tipoScambio = (TipoScambio)Enum.Parse(typeof(TipoScambio), filtro["TipoScambio"]);
+                    //if (tipoScambio != TipoScambio.AMano)
+                    //{
+                        cmd.Parameters.Add(new SqlParameter("TIPOSCAMBIO", Convert.ToInt32(Enum.Parse(typeof(TipoScambio), filtro["TipoScambio"]))));
+                        condizione += " AND EXISTS (SELECT * FROM ANNUNCIO_TIPO_SCAMBIO AS T WHERE V.ID=T.ID_ANNUNCIO AND " +
+                            "TIPO_SCAMBIO = @TIPOSCAMBIO)";
+                    //}
                 }
 
                 // filtro personalizzato per categoria
@@ -1823,7 +1884,8 @@ namespace GratisForGratis.Controllers
                             }
                             catch (Exception ex)
                             {
-                                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                                LoggatoreModel.Errore(ex);
                             }
                         }
                     }
@@ -2032,7 +2094,8 @@ namespace GratisForGratis.Controllers
             }
             catch (Exception eccezione)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                LoggatoreModel.Errore(eccezione);
                 viewModel.VenditoreFeedback = -1;
             }
         }
@@ -2072,7 +2135,8 @@ namespace GratisForGratis.Controllers
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                LoggatoreModel.Errore(ex);
             }
 
             return RedirectToAction("SalvataggioKO");

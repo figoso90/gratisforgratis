@@ -4,9 +4,35 @@
         <h1 id="title">Siti utili</h1>
     </div>
 </section>
-<section id="siteweb">
-    <a href="https://wikileaks.org/" title="wikileaks">Wikileaks - Sito per la pubblicazione di documenti top secret!</a>
-    <a href="http://justknock.it/it/index.html" title="justknock">JustKnock - Invia le tue idee alle aziende!</a>
-    <a href="http//www.taskyjob.com/" title="taskyjob">TaskyJob - Guadagna tempo libero!</a>
-    <a href="http://geniup.com/" title="geniup">GeniUp - Imparare facilmente a costruire un'impresa!</a>
+<section id="siteweb" class="content">
+    <div class="container">
+        <div class="row">
+            <div id="presentazione" class="col-md-6 mr-5">
+                <a href="https://wikileaks.org/" title="wikileaks">Wikileaks - Sito per la pubblicazione di documenti top secret!</a>
+                <a href="http://justknock.it/it/index.html" title="justknock">JustKnock - Invia le tue idee alle aziende!</a>
+                <a href="http//www.taskyjob.com/" title="taskyjob">TaskyJob - Guadagna tempo libero!</a>
+                <a href="http://geniup.com/" title="geniup">GeniUp - Imparare facilmente a costruire un'impresa!</a>
+            </div>
+            <aside id="linkRapidi" class="col-md-3">
+                <h2 class="title">Link rapidi</h2>
+                <ul class="lista">
+                    <li>
+                        @Html.ActionLink(ViewModel.TeamLink, "Team", "Home")
+                    </li>
+                    <li>
+                        @Html.ActionLink(ViewModel.FundingLink, "Finanziamenti", "Home")
+                    </li>
+                    <li>
+                        @Html.ActionLink(ViewModel.FreeCircuitLink, "CircuitoGratis", "Home")
+                    </li>
+                    <li>
+                        @Html.ActionLink(ViewModel.PartnershipLink, "Partnership", "Home")
+                    </li>
+                    <li>
+                        @Html.ActionLink(ViewModel.SellGratisLink, "VenditaGratis", "Home")
+                    </li>
+                </ul>
+            </aside>
+        </div>
+    </div>
 </section>

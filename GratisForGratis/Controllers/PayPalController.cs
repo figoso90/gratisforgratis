@@ -190,6 +190,7 @@ namespace GratisForGratis.Controllers
             catch (Exception ex)
             {
                 //Logger.log("Error" + ex.Message);
+                LoggatoreModel.Errore(ex);
                 // redirect errore nell'acquisto
                 TempData["errore"] = "Errore grave durante l'acquisto: " + ex.Message;
             }
@@ -341,7 +342,10 @@ namespace GratisForGratis.Controllers
                         break;
                 }
             }
-            catch { }
+            catch (Exception eccezione)
+            {
+                LoggatoreModel.Errore(eccezione);
+            }
         }
 
         private List<Transaction> GetListTransaction(AzionePayPal azione, string guid)
@@ -794,6 +798,7 @@ namespace GratisForGratis.Controllers
                     catch (Exception ex)
                     {
                         transaction.Rollback();
+                        LoggatoreModel.Errore(ex);
                         throw ex;
                     }
                 }

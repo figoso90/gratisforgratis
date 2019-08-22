@@ -5,120 +5,131 @@
     @Styles.Render("~/Scripts/ColorPicker/css/colorpicker.css")
     @Styles.Render("~/Content/pubblica.css")
 }
-
-
-
 <section id="pubblicazione">
-    @using (Html.BeginForm("", "Pubblica", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form", id = "formPubblica" }))
-    {
-        @Html.AntiForgeryToken()
-        @Html.HiddenFor(m => m.TokenOK)
+    <div class="content">
+        <div class="container">
 
-        <h4 id="description">@Language.DescriptionPubblicationIndex</h4>
-        <hr />
-        @Html.ValidationMessage("Error", new { @class = "text-danger", id = "ErroreGenerico" })
-        @Html.ValidationMessage("Errore", new { @class = "text-danger", id = "ErroreGenerico2" })
-        @Html.ValidationMessage("", new { @class = "text-danger", id = "ErroreGenerico3" })
+            <h4 id="description">@Language.DescriptionPubblicationIndex</h4>
+            <hr />
+            @Html.ValidationMessage("Error", new { @class = "text-danger", id = "ErroreGenerico" })
+            @Html.ValidationMessage("Errore", new { @class = "text-danger", id = "ErroreGenerico2" })
+            @Html.ValidationMessage("", new { @class = "text-danger", id = "ErroreGenerico3" })
 
-        <div class="form-group">
-            @Html.LabelFor(m => m.Nome, new { @class = "col-md-2 control-label" })
-            @Html.TextBoxFor(m => m.Nome, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Nome, "", new { @class = "text-danger" })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.CategoriaId, new { @class = "col-md-2 control-label" })
-            <div id="menuCategoriaPubblica">
-                @Html.HiddenFor(m => m.CategoriaNome)
-                @Html.HiddenFor(m => m.CategoriaId)
-            </div>
-            @Html.ValidationMessageFor(m => m.CategoriaId, "", new { @class = "text-danger" })
-            @Html.ValidationMessageFor(m => m.CategoriaNome, "", new { @class = "text-danger" })
-        </div>
-        <div class="form-group">
-            <div class="col-md-10">
-                @Html.LabelFor(m => m.Foto, new { @class = "col-md-2 control-label" })
-                @Html.TextBox("file", "", new { @class = "form-control number", type = "file", data_url = "/Pubblicazione/UploadImmagine", multiple = "" })
-                <div id="progress">
-                    <div class="bar" style="width: 0%;"></div>
-                </div>
-            </div>
-            <div class="col-md-10">
-                @Html.LabelFor(m => m.Soldi, new { @class = "col-md-2 control-label" })
-                <div>
-                    <span class="valuta" style="">€</span>
-                    @Html.TextBoxFor(m => m.Soldi, new { @class = "form-control number" })
-                    <a class='my-tool-tip' data-toggle="tooltip" href="javascript:void(0);"
-                       title="@Tooltip.PublishInfoMoney">
-                        <i class="glyphicon glyphicon-info-sign" style="display: inline-block;vertical-align: top;color: red;"></i>
-                    </a>
-                </div>
-            </div>
-            @Html.ValidationMessageFor(m => m.Foto, "", new { @class = "text-danger" })
-            @Html.ValidationMessageFor(m => m.Soldi, "", new { @class = "text-danger" })
-        </div>
-        <div id="listaFileAggiunti">
-            @Html.Partial("PartialPages/_GalleriaFotoAnnuncio", new GratisForGratis.Models.PubblicaListaFotoViewModel() { Foto = Model.Foto, TokenUploadFoto = Model.TokenUploadFoto.ToString() })
-        </div>
-        @Html.HiddenFor(m => m.TokenUploadFoto)
-
-        if (Session["portaleweb"] != null)
-        {
-            <div class="form-group">
-                @Html.LabelFor(m => m.Partner, new { @class = "col-md-2 control-label" })
-                @Html.DropDownList("Partner", new SelectList(
-                    (Session["portaleweb"] as List<GratisForGratis.Models.PortaleWebViewModel>).Select(p => new SelectListItem()
-                    {
-                        Text = p.Nome,
-                        Value = p.Token.ToString()
-                    }), "Value", "Text", Model.Partner), (Session["utente"] as GratisForGratis.Models.PersonaModel).NomeVisibile, new { @class = "form-control" }
-                )
-                @Html.ValidationMessageFor(m => m.Partner, "", new { @class = "text-danger" })
-            </div>
-        }
-        <!-- DA RIATTIVARE CON INTRODUZIONE AZIENDE E VENDITA IN MONETA REALE. ALLA SELEZIONE DELLA SCELTA, FAR SPARIRE CAMPO CREDITI E METTERE CAMPO MONETA REALE, SELEZIONANDO IN AUTOMATICO
-            IL CONIO DA SCEGLIERE, IN BASE AL DOMINIO DEL SITO
-        <div class="form-group">
-            @Html.LabelFor(m => m.TipoPagamento, new { @class = "col-md-2 control-label" })
-            @Html.EnumDropDownListFor(m => m.TipoPagamento, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.TipoPagamento, "", new { @class = "text-danger" })
-        </div>
-            -->
-        @Html.HiddenFor(m => m.TipoPagamento)
-        <div class="form-group">
-            @Html.LabelFor(m => m.Citta, new { @class = "col-md-2 control-label" })
-            @Html.TextBoxFor(m => m.Citta, new { @class = "form-control", data_autocomplete_url = "/Home/FindCitta", data_autocomplete_id = "IDCitta" })
-            @Html.HiddenFor(m => m.IDCitta)
-            @Html.ValidationMessageFor(m => m.IDCitta, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group lastInfoBase">
-            @Html.LabelFor(m => m.DurataInserzione, new { @class = "col-md-2 control-label" })
-            @Html.DropDownListFor(m => m.DurataInserzione, Model.ListaDurataInserzione, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.DurataInserzione, "", new { @class = "text-danger" })
-        </div>
-
-        <div id="boxInfoAggiuntive">
-            <div class="form-group pulsante">
-                @Html.CheckBoxFor(m => m.InserimentoInfoAvanzate, new { @class = "form-control day", onclick = "$('#advanced').toggle();" })
-                @Html.LabelFor(m => m.InserimentoInfoAvanzate, new { @class = "col-md-2 control-label" })
-            </div>
-            <div id="advanced" class="row">
-            @if (ViewData["infoAggiuntive"] != null)
+            @using (Html.BeginForm("", "Pubblica", FormMethod.Post, new { enctype = "multipart/form-data", @class = "row justify-content-center", role = "form", id = "formPubblica" }))
             {
-                WriteLiteral(Html.Raw(ViewData["infoAggiuntive"].ToString()));
-            }
-            </div>
-        </div>
+                <div class="form-row">
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.TokenOK)
 
-        <div class="footer">
-            <div class="row">
-                <input id="bottonePubblica" type="submit" class="btn btn-success addOggetto" value="@Language.Public" />
-            </div>
-            <div class="row">
-                <h5>@Html.Raw(ViewModel.PublishInfoFB)</h5>
-            </div>
+                    <div class="form-group col-md-3">
+                        @Html.LabelFor(m => m.Nome, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.Nome, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Nome, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group col-md-3">
+                        @Html.LabelFor(m => m.CategoriaId, new { @class = "control-label" })
+                        <div id="menuCategoriaPubblica">
+                            @Html.HiddenFor(m => m.CategoriaNome)
+                            @Html.HiddenFor(m => m.CategoriaId)
+                        </div>
+                        @Html.ValidationMessageFor(m => m.CategoriaId, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(m => m.CategoriaNome, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group col-md-2">
+                        <div>
+                            @Html.LabelFor(m => m.Soldi, new { @class = "control-label" })
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label class="sr-only" for="inlineFormInputGroup">€</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">€</div>
+                                        </div>
+                                        @Html.TextBoxFor(m => m.Soldi, new { @class = "form-control number", placeholder = Language.Price })
+                                        <a class="infoDomanda" data-toggle="tooltip" href="javascript:void(0);"
+                                           title="@Tooltip.PublishInfoMoney">
+                                            <i class="far fa-question-circle"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Soldi, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group col-md-2">
+                        <div>
+                            @Html.LabelFor(m => m.Foto, new { @class = "control-label" })
+                            @Html.TextBox("file", "", new { @class = "form-control number", type = "file", data_url = "/Pubblicazione/UploadImmagine", multiple = "" })
+                            <div id="progress">
+                                <div class="bar" style="width: 0%;"></div>
+                            </div>
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Foto, "", new { @class = "text-danger" })
+                    </div>
+                    <div id="listaFileAggiunti">
+                        @Html.Partial("PartialPages/_GalleriaFotoAnnuncio", new GratisForGratis.Models.PubblicaListaFotoViewModel() { Foto = Model.Foto, TokenUploadFoto = Model.TokenUploadFoto.ToString() })
+                    </div>
+                    @Html.HiddenFor(m => m.TokenUploadFoto)
+
+                    @if (Session["portaleweb"] != null)
+                    {
+                        <div class="form-group col-md-3">
+                            @Html.LabelFor(m => m.Partner, new { @class = "control-label" })
+                            @Html.DropDownList("Partner", new SelectList(
+                                (Session["portaleweb"] as List<GratisForGratis.Models.PortaleWebViewModel>).Select(p => new SelectListItem()
+                                {
+                                    Text = p.Nome,
+                                    Value = p.Token.ToString()
+                                }), "Value", "Text", Model.Partner), (Session["utente"] as GratisForGratis.Models.PersonaModel).NomeVisibile, new { @class = "form-control" }
+                            )
+                            @Html.ValidationMessageFor(m => m.Partner, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-md-3">
+                            @Html.LabelFor(m => m.TipoPagamento, new { @class = "control-label" })
+                            @Html.EnumDropDownListFor(m => m.TipoPagamento, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.TipoPagamento, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(m => m.TipoPagamento)
+                        </div>
+                    }
+                    <div class="form-group col-md-3">
+                        @Html.LabelFor(m => m.Citta, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.Citta, new { @class = "form-control", data_autocomplete_url = "/Home/FindCitta", data_autocomplete_id = "IDCitta" })
+                        @Html.HiddenFor(m => m.IDCitta)
+                        @Html.ValidationMessageFor(m => m.IDCitta, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group col-md-3 lastInfoBase">
+                        @Html.LabelFor(m => m.DurataInserzione, new { @class = "control-label" })
+                        @Html.DropDownListFor(m => m.DurataInserzione, Model.ListaDurataInserzione, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.DurataInserzione, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div id="boxInfoAggiuntive" class="form-row">
+                    <div class="form-group col-md-12 pulsante">
+                        @Html.CheckBoxFor(m => m.InserimentoInfoAvanzate, new { @class = "form-control day", onclick = "showDatiExtra();" })
+                        @Html.LabelFor(m => m.InserimentoInfoAvanzate, new { @class = "control-label" })
+                    </div>
+                </div>
+                <div id="advanced" class="form-row">
+                    @if (ViewData["infoAggiuntive"] != null)
+                    {
+                        WriteLiteral(Html.Raw(ViewData["infoAggiuntive"].ToString()));
+                    }
+                </div>
+                <div class="form-row footer">
+                    <div class="col-md-12">
+                        <input id="bottonePubblica" type="submit" class="btn btn-success addOggetto" value="@Language.Public" />
+                    </div>
+                    <div class="col-md-12">
+                        <hr />
+                        <h5>@Html.Raw(ViewModel.PublishInfoFB)</h5>
+                    </div>
+                </div>
+            }
         </div>
-    }
+    </div>
+    
 </section>
 
 @section Scripts {

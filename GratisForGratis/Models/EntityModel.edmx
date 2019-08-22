@@ -68,6 +68,9 @@
           <Property Name="ID_COMPRATORE" Type="int" />
           <Property Name="DATA_VENDITA" Type="datetime" />
           <Property Name="ID_COMMISSIONE" Type="int" />
+          <Property Name="CONDIVISIONE_FACEBOOK_G4G" Type="int" />
+          <Property Name="CONDIVISIONE_FACEBOOK_UTENTE" Type="int" />
+          <Property Name="DATA_PUBBLICAZIONE_FACEBOOK" Type="datetime" />
           <Property Name="DATA_INSERIMENTO" Type="datetime" Nullable="false" />
           <Property Name="DATA_MODIFICA" Type="datetime" />
           <Property Name="STATO" Type="int" Nullable="false" />
@@ -971,6 +974,19 @@ avviso 6005: Tipo di dati 'hierarchyid' attualmente non supportato per la versio
           <Property Name="ID_ABBONAMENTO" Type="int" Nullable="false" />
           <Property Name="DATA_INSERIMENTO" Type="datetime" Nullable="false" />
           <Property Name="DATA_ACCESSO" Type="datetime" />
+          <Property Name="DATA_MODIFICA" Type="datetime" />
+          <Property Name="STATO" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PERSONA_ANNUNCIO_PROPOSTO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_ANNUNCIO" Type="int" Nullable="false" />
+          <Property Name="ID_PERSONA" Type="int" Nullable="false" />
+          <Property Name="DATA_PROPOSTA" Type="datetime" Nullable="false" />
+          <Property Name="DATA_SCADENZA" Type="datetime" Nullable="false" />
+          <Property Name="DATA_INSERIMENTO" Type="datetime" Nullable="false" />
           <Property Name="DATA_MODIFICA" Type="datetime" />
           <Property Name="STATO" Type="int" Nullable="false" />
         </EntityType>
@@ -3397,6 +3413,30 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PERSONA_ANNUNCIO_PROPOSTO_ANNUNCIO">
+          <End Role="ANNUNCIO" Type="Self.ANNUNCIO" Multiplicity="1" />
+          <End Role="PERSONA_ANNUNCIO_PROPOSTO" Type="Self.PERSONA_ANNUNCIO_PROPOSTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ANNUNCIO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PERSONA_ANNUNCIO_PROPOSTO">
+              <PropertyRef Name="ID_ANNUNCIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERSONA_ANNUNCIO_PROPOSTO_PERSONA">
+          <End Role="PERSONA" Type="Self.PERSONA" Multiplicity="1" />
+          <End Role="PERSONA_ANNUNCIO_PROPOSTO" Type="Self.PERSONA_ANNUNCIO_PROPOSTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PERSONA_ANNUNCIO_PROPOSTO">
+              <PropertyRef Name="ID_PERSONA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PERSONA_ATTIVITA_ATTIVITA">
           <End Role="ATTIVITA" Type="Self.ATTIVITA" Multiplicity="1" />
           <End Role="PERSONA_ATTIVITA" Type="Self.PERSONA_ATTIVITA" Multiplicity="*" />
@@ -4342,6 +4382,7 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <EntitySet Name="PAYPAL" EntityType="Self.PAYPAL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PAYPAL_DETTAGLIO" EntityType="Self.PAYPAL_DETTAGLIO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PERSONA" EntityType="Self.PERSONA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PERSONA_ANNUNCIO_PROPOSTO" EntityType="Self.PERSONA_ANNUNCIO_PROPOSTO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PERSONA_ATTIVITA" EntityType="Self.PERSONA_ATTIVITA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PERSONA_EMAIL" EntityType="Self.PERSONA_EMAIL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PERSONA_FOTO" EntityType="Self.PERSONA_FOTO" Schema="dbo" store:Type="Tables" />
@@ -5057,6 +5098,14 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             <End Role="ABBONAMENTO" EntitySet="ABBONAMENTO" />
             <End Role="PERSONA" EntitySet="PERSONA" />
           </AssociationSet>
+          <AssociationSet Name="FK_PERSONA_ANNUNCIO_PROPOSTO_ANNUNCIO" Association="Self.FK_PERSONA_ANNUNCIO_PROPOSTO_ANNUNCIO">
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+            <End Role="PERSONA_ANNUNCIO_PROPOSTO" EntitySet="PERSONA_ANNUNCIO_PROPOSTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERSONA_ANNUNCIO_PROPOSTO_PERSONA" Association="Self.FK_PERSONA_ANNUNCIO_PROPOSTO_PERSONA">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="PERSONA_ANNUNCIO_PROPOSTO" EntitySet="PERSONA_ANNUNCIO_PROPOSTO" />
+          </AssociationSet>
           <AssociationSet Name="FK_PERSONA_ATTIVITA_ATTIVITA" Association="Self.FK_PERSONA_ATTIVITA_ATTIVITA">
             <End Role="ATTIVITA" EntitySet="ATTIVITA" />
             <End Role="PERSONA_ATTIVITA" EntitySet="PERSONA_ATTIVITA" />
@@ -5400,7 +5449,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <EntitySet Name="ABBONAMENTO" EntityType="GratisForGratisModel.ABBONAMENTO" />
           <EntitySet Name="ALIMENTAZIONE" EntityType="GratisForGratisModel.ALIMENTAZIONE" />
           <EntitySet Name="ALLEGATO" EntityType="GratisForGratisModel.ALLEGATO" />
-          <EntitySet Name="ANNUNCIO" EntityType="GratisForGratisModel.ANNUNCIO" />
           <EntitySet Name="ANNUNCIO_CARRELLO" EntityType="GratisForGratisModel.ANNUNCIO_CARRELLO" />
           <EntitySet Name="ANNUNCIO_CLICK" EntityType="GratisForGratisModel.ANNUNCIO_CLICK" />
           <EntitySet Name="ANNUNCIO_DESIDERATO" EntityType="GratisForGratisModel.ANNUNCIO_DESIDERATO" />
@@ -5537,90 +5585,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <AssociationSet Name="FK_PERSONA_FOTO_ALLEGATO" Association="GratisForGratisModel.FK_PERSONA_FOTO_ALLEGATO">
             <End Role="ALLEGATO" EntitySet="ALLEGATO" />
             <End Role="PERSONA_FOTO" EntitySet="PERSONA_FOTO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ANNUNCIO_ANNUNCIO" Association="GratisForGratisModel.FK_ANNUNCIO_ANNUNCIO">
-            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
-            <End Role="ANNUNCIO1" EntitySet="ANNUNCIO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ANNUNCIO_ANNUNCIO1" Association="GratisForGratisModel.FK_ANNUNCIO_ANNUNCIO1">
-            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
-            <End Role="ANNUNCIO1" EntitySet="ANNUNCIO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ANNUNCIO_ANNUNCIO2" Association="GratisForGratisModel.FK_ANNUNCIO_ANNUNCIO2">
-            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
-            <End Role="ANNUNCIO1" EntitySet="ANNUNCIO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ANNUNCIO_ATTIVITA" Association="GratisForGratisModel.FK_ANNUNCIO_ATTIVITA">
-            <End Role="ATTIVITA" EntitySet="ATTIVITA" />
-            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ANNUNCIO_CARRELLO_ANNUNCIO" Association="GratisForGratisModel.FK_ANNUNCIO_CARRELLO_ANNUNCIO">
-            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
-            <End Role="ANNUNCIO_CARRELLO" EntitySet="ANNUNCIO_CARRELLO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ANNUNCIO_CATEGORIA" Association="GratisForGratisModel.FK_ANNUNCIO_CATEGORIA">
-            <End Role="CATEGORIA" EntitySet="CATEGORIA" />
-            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ANNUNCIO_CLICK_ANNUNCIO" Association="GratisForGratisModel.FK_ANNUNCIO_CLICK_ANNUNCIO">
-            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
-            <End Role="ANNUNCIO_CLICK" EntitySet="ANNUNCIO_CLICK" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ANNUNCIO_COMUNE" Association="GratisForGratisModel.FK_ANNUNCIO_COMUNE">
-            <End Role="COMUNE" EntitySet="COMUNE" />
-            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ANNUNCIO_DESIDERATO_ANNUNCIO" Association="GratisForGratisModel.FK_ANNUNCIO_DESIDERATO_ANNUNCIO">
-            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
-            <End Role="ANNUNCIO_DESIDERATO" EntitySet="ANNUNCIO_DESIDERATO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ANNUNCIO_FEEDBACK_ANNUNCIO" Association="GratisForGratisModel.FK_ANNUNCIO_FEEDBACK_ANNUNCIO">
-            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
-            <End Role="ANNUNCIO_FEEDBACK" EntitySet="ANNUNCIO_FEEDBACK" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ANNUNCIO_FOTO_ANNUNCIO" Association="GratisForGratisModel.FK_ANNUNCIO_FOTO_ANNUNCIO">
-            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
-            <End Role="ANNUNCIO_FOTO" EntitySet="ANNUNCIO_FOTO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ANNUNCIO_NOTIFICA_ANNUNCIO" Association="GratisForGratisModel.FK_ANNUNCIO_NOTIFICA_ANNUNCIO">
-            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
-            <End Role="ANNUNCIO_NOTIFICA" EntitySet="ANNUNCIO_NOTIFICA" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ANNUNCIO_OGGETTO" Association="GratisForGratisModel.FK_ANNUNCIO_OGGETTO">
-            <End Role="OGGETTO" EntitySet="OGGETTO" />
-            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ANNUNCIO_SERVIZIO" Association="GratisForGratisModel.FK_ANNUNCIO_SERVIZIO">
-            <End Role="SERVIZIO" EntitySet="SERVIZIO" />
-            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ANNUNCIO_TAG_ANNUNCIO" Association="GratisForGratisModel.FK_ANNUNCIO_TAG_ANNUNCIO">
-            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
-            <End Role="ANNUNCIO_TAG" EntitySet="ANNUNCIO_TAG" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ANNUNCIO_TIPO_SCAMBIO_ANNUNCIO" Association="GratisForGratisModel.FK_ANNUNCIO_TIPO_SCAMBIO_ANNUNCIO">
-            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
-            <End Role="ANNUNCIO_TIPO_SCAMBIO" EntitySet="ANNUNCIO_TIPO_SCAMBIO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ANNUNCIO_TIPO_VALUTA" Association="GratisForGratisModel.FK_ANNUNCIO_TIPO_VALUTA">
-            <End Role="TIPO_VALUTA" EntitySet="TIPO_VALUTA" />
-            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ANNUNCIO_VISUALIZZAZIONE_ANNUNCIO" Association="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_ANNUNCIO">
-            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
-            <End Role="ANNUNCIO_VISUALIZZAZIONE" EntitySet="ANNUNCIO_VISUALIZZAZIONE" />
-          </AssociationSet>
-          <AssociationSet Name="FK_LOG_SBLOCCO_ANNUNCIO_ANNUNCIO" Association="GratisForGratisModel.FK_LOG_SBLOCCO_ANNUNCIO_ANNUNCIO">
-            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
-            <End Role="LOG_SBLOCCO_ANNUNCIO" EntitySet="LOG_SBLOCCO_ANNUNCIO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OFFERTA_BARATTO_ANNUNCIO" Association="GratisForGratisModel.FK_OFFERTA_BARATTO_ANNUNCIO">
-            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
-            <End Role="OFFERTA_BARATTO" EntitySet="OFFERTA_BARATTO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TRANSAZIONE_ANNUNCIO_ANNUNCIO" Association="GratisForGratisModel.FK_TRANSAZIONE_ANNUNCIO_ANNUNCIO">
-            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
-            <End Role="TRANSAZIONE_ANNUNCIO" EntitySet="TRANSAZIONE_ANNUNCIO" />
           </AssociationSet>
           <AssociationSet Name="FK_ANNUNCIO_CARRELLO_ATTIVITA" Association="GratisForGratisModel.FK_ANNUNCIO_CARRELLO_ATTIVITA">
             <End Role="ATTIVITA" EntitySet="ATTIVITA" />
@@ -6181,10 +6145,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <EntitySet Name="CONTO_CORRENTE_CREDITO" EntityType="GratisForGratisModel.CONTO_CORRENTE_CREDITO" />
           <EntitySet Name="OFFERTA" EntityType="GratisForGratisModel.OFFERTA" />
           <EntitySet Name="TRANSAZIONE" EntityType="GratisForGratisModel.TRANSAZIONE" />
-          <AssociationSet Name="FK_OFFERTA_ANNUNCIO" Association="GratisForGratisModel.FK_OFFERTA_ANNUNCIO">
-            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
-            <End Role="OFFERTA" EntitySet="OFFERTA" />
-          </AssociationSet>
           <AssociationSet Name="FK_OFFERTA_ATTIVITA" Association="GratisForGratisModel.FK_OFFERTA_ATTIVITA">
             <End Role="ATTIVITA" EntitySet="ATTIVITA" />
             <End Role="OFFERTA" EntitySet="OFFERTA" />
@@ -6252,10 +6212,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             <End Role="TRANSAZIONE" EntitySet="TRANSAZIONE" />
           </AssociationSet>
           <EntitySet Name="COMMISSIONE" EntityType="GratisForGratisModel.COMMISSIONE" />
-          <AssociationSet Name="FK_ANNUNCIO_COMMISSIONE" Association="GratisForGratisModel.FK_ANNUNCIO_COMMISSIONE">
-            <End Role="COMMISSIONE" EntitySet="COMMISSIONE" />
-            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
-          </AssociationSet>
           <AssociationSet Name="FK_ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE_COMMISSIONE" Association="GratisForGratisModel.FK_ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE_COMMISSIONE">
             <End Role="COMMISSIONE" EntitySet="COMMISSIONE" />
             <End Role="ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE" EntitySet="ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE" />
@@ -6301,14 +6257,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <AssociationSet Name="FK_PERSONA_ABBONAMENTO" Association="GratisForGratisModel.FK_PERSONA_ABBONAMENTO">
             <End Role="ABBONAMENTO" EntitySet="ABBONAMENTO" />
             <End Role="PERSONA" EntitySet="PERSONA" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ANNUNCIO_PERSONA" Association="GratisForGratisModel.FK_ANNUNCIO_PERSONA">
-            <End Role="PERSONA" EntitySet="PERSONA" />
-            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ANNUNCIO_PERSONA1" Association="GratisForGratisModel.FK_ANNUNCIO_PERSONA1">
-            <End Role="PERSONA" EntitySet="PERSONA" />
-            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
           </AssociationSet>
           <AssociationSet Name="FK_ANNUNCIO_CARRELLO_PERSONA" Association="GratisForGratisModel.FK_ANNUNCIO_CARRELLO_PERSONA">
             <End Role="PERSONA" EntitySet="PERSONA" />
@@ -6398,6 +6346,116 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             <End Role="PERSONA" EntitySet="PERSONA" />
             <End Role="PERSONA_TELEFONO" EntitySet="PERSONA_TELEFONO" />
           </AssociationSet>
+          <EntitySet Name="ANNUNCIO" EntityType="GratisForGratisModel.ANNUNCIO" />
+          <AssociationSet Name="FK_ANNUNCIO_ANNUNCIO" Association="GratisForGratisModel.FK_ANNUNCIO_ANNUNCIO">
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+            <End Role="ANNUNCIO1" EntitySet="ANNUNCIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_ANNUNCIO1" Association="GratisForGratisModel.FK_ANNUNCIO_ANNUNCIO1">
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+            <End Role="ANNUNCIO1" EntitySet="ANNUNCIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_ANNUNCIO2" Association="GratisForGratisModel.FK_ANNUNCIO_ANNUNCIO2">
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+            <End Role="ANNUNCIO1" EntitySet="ANNUNCIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_ATTIVITA" Association="GratisForGratisModel.FK_ANNUNCIO_ATTIVITA">
+            <End Role="ATTIVITA" EntitySet="ATTIVITA" />
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_CARRELLO_ANNUNCIO" Association="GratisForGratisModel.FK_ANNUNCIO_CARRELLO_ANNUNCIO">
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+            <End Role="ANNUNCIO_CARRELLO" EntitySet="ANNUNCIO_CARRELLO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_CATEGORIA" Association="GratisForGratisModel.FK_ANNUNCIO_CATEGORIA">
+            <End Role="CATEGORIA" EntitySet="CATEGORIA" />
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_CLICK_ANNUNCIO" Association="GratisForGratisModel.FK_ANNUNCIO_CLICK_ANNUNCIO">
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+            <End Role="ANNUNCIO_CLICK" EntitySet="ANNUNCIO_CLICK" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_COMMISSIONE" Association="GratisForGratisModel.FK_ANNUNCIO_COMMISSIONE">
+            <End Role="COMMISSIONE" EntitySet="COMMISSIONE" />
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_COMUNE" Association="GratisForGratisModel.FK_ANNUNCIO_COMUNE">
+            <End Role="COMUNE" EntitySet="COMUNE" />
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_DESIDERATO_ANNUNCIO" Association="GratisForGratisModel.FK_ANNUNCIO_DESIDERATO_ANNUNCIO">
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+            <End Role="ANNUNCIO_DESIDERATO" EntitySet="ANNUNCIO_DESIDERATO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_FEEDBACK_ANNUNCIO" Association="GratisForGratisModel.FK_ANNUNCIO_FEEDBACK_ANNUNCIO">
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+            <End Role="ANNUNCIO_FEEDBACK" EntitySet="ANNUNCIO_FEEDBACK" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_FOTO_ANNUNCIO" Association="GratisForGratisModel.FK_ANNUNCIO_FOTO_ANNUNCIO">
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+            <End Role="ANNUNCIO_FOTO" EntitySet="ANNUNCIO_FOTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_NOTIFICA_ANNUNCIO" Association="GratisForGratisModel.FK_ANNUNCIO_NOTIFICA_ANNUNCIO">
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+            <End Role="ANNUNCIO_NOTIFICA" EntitySet="ANNUNCIO_NOTIFICA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_OGGETTO" Association="GratisForGratisModel.FK_ANNUNCIO_OGGETTO">
+            <End Role="OGGETTO" EntitySet="OGGETTO" />
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_PERSONA" Association="GratisForGratisModel.FK_ANNUNCIO_PERSONA">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_PERSONA1" Association="GratisForGratisModel.FK_ANNUNCIO_PERSONA1">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_SERVIZIO" Association="GratisForGratisModel.FK_ANNUNCIO_SERVIZIO">
+            <End Role="SERVIZIO" EntitySet="SERVIZIO" />
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_TAG_ANNUNCIO" Association="GratisForGratisModel.FK_ANNUNCIO_TAG_ANNUNCIO">
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+            <End Role="ANNUNCIO_TAG" EntitySet="ANNUNCIO_TAG" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_TIPO_SCAMBIO_ANNUNCIO" Association="GratisForGratisModel.FK_ANNUNCIO_TIPO_SCAMBIO_ANNUNCIO">
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+            <End Role="ANNUNCIO_TIPO_SCAMBIO" EntitySet="ANNUNCIO_TIPO_SCAMBIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_TIPO_VALUTA" Association="GratisForGratisModel.FK_ANNUNCIO_TIPO_VALUTA">
+            <End Role="TIPO_VALUTA" EntitySet="TIPO_VALUTA" />
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ANNUNCIO_VISUALIZZAZIONE_ANNUNCIO" Association="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_ANNUNCIO">
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+            <End Role="ANNUNCIO_VISUALIZZAZIONE" EntitySet="ANNUNCIO_VISUALIZZAZIONE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LOG_SBLOCCO_ANNUNCIO_ANNUNCIO" Association="GratisForGratisModel.FK_LOG_SBLOCCO_ANNUNCIO_ANNUNCIO">
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+            <End Role="LOG_SBLOCCO_ANNUNCIO" EntitySet="LOG_SBLOCCO_ANNUNCIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OFFERTA_ANNUNCIO" Association="GratisForGratisModel.FK_OFFERTA_ANNUNCIO">
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+            <End Role="OFFERTA" EntitySet="OFFERTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OFFERTA_BARATTO_ANNUNCIO" Association="GratisForGratisModel.FK_OFFERTA_BARATTO_ANNUNCIO">
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+            <End Role="OFFERTA_BARATTO" EntitySet="OFFERTA_BARATTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TRANSAZIONE_ANNUNCIO_ANNUNCIO" Association="GratisForGratisModel.FK_TRANSAZIONE_ANNUNCIO_ANNUNCIO">
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+            <End Role="TRANSAZIONE_ANNUNCIO" EntitySet="TRANSAZIONE_ANNUNCIO" />
+          </AssociationSet>
+          <EntitySet Name="PERSONA_ANNUNCIO_PROPOSTO" EntityType="GratisForGratisModel.PERSONA_ANNUNCIO_PROPOSTO" />
+          <AssociationSet Name="FK_PERSONA_ANNUNCIO_PROPOSTO_ANNUNCIO" Association="GratisForGratisModel.FK_PERSONA_ANNUNCIO_PROPOSTO_ANNUNCIO">
+            <End Role="ANNUNCIO" EntitySet="ANNUNCIO" />
+            <End Role="PERSONA_ANNUNCIO_PROPOSTO" EntitySet="PERSONA_ANNUNCIO_PROPOSTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERSONA_ANNUNCIO_PROPOSTO_PERSONA" Association="GratisForGratisModel.FK_PERSONA_ANNUNCIO_PROPOSTO_PERSONA">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="PERSONA_ANNUNCIO_PROPOSTO" EntitySet="PERSONA_ANNUNCIO_PROPOSTO" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="FINDSOTTOCATEGORIE_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -6451,67 +6509,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <NavigationProperty Name="CORRIERE_SERVIZIO_SPEDIZIONE" Relationship="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_ALLEGATO" FromRole="ALLEGATO" ToRole="CORRIERE_SERVIZIO_SPEDIZIONE" />
           <NavigationProperty Name="PERSONA_FOTO" Relationship="GratisForGratisModel.FK_PERSONA_FOTO_ALLEGATO" FromRole="ALLEGATO" ToRole="PERSONA_FOTO" />
         </EntityType>
-        <EntityType Name="ANNUNCIO">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TOKEN" Type="Guid" Nullable="false" />
-          <Property Name="ID_CATEGORIA" Type="Int32" Nullable="false" />
-          <Property Name="ID_OGGETTO" Type="Int32" />
-          <Property Name="ID_SERVIZIO" Type="Int32" />
-          <Property Name="ID_PERSONA" Type="Int32" Nullable="false" />
-          <Property Name="ID_ATTIVITA" Type="Int32" />
-          <Property Name="TIPO_PAGAMENTO" Type="Int32" Nullable="false" />
-          <Property Name="NOME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="PUNTI" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="SOLDI" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="ID_TIPO_VALUTA" Type="Int32" />
-          <Property Name="URL_SCHEDA" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="NOTE_AGGIUNTIVE" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="ID_COMUNE" Type="Int32" />
-          <Property Name="ID_PADRE" Type="Int32" />
-          <Property Name="ID_ORIGINE" Type="Int32" />
-          <Property Name="NO_OFFERTE" Type="Int32" Nullable="false" />
-          <Property Name="RIMETTI_IN_VENDITA" Type="Int32" Nullable="false" />
-          <Property Name="DATA_AVVIO" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DATA_FINE" Type="DateTime" Precision="3" />
-          <Property Name="SESSIONE_COMPRATORE" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="ID_COMPRATORE" Type="Int32" />
-          <Property Name="DATA_VENDITA" Type="DateTime" Precision="3" />
-          <Property Name="DATA_INSERIMENTO" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DATA_MODIFICA" Type="DateTime" Precision="3" />
-          <Property Name="STATO" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ANNUNCIO1" Relationship="GratisForGratisModel.FK_ANNUNCIO_ANNUNCIO" FromRole="ANNUNCIO" ToRole="ANNUNCIO1" />
-          <NavigationProperty Name="ANNUNCIO2" Relationship="GratisForGratisModel.FK_ANNUNCIO_ANNUNCIO" FromRole="ANNUNCIO1" ToRole="ANNUNCIO" />
-          <NavigationProperty Name="ANNUNCIO11" Relationship="GratisForGratisModel.FK_ANNUNCIO_ANNUNCIO1" FromRole="ANNUNCIO" ToRole="ANNUNCIO1" />
-          <NavigationProperty Name="ANNUNCIO3" Relationship="GratisForGratisModel.FK_ANNUNCIO_ANNUNCIO1" FromRole="ANNUNCIO1" ToRole="ANNUNCIO" />
-          <NavigationProperty Name="ANNUNCIO12" Relationship="GratisForGratisModel.FK_ANNUNCIO_ANNUNCIO2" FromRole="ANNUNCIO" ToRole="ANNUNCIO1" />
-          <NavigationProperty Name="ANNUNCIO4" Relationship="GratisForGratisModel.FK_ANNUNCIO_ANNUNCIO2" FromRole="ANNUNCIO1" ToRole="ANNUNCIO" />
-          <NavigationProperty Name="ATTIVITA" Relationship="GratisForGratisModel.FK_ANNUNCIO_ATTIVITA" FromRole="ANNUNCIO" ToRole="ATTIVITA" />
-          <NavigationProperty Name="ANNUNCIO_CARRELLO" Relationship="GratisForGratisModel.FK_ANNUNCIO_CARRELLO_ANNUNCIO" FromRole="ANNUNCIO" ToRole="ANNUNCIO_CARRELLO" />
-          <NavigationProperty Name="CATEGORIA" Relationship="GratisForGratisModel.FK_ANNUNCIO_CATEGORIA" FromRole="ANNUNCIO" ToRole="CATEGORIA" />
-          <NavigationProperty Name="ANNUNCIO_CLICK" Relationship="GratisForGratisModel.FK_ANNUNCIO_CLICK_ANNUNCIO" FromRole="ANNUNCIO" ToRole="ANNUNCIO_CLICK" />
-          <NavigationProperty Name="COMUNE" Relationship="GratisForGratisModel.FK_ANNUNCIO_COMUNE" FromRole="ANNUNCIO" ToRole="COMUNE" />
-          <NavigationProperty Name="ANNUNCIO_DESIDERATO" Relationship="GratisForGratisModel.FK_ANNUNCIO_DESIDERATO_ANNUNCIO" FromRole="ANNUNCIO" ToRole="ANNUNCIO_DESIDERATO" />
-          <NavigationProperty Name="ANNUNCIO_FEEDBACK" Relationship="GratisForGratisModel.FK_ANNUNCIO_FEEDBACK_ANNUNCIO" FromRole="ANNUNCIO" ToRole="ANNUNCIO_FEEDBACK" />
-          <NavigationProperty Name="ANNUNCIO_FOTO" Relationship="GratisForGratisModel.FK_ANNUNCIO_FOTO_ANNUNCIO" FromRole="ANNUNCIO" ToRole="ANNUNCIO_FOTO" />
-          <NavigationProperty Name="ANNUNCIO_NOTIFICA" Relationship="GratisForGratisModel.FK_ANNUNCIO_NOTIFICA_ANNUNCIO" FromRole="ANNUNCIO" ToRole="ANNUNCIO_NOTIFICA" />
-          <NavigationProperty Name="OGGETTO" Relationship="GratisForGratisModel.FK_ANNUNCIO_OGGETTO" FromRole="ANNUNCIO" ToRole="OGGETTO" />
-          <NavigationProperty Name="SERVIZIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_SERVIZIO" FromRole="ANNUNCIO" ToRole="SERVIZIO" />
-          <NavigationProperty Name="ANNUNCIO_TAG" Relationship="GratisForGratisModel.FK_ANNUNCIO_TAG_ANNUNCIO" FromRole="ANNUNCIO" ToRole="ANNUNCIO_TAG" />
-          <NavigationProperty Name="ANNUNCIO_TIPO_SCAMBIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_TIPO_SCAMBIO_ANNUNCIO" FromRole="ANNUNCIO" ToRole="ANNUNCIO_TIPO_SCAMBIO" />
-          <NavigationProperty Name="TIPO_VALUTA" Relationship="GratisForGratisModel.FK_ANNUNCIO_TIPO_VALUTA" FromRole="ANNUNCIO" ToRole="TIPO_VALUTA" />
-          <NavigationProperty Name="ANNUNCIO_VISUALIZZAZIONE" Relationship="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_ANNUNCIO" FromRole="ANNUNCIO" ToRole="ANNUNCIO_VISUALIZZAZIONE" />
-          <NavigationProperty Name="LOG_SBLOCCO_ANNUNCIO" Relationship="GratisForGratisModel.FK_LOG_SBLOCCO_ANNUNCIO_ANNUNCIO" FromRole="ANNUNCIO" ToRole="LOG_SBLOCCO_ANNUNCIO" />
-          <NavigationProperty Name="OFFERTA_BARATTO" Relationship="GratisForGratisModel.FK_OFFERTA_BARATTO_ANNUNCIO" FromRole="ANNUNCIO" ToRole="OFFERTA_BARATTO" />
-          <NavigationProperty Name="TRANSAZIONE_ANNUNCIO" Relationship="GratisForGratisModel.FK_TRANSAZIONE_ANNUNCIO_ANNUNCIO" FromRole="ANNUNCIO" ToRole="TRANSAZIONE_ANNUNCIO" />
-          <NavigationProperty Name="OFFERTA" Relationship="GratisForGratisModel.FK_OFFERTA_ANNUNCIO" FromRole="ANNUNCIO" ToRole="OFFERTA" />
-          <Property Name="ID_COMMISSIONE" Type="Int32" />
-          <NavigationProperty Name="COMMISSIONE" Relationship="GratisForGratisModel.FK_ANNUNCIO_COMMISSIONE" FromRole="ANNUNCIO" ToRole="COMMISSIONE" />
-          <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_ANNUNCIO_PERSONA" FromRole="ANNUNCIO" ToRole="PERSONA" />
-          <NavigationProperty Name="PERSONA1" Relationship="GratisForGratisModel.FK_ANNUNCIO_PERSONA1" FromRole="ANNUNCIO" ToRole="PERSONA" />
-        </EntityType>
         <EntityType Name="ANNUNCIO_CARRELLO">
           <Key>
             <PropertyRef Name="ID" />
@@ -6523,9 +6520,9 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="DATA_INSERIMENTO" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DATA_MODIFICA" Type="DateTime" Precision="3" />
           <Property Name="STATO" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_CARRELLO_ANNUNCIO" FromRole="ANNUNCIO_CARRELLO" ToRole="ANNUNCIO" />
           <NavigationProperty Name="ATTIVITA" Relationship="GratisForGratisModel.FK_ANNUNCIO_CARRELLO_ATTIVITA" FromRole="ANNUNCIO_CARRELLO" ToRole="ATTIVITA" />
           <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_ANNUNCIO_CARRELLO_PERSONA" FromRole="ANNUNCIO_CARRELLO" ToRole="PERSONA" />
+          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_CARRELLO_ANNUNCIO" FromRole="ANNUNCIO_CARRELLO" ToRole="ANNUNCIO" />
         </EntityType>
         <EntityType Name="ANNUNCIO_CLICK">
           <Key>
@@ -6541,10 +6538,10 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="DATA_INSERIMENTO" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DATA_MODIFICA" Type="DateTime" Precision="3" />
           <Property Name="STATO" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_CLICK_ANNUNCIO" FromRole="ANNUNCIO_CLICK" ToRole="ANNUNCIO" />
           <NavigationProperty Name="BROWSER_MODELLO" Relationship="GratisForGratisModel.FK_ANNUNCIO_CLICK_MODELLO_BROWSER" FromRole="ANNUNCIO_CLICK" ToRole="BROWSER_MODELLO" />
           <NavigationProperty Name="SISTEMA_OPERATIVO" Relationship="GratisForGratisModel.FK_ANNUNCIO_CLICK_SISTEMA_OPERATIVO" FromRole="ANNUNCIO_CLICK" ToRole="SISTEMA_OPERATIVO" />
           <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_ANNUNCIO_CLICK_PERSONA" FromRole="ANNUNCIO_CLICK" ToRole="PERSONA" />
+          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_CLICK_ANNUNCIO" FromRole="ANNUNCIO_CLICK" ToRole="ANNUNCIO" />
         </EntityType>
         <EntityType Name="ANNUNCIO_DESIDERATO">
           <Key>
@@ -6555,9 +6552,9 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="ID_PERSONA" Type="Int32" Nullable="false" />
           <Property Name="ID_ATTIVITA" Type="Int32" />
           <Property Name="STATO" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_DESIDERATO_ANNUNCIO" FromRole="ANNUNCIO_DESIDERATO" ToRole="ANNUNCIO" />
           <NavigationProperty Name="ATTIVITA" Relationship="GratisForGratisModel.FK_ANNUNCIO_DESIDERATO_ATTIVITA" FromRole="ANNUNCIO_DESIDERATO" ToRole="ATTIVITA" />
           <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_ANNUNCIO_DESIDERATO_PERSONA" FromRole="ANNUNCIO_DESIDERATO" ToRole="PERSONA" />
+          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_DESIDERATO_ANNUNCIO" FromRole="ANNUNCIO_DESIDERATO" ToRole="ANNUNCIO" />
         </EntityType>
         <EntityType Name="ANNUNCIO_FEEDBACK">
           <Key>
@@ -6571,8 +6568,8 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="DATA_INSERIMENTO" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DATA_MODIFICA" Type="DateTime" Precision="3" />
           <Property Name="STATO" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_FEEDBACK_ANNUNCIO" FromRole="ANNUNCIO_FEEDBACK" ToRole="ANNUNCIO" />
           <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_ANNUNCIO_FEEDBACK_PERSONA" FromRole="ANNUNCIO_FEEDBACK" ToRole="PERSONA" />
+          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_FEEDBACK_ANNUNCIO" FromRole="ANNUNCIO_FEEDBACK" ToRole="ANNUNCIO" />
         </EntityType>
         <EntityType Name="ANNUNCIO_FOTO">
           <Key>
@@ -6594,8 +6591,8 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ID_ANNUNCIO" Type="Int32" Nullable="false" />
           <Property Name="ID_NOTIFICA" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_NOTIFICA_ANNUNCIO" FromRole="ANNUNCIO_NOTIFICA" ToRole="ANNUNCIO" />
           <NavigationProperty Name="NOTIFICA" Relationship="GratisForGratisModel.FK_ANNUNCIO_NOTIFICA_NOTIFICA" FromRole="ANNUNCIO_NOTIFICA" ToRole="NOTIFICA" />
+          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_NOTIFICA_ANNUNCIO" FromRole="ANNUNCIO_NOTIFICA" ToRole="ANNUNCIO" />
         </EntityType>
         <EntityType Name="ANNUNCIO_TAG">
           <Key>
@@ -6620,8 +6617,8 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="DATA_INSERIMENTO" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DATA_MODIFICA" Type="DateTime" Precision="3" />
           <Property Name="STATO" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_TIPO_SCAMBIO_ANNUNCIO" FromRole="ANNUNCIO_TIPO_SCAMBIO" ToRole="ANNUNCIO" />
           <NavigationProperty Name="ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE" Relationship="GratisForGratisModel.FK_ANNUNCIO_SPEDIZIONE_ANNUNCIO_TIPO_SCAMBIO" FromRole="ANNUNCIO_TIPO_SCAMBIO" ToRole="ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE" />
+          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_TIPO_SCAMBIO_ANNUNCIO" FromRole="ANNUNCIO_TIPO_SCAMBIO" ToRole="ANNUNCIO" />
         </EntityType>
         <EntityType Name="ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE">
           <Key>
@@ -6657,10 +6654,10 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="DATA_INSERIMENTO" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DATA_MODIFICA" Type="DateTime" Precision="3" />
           <Property Name="STATO" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_ANNUNCIO" FromRole="ANNUNCIO_VISUALIZZAZIONE" ToRole="ANNUNCIO" />
           <NavigationProperty Name="BROWSER_MODELLO" Relationship="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_MODELLO_BROWSER" FromRole="ANNUNCIO_VISUALIZZAZIONE" ToRole="BROWSER_MODELLO" />
           <NavigationProperty Name="SISTEMA_OPERATIVO" Relationship="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_SISTEMA_OPERATIVO" FromRole="ANNUNCIO_VISUALIZZAZIONE" ToRole="SISTEMA_OPERATIVO" />
           <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_PERSONA" FromRole="ANNUNCIO_VISUALIZZAZIONE" ToRole="PERSONA" />
+          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_ANNUNCIO" FromRole="ANNUNCIO_VISUALIZZAZIONE" ToRole="ANNUNCIO" />
         </EntityType>
         <EntityType Name="ARTISTA">
           <Key>
@@ -6691,7 +6688,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="DATA_INSERIMENTO" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DATA_MODIFICA" Type="DateTime" Precision="3" />
           <Property Name="STATO" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_ATTIVITA" FromRole="ATTIVITA" ToRole="ANNUNCIO" />
           <NavigationProperty Name="ANNUNCIO_CARRELLO" Relationship="GratisForGratisModel.FK_ANNUNCIO_CARRELLO_ATTIVITA" FromRole="ATTIVITA" ToRole="ANNUNCIO_CARRELLO" />
           <NavigationProperty Name="ANNUNCIO_DESIDERATO" Relationship="GratisForGratisModel.FK_ANNUNCIO_DESIDERATO_ATTIVITA" FromRole="ATTIVITA" ToRole="ANNUNCIO_DESIDERATO" />
           <NavigationProperty Name="CONTO_CORRENTE" Relationship="GratisForGratisModel.FK_ATTIVITA_CONTO_CORRENTE" FromRole="ATTIVITA" ToRole="CONTO_CORRENTE" />
@@ -6704,6 +6700,7 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <NavigationProperty Name="OGGETTO_APPARTENENZA" Relationship="GratisForGratisModel.FK_OGGETTO_APPARTENENZA_ATTIVITA" FromRole="ATTIVITA" ToRole="OGGETTO_APPARTENENZA" />
           <NavigationProperty Name="PERSONA_ATTIVITA" Relationship="GratisForGratisModel.FK_PERSONA_ATTIVITA_ATTIVITA" FromRole="ATTIVITA" ToRole="PERSONA_ATTIVITA" />
           <NavigationProperty Name="OFFERTA" Relationship="GratisForGratisModel.FK_OFFERTA_ATTIVITA" FromRole="ATTIVITA" ToRole="OFFERTA" />
+          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_ATTIVITA" FromRole="ATTIVITA" ToRole="ANNUNCIO" />
         </EntityType>
         <EntityType Name="ATTIVITA_EMAIL">
           <Key>
@@ -6838,7 +6835,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="TIPO_VENDITA" Type="Int32" Nullable="false" />
           <Property Name="STATO" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ALIMENTAZIONE" Relationship="GratisForGratisModel.FK_ALIMENTAZIONE_CATEGORIA" FromRole="CATEGORIA" ToRole="ALIMENTAZIONE" />
-          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_CATEGORIA" FromRole="CATEGORIA" ToRole="ANNUNCIO" />
           <NavigationProperty Name="ARTISTA" Relationship="GratisForGratisModel.FK_ARTISTA_CATEGORIA" FromRole="CATEGORIA" ToRole="ARTISTA" />
           <NavigationProperty Name="AUTORE" Relationship="GratisForGratisModel.FK_AUTORE_CATEGORIA" FromRole="CATEGORIA" ToRole="AUTORE" />
           <NavigationProperty Name="BROWSER" Relationship="GratisForGratisModel.FK_BROWSER_CATEGORIA" FromRole="CATEGORIA" ToRole="BROWSER" />
@@ -6851,6 +6847,7 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <NavigationProperty Name="REGISTA" Relationship="GratisForGratisModel.FK_REGISTA_CATEGORIA" FromRole="CATEGORIA" ToRole="REGISTA" />
           <NavigationProperty Name="RICERCA" Relationship="GratisForGratisModel.FK_RICERCA_CATEGORIA" FromRole="CATEGORIA" ToRole="RICERCA" />
           <NavigationProperty Name="SISTEMA_OPERATIVO" Relationship="GratisForGratisModel.FK_SISTEMA_OPERATIVO_CATEGORIA" FromRole="CATEGORIA" ToRole="SISTEMA_OPERATIVO" />
+          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_CATEGORIA" FromRole="CATEGORIA" ToRole="ANNUNCIO" />
         </EntityType>
         <EntityType Name="CHAT">
           <Key>
@@ -6883,11 +6880,11 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="ID_PROVINCIA" Type="Int32" />
           <Property Name="CAP" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="STATO" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_COMUNE" FromRole="COMUNE" ToRole="ANNUNCIO" />
           <NavigationProperty Name="PROVINCIA" Relationship="GratisForGratisModel.FK_COMUNE_PROVINCIA" FromRole="COMUNE" ToRole="PROVINCIA" />
           <NavigationProperty Name="CORRIERE_COMUNE" Relationship="GratisForGratisModel.FK_CORRIERE_COMUNE_COMUNE" FromRole="COMUNE" ToRole="CORRIERE_COMUNE" />
           <NavigationProperty Name="RICERCA" Relationship="GratisForGratisModel.FK_RICERCA_COMUNE" FromRole="COMUNE" ToRole="RICERCA" />
           <NavigationProperty Name="INDIRIZZO" Relationship="GratisForGratisModel.FK_INDIRIZZO_COMUNE" FromRole="COMUNE" ToRole="INDIRIZZO" />
+          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_COMUNE" FromRole="COMUNE" ToRole="ANNUNCIO" />
         </EntityType>
         <EntityType Name="CONTO_CORRENTE">
           <Key>
@@ -7176,8 +7173,8 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="DATA_AVVIO" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DATA_FINE" Type="DateTime" Precision="3" />
           <Property Name="NUMERO_SBLOCCO" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_LOG_SBLOCCO_ANNUNCIO_ANNUNCIO" FromRole="LOG_SBLOCCO_ANNUNCIO" ToRole="ANNUNCIO" />
           <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_LOG_SBLOCCO_ANNUNCIO_PERSONA" FromRole="LOG_SBLOCCO_ANNUNCIO" ToRole="PERSONA" />
+          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_LOG_SBLOCCO_ANNUNCIO_ANNUNCIO" FromRole="LOG_SBLOCCO_ANNUNCIO" ToRole="ANNUNCIO" />
         </EntityType>
         <EntityType Name="MARCA">
           <Key>
@@ -7287,10 +7284,10 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="DATA_INSERIMENTO" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DATA_MODIFICA" Type="DateTime" Precision="3" />
           <Property Name="STATO" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_OFFERTA_BARATTO_ANNUNCIO" FromRole="OFFERTA_BARATTO" ToRole="ANNUNCIO" />
           <NavigationProperty Name="OFFERTA_BARATTO1" Relationship="GratisForGratisModel.FK_OFFERTA_BARATTO_OFFERTA_BARATTO" FromRole="OFFERTA_BARATTO" ToRole="OFFERTA_BARATTO1" />
           <NavigationProperty Name="OFFERTA_BARATTO2" Relationship="GratisForGratisModel.FK_OFFERTA_BARATTO_OFFERTA_BARATTO" FromRole="OFFERTA_BARATTO1" ToRole="OFFERTA_BARATTO" />
           <NavigationProperty Name="OFFERTA" Relationship="GratisForGratisModel.FK_OFFERTA_BARATTO_OFFERTA" FromRole="OFFERTA_BARATTO" ToRole="OFFERTA" />
+          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_OFFERTA_BARATTO_ANNUNCIO" FromRole="OFFERTA_BARATTO" ToRole="ANNUNCIO" />
         </EntityType>
         <EntityType Name="OFFERTA_SPEDIZIONE">
           <Key>
@@ -7331,7 +7328,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="DATA_INSERIMENTO" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DATA_MODIFICA" Type="DateTime" Precision="3" />
           <Property Name="STATO" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_OGGETTO" FromRole="OGGETTO" ToRole="ANNUNCIO" />
           <NavigationProperty Name="MARCA" Relationship="GratisForGratisModel.FK_OGGETTO_MARCA" FromRole="OGGETTO" ToRole="MARCA" />
           <NavigationProperty Name="OGGETTO_APPARTENENZA" Relationship="GratisForGratisModel.FK_OGGETTO_APPARTENENZA_OGGETTO" FromRole="OGGETTO" ToRole="OGGETTO_APPARTENENZA" />
           <NavigationProperty Name="OGGETTO_COMPONENTE" Relationship="GratisForGratisModel.FK_OGGETTO_COMPONENTE_OGGETTO" FromRole="OGGETTO" ToRole="OGGETTO_COMPONENTE" />
@@ -7350,6 +7346,7 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <NavigationProperty Name="OGGETTO_VESTITO" Relationship="GratisForGratisModel.FK_OGGETTO_VESTITO_OGGETTO" FromRole="OGGETTO" ToRole="OGGETTO_VESTITO" />
           <NavigationProperty Name="OGGETTO_VIDEO" Relationship="GratisForGratisModel.FK_OGGETTO_VIDEO_OGGETTO" FromRole="OGGETTO" ToRole="OGGETTO_VIDEO" />
           <NavigationProperty Name="OGGETTO_VIDEOGAMES" Relationship="GratisForGratisModel.FK_OGGETTO_VIDEOGAMES_OGGETTO" FromRole="OGGETTO" ToRole="OGGETTO_VIDEOGAMES" />
+          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_OGGETTO" FromRole="OGGETTO" ToRole="ANNUNCIO" />
         </EntityType>
         <EntityType Name="OGGETTO_APPARTENENZA">
           <Key>
@@ -8072,10 +8069,10 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="DATA_INSERIMENTO" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DATA_MODIFICA" Type="DateTime" Precision="3" />
           <Property Name="STATO" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_TIPO_VALUTA" FromRole="TIPO_VALUTA" ToRole="ANNUNCIO" />
           <NavigationProperty Name="CORRIERE_SERVIZIO_SPEDIZIONE" Relationship="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_TIPO_VALUTA" FromRole="TIPO_VALUTA" ToRole="CORRIERE_SERVIZIO_SPEDIZIONE" />
           <NavigationProperty Name="OFFERTA_SPEDIZIONE" Relationship="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_TIPO_VALUTA" FromRole="TIPO_VALUTA" ToRole="OFFERTA_SPEDIZIONE" />
           <NavigationProperty Name="PAYPAL" Relationship="GratisForGratisModel.FK_PAYPAL_TIPO_VALUTA" FromRole="TIPO_VALUTA" ToRole="PAYPAL" />
+          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_TIPO_VALUTA" FromRole="TIPO_VALUTA" ToRole="ANNUNCIO" />
         </EntityType>
         <EntityType Name="TRANSAZIONE_ANNUNCIO">
           <Key>
@@ -8092,8 +8089,8 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="DATA_INSERIMENTO" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DATA_MODIFICA" Type="DateTime" Precision="3" />
           <Property Name="STATO" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_TRANSAZIONE_ANNUNCIO_ANNUNCIO" FromRole="TRANSAZIONE_ANNUNCIO" ToRole="ANNUNCIO" />
           <NavigationProperty Name="TRANSAZIONE" Relationship="GratisForGratisModel.FK_TRANSAZIONE_ANNUNCIO_TRANSAZIONE" FromRole="TRANSAZIONE_ANNUNCIO" ToRole="TRANSAZIONE" />
+          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_TRANSAZIONE_ANNUNCIO_ANNUNCIO" FromRole="TRANSAZIONE_ANNUNCIO" ToRole="ANNUNCIO" />
           </EntityType>
         <EntityType Name="TRANSAZIONE_ANNUNCIO_SPEDIZIONE">
           <Key>
@@ -8311,264 +8308,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Principal>
             <Dependent Role="PERSONA_FOTO">
               <PropertyRef Name="ID_FOTO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ANNUNCIO_ANNUNCIO">
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1" />
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO1" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="ANNUNCIO">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ANNUNCIO1">
-              <PropertyRef Name="ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ANNUNCIO_ANNUNCIO1">
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="0..1" />
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO1" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ANNUNCIO">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ANNUNCIO1">
-              <PropertyRef Name="ID_ORIGINE" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ANNUNCIO_ANNUNCIO2">
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="0..1" />
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO1" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ANNUNCIO">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ANNUNCIO1">
-              <PropertyRef Name="ID_PADRE" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ANNUNCIO_ATTIVITA">
-          <End Type="GratisForGratisModel.ATTIVITA" Role="ATTIVITA" Multiplicity="0..1" />
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ATTIVITA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ANNUNCIO">
-              <PropertyRef Name="ID_ATTIVITA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ANNUNCIO_CARRELLO_ANNUNCIO">
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1" />
-          <End Type="GratisForGratisModel.ANNUNCIO_CARRELLO" Role="ANNUNCIO_CARRELLO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ANNUNCIO">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ANNUNCIO_CARRELLO">
-              <PropertyRef Name="ID_ANNUNCIO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ANNUNCIO_CATEGORIA">
-          <End Type="GratisForGratisModel.CATEGORIA" Role="CATEGORIA" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CATEGORIA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ANNUNCIO">
-              <PropertyRef Name="ID_CATEGORIA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ANNUNCIO_CLICK_ANNUNCIO">
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1" />
-          <End Type="GratisForGratisModel.ANNUNCIO_CLICK" Role="ANNUNCIO_CLICK" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ANNUNCIO">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ANNUNCIO_CLICK">
-              <PropertyRef Name="ID_ANNUNCIO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ANNUNCIO_COMUNE">
-          <End Type="GratisForGratisModel.COMUNE" Role="COMUNE" Multiplicity="0..1" />
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="COMUNE">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ANNUNCIO">
-              <PropertyRef Name="ID_COMUNE" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ANNUNCIO_DESIDERATO_ANNUNCIO">
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1" />
-          <End Type="GratisForGratisModel.ANNUNCIO_DESIDERATO" Role="ANNUNCIO_DESIDERATO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ANNUNCIO">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ANNUNCIO_DESIDERATO">
-              <PropertyRef Name="ID_ANNUNCIO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ANNUNCIO_FEEDBACK_ANNUNCIO">
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1" />
-          <End Type="GratisForGratisModel.ANNUNCIO_FEEDBACK" Role="ANNUNCIO_FEEDBACK" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ANNUNCIO">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ANNUNCIO_FEEDBACK">
-              <PropertyRef Name="ID_ANNUNCIO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ANNUNCIO_FOTO_ANNUNCIO">
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="GratisForGratisModel.ANNUNCIO_FOTO" Role="ANNUNCIO_FOTO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ANNUNCIO">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ANNUNCIO_FOTO">
-              <PropertyRef Name="ID_ANNUNCIO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ANNUNCIO_NOTIFICA_ANNUNCIO">
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1" />
-          <End Type="GratisForGratisModel.ANNUNCIO_NOTIFICA" Role="ANNUNCIO_NOTIFICA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ANNUNCIO">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ANNUNCIO_NOTIFICA">
-              <PropertyRef Name="ID_ANNUNCIO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ANNUNCIO_OGGETTO">
-          <End Type="GratisForGratisModel.OGGETTO" Role="OGGETTO" Multiplicity="0..1" />
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OGGETTO">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ANNUNCIO">
-              <PropertyRef Name="ID_OGGETTO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ANNUNCIO_SERVIZIO">
-          <End Type="GratisForGratisModel.SERVIZIO" Role="SERVIZIO" Multiplicity="0..1" />
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SERVIZIO">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ANNUNCIO">
-              <PropertyRef Name="ID_SERVIZIO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ANNUNCIO_TAG_ANNUNCIO">
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="GratisForGratisModel.ANNUNCIO_TAG" Role="ANNUNCIO_TAG" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ANNUNCIO">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ANNUNCIO_TAG">
-              <PropertyRef Name="ID_ANNUNCIO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ANNUNCIO_TIPO_SCAMBIO_ANNUNCIO">
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1" />
-          <End Type="GratisForGratisModel.ANNUNCIO_TIPO_SCAMBIO" Role="ANNUNCIO_TIPO_SCAMBIO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ANNUNCIO">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ANNUNCIO_TIPO_SCAMBIO">
-              <PropertyRef Name="ID_ANNUNCIO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ANNUNCIO_TIPO_VALUTA">
-          <End Type="GratisForGratisModel.TIPO_VALUTA" Role="TIPO_VALUTA" Multiplicity="0..1" />
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TIPO_VALUTA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ANNUNCIO">
-              <PropertyRef Name="ID_TIPO_VALUTA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ANNUNCIO_VISUALIZZAZIONE_ANNUNCIO">
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1" />
-          <End Type="GratisForGratisModel.ANNUNCIO_VISUALIZZAZIONE" Role="ANNUNCIO_VISUALIZZAZIONE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ANNUNCIO">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ANNUNCIO_VISUALIZZAZIONE">
-              <PropertyRef Name="ID_ANNUNCIO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_LOG_SBLOCCO_ANNUNCIO_ANNUNCIO">
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1" />
-          <End Type="GratisForGratisModel.LOG_SBLOCCO_ANNUNCIO" Role="LOG_SBLOCCO_ANNUNCIO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ANNUNCIO">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="LOG_SBLOCCO_ANNUNCIO">
-              <PropertyRef Name="ID_ANNUNCIO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OFFERTA_BARATTO_ANNUNCIO">
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1" />
-          <End Type="GratisForGratisModel.OFFERTA_BARATTO" Role="OFFERTA_BARATTO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ANNUNCIO">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="OFFERTA_BARATTO">
-              <PropertyRef Name="ID_ANNUNCIO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TRANSAZIONE_ANNUNCIO_ANNUNCIO">
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1" />
-          <End Type="GratisForGratisModel.TRANSAZIONE_ANNUNCIO" Role="TRANSAZIONE_ANNUNCIO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ANNUNCIO">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TRANSAZIONE_ANNUNCIO">
-              <PropertyRef Name="ID_ANNUNCIO" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -10280,13 +10019,13 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="DATA_MODIFICA" Type="DateTime" Precision="3" />
           <Property Name="LETTA" Type="Int32" Nullable="false" />
           <Property Name="STATO" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_OFFERTA_ANNUNCIO" FromRole="OFFERTA" ToRole="ANNUNCIO" />
           <NavigationProperty Name="ATTIVITA" Relationship="GratisForGratisModel.FK_OFFERTA_ATTIVITA" FromRole="OFFERTA" ToRole="ATTIVITA" />
           <NavigationProperty Name="CONTO_CORRENTE_CREDITO" Relationship="GratisForGratisModel.FK_CONTO_CORRENTE_CREDITO_OFFERTA" FromRole="OFFERTA" ToRole="CONTO_CORRENTE_CREDITO" />
           <NavigationProperty Name="OFFERTA_BARATTO" Relationship="GratisForGratisModel.FK_OFFERTA_BARATTO_OFFERTA" FromRole="OFFERTA" ToRole="OFFERTA_BARATTO" />
           <NavigationProperty Name="OFFERTA_SPEDIZIONE" Relationship="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_OFFERTA" FromRole="OFFERTA" ToRole="OFFERTA_SPEDIZIONE" />
           <NavigationProperty Name="TRANSAZIONE" Relationship="GratisForGratisModel.FK_OFFERTA_TRANSAZIONE" FromRole="OFFERTA" ToRole="TRANSAZIONE" />
           <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_OFFERTA_PERSONA" FromRole="OFFERTA" ToRole="PERSONA" />
+          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_OFFERTA_ANNUNCIO" FromRole="OFFERTA" ToRole="ANNUNCIO" />
         </EntityType>
         <EntityType Name="TRANSAZIONE">
           <Key>
@@ -10315,20 +10054,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="ID_PAYPAL" Type="Int32" />
           <NavigationProperty Name="PAYPAL" Relationship="GratisForGratisModel.FK_TRANSAZIONE_PAYPAL" FromRole="TRANSAZIONE" ToRole="PAYPAL" />
         </EntityType>
-        <Association Name="FK_OFFERTA_ANNUNCIO">
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="GratisForGratisModel.OFFERTA" Role="OFFERTA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ANNUNCIO">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="OFFERTA">
-              <PropertyRef Name="ID_ANNUNCIO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_OFFERTA_ATTIVITA">
           <End Type="GratisForGratisModel.ATTIVITA" Role="ATTIVITA" Multiplicity="0..1" />
           <End Type="GratisForGratisModel.OFFERTA" Role="OFFERTA" Multiplicity="*" />
@@ -10560,22 +10285,10 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="DATA_INSERIMENTO" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DATA_MODIFICA" Type="DateTime" Precision="3" />
           <Property Name="STATO" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_COMMISSIONE" FromRole="COMMISSIONE" ToRole="ANNUNCIO" />
           <NavigationProperty Name="ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE" Relationship="GratisForGratisModel.FK_ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE_COMMISSIONE" FromRole="COMMISSIONE" ToRole="ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE" />
           <NavigationProperty Name="OFFERTA_SPEDIZIONE" Relationship="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_COMMISSIONE" FromRole="COMMISSIONE" ToRole="OFFERTA_SPEDIZIONE" />
+          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_COMMISSIONE" FromRole="COMMISSIONE" ToRole="ANNUNCIO" />
         </EntityType>
-        <Association Name="FK_ANNUNCIO_COMMISSIONE">
-          <End Type="GratisForGratisModel.COMMISSIONE" Role="COMMISSIONE" Multiplicity="0..1" />
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="COMMISSIONE">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ANNUNCIO">
-              <PropertyRef Name="ID_COMMISSIONE" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE_COMMISSIONE">
           <End Type="GratisForGratisModel.COMMISSIONE" Role="COMMISSIONE" Multiplicity="0..1" />
           <End Type="GratisForGratisModel.ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE" Role="ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE" Multiplicity="*" />
@@ -10737,8 +10450,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="DATA_MODIFICA" Type="DateTime" Precision="3" />
           <Property Name="STATO" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ABBONAMENTO" Relationship="GratisForGratisModel.FK_PERSONA_ABBONAMENTO" FromRole="PERSONA" ToRole="ABBONAMENTO" />
-          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_PERSONA" FromRole="PERSONA" ToRole="ANNUNCIO" />
-          <NavigationProperty Name="ANNUNCIO1" Relationship="GratisForGratisModel.FK_ANNUNCIO_PERSONA1" FromRole="PERSONA" ToRole="ANNUNCIO" />
           <NavigationProperty Name="ANNUNCIO_CARRELLO" Relationship="GratisForGratisModel.FK_ANNUNCIO_CARRELLO_PERSONA" FromRole="PERSONA" ToRole="ANNUNCIO_CARRELLO" />
           <NavigationProperty Name="ANNUNCIO_CLICK" Relationship="GratisForGratisModel.FK_ANNUNCIO_CLICK_PERSONA" FromRole="PERSONA" ToRole="ANNUNCIO_CLICK" />
           <NavigationProperty Name="ANNUNCIO_DESIDERATO" Relationship="GratisForGratisModel.FK_ANNUNCIO_DESIDERATO_PERSONA" FromRole="PERSONA" ToRole="ANNUNCIO_DESIDERATO" />
@@ -10761,6 +10472,9 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <NavigationProperty Name="PERSONA_RICERCA" Relationship="GratisForGratisModel.FK_PERSONA_RICERCA_PERSONA" FromRole="PERSONA" ToRole="PERSONA_RICERCA" />
           <NavigationProperty Name="PERSONA_SEGNALAZIONE" Relationship="GratisForGratisModel.FK_PERSONA_SEGNALAZIONE_PERSONA" FromRole="PERSONA" ToRole="PERSONA_SEGNALAZIONE" />
           <NavigationProperty Name="PERSONA_TELEFONO" Relationship="GratisForGratisModel.FK_PERSONA_TELEFONO_PERSONA" FromRole="PERSONA" ToRole="PERSONA_TELEFONO" />
+          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_PERSONA" FromRole="PERSONA" ToRole="ANNUNCIO" />
+          <NavigationProperty Name="ANNUNCIO1" Relationship="GratisForGratisModel.FK_ANNUNCIO_PERSONA1" FromRole="PERSONA" ToRole="ANNUNCIO" />
+          <NavigationProperty Name="PERSONA_ANNUNCIO_PROPOSTO" Relationship="GratisForGratisModel.FK_PERSONA_ANNUNCIO_PROPOSTO_PERSONA" FromRole="PERSONA" ToRole="PERSONA_ANNUNCIO_PROPOSTO" />
         </EntityType>
         <Association Name="FK_PERSONA_ABBONAMENTO">
           <End Type="GratisForGratisModel.ABBONAMENTO" Role="ABBONAMENTO" Multiplicity="1" />
@@ -10771,30 +10485,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Principal>
             <Dependent Role="PERSONA">
               <PropertyRef Name="ID_ABBONAMENTO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ANNUNCIO_PERSONA">
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERSONA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ANNUNCIO">
-              <PropertyRef Name="ID_PERSONA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ANNUNCIO_PERSONA1">
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="0..1" />
-          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERSONA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ANNUNCIO">
-              <PropertyRef Name="ID_COMPRATORE" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -11062,6 +10752,418 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ANNUNCIO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TOKEN" Type="Guid" Nullable="false" />
+          <Property Name="ID_CATEGORIA" Type="Int32" Nullable="false" />
+          <Property Name="ID_OGGETTO" Type="Int32" />
+          <Property Name="ID_SERVIZIO" Type="Int32" />
+          <Property Name="ID_PERSONA" Type="Int32" Nullable="false" />
+          <Property Name="ID_ATTIVITA" Type="Int32" />
+          <Property Name="TIPO_PAGAMENTO" Type="Int32" Nullable="false" />
+          <Property Name="NOME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PUNTI" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="SOLDI" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ID_TIPO_VALUTA" Type="Int32" />
+          <Property Name="URL_SCHEDA" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="NOTE_AGGIUNTIVE" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="ID_COMUNE" Type="Int32" />
+          <Property Name="ID_PADRE" Type="Int32" />
+          <Property Name="ID_ORIGINE" Type="Int32" />
+          <Property Name="NO_OFFERTE" Type="Int32" Nullable="false" />
+          <Property Name="RIMETTI_IN_VENDITA" Type="Int32" Nullable="false" />
+          <Property Name="DATA_AVVIO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_FINE" Type="DateTime" Precision="3" />
+          <Property Name="SESSIONE_COMPRATORE" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ID_COMPRATORE" Type="Int32" />
+          <Property Name="DATA_VENDITA" Type="DateTime" Precision="3" />
+          <Property Name="ID_COMMISSIONE" Type="Int32" />
+          <Property Name="CONDIVISIONE_FACEBOOK_G4G" Type="Int32" />
+          <Property Name="CONDIVISIONE_FACEBOOK_UTENTE" Type="Int32" />
+          <Property Name="DATA_PUBBLICAZIONE_FACEBOOK" Type="DateTime" Precision="3" />
+          <Property Name="DATA_INSERIMENTO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_MODIFICA" Type="DateTime" Precision="3" />
+          <Property Name="STATO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ANNUNCIO1" Relationship="GratisForGratisModel.FK_ANNUNCIO_ANNUNCIO" FromRole="ANNUNCIO" ToRole="ANNUNCIO1" />
+          <NavigationProperty Name="ANNUNCIO2" Relationship="GratisForGratisModel.FK_ANNUNCIO_ANNUNCIO" FromRole="ANNUNCIO1" ToRole="ANNUNCIO" />
+          <NavigationProperty Name="ANNUNCIO11" Relationship="GratisForGratisModel.FK_ANNUNCIO_ANNUNCIO1" FromRole="ANNUNCIO" ToRole="ANNUNCIO1" />
+          <NavigationProperty Name="ANNUNCIO3" Relationship="GratisForGratisModel.FK_ANNUNCIO_ANNUNCIO1" FromRole="ANNUNCIO1" ToRole="ANNUNCIO" />
+          <NavigationProperty Name="ANNUNCIO12" Relationship="GratisForGratisModel.FK_ANNUNCIO_ANNUNCIO2" FromRole="ANNUNCIO" ToRole="ANNUNCIO1" />
+          <NavigationProperty Name="ANNUNCIO4" Relationship="GratisForGratisModel.FK_ANNUNCIO_ANNUNCIO2" FromRole="ANNUNCIO1" ToRole="ANNUNCIO" />
+          <NavigationProperty Name="ATTIVITA" Relationship="GratisForGratisModel.FK_ANNUNCIO_ATTIVITA" FromRole="ANNUNCIO" ToRole="ATTIVITA" />
+          <NavigationProperty Name="ANNUNCIO_CARRELLO" Relationship="GratisForGratisModel.FK_ANNUNCIO_CARRELLO_ANNUNCIO" FromRole="ANNUNCIO" ToRole="ANNUNCIO_CARRELLO" />
+          <NavigationProperty Name="CATEGORIA" Relationship="GratisForGratisModel.FK_ANNUNCIO_CATEGORIA" FromRole="ANNUNCIO" ToRole="CATEGORIA" />
+          <NavigationProperty Name="ANNUNCIO_CLICK" Relationship="GratisForGratisModel.FK_ANNUNCIO_CLICK_ANNUNCIO" FromRole="ANNUNCIO" ToRole="ANNUNCIO_CLICK" />
+          <NavigationProperty Name="COMMISSIONE" Relationship="GratisForGratisModel.FK_ANNUNCIO_COMMISSIONE" FromRole="ANNUNCIO" ToRole="COMMISSIONE" />
+          <NavigationProperty Name="COMUNE" Relationship="GratisForGratisModel.FK_ANNUNCIO_COMUNE" FromRole="ANNUNCIO" ToRole="COMUNE" />
+          <NavigationProperty Name="ANNUNCIO_DESIDERATO" Relationship="GratisForGratisModel.FK_ANNUNCIO_DESIDERATO_ANNUNCIO" FromRole="ANNUNCIO" ToRole="ANNUNCIO_DESIDERATO" />
+          <NavigationProperty Name="ANNUNCIO_FEEDBACK" Relationship="GratisForGratisModel.FK_ANNUNCIO_FEEDBACK_ANNUNCIO" FromRole="ANNUNCIO" ToRole="ANNUNCIO_FEEDBACK" />
+          <NavigationProperty Name="ANNUNCIO_FOTO" Relationship="GratisForGratisModel.FK_ANNUNCIO_FOTO_ANNUNCIO" FromRole="ANNUNCIO" ToRole="ANNUNCIO_FOTO" />
+          <NavigationProperty Name="ANNUNCIO_NOTIFICA" Relationship="GratisForGratisModel.FK_ANNUNCIO_NOTIFICA_ANNUNCIO" FromRole="ANNUNCIO" ToRole="ANNUNCIO_NOTIFICA" />
+          <NavigationProperty Name="OGGETTO" Relationship="GratisForGratisModel.FK_ANNUNCIO_OGGETTO" FromRole="ANNUNCIO" ToRole="OGGETTO" />
+          <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_ANNUNCIO_PERSONA" FromRole="ANNUNCIO" ToRole="PERSONA" />
+          <NavigationProperty Name="PERSONA1" Relationship="GratisForGratisModel.FK_ANNUNCIO_PERSONA1" FromRole="ANNUNCIO" ToRole="PERSONA" />
+          <NavigationProperty Name="SERVIZIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_SERVIZIO" FromRole="ANNUNCIO" ToRole="SERVIZIO" />
+          <NavigationProperty Name="ANNUNCIO_TAG" Relationship="GratisForGratisModel.FK_ANNUNCIO_TAG_ANNUNCIO" FromRole="ANNUNCIO" ToRole="ANNUNCIO_TAG" />
+          <NavigationProperty Name="ANNUNCIO_TIPO_SCAMBIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_TIPO_SCAMBIO_ANNUNCIO" FromRole="ANNUNCIO" ToRole="ANNUNCIO_TIPO_SCAMBIO" />
+          <NavigationProperty Name="TIPO_VALUTA" Relationship="GratisForGratisModel.FK_ANNUNCIO_TIPO_VALUTA" FromRole="ANNUNCIO" ToRole="TIPO_VALUTA" />
+          <NavigationProperty Name="ANNUNCIO_VISUALIZZAZIONE" Relationship="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_ANNUNCIO" FromRole="ANNUNCIO" ToRole="ANNUNCIO_VISUALIZZAZIONE" />
+          <NavigationProperty Name="LOG_SBLOCCO_ANNUNCIO" Relationship="GratisForGratisModel.FK_LOG_SBLOCCO_ANNUNCIO_ANNUNCIO" FromRole="ANNUNCIO" ToRole="LOG_SBLOCCO_ANNUNCIO" />
+          <NavigationProperty Name="OFFERTA" Relationship="GratisForGratisModel.FK_OFFERTA_ANNUNCIO" FromRole="ANNUNCIO" ToRole="OFFERTA" />
+          <NavigationProperty Name="OFFERTA_BARATTO" Relationship="GratisForGratisModel.FK_OFFERTA_BARATTO_ANNUNCIO" FromRole="ANNUNCIO" ToRole="OFFERTA_BARATTO" />
+          <NavigationProperty Name="TRANSAZIONE_ANNUNCIO" Relationship="GratisForGratisModel.FK_TRANSAZIONE_ANNUNCIO_ANNUNCIO" FromRole="ANNUNCIO" ToRole="TRANSAZIONE_ANNUNCIO" />
+          <NavigationProperty Name="PERSONA_ANNUNCIO_PROPOSTO" Relationship="GratisForGratisModel.FK_PERSONA_ANNUNCIO_PROPOSTO_ANNUNCIO" FromRole="ANNUNCIO" ToRole="PERSONA_ANNUNCIO_PROPOSTO" />
+        </EntityType>
+        <Association Name="FK_ANNUNCIO_ANNUNCIO">
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1" />
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="ANNUNCIO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO1">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ANNUNCIO_ANNUNCIO1">
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="0..1" />
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ANNUNCIO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO1">
+              <PropertyRef Name="ID_ORIGINE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ANNUNCIO_ANNUNCIO2">
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="0..1" />
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ANNUNCIO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO1">
+              <PropertyRef Name="ID_PADRE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ANNUNCIO_ATTIVITA">
+          <End Type="GratisForGratisModel.ATTIVITA" Role="ATTIVITA" Multiplicity="0..1" />
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ATTIVITA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO">
+              <PropertyRef Name="ID_ATTIVITA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ANNUNCIO_CARRELLO_ANNUNCIO">
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1" />
+          <End Type="GratisForGratisModel.ANNUNCIO_CARRELLO" Role="ANNUNCIO_CARRELLO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ANNUNCIO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO_CARRELLO">
+              <PropertyRef Name="ID_ANNUNCIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ANNUNCIO_CATEGORIA">
+          <End Type="GratisForGratisModel.CATEGORIA" Role="CATEGORIA" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CATEGORIA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO">
+              <PropertyRef Name="ID_CATEGORIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ANNUNCIO_CLICK_ANNUNCIO">
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1" />
+          <End Type="GratisForGratisModel.ANNUNCIO_CLICK" Role="ANNUNCIO_CLICK" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ANNUNCIO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO_CLICK">
+              <PropertyRef Name="ID_ANNUNCIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ANNUNCIO_COMMISSIONE">
+          <End Type="GratisForGratisModel.COMMISSIONE" Role="COMMISSIONE" Multiplicity="0..1" />
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMMISSIONE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO">
+              <PropertyRef Name="ID_COMMISSIONE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ANNUNCIO_COMUNE">
+          <End Type="GratisForGratisModel.COMUNE" Role="COMUNE" Multiplicity="0..1" />
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMUNE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO">
+              <PropertyRef Name="ID_COMUNE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ANNUNCIO_DESIDERATO_ANNUNCIO">
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1" />
+          <End Type="GratisForGratisModel.ANNUNCIO_DESIDERATO" Role="ANNUNCIO_DESIDERATO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ANNUNCIO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO_DESIDERATO">
+              <PropertyRef Name="ID_ANNUNCIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ANNUNCIO_FEEDBACK_ANNUNCIO">
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1" />
+          <End Type="GratisForGratisModel.ANNUNCIO_FEEDBACK" Role="ANNUNCIO_FEEDBACK" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ANNUNCIO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO_FEEDBACK">
+              <PropertyRef Name="ID_ANNUNCIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ANNUNCIO_FOTO_ANNUNCIO">
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="GratisForGratisModel.ANNUNCIO_FOTO" Role="ANNUNCIO_FOTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ANNUNCIO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO_FOTO">
+              <PropertyRef Name="ID_ANNUNCIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ANNUNCIO_NOTIFICA_ANNUNCIO">
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1" />
+          <End Type="GratisForGratisModel.ANNUNCIO_NOTIFICA" Role="ANNUNCIO_NOTIFICA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ANNUNCIO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO_NOTIFICA">
+              <PropertyRef Name="ID_ANNUNCIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ANNUNCIO_OGGETTO">
+          <End Type="GratisForGratisModel.OGGETTO" Role="OGGETTO" Multiplicity="0..1" />
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OGGETTO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO">
+              <PropertyRef Name="ID_OGGETTO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ANNUNCIO_PERSONA">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO">
+              <PropertyRef Name="ID_PERSONA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ANNUNCIO_PERSONA1">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="0..1" />
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO">
+              <PropertyRef Name="ID_COMPRATORE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ANNUNCIO_SERVIZIO">
+          <End Type="GratisForGratisModel.SERVIZIO" Role="SERVIZIO" Multiplicity="0..1" />
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SERVIZIO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO">
+              <PropertyRef Name="ID_SERVIZIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ANNUNCIO_TAG_ANNUNCIO">
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="GratisForGratisModel.ANNUNCIO_TAG" Role="ANNUNCIO_TAG" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ANNUNCIO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO_TAG">
+              <PropertyRef Name="ID_ANNUNCIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ANNUNCIO_TIPO_SCAMBIO_ANNUNCIO">
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1" />
+          <End Type="GratisForGratisModel.ANNUNCIO_TIPO_SCAMBIO" Role="ANNUNCIO_TIPO_SCAMBIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ANNUNCIO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO_TIPO_SCAMBIO">
+              <PropertyRef Name="ID_ANNUNCIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ANNUNCIO_TIPO_VALUTA">
+          <End Type="GratisForGratisModel.TIPO_VALUTA" Role="TIPO_VALUTA" Multiplicity="0..1" />
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPO_VALUTA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO">
+              <PropertyRef Name="ID_TIPO_VALUTA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ANNUNCIO_VISUALIZZAZIONE_ANNUNCIO">
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1" />
+          <End Type="GratisForGratisModel.ANNUNCIO_VISUALIZZAZIONE" Role="ANNUNCIO_VISUALIZZAZIONE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ANNUNCIO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ANNUNCIO_VISUALIZZAZIONE">
+              <PropertyRef Name="ID_ANNUNCIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LOG_SBLOCCO_ANNUNCIO_ANNUNCIO">
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1" />
+          <End Type="GratisForGratisModel.LOG_SBLOCCO_ANNUNCIO" Role="LOG_SBLOCCO_ANNUNCIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ANNUNCIO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LOG_SBLOCCO_ANNUNCIO">
+              <PropertyRef Name="ID_ANNUNCIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OFFERTA_ANNUNCIO">
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="GratisForGratisModel.OFFERTA" Role="OFFERTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ANNUNCIO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OFFERTA">
+              <PropertyRef Name="ID_ANNUNCIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OFFERTA_BARATTO_ANNUNCIO">
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1" />
+          <End Type="GratisForGratisModel.OFFERTA_BARATTO" Role="OFFERTA_BARATTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ANNUNCIO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OFFERTA_BARATTO">
+              <PropertyRef Name="ID_ANNUNCIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TRANSAZIONE_ANNUNCIO_ANNUNCIO">
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1" />
+          <End Type="GratisForGratisModel.TRANSAZIONE_ANNUNCIO" Role="TRANSAZIONE_ANNUNCIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ANNUNCIO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TRANSAZIONE_ANNUNCIO">
+              <PropertyRef Name="ID_ANNUNCIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PERSONA_ANNUNCIO_PROPOSTO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_ANNUNCIO" Type="Int32" Nullable="false" />
+          <Property Name="ID_PERSONA" Type="Int32" Nullable="false" />
+          <Property Name="DATA_PROPOSTA" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_SCADENZA" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_INSERIMENTO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_MODIFICA" Type="DateTime" Precision="3" />
+          <Property Name="STATO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_PERSONA_ANNUNCIO_PROPOSTO_ANNUNCIO" FromRole="PERSONA_ANNUNCIO_PROPOSTO" ToRole="ANNUNCIO" />
+          <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_PERSONA_ANNUNCIO_PROPOSTO_PERSONA" FromRole="PERSONA_ANNUNCIO_PROPOSTO" ToRole="PERSONA" />
+        </EntityType>
+        <Association Name="FK_PERSONA_ANNUNCIO_PROPOSTO_ANNUNCIO">
+          <End Type="GratisForGratisModel.ANNUNCIO" Role="ANNUNCIO" Multiplicity="1" />
+          <End Type="GratisForGratisModel.PERSONA_ANNUNCIO_PROPOSTO" Role="PERSONA_ANNUNCIO_PROPOSTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ANNUNCIO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PERSONA_ANNUNCIO_PROPOSTO">
+              <PropertyRef Name="ID_ANNUNCIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERSONA_ANNUNCIO_PROPOSTO_PERSONA">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
+          <End Type="GratisForGratisModel.PERSONA_ANNUNCIO_PROPOSTO" Role="PERSONA_ANNUNCIO_PROPOSTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PERSONA_ANNUNCIO_PROPOSTO">
+              <PropertyRef Name="ID_PERSONA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -11122,40 +11224,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
                 <ScalarProperty Name="ESTENSIONE" ColumnName="ESTENSIONE" />
                 <ScalarProperty Name="TESTO" ColumnName="TESTO" />
                 <ScalarProperty Name="NOME" ColumnName="NOME" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ANNUNCIO">
-            <EntityTypeMapping TypeName="GratisForGratisModel.ANNUNCIO">
-              <MappingFragment StoreEntitySet="ANNUNCIO">
-                <ScalarProperty Name="ID_COMMISSIONE" ColumnName="ID_COMMISSIONE" />
-                <ScalarProperty Name="STATO" ColumnName="STATO" />
-                <ScalarProperty Name="DATA_MODIFICA" ColumnName="DATA_MODIFICA" />
-                <ScalarProperty Name="DATA_INSERIMENTO" ColumnName="DATA_INSERIMENTO" />
-                <ScalarProperty Name="DATA_VENDITA" ColumnName="DATA_VENDITA" />
-                <ScalarProperty Name="ID_COMPRATORE" ColumnName="ID_COMPRATORE" />
-                <ScalarProperty Name="SESSIONE_COMPRATORE" ColumnName="SESSIONE_COMPRATORE" />
-                <ScalarProperty Name="DATA_FINE" ColumnName="DATA_FINE" />
-                <ScalarProperty Name="DATA_AVVIO" ColumnName="DATA_AVVIO" />
-                <ScalarProperty Name="RIMETTI_IN_VENDITA" ColumnName="RIMETTI_IN_VENDITA" />
-                <ScalarProperty Name="NO_OFFERTE" ColumnName="NO_OFFERTE" />
-                <ScalarProperty Name="ID_ORIGINE" ColumnName="ID_ORIGINE" />
-                <ScalarProperty Name="ID_PADRE" ColumnName="ID_PADRE" />
-                <ScalarProperty Name="ID_COMUNE" ColumnName="ID_COMUNE" />
-                <ScalarProperty Name="NOTE_AGGIUNTIVE" ColumnName="NOTE_AGGIUNTIVE" />
-                <ScalarProperty Name="URL_SCHEDA" ColumnName="URL_SCHEDA" />
-                <ScalarProperty Name="ID_TIPO_VALUTA" ColumnName="ID_TIPO_VALUTA" />
-                <ScalarProperty Name="SOLDI" ColumnName="SOLDI" />
-                <ScalarProperty Name="PUNTI" ColumnName="PUNTI" />
-                <ScalarProperty Name="NOME" ColumnName="NOME" />
-                <ScalarProperty Name="TIPO_PAGAMENTO" ColumnName="TIPO_PAGAMENTO" />
-                <ScalarProperty Name="ID_ATTIVITA" ColumnName="ID_ATTIVITA" />
-                <ScalarProperty Name="ID_PERSONA" ColumnName="ID_PERSONA" />
-                <ScalarProperty Name="ID_SERVIZIO" ColumnName="ID_SERVIZIO" />
-                <ScalarProperty Name="ID_OGGETTO" ColumnName="ID_OGGETTO" />
-                <ScalarProperty Name="ID_CATEGORIA" ColumnName="ID_CATEGORIA" />
-                <ScalarProperty Name="TOKEN" ColumnName="TOKEN" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -12723,6 +12791,57 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
                 <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
                 <ScalarProperty Name="ID_CONTO_CORRENTE" ColumnName="ID_CONTO_CORRENTE" />
                 <ScalarProperty Name="TOKEN" ColumnName="TOKEN" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ANNUNCIO">
+            <EntityTypeMapping TypeName="GratisForGratisModel.ANNUNCIO">
+              <MappingFragment StoreEntitySet="ANNUNCIO">
+                <ScalarProperty Name="STATO" ColumnName="STATO" />
+                <ScalarProperty Name="DATA_MODIFICA" ColumnName="DATA_MODIFICA" />
+                <ScalarProperty Name="DATA_INSERIMENTO" ColumnName="DATA_INSERIMENTO" />
+                <ScalarProperty Name="DATA_PUBBLICAZIONE_FACEBOOK" ColumnName="DATA_PUBBLICAZIONE_FACEBOOK" />
+                <ScalarProperty Name="CONDIVISIONE_FACEBOOK_UTENTE" ColumnName="CONDIVISIONE_FACEBOOK_UTENTE" />
+                <ScalarProperty Name="CONDIVISIONE_FACEBOOK_G4G" ColumnName="CONDIVISIONE_FACEBOOK_G4G" />
+                <ScalarProperty Name="ID_COMMISSIONE" ColumnName="ID_COMMISSIONE" />
+                <ScalarProperty Name="DATA_VENDITA" ColumnName="DATA_VENDITA" />
+                <ScalarProperty Name="ID_COMPRATORE" ColumnName="ID_COMPRATORE" />
+                <ScalarProperty Name="SESSIONE_COMPRATORE" ColumnName="SESSIONE_COMPRATORE" />
+                <ScalarProperty Name="DATA_FINE" ColumnName="DATA_FINE" />
+                <ScalarProperty Name="DATA_AVVIO" ColumnName="DATA_AVVIO" />
+                <ScalarProperty Name="RIMETTI_IN_VENDITA" ColumnName="RIMETTI_IN_VENDITA" />
+                <ScalarProperty Name="NO_OFFERTE" ColumnName="NO_OFFERTE" />
+                <ScalarProperty Name="ID_ORIGINE" ColumnName="ID_ORIGINE" />
+                <ScalarProperty Name="ID_PADRE" ColumnName="ID_PADRE" />
+                <ScalarProperty Name="ID_COMUNE" ColumnName="ID_COMUNE" />
+                <ScalarProperty Name="NOTE_AGGIUNTIVE" ColumnName="NOTE_AGGIUNTIVE" />
+                <ScalarProperty Name="URL_SCHEDA" ColumnName="URL_SCHEDA" />
+                <ScalarProperty Name="ID_TIPO_VALUTA" ColumnName="ID_TIPO_VALUTA" />
+                <ScalarProperty Name="SOLDI" ColumnName="SOLDI" />
+                <ScalarProperty Name="PUNTI" ColumnName="PUNTI" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="TIPO_PAGAMENTO" ColumnName="TIPO_PAGAMENTO" />
+                <ScalarProperty Name="ID_ATTIVITA" ColumnName="ID_ATTIVITA" />
+                <ScalarProperty Name="ID_PERSONA" ColumnName="ID_PERSONA" />
+                <ScalarProperty Name="ID_SERVIZIO" ColumnName="ID_SERVIZIO" />
+                <ScalarProperty Name="ID_OGGETTO" ColumnName="ID_OGGETTO" />
+                <ScalarProperty Name="ID_CATEGORIA" ColumnName="ID_CATEGORIA" />
+                <ScalarProperty Name="TOKEN" ColumnName="TOKEN" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PERSONA_ANNUNCIO_PROPOSTO">
+            <EntityTypeMapping TypeName="GratisForGratisModel.PERSONA_ANNUNCIO_PROPOSTO">
+              <MappingFragment StoreEntitySet="PERSONA_ANNUNCIO_PROPOSTO">
+                <ScalarProperty Name="STATO" ColumnName="STATO" />
+                <ScalarProperty Name="DATA_MODIFICA" ColumnName="DATA_MODIFICA" />
+                <ScalarProperty Name="DATA_INSERIMENTO" ColumnName="DATA_INSERIMENTO" />
+                <ScalarProperty Name="DATA_SCADENZA" ColumnName="DATA_SCADENZA" />
+                <ScalarProperty Name="DATA_PROPOSTA" ColumnName="DATA_PROPOSTA" />
+                <ScalarProperty Name="ID_PERSONA" ColumnName="ID_PERSONA" />
+                <ScalarProperty Name="ID_ANNUNCIO" ColumnName="ID_ANNUNCIO" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

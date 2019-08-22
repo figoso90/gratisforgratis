@@ -12,13 +12,19 @@
     max-width: 62%;*/
 }
 
-#ricerca{
-    padding:0% 3%;
-    text-align:center;
+#ricerca {
+    padding: 17px 22px;
+    text-align: center;
+    position: fixed;
+    left:2%;
+    bottom: 0%;
+    background-color: rgba(0,0,0,0.7);
+    color: #fff;
+    width: 96%;
+    z-index: 1000;
 }
 
 #ricerca .title, #ricerca .advancedSearch{
-    color: #337ab7;
     text-align: center;
     text-transform: uppercase;
     cursor:pointer;
@@ -45,10 +51,12 @@
     vertical-align: top;
 }
 
+#FormRicerca .advanced {
+    display:none;
+}
+
 #FormRicerca .form-group{
-    width:auto;
-    max-width:220px;
-    margin:1% 2%;
+    margin:0px;
     text-align:center;
     vertical-align:middle;
 }
@@ -125,7 +133,7 @@
 }
 
 #alertNotFound{
-    margin: 36px 0px;
+    margin: 0px 0px;
     text-transform: uppercase;
 }
 

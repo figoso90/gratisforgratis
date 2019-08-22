@@ -271,7 +271,7 @@
     <value>Top desideri</value>
   </data>
   <data name="ProfileSendMessage" xml:space="preserve">
-    <value>Invia messaggio</value>
+    <value>Contatta</value>
   </data>
   <data name="ChatDateUpdate" xml:space="preserve">
     <value>Data ultima modifica</value>
@@ -391,7 +391,7 @@
     <value>Vuoi fare una registrazione PIù RAPIDA?!?! &gt;&gt;&gt;</value>
   </data>
   <data name="PublishInfoFB" xml:space="preserve">
-    <value>Se il tuo account è collegato a quello di Facebook &lt;b&gt;guadagnerai HappyCoin&lt;/b&gt; omaggio!</value>
+    <value>Ricordati che se alla fine della pubblicazione, condividerai l'annuncio su FACEBOOK &lt;b&gt;guadagnerai HappyCoin&lt;/b&gt;!</value>
   </data>
   <data name="PublishTitleShipment" xml:space="preserve">
     <value>INFO SPEDIZIONE</value>
@@ -406,16 +406,16 @@
     <value>Alla fine di una compravendita, rilascia un tuo giudizio</value>
   </data>
   <data name="HomeUserFullAd" xml:space="preserve">
-    <value>Pubblica annunci completi</value>
+    <value>Annunci completi</value>
   </data>
   <data name="HomeUserFullAdInfo" xml:space="preserve">
     <value>Inserisci tutti i dati, anche quelli opzionali</value>
   </data>
   <data name="HomeUserJoinSocial" xml:space="preserve">
-    <value>Collega il tuo profilo a Facebook</value>
+    <value>Condividi su Facebook</value>
   </data>
   <data name="HomeUserJoinSocialInfo" xml:space="preserve">
-    <value>Potrai guadagnare dagli annunci postati anche sul social network</value>
+    <value>Guadagnare facilmente postando sul social network</value>
   </data>
   <data name="HomeUserPublishGood" xml:space="preserve">
     <value>Posta oggetti da vendere</value>
@@ -437,5 +437,11 @@
   </data>
   <data name="PublishCheckInfoExtra" xml:space="preserve">
     <value>Visualizza inserimento dati aggiuntivi (anche per la spedizione)</value>
+  </data>
+  <data name="PublishSocial" xml:space="preserve">
+    <value>Pubblica sui social (Guadagnerai crediti omaggio)</value>
+  </data>
+  <data name="ProfileLastSell" xml:space="preserve">
+    <value>Ultime vendite</value>
   </data>
 </root>

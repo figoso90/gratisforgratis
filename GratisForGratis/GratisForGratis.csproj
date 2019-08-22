@@ -143,6 +143,9 @@
     <Reference Include="PayPal, Version=1.9.1.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
       <HintPath>..\packages\PayPal.1.9.1\lib\net451\PayPal.dll</HintPath>
     </Reference>
+    <Reference Include="Recaptcha.Web, Version=2.1.0.0, Culture=neutral, PublicKeyToken=171a6ec5fa4b1644, processorArchitecture=MSIL">
+      <HintPath>..\packages\RecaptchaNet.2.1.0\lib\net451\Recaptcha.Web.dll</HintPath>
+    </Reference>
     <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.105.2.3\lib\net452\RestSharp.dll</HintPath>
     </Reference>
@@ -277,6 +280,7 @@
     <Content Include="Content\Bootstrap\bootstrap.min.css" />
     <Content Include="Content\cosaFacciamo.css" />
     <Content Include="Content\homePartner.css" />
+    <Content Include="Content\index_OLD.css" />
     <Content Include="Content\JqueryUI\images\ui-bg_glass_55_fcf0ba_1x400.png" />
     <Content Include="Content\JqueryUI\images\ui-bg_gloss-wave_100_ece8da_500x100.png" />
     <Content Include="Content\JqueryUI\images\ui-bg_highlight-hard_100_f5f3e5_1x100.png" />
@@ -409,6 +413,7 @@
     <Content Include="Images\icone\save.svg" />
     <Content Include="Images\icone\search.svg" />
     <Content Include="Images\icone\security.svg" />
+    <Content Include="Images\icone\simbolo.svg" />
     <Content Include="Images\logo.jpg" />
     <Content Include="Images\logo.svg" />
     <Content Include="Images\logo2.jpg" />
@@ -457,6 +462,7 @@
     <Content Include="Content\Bootstrap\bootstrap.css.map" />
     <Content Include="Content\Bootstrap\bootstrap-theme.css.map" />
     <Content Include="ClassDiagram1.cd" />
+    <Content Include="RecaptchaNet.Readme.txt" />
     <Content Include="Scripts\annuncio.js" />
     <Content Include="Scripts\blueimp-gallery\.eslintrc.js" />
     <Content Include="Scripts\blueimp-gallery\.gitignore" />
@@ -519,7 +525,9 @@
     <Content Include="Scripts\esm\popper.min.js" />
     <Content Include="Scripts\expressive.annotations.validate.js" />
     <Content Include="Scripts\expressive.annotations.validate.min.js" />
+    <Content Include="Scripts\facebook.js" />
     <Content Include="Scripts\impostazioni.js" />
+    <Content Include="Scripts\index.js" />
     <Content Include="Scripts\jgallery\fonts\fontawesome-webfont.eot" />
     <Content Include="Scripts\jgallery\fonts\fontawesome-webfont.ttf" />
     <Content Include="Scripts\jgallery\fonts\fontawesome-webfont.woff" />
@@ -917,6 +925,7 @@
     <Compile Include="Models\INDIRIZZO.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\LoggatoreModel.cs" />
     <Compile Include="Models\LOG_ERRORE.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
@@ -1025,6 +1034,9 @@
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PersonaModel.cs" />
+    <Compile Include="Models\PERSONA_ANNUNCIO_PROPOSTO.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PERSONA_ATTIVITA.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
@@ -1614,6 +1626,10 @@
     <Content Include="Views\Shared\Email\annuncioAcquistato.cshtml" />
     <Content Include="Views\Shared\Email\annuncioVenduto.cshtml" />
     <Content Include="Views\Shared\Email\offertaAccettata.cshtml" />
+    <Content Include="Views\PortaleWeb\Email\LDV.cshtml" />
+    <Content Include="Views\Cerca\PartialPages\_Filtro.cshtml" />
+    <Content Include="Views\Cerca\PartialPages\_FiltroOggetto.cshtml" />
+    <Content Include="Views\Cerca\PartialPages\_FiltroServizio.cshtml" />
     <None Include="Web References\ServizioADV\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

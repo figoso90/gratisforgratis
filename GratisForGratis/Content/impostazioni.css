@@ -5,46 +5,56 @@
     border-radius: 6px;
     background-color: #a5c71b;
     border: 2px solid #337ab7;
+    margin:0px auto;
 }
 
-.form-horizontal{
-    text-align:center;
+.eliminaImg {
+    position:absolute;
+    top:0px;
+    right:-33px;
+    cursor:pointer;
 }
 
-.form-horizontal .footer{
-    margin-bottom:20px;
-}
-
-.form-horizontal .footer .btn{
-    width:200px;
-}
+    .eliminaImg .icona{
+        color:red;
+    }
 
 .carousel {
-    width: 400px;
+    width: 306px;
     margin: 0px auto 40px;
+    position:relative;
+}
+
+.carousel-inner {
+    position: initial;
+}
+
+.carousel-indicators {
+    background-color: #1799d0;
 }
 
 .carousel-indicators li {
-    border-color: #1799d0;
 }
 
 .carousel-indicators .active {
-    background-color: #a2c642;
+    /*background-color: #a2c642;*/
 }
 
 .carousel-control.left, .carousel-control.right {
     background: none;
 }
 
-.carousel .item {
+.carousel .carousel-item {
     padding: 0px;
     margin: 0px auto;
     border: none;
     background-image: none;
     height: 230px;
+    width: auto;
+    position: initial;
 }
 
-.carousel-inner > .item > img, .carousel-inner > .item > a > img {
+.carousel-inner > .carousel-item > img, .carousel-inner > .carousel-item > a > img {
     height: 200px;
     margin: 0px auto;
     background-color: #a2c642;

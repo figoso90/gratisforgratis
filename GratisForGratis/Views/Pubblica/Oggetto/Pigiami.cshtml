@@ -2,10 +2,8 @@
 
 @Html.Partial("Oggetto", (Model!=null)?Model:new GratisForGratis.Models.PubblicaOggettoViewModel())
 @Html.Hidden("ActionCategoria", "/Pubblica/Vestito")
-<div class="form-group">
+<div class="form-group col-md-3">
     @Html.LabelFor(m => m.Taglia, new { @class = "col-md-2 control-label" })
-    <div class="field">
-        @Html.TextBoxFor(m => m.Taglia, new { @class = "form-control" })
-    </div>
+    @Html.TextBoxFor(m => m.Taglia, new { @class = "form-control" })
     @Html.ValidationMessageFor(m => m.Taglia, "", new { @class = "text-danger" })
 </div>

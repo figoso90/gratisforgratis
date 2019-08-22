@@ -4,6 +4,7 @@ using System.Linq;
 using GratisForGratis.Models;
 using System.Web.Mvc;
 using GratisForGratis.Models.ViewModels;
+using System.Data.Entity;
 
 namespace GratisForGratis.Controllers
 {
@@ -45,7 +46,8 @@ namespace GratisForGratis.Controllers
             }
             catch(Exception exception)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(exception);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(exception);
+                LoggatoreModel.Errore(exception);
                 return RedirectToAction("Index");
             }
             Session["happyPageAperta"] = token;
@@ -91,7 +93,8 @@ namespace GratisForGratis.Controllers
             }
             catch(Exception exception)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(exception);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(exception);
+                LoggatoreModel.Errore(exception);
             }
             return View(viewModel);
         }
@@ -121,13 +124,17 @@ namespace GratisForGratis.Controllers
             List<SpedizioneViewModel> lista = new List<SpedizioneViewModel>();
             using (DatabaseContext db = new DatabaseContext())
             {
+                db.Database.Connection.Open();
                 int token = viewModel.Id;
                 if (ModelState.IsValid)
                 {
                     // effettuo modifica
                     if (viewModel.LDV != null && Utils.CheckFormatoFile(viewModel.LDV, TipoMedia.TESTO))
                     {
-                        CORRIERE_SERVIZIO_SPEDIZIONE spedizione = db.CORRIERE_SERVIZIO_SPEDIZIONE.SingleOrDefault(m => m.ID == viewModel.Id);
+                        CORRIERE_SERVIZIO_SPEDIZIONE spedizione = db.CORRIERE_SERVIZIO_SPEDIZIONE
+                            .Include(m => m.INDIRIZZO.PERSONA_INDIRIZZO)
+                            .Include(m => m.INDIRIZZO1.PERSONA_INDIRIZZO)
+                            .SingleOrDefault(m => m.ID == viewModel.Id);
                         if (spedizione != null)
                         {
                             string tokenMittente = spedizione.ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE.FirstOrDefault().ANNUNCIO_TIPO_SCAMBIO.ANNUNCIO.PERSONA.TOKEN.ToString();
@@ -141,6 +148,21 @@ namespace GratisForGratis.Controllers
                             db.CORRIERE_SERVIZIO_SPEDIZIONE.Attach(spedizione);
                             db.Entry<CORRIERE_SERVIZIO_SPEDIZIONE>(spedizione).State = System.Data.Entity.EntityState.Modified;
                             db.SaveChanges();
+
+                            var mittente = spedizione.INDIRIZZO.PERSONA_INDIRIZZO.FirstOrDefault().PERSONA;
+                            var destinatario = spedizione.INDIRIZZO1.PERSONA_INDIRIZZO.FirstOrDefault().PERSONA;
+                            var modelEmail = db.PERSONA_EMAIL.Where(m => m.ID_PERSONA == destinatario.ID && m.TIPO == (int)TipoEmail.Registrazione).FirstOrDefault();
+                            // invio email
+                            EmailModel email = new EmailModel(ControllerContext);
+                            email.To.Add(new System.Net.Mail.MailAddress(modelEmail.EMAIL, mittente.NOME + " " + mittente.COGNOME));
+                            email.Subject = string.Format(App_GlobalResources.Email.LDVSubject, viewModel.NomeAnnuncio) + " - " + System.Web.Configuration.WebConfigurationManager.AppSettings["nomeSito"];
+                            email.Body = "LDV";
+                            email.DatiEmail = viewModel;
+                            email.Attachments = new List<System.Web.HttpPostedFileBase>()
+                            {
+                                viewModel.LDV
+                            };
+                            new EmailController().SendEmail(email);
                         }
                         else
                         {
@@ -158,8 +180,9 @@ namespace GratisForGratis.Controllers
                     .Select(m => new SpedizioneViewModel()
                     {
                         Id = m.ID,
-                        NomeAnnuncio = m.NOME,
-                        Prezzo = 0,
+                        NomeAnnuncio = m.NOME_ANNUNCIO,
+                        Destinatario = m.NOME + " " + m.COGNOME_RAGSOC,
+                        Prezzo = m.PREZZO,
                         Stato = Stato.ATTIVO
                     }).ToList();
             }

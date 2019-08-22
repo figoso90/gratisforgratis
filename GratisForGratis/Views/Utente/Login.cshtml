@@ -8,55 +8,56 @@
 </section>
 <section id="loginForm">
     <div class="content">
-        <h2 id="description">@Html.Raw(Language.DescriptionLogin)</h2>
-        <hr />
-        @using (Html.BeginForm("Login", "Utente", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-        {
-            @Html.AntiForgeryToken()
-            @Html.HiddenFor(m => m.ReturnUrl, new { Value = ViewBag.ReturnUrl })
-            <p>@Html.ValidationMessage("Error", new { @class = "text-danger" })</p>
-            if (TempData["salvato"] != null && (bool)TempData["salvato"])
-            {
-                <h4 class="message">@Language.SendPasswordOk</h4>
-            }
-            <div class="row">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                    <div class="col-md">
-                        @Html.TextBoxFor(m => m.Email, new { type = "email", @class = "form-control" })
-                    </div>
-                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                    <div class="col-md">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                    </div>
-                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-12">
-                        <div class="checkbox">
-                            @Html.CheckBoxFor(m => m.RicordaLogin)
-                            @Html.LabelFor(m => m.RicordaLogin)
+        <div class="container">
+            <h2 id="description">@Html.Raw(Language.DescriptionLogin)</h2>
+            <hr />
+            <div class="row justify-content-center">
+                @using (Html.BeginForm("Login", "Utente", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "col-md-9", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.ReturnUrl, new { Value = ViewBag.ReturnUrl })
+                    <p>@Html.ValidationMessage("Error", new { @class = "text-danger" })</p>
+                    if (TempData["salvato"] != null && (bool)TempData["salvato"])
+                    {
+                        <h4 class="message">@Language.SendPasswordOk</h4>
+                    }
+                    <div class="form-row justify-content-center">
+                        <div class="form-group col-md-4">
+                            @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.Email, new { type = "email", @class = "form-control", placeholder = "Email" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-md-4">
+                            @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                </div>
+                    <div class="form-row justify-content-center align-items-center">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(m => m.RicordaLogin)
+                                    @Html.LabelFor(m => m.RicordaLogin)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-center align-items-center">
+                        <div class="form-group">
+                            <input type="submit" value="Accesso / Registrazione RAPIDA" class="btn btn-primary col-md-12" />
+                        </div>
+                    </div>
+                    <p>
+                        @Html.ActionLink(ViewModel.LoginRegistration, "Registrazione")
+                        <i class="fas far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Con la registrazione completa riceverai ulteriori crediti omaggio"></i>
+                    </p>
+                    <p>
+                        @Html.ActionLink(ViewModel.LoginPasswordForgot, "PasswordDimenticata")
+                    </p>
+                }
             </div>
-            <div class="row">
-                <div class="form-group">
-                    <input type="submit" value="@ViewModel.Login" class="col-md-9 col-md-push-1 btn btn-success" />
-                </div>
-            </div>
-            <p>
-                @Html.ActionLink(ViewModel.LoginRegistration, "Registrazione")
-            </p>
-            <p>
-                @Html.ActionLink(ViewModel.LoginPasswordForgot, "PasswordDimenticata")
-            </p>
-        }
+        </div>
     </div>
 </section>
 
