@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Recaptcha.Web;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Net.Mail;
@@ -41,6 +42,10 @@ namespace GratisForGratis.Models
         public TipoSegnalazione Tipologia { get; set; }
     }
 
+    /// <summary>
+    /// Form usata per l'inserimento dati e l'invio della mail
+    /// Riferimento: https://github.com/tanveery/recaptcha-net
+    /// </summary>
     public class ContattiViewModel
     {
         #region PROPRIETA

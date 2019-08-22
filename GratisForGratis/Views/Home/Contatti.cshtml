@@ -1,4 +1,7 @@
-﻿@model GratisForGratis.Models.ContattiViewModel
+﻿@using Recaptcha.Web;
+@using Recaptcha.Web.Mvc;
+
+@model GratisForGratis.Models.ContattiViewModel
 
 <section id="head">
     <div class="content">
@@ -12,22 +15,22 @@
 </section>
 <section id="info">
     <div class="content">
-        @using (Html.BeginForm("Contatti", "Home", FormMethod.Post, new { @class= "", role = "form", id = "formContatti" }))
+        @using (Html.BeginForm("Contatti", "Home", FormMethod.Post, new { @class = "", role = "form", id = "formContatti" }))
         {
             <div class="form-row justify-content-center align-items-center">
                 @Html.AntiForgeryToken()
 
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-4">
                     @Html.LabelFor(m => m.Nominativo, new { @class = "control-label" })
                     @Html.TextBoxFor(m => m.Nominativo, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Nominativo, "", new { @class = "text-danger" })
                 </div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-4">
                     @Html.LabelFor(m => m.Email, new { @class = "control-label" })
                     @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                 </div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-4">
                     @Html.LabelFor(m => m.Oggetto, new { @class = "control-label" })
                     @Html.TextBoxFor(m => m.Oggetto, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Oggetto, "", new { @class = "text-danger" })
@@ -37,6 +40,9 @@
                     @Html.TextAreaFor(m => m.Testo, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Testo, "", new { @class = "text-danger" })
                 </div>
+                <div class="form-group col-md-6">
+                    @Html.Recaptcha()
+                </div>
             </div>
             <div class="form-row footer">
                 <div class="form-group col-md-12">
@@ -44,13 +50,20 @@
                 </div>
             </div>
         }
-            <h2 id="description">@Resources.Language.DescriptionContacts2</h2>
+        <h2 id="description">@Resources.Language.DescriptionContacts2</h2>
         <address>
-            <strong>@Resources.Language.Address</strong> <a href="mailto:info@gratisforgratis.com">info@gratisforgratis.com</a><br /><br />
+            <strong>@Resources.Language.Address</strong> <a href="mailto:info@gratisforgratis.com">info@gratisforgratis.com</a>
         </address>
         <address>
-            <strong>@Resources.Language.Support:</strong>   <a href="mailto:Support@gratisforgratis.com">Support@gratisforgratis.com</a><br />
-            <strong>@Resources.Language.Marketing:</strong> <a href="mailto:Marketing@gratisforgratis.com">Marketing@gratisforgratis.com</a>
+            <strong>@Resources.Language.Support:</strong>   <a href="mailto:Support@gratisforgratis.com">support@gratisforgratis.com</a>
         </address>
+        <address>
+            <strong>@Resources.Language.Marketing:</strong> <a href="mailto:Marketing@gratisforgratis.com">marketing@gratisforgratis.com</a>
+        </address>
+        <p>
+            <strong>Social: </strong>
+            <a href="https://www.facebook.com/GratisForGratis/" target="_blank"><i class="fab fa-facebook" aria-hidden="true"></i></a>
+            <a href="https://www.instagram.com/gratisforgratis/" target="_blank"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+        </p>
     </div>
 </section>

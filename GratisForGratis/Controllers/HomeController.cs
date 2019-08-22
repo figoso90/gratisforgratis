@@ -8,6 +8,8 @@ using System.Web;
 using System.Drawing;
 using System.IO;
 using System.Web.Configuration;
+using Recaptcha.Web;
+using Recaptcha.Web.Mvc;
 
 namespace GratisForGratis.Controllers
 {
@@ -80,7 +82,7 @@ namespace GratisForGratis.Controllers
             ViewBag.Title = App_GlobalResources.Language.Contacts + " - " + WebConfigurationManager.AppSettings["nomeSito"];
             ViewBag.Description = App_GlobalResources.MetaTag.DescriptionContatti;
             ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsContatti;
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && CheckCaptcha())
             {
                 string errore = string.Empty;
                 value.InviaEmail(ref errore);
@@ -88,8 +90,12 @@ namespace GratisForGratis.Controllers
                 {
                     TempData["MESSAGGIO"] = errore;
                 }
+                else
+                {
+                    return View();
+                }
             }
-            return View();
+            return View(value);
         }
 
         [HttpGet]
@@ -860,6 +866,23 @@ namespace GratisForGratis.Controllers
                 return nomeFileUnivoco;
             }
             return null;
+        }
+
+        public bool CheckCaptcha()
+        {
+            RecaptchaVerificationHelper recaptchaHelper = this.GetRecaptchaVerificationHelper();
+            if (String.IsNullOrEmpty(recaptchaHelper.Response))
+            {
+                ModelState.AddModelError("", "Captcha answer cannot be empty.");
+                return false;
+            }
+            RecaptchaVerificationResult recaptchaResult = recaptchaHelper.VerifyRecaptchaResponse();
+            if (recaptchaResult != RecaptchaVerificationResult.Success)
+            {
+                ModelState.AddModelError("", "Incorrect captcha answer.");
+                return false;
+            }
+            return true;
         }
 
         #endregion
