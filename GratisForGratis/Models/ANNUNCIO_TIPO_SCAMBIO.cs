@@ -27,8 +27,8 @@ namespace GratisForGratis.Models
         public Nullable<System.DateTime> DATA_MODIFICA { get; set; }
         public int STATO { get; set; }
     
+        public virtual ANNUNCIO ANNUNCIO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE> ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE { get; set; }
-        public virtual ANNUNCIO ANNUNCIO { get; set; }
     }
 }

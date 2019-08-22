@@ -18,7 +18,7 @@ namespace GratisForGratis.Models
         public int ID_ANNUNCIO { get; set; }
         public int ID_NOTIFICA { get; set; }
     
-        public virtual NOTIFICA NOTIFICA { get; set; }
         public virtual ANNUNCIO ANNUNCIO { get; set; }
+        public virtual NOTIFICA NOTIFICA { get; set; }
     }
 }

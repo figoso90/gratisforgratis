@@ -2,7 +2,7 @@
 @model OffertaViewModel
 <div id="@HttpUtility.UrlEncode(Model.Annuncio.Token)" class="col-xs-12 col-md-3 purchase">
     <h4 class="title plus">
-        @Html.ActionLink(Model.Annuncio.Nome, Model.Annuncio.Nome + "/" + Model.Annuncio.Token, (Model.Annuncio.TipoAcquisto == TipoAcquisto.Oggetto) ? "oggetto" : "servizio", null, null)
+        @Html.ActionLink(Model.Annuncio.Nome, "index", "annuncio", new { token = Model.Annuncio.Token }, null)
     </h4>
     <div class="preview">
         <div class="cella table">
@@ -12,7 +12,7 @@
         </div>
         <div class="cella noMandatory">
             @Html.Label("Categoria", Language.Category + ":")
-            @Html.ActionLink(Model.Annuncio.Categoria, Model.Annuncio.Categoria + "/" + Model.Annuncio.CategoriaID, "categoria", null, null)
+            @Model.Annuncio.Categoria
         </div>
         <div class="cella points">
             @Html.Label("Punti", Language.Moneta + ":")

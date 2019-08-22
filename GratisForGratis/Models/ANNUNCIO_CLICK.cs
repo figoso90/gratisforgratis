@@ -25,9 +25,9 @@ namespace GratisForGratis.Models
         public Nullable<System.DateTime> DATA_MODIFICA { get; set; }
         public int STATO { get; set; }
     
+        public virtual ANNUNCIO ANNUNCIO { get; set; }
         public virtual BROWSER_MODELLO BROWSER_MODELLO { get; set; }
         public virtual SISTEMA_OPERATIVO SISTEMA_OPERATIVO { get; set; }
         public virtual PERSONA PERSONA { get; set; }
-        public virtual ANNUNCIO ANNUNCIO { get; set; }
     }
 }

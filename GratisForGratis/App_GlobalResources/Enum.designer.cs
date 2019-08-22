@@ -331,15 +331,6 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Reale.
-        /// </summary>
-        public static string RealMoney {
-            get {
-                return ResourceManager.GetString("RealMoney", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Cerca una stringa localizzata simile a Settembre.
         /// </summary>
         public static string September {

@@ -519,7 +519,6 @@
     <Content Include="Scripts\esm\popper.min.js" />
     <Content Include="Scripts\expressive.annotations.validate.js" />
     <Content Include="Scripts\expressive.annotations.validate.min.js" />
-    <Content Include="Scripts\facebook.js" />
     <Content Include="Scripts\impostazioni.js" />
     <Content Include="Scripts\jgallery\fonts\fontawesome-webfont.eot" />
     <Content Include="Scripts\jgallery\fonts\fontawesome-webfont.ttf" />

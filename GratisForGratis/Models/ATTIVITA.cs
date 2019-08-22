@@ -17,6 +17,7 @@ namespace GratisForGratis.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ATTIVITA()
         {
+            this.ANNUNCIO = new HashSet<ANNUNCIO>();
             this.ANNUNCIO_CARRELLO = new HashSet<ANNUNCIO_CARRELLO>();
             this.ANNUNCIO_DESIDERATO = new HashSet<ANNUNCIO_DESIDERATO>();
             this.ATTIVITA_EMAIL = new HashSet<ATTIVITA_EMAIL>();
@@ -28,7 +29,6 @@ namespace GratisForGratis.Models
             this.OGGETTO_APPARTENENZA = new HashSet<OGGETTO_APPARTENENZA>();
             this.PERSONA_ATTIVITA = new HashSet<PERSONA_ATTIVITA>();
             this.OFFERTA = new HashSet<OFFERTA>();
-            this.ANNUNCIO = new HashSet<ANNUNCIO>();
         }
     
         public int ID { get; set; }
@@ -42,6 +42,8 @@ namespace GratisForGratis.Models
         public Nullable<System.DateTime> DATA_MODIFICA { get; set; }
         public int STATO { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ANNUNCIO> ANNUNCIO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ANNUNCIO_CARRELLO> ANNUNCIO_CARRELLO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -65,7 +67,5 @@ namespace GratisForGratis.Models
         public virtual ICollection<PERSONA_ATTIVITA> PERSONA_ATTIVITA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OFFERTA> OFFERTA { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ANNUNCIO> ANNUNCIO { get; set; }
     }
 }

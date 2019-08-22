@@ -10,17 +10,10 @@
     text-decoration: underline;
 }
 
-#acquisto .text-danger{
-    background-color:yellow;
-    padding:12px 0px;
-    font-weight:bold;
-    text-align:center;
-}
-
-#acquisto .phote {
-    background-color: #a5c71b;
-    border: 1px solid #337ab7;
-    max-width: 300px;
+#acquisto .phote{
+    background-color:#a5c71b;
+    border:1px solid #337ab7;
+    max-width:300px;
 }
 
 #acquisto .title{

@@ -267,7 +267,7 @@
                     </li>
                 </ul>
                 <div id="toolbar">
-                    @using (Html.BeginForm("Index2", "Cerca", FormMethod.Get, new { id = "cerca" }))
+                    @using (Html.BeginForm("", "Cerca", FormMethod.Get, new { id = "cerca" }))
                     {
                         <div id="menuCategoriaRicerca" style="display: inline-block;margin-top: 12px;position: relative;vertical-align: top;">
                             @Html.Hidden("Cerca_IDCategoria", Response.Cookies["ricerca"]["IDCategoria"])
@@ -284,14 +284,28 @@
                     {
                         foreach (FINDSOTTOCATEGORIE_Result sottoCategoria in (HttpContext.Current.Application["categorie"] as List<FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoria"])))
                         {
-                            @Html.ActionLink(sottoCategoria.DESCRIZIONE, sottoCategoria.DESCRIZIONE.Replace(" ", "-") + "/" + sottoCategoria.ID, "categoria", null, new { @class = "link" })
+                            if (sottoCategoria.LIVELLO == 0)
+                            {
+                                @Html.ActionLink(sottoCategoria.NOME, sottoCategoria.DESCRIZIONE, (sottoCategoria.TIPO_VENDITA == 0) ? "Oggetti" : "Servizi", new { categoria = sottoCategoria.ID }, new { @class = "link" })
+                            }
+                            else
+                            {
+                                @Html.ActionLink(sottoCategoria.NOME, Response.Cookies["ricerca"]["Categoria"] + "/" + sottoCategoria.DESCRIZIONE, (sottoCategoria.TIPO_VENDITA == 0) ? "Oggetti" : "Servizi", new { categoria = sottoCategoria.ID }, new { @class = "link" })
+                            }
                         }
                     }
                     else
                     {
                         foreach (FINDSOTTOCATEGORIE_Result sottoCategoria in (HttpContext.Current.Application["categorie"] as List<FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoriaPadre"])))
                         {
-                            @Html.ActionLink(sottoCategoria.DESCRIZIONE, sottoCategoria.DESCRIZIONE.Replace(" ", "-") + "/" + sottoCategoria.ID, "categoria", null, new { @class = "link" })
+                            if (sottoCategoria.LIVELLO == 0)
+                            {
+                                @Html.ActionLink(sottoCategoria.NOME, sottoCategoria.DESCRIZIONE, (sottoCategoria.TIPO_VENDITA == 0) ? "Oggetti" : "Servizi", new { categoria = sottoCategoria.ID }, new { @class = "link" })
+                            }
+                            else
+                            {
+                                @Html.ActionLink(sottoCategoria.NOME, Response.Cookies["ricerca"]["CategoriaPadre"] + "/" + sottoCategoria.DESCRIZIONE, (sottoCategoria.TIPO_VENDITA == 0) ? "Oggetti" : "Servizi", new { categoria = sottoCategoria.ID }, new { @class = "link" })
+                            }
                         }
                     }
                 </div>

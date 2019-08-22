@@ -60,7 +60,6 @@ namespace GratisForGratis.Models
                 Cerca_TipoPagamento = (TipoPagamento)Convert.ToInt32(ricerca["TipoPagamento"]);
             if (ricerca["IDCitta"] != null)
                 Cerca_IDCitta = Convert.ToInt32(ricerca["IDCitta"]);
-            Cerca_NonPersonale = Convert.ToBoolean(ricerca["NonPersonale"]);
         }
         #endregion
 
@@ -105,9 +104,6 @@ namespace GratisForGratis.Models
         public bool AttivaRicercaAvanzata { get; private set; }
 
         public string ActionSalvataggio { get; protected set; }
-
-        [Display(Name = "AdOther", ResourceType = typeof(App_GlobalResources.Language))]
-        public bool Cerca_NonPersonale { get; set; }
 
         #endregion
 
@@ -358,8 +354,6 @@ namespace GratisForGratis.Models
                 Cerca_AnnoMin = Convert.ToInt32(ricerca["AnnoMin"]);
             if (ricerca["AnnoMax"] != null)
                 Cerca_AnnoMax = Convert.ToInt32(ricerca["AnnoMax"]);
-            if (ricerca["TipoScambio"] != null)
-                Cerca_TipoScambio = (TipoScambio)Convert.ToInt32(ricerca["TipoScambio"]);
             //if (ricerca["Colore"] != null)
             //    Cerca_Colore = Convert.ToInt32(ricerca["Colore"]);
         }
@@ -390,9 +384,6 @@ namespace GratisForGratis.Models
         public int Cerca_AnnoMax { get; set; }
 
         public List<Color> Cerca_Colore { get; set; }
-
-        [Display(Name = "KidExchange", ResourceType = typeof(App_GlobalResources.Language))]
-        public TipoScambio? Cerca_TipoScambio { get; set; }
         #endregion
 
         #region METODI PUBBLICI
@@ -406,7 +397,6 @@ namespace GratisForGratis.Models
                 ricercaOggetto.STATO_OGGETTO = (int?)this.Cerca_StatoOggetto;
                 ricercaOggetto.ANNO_MASSIMO = this.Cerca_AnnoMax;
                 ricercaOggetto.ANNO_MINIMO = this.Cerca_AnnoMin;
-                //ricercaOggetto.TIPO_SCAMBIO = this.Cerca_TipoScambio;
                 if (this.Cerca_Colore != null && this.Cerca_Colore.Count > 0)
                 {
                     ricercaOggetto.COLORE = string.Join(",", this.Cerca_Colore);

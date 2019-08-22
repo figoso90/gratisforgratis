@@ -82,9 +82,7 @@ namespace GratisForGratis.Models
                 if (copiaAnnuncio != null)
                     TokenAnnuncioCopiato = Utils.RandomString(3) + copiaAnnuncio.TOKEN + Utils.RandomString(3);
             }
-            CondivisioneFacebookG4G = (StatoPubblicaAnnuncioFacebook?)model.CONDIVISIONE_FACEBOOK_G4G;
-            CondivisioneFacebookUtente = (StatoPubblicaAnnuncioFacebook?)model.CONDIVISIONE_FACEBOOK_UTENTE;
-            DataPubblicazioneFacebook = model.DATA_PUBBLICAZIONE_FACEBOOK;
+            
         }
         public AnnuncioViewModel(AnnuncioViewModel model)
         {
@@ -186,12 +184,6 @@ namespace GratisForGratis.Models
         public bool RimettiInVendita { get; set; }
 
         public string Azione { get; set; }
-
-        public StatoPubblicaAnnuncioFacebook? CondivisioneFacebookG4G { get; set; }
-
-        public StatoPubblicaAnnuncioFacebook? CondivisioneFacebookUtente { get; set; }
-
-        public DateTime? DataPubblicazioneFacebook { get; set; }
         /*
         public bool SpedizioneAMano { get; set; }
 

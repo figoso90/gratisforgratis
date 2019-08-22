@@ -38,17 +38,6 @@
         @Html.LabelFor(m => m.Cerca_PuntiMax, new { @class = "evidence" })
         @Html.TextBoxFor(m => m.Cerca_PuntiMax, new { @class = "form-control number" })
     </div>
-    <!-- SE AUTENTICATO -->
-    if (Request.IsAuthenticated)
-    {
-    <div class="form-group">
-        <div class="col-md-10">
-            @Html.CheckBoxFor(m => m.Cerca_NonPersonale, new { @class = "form-control" })
-            @Html.LabelFor(m => m.Cerca_NonPersonale, new { @class = "col-md-2 control-label" })
-        </div>
-        @Html.ValidationMessageFor(m => m.Cerca_NonPersonale, "", new { @class = "text-danger" })
-    </div>
-    }
     <div class="button">
         <a class="btn btn-success" href="javascript:void(0);" onclick="ricercaAvanzata('FiltroVendite');">@Language.Find</a>
     </div>

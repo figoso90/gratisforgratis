@@ -14,7 +14,7 @@
 {
     <div id="@("Token"+servizio.Token)" class="object">
         <div>
-            <a class="openLink" href="/servizio/@HttpUtility.UrlEncode(servizio.Nome.Replace(" ","-") + "/" + servizio.Token)" title="@servizio.Nome GRATIS">
+            <a class="openLink" href="/Annuncio?token=@HttpUtility.UrlEncode(servizio.Token)" title="@servizio.Nome GRATIS">
                 <h3 class="title">@servizio.Nome</h3>
                 <div class="left" style="background-image:url('@Url.Content("~/Uploads/Images/" + servizio.Venditore.VenditoreToken + "/" + @servizio.Foto.FirstOrDefault().DATA_INSERIMENTO.Year + "/" + "Normal/" + servizio.Foto.FirstOrDefault().ALLEGATO.NOME)')">
                     @if (servizio.Punti.ParseFromHappyCoin() <= 0)
@@ -24,7 +24,7 @@
                 </div>
                 <div class="right">
                     <h5 class="category">
-                        <a href="@Url.Action(servizio.Categoria.Replace(" ","-") + "/" + servizio.CategoriaID,"categoria")" title="@servizio.Categoria">
+                        <a href="@Url.Action(servizio.Categoria,"servizi", new { categoria = servizio.CategoriaID })" title="@servizio.Categoria">
                             <img class="glyphicon category" src="@Url.Content("~/Images/Icone/category.svg")" alt="@Language.Category" />
                             <span class="evidence">@servizio.Categoria</span>
                         </a>

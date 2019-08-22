@@ -17,6 +17,8 @@ namespace GratisForGratis.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PERSONA()
         {
+            this.ANNUNCIO = new HashSet<ANNUNCIO>();
+            this.ANNUNCIO1 = new HashSet<ANNUNCIO>();
             this.ANNUNCIO_CARRELLO = new HashSet<ANNUNCIO_CARRELLO>();
             this.ANNUNCIO_CLICK = new HashSet<ANNUNCIO_CLICK>();
             this.ANNUNCIO_DESIDERATO = new HashSet<ANNUNCIO_DESIDERATO>();
@@ -38,8 +40,6 @@ namespace GratisForGratis.Models
             this.PERSONA_RICERCA = new HashSet<PERSONA_RICERCA>();
             this.PERSONA_SEGNALAZIONE = new HashSet<PERSONA_SEGNALAZIONE>();
             this.PERSONA_TELEFONO = new HashSet<PERSONA_TELEFONO>();
-            this.ANNUNCIO = new HashSet<ANNUNCIO>();
-            this.ANNUNCIO1 = new HashSet<ANNUNCIO>();
         }
     
         public int ID { get; set; }
@@ -58,6 +58,10 @@ namespace GratisForGratis.Models
         public int STATO { get; set; }
     
         public virtual ABBONAMENTO ABBONAMENTO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ANNUNCIO> ANNUNCIO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ANNUNCIO> ANNUNCIO1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ANNUNCIO_CARRELLO> ANNUNCIO_CARRELLO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -101,9 +105,5 @@ namespace GratisForGratis.Models
         public virtual ICollection<PERSONA_SEGNALAZIONE> PERSONA_SEGNALAZIONE { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PERSONA_TELEFONO> PERSONA_TELEFONO { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ANNUNCIO> ANNUNCIO { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ANNUNCIO> ANNUNCIO1 { get; set; }
     }
 }

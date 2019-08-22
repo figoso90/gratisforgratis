@@ -22,7 +22,7 @@ namespace GratisForGratis.Models
         public Nullable<System.DateTime> DATA_FINE { get; set; }
         public int NUMERO_SBLOCCO { get; set; }
     
-        public virtual PERSONA PERSONA { get; set; }
         public virtual ANNUNCIO ANNUNCIO { get; set; }
+        public virtual PERSONA PERSONA { get; set; }
     }
 }

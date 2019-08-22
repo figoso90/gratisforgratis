@@ -17,10 +17,10 @@ namespace GratisForGratis.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public COMUNE()
         {
+            this.ANNUNCIO = new HashSet<ANNUNCIO>();
             this.CORRIERE_COMUNE = new HashSet<CORRIERE_COMUNE>();
             this.RICERCA = new HashSet<RICERCA>();
             this.INDIRIZZO = new HashSet<INDIRIZZO>();
-            this.ANNUNCIO = new HashSet<ANNUNCIO>();
         }
     
         public int ID { get; set; }
@@ -29,6 +29,8 @@ namespace GratisForGratis.Models
         public string CAP { get; set; }
         public int STATO { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ANNUNCIO> ANNUNCIO { get; set; }
         public virtual PROVINCIA PROVINCIA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CORRIERE_COMUNE> CORRIERE_COMUNE { get; set; }
@@ -36,7 +38,5 @@ namespace GratisForGratis.Models
         public virtual ICollection<RICERCA> RICERCA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<INDIRIZZO> INDIRIZZO { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ANNUNCIO> ANNUNCIO { get; set; }
     }
 }

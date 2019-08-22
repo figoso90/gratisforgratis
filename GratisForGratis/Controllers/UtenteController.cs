@@ -218,7 +218,7 @@ namespace GratisForGratis.Controllers
             {
                 // RECUPERA ACCESS TOKEN BREVE
                 var fb = new FacebookClient();
-                string scope = "user_friends, email, manage_pages, pages_show_list, publish_pages, public_profile, publish_actions";
+                string scope = "user_friends, email, manage_pages, pages_show_list, publish_pages, public_profile";
                 dynamic result = fb.Post("oauth/access_token", new
                 {
                     client_id = ConfigurationManager.AppSettings["FacebookApiId"],

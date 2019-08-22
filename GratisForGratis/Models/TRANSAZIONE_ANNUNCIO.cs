@@ -26,7 +26,7 @@ namespace GratisForGratis.Models
         public Nullable<System.DateTime> DATA_MODIFICA { get; set; }
         public int STATO { get; set; }
     
-        public virtual TRANSAZIONE TRANSAZIONE { get; set; }
         public virtual ANNUNCIO ANNUNCIO { get; set; }
+        public virtual TRANSAZIONE TRANSAZIONE { get; set; }
     }
 }

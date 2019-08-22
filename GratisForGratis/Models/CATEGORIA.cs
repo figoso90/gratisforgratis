@@ -18,6 +18,7 @@ namespace GratisForGratis.Models
         public CATEGORIA()
         {
             this.ALIMENTAZIONE = new HashSet<ALIMENTAZIONE>();
+            this.ANNUNCIO = new HashSet<ANNUNCIO>();
             this.ARTISTA = new HashSet<ARTISTA>();
             this.AUTORE = new HashSet<AUTORE>();
             this.BROWSER = new HashSet<BROWSER>();
@@ -28,7 +29,6 @@ namespace GratisForGratis.Models
             this.REGISTA = new HashSet<REGISTA>();
             this.RICERCA = new HashSet<RICERCA>();
             this.SISTEMA_OPERATIVO = new HashSet<SISTEMA_OPERATIVO>();
-            this.ANNUNCIO = new HashSet<ANNUNCIO>();
         }
     
         public int ID { get; set; }
@@ -42,6 +42,8 @@ namespace GratisForGratis.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ALIMENTAZIONE> ALIMENTAZIONE { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ANNUNCIO> ANNUNCIO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ARTISTA> ARTISTA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -64,7 +66,5 @@ namespace GratisForGratis.Models
         public virtual ICollection<RICERCA> RICERCA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SISTEMA_OPERATIVO> SISTEMA_OPERATIVO { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ANNUNCIO> ANNUNCIO { get; set; }
     }
 }

@@ -3,7 +3,7 @@
 
 <div id="@HttpUtility.UrlEncode(Model.Token)" class="col-xs-12 col-md-3 purchase @(((Model.StatoVendita == StatoVendita.SOSPESO && DateTime.Now > Model.DataModifica.Value.AddDays(1)) || (Model.StatoVendita == StatoVendita.ATTIVO && Model.DataFine <= DateTime.Now))?"blocked":"")">
     <h4 class="title plus">
-        @Html.ActionLink(Model.Nome, Model.Nome + "/" + Model.Token, (Model.TipoAcquisto == TipoAcquisto.Oggetto) ? "oggetto" : "servizio", null, null)
+        @Html.ActionLink(Model.Nome, "index", "annuncio", new { token = Model.Token }, null)
     </h4>
     <div class="preview">
         <div class="cella table">
@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="cella noMandatory">
-            <a href="@Url.Action(Model.Categoria + "/" + Model.CategoriaID,"categoria")" title="@Model.Categoria">
+            <a href="@Url.Action("","cerca", new { Cerca_IDCategoria = Model.CategoriaID, Cerca_Categoria = Model.Categoria })" title="@Model.Categoria">
                 <img class="glyphicon category" src="@Url.Content("~/Images/Icone/category.svg")" alt="@Language.Category" />
                 @Model.Categoria
             </a>

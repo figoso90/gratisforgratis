@@ -207,9 +207,6 @@
   <data name="PrivateShipment" xml:space="preserve">
     <value>Privata</value>
   </data>
-  <data name="RealMoney" xml:space="preserve">
-    <value>Reale</value>
-  </data>
   <data name="September" xml:space="preserve">
     <value>Settembre</value>
   </data>

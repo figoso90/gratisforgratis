@@ -9,6 +9,7 @@
         <EntityTypeShape EntityType="GratisForGratisModel.ABBONAMENTO" Width="1.5" PointX="3.75" PointY="70" />
         <EntityTypeShape EntityType="GratisForGratisModel.ALIMENTAZIONE" Width="1.5" PointX="19.75" PointY="15.75" />
         <EntityTypeShape EntityType="GratisForGratisModel.ALLEGATO" Width="1.5" PointX="6" PointY="47.875" />
+        <EntityTypeShape EntityType="GratisForGratisModel.ANNUNCIO" Width="1.5" PointX="11.25" PointY="57.75" />
         <EntityTypeShape EntityType="GratisForGratisModel.ANNUNCIO_CARRELLO" Width="1.5" PointX="19.5" PointY="62.125" />
         <EntityTypeShape EntityType="GratisForGratisModel.ANNUNCIO_CLICK" Width="1.5" PointX="16.5" PointY="60.75" />
         <EntityTypeShape EntityType="GratisForGratisModel.ANNUNCIO_DESIDERATO" Width="1.5" PointX="13.5" PointY="70.25" />
@@ -125,6 +126,27 @@
         <AssociationConnector Association="GratisForGratisModel.FK_ATTIVITA_FOTO_ALLEGATO" />
         <AssociationConnector Association="GratisForGratisModel.FK_CORRIERE_SERVIZIO_SPEDIZIONE_ALLEGATO" />
         <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_FOTO_ALLEGATO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_ANNUNCIO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_ANNUNCIO1" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_ANNUNCIO2" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_ATTIVITA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_CARRELLO_ANNUNCIO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_CATEGORIA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_CLICK_ANNUNCIO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_COMUNE" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_DESIDERATO_ANNUNCIO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_FEEDBACK_ANNUNCIO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_FOTO_ANNUNCIO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_NOTIFICA_ANNUNCIO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_OGGETTO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_SERVIZIO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_TAG_ANNUNCIO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_TIPO_SCAMBIO_ANNUNCIO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_TIPO_VALUTA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_ANNUNCIO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_LOG_SBLOCCO_ANNUNCIO_ANNUNCIO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_BARATTO_ANNUNCIO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_TRANSAZIONE_ANNUNCIO_ANNUNCIO" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_CARRELLO_ATTIVITA" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_CLICK_MODELLO_BROWSER" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_CLICK_SISTEMA_OPERATIVO" />
@@ -267,6 +289,7 @@
         <EntityTypeShape EntityType="GratisForGratisModel.CONTO_CORRENTE_CREDITO" Width="1.5" PointX="21.75" PointY="73.5" />
         <EntityTypeShape EntityType="GratisForGratisModel.OFFERTA" Width="1.5" PointX="16.5" PointY="75.625" />
         <EntityTypeShape EntityType="GratisForGratisModel.TRANSAZIONE" Width="1.5" PointX="3" PointY="81.875" />
+        <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_ANNUNCIO" />
         <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_ATTIVITA" />
         <AssociationConnector Association="GratisForGratisModel.FK_CONTO_CORRENTE_CREDITO_CONTO_CORRENTE" />
         <AssociationConnector Association="GratisForGratisModel.FK_TRANSAZIONE_CONTO_CORRENTE" />
@@ -286,6 +309,7 @@
         <AssociationConnector Association="GratisForGratisModel.FK_PAYPAL_TIPO_VALUTA" />
         <AssociationConnector Association="GratisForGratisModel.FK_TRANSAZIONE_PAYPAL" />
         <EntityTypeShape EntityType="GratisForGratisModel.COMMISSIONE" Width="1.5" PointX="7.375" PointY="1" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_COMMISSIONE" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE_COMMISSIONE" />
         <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_SPEDIZIONE_COMMISSIONE" />
         <EntityTypeShape EntityType="GratisForGratisModel.INDIRIZZO" Width="1.5" PointX="3" PointY="55.375" />
@@ -299,6 +323,8 @@
         <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_METODO_PAGAMENTO_INDIRIZZO" />
         <EntityTypeShape EntityType="GratisForGratisModel.PERSONA" Width="1.5" PointX="6" PointY="67.125" />
         <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_ABBONAMENTO" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_PERSONA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_PERSONA1" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_CARRELLO_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_CLICK_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_DESIDERATO_PERSONA" />
@@ -321,32 +347,6 @@
         <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_RICERCA_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_SEGNALAZIONE_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_TELEFONO_PERSONA" />
-        <EntityTypeShape EntityType="GratisForGratisModel.ANNUNCIO" Width="1.5" PointX="11.25" PointY="55.5" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_ANNUNCIO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_ANNUNCIO1" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_ANNUNCIO2" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_ATTIVITA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_CARRELLO_ANNUNCIO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_CATEGORIA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_CLICK_ANNUNCIO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_COMMISSIONE" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_COMUNE" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_DESIDERATO_ANNUNCIO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_FEEDBACK_ANNUNCIO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_FOTO_ANNUNCIO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_NOTIFICA_ANNUNCIO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_OGGETTO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_PERSONA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_PERSONA1" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_SERVIZIO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_TAG_ANNUNCIO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_TIPO_SCAMBIO_ANNUNCIO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_TIPO_VALUTA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_ANNUNCIO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_LOG_SBLOCCO_ANNUNCIO_ANNUNCIO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_ANNUNCIO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_OFFERTA_BARATTO_ANNUNCIO" />
-        <AssociationConnector Association="GratisForGratisModel.FK_TRANSAZIONE_ANNUNCIO_ANNUNCIO" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

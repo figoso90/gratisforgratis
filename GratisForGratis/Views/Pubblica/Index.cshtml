@@ -112,13 +112,7 @@
 
         <div class="footer">
             <div class="row">
-                @*<div class="form-group">
-                    @Html.CheckBoxFor(m => m.PubblicazioneSocial, new { @class = "form-control socialNetwork" })
-                    @Html.LabelFor(m => m.PubblicazioneSocial, new { @class = "col-md-2 control-label", style = "color:green;" })
-                </div>*@
-                <div class="form-group">
-                    <input id="bottonePubblica" type="submit" class="btn btn-success addOggetto" value="@Language.Public" />
-                </div>
+                <input id="bottonePubblica" type="submit" class="btn btn-success addOggetto" value="@Language.Public" />
             </div>
             <div class="row">
                 <h5>@Html.Raw(ViewModel.PublishInfoFB)</h5>

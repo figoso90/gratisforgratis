@@ -12,8 +12,3 @@
 #loginForm form{
     max-width:764px;
 }
-
-.form-horizontal .form-group
-{
-    width:auto;
-}
