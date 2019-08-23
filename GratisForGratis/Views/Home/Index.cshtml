@@ -1,5 +1,6 @@
 ﻿@using System.Web.Configuration
-@{ 
+@using GratisForGratis.Models
+@{
     Layout = null;
 }
 <!DOCTYPE html>
@@ -25,8 +26,9 @@
     @Styles.Render("~/Content/JqueryUI/jquery-ui.min.css")
     @Styles.Render("~/Scripts/loader/jquery.loader.min.css")
     @Styles.Render("https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
-    
-    @Styles.Render("~/Content/Index.css")   
+
+    @Styles.Render("~/Content/site.css")
+    @Styles.Render("~/Content/Index.css")
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css")
 
@@ -40,25 +42,161 @@
 </head>
 
 <body>
-    <div id="advBackground">
+    <div id="advBackground"></div>
+    <div id="messaggioPerUtente">
 
+        @if (this.Context.Request.IsAuthenticated && (Session["utente"] as PersonaModel).Persona.STATO == (int)Stato.INATTIVO)
+        {
+            <div class="testo">
+                @Html.Raw(string.Format(MessageForUser.MessaggioCompletaRegistrazione, Html.ActionLink(Language.Settings, "Impostazioni", "Utente")))
+            </div>
+        }
+
+        @if (this.Context.Request.IsAuthenticated && (Session["utente"] as PersonaModel).Email.Where(e => e.TIPO == (int)TipoEmail.Registrazione && e.STATO == (int)Stato.INATTIVO).Count() > 0)
+        {
+            <div class="testo">
+                @Html.Raw(MessageForUser.MessaggioConfermaEmail)
+                <a class="btn btnReinvio" href="javascript:void(0);" onclick="reinvioEmailRegistrazione();">@Language.BtnResubmission</a>
+            </div>
+        }
+
+        @if (TempData["BONUS"] != null)
+        {
+            <div class="testo">
+                @Html.Raw(TempData["BONUS"])
+            </div>
+        }
+
+        @if (TempData["MESSAGGIO"] != null)
+        {
+            <div class="testo">
+                @Html.Raw(TempData["MESSAGGIO"])
+            </div>
+        }
+
+        @if (ViewBag.Message != null)
+        {
+            <div class="testo">
+                @Html.Raw(ViewBag.Message)
+            </div>
+        }
     </div>
-
     <div id="main" class="page" style="height:100% !important;">
         <div class="content" style="height:100%;">
             <header>
-                <menu id="menuTop" class="text-right">
-                    <ul class="nav justify-content-right">
-                        <li role="presentation" class="nav-item login">
-                            @Html.ActionLink(Language.Login, "Login", "Utente", null, new { @class = "nav-link" })
-                        </li>
-                        <li role="presentation" class="nav-item loginFacebook">
-                            <a class="nav-link loginFB" href="@Url.Action("LoginFacebook", "Utente", new { ReturnUrl = (Model == null || Model.GetType().GetProperty("ReturnUrl") == null || string.IsNullOrWhiteSpace(Model.ReturnUrl) ? "" : Model.ReturnUrl) })">
-                                @ViewModel.LoginFacebook
-                            </a>
-                        </li>
-                    </ul>
-                </menu>
+                @if (this.Context.Request.IsAuthenticated)
+                {
+                    <div id="menuHomeOverlay"></div>
+                    <div id="menuHome">
+                        <i class="fas fa-bars icona"></i>
+                        <ul class="menu">
+                            <li role="presentation" class="reporting">
+                                <a id="reportingMobile" href="javascript:void(0);">@Language.Reporting</a>
+                            </li>
+                            <li role="presentation" class="pubblication">
+                                @Html.ActionLink(Language.Public, "", "Pubblica")
+                            </li>
+                            <li role="presentation" class="dropdown vendite">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@Language.MenuSells <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        @Html.ActionLink(Language.MenuSellsCurrent, "", "Vendite")
+                                    </li>
+                                    <li>
+                                        @Html.ActionLink(Language.MenuSellsBid, "OfferteRicevute", "Vendite")
+                                    </li>
+                                    <li>
+                                        @Html.ActionLink(Language.MenuSellsCompleted, "Concluse", "Vendite")
+                                    </li>
+                                </ul>
+                            </li>
+                            <li role="presentation" class="dropdown acquisti">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@Language.MenuPurchases <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        @Html.ActionLink(Language.MenuPurchasesCurrent, "", "Acquisti")
+                                    </li>
+                                    <li>
+                                        @Html.ActionLink(MenuResource.RefusedBid, "OfferteRifiutate", "Acquisti")
+                                    </li>
+                                    <li>
+                                        @Html.ActionLink(Language.MenuPurchasesCompleted, "Conclusi", "Acquisti")
+                                    </li>
+                                    <li>
+                                        @Html.ActionLink(Language.MenuRecapsWish, "Vorrei", "Acquisti")
+                                    </li>
+                                    <li>
+                                        @Html.ActionLink(Language.MenuPurchasesRecommend, "Suggeriti", "Acquisti")
+                                    </li>
+                                    <li>
+                                        @Html.ActionLink(Language.MenuRecapsSearch, "RicercheSalvate", "Utente")
+                                    </li>
+                                </ul>
+                            </li>
+                            @if (Session["portaleweb"] != null && (Session["portaleweb"] as List<PortaleWebViewModel>).Count > 0)
+                            {
+                                <li role="presentation" class="dropdown partner">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@Language.Partners <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li>@Html.ActionLink("Home", "Index", "PortaleWeb")</li>
+                                        @foreach (PortaleWebViewModel portaleweb in (Session["portaleweb"] as List<PortaleWebViewModel>))
+                                        {
+                                            <li>
+                                                @Html.ActionLink(portaleweb.Nome, "Profilo", "PortaleWeb", new { token = portaleweb.Token }, null)
+                                            </li>
+                                            if ((Session["utente"] as PersonaModel).Persona.ABBONAMENTO.DURATA == -1)
+                                            {
+                                                <li>@Html.ActionLink("Spedizioni in attesa", "SpedizioniInAttesa", "PortaleWeb")</li>
+                                                <li>@Html.ActionLink("Spedizioni concluse", "SpedizioniConcluse", "PortaleWeb")</li>
+                                            }
+                                        }
+                                    </ul>
+                                </li>
+                            }
+                            <li role="presentation" class="dropdown utente">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@Language.User <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        @Html.ActionLink(Language.TitleIndex, "Index", "Utente")
+                                    </li>
+                                    <li>
+                                        @Html.ActionLink(Language.UserPoints, "SaldoPunti", "Utente")
+                                    </li>
+                                    <li>
+                                        @Html.ActionLink(ViewModel.LayoutChat + string.Format(" ({0})", ((PersonaModel)Session["utente"]).NumeroMessaggiDaLeggere), "", "Chat")
+                                    </li>
+                                    <li>
+                                        @Html.ActionLink(Language.MenuUserNews + string.Format(" ({0})", ((PersonaModel)Session["utente"]).NumeroNotificheDaLeggere), "Elenco", "Notifica")
+                                    </li>
+                                    <li>
+                                        @Html.ActionLink(Language.Settings, "Impostazioni", "Utente")
+                                    </li>
+                                    <li>
+                                        @Html.ActionLink(Language.ChangePassword, "CambioPassword", "Utente")
+                                    </li>
+                                    <li>
+                                        @Html.ActionLink(Language.Logout, "Logout", "Utente")
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <menu id="menuTop" class="text-right">
+                        <ul class="nav justify-content-right">
+                            <li role="presentation" class="nav-item login">
+                                @Html.ActionLink(Language.Login, "Login", "Utente", null, new { @class = "nav-link" })
+                            </li>
+                            <li role="presentation" class="nav-item loginFacebook">
+                                <a class="nav-link loginFB" href="@Url.Action("LoginFacebook", "Utente", new { ReturnUrl = (Model == null || Model.GetType().GetProperty("ReturnUrl") == null || string.IsNullOrWhiteSpace(Model.ReturnUrl) ? "" : Model.ReturnUrl) })">
+                                    @ViewModel.LoginFacebook
+                                </a>
+                            </li>
+                        </ul>
+                    </menu>
+                }
             </header>
             <section class="row justify-content-center align-items-center text-center" style="height:100%;">
                 <div id="boxLogo" class="col-sm-12">
@@ -80,53 +218,53 @@
                             <div class="col-sm">
                                 @using (Html.BeginForm("Index2", "Cerca", FormMethod.Get, new { id = "cerca" }))
                                 {
-                                <div id="menuCategoriaRicerca">
-                                    @Html.Hidden("Cerca_IDCategoria", Response.Cookies["ricerca"]["IDCategoria"])
-                                    @Html.Hidden("Cerca_Categoria", Response.Cookies["ricerca"]["Categoria"])
-                                    <div class="form-group ricerca">
-                                        <label class="sr-only" for="inlineFormInputGroup">@Language.InputSearch</label>
-                                        <div class="input-group mb-2 col-md-12">
-                                            <!--
-                                            <div class="ddl-select input-group-btn">
-                                                <select id="ddlsearch" name="linguaggio" class="selectpicker form-control show-tick" data-style="btn-primary">
-                                                    <option data-icon="fas fa-code"></option>
-                                                    <option data-icon="fa-microsoft" value="C#">C#</option>
-                                                    <option data-icon="fa-php" value="PHP">PHP</option>
-                                                    <option data-icon="fa-java" value="JAVA">JAVA</option>
-                                                    <option data-icon="fa-html5" value="HTML">HTML</option>
-                                                    <option data-icon="fa-css3" value="CSS">CSS</option>
-                                                    <option data-icon="fa-js" value="JQUERY">JQUERY</option>
-                                                    <option data-icon="fa-angular" value="ANGULARJS">ANGULARJS</option>
-                                                </select>
-                                            </div>
-                                            -->
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text">
-                                                    <a class="infoTooltip infoDomanda" data-toggle="tooltip" href="javascript:void(0);"
-                                                       title="@Tooltip.InfoHowSearch">
-                                                        <i class="far fa-question-circle"></i>
-                                                    </a>
+                                    <div id="menuCategoriaRicerca">
+                                        @Html.Hidden("Cerca_IDCategoria", Response.Cookies["ricerca"]["IDCategoria"])
+                                        @Html.Hidden("Cerca_Categoria", Response.Cookies["ricerca"]["Categoria"])
+                                        <div class="form-group ricerca">
+                                            <label class="sr-only" for="inlineFormInputGroup">@Language.InputSearch</label>
+                                            <div class="input-group mb-2 col-md-12">
+                                                <!--
+                                                <div class="ddl-select input-group-btn">
+                                                    <select id="ddlsearch" name="linguaggio" class="selectpicker form-control show-tick" data-style="btn-primary">
+                                                        <option data-icon="fas fa-code"></option>
+                                                        <option data-icon="fa-microsoft" value="C#">C#</option>
+                                                        <option data-icon="fa-php" value="PHP">PHP</option>
+                                                        <option data-icon="fa-java" value="JAVA">JAVA</option>
+                                                        <option data-icon="fa-html5" value="HTML">HTML</option>
+                                                        <option data-icon="fa-css3" value="CSS">CSS</option>
+                                                        <option data-icon="fa-js" value="JQUERY">JQUERY</option>
+                                                        <option data-icon="fa-angular" value="ANGULARJS">ANGULARJS</option>
+                                                    </select>
+                                                </div>
+                                                -->
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <a class="" data-toggle="tooltip" href="javascript:void(0);"
+                                                           title="@Tooltip.InfoHowSearch">
+                                                            <i class="far fa-question-circle"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                @Html.TextBox("Cerca_Nome", Response.Cookies["ricerca"]["Nome"], new { @class = "form-control", placeholder = Language.InputSearch })
+                                                <div class="input-group-append">
+                                                    <div class="input-group-text"><a href="javascript:void(0);" onclick="$('#btnInvio2').click();"><i class="fab fa-searchengin"></i></a></div>
                                                 </div>
                                             </div>
-                                            @Html.TextBox("Cerca_Nome", Response.Cookies["ricerca"]["Nome"], new { @class = "form-control", placeholder = Language.InputSearch })
-                                            <div class="input-group-append">
-                                                <div class="input-group-text"><a href="javascript:void(0);" onclick="$('#btnInvio2').click();"><i class="fab fa-searchengin"></i></a></div>
+                                        </div>
+                                        <div class="form-group pulsante">
+                                            <div class="col-md-12">
+                                                <input class="btn btn-primary" type="submit" name="invio" id="btnInvio2" value="CERCA" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group pulsante">
+                                            <div class="col-md-12">
+                                                <a href="javascript:void(0);" onclick="anchorPage('#index');">
+                                                    <i class="fas fa-chevron-circle-down" style="font-size: 38px;margin-top: 12px;"></i>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group pulsante">
-                                        <div class="col-md-12">
-                                            <input class="btn btn-primary" type="submit" name="invio" id="btnInvio2" value="CERCA" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group pulsante">
-                                        <div class="col-md-12">
-                                            <a href="javascript:void(0);" onclick="anchorPage('#index');">
-                                                <i class="fas fa-chevron-circle-down" style="font-size: 38px;margin-top: 12px;"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
                                 }
                             </div>
                         </div>
@@ -324,8 +462,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12">
-                    <a href="~/Temp/Bando2019_Regolamento.pdf" >
+                <div class="col-md-12 text-center">
+                    <a href="~/Temp/Bando2019_Regolamento.pdf">
                         <i class="fas fa-file-download" style="font-size: 38px;margin-top: 12px;"></i><br />
                         Scarica regolamento
                     </a>

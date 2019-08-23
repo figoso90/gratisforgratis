@@ -378,7 +378,7 @@ namespace GratisForGratis.Controllers
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Impostazioni(UtenteImpostazioniViewModel model)
         {
-
+            bool salvato = false;
             if (base.ModelState.IsValid)
             {
                 using (DatabaseContext db = new DatabaseContext())
@@ -459,7 +459,7 @@ namespace GratisForGratis.Controllers
                             }
                             transazione.Commit();
                             //base.Session["utente"] = utente;
-                            base.TempData["salvato"] = true;
+                            salvato = true;
                         }
                         catch (Exception eccezione)
                         {
@@ -478,7 +478,7 @@ namespace GratisForGratis.Controllers
                     }
                 }
             }
-            base.TempData["salvato"] = false;
+            base.TempData["salvato"] = salvato;
             return base.View(model);
         }
 
@@ -670,7 +670,8 @@ namespace GratisForGratis.Controllers
                                 persona.TOKEN_PASSWORD = crypto.GenerateSalt(1, 20);
                                 persona.PASSWORD = crypto.Compute(model.Password.Trim(), persona.TOKEN_PASSWORD);
                                 persona.NOME = model.Nome.Trim();
-                                persona.COGNOME = model.Cognome.Trim();
+                                if (!string.IsNullOrWhiteSpace(model.Cognome))
+                                    persona.COGNOME = model.Cognome.Trim();
                                 persona.ID_CONTO_CORRENTE = conto.ID;
                                 persona.ID_ABBONAMENTO = db.ABBONAMENTO.SingleOrDefault(item => item.NOME == "BASE").ID;
                                 persona.DATA_INSERIMENTO = DateTime.Now;
@@ -680,9 +681,12 @@ namespace GratisForGratis.Controllers
                                 {
                                     PersonaModel utente = new PersonaModel(persona);
                                     utente.SetEmail(db, model.Email, Stato.INATTIVO);
-                                    utente.SetTelefono(db, model.Telefono);
-                                    utente.SetIndirizzo(db, model.Citta, model.IDCitta, model.Indirizzo, model.Civico, (int)TipoIndirizzo.Residenza);
-                                    utente.SetIndirizzo(db, model.CittaSpedizione, model.IDCittaSpedizione, model.IndirizzoSpedizione, model.CivicoSpedizione, (int)TipoIndirizzo.Spedizione);
+                                    if (!string.IsNullOrWhiteSpace(model.Telefono))
+                                        utente.SetTelefono(db, model.Telefono);
+                                    if (!string.IsNullOrWhiteSpace(model.Citta))
+                                        utente.SetIndirizzo(db, model.Citta, model.IDCitta, model.Indirizzo, model.Civico, (int)TipoIndirizzo.Residenza);
+                                    if (!string.IsNullOrWhiteSpace(model.CittaSpedizione))
+                                        utente.SetIndirizzo(db, model.CittaSpedizione, model.IDCittaSpedizione, model.IndirizzoSpedizione, model.CivicoSpedizione, (int)TipoIndirizzo.Spedizione);
 
                                     utente.SetPrivacy(db, model.AccettaCondizioni);
                                     // crediti omaggio registrazione completata

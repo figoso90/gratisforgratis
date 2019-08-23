@@ -340,6 +340,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Per l&apos;indirizzo inserire tutti i dati (Citta, Via,Civico).
+        /// </summary>
+        public static string SettingsAddress {
+            get {
+                return ResourceManager.GetString("SettingsAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Giorni spedizione obbligatorio.
         /// </summary>
         public static string ShipDaysRequired {

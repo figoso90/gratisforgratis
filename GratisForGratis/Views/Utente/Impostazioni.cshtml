@@ -80,6 +80,7 @@
                 @Html.LabelFor(m => m.Citta, new { @class = "control-label" })
                 @Html.TextBoxFor(m => m.Citta, new { @class = "form-control fieldtrim", data_autocomplete_url = "/Home/FindCitta", data_autocomplete_id = "IDCitta" })
                 @Html.HiddenFor(m => m.IDCitta)
+                @Html.ValidationMessageFor(m => m.Citta, "", new { @class = "text-danger" })
                 @Html.ValidationMessageFor(m => m.IDCitta, "", new { @class = "text-danger" })
             </div>
             <div class="form-group col-md-3">
@@ -87,7 +88,7 @@
                 @Html.TextBoxFor(m => m.Indirizzo, new { @class = "form-control fieldtrim" })
                 @Html.ValidationMessageFor(m => m.Indirizzo, "", new { @class = "text-danger" })
             </div>
-            <div class="form-group col-md-1">
+            <div class="form-group col-md-2">
                 @Html.LabelFor(m => m.Civico, new { @class = "control-label" })
                 @Html.TextBoxFor(m => m.Civico, new { @class = "form-control fieldtrim" })
                 @Html.ValidationMessageFor(m => m.Civico, "", new { @class = "text-danger" })
@@ -101,6 +102,7 @@
                 @Html.LabelFor(m => m.CittaSpedizione, new { @class = "control-label" })
                 @Html.TextBoxFor(m => m.CittaSpedizione, new { @class = "form-control fieldtrim", data_autocomplete_url = "/Home/FindCitta", data_autocomplete_id = "IDCittaSpedizione" })
                 @Html.HiddenFor(m => m.IDCittaSpedizione)
+                @Html.ValidationMessageFor(m => m.CittaSpedizione, "", new { @class = "text-danger" })
                 @Html.ValidationMessageFor(m => m.IDCittaSpedizione, "", new { @class = "text-danger" })
             </div>
             <div class="form-group col-md-3">
@@ -108,7 +110,7 @@
                 @Html.TextBoxFor(m => m.IndirizzoSpedizione, new { @class = "form-control fieldtrim" })
                 @Html.ValidationMessageFor(m => m.IndirizzoSpedizione, "", new { @class = "text-danger" })
             </div>
-            <div class="form-group col-md-1">
+            <div class="form-group col-md-2">
                 @Html.LabelFor(m => m.CivicoSpedizione, new { @class = "control-label" })
                 @Html.TextBoxFor(m => m.CivicoSpedizione, new { @class = "form-control fieldtrim" })
                 @Html.ValidationMessageFor(m => m.CivicoSpedizione, "", new { @class = "text-danger" })

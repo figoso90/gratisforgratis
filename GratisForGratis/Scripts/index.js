@@ -14,6 +14,10 @@
     }
     getConteggioArticoli();
     */
+    $('#menuHome .icona').click(function (event) {
+        $('#menuHomeOverlay').slideToggle('slow');
+        $('#menuHome .menu').slideToggle('slow');
+    });
 });
 
 function getConteggioArticoli() {
