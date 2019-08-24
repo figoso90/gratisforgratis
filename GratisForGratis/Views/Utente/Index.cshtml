@@ -1,6 +1,5 @@
 ﻿@using GratisForGratis.App_GlobalResources
 @using GratisForGratis.Models.ExtensionMethods
-@Styles.Render("~/Content/Index.css")
 @Styles.Render("~/Content/saldoPunti.css")
 
 <section id="menuUser">
@@ -10,32 +9,32 @@
         <h3>@Language.Points @Language.InSuspense: <a class="gpointsSuspense">@(((GratisForGratis.Models.PersonaModel)Session["utente"]).Credito.Where(m => m.STATO == (int)GratisForGratis.Models.StatoCredito.SOSPESO).Sum(m => m.PUNTI).ToHappyCoin())</a></h3>
     </div>
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2 col-sm-3">
             <h3>@Html.ActionLink(ViewModel.HomeUserJoinSocial, "Impostazioni", "Utente", null, new { @class = "link" })</h3>
-            <img class="img-thumbnail img-circle" src="~/Images/stickers/25.png" alt="@ViewModel.HomeUserJoinSocial" />
+            <img class="img-thumbnail img-circle" src="~/Images/stickers/25.png" alt="@ViewModel.HomeUserJoinSocial" style="border-radius:160px;" />
             <p>(@ViewModel.HomeUserJoinSocialInfo)</p>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2 col-sm-3">
             <h3>@Html.ActionLink(ViewModel.HomeUserPublishGood, "", "Pubblica", null, new { @class = "link" })</h3>
-            <img class="img-thumbnail img-circle" src="~/Images/stickers/3.png" alt="@ViewModel.HomeUserPublishGood" />
+            <img class="img-thumbnail img-circle" src="~/Images/stickers/3.png" alt="@ViewModel.HomeUserPublishGood" style="border-radius:160px;" />
             <p>(@ViewModel.HomeUserPublishGoodInfo)</p>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2 col-sm-3">
             <h3>@Html.ActionLink(ViewModel.HomeUserPublishService, "", "Pubblica", null, new { @class = "link" })</h3>
-            <img class="img-thumbnail img-circle" src="~/Images/stickers/10.png" alt="@ViewModel.HomeUserPublishService" />
+            <img class="img-thumbnail img-circle" src="~/Images/stickers/10.png" alt="@ViewModel.HomeUserPublishService" style="border-radius:160px;" />
             <p>(@ViewModel.HomeUserPublishServiceInfo)</p>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2 col-sm-3">
             <h3><a href="javascript:void(0);" onclick="$('#reporting').click();">@ViewModel.HomeUserSendBug</a></h3>
-            <img class="img-thumbnail img-circle" src="~/Images/stickers/28.png" alt="@ViewModel.HomeUserSendBug" />
+            <img class="img-thumbnail img-circle" src="~/Images/stickers/28.png" alt="@ViewModel.HomeUserSendBug" style="border-radius:160px;" />
             <p>(@ViewModel.HomeUserSendBugInfo)</p>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2 col-sm-3">
             <h3>@Html.ActionLink(ViewModel.HomeUserFullAd, "", "Pubblica", null, new { @class = "link" })</h3>
-            <img class="img-thumbnail img-circle" src="~/Images/stickers/29.png" alt="@ViewModel.HomeUserFullAd" />
+            <img class="img-thumbnail img-circle" src="~/Images/stickers/29.png" alt="@ViewModel.HomeUserFullAd" style="border-radius:160px;" />
             <p>(@ViewModel.HomeUserFullAdInfo)</p>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2 col-sm-3">
             <h3>@Html.ActionLink(ViewModel.HomeUserFeedback, "Concluse", "Vendite", null, new { @class = "link" })</h3>
             <img class="img-thumbnail img-circle" src="~/Images/stickers/21.png" alt="@ViewModel.HomeUserFeedback" />
             <p>(@ViewModel.HomeUserFeedbackInfo)</p>

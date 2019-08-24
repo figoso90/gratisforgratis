@@ -210,6 +210,9 @@
   <data name="SellerTelephoneRequired" xml:space="preserve">
     <value>Telefono obbligatorio</value>
   </data>
+  <data name="SettingsAddress" xml:space="preserve">
+    <value>Per l'indirizzo inserire tutti i dati (Citta, Via,Civico)</value>
+  </data>
   <data name="ShipDaysRequired" xml:space="preserve">
     <value>Giorni spedizione obbligatorio</value>
   </data>

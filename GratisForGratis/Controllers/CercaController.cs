@@ -43,7 +43,7 @@ namespace GratisForGratis.Controllers
                     nomeView = categoria.DESCRIZIONE;
                 }
                 cerca.SetCookie(categoria, categoriaPadre);
-                HttpCookie cookie = HttpContext.Request.Cookies.Get("ricerca");
+                var cookie = HttpContext.Response.Cookies.Get("ricerca");
                 // recupero la categoria
                 //cookie["Nome"] = cerca.Cerca_Nome;
                 //cookie["Categoria"] = categoria.DESCRIZIONE;
@@ -890,8 +890,9 @@ namespace GratisForGratis.Controllers
                     //selectFreeText += "LEFT JOIN OGGETTO AS O ON V.ID_OGGETTO=O.ID";
                     bool attivaRicercaPerNome = SetRicercaPerNome(ricerca, cmd, ref selectFreeText);
 
-                    string selectText = string.Format(@"(SELECT V.ID, U.ID AS PERSONA, U.NOME + ' ' + U.COGNOME AS UTENTE_NOMINATIVO, 
-                                U.TOKEN AS UTENTE_TOKEN, V.TOKEN, V.NOME, V.TIPO_PAGAMENTO, V.NOTE_AGGIUNTIVE, V.ID_TIPO_VALUTA,
+                    string selectText = string.Format(@"(SELECT V.ID, V.ID_PERSONA AS PERSONA,
+                                --U.ID AS PERSONA, U.NOME + ' ' + U.COGNOME AS UTENTE_NOMINATIVO, U.TOKEN AS UTENTE_TOKEN, 
+                                V.TOKEN, V.NOME, V.TIPO_PAGAMENTO, V.NOTE_AGGIUNTIVE, V.ID_TIPO_VALUTA,
                                 V.PUNTI,V.SOLDI, V.DATA_INSERIMENTO, V.ID_CATEGORIA AS CATEGORIA_ID, COMUNE.ID AS CITTA_ID, COMUNE.NOME AS CITTA_NOME,
                                 CATEGORIA.NOME AS CATEGORIA_NOME, P.ID AS ID_ATTIVITA,
                                 CATEGORIA.TIPO_VENDITA AS TIPO_ACQUISTO,
@@ -904,7 +905,7 @@ namespace GratisForGratis.Controllers
                     string schema = @"FROM ANNUNCIO AS V
                                 INNER JOIN CATEGORIA ON V.ID_CATEGORIA=CATEGORIA.ID 
                                 INNER JOIN COMUNE ON V.ID_COMUNE=COMUNE.ID
-                                INNER JOIN PERSONA AS U ON V.ID_PERSONA=U.ID
+                                --INNER JOIN PERSONA AS U ON V.ID_PERSONA=U.ID
                                 LEFT JOIN ATTIVITA AS P ON V.ID_ATTIVITA=P.ID";
 
                     string condizione = @"
@@ -944,20 +945,17 @@ namespace GratisForGratis.Controllers
                             {
                                 AnnuncioViewModel viewModel = new AnnuncioViewModel();
                                 viewModel.Id = Convert.ToInt32(res["ID"]);
-                                viewModel.Venditore = new UtenteVenditaViewModel();
                                 if (res["ID_ATTIVITA"].ToString().Trim().Length > 0)
                                 {
-                                    viewModel.Venditore.Id = (int)res["ID_ATTIVITA"];
-                                    viewModel.Venditore.Nominativo = res["PARTNER_NOME"].ToString();
-                                    SetFeedbackVenditore(db, viewModel, TipoVenditore.Attivita);
+                                    viewModel.Venditore = new UtenteVenditaViewModel(db, (int)res["ID_ATTIVITA"], TipoVenditore.Attivita);
+                                    viewModel.VenditoreFeedback = viewModel.Venditore.GetFeedbackVenditore(db, TipoVenditore.Attivita);
                                 }
                                 else
                                 {
-                                    viewModel.Venditore.Id = (int)res["PERSONA"];
-                                    viewModel.Venditore.Nominativo = res["UTENTE_NOMINATIVO"].ToString();
-                                    SetFeedbackVenditore(db, viewModel, TipoVenditore.Persona);
+                                    viewModel.Venditore = new UtenteVenditaViewModel(db, (int)res["PERSONA"], TipoVenditore.Persona);
+                                    viewModel.VenditoreFeedback = viewModel.Venditore.GetFeedbackVenditore(db, TipoVenditore.Persona);
                                 }
-                                viewModel.Venditore.VenditoreToken = (Guid)res["UTENTE_TOKEN"];
+                                //viewModel.Venditore.VenditoreToken = (Guid)res["UTENTE_TOKEN"];
                                 viewModel.Token = res["TOKEN"].ToString();
                                 viewModel.Nome = res["NOME"].ToString();
                                 viewModel.Citta = res["CITTA_NOME"].ToString();
@@ -1117,8 +1115,9 @@ namespace GratisForGratis.Controllers
                     string selectFreeText = string.Empty;
                     bool attivaRicercaPerNome = SetRicercaPerNome(ricerca, cmd, ref selectFreeText);
 
-                    string selectText = string.Format(@"(SELECT V.ID, O.ID AS OGGETTO_ID, U.ID AS PERSONA, U.NOME + ' ' + U.COGNOME AS UTENTE_NOMINATIVO, 
-                                U.TOKEN AS UTENTE_TOKEN, V.TOKEN, V.NOME, V.TIPO_PAGAMENTO, COMUNE.NOME AS CITTA_NOME, V.PUNTI,V.SOLDI, V.NOTE_AGGIUNTIVE,
+                    string selectText = string.Format(@"(SELECT V.ID, O.ID AS OGGETTO_ID, V.ID_PERSONA AS PERSONA,
+                                --, U.ID AS PERSONA, U.NOME + ' ' + U.COGNOME AS UTENTE_NOMINATIVO, U.TOKEN AS UTENTE_TOKEN, 
+                                V.TOKEN, V.NOME, V.TIPO_PAGAMENTO, COMUNE.NOME AS CITTA_NOME, V.PUNTI,V.SOLDI, V.NOTE_AGGIUNTIVE,
                                 O.ANNO, M.ID AS MARCA_ID, M.NOME AS MARCA_NOME, O.CONDIZIONE, V.DATA_INSERIMENTO, O.NUMERO_PEZZI,
                                 V.ID_CATEGORIA AS CATEGORIA_ID, CATEGORIA.NOME AS CATEGORIA_NOME, COMUNE.ID AS CITTA_ID,
                                 P.ID AS ID_ATTIVITA, P.NOME AS PARTNER_NOME, P.TOKEN AS PARTNER_TOKEN, V.STATO AS STATO_VENDITA, V.ID_TIPO_VALUTA,
@@ -1132,7 +1131,7 @@ namespace GratisForGratis.Controllers
                                 INNER JOIN OGGETTO AS O ON V.ID_OGGETTO=O.ID
                                 INNER JOIN COMUNE ON V.ID_COMUNE=COMUNE.ID
                                 LEFT JOIN MARCA AS M ON O.ID_MARCA=M.ID
-                                INNER JOIN PERSONA AS U ON V.ID_PERSONA=U.ID
+                                --INNER JOIN PERSONA AS U ON V.ID_PERSONA=U.ID
                                 LEFT JOIN ATTIVITA AS P ON V.ID_ATTIVITA=P.ID", (attivaRicercaPerNome) ? selectFreeText : "");
 
                     string condizione = @"
@@ -1173,17 +1172,15 @@ namespace GratisForGratis.Controllers
                                 oggetto.Venditore = new UtenteVenditaViewModel();
                                 if (res["ID_ATTIVITA"].ToString().Trim().Length > 0)
                                 {
-                                    oggetto.Venditore.Id = (int)res["ID_ATTIVITA"];
-                                    oggetto.Venditore.Nominativo = res["PARTNER_NOME"].ToString();
-                                    SetFeedbackVenditore(db, oggetto, TipoVenditore.Attivita);
+                                    oggetto.Venditore = new UtenteVenditaViewModel(db, (int)res["ID_ATTIVITA"], TipoVenditore.Attivita);
+                                    oggetto.VenditoreFeedback = oggetto.Venditore.GetFeedbackVenditore(db, TipoVenditore.Attivita);
                                 }
                                 else
                                 {
-                                    oggetto.Venditore.Id = (int)res["PERSONA"];
-                                    oggetto.Venditore.Nominativo = res["UTENTE_NOMINATIVO"].ToString();
-                                    SetFeedbackVenditore(db, oggetto, TipoVenditore.Persona);
+                                    oggetto.Venditore = new UtenteVenditaViewModel(db, (int)res["PERSONA"], TipoVenditore.Persona);
+                                    oggetto.VenditoreFeedback = oggetto.Venditore.GetFeedbackVenditore(db, TipoVenditore.Persona);
                                 }
-                                oggetto.Venditore.VenditoreToken = (Guid)res["UTENTE_TOKEN"];
+                                //oggetto.Venditore.VenditoreToken = (Guid)res["UTENTE_TOKEN"];
                                 oggetto.Token = res["TOKEN"].ToString();
                                 oggetto.Nome = res["NOME"].ToString();
                                 oggetto.NoteAggiuntive = res["NOTE_AGGIUNTIVE"].ToString();
@@ -1749,9 +1746,9 @@ namespace GratisForGratis.Controllers
 
                     string selectText = string.Format(@"(SELECT V.ID, S.ID AS SERVIZIO_ID, S.LUNEDI, S.MARTEDI, S.MERCOLEDI, S.GIOVEDI, S.VENERDI, 
                                 S.SABATO AS SABATO, S.DOMENICA, ISNULL(S.TUTTI,0) AS TUTTI, S.ORA_INIZIO_FERIALI, S.ORA_FINE_FERIALI, 
-                                S.ORA_INIZIO_FESTIVI, S.ORA_FINE_FESTIVI, S.SERVIZI_OFFERTI, S.RISULTATI_FINALI, S.TARIFFA,
-                                U.ID AS PERSONA, U.NOME + ' ' + U.COGNOME AS UTENTE_NOMINATIVO, 
-                                U.TOKEN AS UTENTE_TOKEN, V.TOKEN, V.NOME, V.TIPO_PAGAMENTO, COMUNE.NOME AS CITTA_NOME, V.PUNTI,V.SOLDI, V.NOTE_AGGIUNTIVE,
+                                S.ORA_INIZIO_FESTIVI, S.ORA_FINE_FESTIVI, S.SERVIZI_OFFERTI, S.RISULTATI_FINALI, S.TARIFFA, V.ID_PERSONA AS PERSONA,
+                                --U.ID AS PERSONA, U.NOME + ' ' + U.COGNOME AS UTENTE_NOMINATIVO, U.TOKEN AS UTENTE_TOKEN, 
+                                V.TOKEN, V.NOME, V.TIPO_PAGAMENTO, COMUNE.NOME AS CITTA_NOME, V.PUNTI,V.SOLDI, V.NOTE_AGGIUNTIVE,
                                 V.DATA_INSERIMENTO, V.ID_CATEGORIA AS CATEGORIA_ID, CATEGORIA.NOME AS CATEGORIA_NOME, COMUNE.ID AS CITTA_ID,
                                 P.ID AS ID_ATTIVITA, P.NOME AS PARTNER_NOME, P.TOKEN AS PARTNER_TOKEN, V.STATO AS STATO_VENDITA, V.ID_TIPO_VALUTA,
                                 (SELECT COUNT(*) FROM ANNUNCIO_NOTIFICA AS AN INNER JOIN NOTIFICA AS N ON AN.ID_NOTIFICA=N.ID WHERE AN.ID_ANNUNCIO=V.ID
@@ -1763,7 +1760,7 @@ namespace GratisForGratis.Controllers
                                 INNER JOIN CATEGORIA ON V.ID_CATEGORIA=CATEGORIA.ID 
                                 INNER JOIN SERVIZIO AS S ON V.ID_SERVIZIO=S.ID
                                 INNER JOIN COMUNE ON V.ID_COMUNE=COMUNE.ID
-                                INNER JOIN PERSONA AS U ON V.ID_PERSONA=U.ID
+                                --INNER JOIN PERSONA AS U ON V.ID_PERSONA=U.ID
                                 LEFT JOIN ATTIVITA AS P ON V.ID_ATTIVITA=P.ID";
 
                     string condizione = @"
@@ -1805,15 +1802,13 @@ namespace GratisForGratis.Controllers
                                 servizio.Venditore = new UtenteVenditaViewModel();
                                 if (res["ID_ATTIVITA"].ToString().Trim().Length > 0)
                                 {
-                                    servizio.Venditore.Id = (int)res["ID_ATTIVITA"];
-                                    servizio.Venditore.Nominativo = res["PARTNER_NOME"].ToString();
-                                    SetFeedbackVenditore(db, servizio, TipoVenditore.Attivita);
+                                    servizio.Venditore = new UtenteVenditaViewModel(db, (int)res["ID_ATTIVITA"], TipoVenditore.Attivita);
+                                    servizio.VenditoreFeedback = servizio.Venditore.GetFeedbackVenditore(db, TipoVenditore.Attivita);
                                 }
                                 else
                                 {
-                                    servizio.Venditore.Id = (int)res["PERSONA"];
-                                    servizio.Venditore.Nominativo = res["UTENTE_NOMINATIVO"].ToString();
-                                    SetFeedbackVenditore(db, servizio, TipoVenditore.Persona);
+                                    servizio.Venditore = new UtenteVenditaViewModel(db, (int)res["PERSONA"], TipoVenditore.Persona);
+                                    servizio.VenditoreFeedback = servizio.Venditore.GetFeedbackVenditore(db, TipoVenditore.Persona);
                                 }
                                 servizio.Token = res["TOKEN"].ToString();
                                 servizio.Nome = res["NOME"].ToString();
@@ -2072,33 +2067,6 @@ namespace GratisForGratis.Controllers
             return false;
         }
         #endregion
-
-        private void SetFeedbackVenditore(DatabaseContext db, AnnuncioViewModel viewModel, TipoVenditore tipoVenditore)
-        {
-            try
-            {
-                List<int> voti = db.ANNUNCIO_FEEDBACK
-                                .Where(item => (tipoVenditore == TipoVenditore.Persona && item.ANNUNCIO.ID_PERSONA == viewModel.Venditore.Id) ||
-                                (tipoVenditore == TipoVenditore.Attivita && item.ANNUNCIO.ID_ATTIVITA == viewModel.Venditore.Id)).Select(item => item.VOTO).ToList();
-
-                int votoMassimo = voti.Count * 10;
-                if (voti.Count <= 0)
-                {
-                    viewModel.VenditoreFeedback = -1;
-                }
-                else
-                {
-                    int x = voti.Sum() / votoMassimo;
-                    viewModel.VenditoreFeedback = x * 100;
-                }
-            }
-            catch (Exception eccezione)
-            {
-                //Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
-                LoggatoreModel.Errore(eccezione);
-                viewModel.VenditoreFeedback = -1;
-            }
-        }
 
         private ActionResult SaveRicercaUtente(IRicercaViewModel ricerca)
         {

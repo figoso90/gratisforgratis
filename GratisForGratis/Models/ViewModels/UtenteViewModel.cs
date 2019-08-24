@@ -57,13 +57,13 @@ namespace GratisForGratis.Models
         [Display(Name = "Name", ResourceType = typeof(App_GlobalResources.Language))]
         public string Nome { get; set; }
 
-        [Required]
+        //[Required]
         [DataType(DataType.Text)]
         [StringLength(50, MinimumLength = 2)]
         [Display(Name = "Surname", ResourceType = typeof(App_GlobalResources.Language))]
         public string Cognome { get; set; }
 
-        [Required(ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
+        //[Required(ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
         [DataType(DataType.PhoneNumber)]
         [StringLength(12, MinimumLength = 9, ErrorMessageResourceName = "ErrorPhoneNumber", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessageResourceName = "ErrorPhoneNumber", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
@@ -77,37 +77,43 @@ namespace GratisForGratis.Models
 
         public string ReturnUrl { get; set; }
 
-        [Required(ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
+        //[Required(ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
+        [RequiredIfNotNull(new string[] { "Civico", "Indirizzo" }, ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
         [DataType(DataType.PostalCode, ErrorMessageResourceName = "ErrorCity", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
         [Display(Name = "ResidenceCity", ResourceType = typeof(App_GlobalResources.Language))]
         public string Citta { get; set; }
 
         public int? IDCitta { get; set; }
 
-        [Required( ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
+        //[Required( ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
+        [RequiredIfNotNull(new string[] { "Citta", "Indirizzo" }, ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
         [DataType(DataType.Text)]
         [StringLength(50, MinimumLength = 5)]
         [Display(Name = "ResidenceAddress", ResourceType = typeof(App_GlobalResources.Language))]
         public string Indirizzo { get; set; }
 
-        [Required(ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]     
+        //[Required(ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
+        [RequiredIfNotNull(new string[] { "Citta", "Indirizzo" }, ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
         [Display(Name = "Civic", ResourceType = typeof(App_GlobalResources.Language))]
         public string Civico { get; set; }
 
-        [Required(ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
+        //[Required(ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
+        [RequiredIfNotNull(new string[] { "IndirizzoSpedizione", "CivicoSpedizione" }, ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
         [DataType(DataType.PostalCode, ErrorMessageResourceName = "ErrorCity", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
         [Display(Name = "ShippingCity", ResourceType = typeof(App_GlobalResources.Language))]
         public string CittaSpedizione { get; set; }
 
         public int? IDCittaSpedizione { get; set; }
 
-        [Required(ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
+        //[Required(ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
+        [RequiredIfNotNull(new string[] { "CittaSpedizione", "CivicoSpedizione" }, ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
         [DataType(DataType.Text)]
         [StringLength(50, MinimumLength = 5)]
         [Display(Name = "ShippingAddress", ResourceType = typeof(App_GlobalResources.Language))]
         public string IndirizzoSpedizione { get; set; }
 
-        [Required(ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
+        //[Required(ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
+        [RequiredIfNotNull(new string[] { "CittaSpedizione", "IndirizzoSpedizione" }, ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
         [Display(Name = "ShippingCivic", ResourceType = typeof(App_GlobalResources.Language))]
         public string CivicoSpedizione { get; set; }
 
@@ -181,6 +187,23 @@ namespace GratisForGratis.Models
 
                 if (db.SaveChanges() > 0)
                 {
+                    PersonaModel utente = new PersonaModel(persona);
+                    // assegna bonus canale pubblicitario
+                    if (HttpContext.Current.Request.Cookies.Get("GXG_promo") != null)
+                    {
+                        string promo = HttpContext.Current.Request.Cookies.Get("GXG_promo").Value;
+                        utente.AddBonusCanalePubblicitario(db, promo);
+                        // reset cookie
+                        HttpCookie currentUserCookie = HttpContext.Current.Request.Cookies["GXG_promo"];
+                        if (currentUserCookie != null)
+                        {
+                            HttpContext.Current.Response.Cookies.Remove("GXG_promo");
+                            currentUserCookie.Expires = DateTime.Now.AddDays(-10);
+                            currentUserCookie.Value = null;
+                            HttpContext.Current.Response.SetCookie(currentUserCookie);
+                        }
+                    }
+
                     InvioEmail(controller, persona, personaEmail);
                     return true;
                 }
@@ -228,7 +251,7 @@ namespace GratisForGratis.Models
         [Display(Name = "Name", ResourceType = typeof(App_GlobalResources.Language))]
         public string Nome { get; set; }
 
-        [Required]
+        //[Required]
         [DataType(DataType.Text)]
         [StringLength(50, MinimumLength = 2)]
         [Display(Name = "Surname", ResourceType = typeof(App_GlobalResources.Language))]
@@ -253,17 +276,20 @@ namespace GratisForGratis.Models
         [Display(Name = "Civic", ResourceType = typeof(App_GlobalResources.Language))]
         public string Civico { get; set; }
 
+        [RequiredIfNotNull(new string[] { "IndirizzoSpedizione", "CivicoSpedizione" }, ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
         [DataType(DataType.PostalCode, ErrorMessageResourceName = "ErrorCity", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
         [Display(Name = "ShippingCity", ResourceType = typeof(App_GlobalResources.Language))]
         public string CittaSpedizione { get; set; }
 
         public int? IDCittaSpedizione { get; set; }
 
+        [RequiredIfNotNull(new string[] { "CittaSpedizione", "CivicoSpedizione" }, ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
         [DataType(DataType.Text)]
         [StringLength(50, MinimumLength = 5)]
         [Display(Name = "ShippingAddress", ResourceType = typeof(App_GlobalResources.Language))]
         public string IndirizzoSpedizione { get; set; }
 
+        [RequiredIfNotNull(new string[] { "CittaSpedizione", "IndirizzoSpedizione" }, ErrorMessageResourceName = "ErrorRequiredField", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
         //[DataType(DataType.Text)]
         //[StringLength(50, MinimumLength = 1)]
         [Display(Name = "ShippingCivic", ResourceType = typeof(App_GlobalResources.Language))]
@@ -364,6 +390,7 @@ namespace GratisForGratis.Models
 
     public class UtenteVenditaViewModel
     {
+        #region COSTRUTTORI
         public UtenteVenditaViewModel() { }
         public UtenteVenditaViewModel(PERSONA model)
         {
@@ -382,7 +409,14 @@ namespace GratisForGratis.Models
                 Telefono = telefono.TELEFONO;
             VenditoreToken = model.TOKEN;
         }
+        public UtenteVenditaViewModel(DatabaseContext db, int id, TipoVenditore tipo)
+        {
+            Id = id;
+            Load(db, tipo);
+        }
+        #endregion
 
+        #region PROPRIETA
         //[DataType(DataType.Text)]
         [Display(Name = "Seller", ResourceType = typeof(App_GlobalResources.Language))]
         public int Id { get; set; }
@@ -401,6 +435,62 @@ namespace GratisForGratis.Models
         public string Telefono { get; set; }
 
         public Guid VenditoreToken { get; set; }
+        #endregion
+
+        #region METODI PUBBLICI
+        public int GetFeedbackVenditore(DatabaseContext db, TipoVenditore tipoVenditore)
+        {
+            try
+            {
+                List<int> voti = db.ANNUNCIO_FEEDBACK
+                                .Where(item => (tipoVenditore == TipoVenditore.Persona && item.ANNUNCIO.ID_PERSONA == Id) ||
+                                (tipoVenditore == TipoVenditore.Attivita && item.ANNUNCIO.ID_ATTIVITA == Id)).Select(item => item.VOTO).ToList();
+
+                int votoMassimo = voti.Count * 10;
+                if (voti.Count <= 0)
+                {
+                    return -1;
+                }
+                else
+                {
+                    int x = voti.Sum() / votoMassimo;
+                    return x * 100;
+                }
+            }
+            catch (Exception eccezione)
+            {
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(eccezione);
+                LoggatoreModel.Errore(eccezione);
+                return -1;
+            }
+        }
+        #endregion
+
+        #region METODI PRIVATI
+        private void Load(DatabaseContext db, TipoVenditore tipo)
+        {
+            if (tipo == TipoVenditore.Attivita)
+            {
+                var model = db.ATTIVITA.SingleOrDefault(m => m.ID == Id);
+                Nominativo = model.NOME;
+                Email = model.ATTIVITA_EMAIL.FirstOrDefault(m => m.TIPO == (int)TipoEmail.Registrazione).EMAIL;
+                ATTIVITA_TELEFONO telefono = model.ATTIVITA_TELEFONO.FirstOrDefault(m => m.TIPO == (int)TipoTelefono.Privato);
+                if (telefono != null)
+                    Telefono = telefono.TELEFONO;
+                VenditoreToken = model.TOKEN;
+            }
+            else
+            {
+                var model = db.PERSONA.SingleOrDefault(m => m.ID == Id);
+                Nominativo = model.NOME + " " + model.COGNOME;
+                Email = model.PERSONA_EMAIL.FirstOrDefault(m => m.TIPO == (int)TipoEmail.Registrazione).EMAIL;
+                PERSONA_TELEFONO telefono = model.PERSONA_TELEFONO.FirstOrDefault(m => m.TIPO == (int)TipoTelefono.Privato);
+                if (telefono != null)
+                    Telefono = telefono.TELEFONO;
+                VenditoreToken = model.TOKEN;
+            }
+        }
+        #endregion
     }
 
     public class UtenteRicercaViewModel /*: EncoderViewModel*/

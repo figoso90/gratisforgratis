@@ -29,7 +29,11 @@ $(document).ready(function () {
     });
 
     if ($('#CategoriaId').val().trim() != '' && $('#CategoriaId').val() > 0) {
-        showInfoAggiuntive();
+        //showInfoAggiuntive();
+        $('html').loader('show');
+        validazioneAggiuntiva('#formPubblica', '#CategoriaId');
+        // aggiornare form dati aggiuntivi
+        loadInfoAggiuntive();
     }
 
     // blocco il tipo di spedizione a mano
@@ -59,7 +63,7 @@ function attivaMenuCategoriaPubblica() {
 }
 
 function loadInfoAggiuntive() {
-    $('#boxInfoAggiuntive').css('display','flex');
+    //$('#boxInfoAggiuntive').css('display','flex');
     $('#advanced').html('');
     $.ajax({
         type: "POST",
@@ -69,7 +73,8 @@ function loadInfoAggiuntive() {
         success: function (data) {
             //$(data).insertAfter('#formPubblica .lastInfoBase');
             $('#advanced').append(data);
-            showInfoAggiuntive();
+            //showInfoAggiuntive();
+            showDatiExtra();
         },
         error: function (response, status, xhr) {
             if (status == "error") {

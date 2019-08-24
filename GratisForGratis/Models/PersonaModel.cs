@@ -200,7 +200,17 @@ namespace GratisForGratis.Models
 
             if (comune == null || comune <= 0)
             {
-                comune = db.COMUNE.FirstOrDefault(m => m.NOME == nomeComune).ID;
+                var modelComune = db.COMUNE.FirstOrDefault(m => m.NOME == nomeComune);
+                if (modelComune != null)
+                {
+                    comune = modelComune.ID;
+                }
+            }
+
+            if (!((string.IsNullOrWhiteSpace(indirizzo) && comune == null && string.IsNullOrWhiteSpace(civico)) 
+                || (!string.IsNullOrWhiteSpace(indirizzo) && comune != null && !string.IsNullOrWhiteSpace(civico))))
+            {
+                throw new Exception(App_GlobalResources.ErrorResource.SettingsAddress);
             }
 
             if (model == null)
@@ -238,7 +248,7 @@ namespace GratisForGratis.Models
                 db.Entry(model).State = EntityState.Deleted;
                 this.Indirizzo.Remove(model);
                 db.PERSONA_INDIRIZZO.Remove(model);
-                
+
                 if (!string.IsNullOrWhiteSpace(indirizzo))
                 {
                     PERSONA_INDIRIZZO nuovoIndirizzo = new PERSONA_INDIRIZZO();

@@ -2,7 +2,7 @@
 @model PubblicaOggettoViewModel
 
     <div class="form-group col-md-12">
-        <h5 class="title">INFO OPZIONALI (Per ulteriori possibilità e maggiore visibilità)</h5>
+        <h5 class="title">INFO <span class="evidence">OPZIONALI</span> (Per ulteriori possibilità e maggiore visibilità)</h5>
         <h5 class="title @((Model.ScambioConSpedizione)?"":"hide") spedizione">@ViewModel.PublishTitleShipment</h5>
     </div>
     <div class="form-group col-md-12">
@@ -107,7 +107,7 @@
         @Html.ValidationMessageFor(m => m.CivicoMittente, "", new { @class = "text-danger" })
     </div>
     <div class="form-group col-md-12">
-        <h5 class="title">ALTRE INFO</h5>
+        <h5 class="title">ALTRE INFO <span class="evidence">OPZIONALI</span></h5>
     </div>
     <div class="form-group col-md-3">
         @Html.LabelFor(m => m.NoteAggiuntive, new { @class = "control-label" })
@@ -156,15 +156,13 @@
                             @if (i > 0)
                             {
                                 <a class="remove" href="javascript:void(0);" onclick="removeMateriale(this);">
-                                    @*<img src="/Images/icone/remove.svg" />*@
                                     <i class="fas fa-minus-circle icona"></i>
                                 </a>
                             }
                             else
                             {
                                 <a class="add" href="javascript:void(0);" onclick="addMateriale(this);">
-                                    @*<img src="~/Images/icone/add.svg" alt="@Language.AddMaterial" style="width:32px;" />*@
-                                    <i class="fas fa-plus-circle icona"></i>
+                                    <i class="fas fa-plus-circle icona" style="color:green;"></i>
                                 </a>
                             }
                         </div>
@@ -189,15 +187,13 @@
                             @if (i > 0)
                             {
                                 <a class="remove" href="javascript:void(0);" onclick="removeComponente(this);">
-                                    @*<img src="/Images/icone/remove.svg" />*@
                                     <i class="fas fa-minus-circle icona"></i>
                                 </a>
                             }
                             else
                             {
                                 <a class="add" href="javascript:void(0);" onclick="addComponente(this);">
-                                    @*<img src="~/Images/icone/add.svg" alt="@Language.AddMaterial" style="width:32px;" />*@
-                                    <i class="fas fa-plus-circle icona"></i>
+                                    <i class="fas fa-plus-circle icona" style="color:green;"></i>
                                 </a>
                             }
                         </div>
