@@ -201,7 +201,7 @@ textarea{
 .infoDomanda {
     display: inline-block;
     vertical-align: middle;
-    font-size: 20px;
+    font-size: 30px;
     margin-left: 7px;
 }
 
@@ -313,12 +313,12 @@ header .ico{
     background: none;
     margin: 0px auto;
     width: 100%;
-    height:32px;
+    height:43px;
 }
 
 .slicknav_menu .slicknav_icon {
     float: right;
-    padding-top: 3px;
+    padding-top: 8px;
 }
 
 .slicknav_menu .slicknav_icon-bar {
@@ -333,9 +333,9 @@ header .ico{
     word-wrap: break-word;
     overflow: hidden;
     display: block;
-    height: 19px;
+    height: 30px;
     padding: 0px 8px;
-    font-size: 15px;
+    font-size: 22px;
 }
 
 .slicknav_nav ul, .slicknav_nav li {
@@ -562,13 +562,15 @@ textarea.form-control{
 /* RICERCA DALL'HEADER */
 
 #cerca .form-control, #cerca .form-control:hover {
+    font-size:17px;
     display: inline-block;
     vertical-align: top;
     width: 220px;
+    height: 45px;
     padding-right: 36px;
     padding-left: 20px;
     border-color: #ccc;
-    border-radius: 0px 6px 6px 0px;
+    border-radius: 0px;
 }
 
 #cerca .control-label{
@@ -585,8 +587,8 @@ textarea.form-control{
     height: 23px;
     width: 24px;
     position: absolute;
-    right: 6px;
-    bottom: 6px;
+    right: 12px;
+    bottom: 12px;
     vertical-align: middle;
     color:transparent;
 }

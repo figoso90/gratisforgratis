@@ -22,11 +22,11 @@
             <div>
                 @if (Model.Foto.Count > 0)
                 {
-                    <img src="@("/Uploads/Images/" + Model.Token + "/" + Model.Foto[0].DATA_INSERIMENTO.Year + "/Normal/" + Model.Foto[0].NOME)" alt="@(Model.Foto[0].NOME)">
+                    <img class="imgProfile" src="@("/Uploads/Images/" + Model.Token + "/" + Model.Foto[0].DATA_INSERIMENTO.Year + "/Normal/" + Model.Foto[0].NOME)" alt="@(Model.Foto[0].NOME)">
                 }
                 else
                 {
-                    <img src="/Images/profile.png" alt="Immagine profilo">
+                    <img class="imgProfile" src="/Images/stickers/4.png" alt="Immagine profilo">
                 }
             </div>
         </div>

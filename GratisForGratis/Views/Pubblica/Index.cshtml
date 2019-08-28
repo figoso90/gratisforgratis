@@ -45,7 +45,7 @@
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">€</div>
                                         </div>
-                                        @Html.TextBoxFor(m => m.Soldi, new { @class = "form-control number", placeholder = Language.Price })
+                                        @Html.TextBoxFor(m => m.Soldi, new { @class = "form-control number", placeholder = Language.Price, style = "height:45px;" })
                                         <a class="infoDomanda" data-toggle="tooltip" href="javascript:void(0);"
                                            title="@Tooltip.PublishInfoMoney">
                                             <i class="far fa-question-circle"></i>

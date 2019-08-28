@@ -36,3 +36,7 @@ function getConteggioArticoli() {
 function anchorPage(tag) {
     $('html,body').animate({ scrollTop: $(tag).offset().top }, 'slow');
 }
+
+function nextPage(tag) {
+    $('html,body').animate({ scrollTop: $(tag).parents('.page').nextAll('.page:visible').offset().top }, 'slow');
+}

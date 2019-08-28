@@ -20,6 +20,13 @@
     border-radius: 6px;
 }
 
+.imgProfile {
+    min-height: 200px;
+    background-size: cover;
+    width: 80%;
+    background-position: center center;
+}
+
 #topAcquisti, #topDesideri {
     margin-top:30px;
 }
