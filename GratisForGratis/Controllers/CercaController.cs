@@ -42,8 +42,18 @@ namespace GratisForGratis.Controllers
                 {
                     nomeView = categoria.DESCRIZIONE;
                 }
-                cerca.SetCookie(categoria, categoriaPadre);
-                var cookie = HttpContext.Response.Cookies.Get("ricerca");
+                HttpCookie cookie = HttpContext.Request.Cookies.Get("ricerca");
+                cookie["Nome"] = cerca.Cerca_Nome;
+                cookie["Categoria"] = categoria.DESCRIZIONE;
+                cookie["IDCategoria"] = categoria.ID.ToString();
+                cookie["TipoAcquisto"] = categoria.TIPO_VENDITA.ToString();
+                cookie["Livello"] = categoria.LIVELLO.ToString();
+                if (categoriaPadre != null)
+                {
+                    cookie["CategoriaPadre"] = categoriaPadre.NOME;
+                    cookie["IDCategoriaPadre"] = categoriaPadre.ID.ToString();
+                }
+                HttpContext.Response.SetCookie(cookie);
                 // recupero la categoria
                 //cookie["Nome"] = cerca.Cerca_Nome;
                 //cookie["Categoria"] = categoria.DESCRIZIONE;

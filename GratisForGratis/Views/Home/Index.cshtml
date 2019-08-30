@@ -27,7 +27,6 @@
     @Styles.Render("~/Scripts/loader/jquery.loader.min.css")
     @Styles.Render("https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
 
-    @Styles.Render("~/Content/site.css")
     @Styles.Render("~/Content/index.css")
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css")
@@ -137,6 +136,7 @@
                                         @Html.ActionLink(Language.ChangePassword, "CambioPassword", "Utente")
                                     </li>
                                     <li>
+                                        <i class="fas fa-lock"></i>
                                         @Html.ActionLink(Language.Logout, "Logout", "Utente")
                                     </li>
                                 </ul>
@@ -145,10 +145,12 @@
                         else
                         {
                             <li role="presentation" class="login">
-                                @Html.ActionLink(Language.Login, "Login", "Utente", null, new { @class = "nav-link" })
+                                <i class="fas fa-lock-open"></i>
+                                @Html.ActionLink(Language.Login, "Login", "Utente", null, new { @class = "" })
                             </li>
                             <li role="presentation" class="loginFacebook">
-                                <a class="nav-link loginFB" href="@Url.Action("LoginFacebook", "Utente", new { ReturnUrl = (Model == null || Model.GetType().GetProperty("ReturnUrl") == null || string.IsNullOrWhiteSpace(Model.ReturnUrl) ? "" : Model.ReturnUrl) })">
+                                <i class="fab fa-facebook"></i>
+                                <a class="loginFB" href="@Url.Action("LoginFacebook", "Utente", new { ReturnUrl = (Model == null || Model.GetType().GetProperty("ReturnUrl") == null || string.IsNullOrWhiteSpace(Model.ReturnUrl) ? "" : Model.ReturnUrl) })">
                                     @ViewModel.LoginFacebook
                                 </a>
                             </li>
@@ -247,7 +249,7 @@
             <div id="subCategoryObjects" class="row justify-content-center">
                 @foreach (GratisForGratis.Models.FINDSOTTOCATEGORIE_Result sottoCategoria in (HttpContext.Current.Application["categorie"] as List<GratisForGratis.Models.FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoria"]) && c.TIPO_VENDITA == 0))
                 {
-                    <a class="col-lg-2 col-md-3 col-sm-4 category object" href="@Url.Content("/Categoria/" + sottoCategoria.DESCRIZIONE.Replace(" ","-") + "/" + sottoCategoria.ID)" title="@(Language.Object + ' ' + sottoCategoria.NOME)">
+                    <a class="col-lg-3 col-md-3 col-sm-4 category object" href="@Url.Content("/Categoria/" + sottoCategoria.DESCRIZIONE.Replace(" ","-") + "/" + sottoCategoria.ID)" title="@(Language.Object + ' ' + sottoCategoria.NOME)">
                         <div class="box" style="background-image:url(@Url.Content("/Images/categorie/" + sottoCategoria.IMMAGINE));">
                             <div>
                                 <h3 class="text name">@sottoCategoria.NOME</h3>
@@ -260,7 +262,7 @@
             <div id="subCategoryServices" class="row justify-content-center">
                 @foreach (GratisForGratis.Models.FINDSOTTOCATEGORIE_Result sottoCategoria in (HttpContext.Current.Application["categorie"] as List<GratisForGratis.Models.FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoria"]) && c.TIPO_VENDITA == 1))
                 {
-                    <a class="col-lg-2 col-md-3 category service" href="@Url.Content("/Categoria/" + sottoCategoria.DESCRIZIONE.Replace(" ","-") + "/" + sottoCategoria.ID)" title="@(Language.Service + ' ' + sottoCategoria.NOME)">
+                    <a class="col-lg-3 col-md-3 category service" href="@Url.Content("/Categoria/" + sottoCategoria.DESCRIZIONE.Replace(" ","-") + "/" + sottoCategoria.ID)" title="@(Language.Service + ' ' + sottoCategoria.NOME)">
                         <div class="box" style="background-image:url(@Url.Content("/Images/categorie/" + sottoCategoria.IMMAGINE));">
                             <div>
                                 <h3 class="text name">@sottoCategoria.NOME</h3>
@@ -300,9 +302,9 @@
                 <div class="col-md-10">
                     <div id="caratteristiche" class="row align-items-start" style="margin:22px 0px 60px;">
                         <div id="completo" class="col-md-4 text-center language">
-                            <h2 class="title"><a href="/articolo/25889/How-do-I-stop-MS-Graph-component-popping-up-during-Interop?">Completo</a></h2>
+                            <h2 class="title">Completo</h2>
                             <div>
-                                <img class="img-thumbnail" src="/img/c1.jpg" alt="immagine linguaggio" />
+                                <i class="fas fa-globe img-sezione"></i>
                             </div>
                             <div class="text">
                                 <p>
@@ -311,9 +313,9 @@
                             </div>
                         </div>
                         <div id="anonimo" class="col-md-4 text-center language">
-                            <h2 class="title"><a href="/articolo/39911/How-to-program-a-full-screen-mode-in-Java?">Anonimo</a></h2>
+                            <h2 class="title">Anonimo</h2>
                             <div>
-                                <img class="img-thumbnail" src="/img/java1.jpg" alt="immagine linguaggio" />
+                                <i class="fas fa-mask img-sezione"></i>
                             </div>
                             <div class="text">
                                 <p>
@@ -322,9 +324,9 @@
                             </div>
                         </div>
                         <div id="sicuro" class="col-md-4 text-center language">
-                            <h2 class="title"><a href="/articolo/109237/Editing-PHP-files-for-configuration-via-PHP">Sicuro</a></h2>
+                            <h2 class="title">Sicuro</h2>
                             <div>
-                                <img class="img-thumbnail" src="/img/php1.jpg" alt="immagine linguaggio" />
+                                <i class="fas fa-user-secret img-sezione"></i>
                             </div>
                             <div class="text">
                                 <p>
@@ -352,11 +354,11 @@
             </div>
             <div class="row align-items-center justify-content-center">
                 <div class="col-md-10">
-                    <div id="bando2019" class="row align-items-center" style="margin:22px 0px 60px;">
+                    <div id="bando2019" class="row align-items-start justify-content-center" style="margin:22px 0px 60px;">
                         <div id="bandreg" class="col-md-3 text-center language">
                             <h2 class="title"><a href="/utente/login">Registrati</a></h2>
                             <div>
-                                <img class="img-thumbnail" src="/img/c1.jpg" alt="immagine linguaggio" />
+                                <i class="fas fa-signature img-sezione"></i>
                             </div>
                             <div class="text">
                                 <p>
@@ -367,7 +369,7 @@
                         <div id="bandopubb" class="col-md-3 text-center language">
                             <h2 class="title"><a href="/pubblica">Pubblica</a></h2>
                             <div>
-                                <img class="img-thumbnail" src="/img/java1.jpg" alt="immagine linguaggio" />
+                                <i class="fab fa-adversal img-sezione"></i>
                             </div>
                             <div class="text">
                                 <p>
@@ -378,7 +380,7 @@
                         <div id="bandoatt" class="col-md-3 text-center language">
                             <h2 class="title"><a href="/utente">Attendi</a></h2>
                             <div>
-                                <img class="img-thumbnail" src="/img/php1.jpg" alt="immagine linguaggio" />
+                                <i class="far fa-clock img-sezione"></i>
                             </div>
                             <div class="text">
                                 <p>
@@ -390,7 +392,7 @@
                         <div id="bandopremio" class="col-md-3 text-center language">
                             <h2 class="title"><a href="/utente">Premio</a></h2>
                             <div>
-                                <img class="img-thumbnail" src="/img/php1.jpg" alt="immagine linguaggio" />
+                                <i class="fas fa-trophy img-sezione"></i>
                             </div>
                             <div class="text">
                                 <p>

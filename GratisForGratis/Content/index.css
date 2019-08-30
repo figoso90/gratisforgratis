@@ -54,6 +54,10 @@ header{
     border: 1px solid #000;
 }
 
+.img-sezione {
+    font-size: 100px;
+}
+
 #menuHomeOverlay {
     display: none;
     position: fixed;
@@ -85,7 +89,6 @@ header{
         width: 32px;
         height: 32px;
         cursor: pointer;
-        margin-right: 150px;
         color: #000070;
         text-align: left;
     }
@@ -97,7 +100,7 @@ header{
         padding: 0px;
     }
 
-        #menuHome .menu li {
+        #menuHome .menu > li {
             padding: 12px 0px;
         }
 
@@ -106,6 +109,41 @@ header{
         color: #000070;
         font-weight: 900;
         font-size: 14px;
+    }
+
+
+
+.dropdown-menu {
+    background-color: #f7f7f7;
+}
+
+    .dropdown-menu > li {
+        display: block;
+        min-width: 138px;
+        padding: 10px 12px;
+        text-align: left;
+        position: relative;
+        -webkit-user-select: none; /* Chrome/Safari */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE10+ */
+        /* Rules below not implemented in browsers yet */
+        -o-user-select: none;
+        user-select: none;
+        cursor: pointer;
+    }
+
+    .dropdown-menu li a {
+        text-transform: uppercase;
+        color: #000070;
+        font-weight: 900;
+        font-size: 12px;
+    }
+
+    .dropdown-menu.show {
+        position: relative !important;
+        border: none;
+        margin: 0px;
+        transform: none !important;
     }
 
 #index .category {
@@ -124,7 +162,7 @@ header{
         background-position: center center;
         background-size: cover;
         display: table;
-        height: 10em;
+        height: 8em;
         width: 100%;
     }
 

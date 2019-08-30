@@ -161,13 +161,12 @@
             </ul>
         </div>
         <ul id="linkLogin">
-            <li id="cart" class="dropdown profilo">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                    @(Language.Welcome + " " + ((PersonaModel)Session["utente"]).NomeVisibile) -
-                    <span id="userPoints">@( (Session["utente"] as PersonaModel).Credito.Where(m => m.STATO == (int)StatoCredito.ASSEGNATO).Sum(m => m.PUNTI).ToHappyCoin()) </span>
-                    <img class="ico" src="@Url.Content("~/Images/icone/cart.svg")" alt="@Resources.Language.Cart" title="@Resources.Language.Cart" />
-                    <div class="preview"></div>
-                </a>
+            <li id="cart" class="profilo">
+                @(Language.Welcome + " " + ((PersonaModel)Session["utente"]).NomeVisibile) -
+                <span id="userPoints">
+                    <img class="glyphicon happyCoin" src="/Images/Icone/happyCoin.svg" alt="Happy-Coin">
+                    @((Session["utente"] as PersonaModel).Credito.Where(m => m.STATO == (int)StatoCredito.ASSEGNATO).Sum(m => m.PUNTI).ToString("#,#.00#")) 
+                </span>
             </li>
         </ul>
         <header>

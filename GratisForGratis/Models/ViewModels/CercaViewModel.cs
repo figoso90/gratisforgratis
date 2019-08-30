@@ -124,21 +124,6 @@ namespace GratisForGratis.Models
         #endregion
 
         #region METODI PUBBLICI
-        public void SetCookie(FINDSOTTOCATEGORIE_Result categoria, FINDSOTTOCATEGORIE_Result categoriaPadre = null)
-        {
-            HttpCookie cookie = HttpContext.Current.Request.Cookies.Get("ricerca");
-            cookie["Nome"] = Cerca_Nome;
-            cookie["Categoria"] = categoria.DESCRIZIONE;
-            cookie["IDCategoria"] = categoria.ID.ToString();
-            cookie["TipoAcquisto"] = categoria.TIPO_VENDITA.ToString();
-            cookie["Livello"] = categoria.LIVELLO.ToString();
-            if (categoriaPadre != null)
-            {
-                cookie["CategoriaPadre"] = categoriaPadre.NOME;
-                cookie["IDCategoriaPadre"] = categoriaPadre.ID.ToString();
-            }
-            HttpContext.Current.Response.SetCookie(cookie);
-        }
         // setta la ricerca in base ai cookie
         public virtual void SetRicercaByCookie(HttpCookie cookie) {
             //this.AttivaRicercaAvanzata = false;

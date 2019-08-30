@@ -68,16 +68,12 @@
             <img class="icona" src="~/Images/icone/menu.svg" alt="Menu" />
             <ul class="menu">
                 <li role="presentation" class="login">
+                    <i class="fas fa-lock-open"></i>
                     @Html.ActionLink(Language.Login, "Login", "Utente")
                 </li>
-                <!--
-            <li role="presentation" class="register">
-                @Html.ActionLink(Language.Register, "Registrazione", "Utente")
-            </li>
-                -->
                 <li role="presentation" class="register loginFacebook">
                     <a class="col-md-9 col-md-push-2 btn btn-primary loginFB" href="@Url.Action("LoginFacebook", "Utente", new { ReturnUrl = (Model == null || Model.GetType().GetProperty("ReturnUrl") == null || string.IsNullOrWhiteSpace(Model.ReturnUrl) ? "" : Model.ReturnUrl) })">
-                        <img src="https://facebookbrand.com/wp-content/uploads/2016/05/flogo_rgb_hex-brc-site-250.png?w=125&h=125" />
+                        <i class="fab fa-facebook"></i>
                         @ViewModel.LoginFacebook
                     </a>
                 </li>
@@ -97,16 +93,12 @@
         </div>
         <ul id="linkLogin">
             <li role="presentation" class="login">
+                <i class="fas fa-lock-open"></i>
                 @Html.ActionLink(Language.Login, "Login", "Utente")
             </li>
-            <!--
-        <li role="presentation" class="register">
-            @Html.ActionLink(Language.Register, "Registrazione", "Utente")
-        </li>
-            -->
             <li role="presentation" class="register loginFacebook">
                 <a class="btn btn-primary" href="@Url.Action("LoginFacebook", "Utente")" style="color:#FFF;">
-                    <img src="https://facebookbrand.com/wp-content/uploads/2016/05/flogo_rgb_hex-brc-site-250.png?w=16&h=16" style="margin-right: 10px;" />
+                    <i class="fab fa-facebook-f" style="margin-right:3px;"></i>
                     @ViewModel.LoginFacebook
                 </a>
             </li>
