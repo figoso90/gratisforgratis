@@ -11,6 +11,7 @@
 
 #presentazione {
     text-align:left;
+    border-right:1px solid #ececec;
 }
 
     #presentazione strong {
@@ -33,4 +34,8 @@
 .lista li{
     margin: 10px 0px;
     text-transform:uppercase;
+}
+
+#linkRapidi .helper img{
+    max-width:200px;
 }

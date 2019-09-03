@@ -21,6 +21,7 @@
     @Styles.Render("~/Scripts/SlickNav/slicknav.css")
     @Styles.Render("https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/menuCategoria.css")
     @RenderSection("styles", required: false)
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css")
@@ -67,7 +68,7 @@
         </div>
         <div id="menuMobileOverlay"></div>
         <div id="menuMobile">
-            <img class="icona" src="~/Images/icone/menu.svg" alt="Menu" />
+            <i class="fas fa-bars icona"></i>
             <ul class="menu">
                 <li role="presentation" class="reporting">
                     <a id="reportingMobile" href="javascript:void(0);">@Language.Reporting</a>

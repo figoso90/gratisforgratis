@@ -296,6 +296,7 @@
     <Content Include="Content\JqueryUI\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Content\JqueryUI\images\ui-icons_eeeeee_256x240.png" />
     <Content Include="Content\JqueryUI\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\menuCategoria.css" />
     <Content Include="Content\notifiche.css" />
     <Content Include="Content\annuncio.css" />
     <Content Include="Content\index.css" />
@@ -448,6 +449,20 @@
     <Content Include="Images\stickers\29.png" />
     <Content Include="Images\stickers\3.png" />
     <Content Include="Images\stickers\4.png" />
+    <Content Include="Images\stickers\7333932a5fdcf5f057.png" />
+    <Content Include="Images\stickers\7752f8ee0262a57fdd.png" />
+    <Content Include="Images\stickers\pubblica.gif" />
+    <Content Include="Images\stickers\scimmia1.png" />
+    <Content Include="Images\stickers\scimmia2.png" />
+    <Content Include="Images\stickers\tartaruga1.png" />
+    <Content Include="Images\stickers\tartaruga2.png" />
+    <Content Include="Images\stickers\tartaruga3.png" />
+    <Content Include="Images\stickers\tartaruga4.png" />
+    <Content Include="Images\stickers\tartaruga5.png" />
+    <Content Include="Images\stickers\tartaruga6.png" />
+    <Content Include="Images\stickers\tartaruga7.png" />
+    <Content Include="Images\stickers\tartaruga8.png" />
+    <Content Include="Images\stickers\telegram-i-migliori-stickers-da-aggiungere-alla-vostra-collezione-3.png" />
     <Content Include="Images\voucher.jpg" />
     <Content Include="Models\EntityModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

@@ -9,7 +9,7 @@
 <section id="pagina" class="content">
     <div class="container">
         <div class="row">
-            <div id="presentazione" class="col-md-6 mr-5">
+            <div id="presentazione" class="col-md-8 mr-5">
                 <div class="row">
                     <div class="col-md">
                         <h2 class="title">CHI HA PARTECIPATO AL PROGETTO</h2>
@@ -150,6 +150,9 @@
                         @Html.ActionLink(ViewModel.HappyPeople, "HappyPeople", "Home")
                     </li>
                 </ul>
+                <a class="helper" href="@Url.Action("", "cerca")" title="@ViewBag.Title">
+                    <img src="~/Images/stickers/tartaruga3.png" alt="@Language.Search" />
+                </a>
             </aside>
         </div>
     </div>

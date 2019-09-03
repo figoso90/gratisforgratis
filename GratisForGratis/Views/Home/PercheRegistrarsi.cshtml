@@ -9,7 +9,7 @@
 <section id="pagina" class="content">
     <div class="container">
         <div class="row">
-            <div id="presentazione" class="col-md-6 mr-5">
+            <div id="presentazione" class="col-md-8 mr-5">
                 <h2 class="title">PUNTI DI FORZA</h2>
                 <p>
                     <ul class="lista">
@@ -60,6 +60,9 @@
                         @Html.ActionLink(ViewModel.CircularEconomy, "EconomiaCircolare", "Home")
                     </li>
                 </ul>
+                <a class="helper" href="@Url.Action("", "cerca")" title="@ViewBag.Title">
+                    <img src="~/Images/stickers/tartaruga3.png" alt="@Language.Search" />
+                </a>
             </aside>
         </div>
     </div>

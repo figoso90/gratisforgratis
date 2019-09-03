@@ -28,6 +28,7 @@
     @Styles.Render("https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
 
     @Styles.Render("~/Content/index.css")
+    @Styles.Render("~/Content/menuCategoria.css")
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css")
 
@@ -41,7 +42,7 @@
 </head>
 
 <body>
-    <div id="page">
+    <div id="page" class="container-fluid">
         <div id="advBackground"></div>
         <div id="main" class="page container">
             <header>
@@ -188,10 +189,10 @@
                                             </div>
                                         </div>
                                         <!--
-    <div class="input-group-append">
-        <div class="input-group-text"><a href="javascript:void(0);" onclick="$('#btnInvio2').click();"><i class="fab fa-searchengin"></i></a></div>
-    </div>
-    -->
+                                        <div class="input-group-append">
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="$('#btnInvio2').click();"><i class="fab fa-searchengin"></i></a></div>
+                                        </div>
+                                        -->
                                     </div>
                                 </div>
                                 <div class="form-group pulsante">
@@ -421,6 +422,53 @@
             </div>
         </div>
     </div>
+
+
+    <!-- HIDDEN ELEMENT -->
+    <div id="menuCategorie" style="display:none;">
+        <input id="categoriaAttuale" name="categoriaAttuale" value="@Response.Cookies["ricerca"]["Categoria"]" type="text" />
+        @{ List<GratisForGratis.Models.FINDSOTTOCATEGORIE_Result> categorie = (HttpContext.Current.Application["categorie"] as List<GratisForGratis.Models.FINDSOTTOCATEGORIE_Result>);
+            <ul id="menu">
+                @foreach (GratisForGratis.Models.FINDSOTTOCATEGORIE_Result categoria in categorie.Where(c => c.LIVELLO <= 0))
+                {
+                    <li>
+                        <a class="trigger" data-value="@categoria.ID" data-text="@categoria.NOME" data-id="#Cerca_IDCategoria" data-name="#Cerca_Categoria" title="@(Language.Buy + ' ' + categoria.NOME)">
+                            @categoria.NOME
+                        </a>
+                        @if (categoria.LIVELLO >= 0)
+                        {
+                            <ul>
+                                @foreach (GratisForGratis.Models.FINDSOTTOCATEGORIE_Result sottoCategoria in categorie.Where(c => c.ID_PADRE == categoria.ID))
+                                {
+                                    <li>
+                                        @if (categorie.Count(item => item.ID_PADRE == sottoCategoria.ID) > 0)
+                                        {
+                                            <a class="trigger" data-value="@sottoCategoria.ID" data-text="@sottoCategoria.NOME" data-id="#Cerca_IDCategoria" data-name="#Cerca_Categoria" title="@(Language.Buy + ' ' + sottoCategoria.NOME)">
+                                                @sottoCategoria.NOME
+                                            </a>
+                                            <ul>
+                                                @foreach (GratisForGratis.Models.FINDSOTTOCATEGORIE_Result sottoCategoria2 in categorie.Where(c => c.ID_PADRE == sottoCategoria.ID))
+                                                {
+                                                    <li><a class="trigger" data-value="@sottoCategoria2.ID" data-text="@sottoCategoria2.NOME" data-id="#Cerca_IDCategoria" data-name="#Cerca_Categoria" data-pubblica="true" title="@(Language.Buy + ' ' + sottoCategoria2.NOME)">@sottoCategoria2.NOME</a></li>
+                                                }
+                                            </ul>
+                                        }
+                                        else
+                                        {
+                                            <a class="trigger" data-value="@sottoCategoria.ID" data-text="@sottoCategoria.NOME" data-id="#Cerca_IDCategoria" data-name="#Cerca_Categoria" data-pubblica="true" title="@(Language.Buy + ' ' + sottoCategoria.NOME)">
+                                                @sottoCategoria.NOME
+                                            </a>
+                                        }
+                                    </li>
+                                }
+                            </ul>
+                        }
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+
     @Scripts.Render("https://code.jquery.com/jquery-3.4.1.min.js")
     @Scripts.Render("https://code.jquery.com/ui/1.12.1/jquery-ui.min.js")
     @Scripts.Render("~/bundles/jqueryval")
