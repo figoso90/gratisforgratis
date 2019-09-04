@@ -409,6 +409,16 @@ namespace GratisForGratis.Models
                 Telefono = telefono.TELEFONO;
             VenditoreToken = model.TOKEN;
         }
+        public UtenteVenditaViewModel(ATTIVITA model)
+        {
+            Id = model.ID;
+            Nominativo = model.NOME;
+            Email = model.ATTIVITA_EMAIL.FirstOrDefault(m => m.TIPO == (int)TipoEmail.Registrazione).EMAIL;
+            ATTIVITA_TELEFONO telefono = model.ATTIVITA_TELEFONO.FirstOrDefault(m => m.TIPO == (int)TipoTelefono.Privato);
+            if (telefono != null)
+                Telefono = telefono.TELEFONO;
+            VenditoreToken = model.TOKEN;
+        }
         public UtenteVenditaViewModel(DatabaseContext db, int id, TipoVenditore tipo)
         {
             Id = id;

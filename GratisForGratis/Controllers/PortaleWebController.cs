@@ -137,7 +137,12 @@ namespace GratisForGratis.Controllers
                             .SingleOrDefault(m => m.ID == viewModel.Id);
                         if (spedizione != null)
                         {
-                            string tokenMittente = spedizione.ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE.FirstOrDefault().ANNUNCIO_TIPO_SCAMBIO.ANNUNCIO.PERSONA.TOKEN.ToString();
+                            var annuncio = spedizione.ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE.FirstOrDefault().ANNUNCIO_TIPO_SCAMBIO.ANNUNCIO;
+                            string tokenMittente = annuncio.PERSONA.TOKEN.ToString();
+                            if (annuncio.ID_ATTIVITA != null)
+                            {
+                                tokenMittente = annuncio.ATTIVITA.TOKEN.ToString();
+                            }
                             // cambiare percorso di salvataggio
                             FileUploadifive allegatoPdf = UploadFile(viewModel.LDV, TipoUpload.Pdf, tokenMittente);
                             PdfModel model = new PdfModel();
@@ -224,7 +229,12 @@ namespace GratisForGratis.Controllers
                         CORRIERE_SERVIZIO_SPEDIZIONE spedizione = db.CORRIERE_SERVIZIO_SPEDIZIONE.SingleOrDefault(m => m.ID == viewModel.Id);
                         if (spedizione != null)
                         {
-                            string tokenMittente = spedizione.ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE.FirstOrDefault().ANNUNCIO_TIPO_SCAMBIO.ANNUNCIO.PERSONA.TOKEN.ToString();
+                            var annuncio = spedizione.ANNUNCIO_TIPO_SCAMBIO_SPEDIZIONE.FirstOrDefault().ANNUNCIO_TIPO_SCAMBIO.ANNUNCIO;
+                            string tokenMittente = annuncio.PERSONA.TOKEN.ToString();
+                            if (annuncio.ID_ATTIVITA != null)
+                            {
+                                tokenMittente = annuncio.ATTIVITA.TOKEN.ToString();
+                            }
                             // cambiare percorso di salvataggio
                             FileUploadifive allegatoPdf = UploadFile(viewModel.LDV, TipoUpload.Pdf, tokenMittente);
                             PdfModel model = new PdfModel();

@@ -55,7 +55,7 @@ header{
 }
 
 .img-sezione {
-    font-size: 100px;
+    width: 100px;
 }
 
 #menuHomeOverlay {
@@ -149,7 +149,9 @@ header{
     }
 
 #menuCategoriaRicerca .slicknav_menu {
-    padding:5px;
+    padding: 5px;
+    border-radius: 6px;
+    margin: 0px auto 13px;
 }
 
 #index .category {
@@ -403,11 +405,6 @@ header{
     #index{
         display:none;
     }
-
-    #menuCategoriaRicerca > .slicknav_menu {
-        border-radius: 6px;
-        margin: 0px auto 13px;
-    }
 }
 
 /* Large devices (desktops, less than 1200px) */
@@ -418,6 +415,11 @@ header{
     #boxLogo img {
         max-width: 250px;
     }
+
+    #index {
+        display: none;
+    }
+
     #why, #bando{
         height:auto;
     }

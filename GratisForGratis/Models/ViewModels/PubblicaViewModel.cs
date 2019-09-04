@@ -257,14 +257,15 @@ namespace GratisForGratis.Models
         public override bool SalvaAnnuncio(ControllerContext controller, ANNUNCIO vendita = null)
         {
             PersonaModel utente = ((PersonaModel)HttpContext.Current.Session["utente"]);
+            PortaleWebViewModel portale = null;
             if (vendita == null)
                 vendita = new ANNUNCIO();
             if (HttpContext.Current.Session["portaleweb"] != null)
             {
-                PortaleWebViewModel portale = (HttpContext.Current.Session["portaleweb"] as List<PortaleWebViewModel>).Where(p => p.Token == this.Partner.ToString()).SingleOrDefault();
-                if (portale != null)
-                    vendita.ID_ATTIVITA = Convert.ToInt32(portale.Id);
+                portale = (HttpContext.Current.Session["portaleweb"] as List<PortaleWebViewModel>).Where(p => p.Token == this.Partner.ToString()).SingleOrDefault();
             }
+            if (portale != null)
+                vendita.ID_ATTIVITA = Convert.ToInt32(portale.Id);
             var ri = new System.Globalization.RegionInfo(System.Threading.Thread.CurrentThread.CurrentUICulture.LCID);
             TIPO_VALUTA tipoValuta = (HttpContext.Current.Application["tipoValuta"] as List<TIPO_VALUTA>)
                 .SingleOrDefault(m => m.SIMBOLO.ToUpper() == ri.CurrencySymbol.ToUpper());
@@ -319,7 +320,14 @@ namespace GratisForGratis.Models
                         // può avvenire bug inserimento senza foto, perchè non c'è controllo in caso di errore generico
                         // bisognerebbe portare il try e catch esternamente
                         AnnuncioFoto foto = new AnnuncioFoto();
-                        foto.Add(DbContext, utente.Persona.TOKEN, vendita.ID, nomeFoto, TokenUploadFoto);
+                        if (portale != null)
+                        {
+                            foto.Add(DbContext, Guid.Parse(portale.Token), vendita.ID, nomeFoto, TokenUploadFoto);
+                        }
+                        else
+                        {
+                            foto.Add(DbContext, utente.Persona.TOKEN, vendita.ID, nomeFoto, TokenUploadFoto);
+                        }
                     }
                     return true;
                 }

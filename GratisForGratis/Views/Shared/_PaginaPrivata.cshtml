@@ -287,14 +287,14 @@
                     {
                         foreach (FINDSOTTOCATEGORIE_Result sottoCategoria in (HttpContext.Current.Application["categorie"] as List<FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoria"])))
                         {
-                            @Html.ActionLink(sottoCategoria.DESCRIZIONE, sottoCategoria.DESCRIZIONE.Replace(" ", "-") + "/" + sottoCategoria.ID, "categoria", null, new { @class = "link" })
+                            @Html.ActionLink(sottoCategoria.DESCRIZIONE, sottoCategoria.DESCRIZIONE.Replace(" ", "-") + "/" + sottoCategoria.ID, "gratis", null, new { @class = "link" })
                         }
                     }
                     else
                     {
                         foreach (FINDSOTTOCATEGORIE_Result sottoCategoria in (HttpContext.Current.Application["categorie"] as List<FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoriaPadre"])))
                         {
-                            @Html.ActionLink(sottoCategoria.DESCRIZIONE, sottoCategoria.DESCRIZIONE.Replace(" ", "-") + "/" + sottoCategoria.ID, "categoria", null, new { @class = "link" })
+                            @Html.ActionLink(sottoCategoria.DESCRIZIONE, sottoCategoria.DESCRIZIONE.Replace(" ", "-") + "/" + sottoCategoria.ID, "gratis", null, new { @class = "link" })
                         }
                     }
                 </div>

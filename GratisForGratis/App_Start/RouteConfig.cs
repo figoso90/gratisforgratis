@@ -49,6 +49,12 @@ namespace GratisForGratis
             */
 
             routes.MapRoute(
+                name: "Gratis",
+                url: "gratis/{Cerca_Categoria}/{Cerca_IDCategoria}",
+                defaults: new { controller = "Cerca", action = "Index", Cerca_Categoria = "", Cerca_IDCategoria = "" }
+            );
+
+            routes.MapRoute(
                 name: "Categoria",
                 url: "Categoria/{Cerca_Categoria}/{Cerca_IDCategoria}",
                 defaults: new { controller = "Cerca", action = "Index", Cerca_Categoria = "", Cerca_IDCategoria = "" }

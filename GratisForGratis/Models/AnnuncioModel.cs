@@ -709,7 +709,14 @@ namespace GratisForGratis.Models
                         || m.ID_ORIGINE == annuncio.Id));
             if (copiaAnnuncio != null)
                 annuncio.TokenAnnuncioCopiato = Utils.RandomString(3) + copiaAnnuncio.TOKEN + Utils.RandomString(3);
-            annuncio.Venditore = new UtenteVenditaViewModel(vendita.PERSONA);
+            if (vendita.ID_ATTIVITA != null)
+            {
+                annuncio.Venditore = new UtenteVenditaViewModel(vendita.ATTIVITA);
+            }
+            else
+            {
+                annuncio.Venditore = new UtenteVenditaViewModel(vendita.PERSONA);
+            }
 
             if (vendita.ID_COMPRATORE != null)
             {
