@@ -1,0 +1,136 @@
+﻿@model GratisForGratis.Models.PortaleWebProfiloViewModel
+@{
+    ViewBag.Title = Language.TitlePartnerProfile + " " + Model.Nome;
+}
+@Styles.Render("~/Content/profilo.css")
+
+<section id="partners" class="content">
+
+    <h1 id="title">@ViewBag.Title</h1>
+    <div class="row">
+        <div id="lnkChat" class="col-md-2 btn btn-primary">
+            <i class="far fa-comments"></i>
+            @Html.ActionLink(ViewModel.ProfileSendMessage, "PortaleWeb", "Chat", new { token = Model.Token }, new { @class = "" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <div>
+                @if (Model.Foto.Count > 0)
+                {
+                    <img class="imgProfile" src="@("/Uploads/Images/" + Model.Token + "/" + Model.Foto[0].DATA_INSERIMENTO.Year + "/Normal/" + Model.Foto[0].NOME)" alt="@(Model.Foto[0].NOME)">
+                }
+                else
+                {
+                    <img class="imgProfile" src="/Images/stickers/4.png" alt="Immagine profilo">
+                }
+            </div>
+        </div>
+        <div class="col-md-9">
+            <!-- dati per il sito -->
+            @using (Html.BeginForm("Details", "PortaleWeb", FormMethod.Post, new { id = "settings", @class = "content form-horizontal", role = "form" }))
+            {
+                if (TempData["salvato"] != null && (bool)TempData["salvato"])
+                {
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="message">@Language.RegistrazioneOK</h4>
+                            <hr />
+                        </div>
+                    </div>
+                }
+                <div class="row">
+                    <div class="form-group col-md-3" style="display:none;">
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.Token)
+                    </div>
+                    <div class="form-group col-md-3">
+                        @Html.LabelFor(m => m.Nome, new { @class = "control-label required" })
+                        @Html.TextBoxFor(m => m.Nome, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Nome, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group col-md-3">
+                        @Html.LabelFor(m => m.Dominio, new { @class = "control-label required" })
+                        @Html.TextBoxFor(m => m.Dominio, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Dominio, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group col-md-3">
+                        @Html.LabelFor(m => m.Abbonamento, new { @class = "control-label required" })
+                        @Html.TextBoxFor(m => m.Abbonamento, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Abbonamento, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group col-md-3">
+                        @Html.LabelFor(m => m.Email, new { @class = "control-label required" })
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group col-md-3">
+                        @Html.LabelFor(m => m.Telefono, new { @class = "control-label required" })
+                        @Html.TextBoxFor(m => m.Telefono, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Telefono, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row footer">
+                    <div class="col-md-12">
+                        <input type="submit" class="btn btn-success" value="@Language.Save" />
+                    </div>
+                </div>
+
+            }
+        </div>
+    </div>
+    <div id="info" class="row">
+        <div class="col-md-3">
+            <h4 class="campo">@Language.Token:</h4>
+            <p>@Model.Token</p>
+        </div>
+        <div class="col-md-3">
+            <h4 class="campo">@Language.BonusNow:</h4>
+            <p>@Model.Bonus</p>
+        </div>
+        <div class="col-md-3">
+            <h4 class="campo">@Language.BonusUsed:</h4>
+            <p>@((Model.BonusSpeso) == null ? 0 : Model.BonusSpeso)</p>
+        </div>
+        <div class="col-md-3">
+            <h4 class="campo">@Language.DateSubscription:</h4>
+            <p>@Model.DataIscrizione</p>
+        </div>
+    </div>
+    @if (Model.ListaVendite.Count > 0)
+    {
+        <div id="topVendite" class="row hidden-xs">
+            <div class="col-sm-12">
+                <h5 class="title">@ViewModel.ProfileLastSell</h5>
+            </div>
+            @foreach (GratisForGratis.Models.AnnuncioViewModel annuncio in Model.ListaVendite.Take(4))
+            {
+                @Html.Partial("PartialPages/_AnnuncioSmall", annuncio)
+            }
+        </div>
+    }
+    @if (Model.ListaAcquisti.Count > 0)
+    {
+        <div id="topAcquisti" class="row hidden-xs">
+            <div class="col-sm-12">
+                <h5 class="title">@ViewModel.ProfileTopPurchases</h5>
+            </div>
+            @foreach (GratisForGratis.Models.AnnuncioViewModel annuncio in Model.ListaAcquisti.Take(4))
+            {
+                @Html.Partial("PartialPages/_AnnuncioSmall", annuncio)
+            }
+        </div>
+    }
+    @if (Model.ListaDesideri.Count > 0)
+    {
+        <div id="topDesideri" class="row hidden-xs">
+            <div class="col-sm-12">
+                <h5 class="title">@ViewModel.ProfileTopWishes</h5>
+            </div>
+            @foreach (GratisForGratis.Models.AnnuncioViewModel annuncio in Model.ListaDesideri.Take(4))
+            {
+                @Html.Partial("PartialPages/_AnnuncioSmall", annuncio)
+            }
+        </div>
+    }
+</section>
