@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -15,11 +16,15 @@ namespace GratisForGratis.Models.ViewModels
         [Display(Name = "ChatSender", ResourceType = typeof(App_GlobalResources.ViewModel))]
         public int MittenteId { get; set; }
 
+        public int? MittenteIdAttivita { get; set; }
+
         public PersonaModel Mittente { get; set; }
 
         [Required]
         [Display(Name = "ChatRecipient", ResourceType = typeof(App_GlobalResources.ViewModel))]
         public int DestinatarioId { get; set; }
+
+        public int? DestinatarioIdAttivita { get; set; }
 
         public PersonaModel Destinatario { get; set; }
 
@@ -77,6 +82,33 @@ namespace GratisForGratis.Models.ViewModels
             model.STATO = (int)this.Stato;
             return model;
         }
+        
+        public static List<ChatViewModel> GetListaChat(DatabaseContext db, int idUtente, int idUtente2)
+        {
+            List<ChatViewModel> listaChat = new List<ChatViewModel>();
+
+            db.CHAT
+                .Include(m => m.PERSONA)
+                .Include(m => m.PERSONA1)
+                .Where(m => m.STATO != (int)StatoChat.ELIMINATO &&
+                (m.ID_MITTENTE == idUtente && m.PERSONA1.ID == idUtente2) ||
+                (m.ID_DESTINATARIO == idUtente && m.PERSONA.ID == idUtente2))
+            .OrderByDescending(m => m.DATA_MODIFICA)
+            .ToList().ForEach(m =>
+            {
+                m.DATA_MODIFICA = DateTime.Now;
+                m.STATO = (int)StatoChat.LETTO;
+                db.CHAT.Attach(m);
+                var entry = db.Entry(m);
+                entry.State = EntityState.Modified;
+                db.SaveChanges();
+
+                ChatViewModel chatViewModel = new ChatViewModel(m);
+                listaChat.Add(chatViewModel);
+            });
+
+            return listaChat;
+        }
         #endregion
     }
 
@@ -111,6 +143,27 @@ namespace GratisForGratis.Models.ViewModels
         }
 
         public ChatUtenteViewModel(PERSONA model)
+        {
+            listaChat = new List<ChatViewModel>();
+        }
+        #endregion
+    }
+
+    public class ChatPortaleWebViewModel
+    {
+        #region PROPRIETA
+        public List<ChatViewModel> listaChat { get; set; }
+
+        public AttivitaModel Attivita { get; set; }
+        #endregion
+
+        #region COSTRUTTORI
+        public ChatPortaleWebViewModel()
+        {
+            listaChat = new List<ChatViewModel>();
+        }
+
+        public ChatPortaleWebViewModel(ATTIVITA model)
         {
             listaChat = new List<ChatViewModel>();
         }

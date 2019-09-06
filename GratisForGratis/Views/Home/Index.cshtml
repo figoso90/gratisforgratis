@@ -104,7 +104,7 @@
                                         @foreach (PortaleWebViewModel portaleweb in (Session["portaleweb"] as List<PortaleWebViewModel>))
                                         {
                                             <li>
-                                                @Html.ActionLink(portaleweb.Nome, "Profilo", "PortaleWeb", new { token = portaleweb.Token }, null)
+                                                @Html.ActionLink(portaleweb.Nome, "Details", "PortaleWeb", new { token = portaleweb.Token }, null)
                                             </li>
                                             if ((Session["utente"] as PersonaModel).Persona.ABBONAMENTO.DURATA == -1)
                                             {
@@ -216,7 +216,7 @@
                 <menu id="menuFooter">
                     <nav class="navbar navbar-default navbar-static-bottom">
                         <ul class="nav justify-content-left">
-                            <li class="nav-item">@Html.ActionLink(Language.Search, "Tutti", "Categoria", null, new { @class = "nav-link" })</li>
+                            <li class="nav-item">@Html.ActionLink(Language.Search, "", "gratis", null, new { @class = "nav-link" })</li>
                             <li class="nav-item">@Html.ActionLink(ViewModel.MissionLink, "Missione", "Home", null, new { @class = "nav-link" })</li>
                             <li class="nav-item">@Html.ActionLink(ViewModel.HowWorkLink, "ComeFunziona", "Home", null, new { @class = "nav-link" })</li>
                             <li class="nav-item">@Html.ActionLink(ViewModel.EarnMoneyLink, "ComeGuadagnare", "Home", null, new { @class = "nav-link" })</li>

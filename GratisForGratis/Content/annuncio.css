@@ -48,8 +48,9 @@
     text-align:center;
 }
 
-#acquisto .user{
-    text-align:left;
+#acquisto .user {
+    text-align: left;
+    margin-top: 22px;
 }
 
 #acquisto .feedback{

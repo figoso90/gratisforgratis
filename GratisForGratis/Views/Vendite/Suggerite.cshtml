@@ -38,7 +38,11 @@
                     </div>
                     <div class="cella user">
                         @Html.Label("Venditore", Language.Seller + ":")
-                        <b>@offertaAutomatica.Annuncio.Venditore.Nominativo</b>
+                        <b>@Html.ActionLink((string.IsNullOrWhiteSpace(offertaAutomatica.Annuncio.Venditore.Nominativo) ? offertaAutomatica.Annuncio.Venditore.Email : offertaAutomatica.Annuncio.Venditore.Nominativo), "Profilo", (offertaAutomatica.Annuncio.Venditore.Tipo == GratisForGratis.Models.TipoVenditore.Attivita) ? "PortaleWeb" : "Utente", new { token = offertaAutomatica.Annuncio.Venditore.VenditoreToken }, null)</b>
+                    </div>
+                    <div class="cella">
+                        <i class="far fa-comments"></i>
+                        @Html.ActionLink(ViewModel.ProfileSendMessage, (offertaAutomatica.Annuncio.Venditore.Tipo == GratisForGratis.Models.TipoVenditore.Attivita) ? "PortaleWeb" : "Utente", "Chat", new { token = offertaAutomatica.Annuncio.Venditore.VenditoreToken }, new { @class = "" })
                     </div>
                     <div class="cella noMandatory">
                         <a href="javascript:void(0);" onclick="openProposte(this);" class="btn btn-success">Visualizza proposte</a>

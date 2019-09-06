@@ -27,7 +27,7 @@
                 </div>
                 <div class="right">
                     <h5 class="category">
-                        <a href="@Url.Action(oggetto.Categoria.Replace(" ","-") + "/" + oggetto.CategoriaID,"categoria")" title="@oggetto.Categoria">
+                        <a href="@Url.Action(oggetto.Categoria.Replace(" ","-") + "/" + oggetto.CategoriaID,"gratis")" title="@oggetto.Categoria">
                             <img class="glyphicon category" src="@Url.Content("~/Images/Icone/category.svg")" alt="@Language.Category" />
                             <span class="evidence">@oggetto.Categoria</span>
                         </a>
@@ -47,7 +47,7 @@
                     <h5 class="seller">
                         <b>@Language.Seller :</b> 
                         <span class="evidence">
-                            @Html.ActionLink((string.IsNullOrWhiteSpace(Model.Venditore.Nominativo)?Model.Venditore.Email: Model.Venditore.Nominativo), "Profilo", "Utente", new { token = Model.Venditore.VenditoreToken }, null)
+                            @Html.ActionLink((string.IsNullOrWhiteSpace(Model.Venditore.Nominativo)?Model.Venditore.Email: Model.Venditore.Nominativo), "Profilo", (Model.Venditore.Tipo==GratisForGratis.Models.TipoVenditore.Attivita)?"PortaleWeb": "Utente", new { token = Model.Venditore.VenditoreToken }, null)
                         </span>
                     </h5>
                 </div>

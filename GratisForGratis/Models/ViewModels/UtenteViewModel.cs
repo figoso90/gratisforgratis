@@ -408,6 +408,7 @@ namespace GratisForGratis.Models
             if (telefono!=null)
                 Telefono = telefono.TELEFONO;
             VenditoreToken = model.TOKEN;
+            Tipo = TipoVenditore.Persona;
         }
         public UtenteVenditaViewModel(ATTIVITA model)
         {
@@ -418,11 +419,13 @@ namespace GratisForGratis.Models
             if (telefono != null)
                 Telefono = telefono.TELEFONO;
             VenditoreToken = model.TOKEN;
+            Tipo = TipoVenditore.Attivita;
         }
         public UtenteVenditaViewModel(DatabaseContext db, int id, TipoVenditore tipo)
         {
             Id = id;
             Load(db, tipo);
+            Tipo = tipo;
         }
         #endregion
 
@@ -445,6 +448,8 @@ namespace GratisForGratis.Models
         public string Telefono { get; set; }
 
         public Guid VenditoreToken { get; set; }
+
+        public TipoVenditore Tipo { get; set; }
         #endregion
 
         #region METODI PUBBLICI
@@ -473,6 +478,12 @@ namespace GratisForGratis.Models
                 LoggatoreModel.Errore(eccezione);
                 return -1;
             }
+        }
+        public bool IsVenditore(PersonaModel utente)
+        {
+            if ((Tipo == TipoVenditore.Persona && Id == utente.Persona.ID) || (Tipo == TipoVenditore.Attivita && utente.Attivita.Count(m => m.ID == Id) > 0))
+                return true;
+            return false;
         }
         #endregion
 

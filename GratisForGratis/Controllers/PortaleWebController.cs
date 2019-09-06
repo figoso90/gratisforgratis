@@ -20,28 +20,43 @@ namespace GratisForGratis.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult Profilo(string token)
         {
             PortaleWebProfiloViewModel viewModel = null;
             try
             {
-                PortaleWebViewModel portale = (Session["portaleweb"] as List<PortaleWebViewModel>).Where(p => p.Token == token).SingleOrDefault();
-                viewModel = new PortaleWebProfiloViewModel(portale);
+                PortaleWebViewModel portale = null;
+                if (Session["portaleweb"] != null)
+                    portale = (Session["portaleweb"] as List<PortaleWebViewModel>).Where(p => p.Token == token).SingleOrDefault();
+
+                if (portale!=null)
+                    viewModel = new PortaleWebProfiloViewModel(portale);
                 using (DatabaseContext db = new DatabaseContext())
                 {
-                    int id = Convert.ToInt32(portale.Id);
-                    ATTIVITA model = db.ATTIVITA.SingleOrDefault(p => p.ID == id);
+                    ATTIVITA model = null;
+                    if (portale != null)
+                    {
+                        int id = Convert.ToInt32(portale.Id);
+                        model = db.ATTIVITA.SingleOrDefault(p => p.ID == id);
+                    }
+                    else
+                    {
+                        model = db.ATTIVITA.SingleOrDefault(p => p.TOKEN.ToString() == token);
+                        viewModel = new PortaleWebProfiloViewModel();
+                    }
+                    // se la pagina non viene trovata
+                    if (model == null)
+                        return RedirectToAction("Index");
+
                     viewModel.CopyModel(model, model.ATTIVITA_EMAIL.Where(e => e.ID_ATTIVITA == model.ID).ToList(), model.ATTIVITA_TELEFONO.Where(e => e.ID_ATTIVITA == model.ID).ToList());
                     DateTime unAnnoFa = DateTime.Now.AddYears(-1);
-                    // da sistemare e poi verificare che nella pubblicazione venga inviato anche il portale se necessario
-                    // e nel caso non ci siano, togliere scelta portale e verificare lato server l'assenza del dato
-                    // poi pensare alla visualizzazione del nome del portale sia sulle trattative che sulla visualizzazione
-                    // della vendita
                     var bonus = db.TRANSAZIONE.Where(b => b.ID_CONTO_MITTENTE == model.ID_CONTO_CORRENTE && 
                         b.TIPO == (int)TipoTransazione.BonusFeedback
                         && b.DATA_INSERIMENTO > unAnnoFa).ToList();
                     if (bonus!=null)
                         viewModel.BonusSpeso = bonus.Sum(b => b.PUNTI);
+                    viewModel.LoadExtra(db, model);
                 }
             }
             catch(Exception exception)
@@ -54,8 +69,58 @@ namespace GratisForGratis.Controllers
             return View(viewModel);
         }
 
+
+        [HttpGet]
+        public ActionResult Details(string token)
+        {
+            PortaleWebProfiloViewModel viewModel = null;
+            try
+            {
+                PortaleWebViewModel portale = null;
+                if (Session["portaleweb"] != null)
+                    portale = (Session["portaleweb"] as List<PortaleWebViewModel>).Where(p => p.Token == token).SingleOrDefault();
+
+                if (portale != null)
+                    viewModel = new PortaleWebProfiloViewModel(portale);
+                using (DatabaseContext db = new DatabaseContext())
+                {
+                    ATTIVITA model = null;
+                    if (portale != null)
+                    {
+                        int id = Convert.ToInt32(portale.Id);
+                        model = db.ATTIVITA.SingleOrDefault(p => p.ID == id);
+                    }
+                    else
+                    {
+                        model = db.ATTIVITA.SingleOrDefault(p => p.TOKEN.ToString() == token);
+                        viewModel = new PortaleWebProfiloViewModel();
+                    }
+                    // se la pagina non viene trovata
+                    if (model == null)
+                        return RedirectToAction("Index");
+
+                    viewModel.CopyModel(model, model.ATTIVITA_EMAIL.Where(e => e.ID_ATTIVITA == model.ID).ToList(), model.ATTIVITA_TELEFONO.Where(e => e.ID_ATTIVITA == model.ID).ToList());
+                    DateTime unAnnoFa = DateTime.Now.AddYears(-1);
+                    var bonus = db.TRANSAZIONE.Where(b => b.ID_CONTO_MITTENTE == model.ID_CONTO_CORRENTE &&
+                        b.TIPO == (int)TipoTransazione.BonusFeedback
+                        && b.DATA_INSERIMENTO > unAnnoFa).ToList();
+                    if (bonus != null)
+                        viewModel.BonusSpeso = bonus.Sum(b => b.PUNTI);
+                    viewModel.LoadExtra(db, model);
+                }
+            }
+            catch (Exception exception)
+            {
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(exception);
+                LoggatoreModel.Errore(exception);
+                return RedirectToAction("Index");
+            }
+            Session["happyPageAperta"] = token;
+            return View(viewModel);
+        }
+
         [HttpPost]
-        public ActionResult Profilo(PortaleWebProfiloViewModel viewModel)
+        public ActionResult Details(PortaleWebProfiloViewModel viewModel)
         {
             try
             { 

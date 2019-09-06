@@ -38,7 +38,7 @@
                     </div>
                     <div class="cella user">
                         @Html.Label("Venditore", Language.Seller + ":")
-                        <b>@proposta.AnnuncioPersonale.Venditore.Nominativo</b>
+                        <b>@Html.ActionLink((string.IsNullOrWhiteSpace(proposta.AnnuncioPersonale.Venditore.Nominativo) ? proposta.AnnuncioPersonale.Venditore.Email : proposta.AnnuncioPersonale.Venditore.Nominativo), "Profilo", (proposta.AnnuncioPersonale.Venditore.Tipo == GratisForGratis.Models.TipoVenditore.Attivita) ? "PortaleWeb" : "Utente", new { token = proposta.AnnuncioPersonale.Venditore.VenditoreToken }, null)</b>
                     </div>
                     <div class="cella noMandatory">
                         <a href="javascript:void(0);" onclick="openProposte(this);" class="btn">Visualizza proposte</a>

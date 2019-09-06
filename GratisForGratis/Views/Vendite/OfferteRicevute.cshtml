@@ -21,7 +21,11 @@
                 </div>
                 <div class="cella noMandatory">
                     @Html.Label("Compratore", Language.Buyer)
-                    <b>@Html.ActionLink(offerta.Compratore.Nominativo, "Profilo", "Utente", new { token = offerta.Compratore.VenditoreToken }, null)</b>
+                    <b>@Html.ActionLink((string.IsNullOrWhiteSpace(offerta.Compratore.Nominativo) ? offerta.Compratore.Email : offerta.Compratore.Nominativo), "Profilo", (offerta.Compratore.Tipo == GratisForGratis.Models.TipoVenditore.Attivita) ? "PortaleWeb" : "Utente", new { token = offerta.Compratore.VenditoreToken }, null)</b>
+                </div>
+                <div class="cella">
+                    <i class="far fa-comments"></i>
+                    @Html.ActionLink(ViewModel.ProfileSendMessage, (offerta.Compratore.Tipo == GratisForGratis.Models.TipoVenditore.Attivita) ? "PortaleWeb" : "Utente", "Chat", new { token = offerta.Compratore.VenditoreToken }, new { @class = "" })
                 </div>
                 <div class="cella">
                     @Html.Label("Contatti", Language.Contacts)

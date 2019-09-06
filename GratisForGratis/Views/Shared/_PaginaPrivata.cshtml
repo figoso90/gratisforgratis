@@ -122,7 +122,7 @@
                             @foreach (PortaleWebViewModel portaleweb in (Session["portaleweb"] as List<PortaleWebViewModel>))
                             {
                                 <li>
-                                    @Html.ActionLink(portaleweb.Nome, "Profilo", "PortaleWeb", new { token = portaleweb.Token }, null)
+                                    @Html.ActionLink(portaleweb.Nome, "Details", "PortaleWeb", new { token = portaleweb.Token }, null)
                                 </li>
                                 if ((Session["utente"] as PersonaModel).Persona.ABBONAMENTO.DURATA == -1)
                                 {
@@ -229,7 +229,7 @@
                                 @foreach (PortaleWebViewModel portaleweb in (Session["portaleweb"] as List<PortaleWebViewModel>))
                                 {
                                     <li>
-                                        @Html.ActionLink(portaleweb.Nome, "Profilo", "PortaleWeb", new { token = portaleweb.Token }, null)
+                                        @Html.ActionLink(portaleweb.Nome, "Details", "PortaleWeb", new { token = portaleweb.Token }, null)
                                     </li>
                                     if ((Session["utente"] as PersonaModel).Persona.ABBONAMENTO.DURATA == -1)
                                     {

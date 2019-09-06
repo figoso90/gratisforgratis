@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace GratisForGratis.Models
 {
@@ -102,18 +103,78 @@ namespace GratisForGratis.Models
 
     public class PortaleWebProfiloViewModel : PortaleWebViewModel
     {
+        #region PROPRIETA
+        public List<FotoModel> Foto { get; set; }
+
+        public List<AnnuncioViewModel> ListaAcquisti { get; set; }
+
+        public List<AnnuncioViewModel> ListaVendite { get; set; }
+
+        public List<AnnuncioViewModel> ListaDesideri { get; set; }
+        #endregion
+
+        #region COSTRUTTORI
         public PortaleWebProfiloViewModel() { }
 
         public PortaleWebProfiloViewModel(PERSONA_ATTIVITA model, List<ATTIVITA_EMAIL> modelEmail, List<ATTIVITA_TELEFONO> modelTelefono) : base(model, modelEmail, modelTelefono) { }
 
         public PortaleWebProfiloViewModel(PortaleWebViewModel model)
         {
-
             foreach (System.Reflection.PropertyInfo propertyInfo in model.GetType().GetProperties())
             {
                 if (this.GetType().GetProperty(propertyInfo.Name).SetMethod != null)
                     this.GetType().GetProperty(propertyInfo.Name).SetValue(this, propertyInfo.GetValue(model));
             }
         }
+        #endregion
+
+        #region METODI PUBBLICI
+        public void LoadExtra(DatabaseContext db, ATTIVITA attivita)
+        {
+            Foto = attivita.ATTIVITA_FOTO.Select(m => new FotoModel(m.ALLEGATO)).ToList();
+
+            ListaAcquisti = new List<AnnuncioViewModel>();
+            ListaVendite = new List<AnnuncioViewModel>();
+            ListaDesideri = new List<AnnuncioViewModel>();
+            // far vedere top n acquisti con link
+            var query = db.ANNUNCIO.Where(item => item.ID_COMPRATORE == attivita.ID
+                    && item.TRANSAZIONE_ANNUNCIO.Count(m => m.STATO == (int)StatoPagamento.ATTIVO || m.STATO == (int)StatoPagamento.ACCETTATO) > 0
+                    && (item.STATO == (int)StatoVendita.VENDUTO || item.STATO == (int)StatoVendita.BARATTATO)
+                    && (item.ID_OGGETTO != null || item.ID_SERVIZIO != null));
+            List<ANNUNCIO> lista = query
+                .OrderByDescending(item => item.DATA_INSERIMENTO)
+                .Take(4).ToList();
+            foreach (ANNUNCIO m in lista)
+            {
+                AnnuncioModel annuncioModel = new AnnuncioModel();
+                ListaAcquisti.Add(annuncioModel.GetViewModel(db, m));
+            }
+            // far vedere vendite recenti con link
+            var queryVendite = db.ANNUNCIO.Where(item => item.ID_PERSONA == attivita.ID
+                    && (item.STATO != (int)StatoVendita.ELIMINATO && item.STATO != (int)StatoVendita.BARATTATO && item.STATO != (int)StatoVendita.VENDUTO)
+                    && (item.ID_OGGETTO != null || item.ID_SERVIZIO != null));
+            List<ANNUNCIO> lista2 = queryVendite
+                .OrderByDescending(item => item.DATA_INSERIMENTO)
+                .Take(4).ToList();
+            foreach (ANNUNCIO m in lista2)
+            {
+                AnnuncioModel annuncioModel = new AnnuncioModel();
+                ListaVendite.Add(annuncioModel.GetViewModel(db, m));
+            }
+            // far vedere top n desideri con link
+            List<ANNUNCIO_DESIDERATO> lista3 = db.ANNUNCIO_DESIDERATO
+                .Where(item => item.ID_PERSONA == attivita.ID && (item.ANNUNCIO.STATO == (int)StatoVendita.INATTIVO
+                    || item.ANNUNCIO.STATO == (int)StatoVendita.ATTIVO) && (item.ANNUNCIO.DATA_FINE == null ||
+                    item.ANNUNCIO.DATA_FINE >= DateTime.Now))
+                .OrderByDescending(item => item.ANNUNCIO.DATA_INSERIMENTO)
+                .Take(4)
+                .ToList();
+            lista3.ForEach(m =>
+                ListaDesideri.Add(
+                    new AnnuncioViewModel(db, m.ANNUNCIO)
+                )
+            );
+        }
+        #endregion
     }
 }

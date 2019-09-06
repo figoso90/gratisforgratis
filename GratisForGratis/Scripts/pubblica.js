@@ -29,11 +29,11 @@ $(document).ready(function () {
     });
 
     if ($('#CategoriaId').val().trim() != '' && $('#CategoriaId').val() > 0) {
-        //showInfoAggiuntive();
-        $('html').loader('show');
+        showInfoAggiuntive();
+        //$('html').loader('show');
         validazioneAggiuntiva('#formPubblica', '#CategoriaId');
         // aggiornare form dati aggiuntivi
-        loadInfoAggiuntive();
+        //loadInfoAggiuntive();
     }
 
     // blocco il tipo di spedizione a mano
@@ -51,7 +51,10 @@ function attivaMenuCategoriaPubblica() {
         prependTo: '#menuCategoriaPubblica',
         closeOnClick: true,
         init: function () {
-            $('#menuCategoriaPubblica').find('.slicknav_menutxt').text($('#categoriaAttuale').val());
+            var categoria = $('#categoriaAttuale').val();
+            if ($('#CategoriaNome').val() != '' && $('#CategoriaNome').val() != undefined)
+                categoria = $('#CategoriaNome').val();
+            $('#menuCategoriaPubblica').find('.slicknav_menutxt').text(categoria);
 
             impostaCategoria('#menuCategoriaPubblica', '#menu2', '#CategoriaId', '#CategoriaNome', 'pubblica');
         },
@@ -73,8 +76,8 @@ function loadInfoAggiuntive() {
         success: function (data) {
             //$(data).insertAfter('#formPubblica .lastInfoBase');
             $('#advanced').append(data);
-            //showInfoAggiuntive();
-            showDatiExtra();
+            showInfoAggiuntive();
+            //showDatiExtra();
         },
         error: function (response, status, xhr) {
             if (status == "error") {
@@ -88,19 +91,21 @@ function loadInfoAggiuntive() {
 }
 
 function showInfoAggiuntive() {
+    //alert("Action: " + $('#ActionCategoria:last').val());
     $('#formPubblica').attr('action', $('#ActionCategoria:last').val());
     //$('#infoAggiuntive').show();
     refreshValidatoreForm();
     initAutocomplete();
+    $('#advanced').css('display','flex');
 }
-
+/*
 function showDatiExtra() {
     if ($('#advanced:visible').length > 0) {
         $('#advanced').css('display', 'none');
     } else {
         $('#advanced').css('display', 'flex');
     }
-}
+}*/
 
 function refreshValidatoreForm() {
     $('form').removeData('validator');
@@ -162,14 +167,14 @@ function sceltaSpedizione(elemento)
     //disabilitaPrezzoSpedizione();
     if ($('#ScambioConSpedizione').is(':checked')) {
         if ($(elemento).val() != 1) {
-            $('.spedizione.corrieri [label=Online]').removeProp('disabled');
+            $('.spedizione.corrieri [label=Online]').removeAttr('disabled');
             $('.spedizione.corrieri [label=Online] option:first-child').prop('selected', true);
-            $('.spedizione.corrieri [label=Privata]').prop('disabled', true);
+            $('.spedizione.corrieri [label=Privata]').attr('disabled', true);
             $('.spedizioneOnline').removeClass('hide');
         } else {
-            $('.spedizione.corrieri [label=Privata]').removeProp('disabled');
+            $('.spedizione.corrieri [label=Privata]').removeAttr('disabled');
             $('.spedizione.corrieri [label=Privata] option:first-child').prop('selected', true);
-            $('.spedizione.corrieri [label=Online]').prop('disabled', true);
+            $('.spedizione.corrieri [label=Online]').attr('disabled', true);
         }
     }
 
@@ -211,7 +216,7 @@ function getPrezzoSpedizione(servizioCorriere) {
             lunghezza: $('#Lunghezza').val()
         },
         success: function (data) {
-            alert(data.Prezzo);
+            //alert(data.Prezzo);
             $('.prezzoSpedizione .form-control').val(data.Prezzo);
         },
         error: function (error, status, msg) {

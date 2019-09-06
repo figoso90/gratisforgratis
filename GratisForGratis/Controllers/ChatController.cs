@@ -2,7 +2,6 @@
 using GratisForGratis.Models.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -95,7 +94,28 @@ namespace GratisForGratis.Controllers
                     viewModel.Utente = new PersonaModel(personaChat);
                     viewModel.Utente.Foto = personaChat.PERSONA_FOTO.OrderByDescending(m => m.ORDINE).AsEnumerable()
                         .Select(m => new FotoModel(m.ALLEGATO)).ToList();
-                    viewModel.listaChat = GetListaChat(db, utente.Persona.ID, personaChat.ID);
+                    viewModel.listaChat = ChatViewModel.GetListaChat(db, utente.Persona.ID, personaChat.ID);
+                    RefreshPunteggioUtente(db);
+                }
+            }
+            // apre gli ultimi 30 messaggi con l'utente se selezionato, altrimenti ti fa selezionare la persona
+            return View(viewModel);
+        }
+
+        public ActionResult PortaleWeb(string token = "")
+        {
+            ChatUtenteViewModel viewModel = new ChatUtenteViewModel();
+            PersonaModel utente = Session["utente"] as PersonaModel;
+            if (!string.IsNullOrWhiteSpace(token))
+            {
+                using (DatabaseContext db = new DatabaseContext())
+                {
+                    PERSONA personaChat = db.PERSONA.SingleOrDefault(m => m.TOKEN.ToString() == token
+                        && m.STATO != (int)Stato.ELIMINATO);
+                    viewModel.Utente = new PersonaModel(personaChat);
+                    viewModel.Utente.Foto = personaChat.PERSONA_FOTO.OrderByDescending(m => m.ORDINE).AsEnumerable()
+                        .Select(m => new FotoModel(m.ALLEGATO)).ToList();
+                    viewModel.listaChat = ChatViewModel.GetListaChat(db, utente.Persona.ID, personaChat.ID);
                     RefreshPunteggioUtente(db);
                 }
             }
@@ -105,13 +125,14 @@ namespace GratisForGratis.Controllers
         #endregion
 
         #region AJAX
-        
+
         [HttpGet]
         [Filters.ValidateAjax]
-        public ActionResult FormInserimento(int destinatarioId)
+        public ActionResult FormInserimento(int destinatarioId, int? attivitaId)
         {
             ChatViewModel viewModel = new ChatViewModel();
             viewModel.DestinatarioId = destinatarioId;
+            viewModel.DestinatarioIdAttivita = attivitaId;
             return PartialView("PartialPages/_FormMessaggio", viewModel);
         }
 
@@ -150,7 +171,7 @@ namespace GratisForGratis.Controllers
                         // aggiornare tramite javascript o lato server la pagina (return PartialView)
                         //return Json(true);
                         //return PartialView("PartialPages/_FormMessaggio", new ChatViewModel());
-                        return PartialView("PartialPages/_ListaChat", GetListaChat(db, model.ID_MITTENTE, model.ID_DESTINATARIO));
+                        return PartialView("PartialPages/_ListaChat", ChatViewModel.GetListaChat(db, model.ID_MITTENTE, model.ID_DESTINATARIO));
                     }
                 }
             }
@@ -178,7 +199,7 @@ namespace GratisForGratis.Controllers
                         if (db.SaveChanges() > 0)
                         {
                             //return PartialView("PartialPages/_FormMessaggio", new ChatViewModel());
-                            return PartialView("PartialPages/_ListaChat", GetListaChat(db, model.ID_MITTENTE, model.ID_DESTINATARIO));
+                            return PartialView("PartialPages/_ListaChat", ChatViewModel.GetListaChat(db, model.ID_MITTENTE, model.ID_DESTINATARIO));
                         }
                     }
                 }
@@ -202,41 +223,12 @@ namespace GratisForGratis.Controllers
                     db.CHAT.Remove(model);
                     if (db.SaveChanges() > 0)
                     {
-                        return PartialView("PartialPages/_ListaChat", GetListaChat(db, model.ID_MITTENTE, model.ID_DESTINATARIO));
+                        return PartialView("PartialPages/_ListaChat", ChatViewModel.GetListaChat(db, model.ID_MITTENTE, model.ID_DESTINATARIO));
                     }
                 }
             }
             Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
             return null;
-        }
-        #endregion
-
-        #region METODI PRIVATI
-        private List<ChatViewModel> GetListaChat(DatabaseContext db, int idUtente, int idUtente2)
-        {
-            List<ChatViewModel> listaChat = new List<ChatViewModel>();
-
-            db.CHAT
-                .Include(m => m.PERSONA)
-                .Include(m => m.PERSONA1)
-                .Where(m => m.STATO != (int)StatoChat.ELIMINATO &&
-                (m.ID_MITTENTE == idUtente && m.PERSONA1.ID == idUtente2) ||
-                (m.ID_DESTINATARIO == idUtente && m.PERSONA.ID == idUtente2))
-            .OrderByDescending(m => m.DATA_MODIFICA)
-            .ToList().ForEach(m =>
-            {
-                m.DATA_MODIFICA = DateTime.Now;
-                m.STATO = (int)StatoChat.LETTO;
-                db.CHAT.Attach(m);
-                var entry = db.Entry(m);
-                entry.State = EntityState.Modified;
-                db.SaveChanges();
-
-                ChatViewModel chatViewModel = new ChatViewModel(m);
-                listaChat.Add(chatViewModel);
-            });
-            
-            return listaChat;
         }
         #endregion
     }

@@ -42,7 +42,7 @@
                     }
                 </div>
                 <div class="user">
-                    <h5 class="seller"><img class="glyphicon" src="@Url.Content("~/Images/icone/sellerMan.svg")" alt="@Language.Seller" /> <span><b>@Html.ActionLink(Model.Venditore.Nominativo, "Profilo", "Utente", new { token = Model.Venditore.VenditoreToken }, null)</b></span></h5>
+                    <h5 class="seller"><img class="glyphicon" src="@Url.Content("~/Images/icone/sellerMan.svg")" alt="@Language.Seller" /> <span><b>@Html.ActionLink(Model.Venditore.Nominativo, "Profilo", (Model.Venditore.Tipo == GratisForGratis.Models.TipoVenditore.Attivita) ? "PortaleWeb" : "Utente", new { token = Model.Venditore.VenditoreToken }, null)</b></span></h5>
                     <h5 class="place"><img class="glyphicon" src="@Url.Content("~/Images/icone/position.svg")" alt="@Language.Place" /> <span>@Model.Citta</span></h5>
                 </div>
                 <div class="feedback" title="@Language.FeedbackUser">
@@ -52,7 +52,7 @@
             <div class="right">
                 <h3 class="info title">@Model.Nome</h3>
                 <h4 class="info category">
-                    <a href="@Url.Action(Model.Categoria.Replace(" ","-") + "/" + Model.CategoriaID, "categoria")" title="@Model.Categoria">
+                    <a href="@Url.Action(Model.Categoria.Replace(" ","-") + "/" + Model.CategoriaID, "gratis")" title="@Model.Categoria">
                         <img class="glyphicon category" src="@Url.Content("~/Images/Icone/category.svg")" alt="@Language.Category" />
                         @Model.Categoria
                     </a>
@@ -79,7 +79,7 @@
                 </div>
                 <div class="buttons" style="text-align:left;margin-top:13px;">
                     @if (Request.IsAuthenticated
-                        && Model.Venditore.Id != ((GratisForGratis.Models.PersonaModel)Session["utente"]).Persona.ID
+                        && !Model.Venditore.IsVenditore((GratisForGratis.Models.PersonaModel)Session["utente"])
                         && Model.StatoVendita == GratisForGratis.Models.StatoVendita.ATTIVO
                         && (Model.DataFine >= DateTime.Now || Model.DataFine == null))
                     {

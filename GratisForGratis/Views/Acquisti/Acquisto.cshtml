@@ -31,6 +31,14 @@
                 @Html.Label("TipoModel", Language.TypeBid + ":")
                 <strong>@Model.TipoOfferta</strong>
             </div>
+            <div class="cella user">
+                @Html.Label("Venditore", Language.Seller + ":")
+                <b>@Html.ActionLink((string.IsNullOrWhiteSpace(Model.Annuncio.Venditore.Nominativo) ? Model.Annuncio.Venditore.Email : Model.Annuncio.Venditore.Nominativo), "Profilo", (Model.Annuncio.Venditore.Tipo == GratisForGratis.Models.TipoVenditore.Attivita) ? "PortaleWeb" : "Utente", new { token = Model.Annuncio.Venditore.VenditoreToken }, null)</b>
+            </div>
+            <div class="cella">
+                <i class="far fa-comments"></i>
+                @Html.ActionLink(ViewModel.ProfileSendMessage, (Model.Annuncio.Venditore.Tipo == GratisForGratis.Models.TipoVenditore.Attivita) ? "PortaleWeb" : "Utente", "Chat", new { token = Model.Annuncio.Venditore.VenditoreToken }, new { @class = "" })
+            </div>
             <div class="cella noMandatory state">
                 @Html.Label("Stato", Language.StateBid + ":")
                 @if (Model.Annuncio.StatoVendita == StatoVendita.VENDUTO || Model.Annuncio.StatoVendita == StatoVendita.BARATTATO)
@@ -63,19 +71,19 @@
                     </div>
                 </div>
             }
-            @if (Model.StatoOfferta == StatoOfferta.ACCETTATA)
-            {
-                <div class="cella contacts">
-                    <label>@Language.Contacts: </label>
-                    <p class="name">@Model.Annuncio.Venditore.Nominativo</p>
-                    <p class="email">@Model.Annuncio.Venditore.Email</p>
-                    @if (!string.IsNullOrWhiteSpace(Model.Annuncio.Venditore.Telefono))
-                    {
-                    <p class="telephone">@Model.Annuncio.Venditore.Telefono</p>
-                    }
-                </div>
-            }
-                    
+            @**if (Model.StatoOfferta == StatoOfferta.ACCETTATA)
+        {
+            <div class="cella contacts">
+                <label>@Language.Contacts: </label>
+                <p class="name">@Model.Annuncio.Venditore.Nominativo</p>
+                <p class="email">@Model.Annuncio.Venditore.Email</p>
+                @if (!string.IsNullOrWhiteSpace(Model.Annuncio.Venditore.Telefono))
+                {
+                <p class="telephone">@Model.Annuncio.Venditore.Telefono</p>
+                }
+            </div>
+        }**@
+
         </div>
     </div>
 </section>

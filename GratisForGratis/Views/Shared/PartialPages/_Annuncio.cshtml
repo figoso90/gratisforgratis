@@ -110,7 +110,7 @@
         }
         <div class="cella user">
             @Html.Label("Venditore", Language.Seller + ":")
-            <b>@Html.ActionLink(Model.Venditore.Nominativo, "Profilo", "Utente", new { token = Model.Venditore.VenditoreToken }, null)</b>
+            <b>@Html.ActionLink((string.IsNullOrWhiteSpace(Model.Venditore.Nominativo) ? Model.Venditore.Email : Model.Venditore.Nominativo), "Profilo", (Model.Venditore.Tipo == GratisForGratis.Models.TipoVenditore.Attivita) ? "PortaleWeb" : "Utente", new { token = Model.Venditore.VenditoreToken }, null)</b>
         </div>
     </div>
     @Html.Partial("PartialPages/_FunzioniAnnuncio", Model)

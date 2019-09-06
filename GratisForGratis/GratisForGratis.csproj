@@ -1645,6 +1645,7 @@
     <Content Include="Views\Cerca\PartialPages\_Filtro.cshtml" />
     <Content Include="Views\Cerca\PartialPages\_FiltroOggetto.cshtml" />
     <Content Include="Views\Cerca\PartialPages\_FiltroServizio.cshtml" />
+    <Content Include="Views\PortaleWeb\Details.cshtml" />
     <None Include="Web References\ServizioADV\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
