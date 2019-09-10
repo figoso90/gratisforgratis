@@ -268,35 +268,17 @@ namespace GratisForGratis.Controllers
                             utente.STATO = (int)Stato.INATTIVO;
                             db.PERSONA.Add(utente);
                             db.SaveChanges();
+                            persona = new PersonaModel(utente);
+                            persona.SetEmail(db, viewModel.Email, Stato.INATTIVO);
                         }
-                        persona = new PersonaModel(utente);
-                        persona.SetEmail(db, viewModel.Email, Stato.INATTIVO);
+                        else
+                        {
+                            persona = new PersonaModel(utente);
+                        }
                         Session["utenteRicerca"] = persona;
 
                         IRicercaViewModel ricerca = RicercaViewModel.GetViewModelByCookie();
                         return SaveRicercaUtente(ricerca);
-                        ////model.UTENTE1 = utente;
-                        //personaRicerca.ID_PERSONA = utente.ID;
-                        //ricerca.ID_CATEGORIA = Convert.ToInt32(cookie["IDCategoria"]);
-                        //ricerca.NOME = cookie["Nome"];
-                        //ricerca.DATA_INSERIMENTO = DateTime.Now;
-                        //ricerca.DATA_MODIFICA = ricerca.DATA_INSERIMENTO;
-                        //ricerca.STATO = (int)Stato.ATTIVO;
-                        //db.RICERCA.Add(ricerca);
-                        //if (db.SaveChanges() > 0)
-                        //{
-                        //    personaRicerca.ID_RICERCA = ricerca.ID;
-                        //    db.PERSONA_RICERCA.Add(personaRicerca);
-                        //    if (db.SaveChanges() > 0)
-                        //    {
-                        //        /*
-                        //        ResetFiltriRicerca();
-                        //        SendMailRicercaSalvata(persona,model);
-                        //        */
-                        //        UtenteRicercaViewModel ricercaViewModel = new UtenteRicercaViewModel(personaRicerca);
-                        //        return View(ricercaViewModel);
-                        //    }
-                        //}
                     }
                 }
             }

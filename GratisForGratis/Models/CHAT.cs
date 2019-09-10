@@ -16,12 +16,16 @@ namespace GratisForGratis.Models
     {
         public int ID { get; set; }
         public int ID_MITTENTE { get; set; }
-        public int ID_DESTINATARIO { get; set; }
+        public Nullable<int> ID_DESTINATARIO { get; set; }
+        public Nullable<int> ID_MITTENTE_ATTIVITA { get; set; }
+        public Nullable<int> ID_DESTINATARIO_ATTIVITA { get; set; }
         public string TESTO { get; set; }
         public System.DateTime DATA_INSERIMENTO { get; set; }
         public Nullable<System.DateTime> DATA_MODIFICA { get; set; }
         public int STATO { get; set; }
     
+        public virtual ATTIVITA ATTIVITA { get; set; }
+        public virtual ATTIVITA ATTIVITA1 { get; set; }
         public virtual PERSONA PERSONA { get; set; }
         public virtual PERSONA PERSONA1 { get; set; }
     }

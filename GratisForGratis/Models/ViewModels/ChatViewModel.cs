@@ -14,19 +14,22 @@ namespace GratisForGratis.Models.ViewModels
         public int Id { get; set; }
 
         [Display(Name = "ChatSender", ResourceType = typeof(App_GlobalResources.ViewModel))]
-        public int MittenteId { get; set; }
+        public int? MittenteId { get; set; }
 
         public int? MittenteIdAttivita { get; set; }
 
         public PersonaModel Mittente { get; set; }
 
-        [Required]
+        public AttivitaModel MittenteAttivita { get; set; }
+
         [Display(Name = "ChatRecipient", ResourceType = typeof(App_GlobalResources.ViewModel))]
-        public int DestinatarioId { get; set; }
+        public int? DestinatarioId { get; set; }
 
         public int? DestinatarioIdAttivita { get; set; }
 
         public PersonaModel Destinatario { get; set; }
+
+        public AttivitaModel DestinatarioAttivita { get; set; }
 
         [Required]
         [Display(Name ="ChatMessage", ResourceType = typeof(App_GlobalResources.ViewModel))]
@@ -74,7 +77,7 @@ namespace GratisForGratis.Models.ViewModels
         {
             CHAT model = new CHAT();
             model.ID = this.Id;
-            model.ID_MITTENTE = this.MittenteId;
+            model.ID_MITTENTE = (int)this.MittenteId;
             model.ID_DESTINATARIO = this.DestinatarioId;
             model.TESTO = this.Testo;
             model.DATA_INSERIMENTO = (DateTime)this.DataInserimento;
@@ -109,13 +112,40 @@ namespace GratisForGratis.Models.ViewModels
 
             return listaChat;
         }
+
+        public static List<ChatViewModel> GetListaChatAttivita(DatabaseContext db, int idUtente, int portale)
+        {
+            List<ChatViewModel> listaChat = new List<ChatViewModel>();
+
+            db.CHAT
+                .Include(m => m.PERSONA)
+                .Include(m => m.PERSONA1)
+                .Where(m => m.STATO != (int)StatoChat.ELIMINATO &&
+                (m.ID_MITTENTE == idUtente && m.ATTIVITA1.ID == portale) ||
+                (m.ID_DESTINATARIO == idUtente && m.ATTIVITA.ID == portale))
+            .OrderByDescending(m => m.DATA_MODIFICA)
+            .ToList().ForEach(m =>
+            {
+                m.DATA_MODIFICA = DateTime.Now;
+                m.STATO = (int)StatoChat.LETTO;
+                db.CHAT.Attach(m);
+                var entry = db.Entry(m);
+                entry.State = EntityState.Modified;
+                db.SaveChanges();
+
+                ChatViewModel chatViewModel = new ChatViewModel(m);
+                listaChat.Add(chatViewModel);
+            });
+
+            return listaChat;
+        }
         #endregion
     }
 
     public class ChatIndexViewModel
     {
         #region PROPRIETA
-        public List<PersonaModel> listaChat { get; set; }
+        public List<UtenteProfiloViewModel> listaChat { get; set; }
 
         public ChatViewModel UltimaChat { get; set; }
         #endregion
@@ -123,7 +153,7 @@ namespace GratisForGratis.Models.ViewModels
         #region COSTRUTTORI
         public ChatIndexViewModel()
         {
-            listaChat = new List<PersonaModel>();
+            listaChat = new List<UtenteProfiloViewModel>();
         }
         #endregion
     }
@@ -131,7 +161,7 @@ namespace GratisForGratis.Models.ViewModels
     public class ChatUtenteViewModel
     {
         #region PROPRIETA
-        public List<ChatViewModel> listaChat { get; set; }
+        public List<ChatViewModel> Messaggi { get; set; }
 
         public PersonaModel Utente { get; set; }
         #endregion
@@ -139,12 +169,12 @@ namespace GratisForGratis.Models.ViewModels
         #region COSTRUTTORI
         public ChatUtenteViewModel()
         {
-            listaChat = new List<ChatViewModel>();
+            Messaggi = new List<ChatViewModel>();
         }
 
         public ChatUtenteViewModel(PERSONA model)
         {
-            listaChat = new List<ChatViewModel>();
+            Messaggi = new List<ChatViewModel>();
         }
         #endregion
     }
@@ -152,7 +182,7 @@ namespace GratisForGratis.Models.ViewModels
     public class ChatPortaleWebViewModel
     {
         #region PROPRIETA
-        public List<ChatViewModel> listaChat { get; set; }
+        public List<ChatViewModel> Messaggi { get; set; }
 
         public AttivitaModel Attivita { get; set; }
         #endregion
@@ -160,12 +190,12 @@ namespace GratisForGratis.Models.ViewModels
         #region COSTRUTTORI
         public ChatPortaleWebViewModel()
         {
-            listaChat = new List<ChatViewModel>();
+            Messaggi = new List<ChatViewModel>();
         }
 
         public ChatPortaleWebViewModel(ATTIVITA model)
         {
-            listaChat = new List<ChatViewModel>();
+            Messaggi = new List<ChatViewModel>();
         }
         #endregion
     }

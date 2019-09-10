@@ -491,7 +491,8 @@ function enableUploadFoto(parametro)
         'itemTemplate': '<div class="uploadifive-queue-item"><span class="chiudi" style="display:none;"></span></div>',
         'formData': {
             '__RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val(),
-            '__TokenUploadFoto': $('input[name="TokenUploadFoto"]').val()
+            '__TokenUploadFoto': $('input[name="TokenUploadFoto"]').val(),
+            'token': parametro.token
         },
         'onUploadComplete': function (file, data) {
             
@@ -554,7 +555,8 @@ function annullaUploadFoto(actionAnnullo, inputFoto, nameInputOriginale, idLista
         dataType: "html",
         data: {
             nome: decodeURI(nome),
-            '__TokenUploadFoto': $('input[name="TokenUploadFoto"]').val()
+            '__TokenUploadFoto': $('input[name="TokenUploadFoto"]').val(),
+            token: parametro.token
         },
         success: function (data) {
             $(linkAnnullo).parents('.uploadifive-queue-item').remove();

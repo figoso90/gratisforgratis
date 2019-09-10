@@ -51,7 +51,6 @@ namespace GratisForGratis.Models
         public virtual DbSet<BROWSER> BROWSER { get; set; }
         public virtual DbSet<BROWSER_MODELLO> BROWSER_MODELLO { get; set; }
         public virtual DbSet<CATEGORIA> CATEGORIA { get; set; }
-        public virtual DbSet<CHAT> CHAT { get; set; }
         public virtual DbSet<COMPONENTE> COMPONENTE { get; set; }
         public virtual DbSet<COMUNE> COMUNE { get; set; }
         public virtual DbSet<CONTO_CORRENTE> CONTO_CORRENTE { get; set; }
@@ -149,6 +148,7 @@ namespace GratisForGratis.Models
         public virtual DbSet<PERSONA> PERSONA { get; set; }
         public virtual DbSet<ANNUNCIO> ANNUNCIO { get; set; }
         public virtual DbSet<PERSONA_ANNUNCIO_PROPOSTO> PERSONA_ANNUNCIO_PROPOSTO { get; set; }
+        public virtual DbSet<CHAT> CHAT { get; set; }
     
         public virtual int AGGIORNAMENTO_CATEGORIE()
         {

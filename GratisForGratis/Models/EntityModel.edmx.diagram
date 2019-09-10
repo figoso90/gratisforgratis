@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="8a8f8b92560047d0b2301e333d6f8b39" Name="Diagram1" ZoomLevel="67">
+      <Diagram DiagramId="8a8f8b92560047d0b2301e333d6f8b39" Name="Diagram1" ZoomLevel="32">
         <EntityTypeShape EntityType="GratisForGratisModel.ID_MODELLO" Width="1.5" PointX="3" PointY="74.25" />
         <EntityTypeShape EntityType="GratisForGratisModel.ABBONAMENTO" Width="1.5" PointX="3.75" PointY="70" />
         <EntityTypeShape EntityType="GratisForGratisModel.ALIMENTAZIONE" Width="1.5" PointX="19.75" PointY="15.75" />
@@ -30,7 +30,6 @@
         <EntityTypeShape EntityType="GratisForGratisModel.BROWSER" Width="1.5" PointX="11.25" PointY="44.75" />
         <EntityTypeShape EntityType="GratisForGratisModel.BROWSER_MODELLO" Width="1.5" PointX="14.25" PointY="50.375" />
         <EntityTypeShape EntityType="GratisForGratisModel.CATEGORIA" Width="1.5" PointX="9" PointY="33.625" />
-        <EntityTypeShape EntityType="GratisForGratisModel.CHAT" Width="1.5" PointX="8.25" PointY="85.375" />
         <EntityTypeShape EntityType="GratisForGratisModel.COMPONENTE" Width="1.5" PointX="12" PointY="9.5" />
         <EntityTypeShape EntityType="GratisForGratisModel.COMUNE" Width="1.5" PointX="0.75" PointY="56" />
         <EntityTypeShape EntityType="GratisForGratisModel.CONTO_CORRENTE" Width="1.5" PointX="0.75" PointY="64.5" />
@@ -304,8 +303,6 @@
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_DESIDERATO_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_FEEDBACK_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_PERSONA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_CHAT_PERSONA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_CHAT_PERSONA1" />
         <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_CONTO_CORRENTE" />
         <AssociationConnector Association="GratisForGratisModel.FK_LOG_SBLOCCO_ANNUNCIO_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_NOTIFICA_PERSONA" />
@@ -350,6 +347,11 @@
         <EntityTypeShape EntityType="GratisForGratisModel.PERSONA_ANNUNCIO_PROPOSTO" Width="1.5" PointX="19.5" PointY="58.25" />
         <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_ANNUNCIO_PROPOSTO_ANNUNCIO" />
         <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_ANNUNCIO_PROPOSTO_PERSONA" />
+        <EntityTypeShape EntityType="GratisForGratisModel.CHAT" Width="1.5" PointX="21.25" PointY="78.5" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CHAT_ATTIVITA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CHAT_ATTIVITA1" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CHAT_PERSONA" />
+        <AssociationConnector Association="GratisForGratisModel.FK_CHAT_PERSONA1" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

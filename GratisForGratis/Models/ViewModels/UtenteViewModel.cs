@@ -686,6 +686,7 @@ namespace GratisForGratis.Models
 
     public class UtenteProfiloViewModel
     {
+        #region PROPRIETA
         public string Token { get; set; }
         
         public string Email { get; set; }
@@ -717,6 +718,8 @@ namespace GratisForGratis.Models
         [Display(Name = "ShippingCivic", ResourceType = typeof(App_GlobalResources.Language))]
         public string CivicoSpedizione { get; set; }
 
+        public TipoVenditore Tipo { get; set; }
+
         public List<FotoModel> Foto { get; set; }
         
         public List<AnnuncioViewModel> listaAcquisti { get; set; }
@@ -724,6 +727,24 @@ namespace GratisForGratis.Models
         public List<AnnuncioViewModel> listaVendite { get; set; }
         
         public List<AnnuncioViewModel> listaDesideri { get; set; }
+        #endregion
+
+        #region COSTRUTTORI
+        public UtenteProfiloViewModel() { }
+        public UtenteProfiloViewModel(PersonaModel model)
+        {
+            Token = model.Persona.TOKEN.ToString();
+            Foto = model.Foto;
+            Nome = model.Persona.NOME;
+            Cognome = model.Persona.COGNOME;
+        }
+        public UtenteProfiloViewModel(AttivitaModel model)
+        {
+            Token = model.Attivita.TOKEN.ToString();
+            Foto = model.Foto.Select(m => new FotoModel(m.ALLEGATO)).ToList();
+            Nome = model.Attivita.NOME;
+        }
+        #endregion
     }
 
 }

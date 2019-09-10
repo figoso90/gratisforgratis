@@ -22,8 +22,6 @@ namespace GratisForGratis.Models
             this.ANNUNCIO_DESIDERATO = new HashSet<ANNUNCIO_DESIDERATO>();
             this.ANNUNCIO_FEEDBACK = new HashSet<ANNUNCIO_FEEDBACK>();
             this.ANNUNCIO_VISUALIZZAZIONE = new HashSet<ANNUNCIO_VISUALIZZAZIONE>();
-            this.CHAT = new HashSet<CHAT>();
-            this.CHAT1 = new HashSet<CHAT>();
             this.LOG_SBLOCCO_ANNUNCIO = new HashSet<LOG_SBLOCCO_ANNUNCIO>();
             this.NOTIFICA = new HashSet<NOTIFICA>();
             this.NOTIFICA1 = new HashSet<NOTIFICA>();
@@ -41,6 +39,8 @@ namespace GratisForGratis.Models
             this.ANNUNCIO = new HashSet<ANNUNCIO>();
             this.ANNUNCIO1 = new HashSet<ANNUNCIO>();
             this.PERSONA_ANNUNCIO_PROPOSTO = new HashSet<PERSONA_ANNUNCIO_PROPOSTO>();
+            this.CHAT = new HashSet<CHAT>();
+            this.CHAT1 = new HashSet<CHAT>();
         }
     
         public int ID { get; set; }
@@ -69,10 +69,6 @@ namespace GratisForGratis.Models
         public virtual ICollection<ANNUNCIO_FEEDBACK> ANNUNCIO_FEEDBACK { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ANNUNCIO_VISUALIZZAZIONE> ANNUNCIO_VISUALIZZAZIONE { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CHAT> CHAT { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CHAT> CHAT1 { get; set; }
         public virtual CONTO_CORRENTE CONTO_CORRENTE { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LOG_SBLOCCO_ANNUNCIO> LOG_SBLOCCO_ANNUNCIO { get; set; }
@@ -108,5 +104,9 @@ namespace GratisForGratis.Models
         public virtual ICollection<ANNUNCIO> ANNUNCIO1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PERSONA_ANNUNCIO_PROPOSTO> PERSONA_ANNUNCIO_PROPOSTO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CHAT> CHAT { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CHAT> CHAT1 { get; set; }
     }
 }

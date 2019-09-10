@@ -205,6 +205,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a HappyShop non trovato!.
+        /// </summary>
+        public static string HappyShopNotFound {
+            get {
+                return ResourceManager.GetString("HappyShopNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Tipo obbligatorio.
         /// </summary>
         public static string KidCard {

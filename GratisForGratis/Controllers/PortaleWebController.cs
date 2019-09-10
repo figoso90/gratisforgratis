@@ -5,6 +5,10 @@ using GratisForGratis.Models;
 using System.Web.Mvc;
 using GratisForGratis.Models.ViewModels;
 using System.Data.Entity;
+using GratisForGratis.Filters;
+using System.Web.Security;
+using System.Web;
+using GratisForGratis.App_GlobalResources;
 
 namespace GratisForGratis.Controllers
 {
@@ -334,6 +338,58 @@ namespace GratisForGratis.Controllers
             }
             return View(lista);
         }
+
+        #region SERVIZI
+        [HttpPost]
+        [ValidateAjax]
+        public JsonResult UploadImmagineProfilo(HttpPostedFileBase file, string token)
+        {
+            PortaleWebViewModel utente = (Session["portaleweb"] as List<PortaleWebViewModel>).SingleOrDefault(m => m.Token == token);
+            if (utente == null)
+                return Json(new { Success = false, responseText = ErrorResource.HappyShopNotFound });
+            FileUploadifive fileSalvato = UploadImmagine("/Uploads/Images/" + utente.Token + "/" + DateTime.Now.Year.ToString(), file);
+            FotoModel model = new FotoModel();
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                db.Database.Connection.Open();
+                int idAllegato = model.Add(db, fileSalvato.Nome);
+                if (idAllegato > 0)
+                {
+                    // salvo allegato come immagine del profilo
+                    utente.SetImmagineProfilo(db, idAllegato);
+                    string htmlGalleriaFotoProfilo = RenderRazorViewToString("PartialPages/_GalleriaFotoProfilo", new PortaleWebProfiloViewModel(utente));
+                    return Json(new { Success = true, responseText = htmlGalleriaFotoProfilo });
+                }
+            }
+            //Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+            //return null;
+            return Json(new { Success = false, responseText = Language.ErrorFormatFile });
+        }
+
+        [HttpPost]
+        [ValidateAjax]
+        public ActionResult DeleteImmagineProfilo(int nome, string token)
+        {
+            PortaleWebViewModel utente = (Session["portaleweb"] as List<PortaleWebViewModel>).SingleOrDefault(m => m.Token == token);
+            if (utente == null)
+                return Json(new { Success = false, responseText = ErrorResource.HappyShopNotFound });
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                db.Database.Connection.Open();
+                if (nome > 0)
+                {
+                    // salvo allegato come immagine del profilo
+                    utente.RemoveImmagineProfilo(db, nome);
+                    //return Json(new { Success = true, responseText = true });
+                    string htmlGalleriaFotoProfilo = RenderRazorViewToString("PartialPages/_GalleriaFotoProfilo", new PortaleWebProfiloViewModel(utente));
+                    return Json(new { Success = true, responseText = htmlGalleriaFotoProfilo });
+                }
+            }
+            Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+            return null;
+            //return Json(new { Success = false, responseText = Language.ErrorFormatFile });
+        }
+        #endregion
 
     }
 }

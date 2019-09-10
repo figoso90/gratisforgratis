@@ -350,7 +350,9 @@ avviso 6005: Tipo di dati 'hierarchyid' attualmente non supportato per la versio
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ID_MITTENTE" Type="int" Nullable="false" />
-          <Property Name="ID_DESTINATARIO" Type="int" Nullable="false" />
+          <Property Name="ID_DESTINATARIO" Type="int" />
+          <Property Name="ID_MITTENTE_ATTIVITA" Type="int" />
+          <Property Name="ID_DESTINATARIO_ATTIVITA" Type="int" />
           <Property Name="TESTO" Type="text" Nullable="false" />
           <Property Name="DATA_INSERIMENTO" Type="datetime" Nullable="false" />
           <Property Name="DATA_MODIFICA" Type="datetime" />
@@ -2223,6 +2225,30 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CHAT_ATTIVITA">
+          <End Role="ATTIVITA" Type="Self.ATTIVITA" Multiplicity="0..1" />
+          <End Role="CHAT" Type="Self.CHAT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ATTIVITA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CHAT">
+              <PropertyRef Name="ID_MITTENTE_ATTIVITA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CHAT_ATTIVITA1">
+          <End Role="ATTIVITA" Type="Self.ATTIVITA" Multiplicity="0..1" />
+          <End Role="CHAT" Type="Self.CHAT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ATTIVITA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CHAT">
+              <PropertyRef Name="ID_DESTINATARIO_ATTIVITA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CHAT_PERSONA">
           <End Role="PERSONA" Type="Self.PERSONA" Multiplicity="1" />
           <End Role="CHAT" Type="Self.CHAT" Multiplicity="*" />
@@ -2236,7 +2262,7 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CHAT_PERSONA1">
-          <End Role="PERSONA" Type="Self.PERSONA" Multiplicity="1" />
+          <End Role="PERSONA" Type="Self.PERSONA" Multiplicity="0..1" />
           <End Role="CHAT" Type="Self.CHAT" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PERSONA">
@@ -4702,6 +4728,14 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             <End Role="CATEGORIA" EntitySet="CATEGORIA" />
             <End Role="CATEGORIA1" EntitySet="CATEGORIA" />
           </AssociationSet>
+          <AssociationSet Name="FK_CHAT_ATTIVITA" Association="Self.FK_CHAT_ATTIVITA">
+            <End Role="ATTIVITA" EntitySet="ATTIVITA" />
+            <End Role="CHAT" EntitySet="CHAT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CHAT_ATTIVITA1" Association="Self.FK_CHAT_ATTIVITA1">
+            <End Role="ATTIVITA" EntitySet="ATTIVITA" />
+            <End Role="CHAT" EntitySet="CHAT" />
+          </AssociationSet>
           <AssociationSet Name="FK_CHAT_PERSONA" Association="Self.FK_CHAT_PERSONA">
             <End Role="PERSONA" EntitySet="PERSONA" />
             <End Role="CHAT" EntitySet="CHAT" />
@@ -5470,7 +5504,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <EntitySet Name="BROWSER" EntityType="GratisForGratisModel.BROWSER" />
           <EntitySet Name="BROWSER_MODELLO" EntityType="GratisForGratisModel.BROWSER_MODELLO" />
           <EntitySet Name="CATEGORIA" EntityType="GratisForGratisModel.CATEGORIA" />
-          <EntitySet Name="CHAT" EntityType="GratisForGratisModel.CHAT" />
           <EntitySet Name="COMPONENTE" EntityType="GratisForGratisModel.COMPONENTE" />
           <EntitySet Name="COMUNE" EntityType="GratisForGratisModel.COMUNE" />
           <EntitySet Name="CONTO_CORRENTE" EntityType="GratisForGratisModel.CONTO_CORRENTE" />
@@ -6278,14 +6311,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             <End Role="PERSONA" EntitySet="PERSONA" />
             <End Role="ANNUNCIO_VISUALIZZAZIONE" EntitySet="ANNUNCIO_VISUALIZZAZIONE" />
           </AssociationSet>
-          <AssociationSet Name="FK_CHAT_PERSONA" Association="GratisForGratisModel.FK_CHAT_PERSONA">
-            <End Role="PERSONA" EntitySet="PERSONA" />
-            <End Role="CHAT" EntitySet="CHAT" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CHAT_PERSONA1" Association="GratisForGratisModel.FK_CHAT_PERSONA1">
-            <End Role="PERSONA" EntitySet="PERSONA" />
-            <End Role="CHAT" EntitySet="CHAT" />
-          </AssociationSet>
           <AssociationSet Name="FK_PERSONA_CONTO_CORRENTE" Association="GratisForGratisModel.FK_PERSONA_CONTO_CORRENTE">
             <End Role="CONTO_CORRENTE" EntitySet="CONTO_CORRENTE" />
             <End Role="PERSONA" EntitySet="PERSONA" />
@@ -6455,6 +6480,23 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <AssociationSet Name="FK_PERSONA_ANNUNCIO_PROPOSTO_PERSONA" Association="GratisForGratisModel.FK_PERSONA_ANNUNCIO_PROPOSTO_PERSONA">
             <End Role="PERSONA" EntitySet="PERSONA" />
             <End Role="PERSONA_ANNUNCIO_PROPOSTO" EntitySet="PERSONA_ANNUNCIO_PROPOSTO" />
+          </AssociationSet>
+          <EntitySet Name="CHAT" EntityType="GratisForGratisModel.CHAT" />
+          <AssociationSet Name="FK_CHAT_ATTIVITA" Association="GratisForGratisModel.FK_CHAT_ATTIVITA">
+            <End Role="ATTIVITA" EntitySet="ATTIVITA" />
+            <End Role="CHAT" EntitySet="CHAT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CHAT_ATTIVITA1" Association="GratisForGratisModel.FK_CHAT_ATTIVITA1">
+            <End Role="ATTIVITA" EntitySet="ATTIVITA" />
+            <End Role="CHAT" EntitySet="CHAT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CHAT_PERSONA" Association="GratisForGratisModel.FK_CHAT_PERSONA">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="CHAT" EntitySet="CHAT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CHAT_PERSONA1" Association="GratisForGratisModel.FK_CHAT_PERSONA1">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="CHAT" EntitySet="CHAT" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="FINDSOTTOCATEGORIE_Result">
@@ -6701,6 +6743,8 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <NavigationProperty Name="PERSONA_ATTIVITA" Relationship="GratisForGratisModel.FK_PERSONA_ATTIVITA_ATTIVITA" FromRole="ATTIVITA" ToRole="PERSONA_ATTIVITA" />
           <NavigationProperty Name="OFFERTA" Relationship="GratisForGratisModel.FK_OFFERTA_ATTIVITA" FromRole="ATTIVITA" ToRole="OFFERTA" />
           <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_ATTIVITA" FromRole="ATTIVITA" ToRole="ANNUNCIO" />
+          <NavigationProperty Name="CHAT" Relationship="GratisForGratisModel.FK_CHAT_ATTIVITA" FromRole="ATTIVITA" ToRole="CHAT" />
+          <NavigationProperty Name="CHAT1" Relationship="GratisForGratisModel.FK_CHAT_ATTIVITA1" FromRole="ATTIVITA" ToRole="CHAT" />
         </EntityType>
         <EntityType Name="ATTIVITA_EMAIL">
           <Key>
@@ -6849,20 +6893,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <NavigationProperty Name="SISTEMA_OPERATIVO" Relationship="GratisForGratisModel.FK_SISTEMA_OPERATIVO_CATEGORIA" FromRole="CATEGORIA" ToRole="SISTEMA_OPERATIVO" />
           <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_CATEGORIA" FromRole="CATEGORIA" ToRole="ANNUNCIO" />
         </EntityType>
-        <EntityType Name="CHAT">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ID_MITTENTE" Type="Int32" Nullable="false" />
-          <Property Name="ID_DESTINATARIO" Type="Int32" Nullable="false" />
-          <Property Name="TESTO" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="DATA_INSERIMENTO" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DATA_MODIFICA" Type="DateTime" Precision="3" />
-          <Property Name="STATO" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_CHAT_PERSONA" FromRole="CHAT" ToRole="PERSONA" />
-          <NavigationProperty Name="PERSONA1" Relationship="GratisForGratisModel.FK_CHAT_PERSONA1" FromRole="CHAT" ToRole="PERSONA" />
-          </EntityType>
         <EntityType Name="COMPONENTE">
           <Key>
             <PropertyRef Name="ID" />
@@ -10455,8 +10485,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <NavigationProperty Name="ANNUNCIO_DESIDERATO" Relationship="GratisForGratisModel.FK_ANNUNCIO_DESIDERATO_PERSONA" FromRole="PERSONA" ToRole="ANNUNCIO_DESIDERATO" />
           <NavigationProperty Name="ANNUNCIO_FEEDBACK" Relationship="GratisForGratisModel.FK_ANNUNCIO_FEEDBACK_PERSONA" FromRole="PERSONA" ToRole="ANNUNCIO_FEEDBACK" />
           <NavigationProperty Name="ANNUNCIO_VISUALIZZAZIONE" Relationship="GratisForGratisModel.FK_ANNUNCIO_VISUALIZZAZIONE_PERSONA" FromRole="PERSONA" ToRole="ANNUNCIO_VISUALIZZAZIONE" />
-          <NavigationProperty Name="CHAT" Relationship="GratisForGratisModel.FK_CHAT_PERSONA" FromRole="PERSONA" ToRole="CHAT" />
-          <NavigationProperty Name="CHAT1" Relationship="GratisForGratisModel.FK_CHAT_PERSONA1" FromRole="PERSONA" ToRole="CHAT" />
           <NavigationProperty Name="CONTO_CORRENTE" Relationship="GratisForGratisModel.FK_PERSONA_CONTO_CORRENTE" FromRole="PERSONA" ToRole="CONTO_CORRENTE" />
           <NavigationProperty Name="LOG_SBLOCCO_ANNUNCIO" Relationship="GratisForGratisModel.FK_LOG_SBLOCCO_ANNUNCIO_PERSONA" FromRole="PERSONA" ToRole="LOG_SBLOCCO_ANNUNCIO" />
           <NavigationProperty Name="NOTIFICA" Relationship="GratisForGratisModel.FK_NOTIFICA_PERSONA" FromRole="PERSONA" ToRole="NOTIFICA" />
@@ -10475,6 +10503,8 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_PERSONA" FromRole="PERSONA" ToRole="ANNUNCIO" />
           <NavigationProperty Name="ANNUNCIO1" Relationship="GratisForGratisModel.FK_ANNUNCIO_PERSONA1" FromRole="PERSONA" ToRole="ANNUNCIO" />
           <NavigationProperty Name="PERSONA_ANNUNCIO_PROPOSTO" Relationship="GratisForGratisModel.FK_PERSONA_ANNUNCIO_PROPOSTO_PERSONA" FromRole="PERSONA" ToRole="PERSONA_ANNUNCIO_PROPOSTO" />
+          <NavigationProperty Name="CHAT" Relationship="GratisForGratisModel.FK_CHAT_PERSONA" FromRole="PERSONA" ToRole="CHAT" />
+          <NavigationProperty Name="CHAT1" Relationship="GratisForGratisModel.FK_CHAT_PERSONA1" FromRole="PERSONA" ToRole="CHAT" />
         </EntityType>
         <Association Name="FK_PERSONA_ABBONAMENTO">
           <End Type="GratisForGratisModel.ABBONAMENTO" Role="ABBONAMENTO" Multiplicity="1" />
@@ -10545,30 +10575,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Principal>
             <Dependent Role="ANNUNCIO_VISUALIZZAZIONE">
               <PropertyRef Name="ID_PERSONA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CHAT_PERSONA">
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
-          <End Type="GratisForGratisModel.CHAT" Role="CHAT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERSONA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="CHAT">
-              <PropertyRef Name="ID_MITTENTE" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CHAT_PERSONA1">
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
-          <End Type="GratisForGratisModel.CHAT" Role="CHAT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERSONA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="CHAT">
-              <PropertyRef Name="ID_DESTINATARIO" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -11164,6 +11170,72 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="CHAT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_MITTENTE" Type="Int32" Nullable="false" />
+          <Property Name="ID_DESTINATARIO" Type="Int32" />
+          <Property Name="ID_MITTENTE_ATTIVITA" Type="Int32" />
+          <Property Name="ID_DESTINATARIO_ATTIVITA" Type="Int32" />
+          <Property Name="TESTO" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DATA_INSERIMENTO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATA_MODIFICA" Type="DateTime" Precision="3" />
+          <Property Name="STATO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ATTIVITA" Relationship="GratisForGratisModel.FK_CHAT_ATTIVITA" FromRole="CHAT" ToRole="ATTIVITA" />
+          <NavigationProperty Name="ATTIVITA1" Relationship="GratisForGratisModel.FK_CHAT_ATTIVITA1" FromRole="CHAT" ToRole="ATTIVITA" />
+          <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_CHAT_PERSONA" FromRole="CHAT" ToRole="PERSONA" />
+          <NavigationProperty Name="PERSONA1" Relationship="GratisForGratisModel.FK_CHAT_PERSONA1" FromRole="CHAT" ToRole="PERSONA" />
+        </EntityType>
+        <Association Name="FK_CHAT_ATTIVITA">
+          <End Type="GratisForGratisModel.ATTIVITA" Role="ATTIVITA" Multiplicity="0..1" />
+          <End Type="GratisForGratisModel.CHAT" Role="CHAT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ATTIVITA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CHAT">
+              <PropertyRef Name="ID_MITTENTE_ATTIVITA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CHAT_ATTIVITA1">
+          <End Type="GratisForGratisModel.ATTIVITA" Role="ATTIVITA" Multiplicity="0..1" />
+          <End Type="GratisForGratisModel.CHAT" Role="CHAT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ATTIVITA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CHAT">
+              <PropertyRef Name="ID_DESTINATARIO_ATTIVITA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CHAT_PERSONA">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
+          <End Type="GratisForGratisModel.CHAT" Role="CHAT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CHAT">
+              <PropertyRef Name="ID_MITTENTE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CHAT_PERSONA1">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="0..1" />
+          <End Type="GratisForGratisModel.CHAT" Role="CHAT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CHAT">
+              <PropertyRef Name="ID_DESTINATARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -11511,19 +11583,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
                 <ScalarProperty Name="DESCRIZIONE" ColumnName="DESCRIZIONE" />
                 <ScalarProperty Name="NOME" ColumnName="NOME" />
                 <ScalarProperty Name="ID_PADRE" ColumnName="ID_PADRE" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CHAT">
-            <EntityTypeMapping TypeName="GratisForGratisModel.CHAT">
-              <MappingFragment StoreEntitySet="CHAT">
-                <ScalarProperty Name="STATO" ColumnName="STATO" />
-                <ScalarProperty Name="DATA_MODIFICA" ColumnName="DATA_MODIFICA" />
-                <ScalarProperty Name="DATA_INSERIMENTO" ColumnName="DATA_INSERIMENTO" />
-                <ScalarProperty Name="TESTO" ColumnName="TESTO" />
-                <ScalarProperty Name="ID_DESTINATARIO" ColumnName="ID_DESTINATARIO" />
-                <ScalarProperty Name="ID_MITTENTE" ColumnName="ID_MITTENTE" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -12842,6 +12901,21 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
                 <ScalarProperty Name="DATA_PROPOSTA" ColumnName="DATA_PROPOSTA" />
                 <ScalarProperty Name="ID_PERSONA" ColumnName="ID_PERSONA" />
                 <ScalarProperty Name="ID_ANNUNCIO" ColumnName="ID_ANNUNCIO" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CHAT">
+            <EntityTypeMapping TypeName="GratisForGratisModel.CHAT">
+              <MappingFragment StoreEntitySet="CHAT">
+                <ScalarProperty Name="STATO" ColumnName="STATO" />
+                <ScalarProperty Name="DATA_MODIFICA" ColumnName="DATA_MODIFICA" />
+                <ScalarProperty Name="DATA_INSERIMENTO" ColumnName="DATA_INSERIMENTO" />
+                <ScalarProperty Name="TESTO" ColumnName="TESTO" />
+                <ScalarProperty Name="ID_DESTINATARIO_ATTIVITA" ColumnName="ID_DESTINATARIO_ATTIVITA" />
+                <ScalarProperty Name="ID_MITTENTE_ATTIVITA" ColumnName="ID_MITTENTE_ATTIVITA" />
+                <ScalarProperty Name="ID_DESTINATARIO" ColumnName="ID_DESTINATARIO" />
+                <ScalarProperty Name="ID_MITTENTE" ColumnName="ID_MITTENTE" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

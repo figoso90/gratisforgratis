@@ -30,6 +30,8 @@ namespace GratisForGratis.Controllers
                         ,Mittente = new PersonaModel(m.PERSONA)
                         ,DestinatarioId = m.ID_DESTINATARIO
                         ,Destinatario= new PersonaModel(m.PERSONA1)
+                        ,DestinatarioIdAttivita = m.ID_DESTINATARIO_ATTIVITA
+                        ,DestinatarioAttivita = new AttivitaModel(m.ATTIVITA1)
                         ,Testo = m.TESTO
                         ,DataInserimento = m.DATA_INSERIMENTO
                         ,DataModifica = m.DATA_MODIFICA
@@ -46,6 +48,8 @@ namespace GratisForGratis.Controllers
                         ,Mittente = new PersonaModel(m.PERSONA1)
                         ,DestinatarioId = m.ID_MITTENTE
                         ,Destinatario= new PersonaModel(m.PERSONA)
+                        ,DestinatarioIdAttivita = m.ID_MITTENTE_ATTIVITA
+                        ,DestinatarioAttivita = new AttivitaModel(m.ATTIVITA)
                         ,Testo = m.TESTO
                         ,DataInserimento = m.DATA_INSERIMENTO
                         ,DataModifica = m.DATA_MODIFICA
@@ -64,21 +68,165 @@ namespace GratisForGratis.Controllers
 
                     chat.Mittente.Foto = chat.Mittente.Persona.PERSONA_FOTO.OrderByDescending(m => m.ORDINE).AsEnumerable()
                         .Select(m => new FotoModel(m.ALLEGATO)).ToList();
-                    chat.Destinatario.Foto = chat.Destinatario.Persona.PERSONA_FOTO.OrderByDescending(m => m.ORDINE).AsEnumerable()
+                    if (chat.DestinatarioId != null)
+                    {
+                        chat.Destinatario.Foto = chat.Destinatario.Persona.PERSONA_FOTO.OrderByDescending(m => m.ORDINE).AsEnumerable()
                         .Select(m => new FotoModel(m.ALLEGATO)).ToList();
-                    PersonaModel personaChat = (chat.MittenteId == utente.Persona.ID) ? chat.Destinatario : chat.Mittente;
+                    }
+                    if (chat.DestinatarioIdAttivita != null)
+                    {
+                        chat.DestinatarioAttivita.Foto = chat.DestinatarioAttivita.Attivita.ATTIVITA_FOTO.OrderByDescending(m => m.ORDINE).AsEnumerable()
+                            .Select(m => m).ToList();
+                    }
+                    UtenteProfiloViewModel soggettoChat = null;
+                    if (chat.MittenteId == utente.Persona.ID)
+                    {
+                        if (chat.DestinatarioIdAttivita != null)
+                        {
+                            soggettoChat = new UtenteProfiloViewModel(chat.DestinatarioAttivita);
+                        }
+                        else
+                        {
+                            soggettoChat = new UtenteProfiloViewModel(chat.Destinatario);
+                        }
+                    }
+                    else
+                    {
+                        if (chat.MittenteIdAttivita != null)
+                        {
+                            soggettoChat = new UtenteProfiloViewModel(chat.MittenteAttivita);
+                        }
+                        else
+                        {
+                            soggettoChat = new UtenteProfiloViewModel(chat.Mittente);
+                        }
+                    }
 
                     if (i == 0)
                     {
                         viewModel.UltimaChat = chat;
-                        viewModel.listaChat = new List<PersonaModel>();
+                        viewModel.listaChat = new List<UtenteProfiloViewModel>();
                     }
-                    viewModel.listaChat.Add(personaChat);
+                    viewModel.listaChat.Add(soggettoChat);
                 }
 
                 RefreshPunteggioUtente(db);
             }
             return View(viewModel);
+        }
+
+        public ActionResult IndexPortaleWeb(string token)
+        {
+            ChatIndexViewModel viewModel = new ChatIndexViewModel();
+            PersonaModel utente = Session["utente"] as PersonaModel;
+            var attivita = utente.Attivita.Where(m => m.ATTIVITA.TOKEN.ToString() == token).SingleOrDefault();
+            if (attivita == null)
+                return RedirectToAction("", "utente");
+            // riepilogo chat, con ultima chat per utente in evidenza
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                db.Database.Connection.Open();
+                var a = db.CHAT
+                    .Where(m => m.STATO != (int)StatoChat.ELIMINATO &&
+                        m.ID_MITTENTE_ATTIVITA == attivita.ID)
+                    .AsEnumerable()
+                    .Select(m => new ChatViewModel()
+                    {
+                        Id = m.ID
+                        ,MittenteId = m.ID_MITTENTE
+                        ,Mittente = new PersonaModel(m.PERSONA)
+                        ,MittenteIdAttivita = m.ID_MITTENTE
+                        ,MittenteAttivita = attivita
+                        ,DestinatarioId = m.ID_DESTINATARIO
+                        ,Destinatario = new PersonaModel(m.PERSONA1)
+                        ,DestinatarioIdAttivita = m.ID_DESTINATARIO_ATTIVITA
+                        ,DestinatarioAttivita = new AttivitaModel(m.ATTIVITA1)
+                        ,Testo = m.TESTO
+                        ,DataInserimento = m.DATA_INSERIMENTO
+                        ,DataModifica = m.DATA_MODIFICA
+                        ,Stato = (StatoChat)m.STATO
+                    });
+                var b = db.CHAT
+                .Where(m => m.STATO == (int)Stato.ATTIVO &&
+                    m.ID_DESTINATARIO_ATTIVITA == attivita.ID)
+                    .AsEnumerable()
+                    .Select(m => new ChatViewModel()
+                    {
+                        Id = m.ID
+                        ,MittenteId = m.ID_DESTINATARIO
+                        ,Mittente = new PersonaModel(m.PERSONA1)
+                        ,MittenteIdAttivita = m.ID_DESTINATARIO_ATTIVITA
+                        ,MittenteAttivita = attivita
+                        ,DestinatarioId = m.ID_MITTENTE
+                        ,Destinatario = new PersonaModel(m.PERSONA)
+                        ,DestinatarioIdAttivita = m.ID_MITTENTE_ATTIVITA
+                        ,DestinatarioAttivita = new AttivitaModel(m.ATTIVITA)
+                        ,Testo = m.TESTO
+                        ,DataInserimento = m.DATA_INSERIMENTO
+                        ,DataModifica = m.DATA_MODIFICA
+                        ,Stato = (StatoChat)m.STATO
+                    });
+                var lista = a.Concat(b)
+                    .OrderByDescending(m => m.DataModifica)
+                    .OrderByDescending(m => m.DataInserimento)
+                    .GroupBy(m => new { m.MittenteId, m.DestinatarioId })
+                    .Select(m => m.FirstOrDefault())
+                    .ToList();
+
+                for (int i = 0; i < lista.Count; i++)
+                {
+                    ChatViewModel chat = lista[i];
+
+                    chat.Mittente.Foto = chat.Mittente.Persona.PERSONA_FOTO.OrderByDescending(m => m.ORDINE).AsEnumerable()
+                        .Select(m => new FotoModel(m.ALLEGATO)).ToList();
+                    chat.MittenteAttivita.Foto = chat.MittenteAttivita.Attivita.ATTIVITA_FOTO.OrderByDescending(m => m.ORDINE).AsEnumerable()
+                        .Select(m => m).ToList();
+                    if (chat.DestinatarioId != null)
+                    {
+                        chat.Destinatario.Foto = chat.Destinatario.Persona.PERSONA_FOTO.OrderByDescending(m => m.ORDINE).AsEnumerable()
+                        .Select(m => new FotoModel(m.ALLEGATO)).ToList();
+                    }
+                    if (chat.DestinatarioIdAttivita != null)
+                    {
+                        chat.DestinatarioAttivita.Foto = chat.DestinatarioAttivita.Attivita.ATTIVITA_FOTO.OrderByDescending(m => m.ORDINE).AsEnumerable()
+                        .Select(m => m).ToList();
+                    }
+                    //UtenteProfiloViewModel soggettoChat = new UtenteProfiloViewModel((chat.MittenteIdAttivita == attivita.ID) ? chat.DestinatarioAttivita : chat.MittenteAttivita);
+                    UtenteProfiloViewModel soggettoChat = null;
+                    if (chat.MittenteIdAttivita == attivita.ID)
+                    {
+                        if (chat.DestinatarioIdAttivita != null)
+                        {
+                            soggettoChat = new UtenteProfiloViewModel(chat.DestinatarioAttivita);
+                        }
+                        else
+                        {
+                            soggettoChat = new UtenteProfiloViewModel(chat.Destinatario);
+                        }
+                    }
+                    else
+                    {
+                        if (chat.MittenteIdAttivita != null)
+                        {
+                            soggettoChat = new UtenteProfiloViewModel(chat.MittenteAttivita);
+                        }
+                        else
+                        {
+                            soggettoChat = new UtenteProfiloViewModel(chat.Mittente);
+                        }
+                    }
+
+                    if (i == 0)
+                    {
+                        viewModel.UltimaChat = chat;
+                        viewModel.listaChat = new List<UtenteProfiloViewModel>();
+                    }
+                    viewModel.listaChat.Add(soggettoChat);
+                }
+
+                RefreshPunteggioUtente(db);
+            }
+            return View("Index", viewModel);
         }
 
         public ActionResult Utente(string token = "")
@@ -94,7 +242,7 @@ namespace GratisForGratis.Controllers
                     viewModel.Utente = new PersonaModel(personaChat);
                     viewModel.Utente.Foto = personaChat.PERSONA_FOTO.OrderByDescending(m => m.ORDINE).AsEnumerable()
                         .Select(m => new FotoModel(m.ALLEGATO)).ToList();
-                    viewModel.listaChat = ChatViewModel.GetListaChat(db, utente.Persona.ID, personaChat.ID);
+                    viewModel.Messaggi = ChatViewModel.GetListaChat(db, utente.Persona.ID, personaChat.ID);
                     RefreshPunteggioUtente(db);
                 }
             }
@@ -104,18 +252,18 @@ namespace GratisForGratis.Controllers
 
         public ActionResult PortaleWeb(string token = "")
         {
-            ChatUtenteViewModel viewModel = new ChatUtenteViewModel();
+            ChatPortaleWebViewModel viewModel = new ChatPortaleWebViewModel();
             PersonaModel utente = Session["utente"] as PersonaModel;
             if (!string.IsNullOrWhiteSpace(token))
             {
                 using (DatabaseContext db = new DatabaseContext())
                 {
-                    PERSONA personaChat = db.PERSONA.SingleOrDefault(m => m.TOKEN.ToString() == token
+                    ATTIVITA attivitaChat = db.ATTIVITA.SingleOrDefault(m => m.TOKEN.ToString() == token
                         && m.STATO != (int)Stato.ELIMINATO);
-                    viewModel.Utente = new PersonaModel(personaChat);
-                    viewModel.Utente.Foto = personaChat.PERSONA_FOTO.OrderByDescending(m => m.ORDINE).AsEnumerable()
-                        .Select(m => new FotoModel(m.ALLEGATO)).ToList();
-                    viewModel.listaChat = ChatViewModel.GetListaChat(db, utente.Persona.ID, personaChat.ID);
+                    viewModel.Attivita = new AttivitaModel(attivitaChat);
+                    viewModel.Attivita.Foto = attivitaChat.ATTIVITA_FOTO.OrderByDescending(m => m.ORDINE)
+                        .AsEnumerable().ToList();
+                    viewModel.Messaggi = ChatViewModel.GetListaChatAttivita(db, utente.Persona.ID, attivitaChat.ID);
                     RefreshPunteggioUtente(db);
                 }
             }
@@ -171,7 +319,7 @@ namespace GratisForGratis.Controllers
                         // aggiornare tramite javascript o lato server la pagina (return PartialView)
                         //return Json(true);
                         //return PartialView("PartialPages/_FormMessaggio", new ChatViewModel());
-                        return PartialView("PartialPages/_ListaChat", ChatViewModel.GetListaChat(db, model.ID_MITTENTE, model.ID_DESTINATARIO));
+                        return PartialView("PartialPages/_ListaChat", ChatViewModel.GetListaChat(db, model.ID_MITTENTE, (int)model.ID_DESTINATARIO));
                     }
                 }
             }
@@ -199,7 +347,7 @@ namespace GratisForGratis.Controllers
                         if (db.SaveChanges() > 0)
                         {
                             //return PartialView("PartialPages/_FormMessaggio", new ChatViewModel());
-                            return PartialView("PartialPages/_ListaChat", ChatViewModel.GetListaChat(db, model.ID_MITTENTE, model.ID_DESTINATARIO));
+                            return PartialView("PartialPages/_ListaChat", ChatViewModel.GetListaChat(db, model.ID_MITTENTE, (int)model.ID_DESTINATARIO));
                         }
                     }
                 }
@@ -223,7 +371,7 @@ namespace GratisForGratis.Controllers
                     db.CHAT.Remove(model);
                     if (db.SaveChanges() > 0)
                     {
-                        return PartialView("PartialPages/_ListaChat", ChatViewModel.GetListaChat(db, model.ID_MITTENTE, model.ID_DESTINATARIO));
+                        return PartialView("PartialPages/_ListaChat", ChatViewModel.GetListaChat(db, model.ID_MITTENTE, (int)model.ID_DESTINATARIO));
                     }
                 }
             }

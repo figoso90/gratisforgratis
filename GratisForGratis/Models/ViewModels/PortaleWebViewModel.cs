@@ -7,6 +7,8 @@ namespace GratisForGratis.Models
 {
     public class PortaleWebViewModel
     {
+        #region COSTRUTTORI
+
         public PortaleWebViewModel() { }
 
         public PortaleWebViewModel(PERSONA_ATTIVITA model, List<ATTIVITA_EMAIL> modelEmail, List<ATTIVITA_TELEFONO> modelTelefono)
@@ -14,33 +16,9 @@ namespace GratisForGratis.Models
             this.CopyModel(model, modelEmail, modelTelefono);
         }
 
-        public void CopyModel(PERSONA_ATTIVITA model, List<ATTIVITA_EMAIL> modelEmail, List<ATTIVITA_TELEFONO> modelTelefono)
-        {
-            this.Id = model.ATTIVITA.ID.ToString();
-            this.Ruolo = (RuoloProfilo)model.RUOLO;
-            this.Email = modelEmail.Find(item => item.TIPO == (int)TipoEmail.Registrazione).EMAIL;
-            this.Nome = model.ATTIVITA.NOME;
-            this.Dominio = model.ATTIVITA.DOMINIO;
-            this.Token = model.ATTIVITA.TOKEN.ToString();
-            this.Telefono = modelTelefono.Find(item => item.TIPO == (int)TipoTelefono.Privato).TELEFONO;
-            /*this.Abbonamento = model.ATTIVITA.ABBONAMENTO1.NOME;
-            this.BonusPerUtente = model.ATTIVITA.ABBONAMENTO1.BONUS_PERUTENTE;
-            this.DurataAbbonamento = model.ATTIVITA.ABBONAMENTO1.DURATA;*/
-            // fare count punti sul conto corrente
-            //this.Bonus = model.ATTIVITA.BONUS;
-        }
+        #endregion
 
-        public void CopyModel(ATTIVITA model, List<ATTIVITA_EMAIL> modelEmail, List<ATTIVITA_TELEFONO> modelTelefono)
-        {
-            this.Email = modelEmail.Find(item => item.TIPO == (int)TipoEmail.Registrazione).EMAIL;
-            this.Nome = model.NOME;
-            this.Dominio = model.DOMINIO;
-            this.Token = model.TOKEN.ToString();
-            this.Telefono = modelTelefono.Find(item => item.TIPO == (int)TipoTelefono.Privato).TELEFONO;
-            //this.Abbonamento = new AbbonamentoModel(model)
-            this.Bonus = model.CONTO_CORRENTE.CONTO_CORRENTE_MONETA.Count;
-            this.DataIscrizione = (DateTime)model.DATA_INSERIMENTO;
-        }
+        #region PROPRIETA
 
         public string Id { get; private set; }
 
@@ -99,6 +77,82 @@ namespace GratisForGratis.Models
 
         [Display(Name = "DateSubscription", ResourceType = typeof(App_GlobalResources.Language))]
         public DateTime DataIscrizione { get; set; }
+
+        public List<FotoModel> Foto { get; set; }
+
+        #endregion
+
+        #region METODI PUBBLICI
+
+
+        public void CopyModel(PERSONA_ATTIVITA model, List<ATTIVITA_EMAIL> modelEmail, List<ATTIVITA_TELEFONO> modelTelefono)
+        {
+            this.Id = model.ATTIVITA.ID.ToString();
+            this.Ruolo = (RuoloProfilo)model.RUOLO;
+            this.Email = modelEmail.Find(item => item.TIPO == (int)TipoEmail.Registrazione).EMAIL;
+            this.Nome = model.ATTIVITA.NOME;
+            this.Dominio = model.ATTIVITA.DOMINIO;
+            this.Token = model.ATTIVITA.TOKEN.ToString();
+            this.Telefono = modelTelefono.Find(item => item.TIPO == (int)TipoTelefono.Privato).TELEFONO;
+            /*this.Abbonamento = model.ATTIVITA.ABBONAMENTO1.NOME;
+            this.BonusPerUtente = model.ATTIVITA.ABBONAMENTO1.BONUS_PERUTENTE;
+            this.DurataAbbonamento = model.ATTIVITA.ABBONAMENTO1.DURATA;*/
+            // fare count punti sul conto corrente
+            //this.Bonus = model.ATTIVITA.BONUS;
+        }
+
+        public void CopyModel(ATTIVITA model, List<ATTIVITA_EMAIL> modelEmail, List<ATTIVITA_TELEFONO> modelTelefono)
+        {
+            this.Email = modelEmail.Find(item => item.TIPO == (int)TipoEmail.Registrazione).EMAIL;
+            this.Nome = model.NOME;
+            this.Dominio = model.DOMINIO;
+            this.Token = model.TOKEN.ToString();
+            this.Telefono = modelTelefono.Find(item => item.TIPO == (int)TipoTelefono.Privato).TELEFONO;
+            //this.Abbonamento = new AbbonamentoModel(model)
+            this.Bonus = model.CONTO_CORRENTE.CONTO_CORRENTE_MONETA.Count;
+            this.DataIscrizione = (DateTime)model.DATA_INSERIMENTO;
+        }
+
+        public void SetImmagineProfilo(DatabaseContext db, int idAllegato)
+        {
+            ATTIVITA_FOTO foto = db.ATTIVITA_FOTO.Create();
+            foto.ID_FOTO = idAllegato;
+            foto.ID_ATTIVITA = Convert.ToInt32(this.Id);
+            foto.TIPO = (int)TipoMedia.FOTO;
+            int idPortale = Convert.ToInt32(this.Id);
+            int numeroFoto = db.ATTIVITA_FOTO.Count(m => m.ID_ATTIVITA == idPortale);
+            foto.ORDINE = numeroFoto + 1;
+            foto.DATA_INSERIMENTO = DateTime.Now;
+            foto.STATO = (int)Stato.ATTIVO;
+            db.ATTIVITA_FOTO.Add(foto);
+            db.SaveChanges();
+            //this.Foto.Add(foto);
+        }
+
+        public void RemoveImmagineProfilo(DatabaseContext db, int idAllegato)
+        {
+            int idPortale = Convert.ToInt32(this.Id);
+            ATTIVITA_FOTO foto = db.ATTIVITA_FOTO.SingleOrDefault(m => m.ID_ATTIVITA == idPortale && m.ID_FOTO == idAllegato);
+            if (foto != null)
+            {
+                string pathBase = System.Web.Hosting.HostingEnvironment.MapPath(System.IO.Path.Combine("/Uploads/Images/", this.Token, DateTime.Now.Year.ToString()));
+                string pathImgOriginale = System.IO.Path.Combine(pathBase, "Original", foto.ALLEGATO.NOME);
+                string pathImgMedia = System.IO.Path.Combine(pathBase, "Normal", foto.ALLEGATO.NOME);
+                string pathImgPiccola = System.IO.Path.Combine(pathBase, "Little", foto.ALLEGATO.NOME);
+
+                System.IO.File.Delete(pathImgOriginale);
+                System.IO.File.Delete(pathImgMedia);
+                System.IO.File.Delete(pathImgPiccola);
+                db.ATTIVITA_FOTO.Remove(foto);
+                db.SaveChanges();
+
+                this.Foto = db.ATTIVITA_FOTO.Where(m => m.ID_ATTIVITA == idPortale)
+                    .Select(m => new FotoModel(m.ALLEGATO)).ToList();
+            }
+            //this.Foto.Add(foto);
+        }
+
+        #endregion
     }
 
     public class PortaleWebProfiloViewModel : PortaleWebViewModel

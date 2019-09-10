@@ -542,6 +542,7 @@
     <Content Include="Scripts\expressive.annotations.validate.min.js" />
     <Content Include="Scripts\facebook.js" />
     <Content Include="Scripts\impostazioni.js" />
+    <Content Include="Scripts\impostazioniPortaleWeb.js" />
     <Content Include="Scripts\index.js" />
     <Content Include="Scripts\jgallery\fonts\fontawesome-webfont.eot" />
     <Content Include="Scripts\jgallery\fonts\fontawesome-webfont.ttf" />
@@ -1646,6 +1647,9 @@
     <Content Include="Views\Cerca\PartialPages\_FiltroOggetto.cshtml" />
     <Content Include="Views\Cerca\PartialPages\_FiltroServizio.cshtml" />
     <Content Include="Views\PortaleWeb\Details.cshtml" />
+    <Content Include="Views\Chat\PortaleWeb.cshtml" />
+    <Content Include="Views\Chat\PartialPages\_GalleriaFotoAttivita.cshtml" />
+    <Content Include="Views\PortaleWeb\PartialPages\_GalleriaFotoProfilo.cshtml" />
     <None Include="Web References\ServizioADV\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

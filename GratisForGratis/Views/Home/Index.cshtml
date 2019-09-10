@@ -177,7 +177,7 @@
                                 @Html.Hidden("Cerca_Categoria", Response.Cookies["ricerca"]["Categoria"])
                                 <div class="form-group ricerca">
                                     <label class="sr-only" for="inlineFormInputGroup">@Language.InputSearch</label>
-                                    <div class="input-group mb-2 col-md-12">
+                                    <div class="input-group mb-2 col-md-12 col-lg-8" style="margin:0px auto;">
                                         @Html.TextBox("Cerca_Nome", Response.Cookies["ricerca"]["Nome"], new { @class = "form-control", placeholder = Language.InputSearch })
 
                                         <div class="input-group-append">
@@ -409,7 +409,7 @@
             </div>
             <div class="row align-items-start justify-content-center">
                 <div class="col-md-12 text-center">
-                    <a href="~/Temp/Bando2019_Regolamento.pdf">
+                    <a href="~/Temp/Bando2019_Regolamento.pdf" target="_blank">
                         <i class="fas fa-file-download" style="font-size: 38px;margin-top: 12px;"></i><br />
                         Scarica regolamento
                     </a>

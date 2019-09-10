@@ -165,6 +165,9 @@
   <data name="FieldEmptyBarters" xml:space="preserve">
     <value>Inserire almeno un baratto!</value>
   </data>
+  <data name="HappyShopNotFound" xml:space="preserve">
+    <value>HappyShop non trovato!</value>
+  </data>
   <data name="KidCard" xml:space="preserve">
     <value>Tipo obbligatorio</value>
   </data>

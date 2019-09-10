@@ -16,21 +16,38 @@
         }
         else
         {
-            foreach (GratisForGratis.Models.PersonaModel utente in Model.listaChat)
+            foreach (var utente in Model.listaChat)
             {
-                <div class="box">
+            <div class="box">
+                @if (utente.Tipo == GratisForGratis.Models.TipoVenditore.Attivita)
+                {
                     <div class="phote">
                         @if (utente.Foto != null && utente.Foto.Count > 0)
                         {
-                            <img src="@("/Uploads/Images/" + utente.Persona.TOKEN + "/" + utente.Foto[0].DATA_INSERIMENTO.Year + "/Normal/" + utente.Foto[0].NOME)" alt="Profilo @(utente.Persona.NOME + " " + utente.Persona.COGNOME)" />
+                            <img src="@("/Uploads/Images/" + utente.Token + "/" + utente.Foto[0].DATA_INSERIMENTO.Year + "/Normal/" + utente.Foto[0].NOME)" alt="Profilo @(utente.Nome)" />
                         }
                         else
                         {
                             <img src="~/Images/icone/profile.svg" alt="Profilo" style="max-height:250px;">
                         }
                     </div>
-                    @Html.ActionLink(utente.Persona.NOME + " " + utente.Persona.COGNOME, "Utente", "Chat", new { token = utente.Persona.TOKEN }, null)
-                </div>
+                    @Html.ActionLink(utente.Nome, "PortaleWeb", "Chat", new { token = utente.Token }, null)
+                }
+                else
+                {
+                    <div class="phote">
+                        @if (utente.Foto != null && utente.Foto.Count > 0)
+                        {
+                            <img src="@("/Uploads/Images/" + utente.Token + "/" + utente.Foto[0].DATA_INSERIMENTO.Year + "/Normal/" + utente.Foto[0].NOME)" alt="Profilo @(utente.Nome + " " + utente.Cognome)" />
+                        }
+                        else
+                        {
+                            <img src="~/Images/icone/profile.svg" alt="Profilo" style="max-height:250px;">
+                        }
+                    </div>
+                    @Html.ActionLink(utente.Nome + " " + utente.Cognome, "Utente", "Chat", new { token = utente.Token }, null)
+                }
+            </div>
             }
         }
     </section>

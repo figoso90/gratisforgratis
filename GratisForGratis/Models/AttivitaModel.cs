@@ -21,12 +21,20 @@ namespace GratisForGratis.Models
 
         public List<ATTIVITA_TELEFONO> Telefono { get; set; }
 
+        public List<ATTIVITA_FOTO> Foto { get; set; }
+
         #endregion
 
         #region COSTRUTTORI
 
         public AttivitaModel()
         {
+            this.SetValoriBase();
+        }
+
+        public AttivitaModel(ATTIVITA model)
+        {
+            this.ATTIVITA = model;
             this.SetValoriBase();
         }
 
@@ -48,6 +56,7 @@ namespace GratisForGratis.Models
             this.PuntiSospesi = 0;
             this.Email = new List<ATTIVITA_EMAIL>();
             this.Telefono = new List<ATTIVITA_TELEFONO>();
+            this.Foto = new List<ATTIVITA_FOTO>();
         }
 
         #endregion

@@ -15,15 +15,8 @@
     </div>
     <div class="row">
         <div class="col-sm-3">
-            <div>
-                @if (Model.Foto.Count > 0)
-                {
-                    <img class="imgProfile" src="@("/Uploads/Images/" + Model.Token + "/" + Model.Foto[0].DATA_INSERIMENTO.Year + "/Normal/" + Model.Foto[0].NOME)" alt="@(Model.Foto[0].NOME)">
-                }
-                else
-                {
-                    <img class="imgProfile" src="/Images/stickers/4.png" alt="Immagine profilo">
-                }
+            <div id="boxFotoProfilo" class="form-group">
+                @Html.Partial("PartialPages/_GalleriaFotoProfilo", Model)
             </div>
         </div>
         <div class="col-md-9">
@@ -134,3 +127,8 @@
         </div>
     }
 </section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/impostazioniPortaleWeb.js")
+}
