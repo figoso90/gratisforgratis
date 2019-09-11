@@ -213,7 +213,7 @@ namespace GratisForGratis.Models
             email.To.Add(new System.Net.Mail.MailAddress(utente.Email.FirstOrDefault(item => item.TIPO == (int)TipoEmail.Registrazione).EMAIL, utente.Persona.NOME + ' ' + utente.Persona.COGNOME));
             email.Subject = string.Format(App_GlobalResources.Email.SearchSaveSubject, this.Cerca_Nome) + " - " + WebConfigurationManager.AppSettings["nomeSito"];
             email.Body = "SalvataggioRicerca";
-            email.DatiEmail = this;
+            email.DatiEmail = new RicercaViewModelEmail(this, utente);
             new Controllers.EmailController().SendEmail(email);
         }
         #endregion
@@ -1284,5 +1284,28 @@ namespace GratisForGratis.Models
         [DataType(DataType.EmailAddress, ErrorMessageResourceName = "ErrorFormatEmail", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
         [StringLength(200, ErrorMessageResourceName = "ErrorLengthEmail", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
         public string Email { get; set; }
+    }
+
+    public class RicercaViewModelEmail
+    {
+        #region PROPRIETA
+        public int Id { get; set; }
+        public string Nominativo { get; set; }
+        public string Email { get; set; }
+        #endregion
+
+        #region COSTRUTTORI
+        public RicercaViewModelEmail()
+        {
+
+        }
+
+        public RicercaViewModelEmail(RicercaViewModel model, PersonaModel utente)
+        {
+            Id = model.Id;
+            Nominativo = utente.Persona.NOME + " " + utente.Persona.COGNOME;
+            Email = utente.Email.FirstOrDefault(m => m.TIPO == (int)TipoEmail.Registrazione).EMAIL;
+        }
+        #endregion
     }
 }

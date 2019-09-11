@@ -23,26 +23,16 @@ namespace GratisForGratis.Models
         {
             this.SetProprietaIniziali();
             Id = model.ID;
-            Venditore = new UtenteVenditaViewModel();
             if (model.ID_ATTIVITA != null)
             {
-                Venditore.Id = (int)model.ID_ATTIVITA;
-                Venditore.Nominativo = model.ATTIVITA.NOME;
-                Venditore.Email = model.ATTIVITA.ATTIVITA_EMAIL.FirstOrDefault(m => m.TIPO == (int)TipoEmail.Registrazione).EMAIL;
-                Venditore.Telefono = model.ATTIVITA.ATTIVITA_TELEFONO.FirstOrDefault(m => m.TIPO == (int)TipoTelefono.Privato).TELEFONO;
+                Venditore = new UtenteVenditaViewModel(model.ATTIVITA, model.PERSONA);
                 SetFeedbackVenditore(model, TipoVenditore.Attivita);
             }
             else
             {
-                Venditore.Id = model.ID_PERSONA;
-                Venditore.Nominativo = model.PERSONA.NOME + " " + model.PERSONA.COGNOME;
-                Venditore.Email = model.PERSONA.PERSONA_EMAIL.FirstOrDefault(m => m.TIPO == (int)TipoEmail.Registrazione).EMAIL;
-                PERSONA_TELEFONO telefono = model.PERSONA.PERSONA_TELEFONO.FirstOrDefault(m => m.TIPO == (int)TipoTelefono.Privato);
-                if (telefono!=null)
-                    Venditore.Telefono = telefono.TELEFONO;
+                Venditore = new UtenteVenditaViewModel(model.PERSONA);
                 SetFeedbackVenditore(model, TipoVenditore.Persona);
             }
-            Venditore.VenditoreToken = model.PERSONA.TOKEN;
             Token = model.TOKEN.ToString();
             Nome = model.NOME;
             TipoPagamento = (TipoPagamento)model.TIPO_PAGAMENTO;

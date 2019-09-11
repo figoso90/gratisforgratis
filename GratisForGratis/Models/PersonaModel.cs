@@ -120,6 +120,45 @@ namespace GratisForGratis.Models
 
         #region METODI PUBBLICI
 
+        public void GetEmail(DatabaseContext db, int? idPersona = null)
+        {
+            if (idPersona == null && this.Persona != null)
+                idPersona = this.Persona.ID;
+
+            if (idPersona != null )
+                this.Email = db.PERSONA_EMAIL.Where(m => m.ID_PERSONA == idPersona).ToList();
+        }
+
+        public void GetTelefono(DatabaseContext db, int? idPersona = null)
+        {
+            if (idPersona == null && this.Persona != null)
+                idPersona = this.Persona.ID;
+
+            if (idPersona != null)
+                this.Telefono = db.PERSONA_TELEFONO.Where(m => m.ID_PERSONA == idPersona).ToList();
+        }
+
+        public void GetFoto(DatabaseContext db, int? idPersona = null)
+        {
+            if (idPersona == null && this.Persona != null)
+                idPersona = this.Persona.ID;
+
+            if (idPersona != null)
+                this.Foto = db.PERSONA_FOTO.Where(m => m.ID_PERSONA == idPersona).OrderByDescending(m => m.ORDINE)
+                    .AsEnumerable().Select(m => new FotoModel(m.ALLEGATO)).ToList();
+        }
+
+        public void GetAttivita(DatabaseContext db, int? idPersona = null)
+        {
+            if (idPersona == null && this.Persona != null)
+                idPersona = this.Persona.ID;
+
+            if (idPersona != null)
+                db.PERSONA_ATTIVITA.Where(m => m.ID_PERSONA == idPersona).ToList().ForEach(m => {
+                    this.Attivita.Add(new AttivitaModel(m));
+                });
+        }
+
         public void SetEmail(DatabaseContext db, string email, Stato stato = Stato.ATTIVO)
         {
             PERSONA_EMAIL model = this.Email.SingleOrDefault(m => m.TIPO == (int)TipoEmail.Registrazione);

@@ -1,9 +1,9 @@
-﻿@model GratisForGratis.Models.PERSONA_RICERCA
+﻿@model GratisForGratis.Models.RicercaViewModelEmail
 @using System.Web.Configuration
 <tr>
     <td style="width:50px;">&nbsp;</td>
     <td align="center" style="padding:12px 0px 0px;line-height:12px;">
-        @Html.Raw(string.Format(Email.SearchSaveText1, Model.NOME))
+        @Html.Raw(string.Format(Email.SearchSaveText1, Model.Nominativo))
     </td>
     <td style="width:50px;">&nbsp;</td>
 </tr>
@@ -17,7 +17,7 @@
 <tr>
     <td style="width:50px;">&nbsp;</td>
     <td align="center" style="padding:20px 0px 0px;line-height:12px;">
-        @Html.Raw(string.Format(Email.SearchSaveFooter, Html.ActionLink(Url.Action("DeleteRicerca", "Cerca", new RouteValueDictionary { { "token", GratisForGratis.Controllers.Utils.RandomString(3) + GratisForGratis.Controllers.Utils.Encode(Model.ID.ToString()) + GratisForGratis.Controllers.Utils.RandomString(3) }, { "emailUtente", Model.UTENTE1.EMAIL } }, Request.Url.Scheme, Request.Url.Host), "DeleteRicerca", "Cerca", null, Request.Url.Host, null, new { token = GratisForGratis.Controllers.Utils.RandomString(3) + GratisForGratis.Controllers.Utils.Encode(Model.ID.ToString()) + GratisForGratis.Controllers.Utils.RandomString(3), emailUtente = Model.UTENTE1.EMAIL }, new { style = "color:#189CBB;" })))
+        @Html.Raw(string.Format(Email.SearchSaveFooter, Html.ActionLink(Url.Action("DeleteRicerca", "Cerca", new RouteValueDictionary { { "token", GratisForGratis.Controllers.Utils.RandomString(3) + GratisForGratis.Controllers.Utils.Encode(Model.Id.ToString()) + GratisForGratis.Controllers.Utils.RandomString(3) }, { "emailUtente", Model.Email } }, Request.Url.Scheme, Request.Url.Host), "DeleteRicerca", "Cerca", null, Request.Url.Host, null, new { token = GratisForGratis.Controllers.Utils.RandomString(3) + GratisForGratis.Controllers.Utils.Encode(Model.Id.ToString()) + GratisForGratis.Controllers.Utils.RandomString(3), emailUtente = Model.Email }, new { style = "color:#189CBB;" })))
         <span style="font-style:italic;">Team @WebConfigurationManager.AppSettings["nomeSito"].</span>
     </td>
     <td style="width:50px;">&nbsp;</td>

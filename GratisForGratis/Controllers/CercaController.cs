@@ -274,6 +274,7 @@ namespace GratisForGratis.Controllers
                         else
                         {
                             persona = new PersonaModel(utente);
+                            persona.GetEmail(db);
                         }
                         Session["utenteRicerca"] = persona;
 

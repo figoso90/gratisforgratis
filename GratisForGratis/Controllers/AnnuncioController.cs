@@ -154,14 +154,13 @@ namespace GratisForGratis.Controllers
                                 string tokenDecodificato = HttpContext.Server.UrlDecode(viewModel.Annuncio.Token);
                                 Guid tokenGuid = Guid.Parse(tokenDecodificato);
                                 PersonaModel utente = (PersonaModel)HttpContext.Session["utente"];
-                                ANNUNCIO annuncio = null;
+                                AnnuncioViewModel annuncio = null;
                                 addDesiderio(db, tokenGuid, utente.Persona.ID, ref annuncio);
                                 // salvare transazione
                                 transaction.Commit();
                                 this.RefreshPunteggioUtente(db);
                                 // invia e-mail al venditore
-                                PERSONA venditore = db.PERSONA.SingleOrDefault(m => m.ID == viewModel.Annuncio.Venditore.Id);
-                                this.SendNotifica(utente.Persona, venditore, TipoNotifica.OffertaRicevuta, ControllerContext, "offerta", viewModel);
+                                this.SendNotifica(utente.Persona, annuncio.Venditore.Persona, TipoNotifica.OffertaRicevuta, ControllerContext, "offerta", viewModel);
                                 return Json(new { Messaggio = Language.JsonSendBid });
                             }
 
@@ -604,18 +603,19 @@ namespace GratisForGratis.Controllers
             //return Guid.Parse(Utils.DecodeToString(tokenDecode.Substring(3).Substring(0, tokenDecode.Length - 6)));
         }
 
-        private bool addDesiderio(DatabaseContext db, Guid tokenGuid, int idUtente, ref ANNUNCIO annuncio)
+        private bool addDesiderio(DatabaseContext db, Guid tokenGuid, int idUtente, ref AnnuncioViewModel annuncio)
         {
             ANNUNCIO_DESIDERATO model = db.ANNUNCIO_DESIDERATO.Where(m => m.ANNUNCIO.TOKEN == tokenGuid && m.ID_PERSONA == idUtente)
                     .FirstOrDefault();
             if (model == null)
             {
-                annuncio = db.ANNUNCIO.SingleOrDefault(m => m.TOKEN == tokenGuid && m.ID_PERSONA != idUtente);
+                var modelAnnuncio = db.ANNUNCIO.SingleOrDefault(m => m.TOKEN == tokenGuid && m.ID_PERSONA != idUtente);
+                annuncio = new AnnuncioViewModel(db, modelAnnuncio);
                 if (annuncio != null)
                 {
                     // inserisco l'annuncio tra quelli desiderati
                     model = new ANNUNCIO_DESIDERATO();
-                    model.ID_ANNUNCIO = annuncio.ID;
+                    model.ID_ANNUNCIO = annuncio.Id;
                     model.ID_PERSONA = idUtente;
                     model.STATO = (int)Stato.ATTIVO;
                     db.ANNUNCIO_DESIDERATO.Add(model);

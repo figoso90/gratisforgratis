@@ -7,30 +7,32 @@
 <section id="ricerche">
     <h1 id="title">@ViewBag.Title</h1>
     <div id="grid" class="content">
-        @foreach (GratisForGratis.Models.UtenteRicercaViewModel ricerca in Model)
-        {
-            <div id="@ricerca.Id" class="ricerca">
-                <div class="detail">
-                    <h4 class="title plus">@ricerca.Testo</h4>
-                    <div class="cella noMandatory categoria">
-                        @Html.Label("Categoria", Language.Category + ":")
-                        @ricerca.Categoria
-                    </div>
-                    <div class="cella noMandatory">
-                        @Html.Label("DataInserimento", Language.InsertDate + ":")
-                        @ricerca.DataInserimento
-                    </div>
-                    <div class="cella noMandatory">
-                        @Html.Label("DataModifica", Language.LastDate + ":")
-                        @ricerca.DataModifica
-                    </div>
-                    <div class="cella noMandatory">
-                        <a class="btn" href="javascript:void(0);" onclick="deleteRicerca(this);">@Language.Delete</a>
+        <div class="row">
+            @foreach (GratisForGratis.Models.UtenteRicercaViewModel ricerca in Model)
+            {
+                <div id="@ricerca.Id" class="col-md-3 ricerca">
+                    <div class="detail">
+                        <h4 class="title plus">@ricerca.Testo</h4>
+                        <div class="cella noMandatory categoria">
+                            <h5><strong>@Language.Category</strong></h5>
+                            @ricerca.Categoria
+                        </div>
+                        <div class="cella noMandatory">
+                            <h5><strong>@Language.InsertDate</strong></h5>
+                            @ricerca.DataInserimento
+                        </div>
+                        <div class="cella noMandatory">
+                            <h5><strong>@Language.LastDate</strong></h5>
+                            @ricerca.DataModifica
+                        </div>
+                        <div class="cella noMandatory">
+                            <a class="btn btn-danger" href="javascript:void(0);" onclick="deleteRicerca(this);">@Language.Delete</a>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-        }
+            }
+        </div>
         @Html.Partial("PartialPages/_ElencoPagine", new GratisForGratis.Models.ElencoPagine((int)ViewData["TotalePagine"], 
             (int)ViewData["Pagina"], (((int)ViewData["Pagina"] - 5) < 1 ? 1 : (int)ViewData["Pagina"] - 5), "Utente", "RicercheSalvate"))
     </div>

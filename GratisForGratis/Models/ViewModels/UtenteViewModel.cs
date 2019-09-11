@@ -394,32 +394,15 @@ namespace GratisForGratis.Models
         public UtenteVenditaViewModel() { }
         public UtenteVenditaViewModel(PERSONA model)
         {
-            /*
-            foreach (System.Reflection.PropertyInfo propertyInfo in model.GetType().GetProperties())
-            {
-                // verifico l'esistenza della proprietà
-                if (this.GetType().GetProperty(propertyInfo.Name.First().ToString() + propertyInfo.Name.ToLower().Substring(1)) != null)
-                    this.GetType().GetProperty(propertyInfo.Name.First().ToString() + propertyInfo.Name.ToLower().Substring(1)).SetValue(this, propertyInfo.GetValue(model));
-            }*/
-            Id = model.ID;
-            Nominativo = model.NOME + " " + model.COGNOME;
-            Email = model.PERSONA_EMAIL.FirstOrDefault(m => m.TIPO == (int)TipoEmail.Registrazione).EMAIL;
-            PERSONA_TELEFONO telefono = model.PERSONA_TELEFONO.FirstOrDefault(m => m.TIPO == (int)TipoTelefono.Privato);
-            if (telefono!=null)
-                Telefono = telefono.TELEFONO;
-            VenditoreToken = model.TOKEN;
+            LoadPersona(model);
             Tipo = TipoVenditore.Persona;
         }
-        public UtenteVenditaViewModel(ATTIVITA model)
+        public UtenteVenditaViewModel(ATTIVITA model, PERSONA model2 = null)
         {
-            Id = model.ID;
-            Nominativo = model.NOME;
-            Email = model.ATTIVITA_EMAIL.FirstOrDefault(m => m.TIPO == (int)TipoEmail.Registrazione).EMAIL;
-            ATTIVITA_TELEFONO telefono = model.ATTIVITA_TELEFONO.FirstOrDefault(m => m.TIPO == (int)TipoTelefono.Privato);
-            if (telefono != null)
-                Telefono = telefono.TELEFONO;
-            VenditoreToken = model.TOKEN;
+            LoadAttivita(model);
             Tipo = TipoVenditore.Attivita;
+            if (model2 != null)
+                Persona = model2;
         }
         public UtenteVenditaViewModel(DatabaseContext db, int id, TipoVenditore tipo)
         {
@@ -450,6 +433,10 @@ namespace GratisForGratis.Models
         public Guid VenditoreToken { get; set; }
 
         public TipoVenditore Tipo { get; set; }
+
+        public PERSONA Persona { get; set; }
+
+        public ATTIVITA Attivita { get; set; }
         #endregion
 
         #region METODI PUBBLICI
@@ -493,23 +480,35 @@ namespace GratisForGratis.Models
             if (tipo == TipoVenditore.Attivita)
             {
                 var model = db.ATTIVITA.SingleOrDefault(m => m.ID == Id);
-                Nominativo = model.NOME;
-                Email = model.ATTIVITA_EMAIL.FirstOrDefault(m => m.TIPO == (int)TipoEmail.Registrazione).EMAIL;
-                ATTIVITA_TELEFONO telefono = model.ATTIVITA_TELEFONO.FirstOrDefault(m => m.TIPO == (int)TipoTelefono.Privato);
-                if (telefono != null)
-                    Telefono = telefono.TELEFONO;
-                VenditoreToken = model.TOKEN;
+                LoadAttivita(model);
             }
             else
             {
                 var model = db.PERSONA.SingleOrDefault(m => m.ID == Id);
-                Nominativo = model.NOME + " " + model.COGNOME;
-                Email = model.PERSONA_EMAIL.FirstOrDefault(m => m.TIPO == (int)TipoEmail.Registrazione).EMAIL;
-                PERSONA_TELEFONO telefono = model.PERSONA_TELEFONO.FirstOrDefault(m => m.TIPO == (int)TipoTelefono.Privato);
-                if (telefono != null)
-                    Telefono = telefono.TELEFONO;
-                VenditoreToken = model.TOKEN;
+                LoadPersona(model);
             }
+        }
+
+        private void LoadPersona(PERSONA model)
+        {
+            Nominativo = model.NOME + " " + model.COGNOME;
+            Email = model.PERSONA_EMAIL.FirstOrDefault(m => m.TIPO == (int)TipoEmail.Registrazione).EMAIL;
+            PERSONA_TELEFONO telefono = model.PERSONA_TELEFONO.FirstOrDefault(m => m.TIPO == (int)TipoTelefono.Privato);
+            if (telefono != null)
+                Telefono = telefono.TELEFONO;
+            VenditoreToken = model.TOKEN;
+            Persona = model;
+        }
+
+        private void LoadAttivita(ATTIVITA model)
+        {
+            Nominativo = model.NOME;
+            Email = model.ATTIVITA_EMAIL.FirstOrDefault(m => m.TIPO == (int)TipoEmail.Registrazione).EMAIL;
+            ATTIVITA_TELEFONO telefono = model.ATTIVITA_TELEFONO.FirstOrDefault(m => m.TIPO == (int)TipoTelefono.Privato);
+            if (telefono != null)
+                Telefono = telefono.TELEFONO;
+            VenditoreToken = model.TOKEN;
+            Attivita = model;
         }
         #endregion
     }

@@ -11,32 +11,39 @@
 <section id="loginForm">
     @using (Html.BeginForm("", "Feedback", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
-        @Html.AntiForgeryToken()
-        @Html.HiddenFor(m => m.AcquistoID)
-        <h2 id="description">@Language.DescriptionFeedback</h2>
-        <hr />
-        @Html.ValidationMessage("Errore", new { @class = "text-danger" })
-        if (TempData["salvato"] != null && (bool)TempData["salvato"])
-        {
-            <h4 class="message">@Language.RegistrazioneOK</h4>
-        }
-        <div class="form-group">
-            @Html.LabelFor(m => m.Voto, new { @class = "col-md-2 control-label required" })
-            <div class="col-md-10">
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.AcquistoID)
+                <h2 id="description">@Language.DescriptionFeedback</h2>
+                <hr />
+                @Html.ValidationMessage("Errore", new { @class = "text-danger" })
+                @if (TempData["salvato"] != null && (bool)TempData["salvato"])
+                {
+                    <h4 class="message">@Language.RegistrazioneOK</h4>
+                }
+
+                @Html.HiddenFor(m => m.Tipo)
+            </div>
+        </div>
+        <div class="form-row justify-content-center align-items-center">
+            <div class="form-group col-md-1">
+                @Html.LabelFor(m => m.Voto, new { @class = "control-label required" })
                 @Html.TextBoxFor(m => m.Voto, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Voto, "", new { @class = "text-danger" })
             </div>
-            @Html.ValidationMessageFor(m => m.Voto, "", new { @class = "text-danger" })
         </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Opinione, new { @class = "col-md-2 control-label required" })
-            <div class="col-md-10">
+        <div class="form-row justify-content-center align-items-center">
+            <div class="form-group col-md-5">
+                @Html.LabelFor(m => m.Opinione, new { @class = "control-label required" })
                 @Html.TextAreaFor(m => m.Opinione, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Opinione, "", new { @class = "text-danger" })
             </div>
-            @Html.ValidationMessageFor(m => m.Opinione, "", new { @class = "text-danger" })
         </div>
-        @Html.HiddenFor(m => m.Tipo)
-        <div class="footer">
-            <input type="submit" class="btn btn-success" value="@Resources.Language.Save" />
+        <div class="form-row justify-content-center align-items-center">
+            <div class="form-group col-md-12 footer">
+                <input type="submit" class="btn btn-success" value="@Resources.Language.Save" />
+            </div>
         </div>
     }
 </section>

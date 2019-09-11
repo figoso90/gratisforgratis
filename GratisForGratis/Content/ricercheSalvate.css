@@ -10,6 +10,7 @@
     padding:6px;
 }
 
+/*
 #grid .ricerca{
     display: inline-block;
     vertical-align:top;
@@ -19,7 +20,7 @@
     width:200px;
     border:1px solid;
     border-radius:6px;
-}
+}*/
 
 #grid .ricerca .title{
     text-decoration:underline;
