@@ -388,7 +388,13 @@ namespace GratisForGratis.Controllers
                                         .Select(m => m.ALLEGATO.NOME).ToList();
                                     for (int i=0; i < fotoEsistenti.Count; i++)
                                     {
-                                        string nomeFileOriginale = Server.MapPath("~/Uploads/Images/" + annuncio.PERSONA.TOKEN + "/" + annuncio.DATA_INSERIMENTO.Year + "/Original/" + fotoEsistenti[i]);
+                                        string path = "~/Uploads/Images/";
+                                        if (annuncio.ATTIVITA != null)
+                                            path += annuncio.ATTIVITA.TOKEN;
+                                        else
+                                            path += annuncio.PERSONA.TOKEN;
+
+                                        string nomeFileOriginale = Server.MapPath(path + "/" + annuncio.DATA_INSERIMENTO.Year + "/Original/" + fotoEsistenti[i]);
                                         HttpFile fileOriginale = new HttpFile(nomeFileOriginale);
                                         FileUploadifive fileSalvatato = UploadImmagine("/Temp/Images/" + Session.SessionID + "/" + viewModel.TokenUploadFoto, fileOriginale);
                                         if (fileSalvatato != null)
@@ -470,7 +476,13 @@ namespace GratisForGratis.Controllers
                                         .Select(m => m.ALLEGATO.NOME).ToList();
                                     for (int i = 0; i < fotoEsistenti.Count; i++)
                                     {
-                                        string nomeFileOriginale = Server.MapPath("~/Uploads/Images/" + annuncio.PERSONA.TOKEN + "/" + annuncio.DATA_INSERIMENTO.Year + "/Original/" + fotoEsistenti[i]);
+                                        string path = "~/Uploads/Images/";
+                                        if (annuncio.ATTIVITA != null)
+                                            path += annuncio.ATTIVITA.TOKEN;
+                                        else
+                                            path += annuncio.PERSONA.TOKEN;
+
+                                        string nomeFileOriginale = Server.MapPath(path + "/" + annuncio.DATA_INSERIMENTO.Year + "/Original/" + fotoEsistenti[i]);
                                         HttpFile fileOriginale = new HttpFile(nomeFileOriginale);
                                         FileUploadifive fileSalvatato = UploadImmagine("/Temp/Images/" + Session.SessionID + "/" + viewModel.TokenUploadFoto, fileOriginale);
                                         if (fileSalvatato != null)

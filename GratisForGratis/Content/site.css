@@ -347,7 +347,6 @@ header menu ul.nav-pills > li > a{
 {	
     display: block;
     min-width:138px;
-    padding:10px 12px;
     text-align: left;
     position:relative;
 	-webkit-user-select: none; /* Chrome/Safari */        
@@ -364,6 +363,8 @@ header menu ul.nav-pills > li > a{
         color: #000070;
         font-weight: 900;
         font-size: 12px;
+        padding: 10px 12px;
+        display: block;
     }
 
     .dropdown-menu.show {

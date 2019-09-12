@@ -166,7 +166,7 @@
                 @(Language.Welcome + " " + ((PersonaModel)Session["utente"]).NomeVisibile) -
                 <span id="userPoints">
                     <img class="glyphicon happyCoin" src="/Images/Icone/happyCoin.svg" alt="Happy-Coin">
-                    @((Session["utente"] as PersonaModel).Credito.Where(m => m.STATO == (int)StatoCredito.ASSEGNATO).Sum(m => m.PUNTI).ToString("#,#.00#")) 
+                    @((Session["utente"] as PersonaModel).Credito.Where(m => m.STATO == (int)StatoCredito.ASSEGNATO).Sum(m => m.PUNTI).ToString("#,#.00#"))
                 </span>
             </li>
         </ul>
@@ -270,16 +270,16 @@
                 <div id="toolbar">
                     @using (Html.BeginForm("Index2", "Cerca", FormMethod.Get, new { id = "cerca" }))
                     {
-                    <div id="menuCategoriaRicerca" style="display: inline-block;margin-top: 12px;position: relative;vertical-align: top;">
-                        @Html.Hidden("Cerca_IDCategoria", Response.Cookies["ricerca"]["IDCategoria"])
-                        @Html.Hidden("Cerca_Categoria", Response.Cookies["ricerca"]["Categoria"])
-                        @Html.TextBox("Cerca_Nome", Response.Cookies["ricerca"]["Nome"], new { @class = "form-control", placeholder = Language.InputSearch })
-                        <input class="btn-search" type="submit" value="search" data-toggle="tooltip" data-placement="top" title="@Language.SearchSubmit" />
-                        <a class="infoTooltip infoDomanda" data-toggle="tooltip" href="javascript:void(0);"
-                           title="@Tooltip.InfoHowSearch">
-                            <i class="far fa-question-circle"></i>
-                        </a>
-                    </div>
+                        <div id="menuCategoriaRicerca" style="display: inline-block;margin-top: 12px;position: relative;vertical-align: top;">
+                            @Html.Hidden("Cerca_IDCategoria", Response.Cookies["ricerca"]["IDCategoria"])
+                            @Html.Hidden("Cerca_Categoria", Response.Cookies["ricerca"]["Categoria"])
+                            @Html.TextBox("Cerca_Nome", Response.Cookies["ricerca"]["Nome"], new { @class = "form-control", placeholder = Language.InputSearch })
+                            <input class="btn-search" type="submit" value="search" data-toggle="tooltip" data-placement="top" title="@Language.SearchSubmit" />
+                            <a class="infoTooltip infoDomanda" data-toggle="tooltip" href="javascript:void(0);"
+                               title="@Tooltip.InfoHowSearch">
+                                <i class="far fa-question-circle"></i>
+                            </a>
+                        </div>
                     }
                 </div>
                 <div id="subCategoryObjects" class="subCategory">
@@ -362,7 +362,25 @@
         <input id="AllegatoSegnalazione" type="file" name="Allegato" placeholder="@Language.Attachment" />
         <a class="button btn btn-success" href="javascript:void(0);">@Language.Send</a>
     </form>
-    <div id="boxPossiedo" class="popup">
+    <div id="boxPossiedo" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Caricamento</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Caricamento dati in corso...</p>
+                </div>
+                <!--
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>-->
+            </div>
+        </div>
     </div>
     <!-- END POPUP -->
     <!-- HIDDEN ELEMENT -->

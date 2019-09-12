@@ -126,7 +126,13 @@ namespace GratisForGratis.Models
             foto.STATO = (int)Stato.ATTIVO;
             db.ATTIVITA_FOTO.Add(foto);
             db.SaveChanges();
-            //this.Foto.Add(foto);
+            var allegato = db.ALLEGATO.SingleOrDefault(m => m.ID == idAllegato);
+            if (allegato != null)
+            {
+                if (this.Foto == null)
+                    this.Foto = new List<FotoModel>();
+                this.Foto.Add(new FotoModel(allegato));
+            }
         }
 
         public void RemoveImmagineProfilo(DatabaseContext db, int idAllegato)

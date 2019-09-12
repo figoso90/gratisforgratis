@@ -468,7 +468,7 @@ namespace GratisForGratis.Models
         }
         public bool IsVenditore(PersonaModel utente)
         {
-            if ((Tipo == TipoVenditore.Persona && Id == utente.Persona.ID) || (Tipo == TipoVenditore.Attivita && utente.Attivita.Count(m => m.ID == Id) > 0))
+            if ((Tipo == TipoVenditore.Persona && Persona.ID == utente.Persona.ID) || (Tipo == TipoVenditore.Attivita && utente.Attivita.Count(m => m.ID == Attivita.ID) > 0))
                 return true;
             return false;
         }

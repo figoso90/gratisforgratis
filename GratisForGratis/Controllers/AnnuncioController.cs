@@ -160,7 +160,8 @@ namespace GratisForGratis.Controllers
                                 transaction.Commit();
                                 this.RefreshPunteggioUtente(db);
                                 // invia e-mail al venditore
-                                this.SendNotifica(utente.Persona, annuncio.Venditore.Persona, TipoNotifica.OffertaRicevuta, ControllerContext, "offerta", viewModel);
+                                if (annuncio.Venditore.Persona != null)
+                                    this.SendNotifica(utente.Persona, annuncio.Venditore.Persona, TipoNotifica.OffertaRicevuta, ControllerContext, "offerta", viewModel);
                                 return Json(new { Messaggio = Language.JsonSendBid });
                             }
 
@@ -175,6 +176,15 @@ namespace GratisForGratis.Controllers
                             return Json(eccezione.Message);
                         }
                     }
+                }
+            }
+            else
+            {
+                var errori = ModelState.Where(m => m.Value.Errors.Count > 0)
+                    .Select(m => m.Value.Errors.Select(n => n.ErrorMessage)).SelectMany(m => m).ToList();
+                if (errori != null && errori.Count > 0)
+                {
+                    messaggio = string.Join("<br />", errori);
                 }
             }
             // acquisto generico
@@ -508,12 +518,12 @@ namespace GratisForGratis.Controllers
                 int idUtente = (Session["utente"] as PersonaModel).Persona.ID;
                 db.Database.Connection.Open();
                 Guid tokenGuid = getTokenDecodificato(token);
-                ANNUNCIO annuncio = null;
+                AnnuncioViewModel annuncio = null;
                 if (addDesiderio(db, tokenGuid, idUtente, ref annuncio))
                 {
-                    AnnuncioViewModel viewModelAnnuncio = new AnnuncioViewModel(db, annuncio);
-                    viewModelAnnuncio.Desidero = true;
-                    return RenderRazorViewToString("PartialPages/_Desidero", viewModelAnnuncio);
+                    //AnnuncioViewModel viewModelAnnuncio = new AnnuncioViewModel(db, annuncio);
+                    annuncio.Desidero = true;
+                    return RenderRazorViewToString("PartialPages/_Desidero", annuncio);
                 }
             }
             // desiderio non registrato

@@ -357,8 +357,11 @@ namespace GratisForGratis.Controllers
                 {
                     // salvo allegato come immagine del profilo
                     utente.SetImmagineProfilo(db, idAllegato);
-                    string htmlGalleriaFotoProfilo = RenderRazorViewToString("PartialPages/_GalleriaFotoProfilo", new PortaleWebProfiloViewModel(utente));
-                    return Json(new { Success = true, responseText = htmlGalleriaFotoProfilo });
+                    if (utente.Foto != null && utente.Foto.Count > 0)
+                    {
+                        string htmlGalleriaFotoProfilo = RenderRazorViewToString("PartialPages/_GalleriaFotoProfilo", new PortaleWebProfiloViewModel(utente));
+                        return Json(new { Success = true, responseText = htmlGalleriaFotoProfilo });
+                    }
                 }
             }
             //Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;

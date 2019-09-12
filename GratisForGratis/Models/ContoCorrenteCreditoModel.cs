@@ -36,23 +36,30 @@ namespace GratisForGratis.Models
         {
             decimal puntiRimanenti = 0;
             decimal punti = crediti;
+            // finchè ho punti da sospendere li tolgo da quelli utilizzabili
             while (punti > 0)
             {
+                // recupero il primo credito disponibile
                 CONTO_CORRENTE_CREDITO credito = _db.CONTO_CORRENTE_CREDITO
                     .Where(m => m.ID_CONTO_CORRENTE == this.ID_CONTO_CORRENTE
                         && m.STATO == (int)StatoCredito.ASSEGNATO && m.PUNTI > 0 && m.DATA_SCADENZA > DateTime.Now)
                     .OrderBy(m => m.DATA_SCADENZA)
                     .FirstOrDefault();
+                // hai punti da togliere tolto quelli recuperati
                 if ((punti - credito.PUNTI) < 0)
                 {
+                    // se i punti da togliere vanno sotto 0 allora sottraggo i punti a quelli che possedevo e azzero quelli da togliere
                     puntiRimanenti = credito.PUNTI - punti;
                     punti = 0;
                 }
                 else
                 {
+                    // altrimenti tolgo i punti recuperati a quelli da togliere e vado avanti
                     punti = punti - credito.PUNTI;
                 }
 
+                // se i punti da togliere sono azzerati e i punti rimanenti
+                // sono maggiori di zero allora aggiorno il credito dei punti da sospendere
                 if (punti <= 0 && puntiRimanenti > 0)
                 {
                     credito.PUNTI -= puntiRimanenti;
@@ -62,13 +69,14 @@ namespace GratisForGratis.Models
                 credito.STATO = (int)StatoCredito.SOSPESO;
                 _db.SaveChanges();
 
+                // se avanzano punti dal credito sottratto li aggiungo per lasciarli attivi
                 if (punti <= 0 && puntiRimanenti > 0)
                 {
                     CONTO_CORRENTE_CREDITO creditoCompratore = new CONTO_CORRENTE_CREDITO();
                     creditoCompratore.ID_CONTO_CORRENTE = this.ID_CONTO_CORRENTE;
                     creditoCompratore.ID_TRANSAZIONE_ENTRATA = credito.ID_TRANSAZIONE_ENTRATA;
                     creditoCompratore.PUNTI = puntiRimanenti;
-                    creditoCompratore.SOLDI = Controllers.Utils.cambioValuta(creditoCompratore.PUNTI);
+                    creditoCompratore.SOLDI = Utils.cambioValuta(creditoCompratore.PUNTI);
                     creditoCompratore.GIORNI_SCADENZA = credito.GIORNI_SCADENZA;
                     creditoCompratore.DATA_SCADENZA = credito.DATA_SCADENZA;
                     creditoCompratore.DATA_INSERIMENTO = DateTime.Now;
@@ -76,6 +84,7 @@ namespace GratisForGratis.Models
                     _db.CONTO_CORRENTE_CREDITO.Add(creditoCompratore);
                     _db.SaveChanges();
                 }
+                puntiRimanenti = 0;
             }
         }
 

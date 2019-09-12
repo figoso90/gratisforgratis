@@ -32,30 +32,6 @@ $(document).ready(function () {
         $('#menuMobile .menu').slideToggle('slow');
     });
 
-    /* GESTIONE LOADING */
-    //$('form').submit(pauseSubmit(this));
-
-    // DISABILITATO...DAVA PROBLEMI IN CASO QUANDO SI COMPRA CI SIA IL CAMPO VUOTO NELLA SCELTA TIPO SCAMBIO
-    //$('.btn:not(.dropdown-toggle)').click(function (event) {
-    //    //attendiInvio(this);
-    //    $('html').loader('show');
-    //});
-    //var tryNumber = 0;
-    //$('input[type=submit]').click(function (event) {
-    //    // esegue il loading
-    //    var self = $(this);
-    //    if (self.closest('form').valid()) {
-    //        $('html').loader('show');
-    //        if (tryNumber > 0) {
-    //            tryNumber++;
-    //            //alert('Your form has been already submited. wait please');
-    //            return false;
-    //        }
-    //        else {
-    //            tryNumber++;
-    //        }
-    //    };
-    //});
     $("form").submit(function () {
         if ($(this).valid()) {
             $('html').loader('show');
@@ -564,14 +540,6 @@ function annullaUploadFoto(actionAnnullo, inputFoto, nameInputOriginale, idLista
             //alert("Input da eliminare: " + inputFoto);
             $(inputFoto).remove();
             riordinaInput(nameInputOriginale);
-            /*
-            if ($('#' + idListaFile).find('input').length <= 0) {
-                $('#' + idListaFile).addClass('hide');
-                $('#' + idListaFile).html('');
-                //alert("Finito");
-                $('#' + nameInputOriginale + idPulito).val('');
-            }
-            */
             $(parametro.galleriaFoto).html(data);
             enableUploadFoto(parametro);
             $('.carousel').carousel();
@@ -692,7 +660,7 @@ function initUploadPossiedo(token, testo)
         async: false,
         dataType: "html",
         success: function (msg) {
-            $('#boxPossiedo').append(msg);
+            $('#boxPossiedo .modal-body').html(msg);
             var parametriUploadPossiedo = new UploadImmagine();
             parametriUploadPossiedo.nameInputOriginale = 'Foto';
             parametriUploadPossiedo.inputNuovo = '#file';
@@ -703,19 +671,27 @@ function initUploadPossiedo(token, testo)
             parametriUploadPossiedo.actionEliminazione = '/Pubblica/AnnullaUploadImmagine';
             parametriUploadPossiedo.galleriaFoto = '#listaFileDaCopiare';
             enableUploadFoto(parametriUploadPossiedo);
-            $('#boxPossiedo').dialog({
-                title: testo,
-                width: 550,
-                modal: true,
-                open: function (event, ui) {
-
-                },
-                close: function (event, ui) {
-                    $('#file').uploadifive('destroy');
-                    $('#boxPossiedo').dialog('destroy');
-                    $('#boxPossiedo').html('');
-                }
+            $('#boxPossiedo .modal-title').html(testo);
+            $('#boxPossiedo').modal('show');
+            $('#boxPossiedo').on('hidden.bs.modal', function (e) {
+                $('#file').uploadifive('destroy');
+                $('#boxPossiedo').dialog('destroy');
+                $('#boxPossiedo .modal-title').html('');
+                $('#boxPossiedo .modal-body').html('');
             });
+            //$('#boxPossiedo').dialog({
+            //    title: testo,
+            //    width: 550,
+            //    modal: true,
+            //    open: function (event, ui) {
+
+            //    },
+            //    close: function (event, ui) {
+            //        $('#file').uploadifive('destroy');
+            //        $('#boxPossiedo').dialog('destroy');
+            //        $('#boxPossiedo .modal-body').html('');
+            //    }
+            //});
         },
         error: function (error, status, msg) {
             alert(msg);

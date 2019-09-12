@@ -64,7 +64,7 @@
         </div>
         @Html.Partial("PartialPages/_FunzioniOfferta", Model)
         <div class="cella">
-            @Html.ActionLink(Language.AdvView, "Index", "Annuncio", new { token = HttpUtility.UrlEncode(Model.Annuncio.Token) }, new { @class = "btn" })
+            @Html.ActionLink(Language.AdvView, "Index", "Annuncio", new { token = HttpUtility.UrlEncode(Model.Annuncio.Token) }, new { @class = "btn btn-primary" })
         </div>
     </div>
     <!--

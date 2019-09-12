@@ -1,4 +1,79 @@
-﻿#lnkChat {
+﻿.btnUpload {
+    width: 80px !important;
+    height: 32px !important;
+    background-image: none;
+    border-radius: 6px;
+    background-color: #a5c71b;
+    border: 2px solid #337ab7;
+    margin: 0px auto;
+}
+
+.eliminaImg {
+    position: absolute;
+    top: 0px;
+    right: -33px;
+    cursor: pointer;
+}
+
+    .eliminaImg .icona {
+        color: red;
+    }
+
+.carousel {
+    width: 220px;
+    margin: 0px auto 40px;
+    position: relative;
+}
+
+.carousel-inner {
+    position: initial;
+}
+
+.carousel-indicators {
+    background-color: #1799d0;
+}
+
+    .carousel-indicators li {
+    }
+
+    .carousel-indicators .active {
+        /*background-color: #a2c642;*/
+    }
+
+.carousel-control.left, .carousel-control.right {
+    background: none;
+}
+
+.carousel .carousel-item {
+    padding: 0px;
+    margin: 0px auto;
+    border: none;
+    background-image: none;
+    height: 230px;
+    width: auto;
+    position: initial;
+}
+
+    .carousel .carousel-item:not(.active) {
+        display: none;
+    }
+
+.carousel-inner > .carousel-item > img, .carousel-inner > .carousel-item > a > img {
+    height: 200px;
+    margin: 0px auto;
+    background-color: #a2c642;
+    border: 2px solid #1899d2;
+}
+
+.uploadifive-queue-item .glyphicon, .uploadifive-queue-item2 .glyphicon {
+    position: absolute;
+    top: 7px;
+    right: 0px;
+    background-color: #fff;
+    border-radius: 160px;
+}
+
+#lnkChat {
     float: none;
     margin: 22px auto;
     width: auto;

@@ -54,12 +54,16 @@
     position: initial;
 }
 
-.carousel-inner > .carousel-item > img, .carousel-inner > .carousel-item > a > img {
-    height: 200px;
-    margin: 0px auto;
-    background-color: #a2c642;
-    border: 2px solid #1899d2;
-}
+    .carousel .carousel-item:not(.active) {
+        display: none;
+    }
+
+    .carousel-inner > .carousel-item > img, .carousel-inner > .carousel-item > a > img {
+        height: 200px;
+        margin: 0px auto;
+        background-color: #a2c642;
+        border: 2px solid #1899d2;
+    }
 
 .uploadifive-queue-item .glyphicon, .uploadifive-queue-item2 .glyphicon {
     position: absolute;
