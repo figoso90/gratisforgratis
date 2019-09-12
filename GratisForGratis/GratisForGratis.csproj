@@ -1650,6 +1650,7 @@
     <Content Include="Views\Chat\PortaleWeb.cshtml" />
     <Content Include="Views\Chat\PartialPages\_GalleriaFotoAttivita.cshtml" />
     <Content Include="Views\PortaleWeb\PartialPages\_GalleriaFotoProfilo.cshtml" />
+    <Content Include="Views\Cerca\PartialPages\_Adv.cshtml" />
     <None Include="Web References\ServizioADV\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

@@ -12,7 +12,28 @@
     <meta property="og:description" content="@Model.Nome" />
     <meta property="og:image" content="https://www.gratisforgratis.org/Uploads/Images/@Model.Venditore.VenditoreToken/@Model.Foto[0].ALLEGATO.DATA_INSERIMENTO.Year/Normal/@Model.Foto[0].ALLEGATO.NOME" />
 }
+
+
+<!--<script data-wid="auto" type="text/javascript" src="//ads.viralize.tv/display/?zid=AADMBZYCSWvwFsf5"></script>-->
+<!--personalizzato-->
+<!--<script data-wid="auto" type="text/javascript" src="//ads.viralize.tv/display/?zid=AADMPsN_7abAk0fC"></script>-->
+
+<script data-wid="auto" type="text/javascript" src="//ads.viralize.tv/display/?zid=AADMP7S1fwwlDJg-"></script>
 <section id="page">
+    @if (!this.Context.IsDebuggingEnabled)
+    {
+        <div class="banner top">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-5108424997424987"
+                 data-ad-slot="4948084514"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    }
     <section id="acquisto" class="content">
         @if (ViewBag.Esito != null)
         {
@@ -30,8 +51,8 @@
                     <a class="prev">‹</a>
                     <a class="next">›</a>
                     <!--<a class="close">×</a>
-                <a class="play-pause"></a>
-                <ol class="indicator"></ol>-->
+                    <a class="play-pause"></a>
+                    <ol class="indicator"></ol>-->
                 </div>
                 <div id="albumAnnuncio" class="album" style="display:none;">
                     @foreach (GratisForGratis.Models.AnnuncioFoto foto in Model.Foto)
