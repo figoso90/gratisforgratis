@@ -4,6 +4,7 @@
 <div class="linkPubblicaCategoria">
     @Html.ActionLink(Language.LnkGoToPublic, "", "Pubblica")
 </div>
+@Html.Partial("PartialPages/_Adv")
 @foreach (ServizioViewModel servizio in Model.List)
 {
     @Html.Partial("PartialPages/_Servizio", servizio)

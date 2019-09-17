@@ -156,16 +156,16 @@
                     }
                 </div>
                 <!--<div id="advertising" role="banner" class="banner">
-                @if (TempData["advertising"] != null)
-                {
-                    @Html.Raw(WebUtility.HtmlDecode(TempData["advertising"].ToString()))
-                }
-            </div>
-            <div class="fb-like"
-                 data-share="true"
-                 data-width="260"
-                 data-show-faces="false">
-            </div>-->
+                    @if (TempData["advertising"] != null)
+                    {
+                        @Html.Raw(WebUtility.HtmlDecode(TempData["advertising"].ToString()))
+                    }
+                </div>
+                <div class="fb-like"
+                     data-share="true"
+                     data-width="260"
+                     data-show-faces="false">
+                </div>-->
             </menu>
             <!--<img id="betatesting" src='@Url.Content("~/Images/beta_testing.png")' alt="@WebConfigurationManager.AppSettings["nomeSito"] Beta" />-->
         </header>
@@ -284,6 +284,7 @@
 
         </script>
     }
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     @Scripts.Render("https://code.jquery.com/jquery-3.4.1.min.js")
     @Scripts.Render("https://code.jquery.com/ui/1.12.1/jquery-ui.min.js")
     @Scripts.Render("~/bundles/jqueryval")

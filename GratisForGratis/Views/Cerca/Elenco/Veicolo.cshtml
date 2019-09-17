@@ -3,6 +3,7 @@
 <div class="linkPubblicaCategoria">
     @Html.ActionLink(Language.LnkGoToPublic, "", "Pubblica")
 </div>
+@Html.Partial("PartialPages/_Adv")
 @foreach (GratisForGratis.Models.VeicoloViewModel oggetto in Model.List)
 {
     ViewData["Dettaglio"] = Html.Partial("Dettaglio/_Veicolo", oggetto);

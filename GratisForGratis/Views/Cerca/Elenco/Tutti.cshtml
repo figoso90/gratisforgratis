@@ -4,6 +4,7 @@
 <div class="linkPubblicaCategoria">
     @Html.ActionLink(Language.LnkGoToPublic, "", "Pubblica")
 </div>
+@Html.Partial("PartialPages/_Adv")
 @foreach (AnnuncioViewModel vendita in Model.List)
 {
     if (vendita.TipoAcquisto == TipoAcquisto.Oggetto)
