@@ -520,7 +520,7 @@ namespace GratisForGratis.Models
 
         [DataType(DataType.Text)]
         [Required(ErrorMessageResourceName = "ErrorRequiredPhote", ErrorMessageResourceType = typeof(Language))]
-        public List<string> Foto { get; set; }
+        public List<FotoModel> Foto { get; set; }
 
         [Range(1, 2147483647, ErrorMessageResourceName = "ErrorCity", ErrorMessageResourceType = typeof(Language))]
         [Required(ErrorMessageResourceName = "ErrorCity", ErrorMessageResourceType = typeof(Language))]
@@ -590,14 +590,21 @@ namespace GratisForGratis.Models
             this.NoteAggiuntive = model.NOTE_AGGIUNTIVE;
             this.TokenOK = model.TOKEN.ToString();
             this.DataInserimento = model.DATA_INSERIMENTO;
-            this.Venditore = new UtenteVenditaViewModel();
-            this.Venditore.Id = model.ID_PERSONA;
-            this.Venditore.Nominativo = model.PERSONA.NOME + ' ' + model.PERSONA.COGNOME;
-            this.Venditore.VenditoreToken = model.PERSONA.TOKEN;
+            if (model.ATTIVITA != null)
+            {
+                this.Venditore = new UtenteVenditaViewModel(model.ATTIVITA, model.PERSONA);
+            }
+            else
+            {
+                this.Venditore = new UtenteVenditaViewModel(model.PERSONA);
+            }
+            //this.Venditore.Id = model.ID_PERSONA;
+            //this.Venditore.Nominativo = model.PERSONA.NOME + ' ' + model.PERSONA.COGNOME;
+            //this.Venditore.VenditoreToken = model.PERSONA.TOKEN;
             try
             {
                 this.Foto = model.ANNUNCIO_FOTO.Where(m => m.ID_ANNUNCIO == model.ID)
-                    .Select(m => m.ALLEGATO.NOME).ToList();
+                    .Select(m => new FotoModel(m.ALLEGATO)).ToList();
             }
             catch (Exception eccezione)
             {

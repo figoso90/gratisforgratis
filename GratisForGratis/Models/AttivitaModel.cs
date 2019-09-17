@@ -21,7 +21,7 @@ namespace GratisForGratis.Models
 
         public List<ATTIVITA_TELEFONO> Telefono { get; set; }
 
-        public List<ATTIVITA_FOTO> Foto { get; set; }
+        public List<FotoModel> Foto { get; set; }
 
         #endregion
 
@@ -56,7 +56,7 @@ namespace GratisForGratis.Models
             this.PuntiSospesi = 0;
             this.Email = new List<ATTIVITA_EMAIL>();
             this.Telefono = new List<ATTIVITA_TELEFONO>();
-            this.Foto = new List<ATTIVITA_FOTO>();
+            this.Foto = new List<FotoModel>();
         }
 
         #endregion

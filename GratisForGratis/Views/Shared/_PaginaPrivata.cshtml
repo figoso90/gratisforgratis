@@ -268,7 +268,7 @@
                     </li>
                 </ul>
                 <div id="toolbar">
-                    @using (Html.BeginForm("Index2", "Cerca", FormMethod.Get, new { id = "cerca" }))
+                    @using (Html.BeginForm("index2", "gratis", FormMethod.Get, new { id = "cerca" }))
                     {
                         <div id="menuCategoriaRicerca" style="display: inline-block;margin-top: 12px;position: relative;vertical-align: top;">
                             @Html.Hidden("Cerca_IDCategoria", Response.Cookies["ricerca"]["IDCategoria"])
@@ -338,6 +338,7 @@
                 <li role="presentation" class="contacts">
                     @Html.ActionLink(Language.Contacts, "Contatti", "Home")
                 </li>
+                <li role="presentation">@Html.ActionLink("Bando 2019", "Bando", "Home")</li>
             </ul>
         </nav>
         <div class="content">

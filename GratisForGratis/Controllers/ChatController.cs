@@ -76,7 +76,7 @@ namespace GratisForGratis.Controllers
                     if (chat.DestinatarioIdAttivita != null)
                     {
                         chat.DestinatarioAttivita.Foto = chat.DestinatarioAttivita.Attivita.ATTIVITA_FOTO.OrderByDescending(m => m.ORDINE).AsEnumerable()
-                            .Select(m => m).ToList();
+                            .Select(m => new FotoModel(m.ALLEGATO)).ToList();
                     }
                     UtenteProfiloViewModel soggettoChat = null;
                     if (chat.MittenteId == utente.Persona.ID)
@@ -180,7 +180,7 @@ namespace GratisForGratis.Controllers
                     chat.Mittente.Foto = chat.Mittente.Persona.PERSONA_FOTO.OrderByDescending(m => m.ORDINE).AsEnumerable()
                         .Select(m => new FotoModel(m.ALLEGATO)).ToList();
                     chat.MittenteAttivita.Foto = chat.MittenteAttivita.Attivita.ATTIVITA_FOTO.OrderByDescending(m => m.ORDINE).AsEnumerable()
-                        .Select(m => m).ToList();
+                        .Select(m => new FotoModel(m.ALLEGATO)).ToList();
                     if (chat.DestinatarioId != null)
                     {
                         chat.Destinatario.Foto = chat.Destinatario.Persona.PERSONA_FOTO.OrderByDescending(m => m.ORDINE).AsEnumerable()
@@ -189,7 +189,7 @@ namespace GratisForGratis.Controllers
                     if (chat.DestinatarioIdAttivita != null)
                     {
                         chat.DestinatarioAttivita.Foto = chat.DestinatarioAttivita.Attivita.ATTIVITA_FOTO.OrderByDescending(m => m.ORDINE).AsEnumerable()
-                        .Select(m => m).ToList();
+                        .Select(m => new FotoModel(m.ALLEGATO)).ToList();
                     }
                     //UtenteProfiloViewModel soggettoChat = new UtenteProfiloViewModel((chat.MittenteIdAttivita == attivita.ID) ? chat.DestinatarioAttivita : chat.MittenteAttivita);
                     UtenteProfiloViewModel soggettoChat = null;
@@ -262,7 +262,7 @@ namespace GratisForGratis.Controllers
                         && m.STATO != (int)Stato.ELIMINATO);
                     viewModel.Attivita = new AttivitaModel(attivitaChat);
                     viewModel.Attivita.Foto = attivitaChat.ATTIVITA_FOTO.OrderByDescending(m => m.ORDINE)
-                        .AsEnumerable().ToList();
+                        .AsEnumerable().Select(m => new FotoModel(m.ALLEGATO)).ToList();
                     viewModel.Messaggi = ChatViewModel.GetListaChatAttivita(db, utente.Persona.ID, attivitaChat.ID);
                     RefreshPunteggioUtente(db);
                 }

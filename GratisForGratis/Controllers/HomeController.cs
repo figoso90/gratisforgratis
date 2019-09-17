@@ -67,6 +67,15 @@ namespace GratisForGratis.Controllers
         }
 
         [HttpGet]
+        public ActionResult Bando()
+        {
+            ViewBag.Title = "Bando 2019: come partecipare? - " + WebConfigurationManager.AppSettings["nomeSito"];
+            ViewBag.Description = "Bando 2019: partecipa all'estrazione di un buono Amazon. Per partecipare registrati e pubblica 4 annunci";
+            ViewBag.Keywords = "Bando 2019, gratisforgratis, estrazione buono amazon, € 50 Amazon, pubblica 4 annunci, registrazione";
+            return View();
+        }
+
+        [HttpGet]
         //[Filters.HandleExceptionsAttribute]
         public ActionResult Contatti()
         {

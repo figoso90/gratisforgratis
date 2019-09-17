@@ -740,7 +740,7 @@ namespace GratisForGratis.Models
         public UtenteProfiloViewModel(AttivitaModel model)
         {
             Token = model.Attivita.TOKEN.ToString();
-            Foto = model.Foto.Select(m => new FotoModel(m.ALLEGATO)).ToList();
+            Foto = model.Foto;
             Nome = model.Attivita.NOME;
         }
         #endregion

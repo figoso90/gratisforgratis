@@ -60,7 +60,7 @@
         </div>
         <div class="cella user">
             @Html.Label("Venditore", Language.Seller + ":")
-            <b>@Html.ActionLink(Model.Annuncio.Venditore.Nominativo, "Profilo", "Utente", new { token = Model.Annuncio.Venditore.VenditoreToken }, null)</b>
+            <b>@Html.ActionLink((string.IsNullOrWhiteSpace(Model.Annuncio.Venditore.Nominativo) ? Model.Annuncio.Venditore.Email : Model.Annuncio.Venditore.Nominativo), "Profilo", (Model.Annuncio.Venditore.Tipo == GratisForGratis.Models.TipoVenditore.Attivita) ? "PortaleWeb" : "Utente", new { token = Model.Annuncio.Venditore.VenditoreToken }, null)</b>
         </div>
         @Html.Partial("PartialPages/_FunzioniOfferta", Model)
         <div class="cella">

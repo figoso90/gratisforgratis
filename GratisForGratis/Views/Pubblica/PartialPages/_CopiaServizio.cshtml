@@ -37,9 +37,9 @@
             {
                 for (int i = 0; i < Model.Foto.Count; i++)
                 {
-                    @Html.HiddenFor(m => m.Foto[i], new { @class = "form-control", id = "Foto" + Model.Foto[i].Replace(".jpg", "").Replace(".jpeg", "") })
-                    <div class="boxFoto uploadifive-queue-item2 copia" style="background-image:url('@Url.Content("~/Uploads/Images/" + Model.Venditore.VenditoreToken + "/" + @Model.DataInserimento.Value.Year + "/" + "Normal/" + Model.Foto[i])')">
-                        <span class="chiudi" style="" onclick="rimuoviFotoDaCopia(encodeURI('@(Model.Foto[i])'), this);"></span>
+                    @Html.Hidden("Foto[" + i + "]", Model.Foto[i].NOME, new { @class = "form-control", id = "Foto" + Model.Foto[i].NOME.Replace(".jpg", "").Replace(".jpeg", "") })
+                    <div class="boxFoto uploadifive-queue-item2 copia" style="background-image:url('@Url.Content("~/Uploads/Images/" + Model.Venditore.VenditoreToken + "/" + @Model.Foto[i].DATA_INSERIMENTO.Year + "/" + "Normal/" + Model.Foto[i].NOME)')">
+                        <span class="chiudi" style="" onclick="rimuoviFotoDaCopia(encodeURI('@(Model.Foto[i].NOME)'), this);"></span>
                     </div>
                 }
             }
