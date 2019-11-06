@@ -77,7 +77,8 @@ namespace GratisForGratis.Models.ViewModels
         {
             CHAT model = new CHAT();
             model.ID = this.Id;
-            model.ID_MITTENTE = (int)this.MittenteId;
+            if (this.MittenteId!=null)
+                model.ID_MITTENTE = (int)this.MittenteId;
             model.ID_DESTINATARIO = this.DestinatarioId;
             model.TESTO = this.Testo;
             model.DATA_INSERIMENTO = (DateTime)this.DataInserimento;

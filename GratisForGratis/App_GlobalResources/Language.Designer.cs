@@ -19,7 +19,7 @@ namespace GratisForGratis.App_GlobalResources {
     // tramite uno strumento quale ResGen o Visual Studio.
     // Per aggiungere o rimuovere un membro, modificare il file con estensione ResX ed eseguire nuovamente ResGen
     // con l'opzione /str oppure ricompilare il progetto VS.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Language {
@@ -718,7 +718,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Contatti.
+        ///   Cerca una stringa localizzata simile a Assistenza.
         /// </summary>
         public static string Contacts {
             get {
@@ -853,7 +853,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Usa quest&apos;area per accedere o se sei nuovo, per &lt;strong&gt;registrarti velocemente&lt;/strong&gt; solo con e-mail e password!.
+        ///   Cerca una stringa localizzata simile a Se è la tua prima volta: inserisci la tua e-mail di posta elettronica ed una password a tuo piacere..
         /// </summary>
         public static string DescriptionLogin {
             get {
@@ -4273,7 +4273,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Accedi e acquista tutto gratuitamente.
+        ///   Cerca una stringa localizzata simile a Registrati o accedi velocemente.
         /// </summary>
         public static string TitleAccess {
             get {
@@ -4525,7 +4525,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Ricerca in {0} ({1} annunci trovati).
+        ///   Cerca una stringa localizzata simile a Modifica FILTRO ricerca {0} ({1} annunci trovati).
         /// </summary>
         public static string TitleSearch {
             get {
@@ -4543,7 +4543,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Modifica ricerca generica ({0} trovati).
+        ///   Cerca una stringa localizzata simile a Modifica FILTRO ricerca ({0} trovati).
         /// </summary>
         public static string TitleSearchGeneric {
             get {

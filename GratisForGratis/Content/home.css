@@ -20,7 +20,7 @@
         vertical-align: top;
         margin: 16px 20px;
         width: 330px;
-        height: 520px;
+        height: 382px;
         border: 1px solid #ececec;
         border-radius: 6px;
         padding: 10px;
@@ -29,23 +29,42 @@
         #home .object h5 {
             color: #333;
             font-size:13px;
+            display:block;
         }
 
-#home .object .title{
-    /*color:#1899D2;*/
-    color:#bd1723;
-    font-weight:700;
-    text-transform:uppercase;
-    margin-bottom:18px;
-    margin-top:0px;
-    width:200px;
-    height: 28px;
-    font-size:13px;
-    word-wrap: break-word;
-    overflow-y: hidden;
-    word-break: break-word;
-    text-align:center;
-}
+            #home .object h5 .fas{
+                font-size:18px;
+                vertical-align:middle;
+            }
+
+            #home .object h5.category {
+                display: inline-block;
+                vertical-align: middle;
+                width: 49%;
+            }
+
+            #home .object h5.points {
+                display: inline-block;
+                vertical-align: middle;
+                width: 49%;
+                text-align: right;
+            }
+
+            #home .object .title {
+                /*color:#1899D2;*/
+                color: #bd1723;
+                font-weight: 700;
+                text-transform: uppercase;
+                margin-bottom: 18px;
+                margin-top: 0px;
+                /*width: 200px;*/
+                height: 28px;
+                font-size: 13px;
+                word-wrap: break-word;
+                overflow-y: hidden;
+                word-break: break-word;
+                text-align: left;
+            }
 
 #home .object .evidence
 {
@@ -130,7 +149,7 @@
 
     #home .object .right
     {
-        min-height:150px;
+        min-height:100px;
     }
 
     #home .object .boxAcquisto{
@@ -145,10 +164,14 @@
         min-height:100px;
     }
 
-#formCopiaOggetto .form-group 
-{
-    width:100%;
-}
+        #home .object .footer a, #home .object .footer .feedback{
+            display:inline-block;
+            vertical-align:top;
+        }
+
+        #formCopiaOggetto .form-group {
+            width: 100%;
+        }
 
 #formCopiaOggetto .form-group .field {
     display: inline-block;

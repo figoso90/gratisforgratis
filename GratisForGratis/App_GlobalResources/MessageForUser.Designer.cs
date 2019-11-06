@@ -19,7 +19,7 @@ namespace GratisForGratis.App_GlobalResources {
     // tramite uno strumento quale ResGen o Visual Studio.
     // Per aggiungere o rimuovere un membro, modificare il file con estensione ResX ed eseguire nuovamente ResGen
     // con l'opzione /str oppure ricompilare il progetto VS.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class MessageForUser {
@@ -70,7 +70,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Conferma l&apos;e-mail di registrazione. Clicca il seguente link per riceverla nuovamente!.
+        ///   Cerca una stringa localizzata simile a Conferma l&apos;e-mail di registrazione. Clicca il seguente link per ricevere nuovamente la MAIL con il LINK di ATTIVAZIONE!.
         /// </summary>
         public static string MessaggioConfermaEmail {
             get {
@@ -88,7 +88,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a &lt;strong&gt;Non hai trovato&lt;/strong&gt; ciò che cercavi???&lt;br /&gt;&lt;strong&gt;Salva la tua ricerca&lt;/strong&gt; e verrai avvisato appena sarà &lt;strong&gt;pubblicato l&apos;annuncio&lt;/strong&gt;!.
+        ///   Cerca una stringa localizzata simile a &lt;strong&gt;Non hai trovato&lt;/strong&gt; ciò che cercavi?.
         /// </summary>
         public static string SalvaRicerca {
             get {

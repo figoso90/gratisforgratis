@@ -55,9 +55,14 @@ header{
 }
 
 .img-sezione {
-    width: 100px;
+    width: 200px;
     font-size:50px;
     margin:0.5em 0em;
+}
+
+.title {
+    color: #0056b3;
+    text-transform: uppercase;
 }
 
 #menuHomeOverlay {
@@ -65,26 +70,41 @@ header{
     position: fixed;
     z-index: 1001;
     background-color: #f7f7f7;
-    width: 200px;
+    width: 100%;
+    max-width: 400px;
     height: 100%;
     top: 0px;
     right: 0px;
     border-left: 1px solid #e4e4e4;
+    overflow-y: auto;
 }
 
-#menuHome .menu {
-    display: none;
-}
+    #menuHomeOverlay .menu {
+        text-align: center;
+        list-style: none;
+        padding: 50px 0px 0px;
+    }
+
+        #menuHomeOverlay .menu > li {
+            padding: 12px 0px;
+        }
+
+    #menuHomeOverlay > .menu > li > a {
+        text-transform: uppercase;
+        color: #000070;
+        font-weight: 900;
+        font-size: 14px;
+    }
 
 #menuHome {
     position: fixed;
     top: 0px;
-    right: 0px;
+    right: 15px;
     display: block;
     text-align: right;
     z-index: 1001;
     padding-top: 20px;
-    width: 160px;
+    max-width: 260px;
 }
 
     #menuHome .icona {
@@ -97,24 +117,6 @@ header{
         color: #007bff;
     }
 
-    #menuHome .menu {
-        display: none;
-        text-align: left;
-        list-style: none;
-        padding: 0px;
-    }
-
-        #menuHome .menu > li {
-            padding: 12px 0px;
-        }
-
-    #menuHome > .menu > li > a {
-        text-transform: uppercase;
-        color: #000070;
-        font-weight: 900;
-        font-size: 14px;
-    }
-
 
 
 .dropdown-menu {
@@ -125,7 +127,7 @@ header{
         display: block;
         min-width: 138px;
         padding: 10px 12px;
-        text-align: left;
+        text-align: center;
         position: relative;
         -webkit-user-select: none; /* Chrome/Safari */
         -moz-user-select: none; /* Firefox */
@@ -148,22 +150,57 @@ header{
         border: none;
         margin: 0px;
         transform: none !important;
+        top: 40px !important;
+        width: 100%;
+        text-align: center;
+        border-top: 1px solid #ececec;
+        background-color: #1899d2;
+        border-radius: 0px;
     }
+
+        .dropdown-menu.show li a {
+            color: #fff;
+        }
+
+#menuCategoriaRicerca {
+    min-width: 160px;
+}
 
 #menuCategoriaRicerca .slicknav_menu {
     border-radius: 6px;
-    margin: 0px auto 13px;
+    /*margin: 0px auto 13px;
+    margin-right: -4px;*/
+    display: flex;
+    vertical-align: top;
+    border-radius: 24px 0px 0px 24px;
+    border: 1px solid;
+    text-align: center;
+    min-width: 0px;
+    margin: 0px;
 }
 
-#index .category {
-    color: #fff;
-    text-decoration: none;
-    text-transform: uppercase;
+#menuCategoriaRicerca .ricerca {
     display: inline-block;
-    margin-right: 1%;
-    margin-bottom: 1%;
-    vertical-align: top;
 }
+    #menuCategoriaRicerca .ricerca .input-group {
+        margin: 0px auto;
+        padding: 0px;
+    }
+
+#Cerca_Nome {
+    border-radius:0px;
+    /*max-width: 400px;*/
+}
+
+    #index .category {
+        color: #fff;
+        text-decoration: none;
+        text-transform: uppercase;
+        display: inline-block;
+        margin-right: 1%;
+        margin-bottom: 1%;
+        vertical-align: top;
+    }
 
     #index .category .box {
         /*background-color: #f4f4f4;*/
@@ -212,14 +249,22 @@ header{
     text-align: center;
 }
 
-#boxLogo img {
-    max-width: 450px;
+#boxLogo a:hover {
+    text-decoration:none;
 }
 
-#menuTop {
-    position: absolute;
-    right: 0px;
+#boxLogo img {
+    /*max-width: 450px;*/
 }
+
+    #boxLogo img.onload{
+        max-width:300px;
+    }
+
+    #menuTop {
+        position: absolute;
+        right: 0px;
+    }
 
     #menuTop .nav {
         display: block;
@@ -278,7 +323,16 @@ header{
 
         #boxRicerca .pulsante input {
             width: 200px;
+            color: rgba(0,0,0,.54);
+            background-color: #f2f2f2;
+            border: 1px solid #f2f2f2;
         }
+
+            #boxRicerca .pulsante input:hover {
+                background-color: #007bff;
+                border-color: #007bff;
+                color:#fff;
+            }
 
 #page {
     position: relative;
@@ -374,8 +428,8 @@ header{
         display: none;
     }
 
-    #page footer {
-        height: 50px;
+    #menuCategoriaRicerca {
+        min-width: 0px;
     }
 }
 

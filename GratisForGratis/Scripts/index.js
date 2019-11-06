@@ -1,4 +1,5 @@
-﻿$(document).ready(function () {
+﻿var battitiLogo = 0;
+$(document).ready(function () {
     /*
     $('.selectpicker').selectpicker({
         width: '100px',
@@ -16,9 +17,21 @@
     */
     $('#menuHome .icona').click(function (event) {
         $('#menuHomeOverlay').slideToggle('slow');
-        $('#menuHome .menu').slideToggle('slow');
     });
+    //effettoLogo();
 });
+
+function effettoLogo() {
+    battitiLogo += 1;
+    if (battitiLogo <= 4) {
+        if ($('#boxLogo img').hasClass('onload')) {
+            $('#boxLogo img').removeClass('onload');
+        } else {
+            $('#boxLogo img').addClass('onload');
+        }
+        setTimeout(effettoLogo, 500);
+    }
+}
 
 function getConteggioArticoli() {
     $.ajax({

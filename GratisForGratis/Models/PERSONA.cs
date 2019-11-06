@@ -34,13 +34,13 @@ namespace GratisForGratis.Models
             this.PERSONA_METODO_PAGAMENTO = new HashSet<PERSONA_METODO_PAGAMENTO>();
             this.PERSONA_PRIVACY = new HashSet<PERSONA_PRIVACY>();
             this.PERSONA_RICERCA = new HashSet<PERSONA_RICERCA>();
-            this.PERSONA_SEGNALAZIONE = new HashSet<PERSONA_SEGNALAZIONE>();
             this.PERSONA_TELEFONO = new HashSet<PERSONA_TELEFONO>();
             this.ANNUNCIO = new HashSet<ANNUNCIO>();
             this.ANNUNCIO1 = new HashSet<ANNUNCIO>();
             this.PERSONA_ANNUNCIO_PROPOSTO = new HashSet<PERSONA_ANNUNCIO_PROPOSTO>();
             this.CHAT = new HashSet<CHAT>();
             this.CHAT1 = new HashSet<CHAT>();
+            this.PERSONA_SEGNALAZIONE = new HashSet<PERSONA_SEGNALAZIONE>();
         }
     
         public int ID { get; set; }
@@ -95,8 +95,6 @@ namespace GratisForGratis.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PERSONA_RICERCA> PERSONA_RICERCA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PERSONA_SEGNALAZIONE> PERSONA_SEGNALAZIONE { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PERSONA_TELEFONO> PERSONA_TELEFONO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ANNUNCIO> ANNUNCIO { get; set; }
@@ -108,5 +106,7 @@ namespace GratisForGratis.Models
         public virtual ICollection<CHAT> CHAT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CHAT> CHAT1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PERSONA_SEGNALAZIONE> PERSONA_SEGNALAZIONE { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace GratisForGratis.App_GlobalResources {
     // tramite uno strumento quale ResGen o Visual Studio.
     // Per aggiungere o rimuovere un membro, modificare il file con estensione ResX ed eseguire nuovamente ResGen
     // con l'opzione /str oppure ricompilare il progetto VS.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class ViewModel {
@@ -66,6 +66,15 @@ namespace GratisForGratis.App_GlobalResources {
         public static string AdNothingLDV {
             get {
                 return ResourceManager.GetString("AdNothingLDV", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Segnala un problema.
+        /// </summary>
+        public static string AdReportIssue {
+            get {
+                return ResourceManager.GetString("AdReportIssue", resourceCulture);
             }
         }
         
@@ -228,6 +237,15 @@ namespace GratisForGratis.App_GlobalResources {
         public static string ContactsLink {
             get {
                 return ResourceManager.GetString("ContactsLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Email inviata con successo!.
+        /// </summary>
+        public static string ContactsSendOK {
+            get {
+                return ResourceManager.GetString("ContactsSendOK", resourceCulture);
             }
         }
         
@@ -547,6 +565,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Ci teniamo alla tua privacy, chiediamo solo i dati essenziali.
+        /// </summary>
+        public static string LoginPrivacy {
+            get {
+                return ResourceManager.GetString("LoginPrivacy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Registrazione completa.
         /// </summary>
         public static string LoginRegistration {
@@ -835,7 +862,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Non sei &lt;b&gt;soddisfatto&lt;/b&gt; della tua &lt;b&gt;ricerca&lt;/b&gt;?&lt;br/&gt;&lt;b&gt;Salvala&lt;/b&gt; e verrai avvisato sulle novità!.
+        ///   Cerca una stringa localizzata simile a Non sei &lt;b&gt;soddisfatto&lt;/b&gt; della tua &lt;b&gt;ricerca&lt;/b&gt;?.
         /// </summary>
         public static string SearchNotLike {
             get {

@@ -123,6 +123,9 @@
   <data name="August" xml:space="preserve">
     <value>Agosto</value>
   </data>
+  <data name="Bug" xml:space="preserve">
+    <value>Errore applicativo</value>
+  </data>
   <data name="December" xml:space="preserve">
     <value>Dicembre</value>
   </data>
@@ -137,6 +140,12 @@
   </data>
   <data name="HandleShipment" xml:space="preserve">
     <value>A mano</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Assistenza</value>
+  </data>
+  <data name="Info" xml:space="preserve">
+    <value>Informazioni</value>
   </data>
   <data name="January" xml:space="preserve">
     <value>Gennaio</value>
@@ -293,6 +302,9 @@
   </data>
   <data name="StateWaitingPayment" xml:space="preserve">
     <value>Attesa pagamento</value>
+  </data>
+  <data name="Suggestion" xml:space="preserve">
+    <value>Proposta</value>
   </data>
   <data name="TimePackage1" xml:space="preserve">
     <value>Un giorno</value>

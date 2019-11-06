@@ -67,7 +67,6 @@ namespace GratisForGratis.Models
         public virtual DbSet<CORRIERE_TIPO_PACCO> CORRIERE_TIPO_PACCO { get; set; }
         public virtual DbSet<FORMATO> FORMATO { get; set; }
         public virtual DbSet<GENERE> GENERE { get; set; }
-        public virtual DbSet<LOG_ERRORE> LOG_ERRORE { get; set; }
         public virtual DbSet<LOG_PAGAMENTO> LOG_PAGAMENTO { get; set; }
         public virtual DbSet<LOG_SBLOCCO_ANNUNCIO> LOG_SBLOCCO_ANNUNCIO { get; set; }
         public virtual DbSet<MARCA> MARCA { get; set; }
@@ -104,7 +103,6 @@ namespace GratisForGratis.Models
         public virtual DbSet<PERSONA_METODO_PAGAMENTO> PERSONA_METODO_PAGAMENTO { get; set; }
         public virtual DbSet<PERSONA_PRIVACY> PERSONA_PRIVACY { get; set; }
         public virtual DbSet<PERSONA_RICERCA> PERSONA_RICERCA { get; set; }
-        public virtual DbSet<PERSONA_SEGNALAZIONE> PERSONA_SEGNALAZIONE { get; set; }
         public virtual DbSet<PERSONA_TELEFONO> PERSONA_TELEFONO { get; set; }
         public virtual DbSet<PIATTAFORMA> PIATTAFORMA { get; set; }
         public virtual DbSet<PROVINCIA> PROVINCIA { get; set; }
@@ -149,6 +147,8 @@ namespace GratisForGratis.Models
         public virtual DbSet<ANNUNCIO> ANNUNCIO { get; set; }
         public virtual DbSet<PERSONA_ANNUNCIO_PROPOSTO> PERSONA_ANNUNCIO_PROPOSTO { get; set; }
         public virtual DbSet<CHAT> CHAT { get; set; }
+        public virtual DbSet<LOG_ERRORE> LOG_ERRORE { get; set; }
+        public virtual DbSet<PERSONA_SEGNALAZIONE> PERSONA_SEGNALAZIONE { get; set; }
     
         public virtual int AGGIORNAMENTO_CATEGORIE()
         {

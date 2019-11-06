@@ -121,12 +121,12 @@
     <value>Finisci la tua registrazione alla pagina {0} per poter acquistare e vendere. Riceverai ulteriori crediti omaggio!</value>
   </data>
   <data name="MessaggioConfermaEmail" xml:space="preserve">
-    <value>Conferma l'e-mail di registrazione. Clicca il seguente link per riceverla nuovamente!</value>
+    <value>Conferma l'e-mail di registrazione. Clicca il seguente link per ricevere nuovamente la MAIL con il LINK di ATTIVAZIONE!</value>
   </data>
   <data name="MessaggioPromozione" xml:space="preserve">
     <value>Iscriviti subito, in omaggio {0} {1} con cui potrai acquistare quello che vorrai! {2} &lt;br /&gt;Spedizioni dal nostro portale, possibilità di acquistare servizi professionali e oggetti nuovi, baratto suggerito!</value>
   </data>
   <data name="SalvaRicerca" xml:space="preserve">
-    <value>&lt;strong&gt;Non hai trovato&lt;/strong&gt; ciò che cercavi???&lt;br /&gt;&lt;strong&gt;Salva la tua ricerca&lt;/strong&gt; e verrai avvisato appena sarà &lt;strong&gt;pubblicato l'annuncio&lt;/strong&gt;!</value>
+    <value>&lt;strong&gt;Non hai trovato&lt;/strong&gt; ciò che cercavi?</value>
   </data>
 </root>

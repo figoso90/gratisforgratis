@@ -47,6 +47,14 @@ textarea{
     padding: 12px;
 }
 
+.desktop {
+    display: block;
+}
+
+.mobile {
+    display: none;
+}
+
 .popup{
     display:none;
 }
@@ -254,6 +262,7 @@ header{
     text-align: center;
     margin-right: 5%;
     font-family: 'Gochi Hand', cursive;
+    text-decoration:none;
 }
 
 #logo .ico {
@@ -490,15 +499,12 @@ textarea.form-control{
 /* RICERCA DALL'HEADER */
 
 #cerca .form-control, #cerca .form-control:hover {
-    font-size:17px;
+    font-size: 17px;
     display: inline-block;
-    vertical-align: top;
     width: 220px;
-    height: 34px;
-    padding-right: 36px;
-    padding-left: 20px;
-    border-color: #ccc;
-    border-radius: 0px;
+    height: 38px;
+    padding-right: 42px;
+    border-radius: 0px 24px 24px 0px;
 }
 
 #cerca .control-label{
@@ -808,18 +814,33 @@ footer h6 a {
     color:#fff;
 }
 
-#messaggioPerUtente .testo{
+#messaggioPerUtente .info {
+    padding: 5px 27px;
+    background-color: forestgreen;
+    color: #ffffff;
+    border-bottom:1px solid #ececec;
+}
+
+#messaggioPerUtente .errore {
     padding: 5px 27px;
     background-color: #ff0000;
     color: #ffffff;
+    border-bottom: 1px solid #ececec;
 }
 
-#messaggioPerUtente .testo a{
+#messaggioPerUtente .testo {
+    padding: 5px 27px;
+    background-color: #337ab7;
     color: #ffffff;
-    text-decoration:underline;
-    font-weight:900;
-    text-transform:uppercase;
+    border-bottom: 1px solid #ececec;
 }
+
+    #messaggioPerUtente .info a, #messaggioPerUtente .errore a, #messaggioPerUtente .testo a {
+        color: #ffffff;
+        text-decoration: underline;
+        font-weight: 900;
+        text-transform: uppercase;
+    }
 
 #messaggioPromozione .testo {
     padding: 5px 27px;
@@ -881,6 +902,14 @@ footer h6 a {
 
 @media only all and (max-width: 480px){
 
+    .desktop{
+        display:none;
+    }
+
+    .mobile{
+        display:block;
+    }
+
     #window > header, #window > section, #window > footer{
         padding-left:0%;
         padding-right:0%;
@@ -898,7 +927,7 @@ footer h6 a {
     #menuMobile{
         position:absolute;
         top:0px;
-        right:0px;
+        right:15px;
         display:block;
         width:100%;
         text-align:right;

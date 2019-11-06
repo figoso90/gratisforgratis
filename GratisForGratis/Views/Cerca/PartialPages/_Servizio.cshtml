@@ -14,7 +14,7 @@
 {
     <div id="@("Token"+servizio.Token)" class="object">
         <div>
-            <a class="openLink" href="/servizio/@HttpUtility.UrlEncode(servizio.Nome.Replace(" ","-") + "/" + servizio.Token)" title="@servizio.Nome GRATIS">
+            <a class="openLink" href="/servizio/@Html.Partial("PartialPages/_ParametriLink", servizio.Nome)/@HttpUtility.UrlEncode(servizio.Token)" title="@servizio.Nome GRATIS">
                 <h3 class="title">@servizio.Nome</h3>
                 <div class="left" style="background-image:url('@Url.Content("~/Uploads/Images/" + servizio.Venditore.VenditoreToken + "/" + @servizio.Foto.FirstOrDefault().DATA_INSERIMENTO.Year + "/" + "Normal/" + servizio.Foto.FirstOrDefault().ALLEGATO.NOME)')">
                     @if (servizio.Punti.ParseFromHappyCoin() <= 0)
@@ -24,8 +24,8 @@
                 </div>
                 <div class="right">
                     <h5 class="category">
-                        <a href="@Url.Action(servizio.Categoria.Replace(" ","-") + "/" + servizio.CategoriaID,"gratis")" title="@servizio.Categoria">
-                            <img class="glyphicon category" src="@Url.Content("~/Images/Icone/category.svg")" alt="@Language.Category" />
+                        <a href="@Url.Action(servizio.Categoria + "/" + servizio.CategoriaID,"gratis")" title="@servizio.Categoria">
+                            <i class="fas fa-tag"></i>
                             <span class="evidence">@servizio.Categoria</span>
                         </a>
                     </h5>
@@ -33,19 +33,22 @@
                         <img class="glyphicon happyCoin" src="@Url.Content("~/Images/Icone/happyCoin.svg")" alt="@Language.Moneta" />
                         @servizio.Punti <img class="infoTooltip infoTooltipAnnuncio" src="~/Images/icone/infoTooltip.svg" alt="info" title="Equivalgono a @servizio.Soldi" />
                     </h5>
-                    <h5 class="rate"><b>@Language.Rate :</b> @servizio.Tariffa</h5>
+                    <h5 class="rate"><i class="fas fa-hourglass-start"></i> @servizio.Tariffa</h5>
                     <h5 class="place">
-                        <span class="glyphicon glyphicon-map-marker" aria-hidden="true" title="Language.Place"></span>
+                        <i class="fas fa-map-marker-alt"></i>
                         @servizio.Citta
                     </h5>
                     <h5 class="seller">
-                        <b>@Language.Seller :</b>
+                        <i class="fas fa-user-tie"></i>
                         <span class="evidence">
                             @Html.ActionLink((string.IsNullOrWhiteSpace(Model.Venditore.Nominativo) ? Model.Venditore.Email : Model.Venditore.Nominativo), "Profilo", (Model.Venditore.Tipo == GratisForGratis.Models.TipoVenditore.Attivita) ? "PortaleWeb" : "Utente", new { token = Model.Venditore.VenditoreToken }, null)
                         </span>
                     </h5>
                 </div>
             </a>
+            <div class="box desktop">
+                @Html.Partial("PartialPages/_AdvAnnuncio")
+            </div>
             <div class="footer">
                 @Html.Partial("PartialPages/_Desidero", servizio)
                 @Html.Partial("PartialPages/_Possiedo", servizio)

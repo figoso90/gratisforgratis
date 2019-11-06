@@ -19,7 +19,7 @@ namespace GratisForGratis.App_GlobalResources {
     // tramite uno strumento quale ResGen o Visual Studio.
     // Per aggiungere o rimuovere un membro, modificare il file con estensione ResX ed eseguire nuovamente ResGen
     // con l'opzione /str oppure ricompilare il progetto VS.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Enum {
@@ -79,6 +79,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Errore applicativo.
+        /// </summary>
+        public static string Bug {
+            get {
+                return ResourceManager.GetString("Bug", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Dicembre.
         /// </summary>
         public static string December {
@@ -120,6 +129,24 @@ namespace GratisForGratis.App_GlobalResources {
         public static string HandleShipment {
             get {
                 return ResourceManager.GetString("HandleShipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Assistenza.
+        /// </summary>
+        public static string Help {
+            get {
+                return ResourceManager.GetString("Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Informazioni.
+        /// </summary>
+        public static string Info {
+            get {
+                return ResourceManager.GetString("Info", resourceCulture);
             }
         }
         
@@ -588,6 +615,15 @@ namespace GratisForGratis.App_GlobalResources {
         public static string StateWaitingPayment {
             get {
                 return ResourceManager.GetString("StateWaitingPayment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Proposta.
+        /// </summary>
+        public static string Suggestion {
+            get {
+                return ResourceManager.GetString("Suggestion", resourceCulture);
             }
         }
         

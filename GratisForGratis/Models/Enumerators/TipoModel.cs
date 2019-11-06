@@ -40,10 +40,14 @@ namespace GratisForGratis.Models
     */
     public enum TipoSegnalazione
     {
-        [Display(Name = "Bug", ResourceType = typeof(App_GlobalResources.Language))]
-        Bug = 0,
-        [Display(Name = "Improvement", ResourceType = typeof(App_GlobalResources.Language))]
-        Miglioramento = 1
+        [Display(Name = "Info", ResourceType = typeof(App_GlobalResources.Enum))]
+        Info = 0,
+        [Display(Name = "Suggestion", ResourceType = typeof(App_GlobalResources.Enum))]
+        Proposte = 1,
+        [Display(Name = "Help", ResourceType = typeof(App_GlobalResources.Enum))]
+        Assistenza = 2,
+        [Display(Name = "Bug", ResourceType = typeof(App_GlobalResources.Enum))]
+        Bug = 3
     }
 
     public enum TipoBonus

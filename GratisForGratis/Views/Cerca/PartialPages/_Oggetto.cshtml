@@ -13,7 +13,7 @@
 {
     <div id="@("Token" + oggetto.Token)" class="object">
         <div>
-            <a class="openLink" href="/oggetto/@HttpUtility.UrlEncode(oggetto.Nome.Replace(" ","-") + "/" + oggetto.Token)" title="@oggetto.Nome GRATIS">
+            <a class="openLink" href="/oggetto/@Html.Partial("PartialPages/_ParametriLink", oggetto.Nome)/@HttpUtility.UrlEncode(oggetto.Token)" title="@oggetto.Nome GRATIS">
                 <h3 class="title">@oggetto.Nome</h3>
                 <div class="left" style="background-image:url('@Url.Content("~/Uploads/Images/" + oggetto.Venditore.VenditoreToken + "/" + @oggetto.Foto.FirstOrDefault().DATA_INSERIMENTO.Year + "/" + "Normal/" + oggetto.Foto.FirstOrDefault().ALLEGATO.NOME)')">
                     @if (oggetto.StatoOggetto == GratisForGratis.Models.CondizioneOggetto.Nuovo)
@@ -27,8 +27,8 @@
                 </div>
                 <div class="right">
                     <h5 class="category">
-                        <a href="@Url.Action(oggetto.Categoria.Replace(" ","-") + "/" + oggetto.CategoriaID,"gratis")" title="@oggetto.Categoria">
-                            <img class="glyphicon category" src="@Url.Content("~/Images/Icone/category.svg")" alt="@Language.Category" />
+                        <a href="@Url.Action(oggetto.Categoria + "/" + oggetto.CategoriaID,"gratis")" title="@oggetto.Categoria">
+                            <i class="fas fa-tag"></i>
                             <span class="evidence">@oggetto.Categoria</span>
                         </a>
                     </h5>
@@ -41,17 +41,20 @@
                         <h5 class="shipment"><b>@Language.Shipment :</b> <span class="evidence">@oggetto.SoldiSpedizione</span></h5>
                     }
                     <h5 class="place">
-                        <span class="glyphicon glyphicon-map-marker" aria-hidden="true" title="Language.Place"></span>
+                        <i class="fas fa-map-marker-alt"></i>
                         @oggetto.Citta
                     </h5>
                     <h5 class="seller">
-                        <b>@Language.Seller :</b> 
+                        <i class="fas fa-user-tie"></i>
                         <span class="evidence">
-                            @Html.ActionLink((string.IsNullOrWhiteSpace(Model.Venditore.Nominativo)?Model.Venditore.Email: Model.Venditore.Nominativo), "Profilo", (Model.Venditore.Tipo==GratisForGratis.Models.TipoVenditore.Attivita)?"PortaleWeb": "Utente", new { token = Model.Venditore.VenditoreToken }, null)
+                            @Html.ActionLink((string.IsNullOrWhiteSpace(Model.Venditore.Nominativo) ? Model.Venditore.Email : Model.Venditore.Nominativo), "Profilo", (Model.Venditore.Tipo == GratisForGratis.Models.TipoVenditore.Attivita) ? "PortaleWeb" : "Utente", new { token = Model.Venditore.VenditoreToken }, null)
                         </span>
                     </h5>
                 </div>
             </a>
+            <div class="box desktop">
+                @Html.Partial("PartialPages/_AdvAnnuncio")
+            </div>
             <div class="footer">
                 @Html.Partial("PartialPages/_Desidero", oggetto)
                 @Html.Partial("PartialPages/_Possiedo", oggetto)

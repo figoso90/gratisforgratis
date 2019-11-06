@@ -280,7 +280,7 @@
     <value>Indirizzo web</value>
   </data>
   <data name="DescriptionLogin" xml:space="preserve">
-    <value>Usa quest'area per accedere o se sei nuovo, per &lt;strong&gt;registrarti velocemente&lt;/strong&gt; solo con e-mail e password!</value>
+    <value>Se è la tua prima volta: inserisci la tua e-mail di posta elettronica ed una password a tuo piacere.</value>
   </data>
   <data name="SystemOperating" xml:space="preserve">
     <value>Sistema operativo</value>
@@ -319,7 +319,7 @@
     <value>Errore durante il pagamento</value>
   </data>
   <data name="TitleAccess" xml:space="preserve">
-    <value>Accedi e acquista tutto gratuitamente</value>
+    <value>Registrati o accedi velocemente</value>
   </data>
   <data name="Generic" xml:space="preserve">
     <value>Generico</value>
@@ -652,7 +652,7 @@
     <value>Indirizzo</value>
   </data>
   <data name="Contacts" xml:space="preserve">
-    <value>Contatti</value>
+    <value>Assistenza</value>
   </data>
   <data name="OrdersPaid" xml:space="preserve">
     <value>Ordini pagati</value>
@@ -1405,10 +1405,10 @@
     <value>Prezzo</value>
   </data>
   <data name="TitleSearch" xml:space="preserve">
-    <value>Ricerca in {0} ({1} annunci trovati)</value>
+    <value>Modifica FILTRO ricerca {0} ({1} annunci trovati)</value>
   </data>
   <data name="TitleSearchGeneric" xml:space="preserve">
-    <value>Modifica ricerca generica ({0} trovati)</value>
+    <value>Modifica FILTRO ricerca ({0} trovati)</value>
   </data>
   <data name="MenuSearchSaved" xml:space="preserve">
     <value>Ricerche salvate</value>

@@ -556,6 +556,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Annuncio pubblicato.
+        /// </summary>
+        public static string TitleAdPublished {
+            get {
+                return ResourceManager.GetString("TitleAdPublished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Baratta oggetti, baratta servizi comodamente da casa tua!.
         /// </summary>
         public static string TitleBarter {

@@ -28,6 +28,7 @@
     @Styles.Render("~/Scripts/SlickNav/slicknav.css")
     @Styles.Render("https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
 
+    @Styles.Render("~/Content/banner.css")
     @Styles.Render("~/Content/index.css")
     @Styles.Render("~/Content/menuCategoria.css")
     @Scripts.Render("~/bundles/modernizr")
@@ -43,33 +44,17 @@
 </head>
 
 <body>
+    <!-- Home BOTTOM -->
+    <script data-wid="auto" type="text/javascript" src="//ads.viralize.tv/display/?zid=AADMAU-dtIrSswd-"></script>
     <div id="page" class="container-fluid">
-
-        @if (!this.Context.IsDebuggingEnabled)
-        {
-        <div class="banner home2">
-            <!-- gratisforgratis - grande -->
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-5108424997424987"
-                 data-ad-slot="7676175854"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-        </div>
-        }
         <div id="main" class="page container">
             <header>
-                <div id="menuHomeOverlay"></div>
-                <div id="menuHome">
-                    <i class="fas fa-bars icona"></i>
+                <div id="menuHomeOverlay">
                     <ul class="menu">
                         @if (this.Context.Request.IsAuthenticated)
                         {
-                            <li role="presentation" class="reporting">
-                                <a id="reportingMobile" href="javascript:void(0);">@Language.Reporting</a>
+                            <li role="presentation" class="contacts">
+                                @Html.ActionLink(Language.Reporting, "Contatti", "Home")
                             </li>
                             <li role="presentation" class="pubblication">
                                 @Html.ActionLink(Language.Public, "", "Pubblica")
@@ -171,8 +156,14 @@
                                     @ViewModel.LoginFacebook
                                 </a>
                             </li>
+                            <li role="presentation" class="contacts">
+                                @Html.ActionLink(Language.Contacts, "Contatti", "Home")
+                            </li>
                         }
                     </ul>
+                </div>
+                <div id="menuHome">
+                    <i class="fas fa-bars icona"></i>
                 </div>
             </header>
             <div class="row justify-content-center text-center align-items-end">
@@ -184,48 +175,52 @@
                 </div>
             </div>
             <div class="row justify-content-center text-center align-items-start">
-                <div id="boxRicerca" class="col-sm-6">
-                    <div class="col-sm">
-                        @using (Html.BeginForm("index2", "gratis", FormMethod.Get, new { id = "cerca" }))
-                        {
-                            <div id="menuCategoriaRicerca">
-                                @Html.Hidden("Cerca_IDCategoria", Response.Cookies["ricerca"]["IDCategoria"])
-                                @Html.Hidden("Cerca_Categoria", Response.Cookies["ricerca"]["Categoria"])
-                                <div class="form-group ricerca">
-                                    <label class="sr-only" for="inlineFormInputGroup">@Language.InputSearch</label>
-                                    <div class="input-group mb-2 col-md-12 col-lg-8" style="margin:0px auto;">
-                                        @Html.TextBox("Cerca_Nome", Response.Cookies["ricerca"]["Nome"], new { @class = "form-control", placeholder = Language.InputSearch })
-
-                                        <div class="input-group-append">
-                                            <div class="input-group-text" style="padding:0em 1em;">
-                                                <a class="" data-toggle="tooltip" href="javascript:void(0);"
-                                                   title="@Tooltip.InfoHowSearch">
-                                                    <i class="far fa-question-circle"></i>
-                                                </a>
-                                            </div>
+                <div id="boxRicerca" class="col-sm-5">
+                    @using (Html.BeginForm("index2", "cerca", FormMethod.Get, new { id = "cerca" }))
+                    {
+                        <div class="form-row align-items-center">
+                            <div class="form-group col-sm-12 ricerca">
+                                <label class="sr-only" for="inlineFormInputGroup">@Language.InputSearch</label>
+                                <div class="input-group" style="padding:0px;">
+                                    <div class="input-group-prepend">            
+                                        <div id="menuCategoriaRicerca">
+                                            @Html.Hidden("Cerca_IDCategoria", Response.Cookies["ricerca"]["IDCategoria"])
+                                            @Html.Hidden("Cerca_Categoria", Response.Cookies["ricerca"]["Categoria"])
                                         </div>
-                                        <!--
+                                    </div>
+                                    @Html.TextBox("Cerca_Nome", Response.Cookies["ricerca"]["Nome"], new { @class = "form-control", placeholder = Language.InputSearch })
                                     <div class="input-group-append">
-                                        <div class="input-group-text"><a href="javascript:void(0);" onclick="$('#btnInvio2').click();"><i class="fab fa-searchengin"></i></a></div>
-                                    </div>
-                                    -->
-                                    </div>
-                                </div>
-                                <div class="form-group pulsante">
-                                    <div class="col-md-12">
-                                        <input class="btn btn-primary" type="submit" name="invio" id="btnInvio2" value="CERCA" />
-                                    </div>
-                                </div>
-                                <div class="form-group pulsante">
-                                    <div class="col-md-12">
-                                        <a href="javascript:void(0);" onclick="nextPage(this);">
-                                            <i class="fas fa-chevron-circle-down" style="font-size: 38px;margin-top: 12px;"></i>
-                                        </a>
+                                        <div class="input-group-text" style="border-radius: 0px 24px 24px 0px;">
+                                            <a href="javascript:void(0);" onclick="$('#btnInvio2').click();">
+                                                <i class="fas fa-search"></i>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        }
-                    </div>
+                            <div class="form-group col-sm-12 pulsante">
+                                <div class="col-md-12">
+                                    <input class="btn" type="submit" name="invio" id="btnInvio2" value="CERCA" />
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-12">
+                                <div class="col-md-12">
+                                    <a href="javascript:void(0);" onclick="nextPage(this);">
+                                        PERCHè GRATIS?
+                                    </a>
+                                        - 
+                                    <a href="javascript:void(0);" onclick="anchorPage('#bando');">
+                                        BANDO 2019
+                                    </a>
+                                </div>
+                                <div class="col-md-12">
+                                    <a href="javascript:void(0);" onclick="nextPage(this);">
+                                        <i class="fas fa-chevron-circle-down" style="font-size: 38px;margin-top: 12px;"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
             <footer>
@@ -241,10 +236,12 @@
                             <li class="nav-item">@Html.ActionLink("Bando 2019", "Bando", "Home", null, new { @class = "nav-link" })</li>
                         </ul>
                         <ul class="nav justify-content-right box desktop">
+                            <!--
                             <li>
                                 <a href="http://www.davidemilitano.net/SviluppatoreDotNet" title="WebMaster C#" target="_blank">WebMaster C# - Davide Militano</a>
                             </li>
                             <li>&nbsp;</li>
+                            -->
                             <li>
                                 @WebConfigurationManager.AppSettings["nomeSito"] &copy; @DateTime.Now.Year
                             </li>
@@ -257,6 +254,59 @@
                     </nav>
                 </menu>
             </footer>
+        </div>
+        <div id="why" class="page container">
+            <div class="row align-items-end justify-content-center">
+                <div class="col-md-12 text-center">
+                    <h2 class="title" style="margin:22px auto;">Perchè usare GRATIS?</h2>
+                </div>
+            </div>
+            <div class="row align-items-center justify-content-center">
+                <div class="col-md-10">
+                    <div id="caratteristiche" class="row align-items-start" style="margin:22px 0px 60px;">
+                        <div id="completo" class="col-md-4 text-center language">
+                            <h2>Spedizione online</h2>
+                            <div>
+                                <img class="img-sezione" src="~/Images/stickers/pubblica.gif" alt="Spedizione online" />
+                            </div>
+                            <div class="text">
+                                <p>
+                                    Per commerciare facilmente anche a distanza
+                                </p>
+                            </div>
+                        </div>
+                        <div id="anonimo" class="col-md-4 text-center language">
+                            <h2>Happy-coin</h2>
+                            <div>
+                                <img class="img-sezione" src="~/Images/stickers/25.png" alt="Happy-Coin senza limiti" />
+                            </div>
+                            <div class="text">
+                                <p>
+                                    Crediti virtuali per aumentare le tue possibilità di scambio
+                                </p>
+                            </div>
+                        </div>
+                        <div id="sicuro" class="col-md-4 text-center language">
+                            <h2>Ricerca avanzata</h2>
+                            <div>
+                                <img class="img-sezione" src="~/Images/stickers/10_y.png" alt="Pubblicare oggetti e competenze" />
+                            </div>
+                            <div class="text">
+                                <p>
+                                    Puoi trovare beni, servizi e cercare materiali o componenti!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row align-items-start justify-content-center">
+                <div class="col-md-12 pulsante">
+                    <a href="javascript:void(0);" onclick="nextPage(this);">
+                        <i class="fas fa-chevron-circle-down" style="font-size: 38px;margin-top: 12px;"></i>
+                    </a>
+                </div>
+            </div>
         </div>
         <div id="index" class="page container">
             <div class="row justify-content-center text-center">
@@ -312,60 +362,6 @@
                 </div>
             </div>
         </div>
-        <div id="why" class="page container">
-            <div class="row align-items-end justify-content-center">
-                <div class="col-md-12 text-center">
-                    <h2 class="title" style="margin:22px auto;">CARATTERISTICHE</h2>
-                </div>
-            </div>
-            <div class="row align-items-center justify-content-center">
-                <div class="col-md-10">
-                    <div id="caratteristiche" class="row align-items-start" style="margin:22px 0px 60px;">
-                        <div id="completo" class="col-md-4 text-center language">
-                            <h2 class="title">Completo</h2>
-                            <div>
-                                <img class="img-sezione" src="~/Images/stickers/tartaruga10.png" alt="Sito completo" />
-                            </div>
-                            <div class="text">
-                                <p>
-                                    Puoi pagare con qualsiasi forma di pagamento: euro, happy-coin, fare un'offerta (anche il baratto) o regalare
-                                </p>
-                            </div>
-                        </div>
-                        <div id="anonimo" class="col-md-4 text-center language">
-                            <h2 class="title">Anonimo</h2>
-                            <div>
-                                <img class="img-sezione" src="~/Images/stickers/tartaruga9.png" alt="Sito anonimo" />
-                            </div>
-                            <div class="text">
-                                <p>
-                                    Per l'utilizzo della piattaforma ti chiederemo solo e-mail, password ed un nome identificativo (come uno username)
-                                </p>
-                            </div>
-                        </div>
-                        <div id="sicuro" class="col-md-4 text-center language">
-                            <h2 class="title">Sicuro</h2>
-                            <div>
-                                <img class="img-sezione" src="~/Images/stickers/tartaruga1.png" alt="Sito sicuro" />
-                            </div>
-                            <div class="text">
-                                <p>
-                                    Abbiamo usato le nuove tecnologie, monitoriamo la sicurezza tramite appositi tool, tracciamo gli errori e applichiamo
-                                    una filosofia che esorta la violazione del sistema
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row align-items-start justify-content-center">
-                <div class="col-md-12 pulsante">
-                    <a href="javascript:void(0);" onclick="nextPage(this);">
-                        <i class="fas fa-chevron-circle-down" style="font-size: 38px;margin-top: 12px;"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
         <div id="bando" class="page container">
             <div class="row align-items-end justify-content-center">
                 <div class="col-md-12 text-center">
@@ -374,61 +370,44 @@
             </div>
             <div class="row align-items-center justify-content-center">
                 <div class="col-md-10">
-                    <div id="bando2019" class="row align-items-start justify-content-center" style="margin:22px 0px 60px;">
-                        <div id="bandreg" class="col-md-3 text-center language">
-                            <h2 class="title"><a href="/utente/login">Registrati</a></h2>
-                            <div>
-                                <i class="fas fa-signature img-sezione"></i>
-                            </div>
-                            <div class="text">
-                                <p>
-                                    Fai la registrazione smart inserendo solamente e-mail, password e lo username dopo l'accesso
-                                </p>
+                    <div id="bando2019" class="card-deck">
+                        <div id="bandreg" class="card">
+                            <img class="card-img-top" src="~/Images/stickers/27.png" alt="Registrati">
+                            <div class="card-body">
+                                <h5 class="card-title"><a href="/utente/login">Registrati</a></h5>
+                                <p class="card-text">Fai la registrazione smart inserendo solamente e-mail e password.</p>
+                                <a href="/utente/login" class="btn btn-primary">Vai</a>
                             </div>
                         </div>
-                        <div id="bandopubb" class="col-md-3 text-center language">
-                            <h2 class="title"><a href="/pubblica">Pubblica</a></h2>
-                            <div>
-                                <i class="fab fa-adversal img-sezione"></i>
-                            </div>
-                            <div class="text">
-                                <p>
-                                    Pubblica 4 annunci attendibili, con almeno uno che sia nella categoria servizi
-                                </p>
+                        <div id="bandopubb" class="card">
+                            <img class="card-img-top" src="~/Images/stickers/13.png" alt="Pubblica">
+                            <div class="card-body">
+                                <h5 class="card-title"><a href="/pubblica">Pubblica</a></h5>
+                                <p class="card-text">Pubblica 4 annunci attendibili con un account per persona.</p>
+                                <a href="/pubblica" class="btn btn-primary">Vai</a>
                             </div>
                         </div>
-                        <div id="bandoatt" class="col-md-3 text-center language">
-                            <h2 class="title"><a href="/utente">Attendi</a></h2>
-                            <div>
-                                <i class="far fa-clock img-sezione"></i>
-                            </div>
-                            <div class="text">
-                                <p>
-                                    Il concorso inizia il 01-10-2019 e si conclude il 31-10-2019.<br />
-                                    Dal 01-11-2019 al 30-11-2019 potrai verificare se hai vinto o meno.
+                        <div id="bandoatt" class="card">
+                            <img class="card-img-top" src="~/Images/stickers/9_s.png" alt="tempo">
+                            <div class="card-body">
+                                <h5 class="card-title"><a href="/utente">Attendi</a></h5>
+                                <p class="card-text">
+                                    Si potrà partecipare al concorso dal 01-11-2019 al 30-11-2019.
                                 </p>
+                                <a href="/utente" class="btn btn-primary">Vai</a>
                             </div>
                         </div>
-                        <div id="bandopremio" class="col-md-3 text-center language">
-                            <h2 class="title"><a href="/utente">Premio</a></h2>
-                            <div>
-                                <i class="fas fa-trophy img-sezione"></i>
-                            </div>
-                            <div class="text">
-                                <p>
-                                    Il vincitore riceverà un buono Amazon da € 50!
-                                </p>
+                        <div id="bandopremio" class="card">
+                            <img class="card-img-top" src="~/Images/stickers/51.png" alt="buono amazon">
+                            <div class="card-body">
+                                <h5 class="card-title"><a href="/utente">Vinci</a></h5>
+                                <p class="card-text">Il vincitore riceverà un buono Amazon da € 50, spendibile appena ricevuto.</p>
+                                <a href="~/Temp/Bando2019_Regolamento.pdf" target="_blank" class="btn btn-primary">
+                                    Scarica regolamento
+                                </a>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="row align-items-start justify-content-center">
-                <div class="col-md-12 text-center">
-                    <a href="~/Temp/Bando2019_Regolamento.pdf" target="_blank">
-                        <i class="fas fa-file-download" style="font-size: 38px;margin-top: 12px;"></i><br />
-                        Scarica regolamento
-                    </a>
                 </div>
             </div>
             <div class="row align-items-start justify-content-center">
@@ -513,6 +492,7 @@
     </script>
     @Scripts.Render("~/Scripts/SlickNav/jquery.slicknav.min.js")
     @Scripts.Render("https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js")
+    @Scripts.Render("~/Scripts/banner.js")
     @Scripts.Render("~/Scripts/Site.js")
     @Scripts.Render("~/Scripts/index.js")
 </body>

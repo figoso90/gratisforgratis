@@ -80,14 +80,14 @@ namespace GratisForGratis.Controllers
                 }else if (categoria != null && categoria.TIPO_VENDITA == (int)TipoAcquisto.Servizio)
                 {
                     lista = new ListaServizi();
-                    lista = GetListaServizi(cerca.Pagina, cookie);
+                    lista = GetListaServizi(cerca.Pagina, cookie, ajax: false);
                     if (string.IsNullOrWhiteSpace(nomeView))
                         nomeView = "servizi";
                 }
                 else
                 {
                     lista = new ListaOggetti();
-                    lista = GetListaOggetti(cerca.Pagina, cookie);
+                    lista = GetListaOggetti(cerca.Pagina, cookie, ajax: false);
                     if (string.IsNullOrWhiteSpace(nomeView))
                         nomeView = "oggetti";
                 }
@@ -479,11 +479,13 @@ namespace GratisForGratis.Controllers
             int numeroRecord = 0;
             ListaVendite lista = new ListaVendite(Convert.ToInt32(cookieRicercaBase["IdCategoria"]), cookieRicercaBase["Categoria"])
             {
-                List = FindVendite(cookieRicercaBase, filtro, 1, ref pagineTotali, ref numeroRecord),
-                PageNumber = 1,
+                List = FindVendite(cookieRicercaBase, filtro, ricerca.Pagina, ref pagineTotali, ref numeroRecord),
+                PageNumber = ricerca.Pagina,
                 PageCount = pagineTotali,
                 TotalNumber = numeroRecord
             };
+            if (lista.List == null || lista.List.Count() <= 0)
+                return null;
 
             return PartialView("Index", lista);
         }
@@ -502,7 +504,9 @@ namespace GratisForGratis.Controllers
             HttpContext.Response.Cookies.Set(filtro);
 
             //recupero impaginazione e dati
-            ListaOggetti lista = GetListaOggetti(1, null, filtro);
+            ListaOggetti lista = GetListaOggetti(ricerca.Pagina, null, filtro);
+            if (lista == null)
+                return null;
 
             return PartialView("Oggetti", lista);
         }
@@ -521,7 +525,9 @@ namespace GratisForGratis.Controllers
             HttpContext.Response.Cookies.Set(filtro);
 
             //recupero impaginazione e dati
-            ListaOggetti lista = GetListaOggetti(1, null, filtro);
+            ListaOggetti lista = GetListaOggetti(ricerca.Pagina, null, filtro);
+            if (lista == null)
+                return null;
 
             return PartialView("Telefoni-Smartphone", lista);
         }
@@ -541,7 +547,9 @@ namespace GratisForGratis.Controllers
             HttpContext.Response.Cookies.Set(filtro);
 
             //recupero impaginazione e dati
-            ListaOggetti lista = GetListaOggetti(1, null, filtro);
+            ListaOggetti lista = GetListaOggetti(ricerca.Pagina, null, filtro);
+            if (lista == null)
+                return null;
 
             return PartialView("Audio-Hi-Fi", lista);
         }
@@ -561,7 +569,9 @@ namespace GratisForGratis.Controllers
             HttpContext.Response.Cookies.Set(filtro);
 
             //recupero impaginazione e dati
-            ListaOggetti lista = GetListaOggetti(1, null, filtro);
+            ListaOggetti lista = GetListaOggetti(ricerca.Pagina, null, filtro);
+            if (lista == null)
+                return null;
 
             return PartialView("Pc", lista);
         }
@@ -581,7 +591,9 @@ namespace GratisForGratis.Controllers
             HttpContext.Response.Cookies.Set(filtro);
 
             //recupero impaginazione e dati
-            ListaOggetti lista = GetListaOggetti(1, null, filtro);
+            ListaOggetti lista = GetListaOggetti(ricerca.Pagina, null, filtro);
+            if (lista == null)
+                return null;
 
             return PartialView("Elettrodomestici", lista);
         }
@@ -601,7 +613,9 @@ namespace GratisForGratis.Controllers
             HttpContext.Response.Cookies.Set(filtro);
 
             //recupero impaginazione e dati
-            ListaOggetti lista = GetListaOggetti(1, null, filtro);
+            ListaOggetti lista = GetListaOggetti(ricerca.Pagina, null, filtro);
+            if (lista == null)
+                return null;
 
             return PartialView("Strumenti-e-accessori", lista);
         }
@@ -621,7 +635,9 @@ namespace GratisForGratis.Controllers
             HttpContext.Response.Cookies.Set(filtro);
 
             //recupero impaginazione e dati
-            ListaOggetti lista = GetListaOggetti(1, null, filtro);
+            ListaOggetti lista = GetListaOggetti(ricerca.Pagina, null, filtro);
+            if (lista == null)
+                return null;
 
             return PartialView("Musica-elettronica", lista);
         }
@@ -641,7 +657,9 @@ namespace GratisForGratis.Controllers
             HttpContext.Response.Cookies.Set(filtro);
 
             //recupero impaginazione e dati
-            ListaOggetti lista = GetListaOggetti(1, null, filtro);
+            ListaOggetti lista = GetListaOggetti(ricerca.Pagina, null, filtro);
+            if (lista == null)
+                return null;
 
             return PartialView("Magia", lista);
         }
@@ -661,7 +679,9 @@ namespace GratisForGratis.Controllers
             HttpContext.Response.Cookies.Set(filtro);
 
             //recupero impaginazione e dati
-            ListaOggetti lista = GetListaOggetti(1, null, filtro);
+            ListaOggetti lista = GetListaOggetti(ricerca.Pagina, null, filtro);
+            if (lista == null)
+                return null;
 
             return PartialView("Videogames", lista);
         }
@@ -681,7 +701,9 @@ namespace GratisForGratis.Controllers
             HttpContext.Response.Cookies.Set(filtro);
 
             //recupero impaginazione e dati
-            ListaOggetti lista = GetListaOggetti(1, null, filtro);
+            ListaOggetti lista = GetListaOggetti(ricerca.Pagina, null, filtro);
+            if (lista == null)
+                return null;
 
             return PartialView("Calcio", lista);
         }
@@ -701,7 +723,9 @@ namespace GratisForGratis.Controllers
             HttpContext.Response.Cookies.Set(filtro);
 
             //recupero impaginazione e dati
-            ListaOggetti lista = GetListaOggetti(1, null, filtro);
+            ListaOggetti lista = GetListaOggetti(ricerca.Pagina, null, filtro);
+            if (lista == null)
+                return null;
 
             return PartialView("Tv", lista);
         }
@@ -721,7 +745,9 @@ namespace GratisForGratis.Controllers
             HttpContext.Response.Cookies.Set(filtro);
 
             //recupero impaginazione e dati
-            ListaOggetti lista = GetListaOggetti(1, null, filtro);
+            ListaOggetti lista = GetListaOggetti(ricerca.Pagina, null, filtro);
+            if (lista == null)
+                return null;
 
             return PartialView("Console", lista);
         }
@@ -741,7 +767,9 @@ namespace GratisForGratis.Controllers
             HttpContext.Response.Cookies.Set(filtro);
 
             //recupero impaginazione e dati
-            ListaOggetti lista = GetListaOggetti(1, null, filtro);
+            ListaOggetti lista = GetListaOggetti(ricerca.Pagina, null, filtro);
+            if (lista == null)
+                return null;
 
             return PartialView("Avventura-azione", lista);
         }
@@ -761,7 +789,9 @@ namespace GratisForGratis.Controllers
             HttpContext.Response.Cookies.Set(filtro);
 
             //recupero impaginazione e dati
-            ListaOggetti lista = GetListaOggetti(1, null, filtro);
+            ListaOggetti lista = GetListaOggetti(ricerca.Pagina, null, filtro);
+            if (lista == null)
+                return null;
 
             return PartialView("Libri-scolastici", lista);
         }
@@ -781,7 +811,9 @@ namespace GratisForGratis.Controllers
             HttpContext.Response.Cookies.Set(filtro);
 
             //recupero impaginazione e dati
-            ListaOggetti lista = GetListaOggetti(1, null, filtro);
+            ListaOggetti lista = GetListaOggetti(ricerca.Pagina, null, filtro);
+            if (lista == null)
+                return null;
 
             return PartialView("Auto-furgoni", lista);
         }
@@ -801,7 +833,9 @@ namespace GratisForGratis.Controllers
             HttpContext.Response.Cookies.Set(filtro);
 
             //recupero impaginazione e dati
-            ListaOggetti lista = GetListaOggetti(1, null, filtro);
+            ListaOggetti lista = GetListaOggetti(ricerca.Pagina, null, filtro);
+            if (lista == null)
+                return null;
 
             return PartialView("Gonne", lista);
         }
@@ -820,8 +854,9 @@ namespace GratisForGratis.Controllers
             HttpContext.Response.Cookies.Set(filtro);
 
             //recupero impaginazione e dati
-            ListaServizi lista = GetListaServizi(1, null, filtro);
-
+            ListaServizi lista = GetListaServizi(ricerca.Pagina, null, filtro);
+            if (lista == null)
+                return null;
             return PartialView("Servizi", lista);
         }
 
@@ -1073,7 +1108,7 @@ namespace GratisForGratis.Controllers
         Recupero gli oggetti ancora in vendita, della categoria selezionata o di una sua sottocategoria,
         che non abbia ancora ricevuto un'offerta attiva di acquisto in punti o comunque accettata
         **/
-        private ListaOggetti GetListaOggetti(int paginaAttuale, HttpCookie ricerca = null, HttpCookie filtro = null)
+        private ListaOggetti GetListaOggetti(int paginaAttuale, HttpCookie ricerca = null, HttpCookie filtro = null, bool ajax = true)
         {
             //recupero impaginazione e dati
             ListaOggetti lista = new ListaOggetti();
@@ -1088,6 +1123,9 @@ namespace GratisForGratis.Controllers
             lista.PageNumber = paginaAttuale;
             lista.PageCount = pagineTotali;
             lista.TotalNumber = numeroRecord;
+
+            if (ajax && (lista.List == null || lista.List.Count() <= 0))
+                return null;
             return lista;
         }
 
@@ -1702,7 +1740,7 @@ namespace GratisForGratis.Controllers
         Recupero i servizi ancora in vendita, della categoria selezionata o di una sua sottocategoria,
         che non abbia ancora ricevuto un'offerta attiva di acquisto in punti o comunque accettata
         **/
-        private ListaServizi GetListaServizi(int paginaAttuale, HttpCookie ricerca = null, HttpCookie filtro = null)
+        private ListaServizi GetListaServizi(int paginaAttuale, HttpCookie ricerca = null, HttpCookie filtro = null, bool ajax = true)
         {
             //recupero impaginazione e dati
             ListaServizi lista = new ListaServizi();
@@ -1717,6 +1755,9 @@ namespace GratisForGratis.Controllers
             lista.PageNumber = paginaAttuale;
             lista.PageCount = pagineTotali;
             lista.TotalNumber = numeroRecord;
+
+            if (ajax && (lista.List == null || lista.List.Count() <= 0))
+                return null;
             return lista;
         }
 

@@ -29,7 +29,8 @@ namespace GratisForGratis.Models
 
         public AnnuncioModel(Guid token, DatabaseContext db) : base()
         {
-            this._AnnuncioOriginale = db.ANNUNCIO.SingleOrDefault(m => m.TOKEN == token);
+            this._AnnuncioOriginale = db.ANNUNCIO
+                .Include(m => m.ANNUNCIO_TIPO_SCAMBIO).SingleOrDefault(m => m.TOKEN == token);
             //db.Entry(this._AnnuncioOriginale).Reload();
             CopyAttributes<ANNUNCIO>(_AnnuncioOriginale);
         }
@@ -78,7 +79,8 @@ namespace GratisForGratis.Models
         public AnnuncioViewModel GetViewModel(DatabaseContext db, Guid token)
         {
             AnnuncioViewModel viewModel = new AnnuncioViewModel();
-            ANNUNCIO item = db.ANNUNCIO.Include(m => m.ANNUNCIO_FOTO).SingleOrDefault(m => m.TOKEN == token);
+            ANNUNCIO item = db.ANNUNCIO.Include(m => m.ANNUNCIO_FOTO)
+                .SingleOrDefault(m => m.TOKEN == token);
             SetAnnuncioViewModel(db, viewModel, item);
             if (viewModel.TipoAcquisto == TipoAcquisto.Oggetto)
             {
@@ -682,7 +684,7 @@ namespace GratisForGratis.Models
             annuncio.TipoAcquisto = (vendita.ID_SERVIZIO != null) ? TipoAcquisto.Servizio : TipoAcquisto.Oggetto;
             annuncio.CategoriaID = vendita.ID_CATEGORIA;
             annuncio.Categoria = vendita.CATEGORIA.NOME;
-            annuncio.Foto = vendita.ANNUNCIO_FOTO.Where(f => f.ID_ANNUNCIO == vendita.ID).Select(f => new AnnuncioFoto()
+            annuncio.Foto = db.ANNUNCIO_FOTO.Where(f => f.ID_ANNUNCIO == vendita.ID).Select(f => new AnnuncioFoto()
             {
                 ID_ANNUNCIO = f.ID_ANNUNCIO,
                 ALLEGATO= f.ALLEGATO,

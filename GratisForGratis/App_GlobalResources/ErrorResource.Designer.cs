@@ -19,7 +19,7 @@ namespace GratisForGratis.App_GlobalResources {
     // tramite uno strumento quale ResGen o Visual Studio.
     // Per aggiungere o rimuovere un membro, modificare il file con estensione ResX ed eseguire nuovamente ResGen
     // con l'opzione /str oppure ricompilare il progetto VS.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class ErrorResource {
@@ -156,6 +156,51 @@ namespace GratisForGratis.App_GlobalResources {
         public static string ChatLengthMessage {
             get {
                 return ResourceManager.GetString("ChatLengthMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Invio fallito: riprova tra 5 secondi.
+        /// </summary>
+        public static string ContactsAwaitSendMail {
+            get {
+                return ResourceManager.GetString("ContactsAwaitSendMail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Il campo captcha non può essere vuoto..
+        /// </summary>
+        public static string ContactsCaptchaEmpty {
+            get {
+                return ResourceManager.GetString("ContactsCaptchaEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Il campo captcha è errato..
+        /// </summary>
+        public static string ContactsCaptchaError {
+            get {
+                return ResourceManager.GetString("ContactsCaptchaError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Invio email fallito. Riprova più tardi o contattaci tramite posta elettronica..
+        /// </summary>
+        public static string ContactsErrorGeneric {
+            get {
+                return ResourceManager.GetString("ContactsErrorGeneric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Invio fallito: {0}.
+        /// </summary>
+        public static string ContactsErrorSendMail {
+            get {
+                return ResourceManager.GetString("ContactsErrorSendMail", resourceCulture);
             }
         }
         
@@ -439,7 +484,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Attiva l&apos;utente!.
+        ///   Cerca una stringa localizzata simile a Attiva l&apos;utente! Vai sulla tua casella di posta e clicca sul link che ti abbiamo inviato!.
         /// </summary>
         public static string UserEnabled {
             get {

@@ -1,0 +1,38 @@
+﻿@model GratisForGratis.Models.ViewModels.ChatPortaleWebViewModel
+
+@{
+    ViewBag.Title = string.Format(MetaTag.TitleChatUser, Model.Attivita.ATTIVITA.NOME);
+}
+
+@section Styles{
+    @Styles.Render("~/Content/chat.css")
+}
+
+<section id="chatUtente">
+    <div class="row">
+        <div class="col-sm-4">
+            <div>
+                <h2>@(Model.Attivita.ATTIVITA.NOME)</h2>
+                <div id="boxFotoProfilo">
+                    @Html.Partial("PartialPages/_GalleriaFotoAttivita", Model.Attivita)
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="boxMessaggi">
+                <div class="content">
+                    @Html.Partial("PartialPages/_ListaChat", Model.Messaggi)
+                </div>
+            </div>
+            <div id="boxNuovoMessaggio">
+                @Html.Partial("PartialPages/_FormMessaggio", new GratisForGratis.Models.ViewModels.ChatViewModel(Model.Attivita.ID))
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/chat.js")
+}
+

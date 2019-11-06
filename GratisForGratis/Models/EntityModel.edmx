@@ -621,15 +621,15 @@ avviso 6005: Tipo di dati 'hierarchyid' attualmente non supportato per la versio
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RICHIESTA" Type="text" />
           <Property Name="RISPOSTA" Type="text" />
-          <Property Name="PARAMETRI" Type="nvarchar" MaxLength="4000" />
+          <Property Name="PARAMETRI" Type="text" />
           <Property Name="ID_PERSONA" Type="int" />
           <Property Name="ID_ATTIVITA" Type="int" />
           <Property Name="CONTROLLER" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ACTION" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="SESSIONE" Type="nvarchar" MaxLength="500" />
           <Property Name="IP" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="ALIAS" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="MAC_ADDRESS" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ALIAS" Type="nvarchar" MaxLength="50" />
+          <Property Name="MAC_ADDRESS" Type="nvarchar" MaxLength="50" />
           <Property Name="DATA_INSERIMENTO" Type="datetime" />
         </EntityType>
         <EntityType Name="LOG_PAGAMENTO">
@@ -1106,7 +1106,7 @@ avviso 6005: Tipo di dati 'hierarchyid' attualmente non supportato per la versio
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ID_PERSONA" Type="int" Nullable="false" />
+          <Property Name="ID_PERSONA" Type="int" />
           <Property Name="EMAIL_RISPOSTA" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="OGGETTO" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="TESTO" Type="text" Nullable="false" />
@@ -3644,7 +3644,7 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PERSONA_SEGNALAZIONE_PERSONA">
-          <End Role="PERSONA" Type="Self.PERSONA" Multiplicity="1" />
+          <End Role="PERSONA" Type="Self.PERSONA" Multiplicity="0..1" />
           <End Role="PERSONA_SEGNALAZIONE" Type="Self.PERSONA_SEGNALAZIONE" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PERSONA">
@@ -5520,7 +5520,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <EntitySet Name="CORRIERE_TIPO_PACCO" EntityType="GratisForGratisModel.CORRIERE_TIPO_PACCO" />
           <EntitySet Name="FORMATO" EntityType="GratisForGratisModel.FORMATO" />
           <EntitySet Name="GENERE" EntityType="GratisForGratisModel.GENERE" />
-          <EntitySet Name="LOG_ERRORE" EntityType="GratisForGratisModel.LOG_ERRORE" />
           <EntitySet Name="LOG_PAGAMENTO" EntityType="GratisForGratisModel.LOG_PAGAMENTO" />
           <EntitySet Name="LOG_SBLOCCO_ANNUNCIO" EntityType="GratisForGratisModel.LOG_SBLOCCO_ANNUNCIO" />
           <EntitySet Name="MARCA" EntityType="GratisForGratisModel.MARCA" />
@@ -5557,7 +5556,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <EntitySet Name="PERSONA_METODO_PAGAMENTO" EntityType="GratisForGratisModel.PERSONA_METODO_PAGAMENTO" />
           <EntitySet Name="PERSONA_PRIVACY" EntityType="GratisForGratisModel.PERSONA_PRIVACY" />
           <EntitySet Name="PERSONA_RICERCA" EntityType="GratisForGratisModel.PERSONA_RICERCA" />
-          <EntitySet Name="PERSONA_SEGNALAZIONE" EntityType="GratisForGratisModel.PERSONA_SEGNALAZIONE" />
           <EntitySet Name="PERSONA_TELEFONO" EntityType="GratisForGratisModel.PERSONA_TELEFONO" />
           <EntitySet Name="PIATTAFORMA" EntityType="GratisForGratisModel.PIATTAFORMA" />
           <EntitySet Name="PROVINCIA" EntityType="GratisForGratisModel.PROVINCIA" />
@@ -6363,10 +6361,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             <End Role="PERSONA" EntitySet="PERSONA" />
             <End Role="PERSONA_RICERCA" EntitySet="PERSONA_RICERCA" />
           </AssociationSet>
-          <AssociationSet Name="FK_PERSONA_SEGNALAZIONE_PERSONA" Association="GratisForGratisModel.FK_PERSONA_SEGNALAZIONE_PERSONA">
-            <End Role="PERSONA" EntitySet="PERSONA" />
-            <End Role="PERSONA_SEGNALAZIONE" EntitySet="PERSONA_SEGNALAZIONE" />
-          </AssociationSet>
           <AssociationSet Name="FK_PERSONA_TELEFONO_PERSONA" Association="GratisForGratisModel.FK_PERSONA_TELEFONO_PERSONA">
             <End Role="PERSONA" EntitySet="PERSONA" />
             <End Role="PERSONA_TELEFONO" EntitySet="PERSONA_TELEFONO" />
@@ -6497,6 +6491,12 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <AssociationSet Name="FK_CHAT_PERSONA1" Association="GratisForGratisModel.FK_CHAT_PERSONA1">
             <End Role="PERSONA" EntitySet="PERSONA" />
             <End Role="CHAT" EntitySet="CHAT" />
+          </AssociationSet>
+          <EntitySet Name="LOG_ERRORE" EntityType="GratisForGratisModel.LOG_ERRORE" />
+          <EntitySet Name="PERSONA_SEGNALAZIONE" EntityType="GratisForGratisModel.PERSONA_SEGNALAZIONE" />
+          <AssociationSet Name="FK_PERSONA_SEGNALAZIONE_PERSONA" Association="GratisForGratisModel.FK_PERSONA_SEGNALAZIONE_PERSONA">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="PERSONA_SEGNALAZIONE" EntitySet="PERSONA_SEGNALAZIONE" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="FINDSOTTOCATEGORIE_Result">
@@ -7161,24 +7161,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <NavigationProperty Name="OGGETTO_VIDEOGAMES" Relationship="GratisForGratisModel.FK_OGGETTO_VIDEOGAMES_GENERE" FromRole="GENERE" ToRole="OGGETTO_VIDEOGAMES" />
           <NavigationProperty Name="RICERCA_OGGETTO_VIDEOGAMES" Relationship="GratisForGratisModel.FK_RICERCA_OGGETTO_VIDEOGAMES_GENERE" FromRole="GENERE" ToRole="RICERCA_OGGETTO_VIDEOGAMES" />
         </EntityType>
-        <EntityType Name="LOG_ERRORE">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RICHIESTA" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="RISPOSTA" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="PARAMETRI" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="ID_PERSONA" Type="Int32" />
-          <Property Name="ID_ATTIVITA" Type="Int32" />
-          <Property Name="CONTROLLER" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ACTION" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SESSIONE" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="IP" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ALIAS" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MAC_ADDRESS" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DATA_INSERIMENTO" Type="DateTime" Precision="3" />
-        </EntityType>
         <EntityType Name="LOG_PAGAMENTO">
           <Key>
             <PropertyRef Name="ID" />
@@ -7690,24 +7672,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <Property Name="ID_RICERCA" Type="Int32" Nullable="false" />
           <NavigationProperty Name="RICERCA" Relationship="GratisForGratisModel.FK_PERSONA_RICERCA_RICERCA" FromRole="PERSONA_RICERCA" ToRole="RICERCA" />
           <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_PERSONA_RICERCA_PERSONA" FromRole="PERSONA_RICERCA" ToRole="PERSONA" />
-        </EntityType>
-        <EntityType Name="PERSONA_SEGNALAZIONE">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ID_PERSONA" Type="Int32" Nullable="false" />
-          <Property Name="EMAIL_RISPOSTA" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="OGGETTO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="TESTO" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="ALLEGATO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CONTROLLER" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="VISTA" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IP" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="MAC_ADDRESS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DATA_INVIO" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="STATO" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_PERSONA_SEGNALAZIONE_PERSONA" FromRole="PERSONA_SEGNALAZIONE" ToRole="PERSONA" />
         </EntityType>
         <EntityType Name="PERSONA_TELEFONO">
           <Key>
@@ -10498,13 +10462,13 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <NavigationProperty Name="PERSONA_METODO_PAGAMENTO" Relationship="GratisForGratisModel.FK_PERSONA_METODO_PAGAMENTO_PERSONA" FromRole="PERSONA" ToRole="PERSONA_METODO_PAGAMENTO" />
           <NavigationProperty Name="PERSONA_PRIVACY" Relationship="GratisForGratisModel.FK_PERSONA_PRIVACY_PERSONA" FromRole="PERSONA" ToRole="PERSONA_PRIVACY" />
           <NavigationProperty Name="PERSONA_RICERCA" Relationship="GratisForGratisModel.FK_PERSONA_RICERCA_PERSONA" FromRole="PERSONA" ToRole="PERSONA_RICERCA" />
-          <NavigationProperty Name="PERSONA_SEGNALAZIONE" Relationship="GratisForGratisModel.FK_PERSONA_SEGNALAZIONE_PERSONA" FromRole="PERSONA" ToRole="PERSONA_SEGNALAZIONE" />
           <NavigationProperty Name="PERSONA_TELEFONO" Relationship="GratisForGratisModel.FK_PERSONA_TELEFONO_PERSONA" FromRole="PERSONA" ToRole="PERSONA_TELEFONO" />
           <NavigationProperty Name="ANNUNCIO" Relationship="GratisForGratisModel.FK_ANNUNCIO_PERSONA" FromRole="PERSONA" ToRole="ANNUNCIO" />
           <NavigationProperty Name="ANNUNCIO1" Relationship="GratisForGratisModel.FK_ANNUNCIO_PERSONA1" FromRole="PERSONA" ToRole="ANNUNCIO" />
           <NavigationProperty Name="PERSONA_ANNUNCIO_PROPOSTO" Relationship="GratisForGratisModel.FK_PERSONA_ANNUNCIO_PROPOSTO_PERSONA" FromRole="PERSONA" ToRole="PERSONA_ANNUNCIO_PROPOSTO" />
           <NavigationProperty Name="CHAT" Relationship="GratisForGratisModel.FK_CHAT_PERSONA" FromRole="PERSONA" ToRole="CHAT" />
           <NavigationProperty Name="CHAT1" Relationship="GratisForGratisModel.FK_CHAT_PERSONA1" FromRole="PERSONA" ToRole="CHAT" />
+          <NavigationProperty Name="PERSONA_SEGNALAZIONE" Relationship="GratisForGratisModel.FK_PERSONA_SEGNALAZIONE_PERSONA" FromRole="PERSONA" ToRole="PERSONA_SEGNALAZIONE" />
         </EntityType>
         <Association Name="FK_PERSONA_ABBONAMENTO">
           <End Type="GratisForGratisModel.ABBONAMENTO" Role="ABBONAMENTO" Multiplicity="1" />
@@ -10730,18 +10694,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="PERSONA_RICERCA">
-              <PropertyRef Name="ID_PERSONA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PERSONA_SEGNALAZIONE_PERSONA">
-          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="1" />
-          <End Type="GratisForGratisModel.PERSONA_SEGNALAZIONE" Role="PERSONA_SEGNALAZIONE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERSONA">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PERSONA_SEGNALAZIONE">
               <PropertyRef Name="ID_PERSONA" />
             </Dependent>
           </ReferentialConstraint>
@@ -11233,6 +11185,54 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             </Principal>
             <Dependent Role="CHAT">
               <PropertyRef Name="ID_DESTINATARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="LOG_ERRORE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RICHIESTA" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="RISPOSTA" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PARAMETRI" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ID_PERSONA" Type="Int32" />
+          <Property Name="ID_ATTIVITA" Type="Int32" />
+          <Property Name="CONTROLLER" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ACTION" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SESSIONE" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IP" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ALIAS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MAC_ADDRESS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DATA_INSERIMENTO" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="PERSONA_SEGNALAZIONE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_PERSONA" Type="Int32" />
+          <Property Name="EMAIL_RISPOSTA" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OGGETTO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TESTO" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ALLEGATO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CONTROLLER" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="VISTA" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IP" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="MAC_ADDRESS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DATA_INVIO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="STATO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_PERSONA_SEGNALAZIONE_PERSONA" FromRole="PERSONA_SEGNALAZIONE" ToRole="PERSONA" />
+        </EntityType>
+        <Association Name="FK_PERSONA_SEGNALAZIONE_PERSONA">
+          <End Type="GratisForGratisModel.PERSONA" Role="PERSONA" Multiplicity="0..1" />
+          <End Type="GratisForGratisModel.PERSONA_SEGNALAZIONE" Role="PERSONA_SEGNALAZIONE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PERSONA_SEGNALAZIONE">
+              <PropertyRef Name="ID_PERSONA" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -11817,25 +11817,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="LOG_ERRORE">
-            <EntityTypeMapping TypeName="GratisForGratisModel.LOG_ERRORE">
-              <MappingFragment StoreEntitySet="LOG_ERRORE">
-                <ScalarProperty Name="DATA_INSERIMENTO" ColumnName="DATA_INSERIMENTO" />
-                <ScalarProperty Name="MAC_ADDRESS" ColumnName="MAC_ADDRESS" />
-                <ScalarProperty Name="ALIAS" ColumnName="ALIAS" />
-                <ScalarProperty Name="IP" ColumnName="IP" />
-                <ScalarProperty Name="SESSIONE" ColumnName="SESSIONE" />
-                <ScalarProperty Name="ACTION" ColumnName="ACTION" />
-                <ScalarProperty Name="CONTROLLER" ColumnName="CONTROLLER" />
-                <ScalarProperty Name="ID_ATTIVITA" ColumnName="ID_ATTIVITA" />
-                <ScalarProperty Name="ID_PERSONA" ColumnName="ID_PERSONA" />
-                <ScalarProperty Name="PARAMETRI" ColumnName="PARAMETRI" />
-                <ScalarProperty Name="RISPOSTA" ColumnName="RISPOSTA" />
-                <ScalarProperty Name="RICHIESTA" ColumnName="RICHIESTA" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="LOG_PAGAMENTO">
             <EntityTypeMapping TypeName="GratisForGratisModel.LOG_PAGAMENTO">
               <MappingFragment StoreEntitySet="LOG_PAGAMENTO">
@@ -12259,24 +12240,6 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
             <EntityTypeMapping TypeName="GratisForGratisModel.PERSONA_RICERCA">
               <MappingFragment StoreEntitySet="PERSONA_RICERCA">
                 <ScalarProperty Name="ID_RICERCA" ColumnName="ID_RICERCA" />
-                <ScalarProperty Name="ID_PERSONA" ColumnName="ID_PERSONA" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PERSONA_SEGNALAZIONE">
-            <EntityTypeMapping TypeName="GratisForGratisModel.PERSONA_SEGNALAZIONE">
-              <MappingFragment StoreEntitySet="PERSONA_SEGNALAZIONE">
-                <ScalarProperty Name="STATO" ColumnName="STATO" />
-                <ScalarProperty Name="DATA_INVIO" ColumnName="DATA_INVIO" />
-                <ScalarProperty Name="MAC_ADDRESS" ColumnName="MAC_ADDRESS" />
-                <ScalarProperty Name="IP" ColumnName="IP" />
-                <ScalarProperty Name="VISTA" ColumnName="VISTA" />
-                <ScalarProperty Name="CONTROLLER" ColumnName="CONTROLLER" />
-                <ScalarProperty Name="ALLEGATO" ColumnName="ALLEGATO" />
-                <ScalarProperty Name="TESTO" ColumnName="TESTO" />
-                <ScalarProperty Name="OGGETTO" ColumnName="OGGETTO" />
-                <ScalarProperty Name="EMAIL_RISPOSTA" ColumnName="EMAIL_RISPOSTA" />
                 <ScalarProperty Name="ID_PERSONA" ColumnName="ID_PERSONA" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
@@ -12916,6 +12879,43 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
                 <ScalarProperty Name="ID_MITTENTE_ATTIVITA" ColumnName="ID_MITTENTE_ATTIVITA" />
                 <ScalarProperty Name="ID_DESTINATARIO" ColumnName="ID_DESTINATARIO" />
                 <ScalarProperty Name="ID_MITTENTE" ColumnName="ID_MITTENTE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LOG_ERRORE">
+            <EntityTypeMapping TypeName="GratisForGratisModel.LOG_ERRORE">
+              <MappingFragment StoreEntitySet="LOG_ERRORE">
+                <ScalarProperty Name="DATA_INSERIMENTO" ColumnName="DATA_INSERIMENTO" />
+                <ScalarProperty Name="MAC_ADDRESS" ColumnName="MAC_ADDRESS" />
+                <ScalarProperty Name="ALIAS" ColumnName="ALIAS" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="SESSIONE" ColumnName="SESSIONE" />
+                <ScalarProperty Name="ACTION" ColumnName="ACTION" />
+                <ScalarProperty Name="CONTROLLER" ColumnName="CONTROLLER" />
+                <ScalarProperty Name="ID_ATTIVITA" ColumnName="ID_ATTIVITA" />
+                <ScalarProperty Name="ID_PERSONA" ColumnName="ID_PERSONA" />
+                <ScalarProperty Name="PARAMETRI" ColumnName="PARAMETRI" />
+                <ScalarProperty Name="RISPOSTA" ColumnName="RISPOSTA" />
+                <ScalarProperty Name="RICHIESTA" ColumnName="RICHIESTA" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PERSONA_SEGNALAZIONE">
+            <EntityTypeMapping TypeName="GratisForGratisModel.PERSONA_SEGNALAZIONE">
+              <MappingFragment StoreEntitySet="PERSONA_SEGNALAZIONE">
+                <ScalarProperty Name="STATO" ColumnName="STATO" />
+                <ScalarProperty Name="DATA_INVIO" ColumnName="DATA_INVIO" />
+                <ScalarProperty Name="MAC_ADDRESS" ColumnName="MAC_ADDRESS" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="VISTA" ColumnName="VISTA" />
+                <ScalarProperty Name="CONTROLLER" ColumnName="CONTROLLER" />
+                <ScalarProperty Name="ALLEGATO" ColumnName="ALLEGATO" />
+                <ScalarProperty Name="TESTO" ColumnName="TESTO" />
+                <ScalarProperty Name="OGGETTO" ColumnName="OGGETTO" />
+                <ScalarProperty Name="EMAIL_RISPOSTA" ColumnName="EMAIL_RISPOSTA" />
+                <ScalarProperty Name="ID_PERSONA" ColumnName="ID_PERSONA" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

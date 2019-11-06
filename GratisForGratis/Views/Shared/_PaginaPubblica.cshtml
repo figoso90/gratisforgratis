@@ -50,16 +50,17 @@
 
         </div>
         <div id="messaggioPerUtente">
+            <!-- INFO PER UTENTE -->
             @if (TempData["MESSAGGIO"] != null)
             {
-                <div class="testo">
+                <div class="info">
                     @Html.Raw(TempData["MESSAGGIO"])
                 </div>
             }
-
+            <!-- ERRORE PER UTENTE -->
             @if (ViewBag.Message != null)
             {
-                <div class="testo">
+                <div class="errore">
                     @Html.Raw(ViewBag.Message)
                 </div>
             }
@@ -125,7 +126,7 @@
                     </li>
                 </ul>
                 <div id="toolbar">
-                    @using (Html.BeginForm("index2", "gratis", FormMethod.Get, new { id = "cerca" }))
+                    @using (Html.BeginForm("index2", "cerca", FormMethod.Get, new { id = "cerca" }))
                     {
                         <div id="menuCategoriaRicerca" style="display: inline-block;margin-top: 12px;position: relative;vertical-align: top;">
                             @Html.Hidden("Cerca_IDCategoria", Response.Cookies["ricerca"]["IDCategoria"])

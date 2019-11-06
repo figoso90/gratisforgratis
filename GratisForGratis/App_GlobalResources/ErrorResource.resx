@@ -150,6 +150,21 @@
   <data name="ChatLengthMessage" xml:space="preserve">
     <value>La lunghezza del messaggio dev'essere compreso tra 1 e 10000 caratteri</value>
   </data>
+  <data name="ContactsAwaitSendMail" xml:space="preserve">
+    <value>Invio fallito: riprova tra 5 secondi</value>
+  </data>
+  <data name="ContactsCaptchaEmpty" xml:space="preserve">
+    <value>Il campo captcha non può essere vuoto.</value>
+  </data>
+  <data name="ContactsCaptchaError" xml:space="preserve">
+    <value>Il campo captcha è errato.</value>
+  </data>
+  <data name="ContactsErrorGeneric" xml:space="preserve">
+    <value>Invio email fallito. Riprova più tardi o contattaci tramite posta elettronica.</value>
+  </data>
+  <data name="ContactsErrorSendMail" xml:space="preserve">
+    <value>Invio fallito: {0}</value>
+  </data>
   <data name="Cvv2" xml:space="preserve">
     <value>Cvv2 obbligatorio</value>
   </data>
@@ -244,7 +259,7 @@
     <value>Tempo imballaggio obbligatorio</value>
   </data>
   <data name="UserEnabled" xml:space="preserve">
-    <value>Attiva l'utente!</value>
+    <value>Attiva l'utente! Vai sulla tua casella di posta e clicca sul link che ti abbiamo inviato!</value>
   </data>
   <data name="YearExpiredCard" xml:space="preserve">
     <value>Anno scadenza obbligatorio</value>

@@ -24,6 +24,7 @@ namespace GratisForGratis.Controllers
                 Guid tokenDecriptato = getTokenDecodificato(token);
                 using (DatabaseContext db = new DatabaseContext())
                 {
+                    db.Database.Connection.Open();
                     AnnuncioModel model = new AnnuncioModel();
                     AnnuncioViewModel viewModel = model.GetViewModel(db, tokenDecriptato);
                     viewModel.Azione = azione;

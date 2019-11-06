@@ -2,23 +2,6 @@
     text-transform:uppercase;
 }
 
-#menuUser .btn{
-    margin: 2% 1%;
-    padding: 40px 0;
-    width: 35%;
-    word-wrap: break-word;
-    word-break:normal;
-}
-
-#menuUser .btn .link{
-    color:#fff;
-    display:block;
-    height:100%;
-    width:100%;
-    font-size:20px;
-    text-transform:uppercase;
-}
-
 #grid{
     width:100%;
 }

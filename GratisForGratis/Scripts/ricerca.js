@@ -1,6 +1,32 @@
-﻿$(document).ready(function () {
+﻿var pagina = parseInt($('#Pagina').val());
+var scroll = 0;
+
+$(document).ready(function () {
     initRicerca();
+
+    // IMPAGINAZIONE SU SCROLL WEB
+    $(window).scroll(function () {
+        this.scrollPagina();
+    });
+
+    // IMPAGINAZIONE SU SCROLL MOBILE
+    $('body').on({
+        'touchmove': function (e) {
+            this.scrollPagina();
+        }
+    });
 });
+
+function scrollPagina() {
+    if ($(window).scrollTop() === $(document).height() - $(window).height()) {
+        if (scroll !== 2) {
+            // ajax call get data from server and append to the div
+            pagina += 1;
+            scroll = 1;
+            $('#FormRicerca .btn').click();
+        }
+    }
+}
 
 function initRicerca() {
     enableFiltroAvanzate();
@@ -14,6 +40,11 @@ function initRicerca() {
 }
 
 function ricercaAvanzata(metodo) {
+    if (scroll === 1) {
+        $('#Pagina').val(pagina);
+    } else {
+        $('#Pagina').val(0);
+    }
     $.ajax({
         type: "GET",
         url: '/Cerca/' + metodo,
@@ -21,15 +52,28 @@ function ricercaAvanzata(metodo) {
         //contentType: "application/json; charset=utf-8",
         dataType: "html",
         success: function (msg) {
-            $('#ricerca').remove();
-            $('#page').remove();
-            $('#window header').after(msg);
-            $('html').loader('hide');
-            initRicerca();
-            initAutocomplete();
+            if (msg) {
+                $('#ricerca').remove();
+                if (scroll === 1) {
+                    $('#home footer.footer').remove();
+                    $('#home .object:last').after(msg);
+                    $('html').loader('hide');
+                } else {
+                    $('#page').remove();
+                    $('#window header').after(msg);
+                    $('html').loader('hide');
+                }
+                initRicerca();
+                initAutocomplete();
+            } else if (scroll === 1) {
+                scroll = 2;
+            }
         },
         error: function (error, status, msg) {
             alert("Errore: " + msg);
+        },
+        complete: function () {
+            $scroll = 0;
         }
     });
 }

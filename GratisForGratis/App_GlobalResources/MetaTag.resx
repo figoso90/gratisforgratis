@@ -381,4 +381,7 @@
   <data name="TitleTeam" xml:space="preserve">
     <value>Il team per un sogno</value>
   </data>
+  <data name="TitleAdPublished" xml:space="preserve">
+    <value>Annuncio pubblicato</value>
+  </data>
 </root>

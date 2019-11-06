@@ -17,15 +17,6 @@
         </div>
     </div>
     <div class="form-row">
-        <!--
-        <div class="form-group col-md-3">
-            @Html.TextBoxFor(m => m.Cerca_Citta, new { @class = "form-control", data_autocomplete_url = "/Home/FindCittaSenzaCap", data_autocomplete_id = "Cerca_IDCitta", placeholder = Language.City })
-            @Html.HiddenFor(m => m.Cerca_IDCitta)
-            @Html.ValidationMessageFor(m => m.Cerca_IDCitta, "", new { @class = "text-danger" })
-        </div>
-        -->
-    </div>
-    <div class="form-row">
         <div class="form-group col-md-2">
             @Html.LabelFor(m => m.Cerca_TipoPagamento, Language.PaymentMethods, new { @class = "control-label" })
             @Html.EnumDropDownListFor(m => m.Cerca_TipoPagamento, Language.PaymentMethods, new { @class = "form-control" })
@@ -51,20 +42,10 @@
             </div>
         }
     </div>
-    <!--
-    <div class="form-row">
-        <div class="form-group col-md-12">
-            <p class="advancedSearch">
-                <img class="ico" src="~/Images/icone/search.svg" />
-                @Language.AdvancedSearch
-                <img class="ico" src="~/Images/icone/apriFiltro.svg" />
-            </p>
-        </div>
-    </div>
-    -->
     if (!string.IsNullOrWhiteSpace(Model.NomeFiltro)) {
         <div class="form-row">
         @Html.Partial("Filtri/" + Model.NomeFiltro, Model)
+        @Html.HiddenFor(m => m.Pagina)
         </div>
     }
 }

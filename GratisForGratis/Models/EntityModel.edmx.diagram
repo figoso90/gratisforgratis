@@ -46,7 +46,6 @@
         <EntityTypeShape EntityType="GratisForGratisModel.CORRIERE_TIPO_PACCO" Width="1.5" PointX="13.5" PointY="20.75" />
         <EntityTypeShape EntityType="GratisForGratisModel.FORMATO" Width="1.5" PointX="11.25" PointY="32.875" />
         <EntityTypeShape EntityType="GratisForGratisModel.GENERE" Width="1.5" PointX="11.25" PointY="37" />
-        <EntityTypeShape EntityType="GratisForGratisModel.LOG_ERRORE" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="GratisForGratisModel.LOG_PAGAMENTO" Width="1.5" PointX="2.75" PointY="0.75" />
         <EntityTypeShape EntityType="GratisForGratisModel.LOG_SBLOCCO_ANNUNCIO" Width="1.5" PointX="19.5" PointY="70.25" />
         <EntityTypeShape EntityType="GratisForGratisModel.MARCA" Width="1.5" PointX="6.75" PointY="41.75" />
@@ -83,7 +82,6 @@
         <EntityTypeShape EntityType="GratisForGratisModel.PERSONA_METODO_PAGAMENTO" Width="1.5" PointX="11.25" PointY="73" />
         <EntityTypeShape EntityType="GratisForGratisModel.PERSONA_PRIVACY" Width="1.5" PointX="8.25" PointY="70.25" />
         <EntityTypeShape EntityType="GratisForGratisModel.PERSONA_RICERCA" Width="1.5" PointX="11.25" PointY="70.125" />
-        <EntityTypeShape EntityType="GratisForGratisModel.PERSONA_SEGNALAZIONE" Width="1.5" PointX="8.25" PointY="88.875" />
         <EntityTypeShape EntityType="GratisForGratisModel.PERSONA_TELEFONO" Width="1.5" PointX="8.25" PointY="93.125" />
         <EntityTypeShape EntityType="GratisForGratisModel.PIATTAFORMA" Width="1.5" PointX="11.25" PointY="40.75" />
         <EntityTypeShape EntityType="GratisForGratisModel.PROVINCIA" Width="1.5" PointX="1.5" PointY="51.25" />
@@ -316,7 +314,6 @@
         <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_METODO_PAGAMENTO_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_PRIVACY_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_RICERCA_PERSONA" />
-        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_SEGNALAZIONE_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_TELEFONO_PERSONA" />
         <EntityTypeShape EntityType="GratisForGratisModel.ANNUNCIO" Width="1.5" PointX="11.25" PointY="55.5" />
         <AssociationConnector Association="GratisForGratisModel.FK_ANNUNCIO_ANNUNCIO" />
@@ -352,6 +349,9 @@
         <AssociationConnector Association="GratisForGratisModel.FK_CHAT_ATTIVITA1" />
         <AssociationConnector Association="GratisForGratisModel.FK_CHAT_PERSONA" />
         <AssociationConnector Association="GratisForGratisModel.FK_CHAT_PERSONA1" />
+        <EntityTypeShape EntityType="GratisForGratisModel.LOG_ERRORE" Width="1.5" PointX="7.375" PointY="4.75" />
+        <EntityTypeShape EntityType="GratisForGratisModel.PERSONA_SEGNALAZIONE" Width="1.5" PointX="8.25" PointY="85.75" />
+        <AssociationConnector Association="GratisForGratisModel.FK_PERSONA_SEGNALAZIONE_PERSONA" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

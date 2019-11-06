@@ -277,7 +277,7 @@
     <value>Data ultima modifica</value>
   </data>
   <data name="SearchNotLike" xml:space="preserve">
-    <value>Non sei &lt;b&gt;soddisfatto&lt;/b&gt; della tua &lt;b&gt;ricerca&lt;/b&gt;?&lt;br/&gt;&lt;b&gt;Salvala&lt;/b&gt; e verrai avvisato sulle novità!</value>
+    <value>Non sei &lt;b&gt;soddisfatto&lt;/b&gt; della tua &lt;b&gt;ricerca&lt;/b&gt;?</value>
   </data>
   <data name="SaveSearchKO" xml:space="preserve">
     <value>Il &lt;b&gt;salvataggio&lt;/b&gt; della ricerca effettuata è &lt;b&gt;fallito&lt;/b&gt;. &lt;br /&gt;&lt;b&gt;Ritentare&lt;/b&gt; più tardi o contattare la nostra &lt;b&gt;assistenza&lt;/b&gt; tramite il popup apposito.</value>
@@ -443,5 +443,14 @@
   </data>
   <data name="ProfileLastSell" xml:space="preserve">
     <value>Ultime vendite</value>
+  </data>
+  <data name="LoginPrivacy" xml:space="preserve">
+    <value>Ci teniamo alla tua privacy, chiediamo solo i dati essenziali</value>
+  </data>
+  <data name="ContactsSendOK" xml:space="preserve">
+    <value>Email inviata con successo!</value>
+  </data>
+  <data name="AdReportIssue" xml:space="preserve">
+    <value>Segnala un problema</value>
   </data>
 </root>

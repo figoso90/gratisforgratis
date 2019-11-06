@@ -15,7 +15,7 @@ namespace GratisForGratis.Models
     public partial class PERSONA_SEGNALAZIONE
     {
         public int ID { get; set; }
-        public int ID_PERSONA { get; set; }
+        public Nullable<int> ID_PERSONA { get; set; }
         public string EMAIL_RISPOSTA { get; set; }
         public string OGGETTO { get; set; }
         public string TESTO { get; set; }

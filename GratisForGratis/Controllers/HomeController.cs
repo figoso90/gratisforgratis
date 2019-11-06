@@ -10,6 +10,7 @@ using System.IO;
 using System.Web.Configuration;
 using Recaptcha.Web;
 using Recaptcha.Web.Mvc;
+using System.Net.Mail;
 
 namespace GratisForGratis.Controllers
 {
@@ -77,12 +78,13 @@ namespace GratisForGratis.Controllers
 
         [HttpGet]
         //[Filters.HandleExceptionsAttribute]
-        public ActionResult Contatti()
+        public ActionResult Contatti(TipoSegnalazione tipo = TipoSegnalazione.Info, string action = "", string controller = "")
         {
             ViewBag.Title = App_GlobalResources.Language.Contacts + " - " + WebConfigurationManager.AppSettings["nomeSito"];
             ViewBag.Description = App_GlobalResources.MetaTag.DescriptionContatti;
             ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsContatti;
-            return View();
+            ContattiViewModel value = new ContattiViewModel(tipo, action, controller);
+            return View(value);
         }
 
         [HttpPost]
@@ -91,17 +93,59 @@ namespace GratisForGratis.Controllers
             ViewBag.Title = App_GlobalResources.Language.Contacts + " - " + WebConfigurationManager.AppSettings["nomeSito"];
             ViewBag.Description = App_GlobalResources.MetaTag.DescriptionContatti;
             ViewBag.Keywords = App_GlobalResources.MetaTag.KeywordsContatti;
-            if (ModelState.IsValid && CheckCaptcha())
+            if (ModelState.IsValid)
             {
                 string errore = string.Empty;
-                value.InviaEmail(ref errore);
-                if (!string.IsNullOrWhiteSpace(errore))
+                try
                 {
-                    TempData["MESSAGGIO"] = errore;
+                    RecaptchaVerificationHelper recaptchaHelper = this.GetRecaptchaVerificationHelper();
+                    if (value.CheckCaptcha(recaptchaHelper, ref errore))
+                    {
+                        using (DatabaseContext db = new DatabaseContext())
+                        {
+                            value.IP = Request.UserHostAddress;
+                            value.SalvaSuDB(db);
+                        }
+                        value.InviaEmail();
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(errore))
+                    {
+                        ViewBag.Message = errore;
+                    }
+                    else
+                    {
+                        TempData["MESSAGGIO"] = App_GlobalResources.ViewModel.ContactsSendOK;
+                        return View();
+                    }
                 }
-                else
+                catch (SmtpFailedRecipientsException ex)
                 {
-                    return View();
+                    foreach (SmtpFailedRecipientException t in ex.InnerExceptions)
+                    {
+                        var status = t.StatusCode;
+                        if (status == SmtpStatusCode.MailboxBusy ||
+                            status == SmtpStatusCode.MailboxUnavailable)
+                        {
+                            errore = App_GlobalResources.ErrorResource.ContactsAwaitSendMail;
+                        }
+                        else
+                        {
+                            errore = string.Format(App_GlobalResources.ErrorResource.ContactsErrorSendMail, t.FailedRecipient);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LoggatoreModel.Errore(ex);
+                    ViewBag.Message = App_GlobalResources.ErrorResource.ContactsErrorGeneric;
+                }
+                finally
+                {
+                    if (!string.IsNullOrWhiteSpace(errore))
+                    {
+                        ViewBag.Message = errore;
+                    }
                 }
             }
             return View(value);
@@ -341,6 +385,11 @@ namespace GratisForGratis.Controllers
 
         #region SERVIZI
 
+        /// <summary>
+        /// DEPRECATED! Bisogna spostare tutta la logica sulla view contatti
+        /// </summary>
+        /// <param name="viewModel"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -358,10 +407,10 @@ namespace GratisForGratis.Controllers
                         model.ID_PERSONA = (Session["utente"] as PersonaModel).Persona.ID;
                     model.IP = Request.UserHostAddress;
                     model.EMAIL_RISPOSTA = viewModel.EmailRisposta;
-                    model.OGGETTO = viewModel.Oggetto;
+                    model.OGGETTO = viewModel.Tipologia.ToString() + ": " + viewModel.Oggetto;
                     model.TESTO = viewModel.Testo;
                     if (viewModel.Allegato!=null)
-                        model.ALLEGATO = UploadFile(viewModel.Allegato);
+                        model.ALLEGATO = viewModel.UploadFile(viewModel.Allegato);
                     model.CONTROLLER = viewModel.Controller;
                     model.VISTA = viewModel.Vista;
                     model.DATA_INVIO = DateTime.Now;
@@ -857,44 +906,5 @@ namespace GratisForGratis.Controllers
             return base.Json(lista, JsonRequestBehavior.AllowGet);
         }
         #endregion
-
-        #region METODI
-
-        private String UploadFile(HttpPostedFileBase file)
-        {
-            if (file != null && file.ContentLength > 0 && Utils.CheckFormatoFile(file,TipoMedia.TESTO))
-            {
-                string estensione = new System.IO.FileInfo(System.IO.Path.GetFileName(file.FileName)).Extension;
-                string nomeFileUnivoco = System.Guid.NewGuid().ToString() + estensione;
-
-                string path = Server.MapPath("~/Uploads/Segnalazioni/");
-
-                System.IO.Directory.CreateDirectory(path);
-
-                file.SaveAs(System.IO.Path.Combine(path, nomeFileUnivoco));
-                return nomeFileUnivoco;
-            }
-            return null;
-        }
-
-        public bool CheckCaptcha()
-        {
-            RecaptchaVerificationHelper recaptchaHelper = this.GetRecaptchaVerificationHelper();
-            if (String.IsNullOrEmpty(recaptchaHelper.Response))
-            {
-                ModelState.AddModelError("", "Captcha answer cannot be empty.");
-                return false;
-            }
-            RecaptchaVerificationResult recaptchaResult = recaptchaHelper.VerifyRecaptchaResponse();
-            if (recaptchaResult != RecaptchaVerificationResult.Success)
-            {
-                ModelState.AddModelError("", "Incorrect captcha answer.");
-                return false;
-            }
-            return true;
-        }
-
-        #endregion
-
     }
 }

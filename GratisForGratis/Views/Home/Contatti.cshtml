@@ -2,6 +2,9 @@
 @using Recaptcha.Web.Mvc;
 
 @model GratisForGratis.Models.ContattiViewModel
+@section Styles {
+    @Styles.Render("~/Content/contatti.css")
+}
 
 <section id="head">
     <div class="content">
@@ -15,11 +18,12 @@
 </section>
 <section id="info">
     <div class="content">
-        @using (Html.BeginForm("Contatti", "Home", FormMethod.Post, new { @class = "", role = "form", id = "formContatti" }))
+        @using (Html.BeginForm("Contatti", "Home", FormMethod.Post, new { enctype = "multipart/form-data", @class = "", role = "form", id = "formContatti" }))
         {
             <div class="form-row justify-content-center align-items-center">
                 @Html.AntiForgeryToken()
-
+                @Html.HiddenFor(m => m.Controller, new { @class = "form-control" })
+                @Html.HiddenFor(m => m.Vista, new { @class = "form-control" })
                 <div class="form-group col-md-4">
                     @Html.LabelFor(m => m.Nominativo, new { @class = "control-label" })
                     @Html.TextBoxFor(m => m.Nominativo, new { @class = "form-control" })
@@ -34,6 +38,16 @@
                     @Html.LabelFor(m => m.Oggetto, new { @class = "control-label" })
                     @Html.TextBoxFor(m => m.Oggetto, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Oggetto, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-4">
+                    @Html.LabelFor(m => m.Tipo, new { @class = "control-label" })
+                    @Html.EnumDropDownListFor(m => m.Tipo, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Tipo, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-4">
+                    @Html.LabelFor(m => m.Allegato, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.Allegato, new { @class = "form-control", id = "AllegatoSegnalazione", type = "file" })
+                    @Html.ValidationMessageFor(m => m.Allegato, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group col-md-6">
                     @Html.LabelFor(m => m.Testo, new { @class = "control-label" })
@@ -55,15 +69,19 @@
             <strong>@Resources.Language.Address</strong> <a href="mailto:info@gratisforgratis.com">info@gratisforgratis.com</a>
         </address>
         <address>
-            <strong>@Resources.Language.Support:</strong>   <a href="mailto:Support@gratisforgratis.com">support@gratisforgratis.com</a>
+            <strong>@Resources.Language.Support:</strong>   <a href="mailto:help@gratisforgratis.com">help@gratisforgratis.com</a>
         </address>
         <address>
-            <strong>@Resources.Language.Marketing:</strong> <a href="mailto:Marketing@gratisforgratis.com">marketing@gratisforgratis.com</a>
+            <strong>@Resources.Language.Marketing:</strong> <a href="mailto:marketing@gratisforgratis.com">marketing@gratisforgratis.com</a>
         </address>
         <p>
             <strong>Social: </strong>
-            <a href="https://www.facebook.com/GratisForGratis/" target="_blank"><i class="fab fa-facebook" aria-hidden="true"></i></a>
-            <a href="https://www.instagram.com/gratisforgratis/" target="_blank"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+            <a class="icona" href="https://www.facebook.com/GratisForGratis/" target="_blank"><i class="fab fa-facebook" aria-hidden="true"></i></a>
+            <a class="icona" href="https://www.instagram.com/gratisforgratis/" target="_blank"><i class="fab fa-instagram" aria-hidden="true"></i></a>
         </p>
     </div>
 </section>
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/contatti.js")
+}

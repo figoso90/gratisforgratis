@@ -1,0 +1,3 @@
+﻿@model string
+
+@HttpUtility.UrlEncode(Model.Replace(" ", "-").Replace("&", "").Replace("=", "").Replace("?", "").Replace("%", "").Replace("/", ""))
