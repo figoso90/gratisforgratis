@@ -2194,7 +2194,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Cosa desideri?.
+        ///   Cerca una stringa localizzata simile a Cerca oggetti o servizi.
         /// </summary>
         public static string InputSearch {
             get {
@@ -3724,7 +3724,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a &lt;strong&gt;Beni e servizi per tutti&lt;/strong&gt;!.
+        ///   Cerca una stringa localizzata simile a &lt;strong&gt;Acquista velocemente con gli happy-coin&lt;/strong&gt;.
         /// </summary>
         public static string Slogan {
             get {

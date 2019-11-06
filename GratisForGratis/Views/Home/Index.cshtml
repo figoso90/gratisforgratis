@@ -182,7 +182,7 @@
                             <div class="form-group col-sm-12 ricerca">
                                 <label class="sr-only" for="inlineFormInputGroup">@Language.InputSearch</label>
                                 <div class="input-group" style="padding:0px;">
-                                    <div class="input-group-prepend">            
+                                    <div class="input-group-prepend">
                                         <div id="menuCategoriaRicerca">
                                             @Html.Hidden("Cerca_IDCategoria", Response.Cookies["ricerca"]["IDCategoria"])
                                             @Html.Hidden("Cerca_Categoria", Response.Cookies["ricerca"]["Categoria"])
@@ -205,12 +205,16 @@
                             </div>
                             <div class="form-group col-sm-12">
                                 <div class="col-md-12">
-                                    <a href="javascript:void(0);" onclick="nextPage(this);">
-                                        PERCHè GRATIS?
+                                    <a href="javascript:void(0);" onclick="anchorPage('#index');">
+                                        COSA ABBIAMO
                                     </a>
-                                        - 
+                                    -
+                                    <a href="javascript:void(0);" onclick="anchorPage('#howwork');">
+                                        COME FUNZIONA
+                                    </a>
+                                    -
                                     <a href="javascript:void(0);" onclick="anchorPage('#bando');">
-                                        BANDO 2019
+                                        VINCI IL BANDO
                                     </a>
                                 </div>
                                 <div class="col-md-12">
@@ -237,11 +241,11 @@
                         </ul>
                         <ul class="nav justify-content-right box desktop">
                             <!--
-                            <li>
-                                <a href="http://www.davidemilitano.net/SviluppatoreDotNet" title="WebMaster C#" target="_blank">WebMaster C# - Davide Militano</a>
-                            </li>
-                            <li>&nbsp;</li>
-                            -->
+                        <li>
+                            <a href="http://www.davidemilitano.net/SviluppatoreDotNet" title="WebMaster C#" target="_blank">WebMaster C# - Davide Militano</a>
+                        </li>
+                        <li>&nbsp;</li>
+                        -->
                             <li>
                                 @WebConfigurationManager.AppSettings["nomeSito"] &copy; @DateTime.Now.Year
                             </li>
@@ -254,59 +258,6 @@
                     </nav>
                 </menu>
             </footer>
-        </div>
-        <div id="why" class="page container">
-            <div class="row align-items-end justify-content-center">
-                <div class="col-md-12 text-center">
-                    <h2 class="title" style="margin:22px auto;">Perchè usare GRATIS?</h2>
-                </div>
-            </div>
-            <div class="row align-items-center justify-content-center">
-                <div class="col-md-10">
-                    <div id="caratteristiche" class="row align-items-start" style="margin:22px 0px 60px;">
-                        <div id="completo" class="col-md-4 text-center language">
-                            <h2>Spedizione online</h2>
-                            <div>
-                                <img class="img-sezione" src="~/Images/stickers/pubblica.gif" alt="Spedizione online" />
-                            </div>
-                            <div class="text">
-                                <p>
-                                    Per commerciare facilmente anche a distanza
-                                </p>
-                            </div>
-                        </div>
-                        <div id="anonimo" class="col-md-4 text-center language">
-                            <h2>Happy-coin</h2>
-                            <div>
-                                <img class="img-sezione" src="~/Images/stickers/25.png" alt="Happy-Coin senza limiti" />
-                            </div>
-                            <div class="text">
-                                <p>
-                                    Crediti virtuali per aumentare le tue possibilità di scambio
-                                </p>
-                            </div>
-                        </div>
-                        <div id="sicuro" class="col-md-4 text-center language">
-                            <h2>Ricerca avanzata</h2>
-                            <div>
-                                <img class="img-sezione" src="~/Images/stickers/10_y.png" alt="Pubblicare oggetti e competenze" />
-                            </div>
-                            <div class="text">
-                                <p>
-                                    Puoi trovare beni, servizi e cercare materiali o componenti!
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row align-items-start justify-content-center">
-                <div class="col-md-12 pulsante">
-                    <a href="javascript:void(0);" onclick="nextPage(this);">
-                        <i class="fas fa-chevron-circle-down" style="font-size: 38px;margin-top: 12px;"></i>
-                    </a>
-                </div>
-            </div>
         </div>
         <div id="index" class="page container">
             <div class="row justify-content-center text-center">
@@ -356,6 +307,59 @@
             </div>
             <div class="row pulsante justify-content-center text-center">
                 <div class="col-md-12">
+                    <a href="javascript:void(0);" onclick="nextPage(this);">
+                        <i class="fas fa-chevron-circle-down" style="font-size: 38px;margin-top: 12px;"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div id="howwork" class="page container">
+            <div class="row align-items-end justify-content-center">
+                <div class="col-md-12 text-center">
+                    <h2 class="title" style="margin:22px auto;">COME FUNZIONA?</h2>
+                </div>
+            </div>
+            <div class="row align-items-center justify-content-center">
+                <div class="col-md-10">
+                    <div id="caratteristiche" class="row align-items-start" style="margin:22px 0px 60px;">
+                        <div id="happycoin" class="col-md-4 text-center language">
+                            <h2>HappyCoin</h2>
+                            <div>
+                                <img class="img-sezione" src="~/Images/stickers/25.png" alt="Happy-Coin senza limiti" />
+                            </div>
+                            <div class="text">
+                                <p>
+                                    Crediti omaggio ogni giorno per acquistare facilmente.
+                                </p>
+                            </div>
+                        </div>
+                        <div id="regalo" class="col-md-4 text-center language">
+                            <h2>Regali</h2>
+                            <div>
+                                <img class="img-sezione" src="~/Images/stickers/10_y.png" alt="Pubblicare oggetti e competenze" />
+                            </div>
+                            <div class="text">
+                                <p>
+                                    Un vantaggio doppio, che aiuta chi lo riceve e anche chi dona a liberarsi di qualcosa ormai inutile.
+                                </p>
+                            </div>
+                        </div>
+                        <div id="spedizione" class="col-md-4 text-center language">
+                            <h2>Spedizione</h2>
+                            <div>
+                                <img class="img-sezione" src="~/Images/stickers/pubblica.gif" alt="Spedizione online" />
+                            </div>
+                            <div class="text">
+                                <p>
+                                    Gestire il costo e la spedizione direttamente sul nostro portale e quindi scambiare facilmente anche a distanza.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row align-items-start justify-content-center">
+                <div class="col-md-12 pulsante">
                     <a href="javascript:void(0);" onclick="nextPage(this);">
                         <i class="fas fa-chevron-circle-down" style="font-size: 38px;margin-top: 12px;"></i>
                     </a>

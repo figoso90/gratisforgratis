@@ -456,10 +456,6 @@ header{
     #menuHome .icona {
         margin-right: 0px;
     }
-
-    #index{
-        display:none;
-    }
 }
 
 /* Large devices (desktops, less than 1200px) */
@@ -469,10 +465,6 @@ header{
 @media (max-height: 700px) {
     #boxLogo img {
         max-width: 250px;
-    }
-
-    #index {
-        display: none;
     }
 
     #why, #bando{

@@ -382,7 +382,7 @@
     <value>Venditore</value>
   </data>
   <data name="Slogan" xml:space="preserve">
-    <value>&lt;strong&gt;Beni e servizi per tutti&lt;/strong&gt;!</value>
+    <value>&lt;strong&gt;Acquista velocemente con gli happy-coin&lt;/strong&gt;</value>
   </data>
   <data name="Public" xml:space="preserve">
     <value>Pubblica</value>
@@ -1303,7 +1303,7 @@
     <value>Siti interessanti</value>
   </data>
   <data name="InputSearch" xml:space="preserve">
-    <value>Cosa desideri?</value>
+    <value>Cerca oggetti o servizi</value>
   </data>
   <data name="SearchSave" xml:space="preserve">
     <value>Ti avviserà appena verrà pubblicato l'oggetto o il servizio che stai cercando</value>

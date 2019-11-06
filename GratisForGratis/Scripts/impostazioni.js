@@ -10,6 +10,9 @@ parametro.galleriaFoto = '#boxFotoProfilo';
 
 $(document).ready(function () {
     enableUploadFoto(parametro);
+    $('form .required').each(function () {
+        $(this).text($(this).text() + ' *');
+    });
 });
 
 function deleteImmagineProfilo(nome, linkAnnullo) {
