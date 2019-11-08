@@ -53,6 +53,7 @@
                 @Html.Partial("PartialPages/_Desidero", servizio)
                 @Html.Partial("PartialPages/_Possiedo", servizio)
                 <div class="feedback" title="@Language.FeedbackUser">
+                    <i class="fas fa-percentage"></i>
                     @(servizio.VenditoreFeedback > -1 ? string.Format(Language.FeedbackMessage, servizio.VenditoreFeedback) : Language.FeedbackNothing)
                 </div>
                 @Html.Partial("PartialPages/_SuggerimentoAttivazioneAnnuncio", servizio)

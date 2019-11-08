@@ -4,7 +4,8 @@
     string url = "javascript:void(0);";
     string onClick = "possiedo('" + Model.Token + "', '" + Model.Nome + "');";
     string text = Language.LblOwn;
-    string classTag = "own";
+    //string classTag = "own";
+    string share = "<i class=\"fas fa-share-alt\"></i>";
 
     // se di questo annuncio o di uno da cui deriva questo annuncio, l'utente ha già fatto una copia,
     // allora inserisco un tasto per eliminarne il possesso
@@ -12,7 +13,8 @@
     {
         onClick = "nonPossiedo('" + Model.Token + "', '" + Model.TokenAnnuncioCopiato + "',this);";
         //text = Language.LblNotOwn;
-        classTag += " selected";
+        //classTag += " selected";
+        share = "<i class=\"fas fa-share-alt selected\"></i>";
     }
 
     // se non sono autenticato, metto il link alla login
@@ -23,8 +25,6 @@
     }
 
     <a class="possession" href="@url" onclick="@onClick">
-        <div class="@classTag">
-            @text
-        </div>
+        @Html.Raw(share + text)
     </a>
 }

@@ -60,6 +60,7 @@
                     <h5 class="place"><img class="glyphicon" src="@Url.Content("~/Images/icone/position.svg")" alt="@Language.Place" /> <span>@Model.Citta</span></h5>
                 </div>
                 <div class="feedback" title="@Language.FeedbackUser">
+                    <i class="fas fa-percentage"></i>
                     @(Model.VenditoreFeedback > -1 ? string.Format(Language.FeedbackMessage, Model.VenditoreFeedback) : Language.FeedbackNothing)
                 </div>
             </div>

@@ -59,6 +59,7 @@
                 @Html.Partial("PartialPages/_Desidero", oggetto)
                 @Html.Partial("PartialPages/_Possiedo", oggetto)
                 <div class="feedback" title="@Language.FeedbackUser">
+                    <i class="fas fa-percentage"></i>
                     @(oggetto.VenditoreFeedback > -1 ? string.Format(Language.FeedbackMessage, oggetto.VenditoreFeedback) : Language.FeedbackNothing)
                 </div>
                 @Html.Partial("PartialPages/_SuggerimentoAttivazioneAnnuncio", oggetto)

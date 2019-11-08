@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="TitleGeneric" xml:space="preserve">
-    <value>Acquista velocemente con gli happy-coin</value>
+    <value>Il sito di baratto online con l'happy-coin (criptovaluta)</value>
   </data>
   <data name="DescriptionContatti" xml:space="preserve">
     <value>Hai dei dubbi o hai bisogno di assistenza? Saremo a tua disposizione per risponderti</value>
@@ -127,7 +127,7 @@
     <value>Siamo un gruppo di persone che sognano di realizzare  un sistema dove le persone possano vivere in completa felicità. Abbiamo pensato ad una moneta in grado di generarsi in base a quanto una persona nel sistema renda felice un’altra persona e abbiamo pensato ad un sistema economico che fosse equilibrato e circolare, imitando il sistema naturale delle cose.</value>
   </data>
   <data name="DescriptionHome" xml:space="preserve">
-    <value>Acquista beni e servizi senza limiti, usa il tipo di pagamento che preferisci, happy-coin, euro o fai un'offerta. Entra a far parte del primo e-commerce che applica l'economia circolare.</value>
+    <value>Baratta a colpo sicuro e più velocemente con gli happy-coin. Ogni giorno guadagna crediti omaggio.</value>
   </data>
   <data name="DescriptionPartnership" xml:space="preserve">
     <value>Ecco l'elenco delle grandi realtà che hanno deciso di incamminarsi insieme a noi! Progetti che migliorano la persona e il gruppo sociale.</value>
@@ -139,7 +139,7 @@
     <value>economia circolare, decrescita felice, moneta virtuale, baratto, vendita, economia alternativa, economia parallela</value>
   </data>
   <data name="KeywordsHome" xml:space="preserve">
-    <value>Compra gratis, acquista gratuitamente, oggetti, compra servizi, compra arredamento,compra abbigliamento, compra musica, compra giochi, compra sport e tempo libero, compra elettronica, compra videoteca, compra cartoleria e libreria, compra veicoli, compra fai da te, compra servizi domestici, compra servizi aziendali, compra servizi per la persona</value>
+    <value>baratto, criptovaluta, spedizione online, compra gratis, acquista, tutto gratis, te lo regalo</value>
   </data>
   <data name="KeywordsPartnership" xml:space="preserve">
     <value>Grandi realtà, miglioramento della persona, gruppo sociale, Jadenka, DavideMilitano, PsicologiADomicilio, AvvocatoClick, Totallympics, CultID Studio</value>
@@ -190,7 +190,7 @@
     <value>Tutto gratis, oggetti gratis, servizi gratis, acquista gratuitamente, vendite gratuite</value>
   </data>
   <data name="TitleGift" xml:space="preserve">
-    <value>Regala ciò che non usi più o fai volontariato!</value>
+    <value>Cerca annunci in regalo</value>
   </data>
   <data name="TitleSellGratis" xml:space="preserve">
     <value>Tutto gratis! oggetti e servizi gratis con gli {0}!</value>
@@ -256,7 +256,7 @@
     <value>Assistenza / Contatti</value>
   </data>
   <data name="TitleFreeCircuit" xml:space="preserve">
-    <value>Circuito del gratis</value>
+    <value>Cerca annunci in regalo</value>
   </data>
   <data name="TitleHowWork" xml:space="preserve">
     <value>Come Funziona</value>
@@ -277,7 +277,7 @@
     <value>Perchè scegliere GratisForGratis</value>
   </data>
   <data name="DescriptionBarter" xml:space="preserve">
-    <value>Barattare online non è ritornare indietro ma andare avanti, tramite il baratto asincrono e multilaterale.</value>
+    <value>Baratta a colpo sicuro e più velocemente con gli happy-coin. Ogni giorno guadagna crediti omaggio.</value>
   </data>
   <data name="DescriptionBarterAsync" xml:space="preserve">
     <value>Barattare online ti permette di dare via oggetti che non ti servono più e ricevere gli oggetti che desideri solo quando ne hai bisogno.</value>
@@ -301,7 +301,7 @@
     <value>I nostri iscritti sono HappyPeople ovvero vengono descritte persone felici, in quanto fanno parte di un circuito che si basa sulle "buone" azioni fatte.</value>
   </data>
   <data name="DescriptionHowEarn" xml:space="preserve">
-    <value>Il guadagno sul nostro circuito avviene con moltissime modalità, tutte illustrate nella proprio home page</value>
+    <value>Guadagnare moneta alternativa diventa semplice. Partecipa, scambia e divertiti</value>
   </data>
   <data name="DescriptionMission" xml:space="preserve">
     <value>Un sistema economico complementare che aiuti le persone ad ottenere tutti i beni o servizi che desiderano senza limiti!</value>
@@ -349,7 +349,7 @@
     <value>Team GratisForGratis, Cambiare sistema economico, Persona al centro, Sogno economico</value>
   </data>
   <data name="TitleBarter" xml:space="preserve">
-    <value>Baratta oggetti, baratta servizi comodamente da casa tua!</value>
+    <value>Baratta oggetti e servizi comodamente da casa tua!</value>
   </data>
   <data name="TitleBarterAsync" xml:space="preserve">
     <value>Baratta oggetti e servizi in modo asincrono!</value>

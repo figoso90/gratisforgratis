@@ -32,11 +32,6 @@
             display:block;
         }
 
-            #home .object h5 .fas{
-                font-size:18px;
-                vertical-align:middle;
-            }
-
             #home .object h5.category {
                 display: inline-block;
                 vertical-align: middle;
@@ -123,9 +118,9 @@
 #home .object .left .lblNew{
     background-color: blue;
     color: #fff;
-    padding: 4px;
+    padding: 8px;
     border-radius: 4px;
-    font-size: 12px;
+    font-size: 18px;
     text-transform: uppercase;
     position: absolute;
     bottom: 0px;
@@ -135,12 +130,9 @@
         #home .object .left .lblGift {
             background-color: red;
             color: yellow;
-            padding: 4px;
-            border-left: 2px solid yellow;
-            border-bottom: 2px solid yellow;
-            border-radius: 0px 0px 0px 6px;
-            font-size: 12px;
-            font-style: italic;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 18px;
             text-transform: uppercase;
             position: absolute;
             top: 0px;
@@ -164,9 +156,10 @@
         min-height:100px;
     }
 
-        #home .object .footer a, #home .object .footer .feedback{
-            display:inline-block;
-            vertical-align:top;
+        #home .object .footer a, #home .object .footer .feedback {
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 12px;
         }
 
         #formCopiaOggetto .form-group {

@@ -52,12 +52,12 @@
         </div>
         <div class="form-row justify-content-center align-items-center">
             <div class="form-group col-md-3">
-                @Html.LabelFor(m => m.Email, new { @class = "control-label", required = "" })
+                @Html.LabelFor(m => m.Email, new { @class = "control-label required" })
                 @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
             </div>
             <div class="form-group col-md-3">
-                @Html.LabelFor(m => m.Nome, new { @class = "control-label", required = "" })
+                @Html.LabelFor(m => m.Nome, new { @class = "control-label required" })
                 @Html.TextBoxFor(m => m.Nome, new { @class = "form-control fieldtrim" })
                 @Html.ValidationMessageFor(m => m.Nome, "", new { @class = "text-danger" })
             </div>

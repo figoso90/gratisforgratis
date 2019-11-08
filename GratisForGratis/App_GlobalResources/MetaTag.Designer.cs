@@ -61,7 +61,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Barattare online non è ritornare indietro ma andare avanti, tramite il baratto asincrono e multilaterale..
+        ///   Cerca una stringa localizzata simile a Baratta a colpo sicuro e più velocemente con gli happy-coin. Ogni giorno guadagna crediti omaggio..
         /// </summary>
         public static string DescriptionBarter {
             get {
@@ -187,7 +187,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Acquista beni e servizi senza limiti, usa il tipo di pagamento che preferisci, happy-coin, euro o fai un&apos;offerta. Entra a far parte del primo e-commerce che applica l&apos;economia circolare..
+        ///   Cerca una stringa localizzata simile a Baratta a colpo sicuro e più velocemente con gli happy-coin. Ogni giorno guadagna crediti omaggio..
         /// </summary>
         public static string DescriptionHome {
             get {
@@ -196,7 +196,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Il guadagno sul nostro circuito avviene con moltissime modalità, tutte illustrate nella proprio home page.
+        ///   Cerca una stringa localizzata simile a Guadagnare moneta alternativa diventa semplice. Partecipa, scambia e divertiti.
         /// </summary>
         public static string DescriptionHowEarn {
             get {
@@ -439,7 +439,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Compra gratis, acquista gratuitamente, oggetti, compra servizi, compra arredamento,compra abbigliamento, compra musica, compra giochi, compra sport e tempo libero, compra elettronica, compra videoteca, compra cartoleria e libreria, compra veicoli, compra fai da te, compra servizi domestici, compra servizi aziendali, compra servizi per la persona.
+        ///   Cerca una stringa localizzata simile a baratto, criptovaluta, spedizione online, compra gratis, acquista, tutto gratis, te lo regalo.
         /// </summary>
         public static string KeywordsHome {
             get {
@@ -565,7 +565,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Baratta oggetti, baratta servizi comodamente da casa tua!.
+        ///   Cerca una stringa localizzata simile a Baratta oggetti e servizi comodamente da casa tua!.
         /// </summary>
         public static string TitleBarter {
             get {
@@ -637,7 +637,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Circuito del gratis.
+        ///   Cerca una stringa localizzata simile a Cerca annunci in regalo.
         /// </summary>
         public static string TitleFreeCircuit {
             get {
@@ -655,7 +655,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Acquista velocemente con gli happy-coin.
+        ///   Cerca una stringa localizzata simile a Il sito di baratto online con l&apos;happy-coin (criptovaluta).
         /// </summary>
         public static string TitleGeneric {
             get {
@@ -664,7 +664,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Regala ciò che non usi più o fai volontariato!.
+        ///   Cerca una stringa localizzata simile a Cerca annunci in regalo.
         /// </summary>
         public static string TitleGift {
             get {

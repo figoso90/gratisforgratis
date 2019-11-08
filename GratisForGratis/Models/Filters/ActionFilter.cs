@@ -26,30 +26,6 @@ namespace GratisForGratis.Filters
             {
                 risposta.Cookies.Set(richiesta.Cookies.Get("filtro"));
             }
-            /*
-            try
-            {
-                HttpRequestBase richiesta = filterContext.HttpContext.Request;
-                if (!richiesta.IsAjaxRequest())
-                {
-                    if (richiesta.Cookies.Get("ricerca") == null)
-                    {
-                        HttpCookie cookie = new HttpCookie("ricerca");
-                        cookie.Expires.AddYears(4);
-                        cookie["IDCategoria"] = "1";
-                        cookie["Categoria"] = "Tutti";
-                        richiesta.Cookies.Set(cookie);
-                    }
-                    if (richiesta.Cookies.Get("filtro") == null)
-                    {
-                        richiesta.Cookies.Set(new HttpCookie("filtro"));
-                    }
-                }
-            }
-            catch (Exception exception)
-            {
-                ErrorSignal.FromCurrentContext().Raise(exception);
-            }*/
             base.OnActionExecuting(filterContext);
         }
 

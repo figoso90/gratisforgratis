@@ -15,6 +15,7 @@ using System.Net.Mail;
 namespace GratisForGratis.Controllers
 {
     [HandleError]
+    [Route("Home")]
     public class HomeController : Controller
     {
         #region ACTION

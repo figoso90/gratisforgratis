@@ -54,12 +54,6 @@
 }
 
 #acquisto .feedback{
-    background-image: url("../Images/Icone/rating.svg");
-    background-repeat: no-repeat;
-    background-size: 24px 24px;
-    padding-bottom: 2px;
-    padding-left: 32px;
-    padding-top: 6px;
     max-width:148px;
     text-align:left;
 }
@@ -144,9 +138,13 @@
     border:none;
 }
 
-.annuncio .wish, .annuncio .possession{
-    max-width:90px;
-    display:block;
+.annuncio .fas, .annuncio .far {
+    /*color: #212529;*/
+    color: #007bff;
+}
+
+.annuncio .wish, .annuncio .possession {
+    margin: 0px 5px;
 }
 
 .annuncio .wishIt, .annuncio .notWishIt, .annuncio .own, .annuncio .notOwn {

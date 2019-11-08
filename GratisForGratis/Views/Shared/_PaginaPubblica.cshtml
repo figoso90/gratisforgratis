@@ -126,13 +126,13 @@
                     </li>
                 </ul>
                 <div id="toolbar">
-                    @using (Html.BeginForm("index2", "cerca", FormMethod.Get, new { id = "cerca" }))
+                    @using (Html.BeginForm("", "gratis", FormMethod.Get, new { id = "cerca" }))
                     {
                         <div id="menuCategoriaRicerca" style="display: inline-block;margin-top: 12px;position: relative;vertical-align: top;">
                             @Html.Hidden("Cerca_IDCategoria", Response.Cookies["ricerca"]["IDCategoria"])
-                            @Html.Hidden("Cerca_Categoria", Response.Cookies["ricerca"]["Categoria"])
+                            @*Html.Hidden("Cerca_Categoria", Response.Cookies["ricerca"]["Categoria"])*@
                             @Html.TextBox("Cerca_Nome", Response.Cookies["ricerca"]["Nome"], new { @class = "form-control", placeholder = Language.InputSearch })
-                            <input name="Cerca_Submit" class="btn-search" type="submit" value="search" data-toggle="tooltip" data-placement="top" title="@Language.SearchSubmit" />
+                            <input name="Cerca_Submit" class="btn-search" value="search" type="submit" data-toggle="tooltip" data-placement="top" title="@Language.SearchSubmit" />
                             <a class="infoTooltip infoDomanda" data-toggle="tooltip" href="javascript:void(0);"
                                title="@Tooltip.InfoHowSearch">
                                 <i class="far fa-question-circle"></i>

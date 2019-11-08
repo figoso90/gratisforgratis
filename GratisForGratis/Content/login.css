@@ -8,12 +8,17 @@
 .btn-facebook {
     background-color: #4267b2;
 }
-/*
-#loginForm form{
-    max-width:764px;
+
+.title {
+    color: #bd1723;
 }
 
-.form-horizontal .form-group
-{
-    width:auto;
-}*/
+.lista {
+    padding-left: 0px;
+    list-style: none;
+}
+
+    .lista li {
+        margin: 10px 0px;
+        text-transform: uppercase;
+    }

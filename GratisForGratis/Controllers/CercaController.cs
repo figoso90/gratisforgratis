@@ -123,7 +123,7 @@ namespace GratisForGratis.Controllers
         [HttpGet]
         public ActionResult Index2(RicercaViewModel cerca)
         {
-            return RedirectToRoute("Categoria", cerca);
+            return RedirectToRoute("categoria", cerca);
         }
 
         //// ricerca da link diretto - manca settaggio cookie funzionante e passaggio id categoria

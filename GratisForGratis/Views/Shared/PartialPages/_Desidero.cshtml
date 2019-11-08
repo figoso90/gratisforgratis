@@ -5,13 +5,15 @@
     string url = "javascript:void(0);";
     string onClick = "desidero('" + Model.Token + "', this);";
     string text = Language.LblWishIt;
-    string classTag = "wishIt";
+    //string classTag = "wishIt";
+    string like = "<i class=\"fas fa-heart\"></i>";
 
     if (Model.Desidero)
     {
         onClick = "nonDesidero('" + Model.Token + "',this);";
         //text = Language.LblNotWishIt;
-        classTag += " selected";
+        //classTag += " selected";
+        like = "<i class=\"fas fa-heart selected\"></i>";
     }
 
     if (!this.Context.Request.IsAuthenticated)
@@ -20,8 +22,6 @@
         onClick = "";
     }
     <a class="wish" href="@url" onclick="@onClick">
-        <div class="@classTag">
-            @text
-        </div>
+        @Html.Raw(like + text)
     </a>
 }

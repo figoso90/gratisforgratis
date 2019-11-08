@@ -12,6 +12,25 @@
             <h2 id="description">@Html.Raw(Language.DescriptionLogin)</h2>
             <hr />
             <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <h2 class="title" style="text-align:center;">PUNTI FORTI</h2>
+                    <ul class="lista">
+                        <li>Spedizione integrata</li>
+                        <li>Annunci gratuiti</li>
+                        <li>Criptovaluta omaggio ogni giorno</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h2 class="title" style="text-align:center;">Bando Novembre 2019</h2>
+                    <ul class="lista">
+                        <li>Registrati con e-mail e password</li>
+                        <li>Pubblica 4 annunci</li>
+                        <li>Vinci un buono Amazon € 50</li>
+                    </ul>
+                </div>
+            </div>
+            <hr />
+            <div class="row justify-content-center">
                 @using (Html.BeginForm("Login", "Utente", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "col-md-9", role = "form" }))
                 {
                     @Html.AntiForgeryToken()

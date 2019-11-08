@@ -9,6 +9,10 @@ header{
     border:none;
 }
 
+.slogan {
+    font-family: 'Gochi Hand', cursive;
+}
+
 .page .pulsante{
     text-align:center;
 }
@@ -39,7 +43,7 @@ header{
     min-height:50%;
 }
 
-#why > .row {
+#howwork > .row {
     min-height: 33%;
 }
 
@@ -244,6 +248,10 @@ header{
         border-top: 1px solid;
         font-weight: bold;
     }
+
+#howwork .ref{
+    font-size:9px;
+}
 
 #boxLogo div {
     text-align: center;
@@ -456,19 +464,23 @@ header{
     #menuHome .icona {
         margin-right: 0px;
     }
+
+    #index.container {
+        height: auto;
+    }
 }
 
 /* Large devices (desktops, less than 1200px) */
 @media (max-width: 1199.98px) {
 }
 
-@media (max-height: 700px) {
+@media (max-height: 800px) {
     #boxLogo img {
         max-width: 250px;
     }
 
-    #why, #bando{
-        height:auto;
+    #howwork, #bando, #index.container {
+        height: auto;
     }
     #bando {
         padding-bottom:100px;
