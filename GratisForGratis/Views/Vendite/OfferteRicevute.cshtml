@@ -11,7 +11,7 @@
     <div id="grid" class="content">
         @foreach (OffertaViewModel offerta in Model)
         {
-        <div id="@HttpUtility.UrlEncode(GratisForGratis.Controllers.Utils.Encode(offerta.Id.ToString()))" class="purchase">
+        <div id="@HttpUtility.UrlEncode(GratisForGratis.Models.Utility.Encode(offerta.Id.ToString()))" class="purchase">
             <h4 class="title plus"><a href="@Url.Action("Index","Annuncio", new { token = HttpUtility.UrlEncode(offerta.Annuncio.Token) })">@offerta.Annuncio.Nome</a></h4>
             <div class="preview">
                 <div class="cella table">

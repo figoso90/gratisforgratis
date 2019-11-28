@@ -70,7 +70,7 @@ namespace GratisForGratis.Models
                     && ((m.ID_ORIGINE == idAnnuncioOriginale && idAnnuncioOriginale != null) ||
                     m.ID_ORIGINE == model.ID));
                 if (copiaAnnuncio != null)
-                    TokenAnnuncioCopiato = Utils.RandomString(3) + copiaAnnuncio.TOKEN + Utils.RandomString(3);
+                    TokenAnnuncioCopiato = Utility.RandomString(3) + copiaAnnuncio.TOKEN + Utility.RandomString(3);
             }
             CondivisioneFacebookG4G = (StatoPubblicaAnnuncioFacebook?)model.CONDIVISIONE_FACEBOOK_G4G;
             CondivisioneFacebookUtente = (StatoPubblicaAnnuncioFacebook?)model.CONDIVISIONE_FACEBOOK_UTENTE;

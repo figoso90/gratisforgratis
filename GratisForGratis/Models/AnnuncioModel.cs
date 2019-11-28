@@ -209,7 +209,7 @@ namespace GratisForGratis.Models
             transazione.ID_CONTO_DESTINATARIO = this.PERSONA.ID_CONTO_CORRENTE;
             transazione.NOME = this.NOME;
             transazione.PUNTI = this.PUNTI;
-            transazione.SOLDI = Utils.cambioValuta(transazione.PUNTI);
+            transazione.SOLDI = Utility.cambioValuta(transazione.PUNTI);
             transazione.TEST = 0;
             transazione.TIPO = this.TIPO_PAGAMENTO;
             transazione.DATA_INSERIMENTO = DateTime.Now;
@@ -325,7 +325,7 @@ namespace GratisForGratis.Models
                                 creditoCompratore.ID_CONTO_CORRENTE = transazione.ID_CONTO_MITTENTE;
                                 creditoCompratore.ID_TRANSAZIONE_ENTRATA = transazione.ID;
                                 creditoCompratore.PUNTI = puntiRimanenti;
-                                creditoCompratore.SOLDI = Utils.cambioValuta(creditoCompratore.PUNTI);
+                                creditoCompratore.SOLDI = Utility.cambioValuta(creditoCompratore.PUNTI);
                                 creditoCompratore.GIORNI_SCADENZA = credito.GIORNI_SCADENZA;
                                 creditoCompratore.DATA_SCADENZA = credito.DATA_SCADENZA;
                                 creditoCompratore.DATA_INSERIMENTO = DateTime.Now;
@@ -339,7 +339,7 @@ namespace GratisForGratis.Models
                         creditoVenditore.ID_CONTO_CORRENTE = transazione.ID_CONTO_DESTINATARIO;
                         creditoVenditore.ID_TRANSAZIONE_ENTRATA = transazione.ID;
                         creditoVenditore.PUNTI = this.PUNTI;
-                        creditoVenditore.SOLDI = Utils.cambioValuta(creditoVenditore.PUNTI);
+                        creditoVenditore.SOLDI = Utility.cambioValuta(creditoVenditore.PUNTI);
                         creditoVenditore.GIORNI_SCADENZA = Convert.ToInt32(ConfigurationManager.AppSettings["GiorniScadenzaCredito"]);
                         creditoVenditore.DATA_SCADENZA = DateTime.Now.AddDays(creditoVenditore.GIORNI_SCADENZA);
                         creditoVenditore.DATA_INSERIMENTO = DateTime.Now;
@@ -710,7 +710,7 @@ namespace GratisForGratis.Models
                     && ((idAnnuncioOriginale != null && (m.ID_ORIGINE == idAnnuncioOriginale || m.ID == idAnnuncioOriginale))
                         || m.ID_ORIGINE == annuncio.Id));
             if (copiaAnnuncio != null)
-                annuncio.TokenAnnuncioCopiato = Utils.RandomString(3) + copiaAnnuncio.TOKEN + Utils.RandomString(3);
+                annuncio.TokenAnnuncioCopiato = Utility.RandomString(3) + copiaAnnuncio.TOKEN + Utility.RandomString(3);
             if (vendita.ID_ATTIVITA != null)
             {
                 annuncio.Venditore = new UtenteVenditaViewModel(vendita.ATTIVITA);
@@ -1244,7 +1244,7 @@ namespace GratisForGratis.Models
                 transazione.ID_CONTO_DESTINATARIO = attivita.ID_CONTO_CORRENTE;
                 transazione.NOME = App_GlobalResources.Bonus.FullAnnouncementCancel;
                 transazione.PUNTI = Convert.ToInt32(ConfigurationManager.AppSettings["bonusAnnuncioCompleto"]);
-                transazione.SOLDI = Utils.cambioValuta(transazione.PUNTI);
+                transazione.SOLDI = Utility.cambioValuta(transazione.PUNTI);
                 transazione.TIPO = (int)TipoTransazione.BonusAnnuncioCompleto;
                 transazione.STATO = (int)StatoPagamento.ACCETTATO;
                 db.TRANSAZIONE.Add(transazione);

@@ -111,9 +111,14 @@ function initAutocomplete() {
             focus: function (event, ui) {
                 event.preventDefault();
                 $(this).val(ui.item.Label);
+                if (ui.item != null) {
+                    $("#" + $(this).data("autocomplete-id")).val(ui.item.Value);
+                } else {
+                    $("#" + $(this).data("autocomplete-id")).val('');
+                }
             },
             change: function (event, ui) {
-                if (ui.item != null) {
+                if (ui.item !== null) {
                     $("#" + $(this).data("autocomplete-id")).val(ui.item.Value);
                 } else {
                     $("#" + $(this).data("autocomplete-id")).val('');

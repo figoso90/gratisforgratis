@@ -16,11 +16,6 @@ $(document).ready(function () {
     parametro.galleriaFoto = '#listaFileAggiunti';
     enableUploadFoto(parametro);
 
-    // inizializza scelta colore oggetto
-    $('#Colore').ColorPicker();
-    
-    setAllCheckbox('input[name="Tutti"]', '#pubblicazione .day', true);
-
     $('#CategoriaId').change(function () {
         $('html').loader('show');
         validazioneAggiuntiva('#formPubblica', '#CategoriaId');
@@ -28,12 +23,13 @@ $(document).ready(function () {
         loadInfoAggiuntive();
     });
 
-    if ($('#CategoriaId').val().trim() != '' && $('#CategoriaId').val() > 0) {
+    //alert("Categoria: " + $('#CategoriaId').val());
+    if ($('#CategoriaId').val().trim() !== '' && $('#CategoriaId').val() > 0) {
         showInfoAggiuntive();
         //$('html').loader('show');
         validazioneAggiuntiva('#formPubblica', '#CategoriaId');
         // aggiornare form dati aggiuntivi
-        //loadInfoAggiuntive();
+        loadInfoAggiuntive();
     }
 
     // blocco il tipo di spedizione a mano
@@ -52,11 +48,15 @@ function attivaMenuCategoriaPubblica() {
         closeOnClick: true,
         init: function () {
             var categoria = $('#categoriaAttuale').val();
-            if ($('#CategoriaNome').val() != '' && $('#CategoriaNome').val() != undefined)
+            if ($('#CategoriaNome').val() !== '' && $('#CategoriaNome').val() !== undefined) {
                 categoria = $('#CategoriaNome').val();
+            }
             $('#menuCategoriaPubblica').find('.slicknav_menutxt').text(categoria);
-
             impostaCategoria('#menuCategoriaPubblica', '#menu2', '#CategoriaId', '#CategoriaNome', 'pubblica');
+            $categoriaPreSelezionata = $("#menuCategoriaPubblica li a.trigger[data-value='" + $('#categoriaAttuale').data('id') + "']");
+            if ($categoriaPreSelezionata !== '' && $categoriaPreSelezionata !== undefined && $categoriaPreSelezionata.data('pubblica') == true) {
+                $categoriaPreSelezionata.click();
+            }
         },
         beforeOpen: function (trigger) {
             //alert('Test');
@@ -96,7 +96,15 @@ function showInfoAggiuntive() {
     //$('#infoAggiuntive').show();
     refreshValidatoreForm();
     initAutocomplete();
-    $('#advanced').css('display','flex');
+    $('#advanced').css('display', 'flex');
+    
+    // ATTIVA FUNZIONI SPECIFICHE PER TIPOLOGIA ANNUNCIO
+    $('[data-toggle="tooltip"]').tooltip();
+    // inizializza scelta colore oggetto
+    $('#Colore').ColorPicker();
+
+    setAllCheckbox('input[name="Tutti"]', '#pubblicazione .day', true);
+    $('input[name="Tutti"]').dblclick();
 }
 /*
 function showDatiExtra() {

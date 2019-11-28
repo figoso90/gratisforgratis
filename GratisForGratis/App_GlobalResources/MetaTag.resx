@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="TitleGeneric" xml:space="preserve">
-    <value>Il sito di baratto online con l'happy-coin (criptovaluta)</value>
+    <value>Il sito di baratto e regalo online con criptovaluta</value>
   </data>
   <data name="DescriptionContatti" xml:space="preserve">
     <value>Hai dei dubbi o hai bisogno di assistenza? Saremo a tua disposizione per risponderti</value>
@@ -190,7 +190,7 @@
     <value>Tutto gratis, oggetti gratis, servizi gratis, acquista gratuitamente, vendite gratuite</value>
   </data>
   <data name="TitleGift" xml:space="preserve">
-    <value>Cerca annunci in regalo</value>
+    <value>Trova annunci in regalo</value>
   </data>
   <data name="TitleSellGratis" xml:space="preserve">
     <value>Tutto gratis! oggetti e servizi gratis con gli {0}!</value>

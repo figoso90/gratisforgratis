@@ -2,7 +2,7 @@
 @model OffertaViewModel
 <div id="@HttpUtility.UrlEncode(Model.Annuncio.Token)" class="col-xs-12 col-md-3 purchase">
     <h4 class="title plus">
-        @Html.ActionLink(Model.Annuncio.Nome, Model.Annuncio.Nome + "/" + Model.Annuncio.Token, (Model.Annuncio.TipoAcquisto == TipoAcquisto.Oggetto) ? "oggetto" : "servizio", null, null)
+        @Html.ActionLink(Model.Annuncio.Nome, GratisForGratis.Models.Utility.UrlEncode(Model.Annuncio.Nome) + "-gratis/" + Model.Annuncio.Token, "annuncio", null, null)
     </h4>
     <div class="preview">
         <div class="cella table">
@@ -12,7 +12,7 @@
         </div>
         <div class="cella noMandatory">
             @Html.Label("Categoria", Language.Category + ":")
-            @Html.ActionLink(Model.Annuncio.Categoria, Model.Annuncio.Categoria + "/" + Model.Annuncio.CategoriaID, "categoria", null, null)
+            @Html.ActionLink(Model.Annuncio.Categoria, Model.Annuncio.Categoria.ToLower() + "-gratis/" + Model.Annuncio.CategoriaID, "categoria", null, null)
         </div>
         <div class="cella points">
             @Html.Label("Punti", Language.Moneta + ":")
@@ -29,7 +29,7 @@
                 <div class="barters">
                     @foreach (AnnuncioViewModel baratto in Model.Baratti)
                     {
-                        @Html.ActionLink(baratto.Nome, "Index", "Annuncio", new { token = HttpUtility.UrlEncode(baratto.Token) }, new { @class = "link" }) <br />
+                        @Html.ActionLink(baratto.Nome, baratto.Nome, "Annuncio", new { token = HttpUtility.UrlEncode(baratto.Token) }, new { @class = "link" }) <br />
                     }
                 </div>
             </div>
@@ -60,11 +60,13 @@
         </div>
         <div class="cella user">
             @Html.Label("Venditore", Language.Seller + ":")
-            <b>@Html.ActionLink((string.IsNullOrWhiteSpace(Model.Annuncio.Venditore.Nominativo) ? Model.Annuncio.Venditore.Email : Model.Annuncio.Venditore.Nominativo), "Profilo", (Model.Annuncio.Venditore.Tipo == GratisForGratis.Models.TipoVenditore.Attivita) ? "PortaleWeb" : "Utente", new { token = Model.Annuncio.Venditore.VenditoreToken }, null)</b>
+            <b>
+                @Html.ActionLink((string.IsNullOrWhiteSpace(Model.Annuncio.Venditore.Nominativo) ? Model.Annuncio.Venditore.Username : Model.Annuncio.Venditore.Nominativo), Model.Annuncio.Venditore.Username + "/" + Model.Annuncio.Venditore.Id, (Model.Annuncio.Venditore.Tipo == GratisForGratis.Models.TipoVenditore.Attivita) ? "negozio" : "profilo")
+            </b>
         </div>
         @Html.Partial("PartialPages/_FunzioniOfferta", Model)
         <div class="cella">
-            @Html.ActionLink(Language.AdvView, "Index", "Annuncio", new { token = HttpUtility.UrlEncode(Model.Annuncio.Token) }, new { @class = "btn btn-primary" })
+            @Html.ActionLink(Language.AdvView, GratisForGratis.Models.Utility.UrlEncode(Model.Annuncio.Nome) + "-gratis", "Annuncio", new { token = HttpUtility.UrlEncode(Model.Annuncio.Token) }, new { @class = "btn btn-primary" })
         </div>
     </div>
     <!--

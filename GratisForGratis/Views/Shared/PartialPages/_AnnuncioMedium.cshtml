@@ -3,7 +3,7 @@
 
 <div id="@HttpUtility.UrlEncode(Model.Token)" class="col-xs-12 col-md-3 purchase @(((Model.StatoVendita == StatoVendita.SOSPESO && DateTime.Now > Model.DataModifica.Value.AddDays(1)) || (Model.StatoVendita == StatoVendita.ATTIVO && Model.DataFine <= DateTime.Now))?"blocked":"")">
     <h4 class="title plus">
-        <a href="/@(((Model.TipoAcquisto==TipoAcquisto.Oggetto)?"oggetto":"servizio") + "/" + Html.Partial("PartialPages/_ParametriLink", Model.Nome) + "/" + HttpUtility.UrlEncode(Model.Token))">@Model.Nome</a>
+        <a href="@("/baratto/" + GratisForGratis.Models.Utility.UrlEncode(Model.Nome) + "-gratis/" + HttpUtility.UrlEncode(Model.Token))">@Model.Nome</a>
     </h4>
     <div class="preview">
         <div class="cella table">
@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="cella noMandatory">
-            <a href="@Url.Action(Model.Categoria + "/" + Model.CategoriaID,"categoria")" title="@Model.Categoria">
+            <a href="@Url.Action(Model.Categoria.ToLower() + "-gratis/" + Model.CategoriaID,"categoria")" title="@Model.Categoria">
                 <img class="glyphicon category" src="@Url.Content("~/Images/Icone/category.svg")" alt="@Language.Category" />
                 @Model.Categoria
             </a>
@@ -59,7 +59,9 @@
         }
         <div class="cella user">
             @Html.Label("Venditore", Language.Seller + ":")
-            <b>@Html.ActionLink((string.IsNullOrWhiteSpace(Model.Venditore.Nominativo) ? Model.Venditore.Email : Model.Venditore.Nominativo), "Profilo", (Model.Venditore.Tipo == GratisForGratis.Models.TipoVenditore.Attivita) ? "PortaleWeb" : "Utente", new { token = Model.Venditore.VenditoreToken }, null)</b>
+            <b>
+                @Html.ActionLink((string.IsNullOrWhiteSpace(Model.Venditore.Nominativo) ? Model.Venditore.Username : Model.Venditore.Nominativo), Model.Venditore.Username + "/" + Model.Venditore.Id, (Model.Venditore.Tipo == GratisForGratis.Models.TipoVenditore.Attivita) ? "negozio" : "profilo")
+            </b>
         </div>
     </div>
     @Html.Partial("PartialPages/_FunzioniAnnuncio", Model)

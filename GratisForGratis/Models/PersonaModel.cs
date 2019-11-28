@@ -239,7 +239,11 @@ namespace GratisForGratis.Models
 
             if (comune == null || comune <= 0)
             {
-                var modelComune = db.COMUNE.FirstOrDefault(m => m.NOME == nomeComune);
+                string paese = nomeComune.Split('(')[0];
+                COMUNE modelComune = db.COMUNE.FirstOrDefault(m => m.NOME == paese);
+                if (modelComune == null)
+                    throw new Exception(App_GlobalResources.ErrorResource.SettingsCity);
+                //var modelComune = db.COMUNE.FirstOrDefault(m => m.NOME == nomeComune);
                 if (modelComune != null)
                 {
                     comune = modelComune.ID;

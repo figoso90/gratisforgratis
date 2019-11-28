@@ -1,9 +1,6 @@
-﻿using GratisForGratis.Controllers;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Configuration;
 using System.Linq;
-using System.Web;
 
 namespace GratisForGratis.Models
 {
@@ -76,7 +73,7 @@ namespace GratisForGratis.Models
                     creditoCompratore.ID_CONTO_CORRENTE = this.ID_CONTO_CORRENTE;
                     creditoCompratore.ID_TRANSAZIONE_ENTRATA = credito.ID_TRANSAZIONE_ENTRATA;
                     creditoCompratore.PUNTI = puntiRimanenti;
-                    creditoCompratore.SOLDI = Utils.cambioValuta(creditoCompratore.PUNTI);
+                    creditoCompratore.SOLDI = Utility.cambioValuta(creditoCompratore.PUNTI);
                     creditoCompratore.GIORNI_SCADENZA = credito.GIORNI_SCADENZA;
                     creditoCompratore.DATA_SCADENZA = credito.DATA_SCADENZA;
                     creditoCompratore.DATA_INSERIMENTO = DateTime.Now;
@@ -144,7 +141,7 @@ namespace GratisForGratis.Models
                     debitoRimanente.ID_CONTO_CORRENTE = this.ID_CONTO_CORRENTE;
                     debitoRimanente.ID_TRANSAZIONE_ENTRATA = m.ID_TRANSAZIONE_ENTRATA;
                     debitoRimanente.PUNTI = totale;
-                    debitoRimanente.SOLDI = Utils.cambioValuta(debitoRimanente.PUNTI);
+                    debitoRimanente.SOLDI = Utility.cambioValuta(debitoRimanente.PUNTI);
                     debitoRimanente.GIORNI_SCADENZA = m.GIORNI_SCADENZA;
                     debitoRimanente.DATA_SCADENZA = m.DATA_SCADENZA;
                     debitoRimanente.DATA_INSERIMENTO = m.DATA_INSERIMENTO;
@@ -203,7 +200,7 @@ namespace GratisForGratis.Models
                     debitoRimanente.ID_CONTO_CORRENTE = this.ID_CONTO_CORRENTE;
                     debitoRimanente.ID_TRANSAZIONE_ENTRATA = m.ID_TRANSAZIONE_ENTRATA;
                     debitoRimanente.PUNTI = totale;
-                    debitoRimanente.SOLDI = Utils.cambioValuta(debitoRimanente.PUNTI);
+                    debitoRimanente.SOLDI = Utility.cambioValuta(debitoRimanente.PUNTI);
                     debitoRimanente.GIORNI_SCADENZA = m.GIORNI_SCADENZA;
                     debitoRimanente.DATA_SCADENZA = m.DATA_SCADENZA;
                     debitoRimanente.DATA_INSERIMENTO = m.DATA_INSERIMENTO;
@@ -224,7 +221,7 @@ namespace GratisForGratis.Models
             contoCorrenteCredito.ID_CONTO_CORRENTE = this.ID_CONTO_CORRENTE;
             contoCorrenteCredito.ID_TRANSAZIONE_ENTRATA = idTransazione;
             contoCorrenteCredito.PUNTI = crediti;
-            contoCorrenteCredito.SOLDI = Utils.cambioValuta(contoCorrenteCredito.PUNTI);
+            contoCorrenteCredito.SOLDI = Utility.cambioValuta(contoCorrenteCredito.PUNTI);
             contoCorrenteCredito.GIORNI_SCADENZA = Convert.ToInt32(ConfigurationManager.AppSettings["GiorniScadenzaCredito"]);
             contoCorrenteCredito.DATA_SCADENZA = DateTime.Now.AddDays(contoCorrenteCredito.GIORNI_SCADENZA);
             contoCorrenteCredito.DATA_INSERIMENTO = DateTime.Now;
@@ -240,7 +237,7 @@ namespace GratisForGratis.Models
             contoCorrenteCredito.ID_CONTO_CORRENTE = this.ID_CONTO_CORRENTE;
             contoCorrenteCredito.ID_TRANSAZIONE_ENTRATA = idTransazione;
             contoCorrenteCredito.PUNTI = crediti;
-            contoCorrenteCredito.SOLDI = Utils.cambioValuta(contoCorrenteCredito.PUNTI);
+            contoCorrenteCredito.SOLDI = Utility.cambioValuta(contoCorrenteCredito.PUNTI);
             // scadenza infinita (valutare se tenere un debito al massimo per 1 anno)
             contoCorrenteCredito.GIORNI_SCADENZA = -1;
             contoCorrenteCredito.DATA_SCADENZA = DateTime.MaxValue;

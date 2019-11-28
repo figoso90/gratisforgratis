@@ -317,7 +317,7 @@ namespace GratisForGratis.Controllers
             TempData["deleteRicerca"] = App_GlobalResources.Language.ErrorSearchDelete;
             try
             {
-                int idRicerca = Utils.DecodeToInt(token.Substring(3).Substring(0, token.Length - 6));
+                int idRicerca = Utility.DecodeToInt(token.Substring(3).Substring(0, token.Length - 6));
                 using (DatabaseContext db = new DatabaseContext())
                 {
                     db.PERSONA_RICERCA.Remove(db.PERSONA_RICERCA.Where(r => r.ID == idRicerca && r.PERSONA.PERSONA_EMAIL.Count(item =>
@@ -1853,7 +1853,7 @@ namespace GratisForGratis.Controllers
                                 servizio.IdTipoValuta = (int)res["ID_TIPO_VALUTA"];
                                 servizio.Soldi = Convert.ToDecimal(res["SOLDI"]).ToString("C");
                                 servizio.DataInserimento = (DateTime)res["DATA_INSERIMENTO"];
-                                servizio.Venditore.VenditoreToken = (Guid)res["UTENTE_TOKEN"];
+                                //servizio.Venditore.VenditoreToken = (Guid)res["UTENTE_TOKEN"];
                                 servizio.CategoriaID = (int)res["CATEGORIA_ID"];
                                 servizio.Categoria = res["CATEGORIA_NOME"].ToString();
                                 servizio.StatoVendita = (StatoVendita)res["STATO_VENDITA"];

@@ -1,7 +1,17 @@
-﻿using System;
+﻿using GratisForGratis.App_GlobalResources;
+using GratisForGratis.Models.File;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
+using System.Web.Configuration;
+using System.Web.Mvc;
+using System.Web.UI;
 
 namespace GratisForGratis.Models
 {
@@ -16,7 +26,7 @@ namespace GratisForGratis.Models
         static Regex LineEnding = new Regex(@"(\r\n|\r|\n)+");
 
 
-        public static string UlrEncode(string parametri)
+        public static string UrlEncode(string parametri)
         {
             return HttpUtility.UrlEncode(parametri.Replace(" ", "-").Replace("&", "").Replace("=", "").Replace("?", "").Replace("%", "").Replace("/", ""));
         }

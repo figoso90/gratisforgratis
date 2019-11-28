@@ -23,7 +23,6 @@
         url = Url.Action("Login", "Utente", new { ReturnUrl = Request.Url.PathAndQuery });
         onClick = "";
     }
-
     <a class="possession" href="@url" onclick="@onClick">
         @Html.Raw(share + text)
     </a>

@@ -14,7 +14,7 @@
 {
     <div id="@("Token"+servizio.Token)" class="object">
         <div>
-            <a class="openLink" href="/servizio/@Html.Partial("PartialPages/_ParametriLink", servizio.Nome)/@HttpUtility.UrlEncode(servizio.Token)" title="@servizio.Nome GRATIS">
+            <a class="openLink" href="/servizio/@GratisForGratis.Models.Utility.UrlEncode(servizio.Nome)/@HttpUtility.UrlEncode(servizio.Token)" title="@servizio.Nome GRATIS">
                 <h3 class="title">@servizio.Nome</h3>
                 <div class="left" style="background-image:url('@Url.Content("~/Uploads/Images/" + servizio.Venditore.VenditoreToken + "/" + @servizio.Foto.FirstOrDefault().DATA_INSERIMENTO.Year + "/" + "Normal/" + servizio.Foto.FirstOrDefault().ALLEGATO.NOME)')">
                     @if (servizio.Punti.ParseFromHappyCoin() <= 0)
@@ -41,7 +41,7 @@
                     <h5 class="seller">
                         <i class="fas fa-user-tie"></i>
                         <span class="evidence">
-                            @Html.ActionLink((string.IsNullOrWhiteSpace(Model.Venditore.Nominativo) ? Model.Venditore.Email : Model.Venditore.Nominativo), "Profilo", (Model.Venditore.Tipo == GratisForGratis.Models.TipoVenditore.Attivita) ? "PortaleWeb" : "Utente", new { token = Model.Venditore.VenditoreToken }, null)
+                            @Html.ActionLink((string.IsNullOrWhiteSpace(Model.Venditore.Nominativo) ? Model.Venditore.Username : Model.Venditore.Nominativo), Model.Venditore.Username + "/" + Model.Venditore.Id, (Model.Venditore.Tipo == GratisForGratis.Models.TipoVenditore.Attivita) ? "negozio" : "profilo")
                         </span>
                     </h5>
                 </div>

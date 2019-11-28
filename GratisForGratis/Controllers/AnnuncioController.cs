@@ -63,7 +63,7 @@ namespace GratisForGratis.Controllers
 
                         if (ModelState.IsValid)
                         {
-                            if (!Utils.IsUtenteAttivo(1, TempData))
+                            if (!Utility.IsUtenteAttivo(1, TempData))
                             {
                                 ModelState.AddModelError("", ErrorResource.UserEnabled);
                             }
@@ -137,7 +137,7 @@ namespace GratisForGratis.Controllers
             string messaggio = ErrorResource.BidAd;
             if (ModelState.IsValid)
             {
-                if (!Utils.IsUtenteAttivo(1, TempData))
+                if (!Utility.IsUtenteAttivo(1, TempData))
                 {
                     Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
                     return Json(ErrorResource.UserEnabled);
@@ -197,7 +197,7 @@ namespace GratisForGratis.Controllers
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult AccettaOfferta(string token)
         {
-            int idOfferta = Utils.DecodeToInt(token);
+            int idOfferta = Utility.DecodeToInt(token);
             string messaggio = "";
             //OffertaModel offerta = new OffertaModel(idOfferta, (Session["utente"] as PersonaModel).Persona);
             using (DatabaseContext db = new DatabaseContext())
@@ -276,7 +276,7 @@ namespace GratisForGratis.Controllers
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult CompletaOfferta(string token)
         {
-            int idOfferta = Utils.DecodeToInt(token);
+            int idOfferta = Utility.DecodeToInt(token);
             using (DatabaseContext db = new DatabaseContext())
             {
                 db.Database.Connection.Open();
@@ -314,7 +314,7 @@ namespace GratisForGratis.Controllers
         //public JsonResult RifiutaOfferta(string token)
         public ActionResult RifiutaOfferta(string token)
         {
-            int idOfferta = Utils.DecodeToInt(token);
+            int idOfferta = Utility.DecodeToInt(token);
             PERSONA mittente = (Session["utente"] as PersonaModel).Persona;
             OffertaModel offerta = new OffertaModel(idOfferta, mittente);
             if (offerta.Rifiuta())
@@ -611,7 +611,7 @@ namespace GratisForGratis.Controllers
         {
             string tokenDecode = Server.UrlDecode(token);
             return Guid.Parse(tokenDecode);
-            //return Guid.Parse(Utils.DecodeToString(tokenDecode.Substring(3).Substring(0, tokenDecode.Length - 6)));
+            //return Guid.Parse(Utility.DecodeToString(tokenDecode.Substring(3).Substring(0, tokenDecode.Length - 6)));
         }
 
         private bool addDesiderio(DatabaseContext db, Guid tokenGuid, int idUtente, ref AnnuncioViewModel annuncio)

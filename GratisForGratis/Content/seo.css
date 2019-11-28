@@ -9,9 +9,14 @@
     margin: 22px;
 }
 
+.card-img-top {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
 #presentazione {
-    text-align:left;
-    border-right:1px solid #ececec;
+    text-align: left;
+    border-right: 1px solid #ececec;
 }
 
     #presentazione strong {

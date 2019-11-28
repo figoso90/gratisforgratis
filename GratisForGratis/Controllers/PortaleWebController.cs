@@ -25,14 +25,14 @@ namespace GratisForGratis.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult Profilo(string token)
+        public ActionResult Profilo(string nome)
         {
             PortaleWebProfiloViewModel viewModel = null;
             try
             {
                 PortaleWebViewModel portale = null;
                 if (Session["portaleweb"] != null)
-                    portale = (Session["portaleweb"] as List<PortaleWebViewModel>).Where(p => p.Token == token).SingleOrDefault();
+                    portale = (Session["portaleweb"] as List<PortaleWebViewModel>).Where(p => p.Nome == nome).SingleOrDefault();
 
                 if (portale!=null)
                     viewModel = new PortaleWebProfiloViewModel(portale);
@@ -46,7 +46,7 @@ namespace GratisForGratis.Controllers
                     }
                     else
                     {
-                        model = db.ATTIVITA.SingleOrDefault(p => p.TOKEN.ToString() == token);
+                        model = db.ATTIVITA.SingleOrDefault(p => p.NOME == nome);
                         viewModel = new PortaleWebProfiloViewModel();
                     }
                     // se la pagina non viene trovata
@@ -69,7 +69,7 @@ namespace GratisForGratis.Controllers
                 LoggatoreModel.Errore(exception);
                 return RedirectToAction("Index");
             }
-            Session["happyPageAperta"] = token;
+            Session["happyPageAperta"] = viewModel.Token;
             return View(viewModel);
         }
 
@@ -198,7 +198,7 @@ namespace GratisForGratis.Controllers
                 if (ModelState.IsValid)
                 {
                     // effettuo modifica
-                    if (viewModel.LDV != null && Utils.CheckFormatoFile(viewModel.LDV, TipoMedia.TESTO))
+                    if (viewModel.LDV != null && Utility.CheckFormatoFile(viewModel.LDV, TipoMedia.TESTO))
                     {
                         CORRIERE_SERVIZIO_SPEDIZIONE spedizione = db.CORRIERE_SERVIZIO_SPEDIZIONE
                             .Include(m => m.INDIRIZZO.PERSONA_INDIRIZZO)
@@ -293,7 +293,7 @@ namespace GratisForGratis.Controllers
                 if (ModelState.IsValid)
                 {
                     // effettuo modifica
-                    if (viewModel.LDV != null && Utils.CheckFormatoFile(viewModel.LDV, TipoMedia.TESTO))
+                    if (viewModel.LDV != null && Utility.CheckFormatoFile(viewModel.LDV, TipoMedia.TESTO))
                     {
                         CORRIERE_SERVIZIO_SPEDIZIONE spedizione = db.CORRIERE_SERVIZIO_SPEDIZIONE.SingleOrDefault(m => m.ID == viewModel.Id);
                         if (spedizione != null)

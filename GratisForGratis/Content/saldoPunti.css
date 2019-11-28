@@ -1,4 +1,9 @@
-﻿#title{
+﻿.card-img-top {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+#title{
     text-transform:uppercase;
 }
 

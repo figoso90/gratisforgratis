@@ -12,21 +12,15 @@
             }
         });
     }
+    $zoom = $('#album .carousel-inner .active .foto').magnify();
 
-    blueimp.Gallery($('#albumAnnuncio a'), {
-        container: '#blueimp-image-carousel',
-        carousel: true,
-        //titleProperty: 'title',
-        onslidecomplete: function (index, slide) {
-            // Callback function executed when the Gallery is initialized.
-            //alert("Index: " + index);
-            $item = $('#blueimp-image-carousel').find('.slide').eq(index);
-            //$item.attr('data-title', $('#albumAnnuncio a:eq(' + index + ')').attr('title'));
-            $item.attr('data-image', $item.children('img').attr('src'));
-            $item.attr('data-scale', 2.4);
-            zoomImmagine($item);
-        },
+    $('#album').on('slid.bs.carousel', function () {
+        if ($zoom !== undefined) {
+            $zoom.destroy();
+        }
+        $zoom = $('#album .carousel-inner .active .foto').magnify();
     });
+    
     attivazioneInfoSpedizione($('.changeTipoScambio').val());
     $('.changeTipoScambio').change(function () {
         //alert($(this).val());

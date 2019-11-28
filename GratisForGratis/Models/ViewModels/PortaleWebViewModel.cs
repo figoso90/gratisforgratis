@@ -164,7 +164,7 @@ namespace GratisForGratis.Models
     public class PortaleWebProfiloViewModel : PortaleWebViewModel
     {
         #region PROPRIETA
-        public List<FotoModel> Foto { get; set; }
+        public new List<FotoModel> Foto { get; set; }
 
         public List<AnnuncioViewModel> ListaAcquisti { get; set; }
 

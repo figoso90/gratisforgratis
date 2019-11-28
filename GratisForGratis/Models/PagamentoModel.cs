@@ -19,7 +19,7 @@ namespace GratisForGratis.Models
         public int? eseguiFromStoredProcedure(string offerta, PersonaModel utente)
         {
             //string token = acquisto.Trim().Substring(3, acquisto.Trim().Length - 6);
-            int idOfferta = Utils.DecodeToInt(offerta.Trim().Substring(3, offerta.Trim().Length - 6));
+            int idOfferta = Utility.DecodeToInt(offerta.Trim().Substring(3, offerta.Trim().Length - 6));
             using (DatabaseContext db = new DatabaseContext())
             {
                 System.Data.Entity.Core.Objects.ObjectParameter errore = new System.Data.Entity.Core.Objects.ObjectParameter("Errore", typeof(ErrorePagamento));

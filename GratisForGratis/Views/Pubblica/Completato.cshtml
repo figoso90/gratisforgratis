@@ -23,7 +23,7 @@
                     <div id="shareBtn"
                          class="btn btn-primary"
                          data-quote="@((Session["utente"] as PersonaModel).NomeVisibile.ToUpper() + " REGALA " + Model.Nome)"
-                         data-href="https://www.gratisforgratis.org/annuncio?token=@Model.Token"
+                         data-href="https://www.gratisforgratis.com/baratto/@GratisForGratis.Models.Utility.UrlEncode(Model.Nome)/@HttpUtility.UrlEncode(Model.Token)"
                          data-token="@Model.Token"
                          data-layout="button"
                          data-size="large">

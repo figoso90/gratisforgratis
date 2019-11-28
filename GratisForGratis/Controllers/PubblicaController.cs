@@ -46,7 +46,7 @@ namespace GratisForGratis.Controllers
         public ActionResult Completato(int id)
         {
             // se ancora la registrazione è incompleta, lo obbligo a concluderla
-            if (!Utils.IsUtenteAttivo(0, TempData))
+            if (!Utility.IsUtenteAttivo(0, TempData))
                 return RedirectToAction("Impostazioni", "Utente");
 
             AnnuncioViewModel viewModel = null;
@@ -235,7 +235,7 @@ namespace GratisForGratis.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult UploadImmagine(HttpPostedFileBase file)
         {
-            if (file != null && Utils.CheckFormatoFile(file))
+            if (file != null && Utility.CheckFormatoFile(file))
             {
                 string antiForgeryToken = Request.Form.Get("__TokenUploadFoto");
                 if (!string.IsNullOrWhiteSpace(antiForgeryToken) && !antiForgeryToken.ToLower().Equals("undefined"))

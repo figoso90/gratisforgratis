@@ -313,6 +313,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Riprovare ad inserire la città.
+        /// </summary>
+        public static string PublishErrorCity {
+            get {
+                return ResourceManager.GetString("PublishErrorCity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Indirizzo obbligatorio.
         /// </summary>
         public static string RecipientAddress {
@@ -399,6 +408,15 @@ namespace GratisForGratis.App_GlobalResources {
         public static string SettingsAddress {
             get {
                 return ResourceManager.GetString("SettingsAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Riprovare ad inserire la città.
+        /// </summary>
+        public static string SettingsCity {
+            get {
+                return ResourceManager.GetString("SettingsCity", resourceCulture);
             }
         }
         

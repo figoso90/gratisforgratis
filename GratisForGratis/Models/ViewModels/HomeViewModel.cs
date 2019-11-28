@@ -48,7 +48,7 @@ namespace GratisForGratis.Models
         #region METODI PUBBLICI
         public String UploadFile(System.Web.HttpPostedFileBase file)
         {
-            if (file != null && file.ContentLength > 0 && Utils.CheckFormatoFile(file, TipoMedia.TESTO))
+            if (file != null && file.ContentLength > 0 && Utility.CheckFormatoFile(file, TipoMedia.TESTO))
             {
                 string estensione = new System.IO.FileInfo(System.IO.Path.GetFileName(file.FileName)).Extension;
                 string nomeFileUnivoco = System.Guid.NewGuid().ToString() + estensione;
@@ -175,7 +175,7 @@ namespace GratisForGratis.Models
 
         private String UploadFile(System.Web.HttpPostedFileBase file)
         {
-            if (file != null && file.ContentLength > 0 && Utils.CheckFormatoFile(file, TipoMedia.TESTO))
+            if (file != null && file.ContentLength > 0 && Utility.CheckFormatoFile(file, TipoMedia.TESTO))
             {
                 string estensione = new System.IO.FileInfo(System.IO.Path.GetFileName(file.FileName)).Extension;
                 string nomeFileUnivoco = System.Guid.NewGuid().ToString() + estensione;

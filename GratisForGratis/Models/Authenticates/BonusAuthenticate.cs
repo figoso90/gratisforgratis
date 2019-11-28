@@ -35,7 +35,7 @@ namespace GratisForGratis.Models.Authenticates
                 transazioneAnnuncio.ID_TRANSAZIONE = model.ID;
                 transazioneAnnuncio.ID_ANNUNCIO = (int)idAnnuncio;
                 transazioneAnnuncio.PUNTI = punti;
-                transazioneAnnuncio.SOLDI = Utils.cambioValuta(transazioneAnnuncio.PUNTI);
+                transazioneAnnuncio.SOLDI = Utility.cambioValuta(transazioneAnnuncio.PUNTI);
                 transazioneAnnuncio.DATA_INSERIMENTO = DateTime.Now;
                 transazioneAnnuncio.STATO = (int)StatoPagamento.ACCETTATO;
                 db.TRANSAZIONE_ANNUNCIO.Add(transazioneAnnuncio);

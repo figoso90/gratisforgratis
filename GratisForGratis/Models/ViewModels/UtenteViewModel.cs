@@ -418,8 +418,15 @@ namespace GratisForGratis.Models
         public int Id { get; set; }
 
         [DataType(DataType.Text)]
+        [Display(Name = "Name", ResourceType = typeof(App_GlobalResources.Language))]
+        public string Nome { get; set; }
+
+        [DataType(DataType.Text)]
         [Display(Name = "Nominative", ResourceType = typeof(App_GlobalResources.Language))]
         public string Nominativo { get; set; }
+
+        [DataType(DataType.Text)]
+        public string Username { get; set; }
 
         [DataType(DataType.EmailAddress, ErrorMessageResourceName = "ErrorEmail", ErrorMessageResourceType = typeof(App_GlobalResources.Language))]
         [Display(Name = "Email", ResourceType = typeof(App_GlobalResources.Language))]
@@ -491,6 +498,13 @@ namespace GratisForGratis.Models
 
         private void LoadPersona(PERSONA model)
         {
+            Id = model.ID;
+            Nome = model.NOME;
+            string user = string.Concat(model.NOME, model.COGNOME);
+            if (string.IsNullOrWhiteSpace(user))
+                Username = "anonymous";
+            else
+                Username = user.ToLower();
             Nominativo = model.NOME + " " + model.COGNOME;
             Email = model.PERSONA_EMAIL.FirstOrDefault(m => m.TIPO == (int)TipoEmail.Registrazione).EMAIL;
             PERSONA_TELEFONO telefono = model.PERSONA_TELEFONO.FirstOrDefault(m => m.TIPO == (int)TipoTelefono.Privato);
@@ -502,6 +516,9 @@ namespace GratisForGratis.Models
 
         private void LoadAttivita(ATTIVITA model)
         {
+            Id = model.ID;
+            Nome = model.NOME;
+            Username = model.NOME.ToLower();
             Nominativo = model.NOME;
             Email = model.ATTIVITA_EMAIL.FirstOrDefault(m => m.TIPO == (int)TipoEmail.Registrazione).EMAIL;
             ATTIVITA_TELEFONO telefono = model.ATTIVITA_TELEFONO.FirstOrDefault(m => m.TIPO == (int)TipoTelefono.Privato);
@@ -730,6 +747,17 @@ namespace GratisForGratis.Models
 
         #region COSTRUTTORI
         public UtenteProfiloViewModel() { }
+        public UtenteProfiloViewModel(DatabaseContext db, string token) 
+        {
+            PERSONA persona = db.PERSONA.FirstOrDefault(u => u.TOKEN.ToString() == token);
+            Load(db, persona);
+            
+        }
+        public UtenteProfiloViewModel(DatabaseContext db, int id)
+        {
+            PERSONA persona = persona = db.PERSONA.FirstOrDefault(u => u.ID == id);
+            Load(db, persona);
+        }
         public UtenteProfiloViewModel(PersonaModel model)
         {
             Token = model.Persona.TOKEN.ToString();
@@ -742,6 +770,58 @@ namespace GratisForGratis.Models
             Token = model.Attivita.TOKEN.ToString();
             Foto = model.Foto;
             Nome = model.Attivita.NOME;
+        }
+        #endregion
+
+        #region METODI PRIVATI
+        private void Load(DatabaseContext db, PERSONA persona)
+        {
+            this.Nome = persona.NOME;
+            this.Cognome = persona.COGNOME;
+
+            this.Foto = persona.PERSONA_FOTO.Select(m => new FotoModel(m.ALLEGATO)).ToList();
+
+            this.listaAcquisti = new List<AnnuncioViewModel>();
+            this.listaVendite = new List<AnnuncioViewModel>();
+            this.listaDesideri = new List<AnnuncioViewModel>();
+            // far vedere top n acquisti con link
+            var query = db.ANNUNCIO.Where(item => item.ID_COMPRATORE == persona.ID
+                    && item.TRANSAZIONE_ANNUNCIO.Count(m => m.STATO == (int)StatoPagamento.ATTIVO || m.STATO == (int)StatoPagamento.ACCETTATO) > 0
+                    && (item.STATO == (int)StatoVendita.VENDUTO || item.STATO == (int)StatoVendita.BARATTATO)
+                    && (item.ID_OGGETTO != null || item.ID_SERVIZIO != null));
+            List<ANNUNCIO> lista = query
+                .OrderByDescending(item => item.DATA_INSERIMENTO)
+                .Take(4).ToList();
+            foreach (ANNUNCIO m in lista)
+            {
+                AnnuncioModel annuncioModel = new AnnuncioModel();
+                this.listaAcquisti.Add(annuncioModel.GetViewModel(db, m));
+            }
+            // far vedere vendite recenti con link
+            var queryVendite = db.ANNUNCIO.Where(item => item.ID_PERSONA == persona.ID
+                    && (item.STATO != (int)StatoVendita.ELIMINATO && item.STATO != (int)StatoVendita.BARATTATO && item.STATO != (int)StatoVendita.VENDUTO)
+                    && (item.ID_OGGETTO != null || item.ID_SERVIZIO != null));
+            List<ANNUNCIO> listaVendite = queryVendite
+                .OrderByDescending(item => item.DATA_INSERIMENTO)
+                .Take(4).ToList();
+            foreach (ANNUNCIO m in listaVendite)
+            {
+                AnnuncioModel annuncioModel = new AnnuncioModel();
+                this.listaVendite.Add(annuncioModel.GetViewModel(db, m));
+            }
+            // far vedere top n desideri con link
+            List<ANNUNCIO_DESIDERATO> listaDesideri = db.ANNUNCIO_DESIDERATO
+                .Where(item => item.ID_PERSONA == persona.ID && (item.ANNUNCIO.STATO == (int)StatoVendita.INATTIVO
+                    || item.ANNUNCIO.STATO == (int)StatoVendita.ATTIVO) && (item.ANNUNCIO.DATA_FINE == null ||
+                    item.ANNUNCIO.DATA_FINE >= DateTime.Now))
+                .OrderByDescending(item => item.ANNUNCIO.DATA_INSERIMENTO)
+                .Take(4)
+                .ToList();
+            listaDesideri.ForEach(m =>
+                this.listaDesideri.Add(
+                    new AnnuncioViewModel(db, m.ANNUNCIO)
+                )
+            );
         }
         #endregion
     }

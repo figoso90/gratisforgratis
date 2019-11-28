@@ -210,7 +210,7 @@ namespace GratisForGratis.Models
             SetDefault();
             BarattiToken = new List<string>();
             Id = model.ID;
-            Token = Controllers.Utils.Encode(model.ID);
+            Token = Utility.Encode(model.ID);
             Annuncio = new AnnuncioViewModel(db, model.ANNUNCIO);
             Punti = Convert.ToDecimal(model.PUNTI).ToHappyCoin();
             Soldi = Convert.ToDecimal(model.SOLDI).ToString("C");
@@ -375,7 +375,7 @@ namespace GratisForGratis.Models
                 offerta.ID_PERSONA = utente.Persona.ID;
                 offerta.PUNTI = puntiOfferta;
                 //offerta.SOLDI = decimal.Parse(this.Soldi, System.Globalization.NumberStyles.Currency);
-                offerta.SOLDI = Controllers.Utils.cambioValuta(offerta.PUNTI);
+                offerta.SOLDI = Utility.cambioValuta(offerta.PUNTI);
                 offerta.TIPO_OFFERTA = (int)this.TipoOfferta;
                 offerta.TIPO_TRATTATIVA = (int)this.TipoPagamento; // DA VERIFICARE CHE COSA SERVA
                 offerta.DATA_INSERIMENTO = DateTime.Now;

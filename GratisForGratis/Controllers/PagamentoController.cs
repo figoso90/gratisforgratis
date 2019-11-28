@@ -348,7 +348,7 @@ namespace GratisForGratis.Controllers
                 foreach (string acquisto in acquisti)
                 {
                     //string token = acquisto.Trim().Substring(3, acquisto.Trim().Length - 6);
-                    int idOfferta = Utils.DecodeToInt(acquisto.Trim().Substring(3, acquisto.Trim().Length - 6));
+                    int idOfferta = Utility.DecodeToInt(acquisto.Trim().Substring(3, acquisto.Trim().Length - 6));
                     using (DatabaseContext db = new DatabaseContext())
                     {
                         PersonaModel utente = Session["utente"] as PersonaModel;

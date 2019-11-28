@@ -43,7 +43,7 @@ namespace GratisForGratis.Controllers
                 {
                     try
                     {
-                        int id = Utils.DecodeToInt(token);
+                        int id = Utility.DecodeToInt(token);
                         OFFERTA offerta = db.OFFERTA.SingleOrDefault(m => m.ID == id);
                         if (offerta == null)
                         {
@@ -58,7 +58,7 @@ namespace GratisForGratis.Controllers
                         AcquistoViewModel viewModel = new AcquistoViewModel(offerta);
                         if (ModelState.IsValid)
                         {
-                            if (!Utils.IsUtenteAttivo(1, TempData))
+                            if (!Utility.IsUtenteAttivo(1, TempData))
                             {
                                 ModelState.AddModelError("", ErrorResource.UserEnabled);
                             }
@@ -139,7 +139,7 @@ namespace GratisForGratis.Controllers
                     ViewData["TotalePagine"] = (int)Math.Ceiling((decimal)query.Count() / (decimal)numeroElementi);
                     ViewData["Pagina"] = pagina;
                     pagina -= 1;
-                    string randomString = Utils.RandomString(3);
+                    string randomString = Utility.RandomString(3);
                     List<OFFERTA> lista = query
                         .OrderByDescending(item => item.DATA_INSERIMENTO)
                         .Skip(pagina * numeroElementi)
@@ -179,13 +179,13 @@ namespace GratisForGratis.Controllers
                     // fare un if e fare ricerca o per acquisto direttamente o per baratto
                     if (!String.IsNullOrEmpty(acquisto))
                     {
-                        //Guid tokenAcquisto = Guid.Parse(Utils.DecodeToString(acquisto.Trim().Substring(3, acquisto.Trim().Length - 6)));
+                        //Guid tokenAcquisto = Guid.Parse(Utility.DecodeToString(acquisto.Trim().Substring(3, acquisto.Trim().Length - 6)));
                         Guid tokenAcquisto = Guid.Parse(acquisto);
                         offerta = db.OFFERTA.SingleOrDefault(c => c.ANNUNCIO.TOKEN == tokenAcquisto && c.ANNUNCIO.ID_PERSONA == idUtente && c.PERSONA.STATO == (int)Stato.ATTIVO);
                     }
                     else
                     {
-                        //Guid tokenBaratto = Guid.Parse(Utils.DecodeToString(baratto.Trim().Substring(3, baratto.Trim().Length - 6)));
+                        //Guid tokenBaratto = Guid.Parse(Utility.DecodeToString(baratto.Trim().Substring(3, baratto.Trim().Length - 6)));
                         Guid tokenBaratto = Guid.Parse(baratto);
                         offerta = db.OFFERTA.SingleOrDefault(c => c.OFFERTA_BARATTO.Count(b => b.ANNUNCIO.TOKEN == tokenBaratto && b.ANNUNCIO.ID_PERSONA == idUtente) > 0);
                     }
@@ -217,7 +217,7 @@ namespace GratisForGratis.Controllers
                     ViewData["TotalePagine"] = (int)Math.Ceiling((decimal)query.Count() / (decimal)numeroElementi);
                     ViewData["Pagina"] = pagina;
                     pagina -= 1;
-                    string randomString = Utils.RandomString(3);
+                    string randomString = Utility.RandomString(3);
                     List<ANNUNCIO> lista = query
                         .OrderByDescending(item => item.DATA_VENDITA)
                         .Skip(pagina * numeroElementi)
@@ -401,7 +401,7 @@ namespace GratisForGratis.Controllers
             ViewData["TotalePagine"] = (int)Math.Ceiling((decimal)query.Count() / (decimal)numeroElementi);
             ViewData["Pagina"] = pagina;
             pagina -= 1;
-            string randomString = Utils.RandomString(3);
+            string randomString = Utility.RandomString(3);
             List<OFFERTA> lista = query
                 .OrderByDescending(item => item.DATA_INSERIMENTO)
                 .Skip(pagina * numeroElementi)

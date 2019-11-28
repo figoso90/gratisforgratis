@@ -268,18 +268,28 @@
                     </li>
                 </ul>
                 <div id="toolbar">
-                    @using (Html.BeginForm("", "gratis", FormMethod.Get, new { id = "cerca" }))
+                    @using (Html.BeginForm("", "cerca", FormMethod.Get, new { id = "cerca" }))
                     {
-                        <div id="menuCategoriaRicerca" style="display: inline-block;margin-top: 12px;position: relative;vertical-align: top;">
-                            @Html.Hidden("Cerca_IDCategoria", Response.Cookies["ricerca"]["IDCategoria"])
-                            @*Html.Hidden("Cerca_Categoria", Response.Cookies["ricerca"]["Categoria"])*@
-                            @Html.TextBox("Cerca_Nome", Response.Cookies["ricerca"]["Nome"], new { @class = "form-control", placeholder = Language.InputSearch })
-                            <input class="btn-search" type="submit" value="search" data-toggle="tooltip" data-placement="top" title="@Language.SearchSubmit" />
-                            <a class="infoTooltip infoDomanda" data-toggle="tooltip" href="javascript:void(0);"
-                               title="@Tooltip.InfoHowSearch">
-                                <i class="far fa-question-circle"></i>
-                            </a>
+                        <div class="form-group col-sm-12 ricerca">
+                            <label class="sr-only" for="inlineFormInputGroup">@Language.InputSearch</label>
+                            <div class="input-group" style="padding:0px;">
+                                <div class="input-group-prepend">
+                                    <div id="menuCategoriaRicerca">
+                                        @Html.Hidden("Cerca_IDCategoria", Response.Cookies["ricerca"]["IDCategoria"])
+                                        @*Html.Hidden("Cerca_Categoria", Response.Cookies["ricerca"]["Categoria"])*@
+                                    </div>
+                                </div>
+                                @Html.TextBox("Cerca_Nome", Response.Cookies["ricerca"]["Nome"], new { @class = "form-control", placeholder = Language.InputSearch })
+                                <div class="input-group-append">
+                                    <div class="input-group-text" style="border-radius: 0px 24px 24px 0px;">
+                                        <a href="javascript:void(0);" onclick="$('#btnInvio2').click();">
+                                            <i class="fas fa-search"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                        <input id="btnInvio2" class="btn-search" type="submit" value="search" data-toggle="tooltip" data-placement="top" title="@Language.SearchSubmit" />
                     }
                 </div>
                 <div id="subCategoryObjects" class="subCategory">
@@ -287,14 +297,14 @@
                     {
                         foreach (FINDSOTTOCATEGORIE_Result sottoCategoria in (HttpContext.Current.Application["categorie"] as List<FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoria"])))
                         {
-                            @Html.ActionLink(sottoCategoria.DESCRIZIONE, sottoCategoria.DESCRIZIONE.Replace(" ", "-") + "/" + sottoCategoria.ID, "gratis", null, new { @class = "link" })
+                            @Html.ActionLink(sottoCategoria.DESCRIZIONE, sottoCategoria.DESCRIZIONE.Replace(" ", "-").ToLower() + "-gratis/" + sottoCategoria.ID, "categoria", null, new { @class = "link" })
                         }
                     }
                     else
                     {
                         foreach (FINDSOTTOCATEGORIE_Result sottoCategoria in (HttpContext.Current.Application["categorie"] as List<FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoriaPadre"])))
                         {
-                            @Html.ActionLink(sottoCategoria.DESCRIZIONE, sottoCategoria.DESCRIZIONE.Replace(" ", "-") + "/" + sottoCategoria.ID, "gratis", null, new { @class = "link" })
+                            @Html.ActionLink(sottoCategoria.DESCRIZIONE, sottoCategoria.DESCRIZIONE.Replace(" ", "-").ToLower() + "-gratis/" + sottoCategoria.ID, "categoria", null, new { @class = "link" })
                         }
                     }
                 </div>
@@ -388,7 +398,7 @@
     <!-- END POPUP -->
     <!-- HIDDEN ELEMENT -->
     <div id="menuCategorie" style="display:none;">
-        <input id="categoriaAttuale" name="categoriaAttuale" value="@Response.Cookies["ricerca"]["Categoria"]" type="text" />
+        <input id="categoriaAttuale" name="categoriaAttuale" value="@Response.Cookies["ricerca"]["Categoria"]" data-id="@Response.Cookies["ricerca"]["IDCategoria"]" type="text" />
         @{ List<FINDSOTTOCATEGORIE_Result> categorie = (HttpContext.Current.Application["categorie"] as List<FINDSOTTOCATEGORIE_Result>);
             <ul id="menu">
                 @foreach (FINDSOTTOCATEGORIE_Result categoria in categorie.Where(c => c.LIVELLO <= 0))

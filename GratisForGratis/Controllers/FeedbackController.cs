@@ -27,7 +27,7 @@ namespace GratisForGratis.Controllers
                     {
                         //string acquistoDecodificato = Uri.UnescapeDataString(id);
                         //string acquistoPulito = acquistoDecodificato.Trim().Substring(3, acquistoDecodificato.Trim().Length - 6);
-                        //int idAcquisto = Utils.DecodeToInt(acquistoPulito);
+                        //int idAcquisto = Utility.DecodeToInt(acquistoPulito);
                         int idUtente = (Session["utente"] as PersonaModel).Persona.ID;
                         ANNUNCIO_FEEDBACK model = db.ANNUNCIO_FEEDBACK.Where(f => f.ID_ANNUNCIO == id && f.ID_VOTANTE == idUtente).SingleOrDefault();
                         if (model != null)
@@ -77,7 +77,7 @@ namespace GratisForGratis.Controllers
                         db.Database.Connection.Open();
                         //string acquistoDecodificato = Uri.UnescapeDataString(viewModel.AcquistoID);
                         //string acquistoPulito = acquistoDecodificato.Trim().Substring(3, acquistoDecodificato.Trim().Length - 6);
-                        //int idAcquisto = Utils.DecodeToInt(acquistoPulito);
+                        //int idAcquisto = Utility.DecodeToInt(acquistoPulito);
                         PersonaModel utente = (Session["utente"] as PersonaModel);
                         ANNUNCIO_FEEDBACK model = db.ANNUNCIO_FEEDBACK.Include("Annuncio.Persona").Where(f => f.ID_VOTANTE == utente.Persona.ID && f.ID_ANNUNCIO == viewModel.AcquistoID).SingleOrDefault();
                         if (model != null)

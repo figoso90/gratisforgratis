@@ -4,14 +4,13 @@
 {
     if ((Session["portaleweb"] as List<GratisForGratis.Models.PortaleWebViewModel>) != null)
     {
-        @Html.Label("LblBusiness", new { @class = "col-md-2 control-label" })
-        @Html.DropDownList("BusinessSuggestAd", new SelectList(
-                                (Session["portaleweb"] as List<GratisForGratis.Models.PortaleWebViewModel>).Select(p => new SelectListItem()
-                                {
-                                    Text = p.Nome,
-                                    Value = p.Token.ToString()
-                                }), "Value", "Text", (Session["utente"] as GratisForGratis.Models.PersonaModel).NomeVisibile), Language.Private, new { @class = "form-control" }
-                            )
+    @Html.DropDownList("BusinessSuggestAd", new SelectList(
+                            (Session["portaleweb"] as List<GratisForGratis.Models.PortaleWebViewModel>).Select(p => new SelectListItem()
+                            {
+                                Text = p.Nome,
+                                Value = p.Token.ToString()
+                            }), "Value", "Text", (Session["utente"] as GratisForGratis.Models.PersonaModel).NomeVisibile), Language.Private, new { @class = "form-control" }
+                        )
     }
     <a href="javascript:void(0);" onclick="@((!Model.Notificato)?"suggestAdActivation(this, '" + Model.Token + "');":"")" title="@Language.SuggestAdActivation">
         <div class="suggestAdActivation @((Model.Notificato)?"sended":"")" alt="@Language.SuggestAdActivation">@Language.SuggestAdActivation</div>

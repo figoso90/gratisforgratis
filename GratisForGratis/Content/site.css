@@ -504,7 +504,7 @@ textarea.form-control{
     width: 220px;
     height: 38px;
     padding-right: 42px;
-    border-radius: 0px 24px 24px 0px;
+    border-radius: 0px;
 }
 
 #cerca .control-label{
@@ -513,6 +513,7 @@ textarea.form-control{
 }
 
 #cerca .btn-search{
+    display:none;
     background-color: transparent;
     background-image: url("/Images/icone/search.svg");
     background-position: center center;
@@ -859,8 +860,7 @@ footer h6 a {
 
 /* FUNZIONI ANNUNCIO */
 .object .fas, .object .far {
-    /*color: #212529;*/
-    color: #007bff;
+    color: #000;
 }
 .object .footer a, .purchase .footer a, .object .footer .feedback, .purchase .footer .feedback {
     text-transform: uppercase;
@@ -872,6 +872,7 @@ footer h6 a {
 .object i, .purchase i, .annuncio i {
     font-size: 20px;
     margin-right: 12px;
+    width:12px;
 }
 
 .object .selected, .purchase .selected, .annuncio .selected {
@@ -881,99 +882,120 @@ footer h6 a {
 
 /* CSS PER SCREEN MINORI DI 940PX */
 
-@media only all and (max-width: 480px){
-
-    .desktop{
-        display:none;
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+    .desktop {
+        display: none;
     }
 
-    .mobile{
-        display:block;
+    .mobile {
+        display: block;
     }
 
-    #window > header, #window > section, #window > footer{
-        padding-left:0%;
-        padding-right:0%;
+    #window > header, #window > section, #window > footer {
+        padding-left: 0%;
+        padding-right: 0%;
     }
 
     /* start menu*/
-    #menuMobileOverlay{
-        position:fixed;
-        z-index:1;
-        background-color:#A2C642;
-        width:100%;
-        height:100%;
+    #menuMobileOverlay {
+        position: fixed;
+        z-index: 1;
+        background-color: #A2C642;
+        width: 100%;
+        height: 100%;
     }
 
-    #menuMobile{
-        position:absolute;
-        top:0px;
-        right:15px;
-        display:block;
-        width:100%;
-        text-align:right;
-        z-index:2;
-        padding-top:20px;
+    #menuMobile {
+        position: absolute;
+        top: 0px;
+        right: 15px;
+        display: block;
+        width: 100%;
+        text-align: right;
+        z-index: 2;
+        padding-top: 20px;
     }
 
-    #menuMobile .icona{
-        width:32px;
-        height:32px;
-        cursor:pointer;
-        margin-right:6px;
+        #menuMobile .icona {
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            margin-right: 6px;
+        }
+
+        #menuMobile .menu {
+            display: none;
+            text-align: center;
+            list-style: none;
+            padding: 0px;
+        }
+
+            #menuMobile .menu li {
+                padding: 12px 0px;
+            }
+
+        #menuMobile > .menu > li > a {
+            text-transform: uppercase;
+            color: #fff;
+            font-weight: 900;
+            font-size: 16px;
+        }
+
+    #linkLogin {
+        display: none;
     }
 
-    #menuMobile .menu{
-        display:none;
-        text-align:center;
-        list-style:none;
-        padding:0px;
-    }
-
-    #menuMobile .menu li{
-        padding:12px 0px;
-    }
-
-    #menuMobile > .menu > li > a{
-        text-transform:uppercase;
-        color:#fff;
-        font-weight:900;
-        font-size:16px;
-    }
-
-    #linkLogin{
-        display:none;
-    }
-
-    .dropdown-menu > li > a{
-        text-transform:uppercase;
+    .dropdown-menu > li > a {
+        text-transform: uppercase;
     }
     /* end menu */
 
-    #description{
-        display:none;
+    #description {
+        display: none;
     }
 
-    header{
-        padding-top:20px;
+    header {
+        padding-top: 20px;
     }
 
-    header menu ul.nav-pills{
-        display:none;
-        position:absolute;
-        top:34px;
-        right: 34px;
+        header menu ul.nav-pills {
+            /*display: none;
+            position: absolute;
+            top: 34px;
+            right: 34px;
+                */
+        }
+
+    #toolbar .tipoAcquisto {
+        margin-right: 0px;
     }
 
-    #toolbar .tipoAcquisto{
-        margin-right:0px;
-    }
-    
-    #toolbar .menuCategoria .btn{
+    #toolbar .menuCategoria .btn {
         border-radius: 6px;
         margin-bottom: 12px;
     }
 
+    #menuCategoriaRicerca {
+        display: none;
+    }
+
+        #menuCategoriaRicerca > .slicknav_menu {
+            display: block;
+            border-radius: 6px;
+            margin: 0px auto 13px;
+        }
+
+        #menuCategoriaRicerca .infoTooltip {
+            display: none;
+        }
+
+    #cerca .form-control, #cerca .form-control:hover {
+        border-radius: 24px 0px 0px 24px;
+        width:100px;
+        min-width:0px;
+    }
+    /*
     #cerca .btn-search{
         bottom:6px;
         right:24px;
@@ -983,14 +1005,50 @@ footer h6 a {
     #cerca .btnSearchSave{
         display:none;
     }
+    */
+    textarea.form-control {
+        max-width: 240px;
+    }
 
-    textarea.form-control{
-        max-width:240px;
+    #subCategoryObjects {
+        display: none;
+    }
+
+    #logo .ico {
+        height: 100px;
+    }
+
+    #title {
+        font-size: 22px;
     }
 }
 
-@media only all and (max-width: 980px) {
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+    
+}
 
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    
+}
+
+/* DEPRECATO */
+@media only all and (max-width: 480px){
+}
+
+@media only all and (max-width: 980px) {
+    /*
     #menuCategoriaRicerca > .slicknav_menu {
         display: block;
         border-radius: 6px;
@@ -1000,12 +1058,13 @@ footer h6 a {
     #menuCategoriaRicerca .infoTooltip{
         display:none;
     }
-
+    
     #cerca .form-control, #cerca .form-control:hover {
         margin: 0px auto;
         display: block;
         border-radius:6px;
     }
+    */
 }
 
     @media only all and (min-width: 0px) and (max-width: 1152px) {

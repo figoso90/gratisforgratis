@@ -3724,7 +3724,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a &lt;strong&gt;La felicità non ha prezzo&lt;/strong&gt;.
+        ///   Cerca una stringa localizzata simile a &lt;strong&gt;Il sito di baratto e regalo online con criptovaluta&lt;/strong&gt;.
         /// </summary>
         public static string Slogan {
             get {

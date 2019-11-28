@@ -3,40 +3,50 @@
 
 @if (!string.IsNullOrWhiteSpace(Model.Marca))
 {
-    <h5 class="brand"><b>@Language.Brand :</b> @Model.Marca</h5>
+    <div class="col-md-12">
+        <p>
+            <b>@Language.Brand</b> @Model.Marca
+        </p>
+    </div>
 }
-<h5 class="state"><b>@Language.StateObject :</b> @EnumHelper.GetSelectList(typeof(CondizioneOggetto), Model.StatoOggetto).Where(m => m.Selected).FirstOrDefault().Text</h5>
+<div class="col-md-12">
+    <p>
+        <b>@Language.StateObject</b> @EnumHelper.GetSelectList(typeof(CondizioneOggetto), Model.StatoOggetto).Where(m => m.Selected).FirstOrDefault().Text
+    </p>
+</div>
 @if (Model.TipoScambio.Contains(TipoScambio.Spedizione))
 {
-    <h5 class="shipment"><b>@Language.Shipment :</b> <span class="evidence">@Model.SoldiSpedizione (@Model.NomeCorriere)</span></h5>
-    <h5><b>DISPONIBILITà PER LA SPEDIZIONE</b></h5>
-    <h5 class="giorniSpedizione"><b>Giorni</b></h5>
+<div class="col-md-12">
+    <p class="shipment"><b>@Language.Shipment</b> <span class="evidence">@Model.SoldiSpedizione (@Model.NomeCorriere)</span></p>
+    <p class="giorniSpedizione"><b>Giorni per la spedizione</b></p>
     <p>
         @foreach (var giorno in Model.GiorniSpedizioneEnum.Where(m => Model.GiorniSpedizione.Exists(n => n.ToString() == m.Value)))
         {
             @(giorno.Text + "; ")
         }
     </p>
-    <h5 class="orariSpedizione"><b>Orari</b></h5>
+    <p class="orariSpedizione"><b>Orari per la spedizione</b></p>
     <p>
         @foreach (var orario in Model.OrariSpedizioneEnum.Where(m => Model.OrariSpedizione.Exists(n => n.ToString() == m.Value)))
         {
-            @(orario.Text +"; ")
+            @(orario.Text + "; ")
         }
     </p>
-        
-    <h5 class="TempoImballaggio"><b>Tempo Imballaggio</b></h5>
+
+    <p class="TempoImballaggio"><b>Tempo Imballaggio</b></p>
     <p>
         @foreach (var tempo in Model.TempoImballaggioEnum.Where(m => Model.TempoImballaggio.ToString() == m.Value))
         {
             @(tempo.Text)
         }
     </p>
+</div>
 }
 @if (Model.Materiali.Count(m => m.Trim() != string.Empty) > 0)
 {
+<div class="col-md-12">
+    <p><b>@Language.LblMaterials</b></p>
     <ul class="materials lista">
-        @Language.LblMaterials :
         @foreach (string materiale in Model.Materiali)
         {
             <li class="voce">
@@ -44,11 +54,13 @@
             </li>
         }
     </ul>
+</div>
 }
 @if (Model.Componenti.Count(m => m.Trim() != string.Empty) > 0)
 {
+<div class="col-md-12">
+    <p><b>@Language.LblComponents</b></p>
     <ul class="components lista">
-        @Language.LblComponents :
         @foreach (string componente in Model.Componenti)
         {
             <li class="voce">
@@ -56,4 +68,5 @@
             </li>
         }
     </ul>
+</div>
 }

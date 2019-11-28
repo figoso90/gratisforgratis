@@ -23,7 +23,7 @@
         @Html.Raw(Email.RegistrationTextForLink)<br /><br />
         <div bgcolor="#178fcc" width="160" style="width:160px;background-color:#178fcc;">
             <p>&nbsp;</p>
-            @Html.ActionLink(Language.Confirm, "Iscrizione", "Utente", null, Request.Url.Host, null, new { token = HttpUtility.UrlEncode(GratisForGratis.Controllers.Utils.Encode(Model.Email + Model.PasswordCodificata)) }, new { style = "color:#FFF;" })
+            @Html.ActionLink(Language.Confirm, "Iscrizione", "Utente", null, Request.Url.Host, null, new { token = HttpUtility.UrlEncode(GratisForGratis.Models.Utility.Encode(Model.Email + Model.PasswordCodificata)) }, new { style = "color:#FFF;" })
             <p>&nbsp;</p>
         </div>
     </td>

@@ -1,4 +1,8 @@
-﻿#acquisto .esito {
+﻿#acquisto p{
+    font-size:15px;
+}
+
+#acquisto .esito {
     background-color: #a2c642;
     color: #fff;
     font-weight: 700;
@@ -25,42 +29,42 @@
 
 #acquisto .title{
     text-transform:uppercase;
-    margin:0px;
     color: #bd1723;
     font-weight: bold;
     text-align:left;
+    font-size:25px;
 }
 
 #acquisto .category {
-    font-size: 17px;
+    font-size: 13px;
     font-style: italic;
-    font-weight: 900;
-    color: #23527c;
+    color: #777;
 }
 
-#acquisto .annuncio > div{
-    display:inline-block;
-    vertical-align:top;
-    width:49%;
-}
+    #acquisto .category i {
+        font-size: 16px;
+    }
 
-#acquisto .left{
-    text-align:center;
+    #acquisto .category:hover{
+        text-decoration:none;
+    }
+
+    #acquisto .left {
+        text-align: center;
+        margin-bottom:22px;
+    }
+
+#acquisto .right {
+    text-align: left;
 }
 
 #acquisto .user {
     text-align: left;
-    margin-top: 22px;
 }
 
 #acquisto .feedback{
     max-width:148px;
     text-align:left;
-}
-
-#acquisto .right{
-    max-width:400px;
-    margin-left:12px;
 }
 
 #acquisto .right .info{
@@ -138,11 +142,6 @@
     border:none;
 }
 
-.annuncio .fas, .annuncio .far {
-    /*color: #212529;*/
-    color: #007bff;
-}
-
 .annuncio .wish, .annuncio .possession {
     margin: 0px 5px;
 }
@@ -180,6 +179,18 @@
     box-shadow:none;
     margin:0px auto;
     max-width:100%;
+}
+
+.carousel-control-next, .carousel-control-prev {
+    background-color: #000;
+}
+
+#album .foto {
+    border-radius: 0px;
+    height: 350px;
+    align-items: center;
+    margin: 0px auto;
+    border: 1px solid #a1c442;
 }
 
 @media only all and (min-width: 0px) and (max-width: 480px) {

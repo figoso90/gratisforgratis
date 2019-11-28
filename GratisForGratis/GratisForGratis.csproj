@@ -390,6 +390,7 @@
     <Content Include="Images\categorie\Videoteca.jpg" />
     <Content Include="Images\free.jpg" />
     <Content Include="Images\gratisforgratis_nametag.png" />
+    <Content Include="Images\happy_coin.png" />
     <Content Include="Images\icone\aprifiltro.svg" />
     <Content Include="Images\icone\aprifiltro2.svg" />
     <Content Include="Images\icone\aprifiltro3.svg" />
@@ -417,6 +418,7 @@
     <Content Include="Images\icone\security.svg" />
     <Content Include="Images\icone\simbolo.svg" />
     <Content Include="Images\logo.jpg" />
+    <Content Include="Images\logo.png" />
     <Content Include="Images\logo.svg" />
     <Content Include="Images\logo2.jpg" />
     <Content Include="Images\logo3.jpg" />
@@ -437,13 +439,23 @@
     <Content Include="Images\sezioni\compra_gratis8.jpg" />
     <Content Include="Images\sezioni\compra_gratis9.jpg" />
     <Content Include="Images\sezioni\compra_gratis_2.jpg" />
+    <Content Include="Images\sezioni\condividi.jpg" />
     <Content Include="Images\sezioni\credit author.txt" />
+    <Content Include="Images\sezioni\feedback.jpg" />
+    <Content Include="Images\sezioni\happycoin.jpg" />
+    <Content Include="Images\sezioni\pieno.jpg" />
+    <Content Include="Images\sezioni\pubblica.jpg" />
+    <Content Include="Images\sezioni\regalo.jpg" />
     <Content Include="Images\sezioni\registrati.jpg" />
+    <Content Include="Images\sezioni\segnalazione.jpg" />
+    <Content Include="Images\sezioni\servizi.jpg" />
+    <Content Include="Images\sezioni\spedizione.jpg" />
     <Content Include="Images\sezioni\speranza1.jpg" />
     <Content Include="Images\sezioni\speranza2.jpg" />
     <Content Include="Images\sezioni\speranza3.jpg" />
     <Content Include="Images\sezioni\speranza4.jpg" />
     <Content Include="Images\sezioni\tempo.jpg" />
+    <Content Include="Images\sezioni\vinci.jpg" />
     <Content Include="Images\sfondo.jpg" />
     <Content Include="Images\stickers\10.png" />
     <Content Include="Images\stickers\10_y.png" />
@@ -622,6 +634,9 @@
     <Content Include="Scripts\loader\images\ajax-loader.gif" />
     <Content Include="Scripts\loader\jquery.loader.min.css" />
     <Content Include="Scripts\loader\jquery.loader.min.js" />
+    <Content Include="Scripts\magnify\css\magnify.css" />
+    <Content Include="Scripts\magnify\js\jquery.magnify-mobile.js" />
+    <Content Include="Scripts\magnify\js\jquery.magnify.js" />
     <Content Include="Scripts\Microsoft\MicrosoftAjax.debug.js" />
     <Content Include="Scripts\Microsoft\MicrosoftAjax.js" />
     <Content Include="Scripts\Microsoft\MicrosoftMvcAjax.debug.js" />
@@ -840,7 +855,6 @@
     <Compile Include="Controllers\PortaleWebController.cs" />
     <Compile Include="Controllers\PubblicaController.cs" />
     <Compile Include="Controllers\UtenteController.cs" />
-    <Compile Include="Controllers\Utils.cs" />
     <Compile Include="Models\COMUNE.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
@@ -1204,6 +1218,7 @@
     <Compile Include="Models\TRANSAZIONE_ANNUNCIO_SPEDIZIONE.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Utility.cs" />
     <Compile Include="Models\ViewModels\ChatViewModel.cs" />
     <Compile Include="Models\ViewModels\Email\BonusRicevutoViewModel.cs" />
     <Compile Include="Models\ViewModels\Email\PagamentoOffertaViewModel.cs" />
@@ -1673,7 +1688,6 @@
     <Content Include="Views\Home\Bando.cshtml" />
     <Content Include="Views\Shared\PartialPages\_Adv.cshtml" />
     <Content Include="Views\Cerca\PartialPages\_AdvAnnuncio.cshtml" />
-    <Content Include="Views\Shared\PartialPages\_ParametriLink.cshtml" />
     <Content Include="Views\Pubblica\PartialPages\_FunzioniAnnuncio.cshtml" />
     <None Include="Web References\ServizioADV\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>

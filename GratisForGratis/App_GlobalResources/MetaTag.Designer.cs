@@ -655,7 +655,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Il sito di baratto online con l&apos;happy-coin (criptovaluta).
+        ///   Cerca una stringa localizzata simile a Il sito di baratto e regalo online con criptovaluta.
         /// </summary>
         public static string TitleGeneric {
             get {
@@ -664,7 +664,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Cerca annunci in regalo.
+        ///   Cerca una stringa localizzata simile a Trova annunci in regalo.
         /// </summary>
         public static string TitleGift {
             get {

@@ -13,7 +13,7 @@
 {
     <div id="@("Token" + oggetto.Token)" class="object">
         <div>
-            <a class="openLink" href="/oggetto/@Html.Partial("PartialPages/_ParametriLink", oggetto.Nome)/@HttpUtility.UrlEncode(oggetto.Token)" title="@oggetto.Nome GRATIS">
+            <a class="openLink" href="/oggetto/@GratisForGratis.Models.Utility.UrlEncode(oggetto.Nome)/@HttpUtility.UrlEncode(oggetto.Token)" title="@oggetto.Nome GRATIS">
                 <h3 class="title">@oggetto.Nome</h3>
                 <div class="left" style="background-image:url('@Url.Content("~/Uploads/Images/" + oggetto.Venditore.VenditoreToken + "/" + @oggetto.Foto.FirstOrDefault().DATA_INSERIMENTO.Year + "/" + "Normal/" + oggetto.Foto.FirstOrDefault().ALLEGATO.NOME)')">
                     @if (oggetto.StatoOggetto == GratisForGratis.Models.CondizioneOggetto.Nuovo)
@@ -27,7 +27,7 @@
                 </div>
                 <div class="right">
                     <h5 class="category">
-                        <a href="@Url.Action(oggetto.Categoria + "/" + oggetto.CategoriaID,"gratis")" title="@oggetto.Categoria">
+                        <a href="@Url.Action(oggetto.Categoria.ToLower() + "-gratis/" + oggetto.CategoriaID,"categoria")" title="@oggetto.Categoria">
                             <i class="fas fa-tag"></i>
                             <span class="evidence">@oggetto.Categoria</span>
                         </a>
@@ -47,7 +47,7 @@
                     <h5 class="seller">
                         <i class="fas fa-user-tie"></i>
                         <span class="evidence">
-                            @Html.ActionLink((string.IsNullOrWhiteSpace(Model.Venditore.Nominativo) ? Model.Venditore.Email : Model.Venditore.Nominativo), "Profilo", (Model.Venditore.Tipo == GratisForGratis.Models.TipoVenditore.Attivita) ? "PortaleWeb" : "Utente", new { token = Model.Venditore.VenditoreToken }, null)
+                            @Html.ActionLink((string.IsNullOrWhiteSpace(Model.Venditore.Nominativo) ? Model.Venditore.Username : Model.Venditore.Nominativo), Model.Venditore.Username+"/"+Model.Venditore.Id, (Model.Venditore.Tipo == GratisForGratis.Models.TipoVenditore.Attivita) ? "negozio" : "profilo")
                         </span>
                     </h5>
                 </div>

@@ -301,7 +301,7 @@ namespace GratisForGratis.Models
                 transazione.NOME = transazione.NOME.Substring(0, 99);
             }
             transazione.PUNTI = this.PUNTI;
-            transazione.SOLDI = Controllers.Utils.cambioValuta(this.PUNTI);
+            transazione.SOLDI = Utility.cambioValuta(this.PUNTI);
             transazione.TIPO = (int)TipoPagamento.HAPPY;
             transazione.DATA_INSERIMENTO = DateTime.Now;
             transazione.TEST = 0;
@@ -376,7 +376,7 @@ namespace GratisForGratis.Models
                 //creditoDestinatario.ID_CONTO_CORRENTE = transazione.ID_CONTO_DESTINATARIO;
                 //creditoDestinatario.ID_TRANSAZIONE_ENTRATA = transazione.ID;
                 //creditoDestinatario.PUNTI = (decimal)transazione.PUNTI;
-                //creditoDestinatario.SOLDI = Controllers.Utils.cambioValuta(transazione.PUNTI);
+                //creditoDestinatario.SOLDI = Controllers.Utility.cambioValuta(transazione.PUNTI);
                 //creditoDestinatario.GIORNI_SCADENZA = Convert.ToInt32(ConfigurationManager.AppSettings["GiorniScadenzaCredito"]);
                 //creditoDestinatario.DATA_SCADENZA = DateTime.Now.AddDays(creditoDestinatario.GIORNI_SCADENZA);
                 //creditoDestinatario.DATA_INSERIMENTO = DateTime.Now;

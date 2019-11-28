@@ -170,13 +170,13 @@
                 <div id="boxLogo" class="col-sm-12">
                     <a href="@Url.Action("Index", "Home")">
                         <img src='@Url.Content("~/Images/logo.jpg")' alt="@WebConfigurationManager.AppSettings["nomeSito"]" />
-                        <h3 class="slogan">@Html.Raw(@Language.Slogan)</h3>
+                        <h1 class="slogan">@Html.Raw(@Language.Slogan)</h1>
                     </a>
                 </div>
             </div>
             <div class="row justify-content-center text-center align-items-start">
                 <div id="boxRicerca" class="col-sm-5">
-                    @using (Html.BeginForm("", "gratis", FormMethod.Get, new { id = "cerca" }))
+                    @using (Html.BeginForm("", "cerca", FormMethod.Get, new { id = "cerca" }))
                     {
                         <div class="form-row align-items-center">
                             <div class="form-group col-sm-12 ricerca">
@@ -231,7 +231,7 @@
                 <menu id="menuFooter">
                     <nav class="navbar navbar-default navbar-static-bottom">
                         <ul class="nav justify-content-left">
-                            <li class="nav-item">@Html.ActionLink(Language.Search, "", "gratis", null, new { @class = "nav-link" })</li>
+                            <li class="nav-item">@Html.ActionLink(Language.Search, "", "cerca", null, new { @class = "nav-link" })</li>
                             <li class="nav-item">@Html.ActionLink(ViewModel.MissionLink, "Missione", "Home", null, new { @class = "nav-link" })</li>
                             <li class="nav-item">@Html.ActionLink(ViewModel.HowWorkLink, "ComeFunziona", "Home", null, new { @class = "nav-link" })</li>
                             <li class="nav-item">@Html.ActionLink(ViewModel.EarnMoneyLink, "ComeGuadagnare", "Home", null, new { @class = "nav-link" })</li>
@@ -282,7 +282,7 @@
             <div id="subCategoryObjects" class="row justify-content-center">
                 @foreach (GratisForGratis.Models.FINDSOTTOCATEGORIE_Result sottoCategoria in (HttpContext.Current.Application["categorie"] as List<GratisForGratis.Models.FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoria"]) && c.TIPO_VENDITA == 0))
                 {
-                    <a class="col-lg-3 col-md-3 col-sm-4 category object" href="@Url.Content("/gratis/" + sottoCategoria.DESCRIZIONE.Replace(" ","-") + "/" + sottoCategoria.ID)" title="@(Language.Object + ' ' + sottoCategoria.NOME)">
+                    <a class="col-lg-3 col-md-3 col-sm-4 category object" href="@Url.Content("/categoria/" + sottoCategoria.DESCRIZIONE.Replace(" ","-").ToLower() + "-gratis/" + sottoCategoria.ID)" title="@(Language.Object + ' ' + sottoCategoria.NOME)">
                         <div class="box" style="background-image:url(@Url.Content("/Images/categorie/" + sottoCategoria.IMMAGINE));">
                             <div>
                                 <h3 class="text name">@sottoCategoria.NOME</h3>
@@ -295,7 +295,7 @@
             <div id="subCategoryServices" class="row justify-content-center">
                 @foreach (GratisForGratis.Models.FINDSOTTOCATEGORIE_Result sottoCategoria in (HttpContext.Current.Application["categorie"] as List<GratisForGratis.Models.FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoria"]) && c.TIPO_VENDITA == 1))
                 {
-                    <a class="col-lg-3 col-md-3 category service" href="@Url.Content("/gratis/" + sottoCategoria.DESCRIZIONE.Replace(" ","-") + "/" + sottoCategoria.ID)" title="@(Language.Service + ' ' + sottoCategoria.NOME)">
+                    <a class="col-lg-3 col-md-3 category service" href="@Url.Content("/categoria/" + sottoCategoria.DESCRIZIONE.Replace(" ","-").ToLower() + "-gratis/" + sottoCategoria.ID)" title="@(Language.Service + ' ' + sottoCategoria.NOME)">
                         <div class="box" style="background-image:url(@Url.Content("/Images/categorie/" + sottoCategoria.IMMAGINE));">
                             <div>
                                 <h3 class="text name">@sottoCategoria.NOME</h3>
@@ -330,8 +330,8 @@
                             </div>
                             <div class="text">
                                 <p>
-                                    Perchè limitare il baratto ad una nicchia o ad una forma di scambio locale?
-                                    Sfruttando la tecnologia ti permettiamo di <b>scambiare facilmente a distanza</b>.
+                                    Perchè limitare il baratto ad una forma di scambio locale?
+                                    Sfruttando la tecnologia ti permettiamo di <a href="@Url.Action("Spedizione", "Home")" title="@Language.Shipment"><b>scambiare facilmente a distanza</b></a>.
                                 </p>
                             </div>
                         </div>
@@ -343,7 +343,7 @@
                             </div>
                             <div class="text">
                                 <p>
-                                    <b>Te lo regalo se vieni a prenderlo</b>. Un vantaggio per entrambi, un modo per avere ciò
+                                    <a href="@Url.Action("Regalo", "Home")" title="@Language.Gift"><b>Te lo regalo se vieni a prenderlo</b></a>. Un vantaggio per entrambi, un modo per avere ciò
                                     di cui hai bisogno ed un modo per liberarsi di cose inutili senza sforzi.
                                 </p>
                             </div>
@@ -356,8 +356,8 @@
                             </div>
                             <div class="text">
                                 <p>
-                                    Noi crediamo nella <b>tua felicità</b>, per questo riceverai <b>crediti ogni giorno</b>.
-                                    Incentivare lo scambio è l'elemento chiave.
+                                    Noi crediamo nella <b>tua felicità</b>, per questo riceverai <a href="@Url.Action("ComeGuadagnare", "Home")" title="@Language.Moneta"><b>crediti ogni giorno</b></a>.
+                                    L'happy-coin serve a chi non ha niente da barattare in quel momento.
                                 </p>
                             </div>
                         </div>

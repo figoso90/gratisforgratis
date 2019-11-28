@@ -1,16 +1,8 @@
 ﻿@model GratisForGratis.Models.AnnuncioViewModel
 @section Styles {
-    @Styles.Render("~/Scripts/jgallery/css/font-awesome.min.css")
-    @Styles.Render("~/Scripts/blueimp-gallery/css/blueimp-gallery.min.css")
-    @Styles.Render("~/Scripts/blueimp-gallery/css/blueimp-gallery-indicator.css")
+    @Styles.Render("~/Scripts/magnify/css/magnify.css")
     @Styles.Render("~/Content/annuncio.css")
-    <!-- You can use Open Graph tags to customize link previews.
-        Learn more: https://developers.facebook.com/docs/sharing/webmasters -->
-    <meta property="og:url" content="https://www.gratisforgratis.org/annuncio/@(HttpUtility.UrlEncode(Model.Nome.Replace(" ","-") + "/" + Model.Token))" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="@Model.Nome" />
-    <meta property="og:description" content="@Model.Nome" />
-    <meta property="og:image" content="https://www.gratisforgratis.org/Uploads/Images/@Model.Venditore.VenditoreToken/@Model.Foto[0].ALLEGATO.DATA_INSERIMENTO.Year/Normal/@Model.Foto[0].ALLEGATO.NOME" />
+
 }
 
 <!-- Articolo - Interstitial -->
@@ -28,100 +20,137 @@
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
     <section id="acquisto" class="content">
-        @if (ViewBag.Esito != null)
-        {
-            <h2 class="esito">@ViewBag.Esito</h2>
-        }
-        <h4>
-            @Html.ValidationMessage("", new { @class = "text-danger" })
-            @Html.ValidationMessage("ErroreOfferta", new { @class = "text-danger" })
-        </h4>
-        <div class="annuncio">
-            <div class="left">
-                <div id="blueimp-image-carousel" class="blueimp-gallery blueimp-gallery-carousel blueimp-gallery-display blueimp-gallery-playing  blueimp-gallery-controls">
-                    <div class="slides"></div>
-                    <!--<h3 class="title"></h3>-->
-                    <a class="prev">‹</a>
-                    <a class="next">›</a>
-                    <!--<a class="close">×</a>
-                    <a class="play-pause"></a>
-                    <ol class="indicator"></ol>-->
-                </div>
-                <div id="albumAnnuncio" class="album" style="display:none;">
-                    @foreach (GratisForGratis.Models.AnnuncioFoto foto in Model.Foto)
-                    {
-                        <a href="@Url.Content("~/Uploads/Images/" + Model.Venditore.VenditoreToken + "/" + @foto.DATA_INSERIMENTO.Year + "/Original/" + foto.ALLEGATO.NOME)" title="@(Language.Phote + " 1")">
-                            <img src="@Url.Content("~/Uploads/Images/" + Model.Venditore.VenditoreToken + "/" + @foto.DATA_INSERIMENTO.Year + "/Little/" + foto.ALLEGATO.NOME)" alt="@Model.Nome" />
+        <div class="container">
+            @if (ViewBag.Esito != null)
+            {
+                <h2 class="esito">@ViewBag.Esito</h2>
+            }
+            <h4>
+                @Html.ValidationMessage("", new { @class = "text-danger" })
+                @Html.ValidationMessage("ErroreOfferta", new { @class = "text-danger" })
+            </h4>
+            <div class="annuncio row">
+                <div class="left col-md-6">
+                    <div id="album" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            @for (int i = 0; i < Model.Foto.Count; i++)
+                            {
+                                <li data-target="#album" data-slide-to="@i" class="@((i == 0)?"active":"")"></li>
+                            }
+                        </ol>
+                        <div class="carousel-inner">
+                            @for (int i = 0; i < Model.Foto.Count; i++)
+                            {
+                                <div class="carousel-item @((i == 0)?"active":"")">
+                                    <img class="foto d-block"
+                                         src="@Url.Content("~/Uploads/Images/" + Model.Venditore.VenditoreToken + "/" + @Model.Foto[i].DATA_INSERIMENTO.Year + "/Original/" + @Model.Foto[i].ALLEGATO.NOME)"
+                                         data-magnify-src="@Url.Content("~/Uploads/Images/" + Model.Venditore.VenditoreToken + "/" + @Model.Foto[i].DATA_INSERIMENTO.Year + "/Original/" + @Model.Foto[i].ALLEGATO.NOME)"
+                                         alt="@Model.Nome" />
+                                </div>
+                            }
+                        </div>
+
+                        <a class="carousel-control-prev" href="#album" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
                         </a>
-                    }
+                        <a class="carousel-control-next" href="#album" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
                 </div>
-                <div class="user">
-                    <h5 class="seller"><img class="glyphicon" src="@Url.Content("~/Images/icone/sellerMan.svg")" alt="@Language.Seller" /> <span><b>@Html.ActionLink(Model.Venditore.Nominativo, "Profilo", (Model.Venditore.Tipo == GratisForGratis.Models.TipoVenditore.Attivita) ? "PortaleWeb" : "Utente", new { token = Model.Venditore.VenditoreToken }, null)</b></span></h5>
-                    <h5 class="place"><img class="glyphicon" src="@Url.Content("~/Images/icone/position.svg")" alt="@Language.Place" /> <span>@Model.Citta</span></h5>
-                </div>
-                <div class="feedback" title="@Language.FeedbackUser">
-                    <i class="fas fa-percentage"></i>
-                    @(Model.VenditoreFeedback > -1 ? string.Format(Language.FeedbackMessage, Model.VenditoreFeedback) : Language.FeedbackNothing)
+                <div class="right col-md-6">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h1 class="info title">@Model.Nome</h1>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="points">
+                                <img class="glyphicon happyCoin" src="@Url.Content("~/Images/Icone/happyCoin.svg")" alt="@Language.Moneta" />
+                                <span class="evidence">@Model.Punti</span> <img class="infoTooltip infoTooltipAnnuncio" src="~/Images/icone/infoTooltip.svg" alt="info" title="Equivalgono a @Model.Soldi" />
+                            </h5>
+                        </div>
+                        <div class="col-md-12">
+                            <p>
+                                <a class="category" href="@Url.Action(Model.Categoria.Replace(" ","-").ToLower() + "-gratis/" + Model.CategoriaID, "categoria")" title="@Model.Categoria">
+                                    <i class="fas fa-tag"></i>
+                                    @Model.Categoria
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row info">
+
+                        @if (!string.IsNullOrWhiteSpace(Model.NoteAggiuntive))
+                        {
+                            <div class="col-md-12">
+                                <p><b>@Language.Note</b> @Model.NoteAggiuntive</p>
+                            </div>
+                        }
+                        <!-- carica in base a se è un bene o servizio -->
+                        @Html.Partial("PartialPages/_" + Model.TipoAcquisto.ToString(), Model)
+                        <!-- carica le info di dettaglio dell'annuncio -->
+                        @if (!string.IsNullOrWhiteSpace(Model.NomeVistaDettaglio))
+                        {
+                            WriteLiteral(Html.Partial("PartialPages/_" + Model.NomeVistaDettaglio, Model));
+                        }
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p>
+                                @Html.ActionLink(ViewModel.AdReportIssue, "Contatti", "Home", new { tipo = (int)GratisForGratis.Models.TipoSegnalazione.Bug, action = "Index", controller = "Annuncio" }, null)
+                            </p>
+                        </div>
+                        <div class="col-md-12">
+                            @Html.Partial("PartialPages/_Desidero", Model)
+                            @Html.Partial("PartialPages/_Possiedo", Model)
+                        </div>
+                        <div class="col-md-12">
+                            @Html.Partial("PartialPages/_SuggerimentoAttivazioneAnnuncio", Model)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 buttons" style="text-align:left;margin-top:13px;">
+                            @if (Request.IsAuthenticated
+                                && !Model.Venditore.IsVenditore((GratisForGratis.Models.PersonaModel)Session["utente"])
+                                && Model.StatoVendita == GratisForGratis.Models.StatoVendita.ATTIVO
+                                && (Model.DataFine >= DateTime.Now || Model.DataFine == null))
+                            {
+                                if (Model.Azione.ToLower().Equals("offerta"))
+                                {
+                                    WriteLiteral(Html.Partial("PartialPages/_FormOfferte", (ViewData["offertaViewModel"] != null) ? ViewData["offertaViewModel"] : new GratisForGratis.Models.OffertaViewModel(Model)));
+                                    <div class="boxAcquisto">
+                                        @Html.ActionLink(Language.Buy, GratisForGratis.Models.Utility.UrlEncode(Model.Nome) + "-gratis/" + @HttpUtility.UrlEncode(Model.Token) + "/compra", "Baratto", null, new { @class = "btn btn-primary" })
+                                    </div>
+                                }
+                                else
+                                {
+                                    WriteLiteral(Html.Partial("PartialPages/_FormAcquisto", (ViewData["acquistoViewModel"] != null) ? ViewData["acquistoViewModel"] : new GratisForGratis.Models.AcquistoViewModel(Model)));
+                                    <div class="boxAcquisto">
+                                        @Html.ActionLink(Language.Bid, GratisForGratis.Models.Utility.UrlEncode(Model.Nome) + "-gratis/" + @HttpUtility.UrlEncode(Model.Token) + "/offerta", "Baratto", null, new { @class = "btn btn-primary" })
+                                    </div>
+                                }
+                            }
+                            else if (!Request.IsAuthenticated && Model.StatoVendita == GratisForGratis.Models.StatoVendita.ATTIVO)
+                            {
+                                @Html.ActionLink(Language.LoginAndBuy, "Login", "Utente", new { ReturnUrl = "~/Annuncio/" + GratisForGratis.Models.Utility.UrlEncode(Model.Nome) + "-gratis/" + HttpUtility.UrlEncode(Model.Token) }, new { @class = "btn btn-success buy" })
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="right">
-                <h3 class="info title">@Model.Nome</h3>
-                <h4 class="info category">
-                    <a href="@Url.Action(Model.Categoria.Replace(" ","-") + "/" + Model.CategoriaID, "gratis")" title="@Model.Categoria">
-                        <img class="glyphicon category" src="@Url.Content("~/Images/Icone/category.svg")" alt="@Language.Category" />
-                        @Model.Categoria
-                    </a>
-                </h4>
-                <div class="info">
-                    <h5 class="points">
-                        <img class="glyphicon happyCoin" src="@Url.Content("~/Images/Icone/happyCoin.svg")" alt="@Language.Moneta" />
-                        <span class="evidence">@Model.Punti</span> <img class="infoTooltip infoTooltipAnnuncio" src="~/Images/icone/infoTooltip.svg" alt="info" title="Equivalgono a @Model.Soldi" />
-                    </h5>
-                    @if (!string.IsNullOrWhiteSpace(Model.NoteAggiuntive))
-                    {
-                        <h5 class="note"><b>@Language.Note :</b> @Model.NoteAggiuntive</h5>
-                    }
-                    <!-- carica in base a se è un bene o servizio -->
-                    @Html.Partial("PartialPages/_" + Model.TipoAcquisto.ToString(), Model)
-                    <!-- carica le info di dettaglio dell'annuncio -->
-                    @if (!string.IsNullOrWhiteSpace(Model.NomeVistaDettaglio))
-                    {
-                        WriteLiteral(Html.Partial("PartialPages/_" + Model.NomeVistaDettaglio, Model));
-                    }
-
-                    <h5>
-                        @Html.ActionLink(ViewModel.AdReportIssue, "Contatti", "Home", new { tipo = (int)GratisForGratis.Models.TipoSegnalazione.Bug, action = "Index", controller = "Annuncio" }, null)
-                    </h5>
-
-                    @Html.Partial("PartialPages/_Desidero", Model)
-                    @Html.Partial("PartialPages/_Possiedo", Model)
-                    @Html.Partial("PartialPages/_SuggerimentoAttivazioneAnnuncio", Model)
+            <div class="profile row">
+                <div class="user col-md-12">
+                    <h3 class="title">Dati venditore</h3>
+                    <p class="seller"><i class="fas fa-user-tie"></i> @Html.ActionLink((string.IsNullOrWhiteSpace(Model.Venditore.Nominativo) ? Model.Venditore.Username : Model.Venditore.Nominativo), Model.Venditore.Username + "/" + Model.Venditore.Id, (Model.Venditore.Tipo == GratisForGratis.Models.TipoVenditore.Attivita) ? "negozio" : "profilo")</p>
+                    <p class="place"><i class="fas fa-map-marker-alt"></i> @Model.Citta</p>
                 </div>
-                <div class="buttons" style="text-align:left;margin-top:13px;">
-                    @if (Request.IsAuthenticated
-                        && !Model.Venditore.IsVenditore((GratisForGratis.Models.PersonaModel)Session["utente"])
-                        && Model.StatoVendita == GratisForGratis.Models.StatoVendita.ATTIVO
-                        && (Model.DataFine >= DateTime.Now || Model.DataFine == null))
-                    {
-                        if (Model.Azione.ToLower().Equals("offerta"))
-                        {
-                            WriteLiteral(Html.Partial("PartialPages/_FormOfferte", (ViewData["offertaViewModel"] != null) ? ViewData["offertaViewModel"] : new GratisForGratis.Models.OffertaViewModel(Model)));
-                            <div class="boxAcquisto">
-                                @Html.ActionLink(Language.Buy, "Index", "Annuncio", new { token = @HttpUtility.UrlEncode(Model.Token), azione = "compra" }, new { @class = "btn btn-primary" })
-                            </div>
-                        }
-                        else
-                        {
-                            WriteLiteral(Html.Partial("PartialPages/_FormAcquisto", (ViewData["acquistoViewModel"] != null) ? ViewData["acquistoViewModel"] : new GratisForGratis.Models.AcquistoViewModel(Model)));
-                            <div class="boxAcquisto">
-                                @Html.ActionLink(Language.Bid, "Index", "Annuncio", new { token = @HttpUtility.UrlEncode(Model.Token), azione = "offerta" }, new { @class = "btn btn-primary" })
-                            </div>
-                        }
-                    }
-                    else if (!Request.IsAuthenticated && Model.StatoVendita == GratisForGratis.Models.StatoVendita.ATTIVO)
-                    {
-                        @Html.ActionLink(Language.LoginAndBuy, "Login", "Utente", new { ReturnUrl = "~/Annuncio?token=" + HttpUtility.UrlEncode(Model.Token) }, new { @class = "btn btn-success buy" })
-                    }
+                <div class="feedback col-md-12" title="@Language.FeedbackUser">
+                    <p>
+                        <i class="fas fa-star"></i>
+                        @(Model.VenditoreFeedback > -1 ? string.Format(Language.FeedbackMessage, Model.VenditoreFeedback) : Language.FeedbackNothing)
+                    </p>
                 </div>
             </div>
         </div>
@@ -129,11 +158,8 @@
 </section>
 
 @section Scripts {
-    @Scripts.Render("~/Scripts/blueimp-gallery/js/blueimp-helper.js")
-    @Scripts.Render("~/Scripts/blueimp-gallery/js/blueimp-gallery.min.js")
-    @Scripts.Render("~/Scripts/blueimp-gallery/js/blueimp-gallery-fullscreen.js")
-    @Scripts.Render("~/Scripts/blueimp-gallery/js/blueimp-gallery-indicator.js")
-    @Scripts.Render("~/Scripts/blueimp-gallery/js/jquery.blueimp-gallery.js")
+    @Scripts.Render("~/Scripts/magnify/js/jquery.magnify.js")
+    @Scripts.Render("~/Scripts/magnify/js/jquery.magnify-mobile.js")
     @Scripts.Render("~/Scripts/annuncio.js")
     @Scripts.Render("~/Scripts/baratto.js")
 }

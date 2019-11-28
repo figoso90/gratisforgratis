@@ -30,60 +30,26 @@ namespace GratisForGratis.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult Profilo(string token)
+        public ActionResult Happy(int id, string nome)
         {
-            UtenteProfiloViewModel viewModel = new UtenteProfiloViewModel();
+            UtenteProfiloViewModel viewModel = null;
             using (DatabaseContext db = new DatabaseContext())
             {
                 db.Database.Connection.Open();
-                PERSONA persona = db.PERSONA.FirstOrDefault(u => u.TOKEN.ToString() == token);
-                viewModel.Token = token;
-                viewModel.Nome = persona.NOME;
-                viewModel.Cognome = persona.COGNOME;
+                viewModel = new UtenteProfiloViewModel(db, id);
+            }
+            return base.View("Profilo", viewModel);
+        }
 
-                viewModel.Foto = persona.PERSONA_FOTO.Select(m => new FotoModel(m.ALLEGATO)).ToList();
-
-                viewModel.listaAcquisti = new List<AnnuncioViewModel>();
-                viewModel.listaVendite = new List<AnnuncioViewModel>();
-                viewModel.listaDesideri = new List<AnnuncioViewModel>();
-                // far vedere top n acquisti con link
-                var query = db.ANNUNCIO.Where(item => item.ID_COMPRATORE == persona.ID 
-                        && item.TRANSAZIONE_ANNUNCIO.Count(m => m.STATO == (int)StatoPagamento.ATTIVO || m.STATO == (int)StatoPagamento.ACCETTATO) > 0
-                        && (item.STATO == (int)StatoVendita.VENDUTO || item.STATO == (int)StatoVendita.BARATTATO)
-                        && (item.ID_OGGETTO != null || item.ID_SERVIZIO != null));
-                List<ANNUNCIO> lista = query
-                    .OrderByDescending(item => item.DATA_INSERIMENTO)
-                    .Take(4).ToList();
-                foreach (ANNUNCIO m in lista)
-                {
-                    AnnuncioModel annuncioModel = new AnnuncioModel();
-                    viewModel.listaAcquisti.Add(annuncioModel.GetViewModel(db, m));
-                }
-                // far vedere vendite recenti con link
-                var queryVendite = db.ANNUNCIO.Where(item => item.ID_PERSONA == persona.ID
-                        && (item.STATO != (int)StatoVendita.ELIMINATO && item.STATO != (int)StatoVendita.BARATTATO && item.STATO != (int)StatoVendita.VENDUTO)
-                        && (item.ID_OGGETTO != null || item.ID_SERVIZIO != null));
-                List<ANNUNCIO> listaVendite = queryVendite
-                    .OrderByDescending(item => item.DATA_INSERIMENTO)
-                    .Take(4).ToList();
-                foreach (ANNUNCIO m in listaVendite)
-                {
-                    AnnuncioModel annuncioModel = new AnnuncioModel();
-                    viewModel.listaVendite.Add(annuncioModel.GetViewModel(db, m));
-                }
-                // far vedere top n desideri con link
-                List<ANNUNCIO_DESIDERATO> listaDesideri = db.ANNUNCIO_DESIDERATO
-                    .Where(item => item.ID_PERSONA == persona.ID && (item.ANNUNCIO.STATO == (int)StatoVendita.INATTIVO
-                        || item.ANNUNCIO.STATO == (int)StatoVendita.ATTIVO) && (item.ANNUNCIO.DATA_FINE == null ||
-                        item.ANNUNCIO.DATA_FINE >= DateTime.Now))
-                    .OrderByDescending(item => item.ANNUNCIO.DATA_INSERIMENTO)
-                    .Take(4)
-                    .ToList();
-                listaDesideri.ForEach(m => 
-                    viewModel.listaDesideri.Add(
-                        new AnnuncioViewModel(db, m.ANNUNCIO)
-                    )
-                );
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Profilo(string token)
+        {
+            UtenteProfiloViewModel viewModel = null;
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                db.Database.Connection.Open();
+                viewModel = new UtenteProfiloViewModel(db, token);
             }
             return base.View(viewModel);
         }
@@ -558,7 +524,7 @@ namespace GratisForGratis.Controllers
             ViewBag.Title = Language.TitleForgotPassword;
             if (base.ModelState.IsValid)
             {
-                model.NuovaPassword = Utils.RandomString(10);
+                model.NuovaPassword = Utility.RandomString(10);
                 using (DatabaseContext db = new DatabaseContext())
                 {
                     using (DbContextTransaction transaction = db.Database.BeginTransaction())
@@ -798,7 +764,7 @@ namespace GratisForGratis.Controllers
         public ActionResult Iscrizione(string token)
         {
             TempData["Messaggio"] = Language.ErrorActiveUser1;
-            string tokenDecodificato = Utils.DecodeToString(HttpUtility.UrlDecode(token));
+            string tokenDecodificato = Utility.DecodeToString(HttpUtility.UrlDecode(token));
             // verifica tramite email+password dell'esistenza dell'utente e attivazione dello stesso
             using (DatabaseContext db = new DatabaseContext())
             {
@@ -845,7 +811,7 @@ namespace GratisForGratis.Controllers
         public ActionResult Disiscrizione(string token)
         {
             TempData["Messaggio"] = Language.ErrorRemoveUser1;
-            string tokenDecodificato = Utils.DecodeToString(HttpUtility.UrlDecode(token));
+            string tokenDecodificato = Utility.DecodeToString(HttpUtility.UrlDecode(token));
             using (DatabaseContext db = new DatabaseContext())
             {
                 PERSONA persona = db.PERSONA_EMAIL.Where(u => (u.EMAIL + u.PERSONA.PASSWORD) == tokenDecodificato).Select(u => u.PERSONA).SingleOrDefault();

@@ -1,5 +1,7 @@
 ﻿@using GratisForGratis.Models
 @model VeicoloViewModel
 
-<h5 class="model"><b>@Language.Model:</b> @((string.IsNullOrEmpty(@Model.modelloNome)) ? "" : "- " + Model.modelloNome)</h5>
-<h5 class="place"><b>@Language.Power :</b> @Model.alimentazioneNome</h5>
+    <div class="col-md-12">
+        <p class="model"><b>@Language.Model:</b> @((string.IsNullOrEmpty(@Model.modelloNome)) ? "" : "- " + Model.modelloNome)</p>
+        <p class="place"><b>@Language.Power :</b> @Model.alimentazioneNome</p>
+    </div>

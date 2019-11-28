@@ -176,7 +176,7 @@ namespace GratisForGratis.Controllers
             {
                 UtenteLoginVeloceViewModel loginVeloce = new UtenteLoginVeloceViewModel();
                 loginVeloce.Email = email;
-                loginVeloce.Password = Utils.RandomString(20);
+                loginVeloce.Password = Utility.RandomString(20);
                 loginVeloce.Nome = paramsFB.first_name;
                 loginVeloce.Cognome = paramsFB.last_name;
                 loginVeloce.FacebookToken = accessToken;
@@ -267,7 +267,7 @@ namespace GratisForGratis.Controllers
                 transazioneAnnuncio.ID_TRANSAZIONE = model.ID;
                 transazioneAnnuncio.ID_ANNUNCIO = (int)idAnnuncio;
                 transazioneAnnuncio.PUNTI = punti;
-                transazioneAnnuncio.SOLDI = Utils.cambioValuta(transazioneAnnuncio.PUNTI);
+                transazioneAnnuncio.SOLDI = Utility.cambioValuta(transazioneAnnuncio.PUNTI);
                 transazioneAnnuncio.DATA_INSERIMENTO = DateTime.Now;
                 transazioneAnnuncio.STATO = (int)StatoPagamento.ACCETTATO;
                 db.TRANSAZIONE_ANNUNCIO.Add(transazioneAnnuncio);

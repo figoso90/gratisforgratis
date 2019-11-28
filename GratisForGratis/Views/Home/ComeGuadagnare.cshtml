@@ -11,39 +11,51 @@
         <div class="row">
             <div id="presentazione" class="col-md-8 mr-5">
                 <h2 class="title">CONDIVISIONE</h2>
-                <div class="row">
-                    <div class="col-md-4">
-                        <h3>@Html.ActionLink(ViewModel.HomeUserJoinSocial, "Impostazioni", "Utente", null, new { @class = "link" })</h3>
-                        <img class="img-thumbnail img-circle" src="~/Images/stickers/25.png" alt="@ViewModel.HomeUserJoinSocial" />
-                        <p>(@ViewModel.HomeUserJoinSocialInfo)</p>
+                <div class="card-deck">
+                    <div class="card">
+                        <img class="card-img-top" src="~/Images/sezioni/condividi.jpg" alt="@ViewModel.HomeUserJoinSocial">
+                        <div class="card-body">
+                            <h5 class="card-title">@Html.ActionLink(ViewModel.HomeUserJoinSocial, "Impostazioni", "Utente", null, new { @class = "link" })</h5>
+                            <p class="card-text">@ViewModel.HomeUserJoinSocialInfo</p>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <h3>@Html.ActionLink(ViewModel.HomeUserPublishGood, "", "Pubblica", null, new { @class = "link" })</h3>
-                        <img class="img-thumbnail img-circle" src="~/Images/stickers/3.png" alt="@ViewModel.HomeUserPublishGood" />
-                        <p>(@ViewModel.HomeUserPublishGoodInfo)</p>
+                    <div class="card">
+                        <img class="card-img-top" src="~/Images/sezioni/pubblica.jpg" alt="@ViewModel.HomeUserPublishGood">
+                        <div class="card-body">
+                            <h5 class="card-title">@Html.ActionLink(ViewModel.HomeUserPublishGood, "", "Pubblica", null, new { @class = "link" })</h5>
+                            <p class="card-text">@ViewModel.HomeUserPublishGoodInfo</p>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <h3>@Html.ActionLink(ViewModel.HomeUserPublishService, "", "Pubblica", null, new { @class = "link" })</h3>
-                        <img class="img-thumbnail img-circle" src="~/Images/stickers/10.png" alt="@ViewModel.HomeUserPublishService" />
-                        <p>(@ViewModel.HomeUserPublishServiceInfo)</p>
+                    <div class="card">
+                        <img class="card-img-top" src="~/Images/sezioni/servizi.jpg" alt="@ViewModel.HomeUserPublishService">
+                        <div class="card-body">
+                            <h5 class="card-title">@Html.ActionLink(ViewModel.HomeUserPublishService, "", "Pubblica", null, new { @class = "link" })</h5>
+                            <p class="card-text">@ViewModel.HomeUserPublishServiceInfo</p>
+                        </div>
                     </div>
                 </div>
-                <h2 class="title">PARTECIPAZIONE / ALTRUISMO</h2>
-                <div class="row">
-                    <div class="col-md-4">
-                        <h3><a href="javascript:void(0);" onclick="$('#reporting').click();">@ViewModel.HomeUserSendBug</a></h3>
-                        <img class="img-thumbnail img-circle" src="~/Images/stickers/28.png" alt="@ViewModel.HomeUserSendBug" />
-                        <p>(@ViewModel.HomeUserSendBugInfo)</p>
+                <h2 class="title">PARTECIPAZIONE</h2>
+                <div class="card-deck">
+                    <div class="card">
+                        <img class="card-img-top" src="~/Images/sezioni/segnalazione.jpg" alt="@ViewModel.HomeUserSendBug">
+                        <div class="card-body">
+                            <h5 class="card-title"><a href="javascript:void(0);" onclick="$('#reporting').click();">@ViewModel.HomeUserSendBug</a></h5>
+                            <p class="card-text">@ViewModel.HomeUserSendBugInfo</p>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <h3>@Html.ActionLink(ViewModel.HomeUserFullAd, "", "Pubblica", null, new { @class = "link" })</h3>
-                        <img class="img-thumbnail img-circle" src="~/Images/stickers/29.png" alt="@ViewModel.HomeUserFullAd" />
-                        <p>(@ViewModel.HomeUserFullAdInfo)</p>
+                    <div class="card">
+                        <img class="card-img-top" src="~/Images/sezioni/pieno.jpg" alt="@ViewModel.HomeUserFullAd">
+                        <div class="card-body">
+                            <h5 class="card-title">@Html.ActionLink(ViewModel.HomeUserFullAd, "", "Pubblica", null, new { @class = "link" })</h5>
+                            <p class="card-text">@ViewModel.HomeUserFullAdInfo</p>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <h3>@Html.ActionLink(ViewModel.HomeUserFeedback, "Concluse", "Vendite", null, new { @class = "link" })</h3>
-                        <img class="img-thumbnail img-circle" src="~/Images/stickers/21.png" alt="@ViewModel.HomeUserFeedback" />
-                        <p>(@ViewModel.HomeUserFeedbackInfo)</p>
+                    <div class="card">
+                        <img class="card-img-top" src="~/Images/sezioni/feedback.jpg" alt="@ViewModel.HomeUserFeedback">
+                        <div class="card-body">
+                            <h5 class="card-title">@Html.ActionLink(ViewModel.HomeUserFeedback, "Concluse", "Vendite", null, new { @class = "link" })</h5>
+                            <p class="card-text">@ViewModel.HomeUserFeedbackInfo</p>
+                        </div>
                     </div>
                 </div>
             </div>

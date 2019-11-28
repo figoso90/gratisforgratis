@@ -1,52 +1,85 @@
 ﻿@using GratisForGratis.Models
 @model ServizioViewModel
 
-<h5 class="rate"><b>@Language.Rate :</b> @Model.Tariffa</h5>
-<h5 class="days">
-<b>@Language.Days :</b>
+<div class="col-md-12">
+    <p class="rate"><b>@Language.Rate</b> @Model.Tariffa</p>
+</div>
+<div class="col-md-12">
+    <p class="days"><b>@Language.Days</b></p>
+</div>
+
 @if (Model.Tutti!=null && Model.Tutti==true)
 {
-    @Language.AllDays
+<div class="col-md-12">
+    <p>@Language.AllDays</p>
+</div>
 }
 else
 {
-    if (Model.Lunedi==true)
+<ul>
+    @if (Model.Lunedi==true)
     {
-        @Language.Monday <br />
+    <li>
+        @Language.Monday
+    </li>
     }
-    if (Model.Martedi == true)
+    @if (Model.Martedi == true)
     {
-        @Language.Tuesday <br />
+    <li>
+        @Language.Tuesday
+    </li>
     }
-    if (Model.Mercoledi == true)
+    @if (Model.Mercoledi == true)
     {
-        @Language.Wednesday <br />
+    <li>
+        @Language.Wednesday
+    </li>
     }
-    if (Model.Giovedi == true)
+    @if (Model.Giovedi == true)
     {
-        @Language.Thursday <br />
+    <li>
+        @Language.Thursday
+    </li>
     }
-    if (Model.Venerdi == true)
+    @if (Model.Venerdi == true)
     {
-        @Language.Friday <br />
+    <li>
+        @Language.Friday
+    </li>
     }
-    if (Model.Sabato == true)
+    @if (Model.Sabato == true)
     {
-        @Language.Saturday <br />
+    <li>
+        @Language.Saturday
+    </li>
     }
-    if (Model.Domenica == true)
+    @if (Model.Domenica == true)
     {
-        @Language.Sunday <br />
+    <li>
+        @Language.Sunday
+    </li>
     }
+</ul>
 }
-</h5>
 @if (Model.OraInizio != null && Model.OraFine != null)
 {
-<h5 class="businesshour"><b>@Language.BusinessHour :</b> @Language.StartTime @Model.OraInizio @Language.EndTime @Model.OraFine</h5>
+    <div class="col-md-12">
+        <p class="businesshour"><b>@Language.BusinessHour :</b> @Language.StartTime @Model.OraInizio @Language.EndTime @Model.OraFine</p>
+    </div>
 }
 @if (Model.OraInizioFestivita != null && Model.OraFineFestivita != null)
 {
-<h5 class="holidays"><b>@Language.Holidays :</b> @Language.StartTime @Model.OraInizioFestivita @Language.EndTime @Model.OraFineFestivita</h5>
+<div class="col-md-12">
+    <p class="holidays"><b>@Language.Holidays :</b> @Language.StartTime @Model.OraInizioFestivita @Language.EndTime @Model.OraFineFestivita</p>
+</div>
 }
-@if (!string.IsNullOrWhiteSpace(Model.ServiziOfferti)){<h5 class="servicesbid"><b>@Language.Bid :</b> @Model.ServiziOfferti</h5>}
-@if (!string.IsNullOrWhiteSpace(Model.RisultatiFinali)){<h5 class="results"><b>@Language.Results :</b> @Model.RisultatiFinali</h5>}
+@if (!string.IsNullOrWhiteSpace(Model.ServiziOfferti)){
+    <div class="col-md-12">
+        <p class="servicesbid"><b>@Language.Bid :</b> @Model.ServiziOfferti</p>
+    </div>
+}
+@if (!string.IsNullOrWhiteSpace(Model.RisultatiFinali)){
+    <div class="col-md-12">
+        <p class="results"><b>@Language.Results :</b> @Model.RisultatiFinali</p>
+    </div>
+}

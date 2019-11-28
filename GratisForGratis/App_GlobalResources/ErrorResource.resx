@@ -201,6 +201,9 @@
   <data name="NumberCard" xml:space="preserve">
     <value>Numero obbligatorio</value>
   </data>
+  <data name="PublishErrorCity" xml:space="preserve">
+    <value>Riprovare ad inserire la città</value>
+  </data>
   <data name="RecipientAddress" xml:space="preserve">
     <value>Indirizzo obbligatorio</value>
   </data>
@@ -230,6 +233,9 @@
   </data>
   <data name="SettingsAddress" xml:space="preserve">
     <value>Per l'indirizzo inserire tutti i dati (Citta, Via,Civico)</value>
+  </data>
+  <data name="SettingsCity" xml:space="preserve">
+    <value>Riprovare ad inserire la città</value>
   </data>
   <data name="ShipDaysRequired" xml:space="preserve">
     <value>Giorni spedizione obbligatorio</value>

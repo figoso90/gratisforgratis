@@ -14,34 +14,40 @@
     @Html.EnumDropDownListFor(m => m.Tariffa, new { @class = "form-control" })
     @Html.ValidationMessageFor(m => m.Tariffa, "", new { @class = "text-danger" })
 </div>
-<div class="form-group col-md-3">
+<div id="orarioferiale" class="form-group col-md-3">
     @Html.Label("Feriale", Language.BusinessHour, new { @class = "col-md-2 control-label" })
+    <a class="infoOrari" data-toggle="tooltip" href="javascript:void(0);" title="" data-original-title="Esempio: 09:00">
+        <i class="far fa-question-circle"></i>
+    </a>
     <div class="row justify-content-center align-items-center">
         <div class="col-md-5">
-            @Html.TextBoxFor(m => m.OraInizioFeriali, new { @class = "form-control time", placeholder = "09:00" })
+            @Html.TextBoxFor(m => m.OraInizioFeriali, new { @class = "form-control time" })
         </div>
         <div class="col-md-5">
-            @Html.TextBoxFor(m => m.OraFineFeriali, new { @class = "form-control time", placeholder = "18:00" })
+            @Html.TextBoxFor(m => m.OraFineFeriali, new { @class = "form-control time" })
         </div>
     </div>
     @Html.ValidationMessageFor(m => m.OraInizioFeriali, "", new { @class = "text-danger" })
     @Html.ValidationMessageFor(m => m.OraFineFeriali, "", new { @class = "text-danger" })
 </div>
 
-<div class="form-group col-md-3">
+<div id="orariofestivo" class="form-group col-md-3">
     @Html.Label("Festivo", Language.HolidaysHour, new { @class = "col-md-2 control-label" })
+    <a class="infoOrari" data-toggle="tooltip" href="javascript:void(0);" title="" data-original-title="Esempio: 09:00">
+        <i class="far fa-question-circle"></i>
+    </a>
     <div class="row justify-content-center align-items-center">
         <div class="col-md-5">
-            @Html.TextBoxFor(m => m.OraInizioFestivi, new { @class = "form-control time", placeholder = "09:00" })
+            @Html.TextBoxFor(m => m.OraInizioFestivi, new { @class = "form-control time" })
         </div>
         <div class="col-md-5">
-            @Html.TextBoxFor(m => m.OraFineFestivi, new { @class = "form-control time", placeholder = "18:00" })
+            @Html.TextBoxFor(m => m.OraFineFestivi, new { @class = "form-control time" })
         </div>
     </div>
     @Html.ValidationMessageFor(m => m.OraInizioFestivi, "", new { @class = "text-danger" })
     @Html.ValidationMessageFor(m => m.OraFineFestivi, "", new { @class = "text-danger" })
 </div>
-<div class="form-group col-md-12">
+<div id="giorni" class="form-group col-md-12">
 
     <div class="col-md-10">
         @Html.CheckBoxFor(m => m.Lunedi, new { @class = "form-control day" })

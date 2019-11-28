@@ -1,4 +1,6 @@
 ﻿@using GratisForGratis.Models
 @model ModelloViewModel
 
-<h5 class="model"><b>@Language.Model:</b> @((string.IsNullOrEmpty(@Model.modelloNome)) ? "" : "- " + Model.modelloNome)</h5>
+    <div class="col-md-12">
+        <p class="model"><b>@Language.Model:</b> @((string.IsNullOrEmpty(@Model.modelloNome)) ? "" : "- " + Model.modelloNome)</p>
+    </div>

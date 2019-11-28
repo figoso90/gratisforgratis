@@ -276,7 +276,11 @@ namespace GratisForGratis.Models
             vendita.NOME = this.Nome;
             if (this.IDCitta == null || this.IDCitta <= 0)
             {
-                vendita.ID_COMUNE = DbContext.COMUNE.FirstOrDefault(m => m.NOME == this.Citta).ID;
+                string paese = this.Citta.Split('(')[0];
+                COMUNE comune = DbContext.COMUNE.FirstOrDefault(m => m.NOME == paese);
+                if (comune == null)
+                    throw new Exception(ErrorResource.PublishErrorCity);
+                this.IDCitta = comune.ID;
             }
             vendita.ID_COMUNE = this.IDCitta;
             vendita.NOTE_AGGIUNTIVE = this.NoteAggiuntive;
@@ -286,7 +290,7 @@ namespace GratisForGratis.Models
                 creditoInserito = Decimal.Divide(this.Soldi, Convert.ToInt32(ConfigurationManager.AppSettings["Conversione" + tipoValuta.CODICE.ToUpper()]));
             vendita.PUNTI = creditoInserito;
             vendita.TIPO_PAGAMENTO = (int)this.TipoPagamento;
-            vendita.SOLDI = Utils.cambioValuta(vendita.PUNTI, tipoValuta.CODICE.ToUpper());
+            vendita.SOLDI = Utility.cambioValuta(vendita.PUNTI, tipoValuta.CODICE.ToUpper());
             this.IdTipoValuta = tipoValuta.ID;
             vendita.ID_TIPO_VALUTA = tipoValuta.ID;
             vendita.TOKEN = Guid.NewGuid();
@@ -298,7 +302,7 @@ namespace GratisForGratis.Models
             vendita.DATA_FINE = DateTime.Now.AddMonths((int)this.DurataInserzione);
             vendita.NO_OFFERTE = Convert.ToInt32(this.NoOfferte);
             vendita.RIMETTI_IN_VENDITA = Convert.ToInt32(this.RimettiInVendita);
-            if (Utils.IsUtenteAttivo(0))
+            if (Utility.IsUtenteAttivo(0))
                 vendita.STATO = (int)StatoVendita.ATTIVO;
             else
                 vendita.STATO = (int)StatoVendita.INATTIVO;
@@ -344,7 +348,7 @@ namespace GratisForGratis.Models
                 email.Body = emailController.RenderRazorViewToString(controller, "Email/NotificaRicerca", email.Layout, null);
 
                 string nomeVendita = model.NOME;
-                string tokenVendita = Utils.RandomString(3) + Utils.Encode(model.TOKEN.ToString()) + Utils.RandomString(3);
+                string tokenVendita = Utility.RandomString(3) + Utility.Encode(model.TOKEN.ToString()) + Utility.RandomString(3);
 
                 System.Threading.Tasks.Task.Run(() => this.InviaNotifichePubblicazione(utente.Persona.ID, nomeVendita, tokenVendita, model.ID_CATEGORIA, "Oggetto", email));
             }
@@ -422,7 +426,7 @@ namespace GratisForGratis.Models
                     r.ID_PERSONA != idUtente && DbFunctions.DiffDays(DateTime.Now, r.RICERCA.DATA_INSERIMENTO) < maxGiorniRicerca)
                     .ToList().ForEach(r =>
                     {
-                        string tokenRicerca = Utils.RandomString(3) + Utils.Encode(r.ID.ToString()) + Utils.RandomString(3);
+                        string tokenRicerca = Utility.RandomString(3) + Utility.Encode(r.ID.ToString()) + Utility.RandomString(3);
                         string tokenRicercaCodificato = HttpUtility.UrlEncode(tokenRicerca);
                         string indirizzoEmail = r.PERSONA.PERSONA_EMAIL.SingleOrDefault(item => item.TIPO == (int)TipoEmail.Registrazione).EMAIL;
                         string emailCodificata = HttpUtility.UrlEncode(indirizzoEmail);
