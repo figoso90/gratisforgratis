@@ -1,0 +1,8 @@
+﻿@model List<GratisForGratis.Models.AnnuncioViewModel>
+
+<div id="annunciCercati">
+    @foreach (GratisForGratis.Models.AnnuncioViewModel annuncio in Model)
+    {
+        @Html.Partial("PartialPages/_AnnuncioSmall", annuncio)
+    }
+</div>

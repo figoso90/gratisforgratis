@@ -1,0 +1,15 @@
+﻿@model GratisForGratis.Models.UtenteNotificaViewModel
+
+    <div class="card text-center">
+        <div class="card-header">
+            Notifica importante
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">@Model.Titolo</h5>
+            <p class="card-text">@Model.Messaggio</p>
+            <a href="#" class="btn btn-primary">LETTO</a>
+        </div>
+        <div class="card-footer text-muted">
+            @Model.DataInserimento.ToString("dd-MM-yyyy")
+        </div>
+    </div>
