@@ -116,8 +116,8 @@ namespace GratisForGratis.Controllers
                 LoggatoreModel.Errore(ex);
                 RedirectToAction("Index", "Home");
             }
-
-            return View();
+            
+            return View(new ListaVendite(1, "Tutti"));
         }
 
         [HttpGet]
@@ -892,6 +892,35 @@ namespace GratisForGratis.Controllers
                 .Select(m => new AutocompleteBaratto { Annuncio = m }).ToList();
             }
             return Json(lista, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpGet]
+        [Authorize]
+        [Filters.ValidateAjax]
+        public ActionResult AnnunciCercati()
+        {
+            List<AnnuncioViewModel> lista = null;
+
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                int utente = ((PersonaModel)Session["utente"]).Persona.ID;
+                var model = db.ANNUNCIO.Where(item => item.ID_PERSONA == utente &&
+                    // annuncio ancora attivo
+                    item.STATO == (int)StatoVendita.ATTIVO && (item.DATA_FINE >= DateTime.Now || item.DATA_FINE == null) &&
+                    // annuncio che non è stato barattato con nessuno
+                    item.OFFERTA_BARATTO.Count(m => m.STATO == (int)StatoBaratto.ACCETTATO || m.STATO == (int)StatoBaratto.SOSPESO) <= 0
+                ).Take(10).ToList();
+                if (model != null && model.Count > 0)
+                {
+                    lista = new List<AnnuncioViewModel>();
+                    model.ForEach(m =>
+                    {
+                        lista.Add(new AnnuncioViewModel(db, m));
+                    });
+                }
+            }
+            return PartialView(lista);
         }
 
         #endregion

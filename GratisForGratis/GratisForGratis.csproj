@@ -658,6 +658,7 @@
     <Content Include="Scripts\pubblica.js" />
     <Content Include="Scripts\ricerca.js" />
     <Content Include="Scripts\ricercheSalvate.js" />
+    <Content Include="Scripts\saldoPunti.js" />
     <Content Include="Scripts\site.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
@@ -1689,6 +1690,13 @@
     <Content Include="Views\Shared\PartialPages\_Adv.cshtml" />
     <Content Include="Views\Cerca\PartialPages\_AdvAnnuncio.cshtml" />
     <Content Include="Views\Pubblica\PartialPages\_FunzioniAnnuncio.cshtml" />
+    <Content Include="Views\Cerca\PartialPages\_ServizioNotFound.cshtml" />
+    <Content Include="Views\Cerca\PartialPages\_OggettoNotFound.cshtml" />
+    <Content Include="Views\Cerca\PartialPages\_AnnuncioNotFound.cshtml" />
+    <Content Include="Views\Utente\PartialPages\_NotificaHome.cshtml" />
+    <Content Include="Views\Notifica\HomeProfilo.cshtml" />
+    <Content Include="Views\Cerca\AnnunciCercati.cshtml" />
+    <Content Include="Views\Home\StoricoAnnunci.cshtml" />
     <None Include="Web References\ServizioADV\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -1751,6 +1759,7 @@
     <EmbeddedResource Include="App_GlobalResources\MessageForUser.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>MessageForUser.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="App_GlobalResources\Tooltip.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

@@ -21,7 +21,11 @@
         url = Url.Action("Login", "Utente", new { ReturnUrl = Request.Url.PathAndQuery });
         onClick = "";
     }
-    <a class="wish" href="@url" onclick="@onClick">
-        @Html.Raw(like + text)
-    </a>
+    <div class="col-md-1">
+        <p>
+            <a class="wish" href="@url" onclick="@onClick">
+                @Html.Raw(like)
+            </a>
+        </p>
+    </div>
 }

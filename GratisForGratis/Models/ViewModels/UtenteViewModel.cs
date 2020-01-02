@@ -642,6 +642,10 @@ namespace GratisForGratis.Models
 
         public StatoNotifica Stato { get; set; }
 
+        public PosizioneVisibilitaEnum PosizioneVisibilita { get; set; }
+
+        public string Titolo { get; set; }
+
         public TipoNotifica Tipo { get; set; }
 
         public AnnuncioNotificaModel AnnuncioNotifica { get; set; }
@@ -660,6 +664,12 @@ namespace GratisForGratis.Models
             DataLettura = model.DATA_LETTURA;
             Stato = (StatoNotifica)model.STATO;
             Tipo = (TipoNotifica)model.MESSAGGIO;
+            PosizioneVisibilita = (PosizioneVisibilitaEnum)model.POSIZIONE_VISIBILITA;
+            Titolo = model.TITOLO;
+            if (Tipo == TipoNotifica.Personale)
+            {
+                Messaggio = model.TESTO;
+            }
             if (model.ANNUNCIO_NOTIFICA.Count > 0)
             {
                 this.AnnuncioNotifica = new AnnuncioNotificaModel();

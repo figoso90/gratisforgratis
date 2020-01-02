@@ -382,7 +382,7 @@
     <value>Venditore</value>
   </data>
   <data name="Slogan" xml:space="preserve">
-    <value>&lt;strong&gt;Il sito di baratto e regalo online con criptovaluta&lt;/strong&gt;</value>
+    <value>&lt;strong&gt;Il primo sito di baratto con moneta alternativa&lt;/strong&gt;</value>
   </data>
   <data name="Public" xml:space="preserve">
     <value>Pubblica</value>
@@ -1630,7 +1630,7 @@
     <value>La cifra non è valida</value>
   </data>
   <data name="LnkGoToPublic" xml:space="preserve">
-    <value>Hai un annuncio per questa categoria? Pubblicalo subito!!!</value>
+    <value>Inserisci nuovo annuncio</value>
   </data>
   <data name="LblTitleAd" xml:space="preserve">
     <value>Titolo</value>
@@ -1712,5 +1712,8 @@
   </data>
   <data name="DescriptionContacts2" xml:space="preserve">
     <value>Altrimenti contattaci ad uno dei seguenti indirizzi:</value>
+  </data>
+  <data name="BidDo" xml:space="preserve">
+    <value>Fai un'offerta</value>
   </data>
 </root>

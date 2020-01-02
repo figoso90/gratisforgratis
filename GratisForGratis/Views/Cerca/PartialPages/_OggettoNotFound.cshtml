@@ -1,17 +1,14 @@
-﻿@if (Model.NumeroRecordTrovati <= 0)
+﻿@model GratisForGratis.Models.ListaOggetti
+
+@if (Model.List.Count <= 0)
 {
-<p id="alertNotFound" style="margin-bottom:0px;">
-    @Html.Raw(MessageForUser.SalvaRicerca)
-    <a href="javascript:void(0);" onclick="saveVendita('@Model.ActionSalvataggio');" title="@Language.SearchSave">
-        <i class="far fa-save" aria-hidden="true" style="font-size:20px;color:#fff;margin-left:17px;"></i>
+    <p id="alertNotFound" style="margin-bottom:0px;">
+        @Html.Raw(MessageForUser.NessunRisultato)
+    </p>
+    <a id="inviaRicerca" class="btn btn-primary" href="javascript:void(0);" onclick="saveVendita('SaveRicercaVendite');" title="@Language.SearchSave">
+        @Language.Send
+        <i class="fas fa-paper-plane" aria-hidden="true"></i>
     </a>
-</p>
-}
-else{ 
-<p style="margin-bottom:0px;">
-    @Html.Raw(ViewModel.SearchNotLike)
-    <a href="javascript:void(0);" onclick="saveVendita('@Model.ActionSalvataggio');" title="@Language.SearchSave">
-        <i class="far fa-save" aria-hidden="true" style="font-size:20px;color:#fff;margin-left:17px;"></i>
-    </a>
-</p>
+    <div id="annunciExtra">
+    </div>
 }

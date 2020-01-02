@@ -67,116 +67,10 @@
             }
         </div>
         <div id="menuMobileOverlay"></div>
-        <div id="menuMobile">
-            <i class="fas fa-bars icona"></i>
-            <ul class="menu">
-                <li role="presentation" class="reporting">
-                    @Html.ActionLink(Language.Reporting, "Contatti", "Home")
-                </li>
-                <li role="presentation" class="pubblication">
-                    @Html.ActionLink(Language.Public, "", "Pubblica")
-                </li>
-                <li role="presentation" class="dropdown vendite">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@Language.MenuSells <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            @Html.ActionLink(Language.MenuSellsCurrent, "", "Vendite")
-                        </li>
-                        <li>
-                            @Html.ActionLink(Language.MenuSellsBid, "OfferteRicevute", "Vendite")
-                        </li>
-                        <li>
-                            @Html.ActionLink(Language.MenuSellsCompleted, "Concluse", "Vendite")
-                        </li>
-                    </ul>
-                </li>
-                <li role="presentation" class="dropdown acquisti">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@Language.MenuPurchases <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            @Html.ActionLink(Language.MenuPurchasesCurrent, "", "Acquisti")
-                        </li>
-                        <li>
-                            @Html.ActionLink(MenuResource.RefusedBid, "OfferteRifiutate", "Acquisti")
-                        </li>
-                        <li>
-                            @Html.ActionLink(Language.MenuPurchasesCompleted, "Conclusi", "Acquisti")
-                        </li>
-                        <li>
-                            @Html.ActionLink(Language.MenuRecapsWish, "Vorrei", "Acquisti")
-                        </li>
-                        <li>
-                            @Html.ActionLink(Language.MenuPurchasesRecommend, "Suggeriti", "Acquisti")
-                        </li>
-                        <li>
-                            @Html.ActionLink(Language.MenuRecapsSearch, "RicercheSalvate", "Utente")
-                        </li>
-                    </ul>
-                </li>
-                @if (Session["portaleweb"] != null && (Session["portaleweb"] as List<PortaleWebViewModel>).Count > 0)
-                {
-                    <li role="presentation" class="dropdown partner">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@Language.Partners <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("Home", "Index", "PortaleWeb")</li>
-                            @foreach (PortaleWebViewModel portaleweb in (Session["portaleweb"] as List<PortaleWebViewModel>))
-                            {
-                                <li>
-                                    @Html.ActionLink(portaleweb.Nome, "Details", "PortaleWeb", new { token = portaleweb.Token }, null)
-                                </li>
-                                if ((Session["utente"] as PersonaModel).Persona.ABBONAMENTO.DURATA == -1)
-                                {
-                                    <li>@Html.ActionLink("Spedizioni in attesa", "SpedizioniInAttesa", "PortaleWeb")</li>
-                                    <li>@Html.ActionLink("Spedizioni concluse", "SpedizioniConcluse", "PortaleWeb")</li>
-                                }
-                            }
-                        </ul>
-                    </li>
-                }
-                <li role="presentation" class="dropdown utente">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@Language.User <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            @Html.ActionLink(Language.TitleIndex, "Index", "Utente")
-                        </li>
-                        <li>
-                            @Html.ActionLink(Language.UserPoints, "SaldoPunti", "Utente")
-                        </li>
-                        <li>
-                            @Html.ActionLink(ViewModel.LayoutChat + string.Format(" ({0})", ((PersonaModel)Session["utente"]).NumeroMessaggiDaLeggere), "", "Chat")
-                        </li>
-                        <li>
-                            @Html.ActionLink(Language.MenuUserNews + string.Format(" ({0})", ((PersonaModel)Session["utente"]).NumeroNotificheDaLeggere), "Elenco", "Notifica")
-                        </li>
-                        <li>
-                            @Html.ActionLink(Language.Settings, "Impostazioni", "Utente")
-                        </li>
-                        <li>
-                            @Html.ActionLink(Language.ChangePassword, "CambioPassword", "Utente")
-                        </li>
-                        <li>
-                            @Html.ActionLink(Language.Logout, "Logout", "Utente")
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <ul id="linkLogin">
-            <li id="cart" class="profilo">
-                @(Language.Welcome + " " + ((PersonaModel)Session["utente"]).NomeVisibile) -
-                <span id="userPoints">
-                    <img class="glyphicon happyCoin" src="/Images/Icone/happyCoin.svg" alt="Happy-Coin">
-                    @((Session["utente"] as PersonaModel).Credito.Where(m => m.STATO == (int)StatoCredito.ASSEGNATO).Sum(m => m.PUNTI).ToString("#,#.00#"))
-                </span>
-            </li>
-        </ul>
-        <header>
-            <a id="logo" class="brand" href='@Url.Action("Index", "Home")'>
-                <img class="ico" src='@Url.Content("~/Images/logo.jpg")' alt="@WebConfigurationManager.AppSettings["nomeSito"]" />
-                <h1 class="slogan">@Html.Raw(@Language.Slogan)</h1>
-            </a>
-            <menu>
-                <ul class="nav-pills">
+        <div class="container">
+            <div id="menuMobile">
+                <i class="fas fa-bars icona"></i>
+                <ul class="menu">
                     <li role="presentation" class="reporting">
                         @Html.ActionLink(Language.Reporting, "Contatti", "Home")
                     </li>
@@ -267,48 +161,150 @@
                         </ul>
                     </li>
                 </ul>
-                <div id="toolbar">
-                    @using (Html.BeginForm("", "cerca", FormMethod.Get, new { id = "cerca" }))
-                    {
-                        <div class="form-group col-sm-12 ricerca">
-                            <label class="sr-only" for="inlineFormInputGroup">@Language.InputSearch</label>
-                            <div class="input-group" style="padding:0px;">
-                                <div class="input-group-prepend">
-                                    <div id="menuCategoriaRicerca">
-                                        @Html.Hidden("Cerca_IDCategoria", Response.Cookies["ricerca"]["IDCategoria"])
-                                        @*Html.Hidden("Cerca_Categoria", Response.Cookies["ricerca"]["Categoria"])*@
-                                    </div>
-                                </div>
-                                @Html.TextBox("Cerca_Nome", Response.Cookies["ricerca"]["Nome"], new { @class = "form-control", placeholder = Language.InputSearch })
-                                <div class="input-group-append">
-                                    <div class="input-group-text" style="border-radius: 0px 24px 24px 0px;">
-                                        <a href="javascript:void(0);" onclick="$('#btnInvio2').click();">
-                                            <i class="fas fa-search"></i>
-                                        </a>
+            </div>
+            <ul id="linkLogin">
+                <li id="cart" class="profilo">
+                    @(Language.Welcome + " " + ((PersonaModel)Session["utente"]).NomeVisibile) -
+                    <span id="userPoints">
+                        <img class="glyphicon happyCoin" src="/Images/Icone/happyCoin.svg" alt="Happy-Coin">
+                        @((Session["utente"] as PersonaModel).Credito.Where(m => m.STATO == (int)StatoCredito.ASSEGNATO).Sum(m => m.PUNTI).ToString("#,#.00#"))
+                    </span>
+                </li>
+            </ul>
+            <header>
+                <a id="logo" class="brand" href='@Url.Action("Index", "Home")'>
+                    <img class="ico" src='@Url.Content("~/Images/logo.png")' alt="@WebConfigurationManager.AppSettings["nomeSito"]" />
+                    <h1 class="slogan">@Html.Raw(@Language.Slogan)</h1>
+                </a>
+                <menu>
+                    <ul class="nav-pills">
+                        <li role="presentation" class="reporting">
+                            @Html.ActionLink(Language.Reporting, "Contatti", "Home")
+                        </li>
+                        <li role="presentation" class="pubblication">
+                            @Html.ActionLink(Language.Public, "", "Pubblica")
+                        </li>
+                        <li role="presentation" class="dropdown vendite">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@Language.MenuSells <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    @Html.ActionLink(Language.MenuSellsCurrent, "", "Vendite")
+                                </li>
+                                <li>
+                                    @Html.ActionLink(Language.MenuSellsBid, "OfferteRicevute", "Vendite")
+                                </li>
+                                <li>
+                                    @Html.ActionLink(Language.MenuSellsCompleted, "Concluse", "Vendite")
+                                </li>
+                            </ul>
+                        </li>
+                        <li role="presentation" class="dropdown acquisti">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@Language.MenuPurchases <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    @Html.ActionLink(Language.MenuPurchasesCurrent, "", "Acquisti")
+                                </li>
+                                <li>
+                                    @Html.ActionLink(MenuResource.RefusedBid, "OfferteRifiutate", "Acquisti")
+                                </li>
+                                <li>
+                                    @Html.ActionLink(Language.MenuPurchasesCompleted, "Conclusi", "Acquisti")
+                                </li>
+                                <li>
+                                    @Html.ActionLink(Language.MenuRecapsWish, "Vorrei", "Acquisti")
+                                </li>
+                                <li>
+                                    @Html.ActionLink(Language.MenuPurchasesRecommend, "Suggeriti", "Acquisti")
+                                </li>
+                                <li>
+                                    @Html.ActionLink(Language.MenuRecapsSearch, "RicercheSalvate", "Utente")
+                                </li>
+                            </ul>
+                        </li>
+                        @if (Session["portaleweb"] != null && (Session["portaleweb"] as List<PortaleWebViewModel>).Count > 0)
+                        {
+                            <li role="presentation" class="dropdown partner">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@Language.Partners <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Home", "Index", "PortaleWeb")</li>
+                                    @foreach (PortaleWebViewModel portaleweb in (Session["portaleweb"] as List<PortaleWebViewModel>))
+                                    {
+                                        <li>
+                                            @Html.ActionLink(portaleweb.Nome, "Details", "PortaleWeb", new { token = portaleweb.Token }, null)
+                                        </li>
+                                        if ((Session["utente"] as PersonaModel).Persona.ABBONAMENTO.DURATA == -1)
+                                        {
+                                            <li>@Html.ActionLink("Spedizioni in attesa", "SpedizioniInAttesa", "PortaleWeb")</li>
+                                            <li>@Html.ActionLink("Spedizioni concluse", "SpedizioniConcluse", "PortaleWeb")</li>
+                                        }
+                                    }
+                                </ul>
+                            </li>
+                        }
+                        <li role="presentation" class="dropdown utente">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@Language.User <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    @Html.ActionLink(Language.TitleIndex, "Index", "Utente")
+                                </li>
+                                <li>
+                                    @Html.ActionLink(Language.UserPoints, "SaldoPunti", "Utente")
+                                </li>
+                                <li>
+                                    @Html.ActionLink(ViewModel.LayoutChat + string.Format(" ({0})", ((PersonaModel)Session["utente"]).NumeroMessaggiDaLeggere), "", "Chat")
+                                </li>
+                                <li>
+                                    @Html.ActionLink(Language.MenuUserNews + string.Format(" ({0})", ((PersonaModel)Session["utente"]).NumeroNotificheDaLeggere), "Elenco", "Notifica")
+                                </li>
+                                <li>
+                                    @Html.ActionLink(Language.Settings, "Impostazioni", "Utente")
+                                </li>
+                                <li>
+                                    @Html.ActionLink(Language.ChangePassword, "CambioPassword", "Utente")
+                                </li>
+                                <li>
+                                    @Html.ActionLink(Language.Logout, "Logout", "Utente")
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <div id="toolbar">
+                        @using (Html.BeginForm("", "cerca", FormMethod.Get, new { id = "cerca" }))
+                        {
+                            <div class="form-group col-sm-12 ricerca">
+                                <label class="sr-only" for="inlineFormInputGroup">@Language.InputSearch</label>
+                                <div class="input-group" style="padding:0px;">
+                                    @Html.Hidden("Cerca_IDCategoria", Response.Cookies["ricerca"]["IDCategoria"])
+                                    @Html.TextBox("Cerca_Nome", Response.Cookies["ricerca"]["Nome"], new { @class = "form-control", placeholder = Language.InputSearch })
+                                    <div class="input-group-append">
+                                        <div class="input-group-text" style="border-radius: 0px 6px 6px 0px;">
+                                            <a href="javascript:void(0);" onclick="$('#btnInvio2').click();">
+                                                <i class="fas fa-search"></i>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <input id="btnInvio2" class="btn-search" type="submit" value="search" data-toggle="tooltip" data-placement="top" title="@Language.SearchSubmit" />
-                    }
-                </div>
-                <div id="subCategoryObjects" class="subCategory">
-                    @if ((HttpContext.Current.Application["categorie"] as List<FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoria"])).ToList().Count > 0)
-                    {
-                        foreach (FINDSOTTOCATEGORIE_Result sottoCategoria in (HttpContext.Current.Application["categorie"] as List<FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoria"])))
-                        {
-                            @Html.ActionLink(sottoCategoria.DESCRIZIONE, sottoCategoria.DESCRIZIONE.Replace(" ", "-").ToLower() + "-gratis/" + sottoCategoria.ID, "categoria", null, new { @class = "link" })
+                            <input id="btnInvio2" class="btn-search" type="submit" value="search" data-toggle="tooltip" data-placement="top" title="@Language.SearchSubmit" />
                         }
-                    }
-                    else
-                    {
-                        foreach (FINDSOTTOCATEGORIE_Result sottoCategoria in (HttpContext.Current.Application["categorie"] as List<FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoriaPadre"])))
+                    </div>
+                    <div id="subCategoryObjects" class="subCategory">
+                        @if ((HttpContext.Current.Application["categorie"] as List<FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoria"])).ToList().Count > 0)
                         {
-                            @Html.ActionLink(sottoCategoria.DESCRIZIONE, sottoCategoria.DESCRIZIONE.Replace(" ", "-").ToLower() + "-gratis/" + sottoCategoria.ID, "categoria", null, new { @class = "link" })
+                            foreach (FINDSOTTOCATEGORIE_Result sottoCategoria in (HttpContext.Current.Application["categorie"] as List<FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoria"])))
+                            {
+                                @Html.ActionLink(sottoCategoria.DESCRIZIONE, sottoCategoria.DESCRIZIONE.Replace(" ", "-").ToLower() + "-gratis/" + sottoCategoria.ID, "categoria", null, new { @class = "link" })
+                            }
                         }
-                    }
-                </div>
-                <!--<div id="advertising" role="banner" class="banner">
+                        else
+                        {
+                            foreach (FINDSOTTOCATEGORIE_Result sottoCategoria in (HttpContext.Current.Application["categorie"] as List<FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoriaPadre"])))
+                            {
+                                @Html.ActionLink(sottoCategoria.DESCRIZIONE, sottoCategoria.DESCRIZIONE.Replace(" ", "-").ToLower() + "-gratis/" + sottoCategoria.ID, "categoria", null, new { @class = "link" })
+                            }
+                        }
+                    </div>
+                    <!--<div id="advertising" role="banner" class="banner">
                     @if (TempData["advertising"] != null)
                     {
                         @Html.Raw(WebUtility.HtmlDecode(TempData["advertising"].ToString()))
@@ -319,170 +315,182 @@
                      data-width="260"
                      data-show-faces="false">
                 </div>-->
-            </menu>
-            <!--<img id="betatesting" src='@Url.Content("~/Images/beta_testing.png")' alt="@WebConfigurationManager.AppSettings["nomeSito"] Beta" />-->
-        </header>
+                </menu>
+                <!--<img id="betatesting" src='@Url.Content("~/Images/beta_testing.png")' alt="@WebConfigurationManager.AppSettings["nomeSito"] Beta" />-->
+            </header>
 
-        @RenderBody()
-        <section id="topServices">
-            <div class="content">
-
-            </div>
-        </section>
-    </div>
-    <footer>
-        <nav>
-            <ul id="footermenu">
-                <li role="presentation" class="mission">
-                    @Html.ActionLink(ViewModel.MissionLink, "Missione", "Home")
-                </li>
-                <li role="presentation" class="whatido">
-                    @Html.ActionLink(ViewModel.HowWorkLink, "ComeFunziona", "Home")
-                </li>
-                <li role="presentation" class="earn">
-                    @Html.ActionLink(ViewModel.EarnMoneyLink, "ComeGuadagnare", "Home")
-                </li>
-                <li role="presentation" class="privacy">
-                    @Html.ActionLink(Language.PagePrivacy, "Privacy", "Home")
-                </li>
-                <li role="presentation" class="contacts">
-                    @Html.ActionLink(Language.Contacts, "Contatti", "Home")
-                </li>
-                <li role="presentation">@Html.ActionLink("Bando 2019", "Bando", "Home")</li>
-            </ul>
-        </nav>
-        <div class="content">
-            <h4>@WebConfigurationManager.AppSettings["nomeSito"] &copy; @DateTime.Now.Year</h4>
-            <h5>@Language.Footer</h5>
-            <h6><a href="http://www.davidemilitano.net/SviluppatoreDotNet" title="WebMaster C#" target="_blank">WebMaster C# - Davide Militano</a></h6>
+            @RenderBody()
         </div>
-    </footer>
+        </div>
+        <footer>
+            <div id="categorie">
+                <div class="container">
+                    <h2 class="title">Categorie principali</h2>
+                    <div id="subCategoryObjects" class="row justify-content-left">
+                        @foreach (GratisForGratis.Models.FINDSOTTOCATEGORIE_Result sottoCategoria in (HttpContext.Current.Application["categorie"] as List<GratisForGratis.Models.FINDSOTTOCATEGORIE_Result>).Where(c => c.LIVELLO == 0 && c.STATO == 1))
+                        {
+                            <a class="col-lg-3 col-md-3 col-sm-4 col-xs-4 category object" href="@Url.Content("/categoria/" + sottoCategoria.DESCRIZIONE.Replace(" ","-").ToLower() + "-gratis/" + sottoCategoria.ID)" title="@(Language.Object + ' ' + sottoCategoria.NOME)">
+                                @sottoCategoria.NOME
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+            <nav>
+                <ul id="footermenu">
+                    <li role="presentation" class="history">
+                        @Html.ActionLink("Storico", "StoricoAnnunci", "Home")
+                    </li>
+                    <li role="presentation" class="mission">
+                        @Html.ActionLink(ViewModel.MissionLink, "Missione", "Home")
+                    </li>
+                    <li role="presentation" class="whatido">
+                        @Html.ActionLink(ViewModel.HowWorkLink, "ComeFunziona", "Home")
+                    </li>
+                    <li role="presentation" class="earn">
+                        @Html.ActionLink(ViewModel.EarnMoneyLink, "ComeGuadagnare", "Home")
+                    </li>
+                    <li role="presentation" class="privacy">
+                        @Html.ActionLink(Language.PagePrivacy, "Privacy", "Home")
+                    </li>
+                    <li role="presentation" class="contacts">
+                        @Html.ActionLink(Language.Contacts, "Contatti", "Home")
+                    </li>
+                    <li role="presentation">@Html.ActionLink("Bando 2019", "Bando", "Home")</li>
+                </ul>
+            </nav>
+            <div class="content">
+                <h4>@WebConfigurationManager.AppSettings["nomeSito"] &copy; @DateTime.Now.Year</h4>
+                <h5>@Language.Footer</h5>
+                <h6><a href="http://www.davidemilitano.net/SviluppatoreDotNet" title="WebMaster C#" target="_blank">WebMaster C# - Davide Militano</a></h6>
+            </div>
+        </footer>
 
-    <!-- START POPUP -->
-    /@*
-    <form id="boxSegnalazione" class="popup">
-        @Html.AntiForgeryToken()
-        <input name="Controller" type="hidden" value="@ViewContext.RouteData.Values["controller"]" />
-        <input name="Vista" type="hidden" value="@ViewContext.RouteData.Values["action"]" />
-        <select name="Tipologia">
-            <option value="0">@Language.Bug</option>
-            <option value="1">@Language.Improvement</option>
-        </select>
-        <input type="email" name="EmailRisposta" placeholder="@Language.AnswerEmail" value="@((Session["utente"] as PersonaModel).Email.FirstOrDefault(m => m.TIPO == (int)TipoEmail.Registrazione).EMAIL)" />
-        <input type="text" name="Oggetto" placeholder="@Language.Object" />
-        <textarea name="Testo" placeholder="@Language.Text"></textarea>
-        <input id="AllegatoSegnalazione" type="file" name="Allegato" placeholder="@Language.Attachment" />
-        <a class="button btn btn-success" href="javascript:void(0);">@Language.Send</a>
-    </form>
-         *@
-    <div id="boxPossiedo" class="modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Caricamento</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Caricamento dati in corso...</p>
-                </div>
-                <!--
+        <!-- START POPUP -->
+        /@*
+        <form id="boxSegnalazione" class="popup">
+            @Html.AntiForgeryToken()
+            <input name="Controller" type="hidden" value="@ViewContext.RouteData.Values["controller"]" />
+            <input name="Vista" type="hidden" value="@ViewContext.RouteData.Values["action"]" />
+            <select name="Tipologia">
+                <option value="0">@Language.Bug</option>
+                <option value="1">@Language.Improvement</option>
+            </select>
+            <input type="email" name="EmailRisposta" placeholder="@Language.AnswerEmail" value="@((Session["utente"] as PersonaModel).Email.FirstOrDefault(m => m.TIPO == (int)TipoEmail.Registrazione).EMAIL)" />
+            <input type="text" name="Oggetto" placeholder="@Language.Object" />
+            <textarea name="Testo" placeholder="@Language.Text"></textarea>
+            <input id="AllegatoSegnalazione" type="file" name="Allegato" placeholder="@Language.Attachment" />
+            <a class="button btn btn-success" href="javascript:void(0);">@Language.Send</a>
+        </form>
+        *@
+        <div id="boxPossiedo" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Caricamento</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Caricamento dati in corso...</p>
+                    </div>
+                    <!--
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary">Save changes</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>-->
+                </div>
             </div>
         </div>
-    </div>
-    <!-- END POPUP -->
-    <!-- HIDDEN ELEMENT -->
-    <div id="menuCategorie" style="display:none;">
-        <input id="categoriaAttuale" name="categoriaAttuale" value="@Response.Cookies["ricerca"]["Categoria"]" data-id="@Response.Cookies["ricerca"]["IDCategoria"]" type="text" />
-        @{ List<FINDSOTTOCATEGORIE_Result> categorie = (HttpContext.Current.Application["categorie"] as List<FINDSOTTOCATEGORIE_Result>);
-            <ul id="menu">
-                @foreach (FINDSOTTOCATEGORIE_Result categoria in categorie.Where(c => c.LIVELLO <= 0))
-                {
-                    <li>
-                        <a class="trigger" data-value="@categoria.ID" data-text="@categoria.NOME" data-id="#Cerca_IDCategoria" data-name="#Cerca_Categoria" title="@(Language.Buy + ' ' + categoria.NOME)">
-                            @categoria.NOME
-                        </a>
-                        @if (categoria.LIVELLO >= 0)
-                        {
-                            <ul>
-                                @foreach (FINDSOTTOCATEGORIE_Result sottoCategoria in categorie.Where(c => c.ID_PADRE == categoria.ID))
-                                {
-                                    <li>
-                                        @if (categorie.Count(item => item.ID_PADRE == sottoCategoria.ID) > 0)
-                                        {
-                                            <a class="trigger" data-value="@sottoCategoria.ID" data-text="@sottoCategoria.NOME" data-id="#Cerca_IDCategoria" data-name="#Cerca_Categoria" title="@(Language.Buy + ' ' + sottoCategoria.NOME)">
-                                                @sottoCategoria.NOME
-                                            </a>
-                                            <ul>
-                                                @foreach (FINDSOTTOCATEGORIE_Result sottoCategoria2 in categorie.Where(c => c.ID_PADRE == sottoCategoria.ID))
-                                                {
-                                                    <li><a class="trigger" data-value="@sottoCategoria2.ID" data-text="@sottoCategoria2.NOME" data-id="#Cerca_IDCategoria" data-name="#Cerca_Categoria" data-pubblica="true" title="@(Language.Buy + ' ' + sottoCategoria2.NOME)">@sottoCategoria2.NOME</a></li>
-                                                }
-                                            </ul>
-                                        }
-                                        else
-                                        {
-                                            <a class="trigger" data-value="@sottoCategoria.ID" data-text="@sottoCategoria.NOME" data-id="#Cerca_IDCategoria" data-name="#Cerca_Categoria" data-pubblica="true" title="@(Language.Buy + ' ' + sottoCategoria.NOME)">
-                                                @sottoCategoria.NOME
-                                            </a>
-                                        }
-                                    </li>
-                                }
-                            </ul>
-                        }
-                    </li>
-                }
-            </ul>
+        <!-- END POPUP -->
+        <!-- HIDDEN ELEMENT -->
+        <div id="menuCategorie" style="display:none;">
+            <input id="categoriaAttuale" name="categoriaAttuale" value="@Response.Cookies["ricerca"]["Categoria"]" data-id="@Response.Cookies["ricerca"]["IDCategoria"]" type="text" />
+            @{ List<FINDSOTTOCATEGORIE_Result> categorie = (HttpContext.Current.Application["categorie"] as List<FINDSOTTOCATEGORIE_Result>);
+                <ul id="menu">
+                    @foreach (FINDSOTTOCATEGORIE_Result categoria in categorie.Where(c => c.LIVELLO <= 0))
+                    {
+                        <li>
+                            <a class="trigger" data-value="@categoria.ID" data-text="@categoria.NOME" data-id="#Cerca_IDCategoria" data-name="#Cerca_Categoria" title="@(Language.Buy + ' ' + categoria.NOME)">
+                                @categoria.NOME
+                            </a>
+                            @if (categoria.LIVELLO >= 0)
+                            {
+                                <ul>
+                                    @foreach (FINDSOTTOCATEGORIE_Result sottoCategoria in categorie.Where(c => c.ID_PADRE == categoria.ID))
+                                    {
+                                        <li>
+                                            @if (categorie.Count(item => item.ID_PADRE == sottoCategoria.ID) > 0)
+                                            {
+                                                <a class="trigger" data-value="@sottoCategoria.ID" data-text="@sottoCategoria.NOME" data-id="#Cerca_IDCategoria" data-name="#Cerca_Categoria" title="@(Language.Buy + ' ' + sottoCategoria.NOME)">
+                                                    @sottoCategoria.NOME
+                                                </a>
+                                                <ul>
+                                                    @foreach (FINDSOTTOCATEGORIE_Result sottoCategoria2 in categorie.Where(c => c.ID_PADRE == sottoCategoria.ID))
+                                                    {
+                                                        <li><a class="trigger" data-value="@sottoCategoria2.ID" data-text="@sottoCategoria2.NOME" data-id="#Cerca_IDCategoria" data-name="#Cerca_Categoria" data-pubblica="true" title="@(Language.Buy + ' ' + sottoCategoria2.NOME)">@sottoCategoria2.NOME</a></li>
+                                                    }
+                                                </ul>
+                                            }
+                                            else
+                                            {
+                                                <a class="trigger" data-value="@sottoCategoria.ID" data-text="@sottoCategoria.NOME" data-id="#Cerca_IDCategoria" data-name="#Cerca_Categoria" data-pubblica="true" title="@(Language.Buy + ' ' + sottoCategoria.NOME)">
+                                                    @sottoCategoria.NOME
+                                                </a>
+                                            }
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+
+        @if (!this.Context.IsDebuggingEnabled)
+        {
+            <script>
+                (function (i, s, o, g, r, a, m) {
+                    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                        (i[r].q = i[r].q || []).push(arguments)
+                    }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+                })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+                ga('create', 'UA-82382944-1', 'auto');
+                ga('send', 'pageview');
+
+            </script>
         }
-    </div>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        @Scripts.Render("https://code.jquery.com/jquery-3.4.1.min.js")
+        @Scripts.Render("https://code.jquery.com/ui/1.12.1/jquery-ui.min.js")
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js")
+        @Scripts.Render("https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js")
+        @Scripts.Render("~/Scripts/JqueryValidate/jquery.validate.unobtrusive.js")
+        @Scripts.Render("~/Scripts/Uploadify/jquery.uploadifive.min.js")
+        @Scripts.Render("~/Scripts/loader/jquery.loader.min.js")
+        <script type="text/javascript">
+            $.validator.setDefaults({
+                ignore: null
+            });
+            $.validator.methods.range = function (value, element, param) {
+                var globalizedValue = value.replace(",", ".");
+                return this.optional(element) || (globalizedValue >= param[0] && globalizedValue <= param[1]);
+            }
 
-    @if (!this.Context.IsDebuggingEnabled)
-    {
-        <script>
-            (function (i, s, o, g, r, a, m) {
-                i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-                    (i[r].q = i[r].q || []).push(arguments)
-                }, i[r].l = 1 * new Date(); a = s.createElement(o),
-                    m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-            })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-
-            ga('create', 'UA-82382944-1', 'auto');
-            ga('send', 'pageview');
-
+            $.validator.methods.number = function (value, element) {
+                return this.optional(element) || /^-?(?:\d+|\d{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
+            }
+            // variabili globali
+            var MONETA = '@(Language.Price + " (" + Language.Moneta + ")")';
         </script>
-    }
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    @Scripts.Render("https://code.jquery.com/jquery-3.4.1.min.js")
-    @Scripts.Render("https://code.jquery.com/ui/1.12.1/jquery-ui.min.js")
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js")
-    @Scripts.Render("https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js")
-    @Scripts.Render("~/Scripts/JqueryValidate/jquery.validate.unobtrusive.js")
-    @Scripts.Render("~/Scripts/Uploadify/jquery.uploadifive.min.js")
-    @Scripts.Render("~/Scripts/loader/jquery.loader.min.js")
-    <script type="text/javascript">
-    $.validator.setDefaults({
-        ignore: null
-    });
-    $.validator.methods.range = function (value, element, param) {
-        var globalizedValue = value.replace(",", ".");
-        return this.optional(element) || (globalizedValue >= param[0] && globalizedValue <= param[1]);
-    }
-
-    $.validator.methods.number = function (value, element) {
-        return this.optional(element) || /^-?(?:\d+|\d{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
-    }
-    // variabili globali
-    var MONETA = '@(Language.Price + " (" + Language.Moneta + ")")';
-    </script>
-    @Scripts.Render("~/Scripts/SlickNav/jquery.slicknav.min.js")
-    @Scripts.Render("https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js")
-    @Scripts.Render("~/Scripts/Site.js")
-    @RenderSection("scripts", required: false)
+        @Scripts.Render("~/Scripts/SlickNav/jquery.slicknav.min.js")
+        @Scripts.Render("https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js")
+        @Scripts.Render("~/Scripts/Site.js")
+        @RenderSection("scripts", required: false)
 </body>
 </html>

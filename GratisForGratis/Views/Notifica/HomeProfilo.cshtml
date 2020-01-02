@@ -1,22 +1,26 @@
 ﻿@model List<GratisForGratis.Models.UtenteNotificaViewModel>
 
+@if (Model != null)
+{
     <div id="carouselNotificheHome" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
-            @foreach (var item in Model)
+            @for (var i = 0; i < Model.Count; i++)
             {
+            <div data-id="@Model[i].Id" class="carousel-item @((i == 0) ? "active" : "")">
                 <div class="card text-center">
                     <div class="card-header">
                         Notifica importante
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">@item.Titolo</h5>
-                        <p class="card-text">@item.Messaggio</p>
-                        <a href="#" class="btn btn-primary">LETTO</a>
+                        <h5 class="card-title">@Model[i].Titolo</h5>
+                        <p class="card-text">@Html.Raw(Model[i].Messaggio)</p>
+                        <a href="#" onclick="setNotificaLetta(this)" class="btn btn-primary">LETTO</a>
                     </div>
                     <div class="card-footer text-muted">
-                        @item.DataInserimento.ToString("dd-MM-yyyy")
+                        @Model[i].DataInserimento.ToString("dd-MM-yyyy")
                     </div>
                 </div>
+            </div>
             }
         </div>
         <a class="carousel-control-prev" href="#carouselNotificheHome" role="button" data-slide="prev">
@@ -28,3 +32,4 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
+}

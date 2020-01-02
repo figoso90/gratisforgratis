@@ -412,6 +412,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Fai un&apos;offerta.
+        /// </summary>
+        public static string BidDo {
+            get {
+                return ResourceManager.GetString("BidDo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Pagamento offerta.
         /// </summary>
         public static string BidPayment {
@@ -2365,7 +2374,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Hai un annuncio per questa categoria? Pubblicalo subito!!!.
+        ///   Cerca una stringa localizzata simile a Inserisci nuovo annuncio.
         /// </summary>
         public static string LnkGoToPublic {
             get {
@@ -3724,7 +3733,7 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a &lt;strong&gt;Il sito di baratto e regalo online con criptovaluta&lt;/strong&gt;.
+        ///   Cerca una stringa localizzata simile a &lt;strong&gt;Il primo sito di baratto con moneta alternativa&lt;/strong&gt;.
         /// </summary>
         public static string Slogan {
             get {

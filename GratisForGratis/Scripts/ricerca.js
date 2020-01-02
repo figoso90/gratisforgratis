@@ -3,8 +3,11 @@ var scroll = 0;
 
 $(document).ready(function () {
     initRicerca();
-
+    if ($('#annunciExtra').length > 0) {
+        annunciCercati();
+    }
     // IMPAGINAZIONE SU SCROLL WEB
+    /*
     $(window).scroll(function () {
         this.scrollPagina();
     });
@@ -15,6 +18,7 @@ $(document).ready(function () {
             this.scrollPagina();
         }
     });
+    */
 });
 
 function scrollPagina() {
@@ -111,6 +115,25 @@ function enableFiltroAvanzate() {
             // setta attivazione ricerca
             //alert("Attiva");
             Cookies.set('ricercaAvanzata', 1, { expires: 7 });
+        }
+    });
+}
+
+function annunciCercati() {
+    $.ajax({
+        type: "GET",
+        url: '/Cerca/AnnunciCercati',
+        dataType: "html",
+        success: function (msg) {
+            if (msg) {
+                $('#annunciExtra').html(msg);
+            }
+        },
+        error: function (error, status, msg) {
+            alert("Errore: " + msg);
+        },
+        complete: function () {
+            $scroll = 0;
         }
     });
 }

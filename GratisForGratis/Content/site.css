@@ -266,13 +266,13 @@ header{
 }
 
 #logo .ico {
-    width: auto;
-    height: 120px;
+    width: 100%;
     border: none;
     border-radius: 0px;
 }
 
 #logo .slogan{
+    display:none;
     margin:10px 0px 0px;
     font-size: 20px;
     text-align: center;
@@ -476,7 +476,7 @@ textarea.form-control{
 }
 
 .ico{
-    width:80px;
+    width:22px;
 }
 
 .glyphicon {
@@ -504,7 +504,7 @@ textarea.form-control{
     width: 220px;
     height: 38px;
     padding-right: 42px;
-    border-radius: 0px;
+    border-radius: 6px 0px 0px 6px;
 }
 
 #cerca .control-label{
@@ -636,12 +636,16 @@ section{
     background-color:#178fcc;
 }
 
-#head{
-    padding-bottom: 2%;
-}
-
 #page{
     text-align:left;
+    max-width:1480px;
+    margin:0px auto;
+}
+
+
+#title {
+    text-transform: uppercase;
+    color: #a2c642;
 }
 
 #title, #description{
@@ -733,7 +737,7 @@ input[type="text"].number{
 
 body > footer{
     text-align:center;
-    padding:20px 10px 10px;
+    padding:20px 0px 10px;
     border-top: 8px solid #eee;
     clear: both;
 }
@@ -755,9 +759,29 @@ footer h6 a {
   color: #333;
 }
 
+#categorie {
+    border-bottom: 8px solid #eeeeee;
+    margin-bottom: 22px;
+    padding-bottom:12px;
+    text-align:left;
+}
+
+    #categorie .title {
+        color: #3c4858;
+        font-size: 14px;
+        font-weight:bold;
+        line-height: 21px;
+        text-transform:uppercase;
+    }
+
+    #categorie .category {
+        margin: 0px 0px 10px;
+        color: #333;
+    }
+
 #footermenu{
     max-width:800px;
-    margin:0px auto;
+    margin:12px auto;
 }
 
 #footermenu li{
@@ -860,25 +884,32 @@ footer h6 a {
 
 /* FUNZIONI ANNUNCIO */
 .object .fas, .object .far {
-    color: #000;
+    /*color: #000;*/
 }
 .object .footer a, .purchase .footer a, .object .footer .feedback, .purchase .footer .feedback {
     text-transform: uppercase;
     font-size: 10px;
     text-align: left;
-    color: #333;
 }
 
-.object i, .purchase i, .annuncio i {
+.object .fa-tag {
+    color: orangered;
+}
+
+.object i, .purchase i, .annuncio i, .profile i, .info i {
     font-size: 20px;
     margin-right: 12px;
-    width:12px;
+    width: 16px;
 }
 
-.object .selected, .purchase .selected, .annuncio .selected {
-    font-size: 22px;
-    color: red;
+.object i {
+    vertical-align: bottom;
 }
+
+    .object .selected, .purchase .selected, .annuncio .selected {
+        font-size: 22px;
+        color: red;
+    }
 
 /* CSS PER SCREEN MINORI DI 940PX */
 
@@ -909,7 +940,7 @@ footer h6 a {
     #menuMobile {
         position: absolute;
         top: 0px;
-        right: 15px;
+        right: 0px;
         display: block;
         width: 100%;
         text-align: right;
@@ -921,7 +952,7 @@ footer h6 a {
             width: 32px;
             height: 32px;
             cursor: pointer;
-            margin-right: 6px;
+            margin-right: 22px;
         }
 
         #menuMobile .menu {
@@ -942,6 +973,18 @@ footer h6 a {
             font-size: 16px;
         }
 
+    #logo:hover, #logo:link{
+        max-width:unset;
+    }
+
+    #logo .ico {
+        width: 70%;
+    }
+
+    #logo .slogan {
+        display: none;
+    }
+
     #linkLogin {
         display: none;
     }
@@ -959,9 +1002,13 @@ footer h6 a {
         padding-top: 20px;
     }
 
+        header menu{
+            display:block;
+        }
+
         header menu ul.nav-pills {
-            /*display: none;
-            position: absolute;
+            display: none;
+            /*position: absolute;
             top: 34px;
             right: 34px;
                 */
@@ -991,7 +1038,6 @@ footer h6 a {
         }
 
     #cerca .form-control, #cerca .form-control:hover {
-        border-radius: 24px 0px 0px 24px;
         width:100px;
         min-width:0px;
     }
@@ -1008,14 +1054,6 @@ footer h6 a {
     */
     textarea.form-control {
         max-width: 240px;
-    }
-
-    #subCategoryObjects {
-        display: none;
-    }
-
-    #logo .ico {
-        height: 100px;
     }
 
     #title {

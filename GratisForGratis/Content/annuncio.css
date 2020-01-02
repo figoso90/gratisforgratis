@@ -67,20 +67,29 @@
     text-align:left;
 }
 
-#acquisto .right .info{
+#acquisto .info{
     text-align:left;
 }
 
-#acquisto .right .info h5{
+#acquisto .info h5{
     margin:17px 0px;
 }
+
+    #acquisto .info b {
+        text-transform: uppercase;
+    }
+
+    #acquisto .info ul .voce {
+        list-style:none;
+        text-transform: uppercase;
+    }
 
 #acquisto .annuncio .details{
     display:none;
 }
 
 #acquisto .annuncio .footer {
-    margin: 13px 0px;
+    margin: 13px 0px 0px;
 }
 
 #acquisto .annuncio .suggestAdActivation {
@@ -100,10 +109,10 @@
     }
 
 #acquisto .btn{
-    height: 30px;
+    /*height: 30px;
     padding: 4px;
     width: 100px;
-    margin-bottom:10px;
+    margin-bottom:10px;*/
 }
 
 #acquisto .btn.buy, #acquisto .btn.add{

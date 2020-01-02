@@ -2,7 +2,7 @@
 @model OffertaViewModel
 <div id="@HttpUtility.UrlEncode(Model.Annuncio.Token)" class="col-xs-12 col-md-3 purchase">
     <h4 class="title plus">
-        @Html.ActionLink(Model.Annuncio.Nome, GratisForGratis.Models.Utility.UrlEncode(Model.Annuncio.Nome) + "-gratis/" + Model.Annuncio.Token, "annuncio", null, null)
+        @Html.ActionLink(Model.Annuncio.Nome, GratisForGratis.Models.Utility.UrlEncode(Model.Annuncio.Nome) + "-gratis/" + Model.Annuncio.Token, "baratto", null, null)
     </h4>
     <div class="preview">
         <div class="cella table">

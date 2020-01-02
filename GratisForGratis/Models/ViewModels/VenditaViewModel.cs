@@ -40,7 +40,8 @@ namespace GratisForGratis.Models
             {
                 TipoAcquisto = TipoAcquisto.Servizio;
             }
-            Punti = model.PUNTI.ToHappyCoin();
+            //Punti = model.PUNTI.ToHappyCoin();
+            Punti = model.PUNTI.ToString();
             Soldi = Convert.ToDecimal(model.SOLDI).ToString("C");
             DataInserimento = (DateTime)model.DATA_INSERIMENTO;
             CategoriaID = model.ID_CATEGORIA;

@@ -322,6 +322,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Personale.
+        /// </summary>
+        public static string NotificationTypeCustom {
+            get {
+                return ResourceManager.GetString("NotificationTypeCustom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Novembre.
         /// </summary>
         public static string November {

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 
 namespace GratisForGratis.Controllers
@@ -74,6 +75,7 @@ namespace GratisForGratis.Controllers
 
         #region AJAX
         [HttpDelete]
+        [Filters.ValidateAjax]
         public JsonResult DeleteNews(int id)
         {
             using (DatabaseContext db = new DatabaseContext())
@@ -81,7 +83,7 @@ namespace GratisForGratis.Controllers
                 db.Database.Connection.Open();
                 PersonaModel utente = (Session["utente"] as PersonaModel);
                 NOTIFICA notifica = db.NOTIFICA.SingleOrDefault(m => m.ID == id 
-                    && m.ID_PERSONA == utente.Persona.ID);
+                    && m.ID_PERSONA_DESTINATARIO == utente.Persona.ID);
 
                 if (notifica != null)
                 {
@@ -97,6 +99,55 @@ namespace GratisForGratis.Controllers
                 }
             }
             return Json(false);
+        }
+
+        [HttpGet]
+        [Filters.ValidateAjax]
+        public ActionResult HomeProfilo()
+        {
+            List<UtenteNotificaViewModel> model = null;
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                db.Database.Connection.Open();
+                PersonaModel utente = (Session["utente"] as PersonaModel);
+                var notifiche = db.NOTIFICA
+                    .Where(m => m.ID_PERSONA_DESTINATARIO == utente.Persona.ID && m.STATO == (int)StatoNotifica.ATTIVA
+                    && m.POSIZIONE_VISIBILITA == (int)PosizioneVisibilitaEnum.HomeProfilo)
+                    .ToList();
+
+                if (notifiche != null && notifiche.Count > 0) {
+                    model = new List<UtenteNotificaViewModel>();
+                    notifiche.ForEach(m =>
+                    {
+                        var notifica = new UtenteNotificaViewModel();
+                        notifica.getTipoNotifica(db, m);
+                        model.Add(notifica);
+                    });
+                }
+            }
+            return PartialView(model);
+        }
+
+
+        [HttpPost]
+        [Filters.ValidateAjax]
+        public void Letto(int id)
+        {
+            PersonaModel utente = base.Session["utente"] as PersonaModel;
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                db.Database.Connection.Open();
+                NOTIFICA model = db.NOTIFICA.Include(m => m.ANNUNCIO_NOTIFICA)
+                    .SingleOrDefault(m => m.ID == id && m.ID_PERSONA_DESTINATARIO == utente.Persona.ID);
+
+                if (model != null && model.DATA_LETTURA == null)
+                {
+                    model.DATA_LETTURA = DateTime.Now;
+                    model.DATA_MODIFICA = DateTime.Now;
+                    model.STATO = (int)StatoNotifica.LETTA;
+                    db.SaveChanges();
+                }
+            }
         }
         #endregion
     }

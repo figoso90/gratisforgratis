@@ -2,13 +2,14 @@
 @model ListaServizi
 
 <div class="linkPubblicaCategoria">
-    @Html.ActionLink(Language.LnkGoToPublic, "", "Pubblica")
+    <a href="/Pubblica" title="@Language.LnkGoToPublic"><i class="far fa-plus-square"></i> @Language.LnkGoToPublic</a>
 </div>
 @Html.Partial("PartialPages/_Adv")
 @foreach (ServizioViewModel servizio in Model.List)
 {
     @Html.Partial("PartialPages/_Servizio", servizio)
 }
+@Html.Partial("PartialPages/_ServizioNotFound", Model)
 @Html.Partial("PartialPages/_ElencoPagineRicerca", new ElencoPagineRicerca(Model.PageCount,
         Model.PageNumber, ((Model.PageNumber - 5) < 1 ? 1 : Model.PageNumber - 5),
         "categoria",

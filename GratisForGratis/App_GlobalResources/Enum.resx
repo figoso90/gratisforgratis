@@ -204,6 +204,9 @@
   <data name="NotificationTypeBidRefused" xml:space="preserve">
     <value>Offerta rifiutata</value>
   </data>
+  <data name="NotificationTypeCustom" xml:space="preserve">
+    <value>Personale</value>
+  </data>
   <data name="November" xml:space="preserve">
     <value>Novembre</value>
   </data>

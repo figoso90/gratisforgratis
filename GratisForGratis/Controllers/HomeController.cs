@@ -69,6 +69,37 @@ namespace GratisForGratis.Controllers
         }
 
         [HttpGet]
+        public ActionResult StoricoAnnunci(int pagina = 1)
+        {
+            ListaVendite lista = new ListaVendite(1, "Tutti");
+            lista.PageNumber = pagina;
+            int numeroElementi = Convert.ToInt32(WebConfigurationManager.AppSettings["numeroAcquisti"]);
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                var query = db.ANNUNCIO.Where(item => (item.STATO != (int)StatoVendita.ATTIVO)
+                    || (item.DATA_FINE < DateTime.Now));
+
+                int numeroRecord = query.Count();
+
+                var model = query
+                    .OrderBy(m => m.DATA_INSERIMENTO)
+                    .Skip((pagina-1) * numeroElementi)
+                    .Take(numeroElementi).ToList();
+                if (model != null && model.Count > 0)
+                {
+                    lista.PageCount = (int)Math.Ceiling((decimal)numeroRecord / numeroElementi);
+                    lista.TotalNumber = numeroRecord;
+                    lista.List = new List<AnnuncioViewModel>();
+                    model.ForEach(m =>
+                    {
+                        lista.List.Add(new AnnuncioViewModel(db, m));
+                    });
+                }
+            }
+            return View(lista);
+        }
+
+        [HttpGet]
         public ActionResult Bando()
         {
             ViewBag.Title = "Bando 2019: come partecipare? - " + WebConfigurationManager.AppSettings["nomeSito"];

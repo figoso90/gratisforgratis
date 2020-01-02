@@ -10,8 +10,8 @@
     </div>
 }
 <div class="col-md-12">
-    <p>
-        <b>@Language.StateObject</b> @EnumHelper.GetSelectList(typeof(CondizioneOggetto), Model.StatoOggetto).Where(m => m.Selected).FirstOrDefault().Text
+    <p title="@Language.StateObject">
+        <i class="fas fa-battery-half"></i> @EnumHelper.GetSelectList(typeof(CondizioneOggetto), Model.StatoOggetto).Where(m => m.Selected).FirstOrDefault().Text
     </p>
 </div>
 @if (Model.TipoScambio.Contains(TipoScambio.Spedizione))

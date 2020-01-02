@@ -1,13 +1,12 @@
-﻿@using GratisForGratis.Models
-@model ListaVendite
+﻿@model GratisForGratis.Models.ListaVendite
 
 <div class="linkPubblicaCategoria">
-    @Html.ActionLink(Language.LnkGoToPublic, "", "Pubblica")
+    <a href="/Pubblica" title="@Language.LnkGoToPublic"><i class="far fa-plus-square"></i> @Language.LnkGoToPublic</a>
 </div>
 @Html.Partial("PartialPages/_Adv")
-@foreach (AnnuncioViewModel vendita in Model.List)
+@foreach (GratisForGratis.Models.AnnuncioViewModel vendita in Model.List)
 {
-    if (vendita.TipoAcquisto == TipoAcquisto.Oggetto)
+    if (vendita.TipoAcquisto == GratisForGratis.Models.TipoAcquisto.Oggetto)
     {
         @Html.Partial("PartialPages/_Oggetto", vendita)
     }
@@ -16,7 +15,8 @@
         @Html.Partial("PartialPages/_Servizio", vendita)
     }
 }
-@Html.Partial("PartialPages/_ElencoPagineRicerca", new ElencoPagineRicerca(Model.PageCount,
+@Html.Partial("PartialPages/_AnnuncioNotFound", Model)
+@Html.Partial("PartialPages/_ElencoPagineRicerca", new GratisForGratis.Models.ElencoPagineRicerca(Model.PageCount,
     Model.PageNumber, ((Model.PageNumber - 5) < 1 ? 1 : Model.PageNumber - 5),
     "categoria",
     "",

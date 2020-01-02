@@ -1,7 +1,7 @@
 ﻿@model GratisForGratis.Models.OffertaViewModel
 
 @*using (Ajax.BeginForm("InviaOfferta", "Annuncio", new AjaxOptions { HttpMethod = "POST" }, new { id="formOfferta", @class = "formAnnuncio", style = "display:none;padding:13px;border:2px solid #bd1723;border-radius:6px;text-align:left;" }))*@
-@using (Ajax.BeginForm("InviaOfferta", "Annuncio", new AjaxOptions { HttpMethod = "POST" }, new { id = "formOfferta", @class = "formAnnuncio", style = "padding:13px;border:2px solid #bd1723;border-radius:6px;text-align:left;margin-bottom:22px;" }))
+@using (Ajax.BeginForm("InviaOfferta", "Annuncio", new AjaxOptions { HttpMethod = "POST" }, new { id = "formOfferta", @class = "formAnnuncio" }))
 {
     <h4 style="text-transform:uppercase;font-size:12px;font-style:oblique;text-decoration:underline;font-weight:900;">
         Vuoi proporre uno scambio differente?<br />Invia la tua offerta!

@@ -126,6 +126,9 @@
   <data name="MessaggioPromozione" xml:space="preserve">
     <value>Iscriviti subito, in omaggio {0} {1} con cui potrai acquistare quello che vorrai! {2} &lt;br /&gt;Spedizioni dal nostro portale, possibilità di acquistare servizi professionali e oggetti nuovi, baratto suggerito!</value>
   </data>
+  <data name="NessunRisultato" xml:space="preserve">
+    <value>&lt;strong&gt;Non hai trovato&lt;/strong&gt; ciò che cercavi?&lt;br /&gt;Inviaci la tua ricerca e ci penseremo noi per te!</value>
+  </data>
   <data name="SalvaRicerca" xml:space="preserve">
     <value>&lt;strong&gt;Non hai trovato&lt;/strong&gt; ciò che cercavi?</value>
   </data>

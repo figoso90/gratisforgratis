@@ -2,6 +2,12 @@
 
 namespace GratisForGratis.Models
 {
+    public enum PosizioneVisibilitaEnum
+    {
+        Nessuna = 0,
+        HomeProfilo = 1
+    }
+
     public enum CondizioneOggetto
     {
         [Display(Name = "SecondHand", ResourceType = typeof(App_GlobalResources.Language))]

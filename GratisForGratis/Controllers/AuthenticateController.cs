@@ -35,7 +35,7 @@ namespace GratisForGratis.Controllers
                 int? keyAttivita = null;
                 // se è stata selezionata una attività commerciale dell'utente
                 List<AttivitaModel> listaAttivita = (Session["utente"] as PersonaModel).Attivita;
-                if (listaAttivita != null && listaAttivita.Count > 0)
+                if (listaAttivita != null && listaAttivita.Count > 0 && !string.IsNullOrWhiteSpace(idAttivita))
                     keyAttivita = listaAttivita.SingleOrDefault(m => m.Attivita.TOKEN.ToString() == idAttivita).ID;
                 // notifica già inviata.
                 if (db.ANNUNCIO_NOTIFICA.Count(m => m.ID_ANNUNCIO == idAnnuncio && (m.NOTIFICA.ID_PERSONA == idUtente || (keyAttivita != null && m.NOTIFICA.ID_ATTIVITA == keyAttivita))) > 0)

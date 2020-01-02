@@ -32,22 +32,22 @@
                             <span class="evidence">@oggetto.Categoria</span>
                         </a>
                     </h5>
-                    <h5 class="points">
-                        <img class="glyphicon happyCoin" src="@Url.Content("~/Images/Icone/happyCoin.svg")" alt="@Language.Moneta" />
-                        @oggetto.Punti <img class="infoTooltip infoTooltipAnnuncio" src="~/Images/icone/infoTooltip.svg" alt="info" title="Equivalgono a @oggetto.Soldi" />
-                    </h5>
-                    @if (oggetto.NomeCorriere != null)
-                    {
-                        <h5 class="shipment"><b>@Language.Shipment :</b> <span class="evidence">@oggetto.SoldiSpedizione</span></h5>
-                    }
-                    <h5 class="place">
+                    <h5 class="place inline">
                         <i class="fas fa-map-marker-alt"></i>
                         @oggetto.Citta
                     </h5>
+                    <h5 class="points inline" style="text-align:right;">
+                        <img class="glyphicon happyCoin" src="@Url.Content("~/Images/Icone/happyCoin.svg")" alt="@Language.Moneta" />
+                        @oggetto.Punti.ParseFromHappyCoin() <img class="infoTooltip infoTooltipAnnuncio" src="~/Images/icone/infoTooltip.svg" alt="info" title="Equivalgono a @oggetto.Soldi" />
+                    </h5>
+                    @if (oggetto.NomeCorriere != null)
+                    {
+                        <h5 class="shipment"><i class="fas fa-shipping-fast"></i> <span class="evidence">@oggetto.SoldiSpedizione</span></h5>
+                    }
                     <h5 class="seller">
                         <i class="fas fa-user-tie"></i>
                         <span class="evidence">
-                            @Html.ActionLink((string.IsNullOrWhiteSpace(Model.Venditore.Nominativo) ? Model.Venditore.Username : Model.Venditore.Nominativo), Model.Venditore.Username+"/"+Model.Venditore.Id, (Model.Venditore.Tipo == GratisForGratis.Models.TipoVenditore.Attivita) ? "negozio" : "profilo")
+                            @Html.ActionLink((string.IsNullOrWhiteSpace(Model.Venditore.Nominativo) ? Model.Venditore.Username : Model.Venditore.Nominativo), Model.Venditore.Username + "/" + Model.Venditore.Id, (Model.Venditore.Tipo == GratisForGratis.Models.TipoVenditore.Attivita) ? "negozio" : "profilo")
                         </span>
                     </h5>
                 </div>
@@ -56,13 +56,14 @@
                 @Html.Partial("PartialPages/_AdvAnnuncio")
             </div>
             <div class="footer">
-                @Html.Partial("PartialPages/_Desidero", oggetto)
-                @Html.Partial("PartialPages/_Possiedo", oggetto)
+                <div class="row">
+                    @Html.Partial("PartialPages/_Desidero", oggetto)
+                    @Html.Partial("PartialPages/_Possiedo", oggetto)
+                </div>
                 <div class="feedback" title="@Language.FeedbackUser">
-                    <i class="fas fa-percentage"></i>
+                    <img class="ico" src="~/Images/icone/feedback.svg" alt="feedback icon">
                     @(oggetto.VenditoreFeedback > -1 ? string.Format(Language.FeedbackMessage, oggetto.VenditoreFeedback) : Language.FeedbackNothing)
                 </div>
-                @Html.Partial("PartialPages/_SuggerimentoAttivazioneAnnuncio", oggetto)
             </div>
         </div>
     </div>

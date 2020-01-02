@@ -3,8 +3,20 @@
     border-bottom-right-radius: 0px;
 }
 
-#title{
-    text-transform:uppercase;
+.carousel-control-next, .carousel-control-prev {
+    background-color: #0056b3;
+}
+
+.points {
+    margin: 24px 0px 22px;
+}
+
+#title {
+    text-transform: uppercase;
+}
+
+#azioni{
+    margin-top:22px;
 }
 
 #grid{

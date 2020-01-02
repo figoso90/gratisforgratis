@@ -1,7 +1,7 @@
 ﻿@model List<GratisForGratis.Models.AnnuncioViewModel>
 
-<div id="annunciCercati">
-    @foreach (GratisForGratis.Models.AnnuncioViewModel annuncio in Model)
+<div id="annunciCercati" class="row justify-content-center">
+    @foreach (GratisForGratis.Models.AnnuncioViewModel annuncio in Model.Take(6))
     {
         @Html.Partial("PartialPages/_AnnuncioSmall", annuncio)
     }

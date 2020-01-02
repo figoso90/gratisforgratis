@@ -35,7 +35,7 @@
                 }
                 @if (TempData["confermaEmail"] != null)
                 {
-                    <h4 class="message">@TempData["confermaEmail"] <a class="btn btnReinvio" href="javascript:void(0);" onclick="reinvioEmailRegistrazione();">@Language.BtnResubmission</a></h4>
+                    <h4 class="message">@TempData["confermaEmail"] <a class="btn btn-success btnReinvio" href="javascript:void(0);" onclick="reinvioEmailRegistrazione();">@Language.BtnResubmission</a></h4>
                 }
 
                 @if (TempData["salvato"] != null && (bool)TempData["salvato"])

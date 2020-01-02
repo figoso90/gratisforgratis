@@ -237,7 +237,7 @@ namespace GratisForGratis.Models
                 && m.STATO == (int)Stato.ATTIVO);
             bool modificato = false;
 
-            if (comune == null || comune <= 0)
+            if ((comune == null || comune <= 0) && !string.IsNullOrWhiteSpace(nomeComune))
             {
                 string paese = nomeComune.Split('(')[0];
                 COMUNE modelComune = db.COMUNE.FirstOrDefault(m => m.NOME == paese);

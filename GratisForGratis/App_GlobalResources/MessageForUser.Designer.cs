@@ -88,6 +88,15 @@ namespace GratisForGratis.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a &lt;strong&gt;Non hai trovato&lt;/strong&gt; ciò che cercavi?&lt;br /&gt;Inviaci la tua ricerca e ci penseremo noi per te!.
+        /// </summary>
+        public static string NessunRisultato {
+            get {
+                return ResourceManager.GetString("NessunRisultato", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a &lt;strong&gt;Non hai trovato&lt;/strong&gt; ciò che cercavi?.
         /// </summary>
         public static string SalvaRicerca {

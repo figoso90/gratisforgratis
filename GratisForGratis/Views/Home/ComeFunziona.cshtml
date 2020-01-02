@@ -1,82 +1,80 @@
 ﻿@Styles.Render("~/Content/seo.css")
 @Styles.Render("~/Content/cosaFacciamo.css")
 
-<section id="head">
+<div id="head">
     <div class="content">
-        <h1 id="title">@ViewBag.Title</h1>
+        <h1 id="title">Come funziona</h1>
     </div>
-</section>
+</div>
 
-<section id="pagina" class="content">
-    <div class="container">
-        <div class="row">
-            <div id="presentazione" class="col-md-8 mr-5">
-                <h2 class="title">FUNZIONAMENTO</h2>
+<div class="box">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-xs-12 col-md-6">
+                <h2 class="title">GUADAGNA HAPPY-COIN</h2>
                 <ul class="lista">
-                    <li><strong>Happy-Coin omaggio:</strong> quotidianamente riceverai crediti per agevolare l'acquisto</li>
-                    <li><strong>Baratto a distanza:</strong> gestito tramite la spedizione integrata con il portale</li>
-                    <li><strong>Te lo regalo se vieni a prenderlo:</strong> possibilità di regalare e di liberarsi dell'inutile facilmente</li>
-                    <li><strong>Suggerimenti di acquisto:</strong> con un algoritmo che ti proporrà gli annunci a te più congrui</li>
-                </ul>
-                <h2 class="title">SERVIZI PRINCIPALI</h2>
-                <h4>
-                    <strong>REGISTRAZIONE</strong> (RAPIDA - COMPLETA)
-                </h4>
-                <p>
-                    Con la modalità rapida basterà loro inserire <strong>e-mail</strong> e <strong>password</strong> per registrarsi
-                    e questo gli permetterà di inserire annunci (NON visibili), ottenere bonus, vedere il <strong>funzionamento del portale</strong> e
-                    successivamente di completare le proprie informazioni personali per iniziare a vendere / comprare.
-                    La modalità <strong>completa</strong> invece richiede tutte le <strong>informazioni obbligatorie</strong> dell'utente (username o nome) e
-                    permette di utilizzare tutte le funzioni del portale.
-                </p>
-                <h4>
-                    <strong>PUBBLICAZIONE</strong> ANNUNCIO (RAPIDA - COMPLETA)
-                </h4>
-                <p>
-                    Con la modalità <strong>rapida</strong> in pochi click si riuscirà a pubblicare un annuncio in modo <strong>semplice</strong>.
-                    Con la modalità <strong>completa</strong> si potranno inserire anche informazioni come il tipo di <strong>spedizione</strong>, i <strong>dettagli</strong> del prodotto
-                    e si otterranno <strong>HappyCoin</strong> come bonus.
-                </p>
-                <h2 class="title">ELENCO FUNZIONI</h2>
-                <ul class="lista">
-                    <li><strong>Registrazione</strong> (Rapida - Completa)</li>
-                    <li><strong>Pubblicazione annuncio</strong> (Rapida - Completa)</li>
-                    <li><strong>Acquista subito</strong> (Ritiro a mano - Spedizione)</li>
-                    <li><strong>Offerta</strong> (Credito - Baratto)</li>
-                    <li><strong>Spedizione</strong> (A mano - Privata - Dal sito)</li>
-                    <li><strong>Chat</strong></li>
-                    <li><strong>Feedback</strong></li>
-                </ul>
-                <h2 class="title">TECNOLOGIA</h2>
-                <ul class="lista">
-                    <li>Linguaggio <strong>C#</strong> - <strong>SQL SERVER</strong> - <strong>HTML5</strong> - <strong>CSS3</strong> - <strong>JQUERY</strong></li>
-                    <li>Ambiente di sviluppo <strong>VISUAL STUDIO</strong> 2017</li>
+                    <li><strong>FACENDO AZIONI</strong> registrati, accedi quotidianamente, condividi sui social, pubblica annunci</li>
+                    <li><strong>FACENDO SCAMBI</strong> offri cose inutili o proprie competenze</li>
+                    <li><strong>FACENDO ASSISTENZA</strong> lascia feedback, segnala bug o suggerimenti</li>
                 </ul>
             </div>
-            <aside id="linkRapidi" class="col-md-3">
-                <h2 class="title">Link rapidi</h2>
-                <ul class="lista">
-                    <li>
-                        @Html.ActionLink(ViewModel.WhySiteLink, "PercheRegistrarsi", "Home")
-                    </li>
-                    <li>
-                        @Html.ActionLink(ViewModel.ShipmentLink, "Spedizione", "Home")
-                    </li>
-                    <li>
-                        @Html.ActionLink(ViewModel.SecurityLink, "Sicurezza", "Home")
-                    </li>
-                    <li>
-                        @Html.ActionLink(ViewModel.BarterLink, "Baratto", "Home")
-                    </li>
-                    <li>
-                        @Html.ActionLink(ViewModel.HappyDegrowth, "DecrescitaFelice", "Home")
-                    </li>
-                </ul>
-                <a class="helper" href="@Url.Action("", "cerca")" title="@ViewBag.Title">
-                    <img src="~/Images/stickers/tartaruga3.png" alt="@Language.Search" />
-                </a>
-            </aside>
+            <div class="col-xs-12 col-md-6">
+                <img src="~/Images/sezioni/soldi.jpg" alt="guadagna happy-coin" style="width:100%;" />
+            </div>
         </div>
     </div>
-</section>
-
+</div>
+<div class="box">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-xs-12 col-md-6">
+                <img src="~/Images/sezioni/boom.jpg" alt="funzioni utili" style="width:100%;" />
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <h2 class="title">FUNZIONI UTILI</h2>
+                <ul class="lista">
+                    <li><strong>Registrazione veloce</strong> inserendo solo una e-mail ed una password</li>
+                    <li><strong>Offerta</strong> per poter offrire meno happy-coin e/o offrire un altro oggetto</li>
+                    <li><strong>Spedizione</strong> puoi scambiare gli oggetti di persona oppure spedendoli</li>
+                    <li><strong>Chat</strong> potrai messaggiare con i venditori prima o dopo l'acquisto</li>
+                    <li><strong>Suggerimento scambi</strong> ti verranno segnalati gli annunci che ti interessano e puoi acquistare</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="box">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-xs-12 col-md-6">
+                <h2 class="title">PRIVACY</h2>
+                <p>
+                    Potrai registrarti e scambiare con gli altri in totale anonimato.
+                </p>
+                <p>
+                    A noi non interessa tracciare chi sei, ma solo donarti un'esperienza unica e alternativa.
+                </p>
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <img src="~/Images/sezioni/privacy.jpg" alt="guadagna happy-coin" style="width:100%;" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="box">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-xs-12 col-md-6">
+                <img src="~/Images/sezioni/economia_circolare.jpg" alt="guadagna happy-coin" style="width:100%;" />
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <h2 class="title">ECONOMIA CIRCOLARE</h2>
+                <p>
+                    Non solo crediamo in un'economia dell'usato ma anche circolare, dove qualcosa che non ti serve
+                    più potrebbe servire a qualcun'altro e dove tu non sei più un semplice consumatore ma una persona
+                    che punta a realizzare un'economia di qualità ed equilibrata.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

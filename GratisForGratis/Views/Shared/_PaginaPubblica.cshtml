@@ -66,107 +66,107 @@
             }
         </div>
         <div id="menuMobileOverlay"></div>
-        <div id="menuMobile">
-            <i class="fas fa-bars icona"></i>
-            <ul class="menu">
-                <li role="presentation" class="login">
-                    <i class="fas fa-lock-open"></i>
-                    @Html.ActionLink(Language.Login, "Login", "Utente")
-                </li>
-                <li role="presentation" class="register loginFacebook">
-                    <a class="col-md-9 col-md-push-2 btn btn-primary loginFB" href="@Url.Action("LoginFacebook", "Utente", new { ReturnUrl = (Model == null || Model.GetType().GetProperty("ReturnUrl") == null || string.IsNullOrWhiteSpace(Model.ReturnUrl) ? "" : Model.ReturnUrl) })">
-                        <i class="fab fa-facebook"></i>
-                        @ViewModel.LoginFacebook
-                    </a>
-                </li>
-                <li role="presentation" class="mission">
-                    @Html.ActionLink(ViewModel.MissionLink, "Missione", "Home")
-                </li>
-                <li role="presentation" class="whatido">
-                    @Html.ActionLink(ViewModel.HowWorkLink, "ComeFunziona", "Home")
-                </li>
-                <li role="presentation" class="earn">
-                    @Html.ActionLink(ViewModel.EarnMoneyLink, "ComeGuadagnare", "Home")
-                </li>
-                <li role="presentation" class="contacts">
-                    @Html.ActionLink(Language.Contacts, "Contatti", "Home")
-                </li>
-            </ul>
-        </div>
-        <ul id="linkLogin">
-            <li role="presentation" class="login">
-                <i class="fas fa-lock-open"></i>
-                @Html.ActionLink(Language.Login, "Login", "Utente")
-            </li>
-            <li role="presentation" class="register loginFacebook">
-                <a class="btn btn-primary" href="@Url.Action("LoginFacebook", "Utente")" style="color:#FFF;">
-                    <i class="fab fa-facebook-f" style="margin-right:3px;"></i>
-                    @ViewModel.LoginFacebook
-                </a>
-            </li>
-        </ul>
         <header>
-            <a id="logo" class="brand" href='@Url.Action("Index", "Home")'>
-                <img class="ico" src='@Url.Content("~/Images/logo.jpg")' alt="@WebConfigurationManager.AppSettings["nomeSito"]" />
-                <h1 class="slogan">@Html.Raw(@Language.Slogan)</h1>
-            </a>
-            <menu>
-                <ul class="nav-pills">
-                    <li role="presentation" class="mission">
-                        @Html.ActionLink(ViewModel.MissionLink, "Missione", "Home")
+            <div class="container">
+                <div id="menuMobile">
+                    <i class="fas fa-bars icona"></i>
+                    <ul class="menu">
+                        <li role="presentation" class="login">
+                            <i class="fas fa-lock-open"></i>
+                            @Html.ActionLink(Language.Login, "Login", "Utente")
+                        </li>
+                        <li role="presentation" class="register loginFacebook">
+                            <a class="col-md-9 col-md-push-2 btn btn-primary loginFB" href="@Url.Action("LoginFacebook", "Utente", new { ReturnUrl = (Model == null || Model.GetType().GetProperty("ReturnUrl") == null || string.IsNullOrWhiteSpace(Model.ReturnUrl) ? "" : Model.ReturnUrl) })">
+                                <i class="fab fa-facebook"></i>
+                                @ViewModel.LoginFacebook
+                            </a>
+                        </li>
+                        <li role="presentation" class="mission">
+                            @Html.ActionLink(ViewModel.MissionLink, "Missione", "Home")
+                        </li>
+                        <li role="presentation" class="whatido">
+                            @Html.ActionLink(ViewModel.HowWorkLink, "ComeFunziona", "Home")
+                        </li>
+                        <li role="presentation" class="earn">
+                            @Html.ActionLink(ViewModel.EarnMoneyLink, "ComeGuadagnare", "Home")
+                        </li>
+                        <li role="presentation" class="contacts">
+                            @Html.ActionLink(Language.Contacts, "Contatti", "Home")
+                        </li>
+                    </ul>
+                </div>
+                <ul id="linkLogin">
+                    <li role="presentation" class="login">
+                        <i class="fas fa-lock-open"></i>
+                        @Html.ActionLink(Language.Login, "Login", "Utente")
                     </li>
-                    <li role="presentation" class="whatido">
-                        @Html.ActionLink(ViewModel.HowWorkLink, "ComeFunziona", "Home")
-                    </li>
-                    <li role="presentation" class="earn">
-                        @Html.ActionLink(ViewModel.EarnMoneyLink, "ComeGuadagnare", "Home")
-                    </li>
-                    <li role="presentation" class="contacts">
-                        @Html.ActionLink(Language.Contacts, "Contatti", "Home")
+                    <li role="presentation" class="register loginFacebook">
+                        <a class="btn btn-primary" href="@Url.Action("LoginFacebook", "Utente")" style="color:#FFF;">
+                            <i class="fab fa-facebook-f" style="margin-right:3px;"></i>
+                            @ViewModel.LoginFacebook
+                        </a>
                     </li>
                 </ul>
-                <div id="toolbar">
-                    @using (Html.BeginForm("", "cerca", FormMethod.Get, new { id = "cerca" }))
-                    {
-                        <div class="form-group col-sm-12 ricerca">
-                            <label class="sr-only" for="inlineFormInputGroup">@Language.InputSearch</label>
-                            <div class="input-group" style="padding:0px;">
-                                <div class="input-group-prepend">
-                                    <div id="menuCategoriaRicerca">
-                                        @Html.Hidden("Cerca_IDCategoria", Response.Cookies["ricerca"]["IDCategoria"])
-                                        @*Html.Hidden("Cerca_Categoria", Response.Cookies["ricerca"]["Categoria"])*@
+                <div class="row align-items-center">
+                    <div class="col-md-3">
+                        <a id="logo" class="brand" href='@Url.Action("Index", "Home")'>
+                            <img class="ico" src='@Url.Content("~/Images/logo.png")' alt="@WebConfigurationManager.AppSettings["nomeSito"]" />
+                            <h1 class="slogan">@Html.Raw(@Language.Slogan)</h1>
+                        </a>
+                    </div>
+                    <div class="col-md-9">
+                        <menu>
+                            <ul class="nav-pills">
+                                <li role="presentation" class="mission">
+                                    @Html.ActionLink(ViewModel.MissionLink, "Missione", "Home")
+                                </li>
+                                <li role="presentation" class="whatido">
+                                    @Html.ActionLink(ViewModel.HowWorkLink, "ComeFunziona", "Home")
+                                </li>
+                                <li role="presentation" class="earn">
+                                    @Html.ActionLink(ViewModel.EarnMoneyLink, "ComeGuadagnare", "Home")
+                                </li>
+                                <li role="presentation" class="contacts">
+                                    @Html.ActionLink(Language.Contacts, "Contatti", "Home")
+                                </li>
+                            </ul>
+                            <div id="toolbar">
+                                @using (Html.BeginForm("", "cerca", FormMethod.Get, new { id = "cerca" }))
+                                {
+                                    <div class="form-group col-sm-12 ricerca">
+                                        <label class="sr-only" for="inlineFormInputGroup">@Language.InputSearch</label>
+                                        <div class="input-group" style="padding:0px;">
+                                            @Html.Hidden("Cerca_IDCategoria", Response.Cookies["ricerca"]["IDCategoria"])
+                                            @Html.TextBox("Cerca_Nome", Response.Cookies["ricerca"]["Nome"], new { @class = "form-control", placeholder = Language.InputSearch })
+                                            <div class="input-group-append">
+                                                <div class="input-group-text" style="border-radius: 0px 6px 6px 0px;">
+                                                    <a href="javascript:void(0);" onclick="$('#btnInvio2').click();">
+                                                        <i class="fas fa-search"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                @Html.TextBox("Cerca_Nome", Response.Cookies["ricerca"]["Nome"], new { @class = "form-control", placeholder = Language.InputSearch })
-                                <div class="input-group-append">
-                                    <div class="input-group-text" style="border-radius: 0px 24px 24px 0px;">
-                                        <a href="javascript:void(0);" onclick="$('#btnInvio2').click();">
-                                            <i class="fas fa-search"></i>
-                                        </a>
-                                    </div>
-                                </div>
+                                    <input id="btnInvio2" class="btn-search" type="submit" value="search" data-toggle="tooltip" data-placement="top" title="@Language.SearchSubmit" />
+                                }
                             </div>
-                        </div>
-                        <input id="btnInvio2" class="btn-search" type="submit" value="search" data-toggle="tooltip" data-placement="top" title="@Language.SearchSubmit" />
-                    }
-                </div>
-                <div id="subCategoryObjects" class="subCategory">
-                    @if ((HttpContext.Current.Application["categorie"] as List<GratisForGratis.Models.FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoria"])).ToList().Count > 0)
-                    {
-                        foreach (GratisForGratis.Models.FINDSOTTOCATEGORIE_Result sottoCategoria in (HttpContext.Current.Application["categorie"] as List<GratisForGratis.Models.FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoria"])))
-                        {
-                            @Html.ActionLink(sottoCategoria.DESCRIZIONE, sottoCategoria.DESCRIZIONE.Replace(" ", "-").ToLower() + "-gratis/" + sottoCategoria.ID, "categoria", null, new { @class = "link" })
-                        }
-                    }
-                    else
-                    {
-                        foreach (GratisForGratis.Models.FINDSOTTOCATEGORIE_Result sottoCategoria in (HttpContext.Current.Application["categorie"] as List<GratisForGratis.Models.FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoriaPadre"])))
-                        {
-                            @Html.ActionLink(sottoCategoria.DESCRIZIONE, sottoCategoria.DESCRIZIONE.Replace(" ", "-").ToLower() + "-gratis/" + sottoCategoria.ID, "categoria", null, new { @class = "link" })
-                        }
-                    }
-                </div>
-                <!--<div id="advertising" role="banner" class="banner">
+                            <div id="subCategoryObjects" class="subCategory">
+                                @if ((HttpContext.Current.Application["categorie"] as List<GratisForGratis.Models.FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoria"])).ToList().Count > 0)
+                                {
+                                    foreach (GratisForGratis.Models.FINDSOTTOCATEGORIE_Result sottoCategoria in (HttpContext.Current.Application["categorie"] as List<GratisForGratis.Models.FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoria"])))
+                                    {
+                                        @Html.ActionLink(sottoCategoria.DESCRIZIONE, sottoCategoria.DESCRIZIONE.Replace(" ", "-").ToLower() + "-gratis/" + sottoCategoria.ID, "categoria", null, new { @class = "link" })
+                                    }
+                                }
+                                else
+                                {
+                                    foreach (GratisForGratis.Models.FINDSOTTOCATEGORIE_Result sottoCategoria in (HttpContext.Current.Application["categorie"] as List<GratisForGratis.Models.FINDSOTTOCATEGORIE_Result>).Where(c => c.ID_PADRE == Convert.ToInt32(Response.Cookies["ricerca"]["IDCategoriaPadre"])))
+                                    {
+                                        @Html.ActionLink(sottoCategoria.DESCRIZIONE, sottoCategoria.DESCRIZIONE.Replace(" ", "-").ToLower() + "-gratis/" + sottoCategoria.ID, "categoria", null, new { @class = "link" })
+                                    }
+                                }
+                            </div>
+                            <!--<div id="advertising" role="banner" class="banner">
                     @if (TempData["advertising"] != null)
                     {
                         @Html.Raw(WebUtility.HtmlDecode(TempData["advertising"].ToString()))
@@ -177,19 +177,35 @@
                      data-width="260"
                      data-show-faces="false">
                 </div>-->
-            </menu>
+                        </menu>
+                    </div>
+                </div>
+            </div>
             <!--<img id="betatesting" src='@Url.Content("~/Images/beta_testing.png")' alt="@WebConfigurationManager.AppSettings["nomeSito"] Beta" />-->
         </header>
-        @RenderBody()
-        <section id="topServices">
-            <div class="content">
-
-            </div>
-        </section>
+        <div class="container">
+            @RenderBody()
+        </div>
     </div>
     <footer>
+        <div id="categorie">
+            <div class="container">
+                <h2 class="title">Categorie principali</h2>
+                <div id="subCategoryObjects" class="row justify-content-left">
+                    @foreach (GratisForGratis.Models.FINDSOTTOCATEGORIE_Result sottoCategoria in (HttpContext.Current.Application["categorie"] as List<GratisForGratis.Models.FINDSOTTOCATEGORIE_Result>).Where(c => c.LIVELLO == 0 && c.STATO == 1))
+                    {
+                        <a class="col-lg-3 col-md-3 col-sm-4 col-xs-4 category object" href="@Url.Content("/categoria/" + sottoCategoria.DESCRIZIONE.Replace(" ","-").ToLower() + "-gratis/" + sottoCategoria.ID)" title="@(Language.Object + ' ' + sottoCategoria.NOME)">
+                            @sottoCategoria.NOME
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
         <nav>
             <ul id="footermenu">
+                <li role="presentation" class="history">
+                    @Html.ActionLink("Storico", "StoricoAnnunci", "Home")
+                </li>
                 <li role="presentation" class="mission">
                     @Html.ActionLink(ViewModel.MissionLink, "Missione", "Home")
                 </li>

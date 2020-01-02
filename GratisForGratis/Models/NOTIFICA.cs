@@ -30,6 +30,9 @@ namespace GratisForGratis.Models
         public Nullable<System.DateTime> DATA_MODIFICA { get; set; }
         public Nullable<System.DateTime> DATA_LETTURA { get; set; }
         public int STATO { get; set; }
+        public string TESTO { get; set; }
+        public int POSIZIONE_VISIBILITA { get; set; }
+        public string TITOLO { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ANNUNCIO_NOTIFICA> ANNUNCIO_NOTIFICA { get; set; }

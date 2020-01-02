@@ -717,6 +717,9 @@ avviso 6005: Tipo di dati 'hierarchyid' attualmente non supportato per la versio
           <Property Name="ID_PERSONA_DESTINATARIO" Type="int" />
           <Property Name="ID_ATTIVITA_DESTINATARIO" Type="int" />
           <Property Name="MESSAGGIO" Type="int" Nullable="false" />
+          <Property Name="TITOLO" Type="nvarchar" MaxLength="50" />
+          <Property Name="TESTO" Type="nvarchar" MaxLength="500" />
+          <Property Name="POSIZIONE_VISIBILITA" Type="int" Nullable="false" />
           <Property Name="DATA_INSERIMENTO" Type="datetime" Nullable="false" />
           <Property Name="DATA_MODIFICA" Type="datetime" />
           <Property Name="DATA_LETTURA" Type="datetime" />
@@ -7285,6 +7288,9 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <NavigationProperty Name="ATTIVITA1" Relationship="GratisForGratisModel.FK_NOTIFICA_ATTIVITA1" FromRole="NOTIFICA" ToRole="ATTIVITA" />
           <NavigationProperty Name="PERSONA" Relationship="GratisForGratisModel.FK_NOTIFICA_PERSONA" FromRole="NOTIFICA" ToRole="PERSONA" />
           <NavigationProperty Name="PERSONA1" Relationship="GratisForGratisModel.FK_NOTIFICA_PERSONA1" FromRole="NOTIFICA" ToRole="PERSONA" />
+          <Property Name="TESTO" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="POSIZIONE_VISIBILITA" Type="Int32" Nullable="false" />
+          <Property Name="TITOLO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           </EntityType>
         <EntityType Name="OFFERTA_BARATTO">
           <Key>
@@ -11902,6 +11908,9 @@ avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'gr
           <EntitySetMapping Name="NOTIFICA">
             <EntityTypeMapping TypeName="GratisForGratisModel.NOTIFICA">
               <MappingFragment StoreEntitySet="NOTIFICA">
+                <ScalarProperty Name="TITOLO" ColumnName="TITOLO" />
+                <ScalarProperty Name="POSIZIONE_VISIBILITA" ColumnName="POSIZIONE_VISIBILITA" />
+                <ScalarProperty Name="TESTO" ColumnName="TESTO" />
                 <ScalarProperty Name="STATO" ColumnName="STATO" />
                 <ScalarProperty Name="DATA_LETTURA" ColumnName="DATA_LETTURA" />
                 <ScalarProperty Name="DATA_MODIFICA" ColumnName="DATA_MODIFICA" />

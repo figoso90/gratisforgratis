@@ -26,12 +26,13 @@ header{
 }
 
 #page {
-    height: 100vh;
+    padding-bottom:100px;
+    max-width:1480px;
+    margin:0px auto;
 }
 
 .page {
     width: 100%;
-    min-height: 100%;
     margin: 0px;
 }
 
@@ -47,8 +48,12 @@ header{
     border-bottom-right-radius: 0px;
 }
 
+#main {
+    max-height:764px;
+}
+
 #main > .row {
-    min-height:50%;
+    min-height: 50%;
 }
 
 #howwork > .row {
@@ -56,7 +61,7 @@ header{
 }
 
 #bando > .row {
-    min-height: 25%;
+    min-height: 33%;
 }
 
 .ico {
@@ -199,10 +204,9 @@ header{
         padding: 0px;
     }
 
-#Cerca_Nome {
-    border-radius:0px;
-    /*max-width: 400px;*/
-}
+    #Cerca_Nome{
+        border-radius:6px 0px 0px 6px;
+    }
 
     #index .category {
         color: #fff;
@@ -220,7 +224,7 @@ header{
         background-position: center center;
         background-size: cover;
         display: table;
-        height: 8em;
+        height: 12em;
         width: 100%;
     }
 
@@ -257,7 +261,7 @@ header{
         font-weight: bold;
     }
 
-#howwork .ref{
+#features .ref{
     display:block;
     font-size:9px;
 }
@@ -271,12 +275,9 @@ header{
 }
 
 #boxLogo img {
-    /*max-width: 450px;*/
+    max-width: 250px;
+    margin:22px;
 }
-
-    #boxLogo img.onload{
-        max-width:300px;
-    }
 
     #menuTop {
         position: absolute;
@@ -417,7 +418,7 @@ header{
 }
 
 /* Extra small devices (portrait phones, less than 576px)*/
-@media (max-width: 575.98px) {
+@media (max-width: 768px) {
     #page > section {
         padding-top: 0px;
     }
@@ -448,22 +449,13 @@ header{
     #menuCategoriaRicerca {
         min-width: 0px;
     }
-}
-
-/* Small devices (landscape phones, less than 768px) */
-@media (max-width: 767.98px) {
-
-    #boxLogo img {
-        max-width: 250px;
-    }
-
     #boxRicerca .tags {
         display: none;
     }
 }
 
 /* Medium devices (tablets, less than 992px) */
-@media (max-width: 991.98px) {
+@media (max-width: 992px) {
     .container {
         margin: auto;
         width: auto;
@@ -484,14 +476,8 @@ header{
 }
 
 @media (max-height: 800px) {
-    #boxLogo img {
-        max-width: 250px;
-    }
 
     #howwork, #bando, #index.container {
         height: auto;
-    }
-    #bando {
-        padding-bottom:100px;
     }
 }

@@ -1,4 +1,6 @@
-﻿@model GratisForGratis.Models.AnnuncioViewModel
+﻿@using GratisForGratis.Models.ExtensionMethods
+
+@model GratisForGratis.Models.AnnuncioViewModel
 @section Styles {
     @Styles.Render("~/Scripts/magnify/css/magnify.css")
     @Styles.Render("~/Content/annuncio.css")
@@ -9,7 +11,7 @@
 <script data-wid="auto" type="text/javascript" src="//ads.viralize.tv/display/?zid=AADNQE_UlvGeq8FQ"></script>
 
 <section id="page">
-    <!-- gratisforgratis - annuncio top -->
+    <!-- gratisforgratis - annuncio top
     <ins class="adsbygoogle"
          style="display:block"
          data-ad-client="ca-pub-5108424997424987"
@@ -18,7 +20,7 @@
          data-full-width-responsive="true"></ins>
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+    </script>-->
     <section id="acquisto" class="content">
         <div class="container">
             @if (ViewBag.Esito != null)
@@ -29,7 +31,7 @@
                 @Html.ValidationMessage("", new { @class = "text-danger" })
                 @Html.ValidationMessage("ErroreOfferta", new { @class = "text-danger" })
             </h4>
-            <div class="annuncio row">
+            <div class="annuncio row" style="margin-bottom:22px;">
                 <div class="left col-md-6">
                     <div id="album" class="carousel slide" data-ride="carousel">
                         <ol class="carousel-indicators">
@@ -62,14 +64,8 @@
                 </div>
                 <div class="right col-md-6">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <h1 class="info title">@Model.Nome</h1>
-                        </div>
-                        <div class="col-md-6">
-                            <h5 class="points">
-                                <img class="glyphicon happyCoin" src="@Url.Content("~/Images/Icone/happyCoin.svg")" alt="@Language.Moneta" />
-                                <span class="evidence">@Model.Punti</span> <img class="infoTooltip infoTooltipAnnuncio" src="~/Images/icone/infoTooltip.svg" alt="info" title="Equivalgono a @Model.Soldi" />
-                            </h5>
                         </div>
                         <div class="col-md-12">
                             <p>
@@ -79,9 +75,91 @@
                                 </a>
                             </p>
                         </div>
+                        <div class="col-md-12">
+                            <h5 class="points">
+                                <!--<img class="infoTooltip infoTooltipAnnuncio" src="~/Images/icone/infoTooltip.svg" alt="info" title="Equivalgono a @Model.Soldi" />-->
+                                <span class="evidence" style="font-size:30px;">@Model.Punti.ParseFromHappyCoin()</span>
+                                <img class="glyphicon happyCoin" style="width: 30px;vertical-align: top;" src="@Url.Content("~/Images/Icone/happyCoin.svg")" alt="@Language.Moneta" />
+                            </h5>
+                        </div>
+                        <div class="col-md-12">
+                            @if (Model.StatoVendita == GratisForGratis.Models.StatoVendita.INATTIVO)
+                            {
+                                <p style="border-bottom:2px solid #ececec;padding-bottom:12px;"><i class="fas fa-wifi evidence"></i> Annuncio NON ATTIVO</p>
+                            }
+                            else if (Model.StatoVendita != GratisForGratis.Models.StatoVendita.ATTIVO)
+                            {
+                                <p style="border-bottom:2px solid #ececec;padding-bottom:12px;"><i class="fas fa-wifi evidence"></i> NON in vendita</p>
+                            }
+                            else
+                            {
+                                <p style="border-bottom:2px solid #ececec;padding-bottom:12px;"><i class="fas fa-wifi evidence"></i> In VENDITA</p>
+                            }
+                        </div>
                     </div>
-                    <div class="row info">
-
+                    <div class="row">
+                        @Html.Partial("PartialPages/_Desidero", Model)
+                        @Html.Partial("PartialPages/_Possiedo", Model)
+                    </div>
+                    <div class="row" style="padding:22px 0px;">
+                        <div class="col-md-12">
+                            @Html.Partial("PartialPages/_SuggerimentoAttivazioneAnnuncio", Model)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.ActionLink(ViewModel.AdReportIssue, "Contatti", "Home", new { tipo = (int)GratisForGratis.Models.TipoSegnalazione.Bug, action = "Index", controller = "Annuncio" }, new { @class = "btn btn-warning", style = "color:#fff;" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 buttons" style="text-align:left;margin-top:13px;">
+                            <h3 class="title">
+                                @Html.ActionLink("COME FARE AD ACQUISTARE?", "ComeFunziona", "Home")
+                            </h3>
+                            @if (Request.IsAuthenticated
+                                && !Model.Venditore.IsVenditore((GratisForGratis.Models.PersonaModel)Session["utente"])
+                                && Model.StatoVendita == GratisForGratis.Models.StatoVendita.ATTIVO
+                                && (Model.DataFine >= DateTime.Now || Model.DataFine == null))
+                            {
+                                <div class="row align-items-end">
+                                @if (Model.Azione.ToLower().Equals("offerta"))
+                                {
+                                    <div class="col-md-6">
+                                        @{
+                                            WriteLiteral(Html.Partial("PartialPages/_FormOfferte", (ViewData["offertaViewModel"] != null) ? ViewData["offertaViewModel"] : new GratisForGratis.Models.OffertaViewModel(Model)));
+                                        }
+                                    </div>
+                                    <div class="col-md-6 boxAcquisto">
+                                        @Html.ActionLink(Language.Buy, GratisForGratis.Models.Utility.UrlEncode(Model.Nome) + "-gratis/" + @HttpUtility.UrlEncode(Model.Token) + "/compra", "Baratto", null, new { @class = "btn btn-primary" })
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-md-6">
+                                        @{
+                                            WriteLiteral(Html.Partial("PartialPages/_FormAcquisto", (ViewData["acquistoViewModel"] != null) ? ViewData["acquistoViewModel"] : new GratisForGratis.Models.AcquistoViewModel(Model)));
+                                        }
+                                    </div>
+                                    <div class="col-md-6 boxAcquisto">
+                                        @Html.ActionLink(Language.BidDo, GratisForGratis.Models.Utility.UrlEncode(Model.Nome) + "-gratis/" + @HttpUtility.UrlEncode(Model.Token) + "/offerta", "Baratto", null, new { @class = "btn btn-primary" })
+                                    </div>
+                                }
+                                </div>
+                            }
+                            else if (!Request.IsAuthenticated && Model.StatoVendita == GratisForGratis.Models.StatoVendita.ATTIVO)
+                            {
+                                @Html.ActionLink(Language.LoginAndBuy, "Login", "Utente", new { ReturnUrl = "~/Annuncio/" + GratisForGratis.Models.Utility.UrlEncode(Model.Nome) + "-gratis/" + HttpUtility.UrlEncode(Model.Token) }, new { @class = "btn btn-success buy" })
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="info col-md-6" style="text-align:left;">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3 class="title">Dati principali</h3>
+                        </div>
                         @if (!string.IsNullOrWhiteSpace(Model.NoteAggiuntive))
                         {
                             <div class="col-md-12">
@@ -96,61 +174,21 @@
                             WriteLiteral(Html.Partial("PartialPages/_" + Model.NomeVistaDettaglio, Model));
                         }
                     </div>
+                </div>
+                <div class="profile col-md-6">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="user col-md-12">
+                            <h3 class="title">Dati venditore</h3>
+                            <p class="seller"><i class="fas fa-user-tie"></i> @Html.ActionLink((string.IsNullOrWhiteSpace(Model.Venditore.Nominativo) ? Model.Venditore.Username : Model.Venditore.Nominativo), Model.Venditore.Username + "/" + Model.Venditore.Id, (Model.Venditore.Tipo == GratisForGratis.Models.TipoVenditore.Attivita) ? "negozio" : "profilo")</p>
+                            <p class="place"><i class="fas fa-map-marker-alt"></i> @Model.Citta</p>
+                        </div>
+                        <div class="feedback col-md-12" title="@Language.FeedbackUser">
                             <p>
-                                @Html.ActionLink(ViewModel.AdReportIssue, "Contatti", "Home", new { tipo = (int)GratisForGratis.Models.TipoSegnalazione.Bug, action = "Index", controller = "Annuncio" }, null)
+                                <img class="ico" src="~/Images/icone/feedback.svg" alt="feedback icon">
+                                @(Model.VenditoreFeedback > -1 ? Model.VenditoreFeedback + " %" : Language.FeedbackNothing)
                             </p>
                         </div>
-                        <div class="col-md-12">
-                            @Html.Partial("PartialPages/_Desidero", Model)
-                            @Html.Partial("PartialPages/_Possiedo", Model)
-                        </div>
-                        <div class="col-md-12">
-                            @Html.Partial("PartialPages/_SuggerimentoAttivazioneAnnuncio", Model)
-                        </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12 buttons" style="text-align:left;margin-top:13px;">
-                            @if (Request.IsAuthenticated
-                                && !Model.Venditore.IsVenditore((GratisForGratis.Models.PersonaModel)Session["utente"])
-                                && Model.StatoVendita == GratisForGratis.Models.StatoVendita.ATTIVO
-                                && (Model.DataFine >= DateTime.Now || Model.DataFine == null))
-                            {
-                                if (Model.Azione.ToLower().Equals("offerta"))
-                                {
-                                    WriteLiteral(Html.Partial("PartialPages/_FormOfferte", (ViewData["offertaViewModel"] != null) ? ViewData["offertaViewModel"] : new GratisForGratis.Models.OffertaViewModel(Model)));
-                                    <div class="boxAcquisto">
-                                        @Html.ActionLink(Language.Buy, GratisForGratis.Models.Utility.UrlEncode(Model.Nome) + "-gratis/" + @HttpUtility.UrlEncode(Model.Token) + "/compra", "Baratto", null, new { @class = "btn btn-primary" })
-                                    </div>
-                                }
-                                else
-                                {
-                                    WriteLiteral(Html.Partial("PartialPages/_FormAcquisto", (ViewData["acquistoViewModel"] != null) ? ViewData["acquistoViewModel"] : new GratisForGratis.Models.AcquistoViewModel(Model)));
-                                    <div class="boxAcquisto">
-                                        @Html.ActionLink(Language.Bid, GratisForGratis.Models.Utility.UrlEncode(Model.Nome) + "-gratis/" + @HttpUtility.UrlEncode(Model.Token) + "/offerta", "Baratto", null, new { @class = "btn btn-primary" })
-                                    </div>
-                                }
-                            }
-                            else if (!Request.IsAuthenticated && Model.StatoVendita == GratisForGratis.Models.StatoVendita.ATTIVO)
-                            {
-                                @Html.ActionLink(Language.LoginAndBuy, "Login", "Utente", new { ReturnUrl = "~/Annuncio/" + GratisForGratis.Models.Utility.UrlEncode(Model.Nome) + "-gratis/" + HttpUtility.UrlEncode(Model.Token) }, new { @class = "btn btn-success buy" })
-                            }
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="profile row">
-                <div class="user col-md-12">
-                    <h3 class="title">Dati venditore</h3>
-                    <p class="seller"><i class="fas fa-user-tie"></i> @Html.ActionLink((string.IsNullOrWhiteSpace(Model.Venditore.Nominativo) ? Model.Venditore.Username : Model.Venditore.Nominativo), Model.Venditore.Username + "/" + Model.Venditore.Id, (Model.Venditore.Tipo == GratisForGratis.Models.TipoVenditore.Attivita) ? "negozio" : "profilo")</p>
-                    <p class="place"><i class="fas fa-map-marker-alt"></i> @Model.Citta</p>
-                </div>
-                <div class="feedback col-md-12" title="@Language.FeedbackUser">
-                    <p>
-                        <i class="fas fa-star"></i>
-                        @(Model.VenditoreFeedback > -1 ? string.Format(Language.FeedbackMessage, Model.VenditoreFeedback) : Language.FeedbackNothing)
-                    </p>
                 </div>
             </div>
         </div>

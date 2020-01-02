@@ -132,6 +132,8 @@ namespace GratisForGratis.Models
         OffertaRifiutata = 6,
         [Display(Name = "NotificationTypeBidAccepted", ResourceType = typeof(App_GlobalResources.Enum))]
         OffertaAccettata = 7,
+        [Display(Name = "NotificationTypeCustom", ResourceType = typeof(App_GlobalResources.Enum))]
+        Personale = 8,
     }
     
     /*

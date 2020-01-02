@@ -46,7 +46,7 @@ namespace GratisForGratis.Controllers
         public ActionResult Completato(int id)
         {
             // se ancora la registrazione è incompleta, lo obbligo a concluderla
-            if (!Utility.IsUtenteAttivo(0, TempData))
+            if (!Utility.IsUtenteAttivo(1, TempData))
                 return RedirectToAction("Impostazioni", "Utente");
 
             AnnuncioViewModel viewModel = null;
